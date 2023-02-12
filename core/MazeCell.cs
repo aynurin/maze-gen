@@ -2,6 +2,13 @@
 
 public class MazeCell {
     private readonly Dictionary<GatePosition, MazeCell> _links = new Dictionary<GatePosition, MazeCell>();
+    private readonly int _row;
+    private readonly int _col;
+
+    public MazeCell(int row, int col) {
+        _row = row;
+        _col = col;
+    }
 
     public void Link(GatePosition position, MazeCell cell) {
         _links[position] = cell;

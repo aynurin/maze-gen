@@ -1,15 +1,11 @@
 
 public class BinaryTreeMazeGenerator : MazeGenerator {
     override public void Generate(MazeGrid maze) {
-        var cellStates = new byte[maze.Size];
-        new Random().NextBytes(cellStates);
+        var cellStates = System.Security.Cryptography.RandomNumberGenerator.GetBytes(maze.Size);
         for (int row = 0; row < maze.Rows; row++) {
             for (int col = 0; col < maze.Cols; col++) {
                 var index = row * maze.Cols + col;
 
-                if (maze[row, col] == null) {
-                    maze[row, col] = new MazeCell();
-                }
                 var cell = maze[row, col];
 
                 // link north
