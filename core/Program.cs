@@ -1,3 +1,3 @@
-﻿var maze = new MazeGrid(4, 4);
+﻿var maze = new MazeGrid(10, 10);
 new SidewinderMazeGenerator().Generate(maze);
-Console.WriteLine(new MazeToAscii().Convert(maze));
+Console.WriteLine(new MazeToAscii(maze).Convert());

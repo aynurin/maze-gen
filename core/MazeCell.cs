@@ -46,4 +46,22 @@ public class MazeCell {
         Zenith,
         Nadir
     }
+
+    public GatePosition Opposite(GatePosition gate) {
+        switch (gate) {
+            case GatePosition.North:
+                return GatePosition.South;
+            case GatePosition.South:
+                return GatePosition.North;
+            case GatePosition.East:
+                return GatePosition.West;
+            case GatePosition.West:
+                return GatePosition.East;
+            case GatePosition.Zenith:
+                return GatePosition.Nadir;
+            case GatePosition.Nadir:
+                return GatePosition.Zenith;
+        }
+        return GatePosition.None;
+    }
 }
