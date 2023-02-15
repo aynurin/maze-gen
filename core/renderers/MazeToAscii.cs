@@ -30,11 +30,13 @@ public class MazeToAscii {
             }
         }
     }
-    public string Convert(DijkstraDistances? distances = null) {
+    public string Convert(DijkstraDistances distances) {
+        var solutionCells = distances.Solution == null ? new HashSet<MazeCell>() : new HashSet<MazeCell>(distances.Solution);
         for (int i = 0; i < _maze.Rows; i++) {
             for (int j = 0; j < _maze.Cols; j++) {
-                var cellData = distances == null ? null : System.Convert.ToString(distances[_maze[i, j]], 16);
-                PrintCell(_maze[i, j], cellData);
+                var cell = _maze[i, j];
+                var cellData = solutionCells.Contains(cell) ? System.Convert.ToString(distances[cell], 16) : null;
+                PrintCell(cell, cellData);
             }
         }
 
@@ -70,6 +72,7 @@ public class MazeToAscii {
             Right = 0b000100000000000,
             Top = 0b001000000000000,
             Bottom = 0b010000000000000,
+            Mark = 0b100000000000000,
         }
 
         private static readonly Dictionary<Type, char> _chars = new Dictionary<Type, char>() {
@@ -128,6 +131,7 @@ public class MazeToAscii {
             {Type.Inner | Type.X | Type.Left | Type.Right | Type.Top | Type.Bottom, '┼'},
             {Type.Inner, ' '},
             {Type.Outer, ' '},
+            {Type.Mark, '*'},
         };
 
         public static char Char(Type t) => _chars[t];
