@@ -8,6 +8,7 @@ public class MazeToAscii {
     private readonly int _asciiMazeHeight;
     private readonly int _asciiMazeWidth;
     private readonly Border.Type[] _buffer;
+    private readonly Dictionary<int, string> _data = new System.Collections.Generic.Dictionary<int, string>();
 
     public MazeToAscii(MazeGrid maze, int cellInnerHeight = 1, int cellInnerWidth = 3) {
         _maze = maze;
@@ -29,17 +30,24 @@ public class MazeToAscii {
             }
         }
     }
-    public string Convert() {
+    public string Convert(DijkstraDistances? distances = null) {
         for (int i = 0; i < _maze.Rows; i++) {
             for (int j = 0; j < _maze.Cols; j++) {
-                PrintCell(_maze[i, j]);
+                var cellData = distances == null ? null : System.Convert.ToString(distances[_maze[i, j]], 16);
+                PrintCell(_maze[i, j], cellData);
             }
         }
 
         var strBuffer = new StringBuilder();
         for (int row = 0; row < _asciiMazeHeight; row++) {
             for (int col = 0; col < _asciiMazeWidth; col++) {
-                strBuffer.Append(Border.Char(_buffer[row * _asciiMazeWidth + col]));
+                var index = row * _asciiMazeWidth + col;
+                if (_data.ContainsKey(index)) {
+                    strBuffer.Append(_data[index]);
+                    col += _data[index].Length - 1;
+                } else {
+                    strBuffer.Append(Border.Char(_buffer[index]));
+                }
             }
             strBuffer.Append(Environment.NewLine);
         }
@@ -125,7 +133,7 @@ public class MazeToAscii {
         public static char Char(Type t) => _chars[t];
     }
 
-    private void PrintCell(MazeCell cell) {
+    private void PrintCell(MazeCell cell, string? cellData) {
         Console.WriteLine($"Cell {cell.Row,2}x{cell.Col,2}: {(cell.NorthGate == null ? "-" : "N")}, {(cell.EastGate == null ? "-" : "E")}, {(cell.SouthGate == null ? "-" : "S")}, {(cell.WestGate == null ? "-" : "W")}");
         var asciiCoords = GetCellCoords(cell);
         if (cell.NorthGate == null) {
@@ -148,6 +156,9 @@ public class MazeToAscii {
             _buffer[asciiCoords.Northwest] |= Border.Type.Bottom;
             foreach (var x in asciiCoords.West) _buffer[x] |= Border.Type.West;
         }
+        if (cellData != null) {
+            _data.Add(asciiCoords.Center, cellData);
+        }
     }
 
     private CellCoords GetCellCoords(MazeCell cell) {
@@ -161,6 +172,7 @@ public class MazeToAscii {
             Southwest = cellCoord(_cellInnerHeight + 1, 0),
             Northeast = cellCoord(0, _cellInnerWidth + 1),
             Southeast = cellCoord(_cellInnerHeight + 1, _cellInnerWidth + 1),
+            Center = cellCoord(1, 2),
             West = Enumerable.Range(0, _cellInnerHeight).Select(i => cellCoord(i + 1, 0)).ToArray(),
             East = Enumerable.Range(0, _cellInnerHeight).Select(i => cellCoord(i + 1, _cellInnerWidth + 1)).ToArray(),
             North = Enumerable.Range(0, _cellInnerWidth).Select(i => cellCoord(0, i + 1)).ToArray(),
@@ -173,6 +185,7 @@ public class MazeToAscii {
         public int Southwest;
         public int Northeast;
         public int Southeast;
+        public int Center;
 
         public int[] West;
         public int[] East;

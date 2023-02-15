@@ -5,6 +5,9 @@ public class MazeCell {
 
     public int Row { get; private set; }
     public int Col { get; private set; }
+    public Dictionary<GatePosition, MazeCell> Links {
+        get => _links;
+    }
 
     public MazeCell(int row, int col) {
         Row = row;
