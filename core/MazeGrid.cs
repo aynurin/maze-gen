@@ -27,5 +27,19 @@ public class MazeGrid {
         for (int i = 0; i < rows * cols; i++) {
             _cells[i] = new MazeCell(i / rows, i % rows);
         }
+        for (int i = 0; i < rows * cols; i++) {
+            if (_cells[i].Row > 0) {
+                _cells[i].Neighbours.Add(this[_cells[i].Row - 1, _cells[i].Col]);
+            }
+            if (_cells[i].Row < this.Rows - 1) {
+                _cells[i].Neighbours.Add(this[_cells[i].Row + 1, _cells[i].Col]);
+            }
+            if (_cells[i].Col > 0) {
+                _cells[i].Neighbours.Add(this[_cells[i].Row, _cells[i].Col - 1]);
+            }
+            if (_cells[i].Col < this.Cols - 1) {
+                _cells[i].Neighbours.Add(this[_cells[i].Row, _cells[i].Col + 1]);
+            }
+        }
     }
 }

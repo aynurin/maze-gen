@@ -22,7 +22,7 @@ public class DijkstraDistances {
                 break;
             }
             var distance = distances[nextCell];
-            foreach (var neighbour in nextCell.Links.Values) {
+            foreach (var neighbour in nextCell.Links) {
                 if (!distances.ContainsKey(neighbour)) {
                     distances.Add(neighbour, distance + 1);
                     stack.Push(neighbour);
@@ -35,7 +35,7 @@ public class DijkstraDistances {
     public List<MazeCell> Solve(MazeCell targetCell) {
         var solution = new List<MazeCell>() { targetCell };
         while (_distances[targetCell] > 0) {
-            targetCell = targetCell.Links.Values.OrderBy(cell => _distances[cell]).First();
+            targetCell = targetCell.Links.OrderBy(cell => _distances[cell]).First();
             solution.Add(targetCell);
         }
         return _solution = solution;

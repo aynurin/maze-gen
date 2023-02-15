@@ -1,11 +1,14 @@
 
 
 public class MazeCell {
-    private readonly Dictionary<GatePosition, MazeCell> _links = new Dictionary<GatePosition, MazeCell>();
+    private readonly List<MazeCell> _links = new List<MazeCell>();
+    private readonly List<MazeCell> _neighbours = new List<MazeCell>();
+
+    public List<MazeCell> Neighbours { get => _neighbours; }
 
     public int Row { get; private set; }
     public int Col { get; private set; }
-    public Dictionary<GatePosition, MazeCell> Links {
+    public List<MazeCell> Links {
         get => _links;
     }
 
@@ -14,30 +17,46 @@ public class MazeCell {
         Col = col;
     }
 
-    public void Link(GatePosition position, MazeCell cell) {
-        _links[position] = cell;
+    public void Link(MazeCell cell) {
+        _links.Add(cell);
+        cell._links.Add(this);
     }
 
-    public void Unlink(GatePosition position) {
-        if (_links.ContainsKey(position)) {
-            _links.Remove(position);
-        }
+    public void Unlink(MazeCell cell) {
+        _links.Remove(cell);
+        cell._links.Remove(this);
+    }
+
+    public MazeCell? NorthNeighbour {
+        get => _neighbours.Find(cell => cell.Row == this.Row - 1 && cell.Col == this.Col);
+    }
+
+    public MazeCell? EastNeighbour {
+        get => _neighbours.Find(cell => cell.Row == this.Row && cell.Col == this.Col + 1);
+    }
+
+    public MazeCell? SouthNeighbour {
+        get => _neighbours.Find(cell => cell.Row == this.Row + 1 && cell.Col == this.Col);
+    }
+
+    public MazeCell? WestNeighbour {
+        get => _neighbours.Find(cell => cell.Row == this.Row && cell.Col == this.Col - 1);
     }
 
     public MazeCell? NorthGate {
-        get => _links.ContainsKey(GatePosition.North) ? _links[GatePosition.North] : null;
+        get => _links.Find(cell => cell.Row == this.Row - 1 && cell.Col == this.Col);
     }
 
     public MazeCell? EastGate {
-        get => _links.ContainsKey(GatePosition.East) ? _links[GatePosition.East] : null;
+        get => _links.Find(cell => cell.Row == this.Row && cell.Col == this.Col + 1);
     }
 
     public MazeCell? SouthGate {
-        get => _links.ContainsKey(GatePosition.South) ? _links[GatePosition.South] : null;
+        get => _links.Find(cell => cell.Row == this.Row + 1 && cell.Col == this.Col);
     }
 
     public MazeCell? WestGate {
-        get => _links.ContainsKey(GatePosition.West) ? _links[GatePosition.West] : null;
+        get => _links.Find(cell => cell.Row == this.Row && cell.Col == this.Col - 1);
     }
 
     public enum GatePosition {

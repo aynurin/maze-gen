@@ -12,14 +12,12 @@ public class BinaryTreeMazeGenerator : MazeGenerator {
 
                 // link north
                 if ((cellStates[index] % 2 == 0 || col == maze.Cols - 1) && row > 0) {
-                    cell.Link(MazeCell.GatePosition.North, maze[row - 1, col]);
-                    maze[row - 1, col].Link(MazeCell.GatePosition.South, cell);
+                    cell.Link(maze[row - 1, col]);
                 }
 
                 // link east
                 if ((cellStates[index] % 2 == 1 || row == 0) && col < maze.Cols - 1) {
-                    cell.Link(MazeCell.GatePosition.East, maze[row, col + 1]);
-                    maze[row, col + 1].Link(MazeCell.GatePosition.West, cell);
+                    cell.Link(maze[row, col + 1]);
                 }
             }
         }
