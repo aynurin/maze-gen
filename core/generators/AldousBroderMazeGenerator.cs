@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 
 public class AldousBroderMazeGenerator : MazeGenerator {
     override public void Generate(MazeGrid maze) {

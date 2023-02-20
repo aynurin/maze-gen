@@ -1,8 +1,11 @@
-using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 
 public class MazeGrid {
-    private readonly MazeCell[] _cells;
+    private readonly List<MazeCell> _cells;
     private readonly int[] _dimentions;
+
+    public List<MazeCell> Cells { get => _cells; }
 
     public MazeCell this[int row, int col] {
         get {
@@ -23,9 +26,9 @@ public class MazeGrid {
 
     public MazeGrid(int rows, int cols) {
         _dimentions = new int[] { rows, cols };
-        _cells = new MazeCell[rows * cols];
+        _cells = new List<MazeCell>(rows * cols);
         for (int i = 0; i < rows * cols; i++) {
-            _cells[i] = new MazeCell(i / rows, i % rows);
+            _cells.Add(new MazeCell(i / rows, i % rows));
         }
         for (int i = 0; i < rows * cols; i++) {
             if (_cells[i].Row > 0) {

@@ -1,9 +1,10 @@
+using System;
 
 public class BinaryTreeMazeGenerator : MazeGenerator {
     override public void Generate(MazeGrid maze) {
         Console.WriteLine("BinaryTree v0.1");
         Console.WriteLine($"Generating maze {maze.Rows}x{maze.Cols}");
-        var cellStates = System.Security.Cryptography.RandomNumberGenerator.GetBytes(maze.Size);
+        var cellStates = GetRandomBytes(maze.Size);
         for (int row = 0; row < maze.Rows; row++) {
             for (int col = 0; col < maze.Cols; col++) {
                 var index = row * maze.Cols + col;

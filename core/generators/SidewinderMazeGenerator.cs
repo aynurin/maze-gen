@@ -1,9 +1,11 @@
+using System;
+using System.Collections.Generic;
 
 public class SidewinderMazeGenerator : MazeGenerator {
     override public void Generate(MazeGrid maze) {
         Console.WriteLine("Sidewinder v0.1");
         Console.WriteLine($"Generating maze {maze.Rows}x{maze.Cols}");
-        var cellStates = System.Security.Cryptography.RandomNumberGenerator.GetBytes(maze.Size);
+        var cellStates = GetRandomBytes(maze.Size);
         for (int row = 0; row < maze.Rows; row++) {
             var run = new List<MazeCell>();
             for (int col = 0; col < maze.Cols; col++) {

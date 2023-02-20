@@ -1,9 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 public class DijkstraDistances {
     private readonly Dictionary<MazeCell, int> _distances;
-    private List<MazeCell>? _solution;
+    private Optional<List<MazeCell>> _solution = Optional<List<MazeCell>>.Empty();
 
     public int this[MazeCell cell] { get => _distances[cell]; }
-    public List<MazeCell>? Solution { get => _solution; }
+    public Optional<List<MazeCell>> Solution { get => _solution; }
 
     private DijkstraDistances(Dictionary<MazeCell, int> distances) {
         _distances = distances;
@@ -32,13 +36,13 @@ public class DijkstraDistances {
         return new DijkstraDistances(distances);
     }
 
-    public List<MazeCell> Solve(MazeCell targetCell) {
+    public Optional<List<MazeCell>> Solve(MazeCell targetCell) {
         var solution = new List<MazeCell>() { targetCell };
         while (_distances[targetCell] > 0) {
             targetCell = targetCell.Links.OrderBy(cell => _distances[cell]).First();
             solution.Add(targetCell);
         }
-        return _solution = solution;
+        return _solution = new Optional<List<MazeCell>>(solution);
     }
 
     public static DijkstraDistances FindLongest(MazeCell arbitrary) {
