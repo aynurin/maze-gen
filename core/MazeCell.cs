@@ -29,44 +29,42 @@ public class MazeCell {
     }
 
     public Optional<MazeCell> NorthNeighbour {
-        get => new Optional<MazeCell>(_neighbours.Find(cell => cell.Row == this.Row - 1 && cell.Col == this.Col));
+        get => GetNeighbour(0, -1);
     }
 
     public Optional<MazeCell> EastNeighbour {
-        get => new Optional<MazeCell>(_neighbours.Find(cell => cell.Row == this.Row && cell.Col == this.Col + 1));
+        get => GetNeighbour(1, 0);
     }
 
     public Optional<MazeCell> SouthNeighbour {
-        get => new Optional<MazeCell>(_neighbours.Find(cell => cell.Row == this.Row + 1 && cell.Col == this.Col));
+        get => GetNeighbour(0, 1);
     }
 
     public Optional<MazeCell> WestNeighbour {
-        get => new Optional<MazeCell>(_neighbours.Find(cell => cell.Row == this.Row && cell.Col == this.Col - 1));
+        get => GetNeighbour(-1, 0);
     }
 
     public Optional<MazeCell> NorthGate {
-        get => new Optional<MazeCell>(_links.Find(cell => cell.Row == this.Row - 1 && cell.Col == this.Col));
+        get => GetGate(0, -1);
     }
 
     public Optional<MazeCell> EastGate {
-        get => new Optional<MazeCell>(_links.Find(cell => cell.Row == this.Row && cell.Col == this.Col + 1));
+        get => GetGate(1, 0);
     }
 
     public Optional<MazeCell> SouthGate {
-        get => new Optional<MazeCell>(_links.Find(cell => cell.Row == this.Row + 1 && cell.Col == this.Col));
+        get => GetGate(0, 1);
     }
 
     public Optional<MazeCell> WestGate {
-        get => new Optional<MazeCell>(_links.Find(cell => cell.Row == this.Row && cell.Col == this.Col - 1));
+        get => GetGate(-1, 0);
     }
 
-    public enum GatePosition {
-        None,
-        North,
-        East,
-        South,
-        West,
-        Zenith,
-        Nadir
+    public Optional<MazeCell> GetNeighbour(int dx, int dy) {
+        return new Optional<MazeCell>(_neighbours.Find(cell => cell.Row == this.Row + dy && cell.Col == this.Col + dx));
+    }
+
+    public Optional<MazeCell> GetGate(int dx, int dy) {
+        return new Optional<MazeCell>(_links.Find(cell => cell.Row == this.Row + dy && cell.Col == this.Col + dx));
     }
 }

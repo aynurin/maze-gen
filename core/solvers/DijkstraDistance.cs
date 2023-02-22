@@ -13,6 +13,7 @@ public class DijkstraDistances {
         _distances = distances;
     }
 
+    /// Finds DijkstraDistances starting from the given cell
     public static DijkstraDistances Find(MazeCell startingCell) {
         var distances = new Dictionary<MazeCell, int>();
         distances.Add(startingCell, 0);
@@ -36,6 +37,8 @@ public class DijkstraDistances {
         return new DijkstraDistances(distances);
     }
 
+    /// Finds the shortest path from the targetCell to the startingCell this
+    /// instance has been build with. 
     public Optional<List<MazeCell>> Solve(MazeCell targetCell) {
         var solution = new List<MazeCell>() { targetCell };
         while (_distances[targetCell] > 0) {

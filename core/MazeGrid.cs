@@ -28,7 +28,7 @@ public class MazeGrid {
         _dimentions = new int[] { rows, cols };
         _cells = new List<MazeCell>(rows * cols);
         for (int i = 0; i < rows * cols; i++) {
-            _cells.Add(new MazeCell(i / rows, i % rows));
+            _cells.Add(new MazeCell(i / cols, i % cols));
         }
         for (int i = 0; i < rows * cols; i++) {
             if (_cells[i].Row > 0) {
