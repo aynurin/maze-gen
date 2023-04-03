@@ -67,4 +67,8 @@ public class MazeCell {
     public Optional<MazeCell> GetGate(int dx, int dy) {
         return new Optional<MazeCell>(_links.Find(cell => cell.Row == this.Row + dy && cell.Col == this.Col + dx));
     }
+
+    public string ToLongString() => $"{cell.Row}x{cell.Col}: {(cell.NorthGate.HasValue ? "N" : "-")}{(cell.EastGate.HasValue ? "E" : "-")}{(cell.SouthGate.HasValue ? "S" : "-")}{(cell.WestGate.HasValue ? "W" : "-")}";
+
+    public override string ToString() => $"{cell.Row}x{cell.Col}";
 }
