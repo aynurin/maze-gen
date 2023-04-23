@@ -60,6 +60,8 @@ public class MazeCell {
         get => GetGate(-1, 0);
     }
 
+    public bool IsDeadEnd => _links.Count == 1;
+
     public Optional<MazeCell> GetNeighbour(int dx, int dy) {
         return new Optional<MazeCell>(_neighbours.Find(cell => cell.Row == this.Row + dy && cell.Col == this.Col + dx));
     }
@@ -68,7 +70,7 @@ public class MazeCell {
         return new Optional<MazeCell>(_links.Find(cell => cell.Row == this.Row + dy && cell.Col == this.Col + dx));
     }
 
-    public string ToLongString() => $"{cell.Row}x{cell.Col}: {(cell.NorthGate.HasValue ? "N" : "-")}{(cell.EastGate.HasValue ? "E" : "-")}{(cell.SouthGate.HasValue ? "S" : "-")}{(cell.WestGate.HasValue ? "W" : "-")}";
+    public string ToLongString() => $"{Row}x{Col}: {(NorthGate.HasValue ? "N" : "-")}{(EastGate.HasValue ? "E" : "-")}{(SouthGate.HasValue ? "S" : "-")}{(WestGate.HasValue ? "W" : "-")}";
 
-    public override string ToString() => $"{cell.Row}x{cell.Col}";
+    public override string ToString() => $"{Row}x{Col}";
 }

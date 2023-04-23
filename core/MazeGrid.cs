@@ -5,7 +5,11 @@ public class MazeGrid {
     private readonly List<MazeCell> _cells;
     private readonly int[] _dimentions;
 
-    public List<MazeCell> Cells { get => _cells; }
+    public List<MazeCell> Cells => _cells;
+
+    public List<MazeCell> FindDeadEnds() {
+        return _cells.FindAll(cell => cell.IsDeadEnd);
+    }
 
     public MazeCell this[int row, int col] {
         get {

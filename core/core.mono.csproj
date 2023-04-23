@@ -39,7 +39,6 @@
     <Compile Include="generators\MazeGenerator.cs" />
     <Compile Include="generators\SidewinderMazeGenerator.cs" />
     <Compile Include="generators\WilsonsMazeGenerator.cs" />
-    <Compile Include="renderers\MazeToAscii.cs" />
     <Compile Include="solvers\DijkstraDistance.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
