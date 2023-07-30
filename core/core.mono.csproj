@@ -34,6 +34,7 @@
     <Compile Include="Optional.cs" />
     <Compile Include="MazeCell.cs" />
     <Compile Include="MazeGrid.cs" />
+    <Compile Include="RandomExtensions.cs" />
     <Compile Include="generators\AldousBroderMazeGenerator.cs" />
     <Compile Include="generators\BinaryTreeMazeGenerator.cs" />
     <Compile Include="generators\MazeGenerator.cs" />

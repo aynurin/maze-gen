@@ -27,10 +27,10 @@ public class DijkstraDistances {
                 break;
             }
             var distance = distances[nextCell];
-            foreach (var neighbour in nextCell.Links) {
-                if (!distances.ContainsKey(neighbour)) {
-                    distances.Add(neighbour, distance + 1);
-                    stack.Push(neighbour);
+            foreach (var neighbor in nextCell.Links) {
+                if (!distances.ContainsKey(neighbor)) {
+                    distances.Add(neighbor, distance + 1);
+                    stack.Push(neighbor);
                 }
             }
         }

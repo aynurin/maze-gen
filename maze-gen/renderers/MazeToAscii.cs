@@ -1,6 +1,6 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 public class MazeToAscii {
@@ -37,9 +37,14 @@ public class MazeToAscii {
         var solutionCells = distances.Solution.HasValue ? new HashSet<MazeCell>(distances.Solution.Value) : new HashSet<MazeCell>();
         for (int i = 0; i < _maze.Rows; i++) {
             for (int j = 0; j < _maze.Cols; j++) {
-                var cell = _maze[i, j];
-                var cellData = solutionCells.Contains(cell) ? System.Convert.ToString(distances[cell], 16) : String.Empty;
-                PrintCell(cell, cellData);
+                try {
+                    var cell = _maze[i, j];
+                    var cellData = solutionCells.Contains(cell) ? System.Convert.ToString(distances[cell], 16) : String.Empty;
+                    PrintCell(cell, cellData);
+                } catch (System.ArgumentOutOfRangeException) {
+                    Console.Error.WriteLine($"Index {i}x{j} was out of range {_maze.Cells.Count}");
+                    throw;
+                }
             }
         }
 
