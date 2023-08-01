@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 
 public class BinaryTreeMazeGenerator : MazeGenerator {
-    override public void Generate(MazeGrid maze) {
+    override public MazeGrid Generate(MazeLayout layout) {
+        var maze = new MazeGrid(layout.Size);
+
         Console.WriteLine("BinaryTree v0.1");
         Console.WriteLine($"Generating maze {maze.Rows}x{maze.Cols}");
         var cellStates = GetRandomBytes(maze.Size);
@@ -22,5 +25,7 @@ public class BinaryTreeMazeGenerator : MazeGenerator {
                 }
             }
         }
+
+        return maze;
     }
 }

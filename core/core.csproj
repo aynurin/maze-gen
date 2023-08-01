@@ -7,6 +7,9 @@
     <RootNamespace>Nour.Play.Maze</RootNamespace>
     <AssemblyName>Nour.Play.Maze</AssemblyName>
     <DefaultItemExcludes>$(DefaultItemExcludes);msbuild\**\*</DefaultItemExcludes>
+    <BaseIntermediateOutputPath>..\build\obj\</BaseIntermediateOutputPath>
+    <OutputPath>..\build\$(TargetFramework)\core\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
 </Project>

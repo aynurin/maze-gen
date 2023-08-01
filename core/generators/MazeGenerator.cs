@@ -1,6 +1,12 @@
+using System;
+using System.Collections.Generic;
 
 public abstract class MazeGenerator {
-    public abstract void Generate(MazeGrid maze);
+    public MazeGrid Generate(Dimensions mazeSize) => 
+        Generate(MazeLayout.GenerateRandom(mazeSize));
+
+    public abstract MazeGrid Generate(MazeLayout layout);
+
 
     public static byte[] GetRandomBytes(int count) {
         var rndBytes = new byte[count];

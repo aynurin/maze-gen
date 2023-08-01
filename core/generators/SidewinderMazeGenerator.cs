@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 
 public class SidewinderMazeGenerator : MazeGenerator {
-    override public void Generate(MazeGrid maze) {
+    override public MazeGrid Generate(MazeLayout layout) {
+        var maze = new MazeGrid(layout.Size);
+        
         Console.WriteLine("Sidewinder v0.1");
         Console.WriteLine($"Generating maze {maze.Rows}x{maze.Cols}");
         var cellStates = GetRandomBytes(maze.Size);
@@ -28,5 +30,7 @@ public class SidewinderMazeGenerator : MazeGenerator {
                 }
             }
         }
+
+        return maze;
     }
 }
