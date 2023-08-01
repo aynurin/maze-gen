@@ -3,7 +3,7 @@ using System.Linq;
 
 public class MazeGrid {
     private readonly List<MazeCell> _cells;
-    private readonly int[] _dimensions;
+    private readonly Dimensions _dimensions;
 
     public IList<MazeCell> Cells => _cells.AsReadOnly();
 
@@ -13,28 +13,34 @@ public class MazeGrid {
 
     public MazeCell this[int row, int col] {
         get {
-            var index = row * _dimensions[1] + col;
+            var index = row * _dimensions.Columns + col;
             return _cells[index];
         }
         set {
-            var index = row * _dimensions[1] + col;
+            var index = row * _dimensions.Columns + col;
             _cells[index] = value;
         }
     }
 
-    public int Rows { get => _dimensions[0]; }
+    public int Rows { get => _dimensions.Rows; }
 
-    public int Cols { get => _dimensions[1]; }
+    public int Cols { get => _dimensions.Columns; }
 
-    public int Size { get => _dimensions.Aggregate((a, b) => a * b); }
+    public int Size { get => _dimensions.Product; }
 
-    public MazeGrid(int rows, int cols) {
-        _dimensions = new int[] { rows, cols };
-        _cells = new List<MazeCell>(rows * cols);
-        for (int i = 0; i < rows * cols; i++) {
-            _cells.Add(new MazeCell(i / cols, i % cols));
+    public MazeGrid(Dimensions mazeSize) {
+        _dimensions = mazeSize;
+        _cells = new List<MazeCell>(_dimensions.Product);
+        // TODO: 1. Figure out the placement
+        //      pack areas together to mimic the proportions of the map
+        //      spread areas on the map
+        // TODO: 2. Place no cell for Fill, and the same cell repeatedly for Hall
+        // TODO: 3. Hall cells can have many neighbors on any side.
+        // ? P'haps the direction is a property of the gate, not it's identity.
+        for (int i = 0; i < _cells.Capacity; i++) {
+            _cells.Add(new MazeCell(i / _dimensions.Columns, i % _dimensions.Columns));
         }
-        for (int i = 0; i < rows * cols; i++) {
+        for (int i = 0; i < _cells.Capacity; i++) {
             if (_cells[i].Row > 0) {
                 _cells[i].Neighbors.Add(this[_cells[i].Row - 1, _cells[i].Col]);
             }
