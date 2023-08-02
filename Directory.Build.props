@@ -1,5 +1,7 @@
 <Project>
     <PropertyGroup>
-        <MSBUildProjectExtensionsPath>..\build\obj\</MSBUildProjectExtensionsPath>
+        <BaseIntermediateOutputPath>..\build\obj\</BaseIntermediateOutputPath>
+        <OutputPath>..\build\$(TargetFramework)\$(ProjectName)\$(Configuration)\</OutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
 </Project>

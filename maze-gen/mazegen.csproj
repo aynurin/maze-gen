@@ -6,10 +6,12 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>maze_gen</RootNamespace>
+    <TargetFrameworks>net7.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>Nour.Play.Maze</RootNamespace>
+    <AssemblyName>MazeGen</AssemblyName>
+    <DefaultItemExcludes>$(DefaultItemExcludes);msbuild\**\*</DefaultItemExcludes>
   </PropertyGroup>
 
 </Project>
