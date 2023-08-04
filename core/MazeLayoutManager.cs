@@ -1,31 +1,29 @@
 
-using System;
-using System.Linq;
 using System.Collections.Generic;
 
 internal class MazeLayoutManager {
-    private readonly Dimensions _mazeDimensions;
-    public MazeLayoutManager(Dimensions dimensions) {
-        _mazeDimensions = dimensions;
+    private readonly Size _mazeSize;
+    public MazeLayoutManager(Size size) {
+        _mazeSize = size;
     }
 
-    public IDictionary<Dimensions, MazeZone> GenerateZones(Dimensions mazeSize) {
-        var createdZones = new Dictionary<Dimensions, MazeZone>();
+    public IDictionary<Point, MazeZone> GenerateZones(Size mazeSize) {
+        var createdZones = new Dictionary<Point, MazeZone>();
         var placeMore = true;
         while (placeMore) {
             var zone = MazeZone.GetRandomZone();
             var placement = PlaceZone(mazeSize, createdZones, zone);
-            if (placement == Dimensions.None)
+            if (placement == Point.None)
                 placeMore = false;
         }
         return createdZones;
     }
 
-    private Dimensions PlaceZone(
-        Dimensions mazeSize, Dictionary<Dimensions, MazeZone> existingZones, MazeZone newZone) {
+    private Point PlaceZone(
+        Size mazeSize, Dictionary<Point, MazeZone> existingZones, MazeZone newZone) {
         
         var placeableAreas = new Queue<PlaceableArea>();
-        placeableAreas.Enqueue(new PlaceableArea(new Dimensions(0,0), mazeSize));
+        placeableAreas.Enqueue(new PlaceableArea(new Point(0,0), mazeSize));
         foreach (var existingZone in existingZones) {
             var existingZoneArea = new PlaceableArea(existingZone.Key, existingZone.Value.Size);
             PlaceableArea placeableArea;
@@ -57,7 +55,7 @@ internal class MazeLayoutManager {
         // TODO: Select random fitting coords within a random area
         if (fittingAreas.Count > 0)
             return fittingAreas.GetRandom().Position;
-        else return Dimensions.None;
+        else return Point.None;
     }
 
     // layout interface:

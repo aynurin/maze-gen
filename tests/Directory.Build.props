@@ -1,0 +1,7 @@
+<Project>
+    <PropertyGroup>
+        <BaseIntermediateOutputPath>..\..\build\obj\</BaseIntermediateOutputPath>
+        <OutputPath>..\..\build\tests\$(TargetFramework)\$(ProjectName)\$(Configuration)\</OutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    </PropertyGroup>
+</Project>

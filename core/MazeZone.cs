@@ -23,9 +23,9 @@ using System.Collections.Generic;
 public class MazeZone {
     public ZoneType Type { get; private set; }
     public string[] Tags { get; private set; }
-    public Dimensions Size { get; private set; }
+    public Size Size { get; private set; }
 
-    public MazeZone(ZoneType type, Dimensions size, params string[] tags) {
+    public MazeZone(ZoneType type, Size size, params string[] tags) {
         Type = type;
         Size = size;
         Tags = tags;
@@ -35,14 +35,14 @@ public class MazeZone {
         return new MazeZone(Type, Size.Rotate2d(), Tags);
     }
 
-    private static Dictionary<Dimensions,float> _dimensionsProbabilities = new Dictionary<Dimensions, float>() {
-        { new Dimensions(2, 2), 0.25f },
-        { new Dimensions(2, 3), 0.25f },
-        { new Dimensions(3, 4), 0.15f },
-        { new Dimensions(3, 6), 0.15f },
-        { new Dimensions(4, 8), 0.075f },
-        { new Dimensions(5, 6), 0.075f },
-        { new Dimensions(7, 7), 0.005f }
+    private static Dictionary<Size,float> _dimensionsProbabilities = new Dictionary<Size, float>() {
+        { new Size(2, 2), 0.25f },
+        { new Size(2, 3), 0.25f },
+        { new Size(3, 4), 0.15f },
+        { new Size(3, 6), 0.15f },
+        { new Size(4, 8), 0.075f },
+        { new Size(5, 6), 0.075f },
+        { new Size(7, 7), 0.005f }
     };
 
     private static Dictionary<ZoneType,float> _zoneTypeProbabilities = new Dictionary<ZoneType, float>() {

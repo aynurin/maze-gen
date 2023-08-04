@@ -3,7 +3,7 @@ using System.Linq;
 
 public class MazeGrid {
     private readonly List<MazeCell> _cells;
-    private readonly Dimensions _dimensions;
+    private readonly Size _size;
 
     public IList<MazeCell> Cells => _cells.AsReadOnly();
 
@@ -13,24 +13,24 @@ public class MazeGrid {
 
     public MazeCell this[int row, int col] {
         get {
-            var index = row * _dimensions.Columns + col;
+            var index = row * _size.Columns + col;
             return _cells[index];
         }
         set {
-            var index = row * _dimensions.Columns + col;
+            var index = row * _size.Columns + col;
             _cells[index] = value;
         }
     }
 
-    public int Rows { get => _dimensions.Rows; }
+    public int Rows { get => _size.Rows; }
 
-    public int Cols { get => _dimensions.Columns; }
+    public int Cols { get => _size.Columns; }
 
-    public int Size { get => _dimensions.Product; }
+    public int Size { get => _size.Area; }
 
-    public MazeGrid(Dimensions mazeSize) {
-        _dimensions = mazeSize;
-        _cells = new List<MazeCell>(_dimensions.Product);
+    public MazeGrid(Size mazeSize) {
+        _size = mazeSize;
+        _cells = new List<MazeCell>(_size.Area);
         // TODO: 1. Figure out the placement
         //      pack areas together to mimic the proportions of the map
         //      spread areas on the map
@@ -38,7 +38,7 @@ public class MazeGrid {
         // TODO: 3. Hall cells can have many neighbors on any side.
         // ? P'haps the direction is a property of the gate, not it's identity.
         for (int i = 0; i < _cells.Capacity; i++) {
-            _cells.Add(new MazeCell(i / _dimensions.Columns, i % _dimensions.Columns));
+            _cells.Add(new MazeCell(i / _size.Columns, i % _size.Columns));
         }
         for (int i = 0; i < _cells.Capacity; i++) {
             if (_cells[i].Row > 0) {

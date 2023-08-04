@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 public abstract class MazeGenerator {
-    public MazeGrid Generate(Dimensions mazeSize) => 
+    public MazeGrid Generate(Size mazeSize) => 
         Generate(MazeLayout.GenerateRandom(mazeSize));
 
     public abstract MazeGrid Generate(MazeLayout layout);
