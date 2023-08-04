@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        "aaron-bond.better-comments",
+        "amlovey.shaderlabvscodefree",
+        "eamodio.gitlens",
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.vscode-dotnet-runtime",
+        "ms-vscode.live-server",
+        "ryanluker.vscode-coverage-gutters",
+        "Shan.code-settings-sync",
+        "slevesque.shader",
+        "streetsidesoftware.code-spell-checker"
+    ]
+}
