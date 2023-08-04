@@ -12,9 +12,7 @@ public struct Size {
 
     public Size(int rows, int columns) : this(new int[] { rows, columns }) { }
 
-    public Size(int[] dimensions) {
-        _value = new Vector<int>(dimensions);
-    }
+    public Size(int[] dimensions) : this(VectorExtensions.CreateFrom(dimensions)) { }
 
     private Size(Vector<int> vector) {
         _value = vector;

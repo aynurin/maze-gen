@@ -1,5 +1,4 @@
-
-public class Tests
+public class PointTest
 {
     [SetUp]
     public void Setup()
@@ -7,8 +6,9 @@ public class Tests
     }
 
     [Test]
-    public void Test1()
+    public void Point_IsInitialized()
     {
+        Point p = new Point(0, 1);
         Assert.Pass();
     }
 }

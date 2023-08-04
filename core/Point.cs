@@ -1,4 +1,5 @@
 
+using System;
 using System.Numerics;
 
 public struct Point {
@@ -20,7 +21,7 @@ public struct Point {
     
     public Point(int rows, int columns) : this (new int[] { rows, columns }) { }
 
-    public Point(int[] coordinates) : this(new Vector<int>(coordinates)) { }
+    public Point(int[] coordinates) : this(VectorExtensions.CreateFrom(coordinates)) { }
 
     private Point(Vector<int> vector) {
         _value = vector;
