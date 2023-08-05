@@ -24,3 +24,25 @@ rm -rf ~/.local/share/NuGet/v3-cache
 rm -rf ~/.nuget/packages
 rm -rf packages
 ```
+
+### Notes
+
+Project is migrated to mono, so:
+
+**Build:**
+
+```bash
+msbuild
+```
+
+**Test:**
+
+```bash
+nunit3-console build/Debug/tests/tests.dll
+```
+
+**NuGet**
+
+```bash
+nuget restore
+```
