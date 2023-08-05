@@ -1,1 +1,5 @@
 build/
+.nuget*
+bin
+obj
+packages

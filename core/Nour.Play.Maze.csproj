@@ -3,13 +3,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F51C8CCD-1544-45A7-A0C0-FF513055325A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>mazegen</RootNamespace>
-    <AssemblyName>maze-gen</AssemblyName>
+    <ProjectGuid>{1475F129-1D8B-4631-92ED-30972E539CF2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Nour.Play.Maze</RootNamespace>
+    <AssemblyName>Nour.Play.Maze</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <IntermediateOutputPath>..\build\$(Configuration)\obj\mazegen</IntermediateOutputPath>
-    <OutputPath>..\build\$(Configuration)\mazegen</OutputPath>
+    <IntermediateOutputPath>..\build\$(Configuration)\obj\Nour.Play.Maze</IntermediateOutputPath>
+    <OutputPath>..\build\$(Configuration)\Nour.Play.Maze</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -18,27 +18,45 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ExternalConsole>true</ExternalConsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ExternalConsole>true</ExternalConsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="renderers\MazeToAscii.cs" />
+    <Compile Include="MazeCell.cs" />
+    <Compile Include="MazeGrid.cs" />
+    <Compile Include="MazeLayout.cs" />
+    <Compile Include="MazeLayoutManager.cs" />
+    <Compile Include="MazeZone.cs" />
+    <Compile Include="Optional.cs" />
+    <Compile Include="PlacableArea.cs" />
+    <Compile Include="Point.cs" />
+    <Compile Include="Size.cs" />
+    <Compile Include="extensions\QueueExtensions.cs" />
+    <Compile Include="extensions\RandomExtensions.cs" />
+    <Compile Include="extensions\VectorExtensions.cs" />
+    <Compile Include="generators\WilsonsMazeGenerator.cs" />
+    <Compile Include="generators\AldousBroderMazeGenerator.cs" />
+    <Compile Include="generators\MazeGenerator.cs" />
+    <Compile Include="generators\BinaryTreeMazeGenerator.cs" />
+    <Compile Include="generators\SidewinderMazeGenerator.cs" />
+    <Compile Include="solvers\DijkstraDistance.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\core\Nour.Play.Maze.csproj">
-      <Project>{1475F129-1D8B-4631-92ED-30972E539CF2}</Project>
-      <Name>Nour.Play.Maze</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

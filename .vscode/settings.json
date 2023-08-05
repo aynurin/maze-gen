@@ -1,7 +1,4 @@
 {
-    "cSpell.words": [
-        "Aldous",
-        "Broder",
-        "Wilsons"
-    ],
+    "dotnet.server.useOmnisharp": true,
+    "omnisharp.useModernNet": false
 }

@@ -1,0 +1,29 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nour.Play.Maze", "core\Nour.Play.Maze.csproj", "{1475F129-1D8B-4631-92ED-30972E539CF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nour.Play.Maze.Tests", "tests\Nour.Play.Maze.Tests.csproj", "{C0FBCEBB-2BFA-49B2-92E0-D1F64D4D82E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mazegen", "maze-gen\mazegen.csproj", "{F51C8CCD-1544-45A7-A0C0-FF513055325A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1475F129-1D8B-4631-92ED-30972E539CF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1475F129-1D8B-4631-92ED-30972E539CF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1475F129-1D8B-4631-92ED-30972E539CF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1475F129-1D8B-4631-92ED-30972E539CF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0FBCEBB-2BFA-49B2-92E0-D1F64D4D82E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0FBCEBB-2BFA-49B2-92E0-D1F64D4D82E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0FBCEBB-2BFA-49B2-92E0-D1F64D4D82E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0FBCEBB-2BFA-49B2-92E0-D1F64D4D82E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F51C8CCD-1544-45A7-A0C0-FF513055325A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F51C8CCD-1544-45A7-A0C0-FF513055325A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F51C8CCD-1544-45A7-A0C0-FF513055325A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F51C8CCD-1544-45A7-A0C0-FF513055325A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

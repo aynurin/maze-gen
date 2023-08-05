@@ -1,0 +1,38 @@
+﻿<Properties StartupConfiguration="{F51C8CCD-1544-45A7-A0C0-FF513055325A}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="tests/PointTest.cs">
+    <Files>
+      <File FileName="maze-gen/Program.cs" Line="2" Column="1" />
+      <File FileName="maze-gen/renderers/MazeToAscii.cs" Line="209" Column="2" />
+      <File FileName="tests/PointTest.cs" Line="7" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="maze-gen" expanded="True">
+            <Node name="mazegen" expanded="True">
+              <Node name="References" expanded="True" />
+              <Node name="renderers" expanded="True" />
+            </Node>
+            <Node name="Nour.Play.Maze" expanded="True">
+              <Node name="extensions" expanded="True" />
+              <Node name="generators" expanded="True" />
+              <Node name="solvers" expanded="True" />
+            </Node>
+            <Node name="Nour.Play.Maze.Tests" expanded="True">
+              <Node name="PointTest.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Nour.Play.Maze PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.mazegen PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.ItemProperties.Nour.Play.Maze.Tests PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>

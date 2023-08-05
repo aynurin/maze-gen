@@ -3,44 +3,24 @@
     "tasks": [
         {
             "label": "build",
-            "command": "dotnet",
+            "command": "msbuild",
             "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/core/core.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/core/core.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "--project",
-                "${workspaceFolder}/core/core.csproj"
-            ],
-            "problemMatcher": "$msCompile"
+            "label": "rebuild",
+            "command": "rm -rf build && msbuild",
+            "type": "shell",
+            "problemMatcher": []
         },
         {
             "label": "test",
             "type": "shell",
-            "command": "rm -rf build/tests/results && dotnet test tests/core/core_tests.csproj --collect:\"XPlat Code Coverage\" --results-directory:\"build/tests/results\" && reportgenerator -reports:'build/tests/results/**/coverage.cobertura.xml' -targetdir:\"build/coveragereport\" -reporttypes:TextSummary && cat build/coveragereport/Summary.txt",
+            "command": "msbuild && nunit3-console build/Debug/tests/tests.dll",
             "problemMatcher": [],
             "group": {
                 "kind": "test",
