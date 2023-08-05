@@ -1,12 +1,6 @@
 ## Building
 
 ```
-> dotnet build core.csproj
-```
-
-or
-
-```
 > msbuild core.mono.csproj
 ```
 
@@ -28,4 +22,5 @@ rm -rf ~/.local/share/NuGet/plugins-cache
 rm -rf /tmp/NuGetScratchshav/
 rm -rf ~/.local/share/NuGet/v3-cache
 rm -rf ~/.nuget/packages
+rm -rf packages
 ```
