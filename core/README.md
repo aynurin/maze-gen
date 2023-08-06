@@ -44,5 +44,11 @@ nunit3-console build/Debug/tests/tests.dll
 **NuGet**
 
 ```bash
+nuget install PKG_NAME -o packages
+```
+
+(Add reference with a HintPath manually)
+
+```bash
 nuget restore
 ```

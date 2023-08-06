@@ -20,7 +20,7 @@
         {
             "label": "test",
             "type": "shell",
-            "command": "msbuild && nunit3-console build/Debug/tests/tests.dll",
+            "command": "msbuild && cd build/Debug/tests && mono ~/.nuget/packages/altcover/8.6.68/tools/net472/AltCover.exe --linecover -o=__Instrumented -summary=OC && mono ~/.nuget/packages/altcover/8.6.68/tools/net472/AltCover.exe Runner --recorderDirectory __Instrumented --cobertura=../../coverage.cobertura.xml --executable nunit3-console -- __Instrumented/tests.dll",
             "problemMatcher": [],
             "group": {
                 "kind": "test",
