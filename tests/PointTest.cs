@@ -12,6 +12,35 @@ namespace Nour.Play.Maze {
         }
 
         [Test]
+        public void Size_NotInitialized() {
+            Assert.Throws<InvalidOperationException>(() => Assert.AreEqual(Point.Empty.Row, 2));
+            Assert.Throws<InvalidOperationException>(() => Assert.AreEqual(Point.Empty.Column, 2));
+        }
+
+        [Test]
+        public void Point_EqualityIsCheckedByValue() {
+            Point p1 = new Point(1, 2);
+            Point p2 = new Point(1, 2);
+            Assert.AreEqual(p1, p2);
+            Assert.IsTrue(p1 == p2);
+            Assert.AreNotEqual(Point.Empty, p2);
+        }
+
+        [Test]
+        public void Point_GetHashCodeIsDerivedFromValue() {
+            Point p1 = new Point(1, 2);
+            Assert.AreEqual(p1.GetHashCode(), p1.Value.GetHashCode());
+            Assert.Throws<InvalidOperationException>(() => Point.Empty.GetHashCode());
+        }
+
+        [Test]
+        public void Point_ToStringFormat() {
+            Point p1 = new Point(new int[] { 1, 2, 2, 3 });
+            Assert.AreEqual(p1.ToString(), "1x2x2x3");
+            Assert.Throws<InvalidOperationException>(() => Point.Empty.ToString());
+        }
+
+        [Test]
         public void Point_ZeroPointIsNotEmpty() {
             Point p = new Point(new int[] { 0 });
             Assert.AreNotEqual(p, Point.Empty);
@@ -39,6 +68,8 @@ namespace Nour.Play.Maze {
             Assert.IsTrue(p1 < p2);
             Assert.IsFalse(p3 < p2);
             Assert.IsFalse(p0 < p1);
+            Assert.Throws<InvalidOperationException>(() => Assert.IsTrue(Point.Empty < p2));
+            Assert.Throws<InvalidOperationException>(() => Assert.IsTrue(p2 < Point.Empty));
         }
 
         [Test]
@@ -52,6 +83,8 @@ namespace Nour.Play.Maze {
             Assert.IsTrue(p2 > p1);
             Assert.IsFalse(p2 > p3);
             Assert.IsFalse(p0 > p1);
+            Assert.Throws<InvalidOperationException>(() => Assert.IsTrue(Point.Empty > p2));
+            Assert.Throws<InvalidOperationException>(() => Assert.IsTrue(p2 > Point.Empty));
         }
 
         [Test]
@@ -65,6 +98,8 @@ namespace Nour.Play.Maze {
             Assert.IsTrue(p1 <= p3);
             Assert.IsTrue(p3 <= p2);
             Assert.IsFalse(p0 <= p1);
+            Assert.Throws<InvalidOperationException>(() => Assert.IsTrue(Point.Empty <= p2));
+            Assert.Throws<InvalidOperationException>(() => Assert.IsTrue(p2 <= Point.Empty));
         }
 
         [Test]
@@ -78,6 +113,32 @@ namespace Nour.Play.Maze {
             Assert.IsTrue(p2 >= p3);
             Assert.IsFalse(p3 >= p2);
             Assert.IsFalse(p0 >= p1);
+            Assert.Throws<InvalidOperationException>(() => Assert.IsTrue(Point.Empty >= p2));
+            Assert.Throws<InvalidOperationException>(() => Assert.IsTrue(p2 >= Point.Empty));
+        }
+
+        [Test]
+        public void Point_NotEqualToNull() {
+            Point p0 = new Point(3, 2);
+            Point p1 = new Point();
+
+            Assert.IsNull(p1.Value);
+            Assert.IsTrue(p1 != p0);
+            Assert.IsTrue(p0 != p1);
+        }
+
+        [Test]
+        public void Point_CanAddOrSubtract() {
+            Point p0 = new Point(3, 2);
+            Point p1 = new Point(1, 2);
+            Size s1 = new Size(3, 4);
+
+            Assert.AreEqual(p0 + p1, new Point(4, 4));
+            Assert.AreEqual(p0 - p1, new Point(2, 0));
+            Assert.AreEqual(p0 + s1, new Point(6, 6));
+            Assert.AreEqual(p0 - s1, new Point(0, -2));
+            Assert.Throws<InvalidOperationException>(() => Assert.AreEqual(Point.Empty + p1, new Point(4, 4)));
+            Assert.Throws<InvalidOperationException>(() => Assert.AreEqual(Point.Empty + s1, new Point(4, 4)));
         }
     }
 }
