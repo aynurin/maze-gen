@@ -18,10 +18,26 @@
             "problemMatcher": []
         },
         {
+            "label": "coverage",
+            "type": "shell",
+            "command": "./tests/coverage.sh",
+            "problemMatcher": [],
+            "dependsOn": [
+                "build"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
             "label": "test",
             "type": "shell",
-            "command": "msbuild && cd build/Debug/tests && mono ~/.nuget/packages/altcover/8.6.68/tools/net472/AltCover.exe --linecover -o=__Instrumented -summary=OC && mono ~/.nuget/packages/altcover/8.6.68/tools/net472/AltCover.exe Runner --recorderDirectory __Instrumented --cobertura=../../coverage.cobertura.xml --executable nunit3-console -- __Instrumented/tests.dll",
+            "command": "cd build/Debug/tests && nunit3-console --debug tests.dll",
             "problemMatcher": [],
+            "dependsOn": [
+                "build"
+            ],
             "group": {
                 "kind": "test",
                 "isDefault": true

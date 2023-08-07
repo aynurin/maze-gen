@@ -14,7 +14,7 @@ namespace Nour.Play.Maze {
             while (placeMore) {
                 var zone = MazeZone.GetRandomZone();
                 var placement = PlaceZone(mazeSize, createdZones, zone);
-                if (placement == Point.None)
+                if (placement == Point.Empty)
                     placeMore = false;
             }
             return createdZones;
@@ -56,7 +56,7 @@ namespace Nour.Play.Maze {
             // TODO: Select random fitting coords within a random area
             if (fittingAreas.Count > 0)
                 return fittingAreas.GetRandom().Position;
-            else return Point.None;
+            else return Point.Empty;
         }
 
         // layout interface:

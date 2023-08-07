@@ -8,7 +8,7 @@
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="maze-gen" expanded="True">
+          <Node name="maze-gen" expanded="True" selected="True">
             <Node name="mazegen" expanded="True">
               <Node name="References" expanded="True" />
               <Node name="renderers" expanded="True" />
@@ -18,15 +18,12 @@
               <Node name="generators" expanded="True" />
               <Node name="solvers" expanded="True" />
             </Node>
-            <Node name="Nour.Play.Maze.Tests" expanded="True">
-              <Node name="PointTest.cs" selected="True" />
-            </Node>
+            <Node name="Nour.Play.Maze.Tests" expanded="True" />
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.Nour.Play.Maze PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -34,5 +31,4 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.mazegen PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.ItemProperties.Nour.Play.Maze.Tests PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>

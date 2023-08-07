@@ -1,58 +1,54 @@
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace Nour.Play.Maze {
     public struct Point {
-        public static Point None {
-            get {
-                var point = new Point(new Vector<int>(0));
-                point._empty = true;
-                return point;
-            }
-        }
+        private static readonly Point _empty = new Point();
 
-        private Vector<int> _value;
-        private bool _empty;
+        public static Point Empty => _empty;
 
-        public Vector<int> Value => _value;
+        private int[] _value;
 
-        public int Row => _value[0];
-        public int Column => _value[1];
+        public int[] Value => _value;
+
+        public int Row => _value.Length == 2 ? _value[0] : throw new InvalidOperationException("Rows and columns are only supported in two-dimensional structures");
+        public int Column => _value.Length == 2 ? _value[1] : throw new InvalidOperationException("Rows and columns are only supported in two-dimensional structures");
 
         public Point(int rows, int columns) : this(new int[] { rows, columns }) { }
 
-        public Point(int[] coordinates) : this(VectorExtensions.CreateFrom(coordinates)) { }
-
-        private Point(Vector<int> vector) {
-            _value = vector;
-            _empty = false;
+        public Point(IEnumerable<int> coordinates) {
+            _value = coordinates.ToArray();
         }
 
         public static bool operator ==(Point one, Point another) =>
-            Vector.EqualsAll(one.Value, another.Value);
+            (one._value == null && another._value == null)
+            || (one._value != null && another._value != null && one._value.SequenceEqual(another._value));
         public static bool operator !=(Point one, Point another) =>
-            !Vector.EqualsAll(one.Value, another.Value);
+            (one._value == null && another._value != null)
+            || another._value == null
+            || !one._value.SequenceEqual(another._value);
         public static bool operator >(Point one, Point another) =>
-            one.Column > another.Column && one.Row > another.Row;
+            one._value.Zip(another._value, (a, b) => a > b).All(_ => _);
         public static bool operator >=(Point one, Point another) =>
-            one.Column >= another.Column && one.Row >= another.Row;
+            one._value.Zip(another._value, (a, b) => a >= b).All(_ => _);
         public static bool operator <(Point one, Point another) =>
-            one.Column < another.Column && one.Row < another.Row;
+            one._value.Zip(another._value, (a, b) => a < b).All(_ => _);
         public static bool operator <=(Point one, Point another) =>
-            one.Column <= another.Column && one.Row <= another.Row;
+            one._value.Zip(another._value, (a, b) => a <= b).All(_ => _);
         public static Point operator +(Point one, Point another) =>
-            new Point(Vector.Add(one.Value, another.Value));
+            new Point(one._value.Zip(another._value, (a, b) => a + b));
         public static Point operator -(Point one, Point another) =>
-            new Point(Vector.Subtract(one.Value, another.Value));
+            new Point(one._value.Zip(another._value, (a, b) => a - b));
         public static Point operator +(Point one, Size another) =>
-            new Point(Vector.Add(one.Value, another.Value));
+            new Point(one._value.Zip(another.Value, (a, b) => a + b));
         public static Point operator -(Point one, Size another) =>
-            new Point(Vector.Subtract(one.Value, another.Value));
+            new Point(one._value.Zip(another.Value, (a, b) => a - b));
 
-        public override bool Equals(object obj) =>
-            Vector.EqualsAll(this.Value, ((Point)obj).Value);
-        public override int GetHashCode() => this.Value.GetHashCode();
-        public override string ToString() => $"{Row}x{Column}";
+        public override bool Equals(object obj) => this == (Point)obj;
+        public override int GetHashCode() => this._value.GetHashCode();
+        public override string ToString() => _value.Length == 0 ? "<empty>" : String.Join("x", _value);
     }
 }
