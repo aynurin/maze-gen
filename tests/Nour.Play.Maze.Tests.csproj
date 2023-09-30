@@ -39,8 +39,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PointTest.cs" />
-    <Compile Include="SizeTest.cs" />
+    <Compile Include="**/*.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

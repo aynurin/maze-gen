@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -10,18 +11,22 @@ namespace Nour.Play.Maze {
 
         public static Point Empty => _empty;
 
-        private int[] _value;
+        private byte[] _value;
 
-        public int[] Value => _value;
+        public byte[] Value => _value;
 
-        public int Row => IsInitialized() ? _value.Length == 2 ? _value[0] : throw new InvalidOperationException("Rows and columns are only supported in two-dimensional structures") : -1;
-        public int Column => IsInitialized() ? _value.Length == 2 ? _value[1] : throw new InvalidOperationException("Rows and columns are only supported in two-dimensional structures") : -1;
+        public byte Row => IsInitialized() && _value.Length == 2 ? _value[0] : throw new InvalidOperationException("Point is not initialized or contains more than two dimensions (rows and columns are only supported in two-dimensional structures)");
+        public byte Column => IsInitialized() && _value.Length == 2 ? _value[1] : throw new InvalidOperationException("Point is not initialized or contains more than two dimensions (rows and columns are only supported in two-dimensional structures)");
 
-        public Point(int rows, int columns) : this(new int[] { rows, columns }) { }
+        public Point(byte rows, byte columns) : this(new byte[] { rows, columns }) { }
 
-        public Point(IEnumerable<int> coordinates) {
+        public Point(int rows, int columns) : this(new byte[] { checked((byte)rows), checked((byte)columns) }) { }
+
+        public Point(IEnumerable<byte> coordinates) {
             _value = coordinates.ToArray();
         }
+
+        public Point(IEnumerable<int> dimensions) : this(dimensions.Select(x => checked((byte)x))) { }
 
         public bool IsInitialized() {
             if (_value == null) {
@@ -66,7 +71,7 @@ namespace Nour.Play.Maze {
             : Point.Empty;
 
         public override bool Equals(object obj) => this.Equals((Point)obj);
-        public override int GetHashCode() => IsInitialized() ? this._value.GetHashCode() : -1;
+        public override int GetHashCode() => IsInitialized() ? ((IStructuralEquatable)_value).GetHashCode(EqualityComparer<byte>.Default) : -1;
         public override string ToString() => IsInitialized() && _value.Length == 0 ? "<empty>" : String.Join("x", _value);
 
         public bool Equals(Point other) =>

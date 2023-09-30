@@ -4,16 +4,19 @@ using System.Collections.Generic;
 namespace Nour.Play.Maze {
     internal class MazeLayoutManager {
         private readonly Size _mazeSize;
-        public MazeLayoutManager(Size size) {
+        private readonly IEnumerable<MazeZone> _mazeZones;
+
+        public MazeLayoutManager(Size size, IEnumerable<MazeZone> mazeZones) {
             _mazeSize = size;
+            _mazeZones = mazeZones;
         }
 
-        public IDictionary<Point, MazeZone> GenerateZones(Size mazeSize) {
+        public IDictionary<Point, MazeZone> GenerateZones() {
             var createdZones = new Dictionary<Point, MazeZone>();
             var placeMore = true;
-            while (placeMore) {
-                var zone = MazeZone.GetRandomZone();
-                var placement = PlaceZone(mazeSize, createdZones, zone);
+            var zoneEnumerator = _mazeZones.GetEnumerator();
+            while (placeMore && zoneEnumerator.MoveNext()) {
+                var placement = PlaceZone(_mazeSize, createdZones, zoneEnumerator.Current);
                 if (placement == Point.Empty)
                     placeMore = false;
             }

@@ -36,24 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MazeCell.cs" />
-    <Compile Include="MazeGrid.cs" />
-    <Compile Include="MazeLayout.cs" />
-    <Compile Include="MazeLayoutManager.cs" />
-    <Compile Include="MazeZone.cs" />
-    <Compile Include="Optional.cs" />
-    <Compile Include="PlacableArea.cs" />
-    <Compile Include="Point.cs" />
-    <Compile Include="Size.cs" />
-    <Compile Include="extensions\QueueExtensions.cs" />
-    <Compile Include="extensions\RandomExtensions.cs" />
-    <Compile Include="extensions\VectorExtensions.cs" />
-    <Compile Include="generators\WilsonsMazeGenerator.cs" />
-    <Compile Include="generators\AldousBroderMazeGenerator.cs" />
-    <Compile Include="generators\MazeGenerator.cs" />
-    <Compile Include="generators\BinaryTreeMazeGenerator.cs" />
-    <Compile Include="generators\SidewinderMazeGenerator.cs" />
-    <Compile Include="solvers\DijkstraDistance.cs" />
+    <Compile Include="**/*.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
