@@ -17,9 +17,18 @@ namespace Nour.Play.Maze {
         public static MazeLayout GenerateRandom(int rows, int cols) =>
             GenerateRandom(new Size(rows, cols));
 
+        /// <summary>
+        /// Creates a random MazeLayout of the given size.
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static MazeLayout GenerateRandom(Size size) {
             MazeLayoutManager manager = new MazeLayoutManager(size, new RandomZoneGenerator());
+            // 1. Generate maze zones for the given size:
             var zones = manager.GenerateZones();
+            // 2. Place the generated zones in the maze layout
+            // 3. 
             // TODO: Complete implementation of maze layout
             // TODO: Design a test for maze layout validation, e.g. generate
             //       1000 mazes and check on some rules.
