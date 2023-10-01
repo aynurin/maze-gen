@@ -31,7 +31,8 @@ namespace Nour.Play.Maze {
         [Test]
         public void Size_GetHashCodeIsDerivedFromValue() {
             Size p1 = new Size(1, 2);
-            Assert.AreEqual(p1.GetHashCode(), p1.Value.GetHashCode());
+            Size p2 = new Size(1, 2);
+            Assert.AreEqual(p1.GetHashCode(), p2.GetHashCode());
             Assert.Throws<InvalidOperationException>(() => Size.Empty.GetHashCode());
         }
 

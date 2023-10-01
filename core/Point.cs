@@ -11,22 +11,22 @@ namespace Nour.Play.Maze {
 
         public static Point Empty => _empty;
 
-        private byte[] _value;
+        private short[] _value;
 
-        public byte[] Value => _value;
+        public short[] Value => _value;
 
-        public byte Row => IsInitialized() && _value.Length == 2 ? _value[0] : throw new InvalidOperationException("Point is not initialized or contains more than two dimensions (rows and columns are only supported in two-dimensional structures)");
-        public byte Column => IsInitialized() && _value.Length == 2 ? _value[1] : throw new InvalidOperationException("Point is not initialized or contains more than two dimensions (rows and columns are only supported in two-dimensional structures)");
+        public short Row => IsInitialized() && _value.Length == 2 ? _value[0] : throw new InvalidOperationException("Point is not initialized or contains more than two dimensions (rows and columns are only supported in two-dimensional structures)");
+        public short Column => IsInitialized() && _value.Length == 2 ? _value[1] : throw new InvalidOperationException("Point is not initialized or contains more than two dimensions (rows and columns are only supported in two-dimensional structures)");
 
-        public Point(byte rows, byte columns) : this(new byte[] { rows, columns }) { }
+        public Point(short rows, short columns) : this(new short[] { rows, columns }) { }
 
-        public Point(int rows, int columns) : this(new byte[] { checked((byte)rows), checked((byte)columns) }) { }
+        public Point(int rows, int columns) : this(new short[] { checked((short)rows), checked((short)columns) }) { }
 
-        public Point(IEnumerable<byte> coordinates) {
+        public Point(IEnumerable<short> coordinates) {
             _value = coordinates.ToArray();
         }
 
-        public Point(IEnumerable<int> dimensions) : this(dimensions.Select(x => checked((byte)x))) { }
+        public Point(IEnumerable<int> dimensions) : this(dimensions.Select(x => checked((short)x))) { }
 
         public bool IsInitialized() {
             if (_value == null) {
@@ -71,7 +71,7 @@ namespace Nour.Play.Maze {
             : Point.Empty;
 
         public override bool Equals(object obj) => this.Equals((Point)obj);
-        public override int GetHashCode() => IsInitialized() ? ((IStructuralEquatable)_value).GetHashCode(EqualityComparer<byte>.Default) : -1;
+        public override int GetHashCode() => IsInitialized() ? ((IStructuralEquatable)_value).GetHashCode(EqualityComparer<short>.Default) : base.GetHashCode();
         public override string ToString() => IsInitialized() && _value.Length == 0 ? "<empty>" : String.Join("x", _value);
 
         public bool Equals(Point other) =>
