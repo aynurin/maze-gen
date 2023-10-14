@@ -3,15 +3,13 @@ using System.Collections.Generic;
 
 namespace Nour.Play.Maze {
     public class AldousBroderMazeGenerator : MazeGenerator {
-        override public MazeGrid Generate(MazeLayout layout) {
-            var maze = new MazeGrid(layout.Size);
-
+        override public void GenerateMaze(Map2D layout) {
             Console.WriteLine("AldousBroderMazeGenerator v0.1");
-            Console.WriteLine($"Generating maze {maze.Rows}x{maze.Cols}");
+            Console.WriteLine($"Generating maze {layout.XHeightRows}x{layout.YWidthColumns}");
 
-            var currentCell = maze.Cells.GetRandom();
-            var visitedCells = new HashSet<MazeCell>() { currentCell };
-            while (visitedCells.Count < maze.Rows * maze.Cols) {
+            var currentCell = layout.Cells.GetRandom();
+            var visitedCells = new HashSet<Cell>() { currentCell };
+            while (visitedCells.Count < layout.Area) {
                 var next = currentCell.Neighbors.GetRandom();
                 if (!visitedCells.Contains(next)) {
                     currentCell.Link(next);
@@ -19,8 +17,6 @@ namespace Nour.Play.Maze {
                 }
                 currentCell = next;
             }
-
-            return maze;
         }
     }
 }

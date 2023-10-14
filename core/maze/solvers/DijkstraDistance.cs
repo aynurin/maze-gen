@@ -2,25 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nour.Play.Maze {
-    public class DijkstraDistances {
-        private readonly Dictionary<MazeCell, int> _distances;
-        private Optional<List<MazeCell>> _solution = Optional<List<MazeCell>>.Empty();
+namespace Nour.Play.Maze.Solvers {
+    public class DijkstraDistance {
+        private readonly Dictionary<Cell, int> _distances;
+        private Optional<List<Cell>> _solution = Optional<List<Cell>>.Empty;
 
-        public int this[MazeCell cell] { get => _distances[cell]; }
-        public Optional<List<MazeCell>> Solution { get => _solution; }
+        public int this[Cell cell] { get => _distances[cell]; }
+        public Optional<List<Cell>> Solution { get => _solution; }
 
-        private DijkstraDistances(Dictionary<MazeCell, int> distances) {
+        private DijkstraDistance(Dictionary<Cell, int> distances) {
             _distances = distances;
         }
 
-        /// Finds DijkstraDistances starting from the given cell
-        public static DijkstraDistances Find(MazeCell startingCell) {
-            var distances = new Dictionary<MazeCell, int>();
+        /// Finds DijkstraDistance starting from the given cell
+        public static DijkstraDistance Find(Cell startingCell) {
+            var distances = new Dictionary<Cell, int>();
             distances.Add(startingCell, 0);
-            var stack = new Stack<MazeCell>();
+            var stack = new Stack<Cell>();
             stack.Push(startingCell);
-            MazeCell nextCell;
+            Cell nextCell;
             while (true) {
                 try {
                     nextCell = stack.Pop();
@@ -35,21 +35,21 @@ namespace Nour.Play.Maze {
                     }
                 }
             }
-            return new DijkstraDistances(distances);
+            return new DijkstraDistance(distances);
         }
 
         /// Finds the shortest path from the targetCell to the startingCell this
         /// instance has been build with. 
-        public Optional<List<MazeCell>> Solve(MazeCell targetCell) {
-            var solution = new List<MazeCell>() { targetCell };
+        public Optional<List<Cell>> Solve(Cell targetCell) {
+            var solution = new List<Cell>() { targetCell };
             while (_distances[targetCell] > 0) {
                 targetCell = targetCell.Links.OrderBy(cell => _distances[cell]).First();
                 solution.Add(targetCell);
             }
-            return _solution = new Optional<List<MazeCell>>(solution);
+            return _solution = new Optional<List<Cell>>(solution);
         }
 
-        public static DijkstraDistances FindLongest(MazeCell arbitrary) {
+        public static DijkstraDistance FindLongest(Cell arbitrary) {
             var distances = Find(arbitrary);
             var startingPoint = distances._distances.OrderByDescending(kvp => kvp.Value).Select(kvp => kvp.Key).First();
             distances = Find(startingPoint);

@@ -1,52 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<test-run id="2" testcasecount="30" result="Passed" total="30" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.4.1.0" clr-version="4.0.30319.42000" start-time="2023-10-01 16:12:19Z" end-time="2023-10-01 16:12:19Z" duration="0.141046">
+<test-run id="2" testcasecount="30" result="Passed" total="30" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.4.1.0" clr-version="4.0.30319.42000" start-time="2023-10-14 14:00:08Z" end-time="2023-10-14 14:00:08Z" duration="0.157461">
   <command-line><![CDATA[/usr/lib/nunit3/nunit3-console.exe --debug build/Debug/tests/tests.dll]]></command-line>
-  <test-suite type="Assembly" id="1-1033" name="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/tests.dll" fullname="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/tests.dll" runstate="Runnable" testcasecount="30" result="Passed" duration="0.075448" total="30" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+  <test-suite type="Assembly" id="1-1033" name="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/tests.dll" fullname="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/tests.dll" runstate="Runnable" testcasecount="30" result="Passed" duration="0.088275" total="30" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
     <properties>
-      <property name="_PID" value="149825" />
+      <property name="_PID" value="15327" />
       <property name="_APPDOMAIN" value="test-domain-" />
     </properties>
-    <test-suite type="Namespace" id="1-1034" name="Nour" fullname="Nour" runstate="Runnable" testcasecount="29" result="Passed" duration="0.055923" total="29" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-      <test-suite type="Namespace" id="1-1035" name="Play" fullname="Nour.Play" runstate="Runnable" testcasecount="29" result="Passed" duration="0.055614" total="29" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-        <test-suite type="Namespace" id="1-1036" name="Maze" fullname="Nour.Play.Maze" runstate="Runnable" testcasecount="29" result="Passed" duration="0.055327" total="29" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-          <test-suite type="TestFixture" id="1-1002" name="PointTest" fullname="Nour.Play.Maze.PointTest" runstate="Runnable" testcasecount="14" result="Passed" duration="0.041329" total="14" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-            <test-case id="1-1016" name="Point_CanAddOrSubtract" fullname="Nour.Play.Maze.PointTest.Point_CanAddOrSubtract" runstate="Runnable" result="Passed" duration="0.019016" asserts="6" />
-            <test-case id="1-1010" name="Point_EmptyIsEmpty" fullname="Nour.Play.Maze.PointTest.Point_EmptyIsEmpty" runstate="Runnable" result="Passed" duration="0.000138" asserts="1" />
-            <test-case id="1-1009" name="Point_EmptyPointIsEmpty" fullname="Nour.Play.Maze.PointTest.Point_EmptyPointIsEmpty" runstate="Runnable" result="Passed" duration="0.000101" asserts="1" />
-            <test-case id="1-1005" name="Point_EqualityIsCheckedByValue" fullname="Nour.Play.Maze.PointTest.Point_EqualityIsCheckedByValue" runstate="Runnable" result="Passed" duration="0.001400" asserts="3" />
-            <test-case id="1-1006" name="Point_GetHashCodeIsDerivedFromValue" fullname="Nour.Play.Maze.PointTest.Point_GetHashCodeIsDerivedFromValue" runstate="Runnable" result="Passed" duration="0.000833" asserts="2" />
-            <test-case id="1-1012" name="Point_GreaterThanChecksAllComponents" fullname="Nour.Play.Maze.PointTest.Point_GreaterThanChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000798" asserts="5" />
-            <test-case id="1-1014" name="Point_GreaterThanOrEqualsChecksAllComponents" fullname="Nour.Play.Maze.PointTest.Point_GreaterThanOrEqualsChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000292" asserts="5" />
-            <test-case id="1-1003" name="Point_IsInitialized" fullname="Nour.Play.Maze.PointTest.Point_IsInitialized" runstate="Runnable" result="Passed" duration="0.000112" asserts="2" />
-            <test-case id="1-1011" name="Point_LessThanChecksAllComponents" fullname="Nour.Play.Maze.PointTest.Point_LessThanChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000294" asserts="5" />
-            <test-case id="1-1013" name="Point_LessThanOrEqualsChecksAllComponents" fullname="Nour.Play.Maze.PointTest.Point_LessThanOrEqualsChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000275" asserts="5" />
-            <test-case id="1-1015" name="Point_NotEqualToNull" fullname="Nour.Play.Maze.PointTest.Point_NotEqualToNull" runstate="Runnable" result="Passed" duration="0.000172" asserts="3" />
-            <test-case id="1-1007" name="Point_ToStringFormat" fullname="Nour.Play.Maze.PointTest.Point_ToStringFormat" runstate="Runnable" result="Passed" duration="0.000554" asserts="2" />
-            <test-case id="1-1008" name="Point_ZeroPointIsNotEmpty" fullname="Nour.Play.Maze.PointTest.Point_ZeroPointIsNotEmpty" runstate="Runnable" result="Passed" duration="0.000085" asserts="1" />
-            <test-case id="1-1004" name="Size_NotInitialized" fullname="Nour.Play.Maze.PointTest.Size_NotInitialized" runstate="Runnable" result="Passed" duration="0.000154" asserts="2" />
+    <test-suite type="Namespace" id="1-1034" name="Nour" fullname="Nour" runstate="Runnable" testcasecount="29" result="Passed" duration="0.062682" total="29" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <test-suite type="Namespace" id="1-1035" name="Play" fullname="Nour.Play" runstate="Runnable" testcasecount="29" result="Passed" duration="0.062407" total="29" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <test-suite type="Namespace" id="1-1036" name="Maze" fullname="Nour.Play.Maze" runstate="Runnable" testcasecount="29" result="Passed" duration="0.062138" total="29" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <test-suite type="TestFixture" id="1-1002" name="PointTest" fullname="Nour.Play.Maze.PointTest" runstate="Runnable" testcasecount="14" result="Passed" duration="0.045853" total="14" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-case id="1-1016" name="Point_CanAddOrSubtract" fullname="Nour.Play.Maze.PointTest.Point_CanAddOrSubtract" runstate="Runnable" result="Passed" duration="0.019321" asserts="6" />
+            <test-case id="1-1010" name="Point_EmptyIsEmpty" fullname="Nour.Play.Maze.PointTest.Point_EmptyIsEmpty" runstate="Runnable" result="Passed" duration="0.000149" asserts="1" />
+            <test-case id="1-1009" name="Point_EmptyPointIsEmpty" fullname="Nour.Play.Maze.PointTest.Point_EmptyPointIsEmpty" runstate="Runnable" result="Passed" duration="0.000077" asserts="1" />
+            <test-case id="1-1005" name="Point_EqualityIsCheckedByValue" fullname="Nour.Play.Maze.PointTest.Point_EqualityIsCheckedByValue" runstate="Runnable" result="Passed" duration="0.001649" asserts="3" />
+            <test-case id="1-1006" name="Point_GetHashCodeIsDerivedFromValue" fullname="Nour.Play.Maze.PointTest.Point_GetHashCodeIsDerivedFromValue" runstate="Runnable" result="Passed" duration="0.000814" asserts="2" />
+            <test-case id="1-1012" name="Point_GreaterThanChecksAllComponents" fullname="Nour.Play.Maze.PointTest.Point_GreaterThanChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000855" asserts="5" />
+            <test-case id="1-1014" name="Point_GreaterThanOrEqualsChecksAllComponents" fullname="Nour.Play.Maze.PointTest.Point_GreaterThanOrEqualsChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000287" asserts="5" />
+            <test-case id="1-1003" name="Point_IsInitialized" fullname="Nour.Play.Maze.PointTest.Point_IsInitialized" runstate="Runnable" result="Passed" duration="0.000107" asserts="2" />
+            <test-case id="1-1011" name="Point_LessThanChecksAllComponents" fullname="Nour.Play.Maze.PointTest.Point_LessThanChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000285" asserts="5" />
+            <test-case id="1-1013" name="Point_LessThanOrEqualsChecksAllComponents" fullname="Nour.Play.Maze.PointTest.Point_LessThanOrEqualsChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000266" asserts="5" />
+            <test-case id="1-1015" name="Point_NotEqualToNull" fullname="Nour.Play.Maze.PointTest.Point_NotEqualToNull" runstate="Runnable" result="Passed" duration="0.000166" asserts="3" />
+            <test-case id="1-1007" name="Point_ToStringFormat" fullname="Nour.Play.Maze.PointTest.Point_ToStringFormat" runstate="Runnable" result="Passed" duration="0.000584" asserts="2" />
+            <test-case id="1-1008" name="Point_ZeroPointIsNotEmpty" fullname="Nour.Play.Maze.PointTest.Point_ZeroPointIsNotEmpty" runstate="Runnable" result="Passed" duration="0.000086" asserts="1" />
+            <test-case id="1-1004" name="Size_NotInitialized" fullname="Nour.Play.Maze.PointTest.Size_NotInitialized" runstate="Runnable" result="Passed" duration="0.000147" asserts="2" />
           </test-suite>
-          <test-suite type="TestFixture" id="1-1017" name="SizeTest" fullname="Nour.Play.Maze.SizeTest" runstate="Runnable" testcasecount="15" result="Passed" duration="0.012173" total="15" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-            <test-case id="1-1031" name="Size_CanAddOrSubtract" fullname="Nour.Play.Maze.SizeTest.Size_CanAddOrSubtract" runstate="Runnable" result="Passed" duration="0.001928" asserts="3" />
-            <test-case id="1-1025" name="Size_EmptyIsEmpty" fullname="Nour.Play.Maze.SizeTest.Size_EmptyIsEmpty" runstate="Runnable" result="Passed" duration="0.000086" asserts="1" />
-            <test-case id="1-1024" name="Size_EmptySizeIsEmpty" fullname="Nour.Play.Maze.SizeTest.Size_EmptySizeIsEmpty" runstate="Runnable" result="Passed" duration="0.000079" asserts="1" />
-            <test-case id="1-1020" name="Size_EqualityIsCheckedByValue" fullname="Nour.Play.Maze.SizeTest.Size_EqualityIsCheckedByValue" runstate="Runnable" result="Passed" duration="0.000160" asserts="3" />
-            <test-case id="1-1021" name="Size_GetHashCodeIsDerivedFromValue" fullname="Nour.Play.Maze.SizeTest.Size_GetHashCodeIsDerivedFromValue" runstate="Runnable" result="Passed" duration="0.000298" asserts="2" />
-            <test-case id="1-1027" name="Size_GreaterThanChecksAllComponents" fullname="Nour.Play.Maze.SizeTest.Size_GreaterThanChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000636" asserts="5" />
-            <test-case id="1-1029" name="Size_GreaterThanOrEqualsChecksAllComponents" fullname="Nour.Play.Maze.SizeTest.Size_GreaterThanOrEqualsChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000322" asserts="5" />
-            <test-case id="1-1018" name="Size_IsInitialized" fullname="Nour.Play.Maze.SizeTest.Size_IsInitialized" runstate="Runnable" result="Passed" duration="0.000131" asserts="3" />
-            <test-case id="1-1026" name="Size_LessThanChecksAllComponents" fullname="Nour.Play.Maze.SizeTest.Size_LessThanChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000285" asserts="5" />
-            <test-case id="1-1028" name="Size_LessThanOrEqualsChecksAllComponents" fullname="Nour.Play.Maze.SizeTest.Size_LessThanOrEqualsChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000276" asserts="5" />
-            <test-case id="1-1030" name="Size_NotEqualToNull" fullname="Nour.Play.Maze.SizeTest.Size_NotEqualToNull" runstate="Runnable" result="Passed" duration="0.000113" asserts="3" />
-            <test-case id="1-1019" name="Size_NotInitialized" fullname="Nour.Play.Maze.SizeTest.Size_NotInitialized" runstate="Runnable" result="Passed" duration="0.000204" asserts="3" />
-            <test-case id="1-1032" name="Size_Rotate2d" fullname="Nour.Play.Maze.SizeTest.Size_Rotate2d" runstate="Runnable" result="Passed" duration="0.000142" asserts="1" />
-            <test-case id="1-1022" name="Size_ToStringFormat" fullname="Nour.Play.Maze.SizeTest.Size_ToStringFormat" runstate="Runnable" result="Passed" duration="0.000454" asserts="2" />
-            <test-case id="1-1023" name="Size_ZeroSizeIsNotEmpty" fullname="Nour.Play.Maze.SizeTest.Size_ZeroSizeIsNotEmpty" runstate="Runnable" result="Passed" duration="0.000087" asserts="1" />
+          <test-suite type="TestFixture" id="1-1017" name="SizeTest" fullname="Nour.Play.Maze.SizeTest" runstate="Runnable" testcasecount="15" result="Passed" duration="0.014028" total="15" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-case id="1-1031" name="Size_CanAddOrSubtract" fullname="Nour.Play.Maze.SizeTest.Size_CanAddOrSubtract" runstate="Runnable" result="Passed" duration="0.002100" asserts="3" />
+            <test-case id="1-1025" name="Size_EmptyIsEmpty" fullname="Nour.Play.Maze.SizeTest.Size_EmptyIsEmpty" runstate="Runnable" result="Passed" duration="0.000078" asserts="1" />
+            <test-case id="1-1024" name="Size_EmptySizeIsEmpty" fullname="Nour.Play.Maze.SizeTest.Size_EmptySizeIsEmpty" runstate="Runnable" result="Passed" duration="0.000075" asserts="1" />
+            <test-case id="1-1020" name="Size_EqualityIsCheckedByValue" fullname="Nour.Play.Maze.SizeTest.Size_EqualityIsCheckedByValue" runstate="Runnable" result="Passed" duration="0.000129" asserts="3" />
+            <test-case id="1-1021" name="Size_GetHashCodeIsDerivedFromValue" fullname="Nour.Play.Maze.SizeTest.Size_GetHashCodeIsDerivedFromValue" runstate="Runnable" result="Passed" duration="0.000260" asserts="2" />
+            <test-case id="1-1027" name="Size_GreaterThanChecksAllComponents" fullname="Nour.Play.Maze.SizeTest.Size_GreaterThanChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000620" asserts="5" />
+            <test-case id="1-1029" name="Size_GreaterThanOrEqualsChecksAllComponents" fullname="Nour.Play.Maze.SizeTest.Size_GreaterThanOrEqualsChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000292" asserts="5" />
+            <test-case id="1-1018" name="Size_IsInitialized" fullname="Nour.Play.Maze.SizeTest.Size_IsInitialized" runstate="Runnable" result="Passed" duration="0.000128" asserts="3" />
+            <test-case id="1-1026" name="Size_LessThanChecksAllComponents" fullname="Nour.Play.Maze.SizeTest.Size_LessThanChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000299" asserts="5" />
+            <test-case id="1-1028" name="Size_LessThanOrEqualsChecksAllComponents" fullname="Nour.Play.Maze.SizeTest.Size_LessThanOrEqualsChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000281" asserts="5" />
+            <test-case id="1-1030" name="Size_NotEqualToNull" fullname="Nour.Play.Maze.SizeTest.Size_NotEqualToNull" runstate="Runnable" result="Passed" duration="0.000118" asserts="3" />
+            <test-case id="1-1019" name="Size_NotInitialized" fullname="Nour.Play.Maze.SizeTest.Size_NotInitialized" runstate="Runnable" result="Passed" duration="0.000190" asserts="3" />
+            <test-case id="1-1032" name="Size_Rotate2d" fullname="Nour.Play.Maze.SizeTest.Size_Rotate2d" runstate="Runnable" result="Passed" duration="0.000140" asserts="1" />
+            <test-case id="1-1022" name="Size_ToStringFormat" fullname="Nour.Play.Maze.SizeTest.Size_ToStringFormat" runstate="Runnable" result="Passed" duration="0.000462" asserts="2" />
+            <test-case id="1-1023" name="Size_ZeroSizeIsNotEmpty" fullname="Nour.Play.Maze.SizeTest.Size_ZeroSizeIsNotEmpty" runstate="Runnable" result="Passed" duration="0.000085" asserts="1" />
           </test-suite>
         </test-suite>
       </test-suite>
     </test-suite>
-    <test-suite type="TestFixture" id="1-1000" name="RandomZoneGeneratorTest" fullname="RandomZoneGeneratorTest" runstate="Runnable" testcasecount="1" result="Passed" duration="0.010754" total="1" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-      <test-case id="1-1001" name="ZoneGenerator_CanGenerateZones" fullname="RandomZoneGeneratorTest.ZoneGenerator_CanGenerateZones" runstate="Runnable" result="Passed" duration="0.010506" asserts="6006" />
+    <test-suite type="TestFixture" id="1-1000" name="RandomZoneGeneratorTest" fullname="RandomZoneGeneratorTest" runstate="Runnable" testcasecount="1" result="Passed" duration="0.013547" total="1" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <test-case id="1-1001" name="ZoneGenerator_CanGenerateZones" fullname="RandomZoneGeneratorTest.ZoneGenerator_CanGenerateZones" runstate="Runnable" result="Passed" duration="0.013198" asserts="6006" />
     </test-suite>
   </test-suite>
 </test-run>

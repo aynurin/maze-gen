@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Nour.Play.Maze.Solvers;
 
 namespace Nour.Play.Maze {
     public class MazeToAscii {
 
-        private readonly MazeGrid _maze;
+        private readonly Map2D _maze;
         private readonly int _cellInnerHeight;
         private readonly int _cellInnerWidth;
         private readonly int _asciiMazeHeight;
@@ -14,30 +15,30 @@ namespace Nour.Play.Maze {
         private readonly Border.Type[] _buffer;
         private readonly Dictionary<int, string> _data = new System.Collections.Generic.Dictionary<int, string>();
 
-        public MazeToAscii(MazeGrid maze, int cellInnerHeight = 1, int cellInnerWidth = 3) {
+        public MazeToAscii(Map2D maze, int cellInnerHeight = 1, int cellInnerWidth = 3) {
             _maze = maze;
             _cellInnerHeight = cellInnerHeight;
             _cellInnerWidth = cellInnerWidth;
-            _asciiMazeHeight = _maze.Rows * (_cellInnerHeight + 1) + 1;
-            _asciiMazeWidth = _maze.Cols * (_cellInnerWidth + 1) + 1;
+            _asciiMazeHeight = _maze.XHeightRows * (_cellInnerHeight + 1) + 1;
+            _asciiMazeWidth = _maze.YWidthColumns * (_cellInnerWidth + 1) + 1;
             _buffer = new Border.Type[_asciiMazeHeight * _asciiMazeWidth];
-            for (int row = 0; row < _asciiMazeHeight; row++) {
-                for (int col = 0; col < _asciiMazeWidth; col++) {
+            for (int x = 0; x < _asciiMazeHeight; x++) {
+                for (int y = 0; y < _asciiMazeWidth; y++) {
                     var borderType = Border.Type.Inner;
-                    if (row == 0 || col == 0 || row == _asciiMazeHeight - 1 || col == _asciiMazeWidth - 1) {
+                    if (x == 0 || y == 0 || x == _asciiMazeHeight - 1 || y == _asciiMazeWidth - 1) {
                         borderType |= Border.Type.Outer;
                     }
-                    if (col % (_cellInnerWidth + 1) == 0 && row % (_cellInnerHeight + 1) == 0) {
+                    if (y % (_cellInnerWidth + 1) == 0 && x % (_cellInnerHeight + 1) == 0) {
                         borderType |= Border.Type.X;
                     }
-                    _buffer[row * _asciiMazeWidth + col] = borderType;
+                    _buffer[x * _asciiMazeWidth + y] = borderType;
                 }
             }
         }
-        public string Convert(DijkstraDistances distances) {
-            var solutionCells = distances.Solution.HasValue ? new HashSet<MazeCell>(distances.Solution.Value) : new HashSet<MazeCell>();
-            for (int i = 0; i < _maze.Rows; i++) {
-                for (int j = 0; j < _maze.Cols; j++) {
+        public string Convert(DijkstraDistance distances) {
+            var solutionCells = distances.Solution.HasValue ? new HashSet<Cell>(distances.Solution.Value) : new HashSet<Cell>();
+            for (int i = 0; i < _maze.XHeightRows; i++) {
+                for (int j = 0; j < _maze.YWidthColumns; j++) {
                     try {
                         var cell = _maze[i, j];
                         var cellData = solutionCells.Contains(cell) ? System.Convert.ToString(distances[cell], 16) : String.Empty;
@@ -50,12 +51,12 @@ namespace Nour.Play.Maze {
             }
 
             var strBuffer = new StringBuilder();
-            for (int row = 0; row < _asciiMazeHeight; row++) {
-                for (int col = 0; col < _asciiMazeWidth; col++) {
-                    var index = row * _asciiMazeWidth + col;
+            for (int x = 0; x < _asciiMazeHeight; x++) {
+                for (int y = 0; y < _asciiMazeWidth; y++) {
+                    var index = x * _asciiMazeWidth + y;
                     if (_data.ContainsKey(index)) {
                         strBuffer.Append(_data[index]);
-                        col += _data[index].Length - 1;
+                        y += _data[index].Length - 1;
                     } else {
                         strBuffer.Append(Border.Char(_buffer[index]));
                     }
@@ -146,8 +147,8 @@ namespace Nour.Play.Maze {
             public static char Char(Type t) => _chars[t];
         }
 
-        private void PrintCell(MazeCell cell, string cellData) {
-            Console.WriteLine($"Cell {cell.Row,2}x{cell.Col,2}: {(!cell.NorthGate.HasValue ? "-" : "N")}, {(!cell.EastGate.HasValue ? "-" : "E")}, {(!cell.SouthGate.HasValue ? "-" : "S")}, {(!cell.WestGate.HasValue ? "-" : "W")}");
+        private void PrintCell(Cell cell, string cellData) {
+            Console.WriteLine($"Cell {cell.X,2}x{cell.Y,2}: {(!cell.NorthGate.HasValue ? "-" : "N")}, {(!cell.EastGate.HasValue ? "-" : "E")}, {(!cell.SouthGate.HasValue ? "-" : "S")}, {(!cell.WestGate.HasValue ? "-" : "W")}");
             var asciiCoords = GetCellCoords(cell);
             if (!cell.NorthGate.HasValue) {
                 _buffer[asciiCoords.Northeast] |= Border.Type.Left;
@@ -174,12 +175,12 @@ namespace Nour.Play.Maze {
             }
         }
 
-        private CellCoords GetCellCoords(MazeCell cell) {
-            int scaledRow = cell.Row * (_cellInnerHeight + 1); // each cell height = inner height + border
-            int scaledCol = cell.Col * (_cellInnerWidth + 1); // each cell width = inner width + border
-            var scaledGrid = new { rows = _maze.Rows * (_cellInnerHeight + 1) + 1, cols = _maze.Cols * (_cellInnerWidth + 1) + 1 };
-            var scaledCell = new { row = cell.Row * (_cellInnerHeight + 1), col = cell.Col * (_cellInnerWidth + 1) };
-            Func<int, int, int> cellCoord = (int drow, int dcol) => (scaledCell.row + drow) * scaledGrid.cols + (scaledCell.col + dcol);
+        private CellCoords GetCellCoords(Cell cell) {
+            int scaledRow = cell.X * (_cellInnerHeight + 1); // each cell height = inner height + border
+            int scaledCol = cell.Y * (_cellInnerWidth + 1); // each cell width = inner width + border
+            var scaledGrid = new { rows = _maze.XHeightRows * (_cellInnerHeight + 1) + 1, cols = _maze.YWidthColumns * (_cellInnerWidth + 1) + 1 };
+            var scaledCell = new { x = cell.X * (_cellInnerHeight + 1), y = cell.Y * (_cellInnerWidth + 1) };
+            Func<int, int, int> cellCoord = (int dRow, int dCol) => (scaledCell.x + dRow) * scaledGrid.cols + (scaledCell.y + dCol);
             return new CellCoords {
                 Northwest = cellCoord(0, 0),
                 Southwest = cellCoord(_cellInnerHeight + 1, 0),

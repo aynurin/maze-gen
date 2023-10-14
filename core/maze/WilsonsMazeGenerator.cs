@@ -3,19 +3,17 @@ using System.Collections.Generic;
 
 namespace Nour.Play.Maze {
     public class WilsonsMazeGenerator : MazeGenerator {
-        override public MazeGrid Generate(MazeLayout layout) {
-            var maze = new MazeGrid(layout.Size);
-
+        override public void GenerateMaze(Map2D layout) {
             Console.WriteLine("WilsonsMazeGenerator v0.1");
-            Console.WriteLine($"Generating maze {maze.Rows}x{maze.Cols}");
+            Console.WriteLine($"Generating maze {layout.XHeightRows}x{layout.YWidthColumns}");
 
-            var currentCell = maze.Cells.GetRandom();
-            var visitedCells = new HashSet<MazeCell>() { currentCell };
+            var currentCell = layout.Cells.GetRandom();
+            var visitedCells = new HashSet<Cell>() { currentCell };
 
-            while (visitedCells.Count < maze.Cells.Count) {
-                var walkPath = new List<MazeCell>();
+            while (visitedCells.Count < layout.Cells.Count) {
+                var walkPath = new List<Cell>();
 
-                var nextCell = maze.Cells.GetRandom();
+                var nextCell = layout.Cells.GetRandom();
 
                 if (visitedCells.Contains(nextCell))
                     continue;
@@ -35,8 +33,6 @@ namespace Nour.Play.Maze {
                     visitedCells.Add(walkPath[i]);
                 }
             }
-
-            return maze;
         }
     }
 }

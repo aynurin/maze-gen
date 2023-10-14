@@ -8,8 +8,8 @@
 //     [Test]
 //     public void LayoutManager_CanGenerateZones() {
 //         var zonesGenerator = new RandomZoneGenerator();
-//         var layoutManager = new MazeLayoutManager(new Size(5, 5), zonesGenerator);
-//         var zones = layoutManager.GenerateZones();
-//         Assert.Greater(zones.Count, 0);
+//         var layoutManager = new MazeLayoutManager(new Vector(5, 5), zonesGenerator);
+//         var areas = layoutManager.GenerateZones();
+//         Assert.Greater(areas.Count, 0);
 //     }
 // }
