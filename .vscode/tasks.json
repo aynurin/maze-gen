@@ -15,7 +15,11 @@
             "label": "rebuild",
             "command": "rm -rf build && msbuild",
             "type": "shell",
-            "problemMatcher": []
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
             "label": "coverage",

@@ -24,6 +24,12 @@ public class RandomAreaGeneratorTest {
             //Assert.Greater(area.Cells.Count, 0);
             Assert.Greater(area.Tags.Length, 0);
 
+            if (sizes.ContainsKey(area.Size)) {
+                sizes[area.Size] += +1;
+            } else {
+                sizes.Add(area.Size, 1);
+            }
+
             foreach (var tag in area.Tags) {
                 Assert.IsNotNullOrEmpty(tag);
                 if (tags.ContainsKey(tag)) {
@@ -41,9 +47,11 @@ public class RandomAreaGeneratorTest {
             }
         }
 
+        Assert.AreEqual(1000, sizes.Values.Sum());
+        Assert.AreEqual(7, sizes.Count);
         Assert.AreEqual(1000, types.Values.Sum());
-        Assert.AreEqual(2, types.Count, 2);
+        Assert.AreEqual(2, types.Count);
         Assert.AreEqual(1000, tags.Values.Sum());
-        Assert.AreEqual(5, tags.Count, 5);
+        Assert.AreEqual(5, tags.Count);
     }
 }

@@ -23,7 +23,7 @@ namespace Nour.Play.Maze {
                     var containsAt = walkPath.IndexOf(nextCell);
                     if (containsAt >= 0)
                         walkPath.RemoveRange(containsAt + 1, walkPath.Count - containsAt - 1);
-                    nextCell = nextCell.Neighbors.GetRandom();
+                    nextCell = nextCell.Neighbors().GetRandom();
                 };
 
                 walkPath.Add(nextCell);

@@ -16,14 +16,14 @@ namespace Nour.Play.Areas {
     public class MapArea {
         public AreaType Type { get; private set; }
         public string[] Tags { get; private set; }
-        public Vector RequestedDimensions { get; private set; }
+        public Vector Size { get; private set; }
         public List<Cell> Cells { get; private set; }
 
-        public MapArea(AreaType type, Vector requestedDimensions, params string[] tags) {
-            Cells = new List<Cell>(requestedDimensions.Area);
+        public MapArea(AreaType type, Vector size, params string[] tags) {
+            Cells = new List<Cell>(size.Area);
             Type = type;
             Tags = tags;
-            RequestedDimensions = requestedDimensions;
+            Size = size;
         }
     }
 }

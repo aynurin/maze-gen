@@ -18,7 +18,13 @@
 
 See `./.vscode/tasks.json`.
 
-The coverage report is available in `build/coverate/summary.txt`.
+The coverage report is available in `build/coverage/summary.txt`.
+
+Running the maze-gen on Linux:
+
+```bash
+mono --debug build/Debug/mazegen/maze-gen.exe
+```
 
 ## Nuget
 

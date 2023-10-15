@@ -10,7 +10,7 @@ namespace Nour.Play.Maze {
             var currentCell = layout.Cells.GetRandom();
             var visitedCells = new HashSet<Cell>() { currentCell };
             while (visitedCells.Count < layout.Area) {
-                var next = currentCell.Neighbors.GetRandom();
+                var next = currentCell.Neighbors().GetRandom();
                 if (!visitedCells.Contains(next)) {
                     currentCell.Link(next);
                     visitedCells.Add(next);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Nour.Play {
@@ -39,17 +40,19 @@ namespace Nour.Play {
         /// <param name="size">Map two-dimensional size, where X - rows (height), and Y - columns (width)</param>
         public Map2D(Vector size) {
             _size = size;
+            if (_size.X <= 0 || _size.Y <= 0)
+                throw new ArgumentException("Map size must be larger than 0", "size");
             _cells = new List<Cell>(_size.Area);
             // ? P'haps the direction is a property of the gate, not it's identity.
             for (int i = 0; i < _cells.Capacity; i++) {
                 var cell = new Cell(i / _size.Y, i % _size.Y);
                 if (cell.X > 0) {
-                    cell.Neighbors.Add(this[cell.X - 1, cell.Y]);
-                    this[cell.X - 1, cell.Y].Neighbors.Add(cell);
+                    cell.Neighbors().Add(this[cell.X - 1, cell.Y]);
+                    this[cell.X - 1, cell.Y].Neighbors().Add(cell);
                 }
                 if (cell.Y > 0) {
-                    cell.Neighbors.Add(this[_cells[i].X, _cells[i].Y - 1]);
-                    this[_cells[i].X, _cells[i].Y - 1].Neighbors.Add(cell);
+                    cell.Neighbors().Add(this[cell.X, cell.Y - 1]);
+                    this[cell.X, cell.Y - 1].Neighbors().Add(cell);
                 }
                 _cells.Add(cell);
             }

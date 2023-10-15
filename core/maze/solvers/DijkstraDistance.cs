@@ -28,7 +28,7 @@ namespace Nour.Play.Maze.Solvers {
                     break;
                 }
                 var distance = distances[nextCell];
-                foreach (var neighbor in nextCell.Links) {
+                foreach (var neighbor in nextCell.Links()) {
                     if (!distances.ContainsKey(neighbor)) {
                         distances.Add(neighbor, distance + 1);
                         stack.Push(neighbor);
@@ -43,7 +43,7 @@ namespace Nour.Play.Maze.Solvers {
         public Optional<List<Cell>> Solve(Cell targetCell) {
             var solution = new List<Cell>() { targetCell };
             while (_distances[targetCell] > 0) {
-                targetCell = targetCell.Links.OrderBy(cell => _distances[cell]).First();
+                targetCell = targetCell.Links().OrderBy(cell => _distances[cell]).First();
                 solution.Add(targetCell);
             }
             return _solution = new Optional<List<Cell>>(solution);

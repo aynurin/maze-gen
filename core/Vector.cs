@@ -6,9 +6,15 @@ using System.Linq;
 namespace Nour.Play {
     // ? Maybe find a better name
     public struct Vector : IEquatable<Vector> {
-        private static readonly Vector _empty = new Vector();
-
-        public static Vector Empty => _empty;
+        public static readonly Vector Empty = new Vector();
+        public static readonly Vector NorthWest2D = new Vector(-1, -1);
+        public static readonly Vector North2D = new Vector(-1, 0);
+        public static readonly Vector NorthEast2D = new Vector(-1, 1);
+        public static readonly Vector West2D = new Vector(0, -1);
+        public static readonly Vector East2D = new Vector(0, 1);
+        public static readonly Vector SouthEast2D = new Vector(1, -1);
+        public static readonly Vector South2D = new Vector(1, 0);
+        public static readonly Vector SouthWest2D = new Vector(1, 1);
 
         private int[] _value;
         private bool _isInitialized; // false on initialization

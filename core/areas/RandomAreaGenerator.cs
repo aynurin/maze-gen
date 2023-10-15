@@ -53,7 +53,7 @@ namespace Nour.Play.Areas {
         public static MapArea RandomRotate(MapArea area) {
             if (GlobalRandom.Next() % 2 == 0)
                 return area;
-            return new MapArea(area.Type, area.RequestedDimensions, area.Tags);
+            return new MapArea(area.Type, area.Size, area.Tags);
         }
 
         public class GeneratorSettings {

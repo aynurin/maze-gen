@@ -148,24 +148,24 @@ namespace Nour.Play.Maze {
         }
 
         private void PrintCell(Cell cell, string cellData) {
-            Console.WriteLine($"Cell {cell.X,2}x{cell.Y,2}: {(!cell.NorthGate.HasValue ? "-" : "N")}, {(!cell.EastGate.HasValue ? "-" : "E")}, {(!cell.SouthGate.HasValue ? "-" : "S")}, {(!cell.WestGate.HasValue ? "-" : "W")}");
+            Console.WriteLine($"Cell {cell.X,2}x{cell.Y,2}: {(!cell.Links(Vector.North2D).HasValue ? "-" : "N")}, {(!cell.Links(Vector.East2D).HasValue ? "-" : "E")}, {(!cell.Links(Vector.South2D).HasValue ? "-" : "S")}, {(!cell.Links(Vector.West2D).HasValue ? "-" : "W")}");
             var asciiCoords = GetCellCoords(cell);
-            if (!cell.NorthGate.HasValue) {
+            if (!cell.Links(Vector.North2D).HasValue) {
                 _buffer[asciiCoords.Northeast] |= Border.Type.Left;
                 _buffer[asciiCoords.Northwest] |= Border.Type.Right;
                 foreach (var x in asciiCoords.North) _buffer[x] |= Border.Type.North;
             }
-            if (!cell.SouthGate.HasValue) {
+            if (!cell.Links(Vector.South2D).HasValue) {
                 _buffer[asciiCoords.Southeast] |= Border.Type.Left;
                 _buffer[asciiCoords.Southwest] |= Border.Type.Right;
                 foreach (var x in asciiCoords.South) _buffer[x] |= Border.Type.South;
             }
-            if (!cell.EastGate.HasValue) {
+            if (!cell.Links(Vector.East2D).HasValue) {
                 _buffer[asciiCoords.Southeast] |= Border.Type.Top;
                 _buffer[asciiCoords.Northeast] |= Border.Type.Bottom;
                 foreach (var x in asciiCoords.East) _buffer[x] |= Border.Type.East;
             }
-            if (!cell.WestGate.HasValue) {
+            if (!cell.Links(Vector.West2D).HasValue) {
                 _buffer[asciiCoords.Southwest] |= Border.Type.Top;
                 _buffer[asciiCoords.Northwest] |= Border.Type.Bottom;
                 foreach (var x in asciiCoords.West) _buffer[x] |= Border.Type.West;

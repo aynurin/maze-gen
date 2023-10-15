@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 
-namespace Nour.Play.Maze {
+namespace Nour.Play {
     [TestFixture]
     public class VectorTest {
         [Test]
