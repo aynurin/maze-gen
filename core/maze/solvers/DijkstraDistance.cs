@@ -38,8 +38,12 @@ namespace Nour.Play.Maze.Solvers {
             return new DijkstraDistance(distances);
         }
 
+        /// <summary>
         /// Finds the shortest path from the targetCell to the startingCell this
-        /// instance has been build with. 
+        /// instance has been build with. Stores the Solution in this instance.
+        /// </summary>
+        /// <param name="targetCell"></param>
+        /// <returns></returns>        
         public Optional<List<Cell>> Solve(Cell targetCell) {
             var solution = new List<Cell>() { targetCell };
             while (_distances[targetCell] > 0) {

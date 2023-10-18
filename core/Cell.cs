@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Nour.Play {
@@ -16,6 +17,8 @@ namespace Nour.Play {
         }
 
         public void Link(Cell cell) {
+            if (_links.Contains(cell))
+                throw new InvalidOperationException("This link already exists");
             _links.Add(cell);
             cell._links.Add(this);
         }
@@ -32,14 +35,10 @@ namespace Nour.Play {
         public Optional<Cell> Neighbors(Vector unitVector) =>
             new Optional<Cell>(_neighbors.Find(cell => cell.Coordinates == this.Coordinates + unitVector));
 
-        public Optional<Cell> Neighbors(int dX, int dY) => Neighbors(new Vector(dX, dY));
-
         public List<Cell> Links() => _links;
 
         public Optional<Cell> Links(Vector unitVector) =>
             new Optional<Cell>(_links.Find(cell => cell.Coordinates == this.Coordinates + unitVector));
-
-        public Optional<Cell> Links(int dX, int dY) => Links(new Vector(dX, dY));
 
         public string ToLongString() => $"{Coordinates}: {(Links(Vector.West2D).HasValue ? "N" : "-")}{(Links(Vector.North2D).HasValue ? "E" : "-")}{(Links(Vector.East2D).HasValue ? "S" : "-")}{(Links(Vector.South2D).HasValue ? "W" : "-")}";
 

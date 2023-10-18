@@ -141,5 +141,10 @@ namespace Nour.Play {
             Assert.Throws<InvalidOperationException>(() => Assert.AreEqual(Vector.Empty + p1, new Vector(4, 4)));
             Assert.Throws<InvalidOperationException>(() => Assert.AreEqual(Vector.Empty + s1, new Vector(4, 4)));
         }
+
+        [Test]
+        public void Vector_ConstructorChecksArguments() {
+            Assert.Throws<ArgumentNullException>(() => new Vector(null));
+        }
     }
 }
