@@ -13,10 +13,6 @@ namespace Nour.Play {
                 var index = x * _size.Y + y;
                 return _cells[index];
             }
-            set {
-                var index = x * _size.Y + y;
-                _cells[index] = value;
-            }
         }
 
         public int XHeightRows { get => _size.X; }

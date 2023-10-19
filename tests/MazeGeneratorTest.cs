@@ -16,9 +16,13 @@ namespace Nour.Play {
             [ValueSource("GetAllGenerators")] Type generatorType
         ) {
             var generator = (MazeGenerator)Activator.CreateInstance(generatorType);
-            var map = new Map2D(3, 4);
-            Assert.IsTrue(map.Cells.All(cell => cell.Links().Count == 0));
-            generator.GenerateMaze(map);
+            // var map = new Map2D(3, 4);
+            // Assert.IsTrue(map.Cells.All(cell => cell.Links().Count == 0));
+            var map = (Map2D)typeof(MazeGenerator).GetMethod("Generate")
+                .MakeGenericMethod(generatorType)
+                .Invoke(null, new Object[] { new Vector(3, 4) });
+            // generator.GenerateMaze(map);
+            Assert.IsTrue(map.Cells.Count == 12);
             Assert.IsTrue(map.Cells.Any(cell => cell.Links().Count > 0));
         }
 

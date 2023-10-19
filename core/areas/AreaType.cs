@@ -8,5 +8,8 @@ namespace Nour.Play.Areas {
         Hall,
         /// E.g., a lake or a mount the player can not enter.
         Fill,
+        /// A regular maze area (might have different tags to denote any
+        /// specific purpose like styling or activity)
+        Maze,
     }
 }

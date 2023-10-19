@@ -106,7 +106,7 @@ namespace Nour.Play.Areas {
                 { "lake", 0.15f },
                 { "dirt", 0.15f },
                 { "swamp", 0.15f },
-                { "void", 0.05f }
+                { "void", 0.05f },
             };
         }
     }

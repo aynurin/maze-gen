@@ -1,70 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<test-run id="2" testcasecount="38" result="Passed" total="38" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.4.1.0" clr-version="4.0.30319.42000" start-time="2023-10-18 14:00:27Z" end-time="2023-10-18 14:00:27Z" duration="0.181598">
+<test-run id="2" testcasecount="38" result="Passed" total="38" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.4.1.0" clr-version="4.0.30319.42000" start-time="2023-10-19 13:09:45Z" end-time="2023-10-19 13:09:45Z" duration="0.180250">
   <command-line><![CDATA[/usr/lib/nunit3/nunit3-console.exe --debug build/Debug/tests/tests.dll]]></command-line>
-  <test-suite type="Assembly" id="1-1047" name="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/tests.dll" fullname="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/tests.dll" runstate="Runnable" testcasecount="38" result="Passed" duration="0.106527" total="38" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+  <test-suite type="Assembly" id="1-1047" name="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/tests.dll" fullname="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/tests.dll" runstate="Runnable" testcasecount="38" result="Passed" duration="0.103349" total="38" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
     <properties>
-      <property name="_PID" value="119998" />
+      <property name="_PID" value="130682" />
       <property name="_APPDOMAIN" value="test-domain-" />
     </properties>
-    <test-suite type="Namespace" id="1-1048" name="Nour" fullname="Nour" runstate="Runnable" testcasecount="37" result="Passed" duration="0.083297" total="37" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-      <test-suite type="Namespace" id="1-1049" name="Play" fullname="Nour.Play" runstate="Runnable" testcasecount="37" result="Passed" duration="0.082976" total="37" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-        <test-suite type="TestFixture" id="1-1002" name="CellTest" fullname="Nour.Play.CellTest" runstate="Runnable" testcasecount="3" result="Passed" duration="0.026734" total="3" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-          <test-case id="1-1005" name="Map2D_DoubleLinkingThrowsError" fullname="Nour.Play.CellTest.Map2D_DoubleLinkingThrowsError" runstate="Runnable" result="Passed" duration="0.012442" asserts="1" />
-          <test-case id="1-1003" name="Map2D_LinksAreMutual" fullname="Nour.Play.CellTest.Map2D_LinksAreMutual" runstate="Runnable" result="Passed" duration="0.003882" asserts="3" />
-          <test-case id="1-1004" name="Map2D_ToLongString" fullname="Nour.Play.CellTest.Map2D_ToLongString" runstate="Runnable" result="Passed" duration="0.000708" asserts="5" />
+    <test-suite type="Namespace" id="1-1048" name="Nour" fullname="Nour" runstate="Runnable" testcasecount="37" result="Passed" duration="0.083302" total="37" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <test-suite type="Namespace" id="1-1049" name="Play" fullname="Nour.Play" runstate="Runnable" testcasecount="37" result="Passed" duration="0.083028" total="37" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <test-suite type="TestFixture" id="1-1002" name="CellTest" fullname="Nour.Play.CellTest" runstate="Runnable" testcasecount="3" result="Passed" duration="0.027668" total="3" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <test-case id="1-1005" name="Map2D_DoubleLinkingThrowsError" fullname="Nour.Play.CellTest.Map2D_DoubleLinkingThrowsError" runstate="Runnable" result="Passed" duration="0.013239" asserts="1" />
+          <test-case id="1-1003" name="Map2D_LinksAreMutual" fullname="Nour.Play.CellTest.Map2D_LinksAreMutual" runstate="Runnable" result="Passed" duration="0.004142" asserts="3" />
+          <test-case id="1-1004" name="Map2D_ToLongString" fullname="Nour.Play.CellTest.Map2D_ToLongString" runstate="Runnable" result="Passed" duration="0.000741" asserts="5" />
         </test-suite>
-        <test-suite type="TestFixture" id="1-1006" name="Map2DTest" fullname="Nour.Play.Map2DTest" runstate="Runnable" testcasecount="3" result="Passed" duration="0.004921" total="3" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-          <test-case id="1-1009" name="Map2D_CellsNeighborsAreValid" fullname="Nour.Play.Map2DTest.Map2D_CellsNeighborsAreValid" runstate="Runnable" result="Passed" duration="0.002886" asserts="136" />
-          <test-case id="1-1007" name="Map2D_IsInitialized" fullname="Nour.Play.Map2DTest.Map2D_IsInitialized" runstate="Runnable" result="Passed" duration="0.000144" asserts="4" />
-          <test-case id="1-1008" name="Map2D_WrongSize" fullname="Nour.Play.Map2DTest.Map2D_WrongSize" runstate="Runnable" result="Passed" duration="0.000338" asserts="5" />
+        <test-suite type="TestFixture" id="1-1006" name="Map2DTest" fullname="Nour.Play.Map2DTest" runstate="Runnable" testcasecount="3" result="Passed" duration="0.004759" total="3" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <test-case id="1-1009" name="Map2D_CellsNeighborsAreValid" fullname="Nour.Play.Map2DTest.Map2D_CellsNeighborsAreValid" runstate="Runnable" result="Passed" duration="0.002777" asserts="136" />
+          <test-case id="1-1007" name="Map2D_IsInitialized" fullname="Nour.Play.Map2DTest.Map2D_IsInitialized" runstate="Runnable" result="Passed" duration="0.000149" asserts="4" />
+          <test-case id="1-1008" name="Map2D_WrongSize" fullname="Nour.Play.Map2DTest.Map2D_WrongSize" runstate="Runnable" result="Passed" duration="0.000354" asserts="5" />
         </test-suite>
-        <test-suite type="TestFixture" id="1-1010" name="MazeGeneratorTest" fullname="Nour.Play.MazeGeneratorTest" runstate="Runnable" testcasecount="8" result="Passed" duration="0.022845" total="8" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-          <test-suite type="ParameterizedTest" id="1-1016" name="DijkstraDistance_CanFindPaths" fullname="Nour.Play.MazeGeneratorTest.DijkstraDistance_CanFindPaths" runstate="Runnable" testcasecount="4" result="Passed" duration="0.017236" total="4" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-            <test-case id="1-1017" name="DijkstraDistance_CanFindPaths(Nour.Play.Maze.AldousBroderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.DijkstraDistance_CanFindPaths(Nour.Play.Maze.AldousBroderMazeGenerator)" runstate="Runnable" result="Passed" duration="0.006985" asserts="2" />
-            <test-case id="1-1018" name="DijkstraDistance_CanFindPaths(Nour.Play.Maze.BinaryTreeMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.DijkstraDistance_CanFindPaths(Nour.Play.Maze.BinaryTreeMazeGenerator)" runstate="Runnable" result="Passed" duration="0.005900" asserts="2" />
-            <test-case id="1-1019" name="DijkstraDistance_CanFindPaths(Nour.Play.Maze.SidewinderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.DijkstraDistance_CanFindPaths(Nour.Play.Maze.SidewinderMazeGenerator)" runstate="Runnable" result="Passed" duration="0.000320" asserts="2" />
-            <test-case id="1-1020" name="DijkstraDistance_CanFindPaths(Nour.Play.Maze.WilsonsMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.DijkstraDistance_CanFindPaths(Nour.Play.Maze.WilsonsMazeGenerator)" runstate="Runnable" result="Passed" duration="0.000425" asserts="2" />
+        <test-suite type="TestFixture" id="1-1010" name="MazeGeneratorTest" fullname="Nour.Play.MazeGeneratorTest" runstate="Runnable" testcasecount="8" result="Passed" duration="0.022970" total="8" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <test-suite type="ParameterizedTest" id="1-1016" name="DijkstraDistance_CanFindPaths" fullname="Nour.Play.MazeGeneratorTest.DijkstraDistance_CanFindPaths" runstate="Runnable" testcasecount="4" result="Passed" duration="0.017476" total="4" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-case id="1-1017" name="DijkstraDistance_CanFindPaths(Nour.Play.Maze.AldousBroderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.DijkstraDistance_CanFindPaths(Nour.Play.Maze.AldousBroderMazeGenerator)" runstate="Runnable" result="Passed" duration="0.007140" asserts="2" />
+            <test-case id="1-1018" name="DijkstraDistance_CanFindPaths(Nour.Play.Maze.BinaryTreeMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.DijkstraDistance_CanFindPaths(Nour.Play.Maze.BinaryTreeMazeGenerator)" runstate="Runnable" result="Passed" duration="0.006336" asserts="2" />
+            <test-case id="1-1019" name="DijkstraDistance_CanFindPaths(Nour.Play.Maze.SidewinderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.DijkstraDistance_CanFindPaths(Nour.Play.Maze.SidewinderMazeGenerator)" runstate="Runnable" result="Passed" duration="0.000328" asserts="2" />
+            <test-case id="1-1020" name="DijkstraDistance_CanFindPaths(Nour.Play.Maze.WilsonsMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.DijkstraDistance_CanFindPaths(Nour.Play.Maze.WilsonsMazeGenerator)" runstate="Runnable" result="Passed" duration="0.000422" asserts="2" />
           </test-suite>
-          <test-suite type="ParameterizedTest" id="1-1011" name="MazeGenerator_CanGenerateMazes" fullname="Nour.Play.MazeGeneratorTest.MazeGenerator_CanGenerateMazes" runstate="Runnable" testcasecount="4" result="Passed" duration="0.003726" total="4" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-            <test-case id="1-1012" name="MazeGenerator_CanGenerateMazes(Nour.Play.Maze.AldousBroderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.MazeGenerator_CanGenerateMazes(Nour.Play.Maze.AldousBroderMazeGenerator)" runstate="Runnable" result="Passed" duration="0.000204" asserts="2" />
-            <test-case id="1-1013" name="MazeGenerator_CanGenerateMazes(Nour.Play.Maze.BinaryTreeMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.MazeGenerator_CanGenerateMazes(Nour.Play.Maze.BinaryTreeMazeGenerator)" runstate="Runnable" result="Passed" duration="0.000047" asserts="2" />
-            <test-case id="1-1014" name="MazeGenerator_CanGenerateMazes(Nour.Play.Maze.SidewinderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.MazeGenerator_CanGenerateMazes(Nour.Play.Maze.SidewinderMazeGenerator)" runstate="Runnable" result="Passed" duration="0.000048" asserts="2" />
-            <test-case id="1-1015" name="MazeGenerator_CanGenerateMazes(Nour.Play.Maze.WilsonsMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.MazeGenerator_CanGenerateMazes(Nour.Play.Maze.WilsonsMazeGenerator)" runstate="Runnable" result="Passed" duration="0.000051" asserts="2" />
+          <test-suite type="ParameterizedTest" id="1-1011" name="MazeGenerator_CanGenerateMazes" fullname="Nour.Play.MazeGeneratorTest.MazeGenerator_CanGenerateMazes" runstate="Runnable" testcasecount="4" result="Passed" duration="0.003998" total="4" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-case id="1-1012" name="MazeGenerator_CanGenerateMazes(Nour.Play.Maze.AldousBroderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.MazeGenerator_CanGenerateMazes(Nour.Play.Maze.AldousBroderMazeGenerator)" runstate="Runnable" result="Passed" duration="0.000479" asserts="2" />
+            <test-case id="1-1013" name="MazeGenerator_CanGenerateMazes(Nour.Play.Maze.BinaryTreeMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.MazeGenerator_CanGenerateMazes(Nour.Play.Maze.BinaryTreeMazeGenerator)" runstate="Runnable" result="Passed" duration="0.000064" asserts="2" />
+            <test-case id="1-1014" name="MazeGenerator_CanGenerateMazes(Nour.Play.Maze.SidewinderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.MazeGenerator_CanGenerateMazes(Nour.Play.Maze.SidewinderMazeGenerator)" runstate="Runnable" result="Passed" duration="0.000070" asserts="2" />
+            <test-case id="1-1015" name="MazeGenerator_CanGenerateMazes(Nour.Play.Maze.WilsonsMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.MazeGenerator_CanGenerateMazes(Nour.Play.Maze.WilsonsMazeGenerator)" runstate="Runnable" result="Passed" duration="0.000069" asserts="2" />
           </test-suite>
         </test-suite>
-        <test-suite type="TestFixture" id="1-1021" name="OptionalTest" fullname="Nour.Play.OptionalTest" runstate="Runnable" testcasecount="6" result="Passed" duration="0.005399" total="6" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-          <test-case id="1-1026" name="Optional_CanBeCastToT" fullname="Nour.Play.OptionalTest.Optional_CanBeCastToT" runstate="Runnable" result="Passed" duration="0.000192" asserts="1" />
-          <test-case id="1-1022" name="Optional_Equality" fullname="Nour.Play.OptionalTest.Optional_Equality" runstate="Runnable" result="Passed" duration="0.000189" asserts="2" />
-          <test-case id="1-1024" name="Optional_Equals" fullname="Nour.Play.OptionalTest.Optional_Equals" runstate="Runnable" result="Passed" duration="0.000163" asserts="5" />
-          <test-case id="1-1025" name="Optional_GetHashCode" fullname="Nour.Play.OptionalTest.Optional_GetHashCode" runstate="Runnable" result="Passed" duration="0.000237" asserts="3" />
-          <test-case id="1-1023" name="Optional_ThrowsIfNoValue" fullname="Nour.Play.OptionalTest.Optional_ThrowsIfNoValue" runstate="Runnable" result="Passed" duration="0.000122" asserts="2" />
-          <test-case id="1-1027" name="Optional_ToStringShowsValue" fullname="Nour.Play.OptionalTest.Optional_ToStringShowsValue" runstate="Runnable" result="Passed" duration="0.000234" asserts="2" />
+        <test-suite type="TestFixture" id="1-1021" name="OptionalTest" fullname="Nour.Play.OptionalTest" runstate="Runnable" testcasecount="6" result="Passed" duration="0.004932" total="6" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <test-case id="1-1026" name="Optional_CanBeCastToT" fullname="Nour.Play.OptionalTest.Optional_CanBeCastToT" runstate="Runnable" result="Passed" duration="0.000194" asserts="1" />
+          <test-case id="1-1022" name="Optional_Equality" fullname="Nour.Play.OptionalTest.Optional_Equality" runstate="Runnable" result="Passed" duration="0.000148" asserts="2" />
+          <test-case id="1-1024" name="Optional_Equals" fullname="Nour.Play.OptionalTest.Optional_Equals" runstate="Runnable" result="Passed" duration="0.000170" asserts="5" />
+          <test-case id="1-1025" name="Optional_GetHashCode" fullname="Nour.Play.OptionalTest.Optional_GetHashCode" runstate="Runnable" result="Passed" duration="0.000220" asserts="3" />
+          <test-case id="1-1023" name="Optional_ThrowsIfNoValue" fullname="Nour.Play.OptionalTest.Optional_ThrowsIfNoValue" runstate="Runnable" result="Passed" duration="0.000124" asserts="2" />
+          <test-case id="1-1027" name="Optional_ToStringShowsValue" fullname="Nour.Play.OptionalTest.Optional_ToStringShowsValue" runstate="Runnable" result="Passed" duration="0.000148" asserts="2" />
         </test-suite>
-        <test-suite type="TestFixture" id="1-1028" name="QueueExtensionsTest" fullname="Nour.Play.QueueExtensionsTest" runstate="Runnable" testcasecount="2" result="Passed" duration="0.001531" total="2" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-          <test-case id="1-1030" name="TryDequeue_Dequeues" fullname="Nour.Play.QueueExtensionsTest.TryDequeue_Dequeues" runstate="Runnable" result="Passed" duration="0.000386" asserts="2" />
+        <test-suite type="TestFixture" id="1-1028" name="QueueExtensionsTest" fullname="Nour.Play.QueueExtensionsTest" runstate="Runnable" testcasecount="2" result="Passed" duration="0.001501" total="2" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <test-case id="1-1030" name="TryDequeue_Dequeues" fullname="Nour.Play.QueueExtensionsTest.TryDequeue_Dequeues" runstate="Runnable" result="Passed" duration="0.000377" asserts="2" />
           <test-case id="1-1029" name="TryDequeue_DoesNotThrow" fullname="Nour.Play.QueueExtensionsTest.TryDequeue_DoesNotThrow" runstate="Runnable" result="Passed" duration="0.000098" asserts="1" />
         </test-suite>
-        <test-suite type="TestFixture" id="1-1031" name="VectorTest" fullname="Nour.Play.VectorTest" runstate="Runnable" testcasecount="15" result="Passed" duration="0.013089" total="15" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-          <test-case id="1-1033" name="Size_NotInitialized" fullname="Nour.Play.VectorTest.Size_NotInitialized" runstate="Runnable" result="Passed" duration="0.000250" asserts="2" />
-          <test-case id="1-1045" name="Vector_CanAddOrSubtract" fullname="Nour.Play.VectorTest.Vector_CanAddOrSubtract" runstate="Runnable" result="Passed" duration="0.000572" asserts="6" />
-          <test-case id="1-1046" name="Vector_ConstructorChecksArguments" fullname="Nour.Play.VectorTest.Vector_ConstructorChecksArguments" runstate="Runnable" result="Passed" duration="0.000126" asserts="1" />
+        <test-suite type="TestFixture" id="1-1031" name="VectorTest" fullname="Nour.Play.VectorTest" runstate="Runnable" testcasecount="15" result="Passed" duration="0.012702" total="15" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <test-case id="1-1033" name="Size_NotInitialized" fullname="Nour.Play.VectorTest.Size_NotInitialized" runstate="Runnable" result="Passed" duration="0.000258" asserts="2" />
+          <test-case id="1-1045" name="Vector_CanAddOrSubtract" fullname="Nour.Play.VectorTest.Vector_CanAddOrSubtract" runstate="Runnable" result="Passed" duration="0.000565" asserts="6" />
+          <test-case id="1-1046" name="Vector_ConstructorChecksArguments" fullname="Nour.Play.VectorTest.Vector_ConstructorChecksArguments" runstate="Runnable" result="Passed" duration="0.000138" asserts="1" />
           <test-case id="1-1039" name="Vector_EmptyIsEmpty" fullname="Nour.Play.VectorTest.Vector_EmptyIsEmpty" runstate="Runnable" result="Passed" duration="0.000075" asserts="1" />
           <test-case id="1-1038" name="Vector_EmptyVectorIsEmpty" fullname="Nour.Play.VectorTest.Vector_EmptyVectorIsEmpty" runstate="Runnable" result="Passed" duration="0.000072" asserts="1" />
-          <test-case id="1-1034" name="Vector_EqualityIsCheckedByValue" fullname="Nour.Play.VectorTest.Vector_EqualityIsCheckedByValue" runstate="Runnable" result="Passed" duration="0.000132" asserts="3" />
-          <test-case id="1-1035" name="Vector_GetHashCodeIsDerivedFromValue" fullname="Nour.Play.VectorTest.Vector_GetHashCodeIsDerivedFromValue" runstate="Runnable" result="Passed" duration="0.000333" asserts="2" />
-          <test-case id="1-1041" name="Vector_GreaterThanChecksAllComponents" fullname="Nour.Play.VectorTest.Vector_GreaterThanChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000721" asserts="5" />
-          <test-case id="1-1043" name="Vector_GreaterThanOrEqualsChecksAllComponents" fullname="Nour.Play.VectorTest.Vector_GreaterThanOrEqualsChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000302" asserts="5" />
-          <test-case id="1-1032" name="Vector_IsInitialized" fullname="Nour.Play.VectorTest.Vector_IsInitialized" runstate="Runnable" result="Passed" duration="0.000058" asserts="2" />
-          <test-case id="1-1040" name="Vector_LessThanChecksAllComponents" fullname="Nour.Play.VectorTest.Vector_LessThanChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000385" asserts="5" />
-          <test-case id="1-1042" name="Vector_LessThanOrEqualsChecksAllComponents" fullname="Nour.Play.VectorTest.Vector_LessThanOrEqualsChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000282" asserts="5" />
+          <test-case id="1-1034" name="Vector_EqualityIsCheckedByValue" fullname="Nour.Play.VectorTest.Vector_EqualityIsCheckedByValue" runstate="Runnable" result="Passed" duration="0.000135" asserts="3" />
+          <test-case id="1-1035" name="Vector_GetHashCodeIsDerivedFromValue" fullname="Nour.Play.VectorTest.Vector_GetHashCodeIsDerivedFromValue" runstate="Runnable" result="Passed" duration="0.000322" asserts="2" />
+          <test-case id="1-1041" name="Vector_GreaterThanChecksAllComponents" fullname="Nour.Play.VectorTest.Vector_GreaterThanChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000735" asserts="5" />
+          <test-case id="1-1043" name="Vector_GreaterThanOrEqualsChecksAllComponents" fullname="Nour.Play.VectorTest.Vector_GreaterThanOrEqualsChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000304" asserts="5" />
+          <test-case id="1-1032" name="Vector_IsInitialized" fullname="Nour.Play.VectorTest.Vector_IsInitialized" runstate="Runnable" result="Passed" duration="0.000059" asserts="2" />
+          <test-case id="1-1040" name="Vector_LessThanChecksAllComponents" fullname="Nour.Play.VectorTest.Vector_LessThanChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000328" asserts="5" />
+          <test-case id="1-1042" name="Vector_LessThanOrEqualsChecksAllComponents" fullname="Nour.Play.VectorTest.Vector_LessThanOrEqualsChecksAllComponents" runstate="Runnable" result="Passed" duration="0.000345" asserts="5" />
           <test-case id="1-1044" name="Vector_NotEqualToNull" fullname="Nour.Play.VectorTest.Vector_NotEqualToNull" runstate="Runnable" result="Passed" duration="0.000162" asserts="3" />
-          <test-case id="1-1036" name="Vector_ToStringFormat" fullname="Nour.Play.VectorTest.Vector_ToStringFormat" runstate="Runnable" result="Passed" duration="0.000089" asserts="2" />
-          <test-case id="1-1037" name="Vector_ZeroVectorIsNotEmpty" fullname="Nour.Play.VectorTest.Vector_ZeroVectorIsNotEmpty" runstate="Runnable" result="Passed" duration="0.000079" asserts="1" />
+          <test-case id="1-1036" name="Vector_ToStringFormat" fullname="Nour.Play.VectorTest.Vector_ToStringFormat" runstate="Runnable" result="Passed" duration="0.000090" asserts="2" />
+          <test-case id="1-1037" name="Vector_ZeroVectorIsNotEmpty" fullname="Nour.Play.VectorTest.Vector_ZeroVectorIsNotEmpty" runstate="Runnable" result="Passed" duration="0.000085" asserts="1" />
         </test-suite>
       </test-suite>
     </test-suite>
-    <test-suite type="TestFixture" id="1-1000" name="RandomAreaGeneratorTest" fullname="RandomAreaGeneratorTest" runstate="Runnable" testcasecount="1" result="Passed" duration="0.012157" total="1" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
-      <test-case id="1-1001" name="ZoneGenerator_CanGenerateZones" fullname="RandomAreaGeneratorTest.ZoneGenerator_CanGenerateZones" runstate="Runnable" result="Passed" duration="0.011826" asserts="4006" />
+    <test-suite type="TestFixture" id="1-1000" name="RandomAreaGeneratorTest" fullname="RandomAreaGeneratorTest" runstate="Runnable" testcasecount="1" result="Passed" duration="0.011674" total="1" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <test-case id="1-1001" name="ZoneGenerator_CanGenerateZones" fullname="RandomAreaGeneratorTest.ZoneGenerator_CanGenerateZones" runstate="Runnable" result="Passed" duration="0.011423" asserts="4006" />
     </test-suite>
   </test-suite>
 </test-run>
