@@ -129,17 +129,37 @@ namespace Nour.Play {
         }
 
         [Test]
-        public void Vector_CanAddOrSubtract() {
+        public void Vector_CanAddAndSubtract() {
             Vector p0 = new Vector(3, 2);
             Vector p1 = new Vector(1, 2);
             Vector s1 = new Vector(3, 4);
 
-            Assert.AreEqual(p0 + p1, new Vector(4, 4));
-            Assert.AreEqual(p0 - p1, new Vector(2, 0));
-            Assert.AreEqual(p0 + s1, new Vector(6, 6));
-            Assert.AreEqual(p0 - s1, new Vector(0, -2));
+            Assert.AreEqual(new Vector(4, 4), p0 + p1);
+            Assert.AreEqual(new Vector(2, 0), p0 - p1);
+            Assert.AreEqual(new Vector(6, 6), p0 + s1);
+            Assert.AreEqual(new Vector(0, -2), p0 - s1);
             Assert.Throws<InvalidOperationException>(() => Assert.AreEqual(Vector.Empty + p1, new Vector(4, 4)));
             Assert.Throws<InvalidOperationException>(() => Assert.AreEqual(Vector.Empty + s1, new Vector(4, 4)));
+
+            Assert.AreEqual(new Vector(2, 1), p0 - 1);
+            Assert.AreEqual(new Vector(-2, -1), 1 - p0);
+            Assert.AreEqual(new Vector(4, 3), p0 + 1);
+            Assert.AreEqual(new Vector(4, 3), 1 + p0);
+        }
+
+        [Test]
+        public void Vector_CanDivideAndMultiply() {
+            Vector one = new Vector(3, 2);
+            Vector other = new Vector(1, 2);
+
+            Assert.AreEqual(new Vector(3, 1), one / other);
+            Assert.AreEqual(new Vector(2, 1), new Vector(4, 2) / 2);
+            Assert.Throws<InvalidOperationException>(() => { var x = one / 2; });
+
+            Assert.AreEqual(new Vector(3, 4), one * other);
+            Assert.AreEqual(new Vector(6, 4), one * 2);
+            Assert.AreEqual(new Vector(6, 4), 2 * one);
+            Assert.AreEqual(new Vector(-1, -1), (Vector.Zero2D - one) / one);
         }
 
         [Test]

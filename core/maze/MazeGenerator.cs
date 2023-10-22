@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Nour.Play.Maze {
     public abstract class MazeGenerator {
-        public abstract void GenerateMaze(Map2D map);
+        public abstract void GenerateMaze(Maze2D map);
 
-        public static Map2D Generate<T>(Vector size)
+        public static Maze2D Generate<T>(Vector size)
             where T : MazeGenerator, new() {
-            var map = new Map2D(size);
+            var map = new Maze2D(size);
             (new T()).GenerateMaze(map);
             return map;
         }

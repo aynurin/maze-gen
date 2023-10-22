@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Nour.Play.Maze {
     public class BinaryTreeMazeGenerator : MazeGenerator {
-        override public void GenerateMaze(Map2D layout) {
+        override public void GenerateMaze(Maze2D layout) {
             Console.WriteLine("BinaryTree v0.1");
             Console.WriteLine($"Generating maze {layout.XHeightRows}x{layout.YWidthColumns}");
             var cellStates = GlobalRandom.NextBytes(layout.Area);

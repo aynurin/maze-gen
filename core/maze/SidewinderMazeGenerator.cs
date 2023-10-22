@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Nour.Play.Maze {
     public class SidewinderMazeGenerator : MazeGenerator {
-        override public void GenerateMaze(Map2D layout) {
+        override public void GenerateMaze(Maze2D layout) {
             Console.WriteLine("Sidewinder v0.1");
             Console.WriteLine($"Generating maze {layout.XHeightRows}x{layout.YWidthColumns}");
             var cellStates = GlobalRandom.NextBytes(layout.Area);
             for (int x = 0; x < layout.XHeightRows; x++) {
-                var run = new List<Cell>();
+                var run = new List<MazeCell>();
                 for (int y = 0; y < layout.YWidthColumns; y++) {
                     var index = x * layout.YWidthColumns + y;
 

@@ -7,7 +7,7 @@ using Nour.Play.Maze.Solvers;
 namespace Nour.Play.Maze {
     public class MazeToAscii {
 
-        private readonly Map2D _maze;
+        private readonly Maze2D _maze;
         private readonly int _cellInnerHeight;
         private readonly int _cellInnerWidth;
         private readonly int _asciiMazeHeight;
@@ -15,7 +15,7 @@ namespace Nour.Play.Maze {
         private readonly Border.Type[] _buffer;
         private readonly Dictionary<int, string> _data = new System.Collections.Generic.Dictionary<int, string>();
 
-        public MazeToAscii(Map2D maze, int cellInnerHeight = 1, int cellInnerWidth = 3) {
+        public MazeToAscii(Maze2D maze, int cellInnerHeight = 1, int cellInnerWidth = 3) {
             _maze = maze;
             _cellInnerHeight = cellInnerHeight;
             _cellInnerWidth = cellInnerWidth;
@@ -36,7 +36,7 @@ namespace Nour.Play.Maze {
             }
         }
         public string Convert(DijkstraDistance distances) {
-            var solutionCells = distances.Solution.HasValue ? new HashSet<Cell>(distances.Solution.Value) : new HashSet<Cell>();
+            var solutionCells = distances.Solution.HasValue ? new HashSet<MazeCell>(distances.Solution.Value) : new HashSet<MazeCell>();
             for (int i = 0; i < _maze.XHeightRows; i++) {
                 for (int j = 0; j < _maze.YWidthColumns; j++) {
                     try {
@@ -147,8 +147,8 @@ namespace Nour.Play.Maze {
             public static char Char(Type t) => _chars[t];
         }
 
-        private void PrintCell(Cell cell, string cellData) {
-            Console.WriteLine($"Cell {cell.X,2}x{cell.Y,2}: {(!cell.Links(Vector.North2D).HasValue ? "-" : "N")}, {(!cell.Links(Vector.East2D).HasValue ? "-" : "E")}, {(!cell.Links(Vector.South2D).HasValue ? "-" : "S")}, {(!cell.Links(Vector.West2D).HasValue ? "-" : "W")}");
+        private void PrintCell(MazeCell cell, string cellData) {
+            Console.WriteLine($"MazeCell {cell.X,2}x{cell.Y,2}: {(!cell.Links(Vector.North2D).HasValue ? "-" : "N")}, {(!cell.Links(Vector.East2D).HasValue ? "-" : "E")}, {(!cell.Links(Vector.South2D).HasValue ? "-" : "S")}, {(!cell.Links(Vector.West2D).HasValue ? "-" : "W")}");
             var asciiCoords = GetCellCoords(cell);
             if (!cell.Links(Vector.North2D).HasValue) {
                 _buffer[asciiCoords.Northeast] |= Border.Type.Left;
@@ -175,7 +175,7 @@ namespace Nour.Play.Maze {
             }
         }
 
-        private CellCoords GetCellCoords(Cell cell) {
+        private CellCoords GetCellCoords(MazeCell cell) {
             int scaledRow = cell.X * (_cellInnerHeight + 1); // each cell height = inner height + border
             int scaledCol = cell.Y * (_cellInnerWidth + 1); // each cell width = inner width + border
             var scaledGrid = new { rows = _maze.XHeightRows * (_cellInnerHeight + 1) + 1, cols = _maze.YWidthColumns * (_cellInnerWidth + 1) + 1 };

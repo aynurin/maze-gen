@@ -1,57 +1,48 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Nour.Play {
     public class Map2D {
-        private readonly Vector _size;
-        private readonly List<Cell> _cells;
+        private List<Cell> _cells;
+
+        // TBD
+        public Vector Size { get; private set; }
 
         public IList<Cell> Cells => _cells.AsReadOnly();
 
-        public Cell this[int x, int y] {
-            get {
-                var index = x * _size.Y + y;
-                return _cells[index];
+        public Map2D(Vector size) {
+            Size = size;
+            _cells = new List<Cell>(size.Area);
+            for (var i = 0; i < size.Area; i++) {
+                _cells.Add(new Cell());
             }
         }
 
-        public int XHeightRows { get => _size.X; }
+        public Cell CellAt(Vector xy) => _cells[xy.X * Size.Y + xy.Y];
 
-        public int YWidthColumns { get => _size.Y; }
-
-        public Vector Size { get => _size; }
-
-        public int Area { get => _size.Area; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="x">rows</param>
-        /// <param name="y">columns</param>
-        public Map2D(int x, int y) : this(new Vector(x, y)) { }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="size">Map two-dimensional size, where X - rows (height), and Y - columns (width)</param>
-        public Map2D(Vector size) {
-            _size = size;
-            if (_size.X <= 0 || _size.Y <= 0)
-                throw new ArgumentException("Map size must be larger than 0", "size");
-            _cells = new List<Cell>(_size.Area);
-            // ? P'haps the direction is a property of the gate, not it's identity.
-            for (int i = 0; i < _cells.Capacity; i++) {
-                var cell = new Cell(i / _size.Y, i % _size.Y);
-                if (cell.X > 0) {
-                    cell.Neighbors().Add(this[cell.X - 1, cell.Y]);
-                    this[cell.X - 1, cell.Y].Neighbors().Add(cell);
+        public IEnumerable<Cell> CellsAt(Vector xy, Vector areaSize) {
+            for (var x = xy.X; x < xy.X + areaSize.X; x++) {
+                for (var y = xy.Y; y < xy.Y + areaSize.Y; y++) {
+                    var i = x * Size.Y + y;
+                    yield return _cells[i];
                 }
-                if (cell.Y > 0) {
-                    cell.Neighbors().Add(this[cell.X, cell.Y - 1]);
-                    this[cell.X, cell.Y - 1].Neighbors().Add(cell);
-                }
-                _cells.Add(cell);
             }
+        }
+
+        public override string ToString() {
+            var buffer = new StringBuilder();
+            for (int x = 0; x < Size.X; x++) {
+                for (int y = 0; y < Size.Y; y++) {
+                    buffer.Append(
+                        _cells[x * Size.Y + y].Type == Cell.CellType.Wall ? "▓" :
+                        _cells[x * Size.Y + y].Type == Cell.CellType.Trail ? "░" :
+                        _cells[x * Size.Y + y].Type == Cell.CellType.Edge ? "▒" :
+                        "0");
+                }
+                buffer.Append("\n");
+            }
+            return buffer.ToString();
         }
     }
 }
