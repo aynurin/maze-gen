@@ -28,8 +28,6 @@ namespace Nour.Play {
             cell._links.Remove(this);
         }
 
-        public bool IsDeadEnd => _links.Count == 1;
-
         public List<Cell> Neighbors() => _neighbors;
 
         public Optional<Cell> Neighbors(Vector unitVector) =>

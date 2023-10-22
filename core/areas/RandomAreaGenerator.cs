@@ -69,10 +69,10 @@ namespace Nour.Play.Areas {
                     DimensionProbabilities = dimensionProbabilities;
                 }
                 if (areaTypeProbabilities != null) {
-                    areaTypeProbabilities = AreaTypeProbabilities;
+                    AreaTypeProbabilities = areaTypeProbabilities;
                 }
                 if (tagProbabilities != null) {
-                    tagProbabilities = TagProbabilities;
+                    TagProbabilities = tagProbabilities;
                 }
             }
 
