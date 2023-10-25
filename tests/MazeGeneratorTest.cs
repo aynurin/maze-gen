@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Policy;
 using Nour.Play.Maze;
-using Nour.Play.Maze.Solvers;
+using Nour.Play.Maze.PostProcessing;
 using NUnit.Framework;
 
 namespace Nour.Play {
@@ -33,9 +33,9 @@ namespace Nour.Play {
             var generator = (MazeGenerator)Activator.CreateInstance(generatorType);
             var map = new Maze2D(3, 4);
             generator.GenerateMaze(map);
-            var dijkstra = DijkstraDistance.FindLongest(map[0, 0]);
-            Assert.IsTrue(dijkstra.Solution.HasValue);
-            Assert.IsNotEmpty(dijkstra.Solution.Value);
+            List<MazeCell> solution = new List<MazeCell>();
+            Assert.DoesNotThrow(() => solution = DijkstraDistance.FindLongestTrail(map));
+            Assert.IsNotEmpty(solution);
         }
 
         public static IEnumerable<Type> GetAllGenerators() {

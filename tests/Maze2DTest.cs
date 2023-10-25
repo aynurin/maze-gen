@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Nour.Play.Maze;
+using Nour.Play.Maze.PostProcessing;
 using NUnit.Framework;
 
 namespace Nour.Play {
@@ -71,6 +72,13 @@ namespace Nour.Play {
             var expectedSize = new Vector(10, 11);
 
             Assert.AreEqual(expectedSize.Area, scaledMap.Cells.Count);
+        }
+
+        [Test]
+        public void Maze2D_HasAttributesSet() {
+            var map = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(3, 3));
+            Assert.IsNotEmpty(map.Attributes[DeadEnd.DeadEndAttribute]);
+            Assert.IsNotEmpty(map.Attributes[DijkstraDistance.LongestTrailAttribute]);
         }
 
         [Test]

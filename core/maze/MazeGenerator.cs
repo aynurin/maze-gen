@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Nour.Play.Maze.PostProcessing;
 
 namespace Nour.Play.Maze {
     public abstract class MazeGenerator {
@@ -7,9 +8,12 @@ namespace Nour.Play.Maze {
 
         public static Maze2D Generate<T>(Vector size)
             where T : MazeGenerator, new() {
-            var map = new Maze2D(size);
-            (new T()).GenerateMaze(map);
-            return map;
+            var maze = new Maze2D(size);
+            (new T()).GenerateMaze(maze);
+            maze.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(maze));
+            maze.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
+                DijkstraDistance.FindLongestTrail(maze));
+            return maze;
         }
     }
 }

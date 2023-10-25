@@ -7,6 +7,8 @@ namespace Nour.Play.Maze {
     public class Maze2D {
         private readonly Vector _size;
         private readonly List<MazeCell> _cells;
+        public Dictionary<string, List<MazeCell>> Attributes { get; } =
+            new Dictionary<string, List<MazeCell>>();
 
         public IList<MazeCell> Cells => _cells.AsReadOnly();
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nour.Play.Maze.Solvers;
+using Nour.Play.Maze.PostProcessing;
 
 namespace Nour.Play.Maze {
     public class MazeToAscii {
@@ -35,18 +35,14 @@ namespace Nour.Play.Maze {
                 }
             }
         }
-        public string Convert(DijkstraDistance distances) {
-            var solutionCells = distances.Solution.HasValue ? new HashSet<MazeCell>(distances.Solution.Value) : new HashSet<MazeCell>();
+        public string WithTrail() {
+            var trail = _maze.Attributes[DijkstraDistance.LongestTrailAttribute];
+            var solutionCells = new HashSet<MazeCell>(trail);
             for (int i = 0; i < _maze.XHeightRows; i++) {
                 for (int j = 0; j < _maze.YWidthColumns; j++) {
-                    try {
-                        var cell = _maze[i, j];
-                        var cellData = solutionCells.Contains(cell) ? System.Convert.ToString(distances[cell], 16) : String.Empty;
-                        PrintCell(cell, cellData);
-                    } catch (System.ArgumentOutOfRangeException) {
-                        Console.Error.WriteLine($"Index {i}x{j} was out of range {_maze.Cells.Count}");
-                        throw;
-                    }
+                    var cell = _maze[i, j];
+                    var cellData = solutionCells.Contains(cell) ? System.Convert.ToString(trail.IndexOf(cell), 16) : String.Empty;
+                    PrintCell(cell, cellData);
                 }
             }
 

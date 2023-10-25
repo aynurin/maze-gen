@@ -16,5 +16,14 @@ namespace Nour.Play {
                 throw new ArgumentNullException(argName);
             }
         }
+
+        public static void Set<K, V>(this Dictionary<K, V> dictionary,
+            K key, V value) {
+            if (dictionary.ContainsKey(key)) {
+                dictionary[key] = value;
+            } else {
+                dictionary.Add(key, value);
+            }
+        }
     }
 }

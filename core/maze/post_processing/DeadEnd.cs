@@ -1,0 +1,21 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Nour.Play.Maze.PostProcessing {
+    public static class DeadEnd {
+        public const string DeadEndAttribute =
+            "Nour.Play.Maze.PostProcessing.DeadEnd.DeadEndAttribute";
+
+        /// Finds Dijkstra distances for the given cell.
+        public static List<MazeCell> Find(Maze2D maze) {
+            var deadEnds = maze.Cells.Where(cell => cell.Links().Count == 1)
+                .ToList();
+            foreach (var cell in deadEnds) {
+                cell.Attributes.Set(DeadEndAttribute,
+                    null);
+            }
+            return deadEnds;
+        }
+    }
+}

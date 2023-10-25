@@ -5,6 +5,8 @@ namespace Nour.Play.Maze {
     public class MazeCell {
         private readonly List<MazeCell> _links = new List<MazeCell>();
         private readonly List<MazeCell> _neighbors = new List<MazeCell>();
+        public Dictionary<string, string> Attributes { get; }
+            = new Dictionary<string, string>();
 
         public Vector Coordinates { get; private set; }
 
