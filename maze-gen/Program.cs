@@ -1,6 +1,4 @@
-﻿using Nour.Play.Maze.PostProcessing;
-
-namespace Nour.Play.Maze {
+﻿namespace Nour.Play.Maze {
     class MainClass {
         public static void Main(string[] args) {
             var maze = MazeGenerator.Generate<WilsonsMazeGenerator>(new Vector(9, 18));

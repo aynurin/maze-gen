@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Nour.Play.Maze;
 using NUnit.Framework;
 

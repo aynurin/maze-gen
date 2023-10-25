@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Nour.Play.Maze.PostProcessing;
 
 namespace Nour.Play.Maze {

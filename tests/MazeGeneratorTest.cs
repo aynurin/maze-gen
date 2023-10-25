@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Policy;
 using Nour.Play.Maze;
 using Nour.Play.Maze.PostProcessing;
 using NUnit.Framework;

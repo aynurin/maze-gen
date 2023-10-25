@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Nour.Play {
     public class Cell {
         public CellType Type { get; set; }

@@ -1,6 +1,4 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security.AccessControl;
 using NUnit.Framework;
 
 namespace Nour.Play {

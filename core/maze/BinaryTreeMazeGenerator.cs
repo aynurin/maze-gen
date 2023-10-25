@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace Nour.Play.Maze {
     public class BinaryTreeMazeGenerator : MazeGenerator {

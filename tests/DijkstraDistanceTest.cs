@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Nour.Play.Maze;
 using Nour.Play.Maze.PostProcessing;
