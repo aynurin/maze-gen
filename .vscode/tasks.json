@@ -1,51 +1,54 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "build",
-            "command": "msbuild",
-            "type": "process",
-            "problemMatcher": "$msCompile",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "rebuild",
-            "command": "rm -rf build && msbuild",
-            "type": "shell",
-            "problemMatcher": "$msCompile",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "coverage",
-            "type": "shell",
-            "command": "./tests/coverage.sh",
-            "problemMatcher": [],
-            "dependsOn": [
-                "build"
-            ],
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "test",
-            "type": "shell",
-            "command": "cd build/Debug/tests && nunit3-console --debug tests.dll",
-            "problemMatcher": [],
-            "dependsOn": [
-                "build"
-            ],
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            }
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "msbuild",
+      "type": "process",
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "rebuild",
+      "command": "rm -rf build && msbuild",
+      "type": "shell",
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "coverage",
+      "type": "shell",
+      "command": "./tests/coverage.sh",
+      "problemMatcher": [],
+      "dependsOn": ["build"],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "test",
+      "type": "shell",
+      "command": "cd build/Debug/tests && nunit3-console --debug tests.dll",
+      "problemMatcher": [],
+      "dependsOn": ["build"],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "run",
+      "type": "shell",
+      "command": "mono --debug build/Debug/mazegen/maze-gen.exe ascii",
+      "problemMatcher": [],
+      "dependsOn": ["build"]
+    }
+  ]
 }

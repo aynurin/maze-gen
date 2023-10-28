@@ -9,9 +9,13 @@ namespace Nour.Play {
         [Test]
         public void DijkstraDistance_FindsAllDistances() {
             var maze = MazeGenerator
-                .Generate<AldousBroderMazeGenerator>(new Vector(10, 10));
-            var distances = DijkstraDistance.Find(maze.Cells.GetRandom());
-            Assert.AreEqual(maze.Cells.Count, distances.Count);
+                .Generate<AldousBroderMazeGenerator>(new Vector(10, 10),
+                new GeneratorOptions() {
+                    FillFactor = GeneratorOptions.FillFactorOption.Full
+                });
+            var visitedCells = maze.VisitedCells.ToList();
+            var distances = DijkstraDistance.Find(visitedCells.GetRandom());
+            Assert.AreEqual(visitedCells.Count, distances.Count);
             Assert.Greater(distances.Values.Average(), 1);
         }
 

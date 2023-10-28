@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nour.Play.Renderers;
 
 namespace Nour.Play.Maze {
     public class Maze2D {
@@ -10,6 +11,8 @@ namespace Nour.Play.Maze {
             new Dictionary<string, List<MazeCell>>();
 
         public IList<MazeCell> Cells => _cells.AsReadOnly();
+        public IEnumerable<MazeCell> VisitedCells =>
+            _cells.Where(cell => cell.IsVisited);
 
         public MazeCell this[int x, int y] {
             get {
@@ -57,66 +60,12 @@ namespace Nour.Play.Maze {
             }
         }
 
-        public Map2D ToMap(MazeToMapOptions options) {
-            options.ThrowIfNull("options");
-            options.ThrowIfWrong(this);
+        public Map2D ToMap(Maze2DToMap2DConverter.MazeToMapOptions options) {
+            return new Maze2DToMap2DConverter().Convert(this, options);
+        }
 
-            var newSize = new Vector(options.TrailXHeights.Sum(),
-                                     options.TrailYWidths.Sum()) +
-                          new Vector(options.WallXHeights.Sum(),
-                                     options.WallYWidths.Sum());
-            var newMap = new Map2D(newSize);
-            for (int i = 0; i < this.Cells.Count; i++) {
-                var mazeCell = this.Cells[i];
-                var scaledX = options.TrailXHeights.Where(
-                                    (a, ai) => ai < mazeCell.X).Sum() +
-                              options.WallXHeights.Where(
-                                    (a, ai) => ai < mazeCell.X).Sum();
-                var scaledY = options.TrailYWidths.Where(
-                                    (a, ai) => ai < mazeCell.Y).Sum() +
-                              options.WallYWidths.Where(
-                                    (a, ai) => ai < mazeCell.Y).Sum();
-                newMap.CellsAt(new Vector(scaledX, scaledY),
-                               new Vector(
-                                    options.TrailXHeights[mazeCell.X],
-                                    options.TrailYWidths[mazeCell.Y]))
-                      .ForEach(c => c.Type = Cell.CellType.Trail);
-                if (mazeCell.Neighbors(Vector.East2D).HasValue) {
-                    newMap.CellsAt(new Vector(scaledX,
-                                              scaledY + options.TrailYWidths[mazeCell.Y]),
-                                   new Vector(options.TrailXHeights[mazeCell.X],
-                                              options.WallYWidths[mazeCell.Y]))
-                          .ForEach(c => c.Type =
-                                   mazeCell.Links(Vector.East2D).HasValue ?
-                                        Cell.CellType.Trail :
-                                        Cell.CellType.Wall);
-                }
-                if (mazeCell.Neighbors(Vector.South2D).HasValue) {
-                    newMap.CellsAt(new Vector(scaledX + options.TrailXHeights[mazeCell.X],
-                                              scaledY),
-                                   new Vector(options.WallXHeights[mazeCell.X],
-                                              options.TrailYWidths[mazeCell.Y]))
-                          .ForEach(c => c.Type =
-                                   mazeCell.Links(Vector.South2D).HasValue ?
-                                        Cell.CellType.Trail :
-                                        Cell.CellType.Wall);
-                }
-                if (mazeCell.Neighbors(Vector.East2D).HasValue &&
-                    mazeCell.Neighbors(Vector.South2D).HasValue) {
-                    newMap.CellsAt(new Vector(scaledX + options.TrailXHeights[mazeCell.X],
-                                              scaledY + options.TrailYWidths[mazeCell.Y]),
-                                   new Vector(options.WallXHeights[mazeCell.X],
-                                              options.WallYWidths[mazeCell.Y]))
-                          .ForEach(c => c.Type =
-                                   mazeCell.Links(Vector.East2D).HasValue &&
-                                   mazeCell.Links(Vector.South2D).HasValue &&
-                                   mazeCell.Links(Vector.East2D).Value.Links(Vector.South2D).HasValue &&
-                                   mazeCell.Links(Vector.South2D).Value.Links(Vector.East2D).HasValue ?
-                                        Cell.CellType.Trail :
-                                        Cell.CellType.Edge);
-                }
-            }
-            return newMap;
+        public override string ToString() {
+            return new Maze2DAsciiBoxRenderer(this).WithTrail();
         }
 
         public static Maze2D Parse(string serialized) {
@@ -128,57 +77,6 @@ namespace Nour.Play.Maze {
                     maze.Cells[part[0]].Link(maze.Cells[part[j]]);
             }
             return maze;
-        }
-
-        public class MazeToMapOptions {
-            public int[] TrailXHeights { get; private set; }
-            public int[] TrailYWidths { get; private set; }
-            public int[] WallXHeights { get; private set; }
-            public int[] WallYWidths { get; private set; }
-
-            // option 2: custom sizes
-            public static MazeToMapOptions Custom(
-                int[] trailXHeights,
-                int[] trailYWidths,
-                int[] wallXHeights,
-                int[] wallYWidths)
-                => new MazeToMapOptions(
-                    trailXHeights,
-                    trailYWidths,
-                    wallXHeights,
-                    wallYWidths);
-
-            public MazeToMapOptions(
-                int[] trailXHeights,
-                int[] trailYWidths,
-                int[] wallXHeights,
-                int[] wallYWidths) {
-                trailXHeights.ThrowIfNull("trailXHeights");
-                trailYWidths.ThrowIfNull("trailYWidths");
-                wallXHeights.ThrowIfNull("wallXHeights");
-                wallYWidths.ThrowIfNull("wallYWidths");
-                TrailXHeights = trailXHeights;
-                TrailYWidths = trailYWidths;
-                WallXHeights = wallXHeights;
-                WallYWidths = wallYWidths;
-            }
-
-            public void ThrowIfWrong(Maze2D maze) {
-                if (TrailXHeights.Length != maze.XHeightRows ||
-                    TrailYWidths.Length != maze.YWidthColumns ||
-                    WallXHeights.Length != maze.XHeightRows - 1 ||
-                    WallYWidths.Length != maze.YWidthColumns - 1) {
-                    throw new ArgumentException("The provided Walls and " +
-                        "trails counts need to match maze size");
-                }
-                if (TrailXHeights.Any(i => i <= 0) ||
-                    TrailYWidths.Any(i => i <= 0) ||
-                    WallXHeights.Any(i => i <= 0) ||
-                    WallYWidths.Any(i => i <= 0)) {
-                    throw new ArgumentException("Zero and negative wall and " +
-                        "trail widths are not supported.");
-                }
-            }
         }
     }
 }

@@ -10,6 +10,8 @@ namespace Nour.Play.Maze {
 
         public Vector Coordinates { get; private set; }
 
+        public bool IsVisited { get; private set; }
+
         public int X => Coordinates.X;
         public int Y => Coordinates.Y;
 
@@ -20,6 +22,8 @@ namespace Nour.Play.Maze {
         public void Link(MazeCell cell) {
             if (_links.Contains(cell))
                 throw new InvalidOperationException("This link already exists");
+            IsVisited = true;
+            cell.IsVisited = true;
             _links.Add(cell);
             cell._links.Add(this);
         }

@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Nour.Play.Maze;
 using Nour.Play.Maze.PostProcessing;
 
-namespace Nour.Play.Maze {
-    public class MazeToAscii {
+namespace Nour.Play.Renderers {
+    public class Maze2DAsciiBoxRenderer {
 
         private readonly Maze2D _maze;
         private readonly int _cellInnerHeight;
@@ -15,7 +16,7 @@ namespace Nour.Play.Maze {
         private readonly Border.Type[] _buffer;
         private readonly Dictionary<int, string> _data = new System.Collections.Generic.Dictionary<int, string>();
 
-        public MazeToAscii(Maze2D maze, int cellInnerHeight = 1, int cellInnerWidth = 3) {
+        public Maze2DAsciiBoxRenderer(Maze2D maze, int cellInnerHeight = 1, int cellInnerWidth = 3) {
             _maze = maze;
             _cellInnerHeight = cellInnerHeight;
             _cellInnerWidth = cellInnerWidth;
@@ -36,7 +37,7 @@ namespace Nour.Play.Maze {
             }
         }
         public string WithTrail() {
-            var trail = _maze.Attributes[DijkstraDistance.LongestTrailAttribute];
+            var trail = _maze.Attributes.ContainsKey(DijkstraDistance.LongestTrailAttribute) ? _maze.Attributes[DijkstraDistance.LongestTrailAttribute] : new List<MazeCell>();
             var solutionCells = new HashSet<MazeCell>(trail);
             for (int i = 0; i < _maze.XHeightRows; i++) {
                 for (int j = 0; j < _maze.YWidthColumns; j++) {

@@ -27,13 +27,13 @@ namespace Nour.Play {
 
         [Test]
         public void Maze2D_ToMapWrongOptions() {
-            Assert.DoesNotThrow(() => new Maze2D(2, 3).ToMap(Maze2D.MazeToMapOptions.Custom(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
-            Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(Maze2D.MazeToMapOptions.Custom(new int[] { 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
-            Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(Maze2D.MazeToMapOptions.Custom(new int[] { 1, 2 }, new int[] { 1, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
-            Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(Maze2D.MazeToMapOptions.Custom(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { }, new int[] { 1, 2 })));
-            Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(Maze2D.MazeToMapOptions.Custom(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1 })));
-            Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(Maze2D.MazeToMapOptions.Custom(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { })));
-            Assert.Throws<ArgumentNullException>(() => new Maze2D(2, 3).ToMap(Maze2D.MazeToMapOptions.Custom(new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2 }, null)));
+            Assert.DoesNotThrow(() => new Maze2D(2, 3).ToMap(Maze2DToMap2DConverter.MazeToMapOptions.Custom(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3, 4 })));
+            Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(Maze2DToMap2DConverter.MazeToMapOptions.Custom(new int[] { 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
+            Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(Maze2DToMap2DConverter.MazeToMapOptions.Custom(new int[] { 1, 2 }, new int[] { 1, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
+            Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(Maze2DToMap2DConverter.MazeToMapOptions.Custom(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { }, new int[] { 1, 2 })));
+            Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(Maze2DToMap2DConverter.MazeToMapOptions.Custom(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1 })));
+            Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(Maze2DToMap2DConverter.MazeToMapOptions.Custom(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { })));
+            Assert.Throws<ArgumentNullException>(() => new Maze2D(2, 3).ToMap(Maze2DToMap2DConverter.MazeToMapOptions.Custom(new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 1, 2 }, null)));
         }
 
         [Test]
@@ -66,17 +66,23 @@ namespace Nour.Play {
 
         [Test]
         public void Maze2D_CanScaleMap() {
-            var map = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(3, 3));
-            var scaledMap = map.ToMap(Maze2D.MazeToMapOptions.Custom(new int[] { 2, 3, 2 }, new int[] { 2, 3, 2 }, new int[] { 1, 2 }, new int[] { 1, 3 }));
+            var map = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(3, 3),
+                new GeneratorOptions() {
+                    FillFactor = GeneratorOptions.FillFactorOption.Full
+                });
+            var scaledMap = map.ToMap(Maze2DToMap2DConverter.MazeToMapOptions.Custom(new int[] { 2, 3, 2 }, new int[] { 2, 3, 2 }, new int[] { 1, 2, 1, 2 }, new int[] { 1, 3, 1, 3 }));
 
-            var expectedSize = new Vector(10, 11);
+            var expectedSize = new Vector(13, 15);
 
             Assert.AreEqual(expectedSize.Area, scaledMap.Cells.Count);
         }
 
         [Test]
         public void Maze2D_HasAttributesSet() {
-            var map = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(3, 3));
+            var map = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(3, 3),
+                new GeneratorOptions() {
+                    FillFactor = GeneratorOptions.FillFactorOption.Full
+                });
             Assert.IsNotEmpty(map.Attributes[DeadEnd.DeadEndAttribute]);
             Assert.IsNotEmpty(map.Attributes[DijkstraDistance.LongestTrailAttribute]);
         }
@@ -100,25 +106,6 @@ namespace Nour.Play {
             Assert.IsTrue(!maze.Cells[6].Neighbors(Vector.West2D).HasValue);
             Assert.IsTrue(maze.Cells[6].Neighbors(Vector.North2D).HasValue);
             Assert.IsTrue(!maze.Cells[6].Neighbors(Vector.South2D).HasValue);
-        }
-
-        [Test]
-        public void Maze2D_ToMapGeneratesAValidMap() {
-            var maze = Maze2D.Parse("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
-            var map = maze.ToMap(Maze2D.MazeToMapOptions.Custom(new int[] { 2, 3, 2 }, new int[] { 2, 3, 2 }, new int[] { 1, 2 }, new int[] { 1, 3 }));
-
-            Assert.AreEqual(Cell.CellType.Wall, map.CellAt(new Vector(1, 2)).Type);
-            Assert.AreEqual(Cell.CellType.Wall, map.CellAt(new Vector(3, 7)).Type);
-            Assert.AreEqual(Cell.CellType.Wall, map.CellAt(new Vector(5, 8)).Type);
-            Assert.AreEqual(Cell.CellType.Wall, map.CellAt(new Vector(5, 6)).Type);
-            Assert.AreEqual(Cell.CellType.Edge, map.CellAt(new Vector(2, 2)).Type);
-            Assert.AreEqual(Cell.CellType.Edge, map.CellAt(new Vector(2, 8)).Type);
-            Assert.AreEqual(Cell.CellType.Edge, map.CellAt(new Vector(6, 2)).Type);
-            Assert.AreEqual(Cell.CellType.Edge, map.CellAt(new Vector(7, 7)).Type);
-            Assert.AreEqual(Cell.CellType.Trail, map.CellAt(new Vector(1, 4)).Type);
-            Assert.AreEqual(Cell.CellType.Trail, map.CellAt(new Vector(4, 3)).Type);
-            Assert.AreEqual(Cell.CellType.Trail, map.CellAt(new Vector(4, 10)).Type);
-            Assert.AreEqual(Cell.CellType.Trail, map.CellAt(new Vector(7, 5)).Type);
         }
     }
 }

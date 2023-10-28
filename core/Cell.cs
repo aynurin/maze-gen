@@ -1,12 +1,7 @@
+using System.Collections.Generic;
+
 namespace Nour.Play {
     public class Cell {
-        public CellType Type { get; set; }
-
-        public enum CellType {
-            None,
-            Trail,
-            Wall,
-            Edge
-        }
+        public List<string> Tags { get; } = new List<string>();
     }
 }

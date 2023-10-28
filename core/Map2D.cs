@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using Nour.Play.Renderers;
 
 namespace Nour.Play {
     public class Map2D {
@@ -30,18 +31,7 @@ namespace Nour.Play {
         }
 
         public override string ToString() {
-            var buffer = new StringBuilder();
-            for (int x = 0; x < Size.X; x++) {
-                for (int y = 0; y < Size.Y; y++) {
-                    buffer.Append(
-                        _cells[x * Size.Y + y].Type == Cell.CellType.Wall ? "▓" :
-                        _cells[x * Size.Y + y].Type == Cell.CellType.Trail ? "░" :
-                        _cells[x * Size.Y + y].Type == Cell.CellType.Edge ? "▒" :
-                        "0");
-                }
-                buffer.Append("\n");
-            }
-            return buffer.ToString();
+            return new Map2DAsciiRenderer().Render(this);
         }
     }
 }

@@ -14,7 +14,10 @@ namespace Nour.Play {
             return rndBytes;
         }
         public static T GetRandom<T>(this IList<T> items) =>
-            items[_random.Next(items.Count)];
+            items.Count == 0 ?
+                throw new InvalidOperationException(
+                    "Cannot get a random item from an empty list") :
+                items[_random.Next(items.Count)];
         public static float RandomSingle() => _random.Next(99999) / 100000f;
     }
 }

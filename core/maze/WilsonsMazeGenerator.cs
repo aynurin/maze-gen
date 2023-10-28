@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Nour.Play.Maze {
     public class WilsonsMazeGenerator : MazeGenerator {
-        override public void GenerateMaze(Maze2D layout) {
+        override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
             Console.WriteLine("WilsonsMazeGenerator v0.1");
             Console.WriteLine($"Generating maze {layout.XHeightRows}x{layout.YWidthColumns}");
 
             var currentCell = layout.Cells.GetRandom();
             var visitedCells = new HashSet<MazeCell>() { currentCell };
 
-            while (visitedCells.Count < layout.Cells.Count) {
+            while (!IsFillComplete(options, visitedCells, layout.Size)) {
                 var walkPath = new List<MazeCell>();
 
                 var nextCell = layout.Cells.GetRandom();
