@@ -166,5 +166,19 @@ namespace Nour.Play {
         public void Vector_ConstructorChecksArguments() {
             Assert.Throws<ArgumentNullException>(() => new Vector(null));
         }
+
+        [Test]
+        public void Vector_ThrowsIfNotAValidSize() {
+            Assert.Throws<ArgumentException>(() => new Vector(new int[] { 0, 1, 2, 3 }).ThrowIfNotAValidSize());
+            Assert.Throws<ArgumentException>(() => new Vector(new int[] { 1, -1 }).ThrowIfNotAValidSize());
+            Assert.DoesNotThrow(() => new Vector(new int[] { 1 }).ThrowIfNotAValidSize());
+        }
+
+        [Test]
+        public void Vector_ThrowsIfNot2D() {
+            Assert.Throws<ArgumentException>(() => new Vector(new int[] { 0, 1, 2, 3 }).ThrowIfNot2D());
+            Assert.DoesNotThrow(() => new Vector(new int[] { 1, -1 }).ThrowIfNot2D());
+            Assert.Throws<ArgumentException>(() => new Vector(new int[] { 1 }).ThrowIfNot2D());
+        }
     }
 }

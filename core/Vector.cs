@@ -46,43 +46,59 @@ namespace Nour.Play {
             _isInitialized = true;
         }
 
+        public void ThrowIfNotAValidSize() {
+            if (_value.Length == 0 || _value.Any(i => i <= 0))
+                throw new ArgumentException($"This Vector is not a valid size: {this}");
+        }
+
+        public void ThrowIfNot2D() {
+            if (_value.Length != 2)
+                throw new ArgumentException($"This Vector is not a 2D vector: {this}");
+        }
+
+        private static T ThrowIfEmptyOrApply<T>(Vector one, Vector another, Func<T> apply) {
+            if (one.IsEmpty || another.IsEmpty)
+                throw new InvalidOperationException("Cannot operate on an empty vector");
+            return apply();
+        }
+
         public static bool operator ==(Vector one, Vector another) =>
             one.Equals(another);
         public static bool operator !=(Vector one, Vector another) =>
             !one.Equals(another);
         public static bool operator >(Vector one, Vector another) =>
             one.IsEmpty && another.IsEmpty ? false :
-            throwIfEmptyOr(one, another, () => one._value.Zip(another._value, (a, b) => a > b).All(_ => _));
+            ThrowIfEmptyOrApply(one, another, () => one._value.Zip(another._value, (a, b) => a > b).All(_ => _));
         public static bool operator >=(Vector one, Vector another) =>
             one.IsEmpty && another.IsEmpty ? false :
-            throwIfEmptyOr(one, another, () => one._value.Zip(another._value, (a, b) => a >= b).All(_ => _));
+            ThrowIfEmptyOrApply(one, another, () => one._value.Zip(another._value, (a, b) => a >= b).All(_ => _));
         public static bool operator <(Vector one, Vector another) =>
             one.IsEmpty && another.IsEmpty ? false :
-            throwIfEmptyOr(one, another, () => one._value.Zip(another._value, (a, b) => a < b).All(_ => _));
+            ThrowIfEmptyOrApply(one, another, () => one._value.Zip(another._value, (a, b) => a < b).All(_ => _));
         public static bool operator <=(Vector one, Vector another) =>
             one.IsEmpty && another.IsEmpty ? false :
-            throwIfEmptyOr(one, another, () => one._value.Zip(another._value, (a, b) => a <= b).All(_ => _));
+            ThrowIfEmptyOrApply(one, another, () => one._value.Zip(another._value, (a, b) => a <= b).All(_ => _));
         public static Vector operator +(Vector one, Vector another) =>
-            throwIfEmptyOr(one, another, () => new Vector(one._value.Zip(another._value, (a, b) => a + b)));
+            ThrowIfEmptyOrApply(one, another, () => new Vector(one._value.Zip(another._value, (a, b) => a + b)));
         public static Vector operator +(Vector one, int delta) =>
-            throwIfEmptyOr(one, Vector.Zero2D, () => new Vector(one._value.Select(e => e + delta)));
+            ThrowIfEmptyOrApply(one, Vector.Zero2D, () => new Vector(one._value.Select(e => e + delta)));
         public static Vector operator +(int delta, Vector one) => one + delta;
         public static Vector operator -(Vector one, Vector another) =>
-            throwIfEmptyOr(one, another, () => new Vector(one._value.Zip(another._value, (a, b) => a - b)));
+            ThrowIfEmptyOrApply(one, another, () => new Vector(one._value.Zip(another._value, (a, b) => a - b)));
         public static Vector operator -(Vector one, int delta) =>
-            throwIfEmptyOr(one, Vector.Zero2D, () => new Vector(one._value.Select(e => e - delta)));
+            ThrowIfEmptyOrApply(one, Vector.Zero2D, () => new Vector(one._value.Select(e => e - delta)));
         public static Vector operator -(int delta, Vector one) =>
-            throwIfEmptyOr(one, Vector.Zero2D, () => new Vector(one._value.Select(e => delta - e)));
+            ThrowIfEmptyOrApply(one, Vector.Zero2D, () => new Vector(one._value.Select(e => delta - e)));
         public static Vector operator /(Vector dividend, Vector divisor) =>
-            throwIfEmptyOr(dividend, divisor, () => new Vector(dividend._value.Zip(divisor._value, (a, b) => a / b)));
+            ThrowIfEmptyOrApply(dividend, divisor, () => new Vector(dividend._value.Zip(divisor._value, (a, b) => a / b)));
         public static Vector operator /(Vector dividend, int divisor) =>
-            throwIfEmptyOr(dividend, Vector.Zero2D,
+            ThrowIfEmptyOrApply(dividend, Vector.Zero2D,
             () => new Vector(dividend._value.Select(e => e % divisor != 0 ?
                 throw new InvalidOperationException($"Can't divide with rounding (${e}/${divisor})") : e / divisor)));
         public static Vector operator *(Vector one, Vector another) =>
-            throwIfEmptyOr(one, another, () => new Vector(one._value.Zip(another._value, (a, b) => a * b)));
+            ThrowIfEmptyOrApply(one, another, () => new Vector(one._value.Zip(another._value, (a, b) => a * b)));
         public static Vector operator *(Vector one, int another) =>
-            throwIfEmptyOr(one, Vector.Zero2D, () => new Vector(one._value.Select(e => e * another)));
+            ThrowIfEmptyOrApply(one, Vector.Zero2D, () => new Vector(one._value.Select(e => e * another)));
         public static Vector operator *(int one, Vector another) => another * one;
 
         public override bool Equals(object obj) => this.Equals((Vector)obj);
@@ -90,13 +106,6 @@ namespace Nour.Play {
             IsEmpty ? throw new InvalidOperationException("Cannot get hash code of an empty vector") :
             ((IStructuralEquatable)_value).GetHashCode(EqualityComparer<int>.Default);
         public override string ToString() => IsEmpty ? "<empty>" : _value.Length == 0 ? "00" : String.Join("x", _value);
-
-        private static T throwIfEmptyOr<T>(Vector one, Vector another, Func<T> apply) {
-            if (one.IsEmpty || another.IsEmpty)
-                throw new InvalidOperationException("Cannot operate on an empty vector");
-            return apply();
-        }
-
         public bool Equals(Vector another) =>
             (this.IsEmpty && another.IsEmpty)
             || (!this.IsEmpty && !another.IsEmpty && this._value.SequenceEqual(another._value));

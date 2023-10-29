@@ -14,13 +14,6 @@ namespace Nour.Play.Maze {
         public IEnumerable<MazeCell> VisitedCells =>
             _cells.Where(cell => cell.IsVisited);
 
-        public MazeCell this[int x, int y] {
-            get {
-                var index = x * _size.Y + y;
-                return _cells[index];
-            }
-        }
-
         public int XHeightRows { get => _size.X; }
 
         public int YWidthColumns { get => _size.Y; }
@@ -41,23 +34,27 @@ namespace Nour.Play.Maze {
         /// </summary>
         /// <param name="size">Map two-dimensional size, where X - rows (height), and Y - columns (width)</param>
         public Maze2D(Vector size) {
+            size.ThrowIfNotAValidSize();
             _size = size;
-            if (_size.X <= 0 || _size.Y <= 0)
-                throw new ArgumentException("Map size must be greater than 0", "size");
-            _cells = new List<MazeCell>(_size.Area);
+            var cells = new MazeCell[_size.Area];
             // ? P'haps the direction is a property of the gate, not it's identity.
-            for (int i = 0; i < _cells.Capacity; i++) {
-                var cell = new MazeCell(i / _size.Y, i % _size.Y);
-                if (cell.X > 0) {
-                    cell.Neighbors().Add(this[cell.X - 1, cell.Y]);
-                    this[cell.X - 1, cell.Y].Neighbors().Add(cell);
+            for (int i = 0; i < cells.Length; i++) {
+                var x = i / _size.Y;
+                var y = i % _size.Y;
+                var northI = i - _size.Y;
+                var westI = y > 0 ? (i - 1) : -1;
+                var cell = new MazeCell(x, y);
+                if (northI >= 0) {
+                    cell.Neighbors().Add(cells[northI]);
+                    cells[northI].Neighbors().Add(cell);
                 }
-                if (cell.Y > 0) {
-                    cell.Neighbors().Add(this[cell.X, cell.Y - 1]);
-                    this[cell.X, cell.Y - 1].Neighbors().Add(cell);
+                if (westI >= 0) {
+                    cell.Neighbors().Add(cells[westI]);
+                    cells[westI].Neighbors().Add(cell);
                 }
-                _cells.Add(cell);
+                cells[i] = cell;
             }
+            _cells = new List<MazeCell>(cells);
         }
 
         public Map2D ToMap(Maze2DToMap2DConverter.MazeToMapOptions options) {

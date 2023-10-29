@@ -39,12 +39,9 @@ namespace Nour.Play.Renderers {
         public string WithTrail() {
             var trail = _maze.Attributes.ContainsKey(DijkstraDistance.LongestTrailAttribute) ? _maze.Attributes[DijkstraDistance.LongestTrailAttribute] : new List<MazeCell>();
             var solutionCells = new HashSet<MazeCell>(trail);
-            for (int i = 0; i < _maze.XHeightRows; i++) {
-                for (int j = 0; j < _maze.YWidthColumns; j++) {
-                    var cell = _maze[i, j];
-                    var cellData = solutionCells.Contains(cell) ? System.Convert.ToString(trail.IndexOf(cell), 16) : String.Empty;
-                    PrintCell(cell, cellData);
-                }
+            foreach (var cell in _maze.Cells) {
+                var cellData = solutionCells.Contains(cell) ? System.Convert.ToString(trail.IndexOf(cell), 16) : String.Empty;
+                PrintCell(cell, cellData);
             }
 
             var strBuffer = new StringBuilder();

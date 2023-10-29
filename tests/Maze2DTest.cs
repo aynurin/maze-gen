@@ -45,7 +45,7 @@ namespace Nour.Play {
             Assert.AreEqual(map.Cells.Count, rows * cols);
             for (int x = 0; x < rows; x++) {
                 for (int y = 0; y < cols; y++) {
-                    var cell = map[x, y];
+                    var cell = map.Cells.ElementAt(new Vector(x, y), map.Size);
                     var neighbors = map.Cells.Where(c =>
                         (c.X == cell.X && Math.Abs(c.Y - cell.Y) == 1) ||
                         (c.Y == cell.Y && Math.Abs(c.X - cell.X) == 1))
@@ -56,10 +56,10 @@ namespace Nour.Play {
                     Assert.AreEqual(neighbors.Count, cell.Neighbors().Count);
                     Assert.IsTrue(neighbors.All(c => cell.Neighbors().Contains(c)));
                     Assert.IsFalse(nonNeighbors.Any(c => cell.Neighbors().Contains(c)));
-                    if (x > 0) Assert.AreEqual(cell.Neighbors(Vector.North2D), map[x - 1, y]);
-                    if (x + 1 < rows) Assert.AreEqual(cell.Neighbors(Vector.South2D), map[x + 1, y]);
-                    if (y > 0) Assert.AreEqual(cell.Neighbors(Vector.West2D), map[x, y - 1]);
-                    if (y + 1 > cols) Assert.AreEqual(cell.Neighbors(Vector.East2D), map[x, y + 1]);
+                    if (x > 0) Assert.AreEqual(cell.Neighbors(Vector.North2D), map.Cells.ElementAt(new Vector(x - 1, y), map.Size));
+                    if (x + 1 < rows) Assert.AreEqual(cell.Neighbors(Vector.South2D), map.Cells.ElementAt(new Vector(x + 1, y), map.Size));
+                    if (y > 0) Assert.AreEqual(cell.Neighbors(Vector.West2D), map.Cells.ElementAt(new Vector(x, y - 1), map.Size));
+                    if (y + 1 > cols) Assert.AreEqual(cell.Neighbors(Vector.East2D), map.Cells.ElementAt(new Vector(x, y + 1), map.Size));
                 }
             }
         }

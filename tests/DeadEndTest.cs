@@ -12,10 +12,10 @@ namespace Nour.Play {
             var deadEnds = DeadEnd.Find(maze);
             Assert.IsNotEmpty(deadEnds);
             Assert.AreEqual(4, deadEnds.Count);
-            Assert.IsTrue(deadEnds.Contains(maze[0, 0]));
-            Assert.IsTrue(deadEnds.Contains(maze[2, 0]));
-            Assert.IsTrue(deadEnds.Contains(maze[2, 2]));
-            Assert.IsTrue(deadEnds.Contains(maze[1, 2]));
+            Assert.IsTrue(deadEnds.Contains(maze.Cells.ElementAt(new Vector(0, 0), maze.Size)));
+            Assert.IsTrue(deadEnds.Contains(maze.Cells.ElementAt(new Vector(2, 0), maze.Size)));
+            Assert.IsTrue(deadEnds.Contains(maze.Cells.ElementAt(new Vector(2, 2), maze.Size)));
+            Assert.IsTrue(deadEnds.Contains(maze.Cells.ElementAt(new Vector(1, 2), maze.Size)));
             Assert.AreEqual(5, maze.Cells.Count(
                 cell => !cell.Attributes.ContainsKey(
                     DeadEnd.DeadEndAttribute)));
