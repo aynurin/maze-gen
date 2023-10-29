@@ -145,7 +145,7 @@ namespace Nour.Play.Renderers {
         }
 
         private void PrintCell(MazeCell cell, string cellData) {
-            Console.WriteLine($"MazeCell {cell.X,2}x{cell.Y,2}: {(!cell.Links(Vector.North2D).HasValue ? "-" : "N")}, {(!cell.Links(Vector.East2D).HasValue ? "-" : "E")}, {(!cell.Links(Vector.South2D).HasValue ? "-" : "S")}, {(!cell.Links(Vector.West2D).HasValue ? "-" : "W")}");
+            // Console.WriteLine($"MazeCell {cell.X,2}x{cell.Y,2}: {(!cell.Links(Vector.North2D).HasValue ? "-" : "N")}, {(!cell.Links(Vector.East2D).HasValue ? "-" : "E")}, {(!cell.Links(Vector.South2D).HasValue ? "-" : "S")}, {(!cell.Links(Vector.West2D).HasValue ? "-" : "W")}");
             var asciiCoords = GetCellCoords(cell);
             if (!cell.Links(Vector.North2D).HasValue) {
                 _buffer[asciiCoords.Northeast] |= Border.Type.Left;
