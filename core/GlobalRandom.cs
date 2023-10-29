@@ -18,6 +18,7 @@ namespace Nour.Play {
                 throw new InvalidOperationException(
                     "Cannot get a random item from an empty list") :
                 items[_random.Next(items.Count)];
+
         public static float RandomSingle() => _random.Next(99999) / 100000f;
     }
 }

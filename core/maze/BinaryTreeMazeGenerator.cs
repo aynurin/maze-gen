@@ -9,22 +9,18 @@ namespace Nour.Play.Maze {
                 throw new ArgumentException(this.GetType().Name + " doesn't currently " +
                     "support fill factors other than Full");
             }
-            var cellStates = GlobalRandom.NextBytes(layout.Area);
-            for (int x = 0; x < layout.XHeightRows; x++) {
-                for (int y = 0; y < layout.YWidthColumns; y++) {
-                    var index = x * layout.YWidthColumns + y;
+            var states = GlobalRandom.NextBytes(layout.Area);
+            for (var i = 0; i < layout.Cells.Count; i++) {
+                var cell = layout.Cells[i];
+                var linkNorth = states[i] % 2 == 0;
+                // link north
+                if ((linkNorth || !cell.Neighbors(Vector.East2D).HasValue) && cell.Neighbors(Vector.North2D).HasValue) {
+                    cell.Link(cell.Neighbors(Vector.North2D).Value);
+                }
 
-                    var cell = layout[x, y];
-
-                    // link north
-                    if ((cellStates[index] % 2 == 0 || y == layout.YWidthColumns - 1) && x > 0) {
-                        cell.Link(layout[x - 1, y]);
-                    }
-
-                    // link east
-                    if ((cellStates[index] % 2 == 1 || x == 0) && y < layout.YWidthColumns - 1) {
-                        cell.Link(layout[x, y + 1]);
-                    }
+                // link east
+                if ((!linkNorth || !cell.Neighbors(Vector.North2D).HasValue) && cell.Neighbors(Vector.East2D).HasValue) {
+                    cell.Link(cell.Neighbors(Vector.East2D).Value);
                 }
             }
         }

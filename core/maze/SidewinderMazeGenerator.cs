@@ -11,26 +11,29 @@ namespace Nour.Play.Maze {
                     "support fill factors other than Full");
             }
             var cellStates = GlobalRandom.NextBytes(layout.Area);
-            for (int x = 0; x < layout.XHeightRows; x++) {
-                var run = new List<MazeCell>();
-                for (int y = 0; y < layout.YWidthColumns; y++) {
-                    var index = x * layout.YWidthColumns + y;
+            var currentX = 0;
+            var run = new List<MazeCell>();
+            for (var i = 0; i < layout.Cells.Count; i++) {
+                var cell = layout.Cells[i];
+                var linkNorth = cellStates[i] % 2 == 0;
+                if (cell.X != currentX) {
+                    run.Clear();
+                    currentX = cell.X;
+                }
+                run.Add(cell);
 
-                    var cell = layout[x, y];
-
-                    run.Add(cell);
-
-                    // link north
-                    if ((cellStates[index] % 2 == 0 || y == layout.YWidthColumns - 1) && x > 0) {
-                        var member = run[cellStates[index] % run.Count];
-                        member.Link(layout[x - 1, member.Y]);
+                // link north
+                if ((linkNorth || !cell.Neighbors(Vector.East2D).HasValue)) {
+                    var member = run[cellStates[i] % run.Count];
+                    if (member.Neighbors(Vector.North2D).HasValue) {
+                        member.Link(member.Neighbors(Vector.North2D).Value);
                         run.Clear();
                     }
+                }
 
-                    // link east
-                    if ((cellStates[index] % 2 == 1 || x == 0) && y < layout.YWidthColumns - 1) {
-                        cell.Link(layout[x, y + 1]);
-                    }
+                // link east
+                if ((!linkNorth || !cell.Neighbors(Vector.North2D).HasValue) && cell.Neighbors(Vector.East2D).HasValue) {
+                    cell.Link(cell.Neighbors(Vector.East2D).Value);
                 }
             }
         }

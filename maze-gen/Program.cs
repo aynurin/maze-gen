@@ -5,8 +5,13 @@ namespace Nour.Play.Maze {
     class MainClass {
         public static void Main(string[] args) {
             var alsoDrawAscii = args[0] == "ascii";
-            Generate<AldousBroderMazeGenerator>(new Vector(4, 8), alsoDrawAscii, true, GeneratorOptions.FillFactorOption.ThreeQuarters);
-            Generate<WilsonsMazeGenerator>(new Vector(4, 8), alsoDrawAscii, true, GeneratorOptions.FillFactorOption.ThreeQuarters);
+            var size = new Vector(20, 20);
+            Generate<AldousBroderMazeGenerator>(size, alsoDrawAscii, true, GeneratorOptions.FillFactorOption.ThreeQuarters);
+            Generate<WilsonsMazeGenerator>(size, alsoDrawAscii, true, GeneratorOptions.FillFactorOption.ThreeQuarters);
+            Generate<HuntAndKillMazeGenerator>(size, alsoDrawAscii, true, GeneratorOptions.FillFactorOption.ThreeQuarters);
+            Generate<RecursiveBacktrackerMazeGenerator>(size, alsoDrawAscii, true, GeneratorOptions.FillFactorOption.ThreeQuarters);
+            Generate<BinaryTreeMazeGenerator>(size, alsoDrawAscii, true, GeneratorOptions.FillFactorOption.Full);
+            Generate<SidewinderMazeGenerator>(size, alsoDrawAscii, true, GeneratorOptions.FillFactorOption.Full);
         }
 
         private static void Generate<T>(Vector size, bool drawAscii, bool drawAsciiBox, GeneratorOptions.FillFactorOption fillFactor)
