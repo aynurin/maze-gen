@@ -26,10 +26,16 @@ namespace Nour.Play {
         public bool IsTwoDimensional => !IsEmpty && _value.Length == 2;
         public bool IsThreeDimensional => !IsEmpty && _value.Length == 3;
 
-        public int X => IsTwoDimensional || IsThreeDimensional ? _value[0] : throw new InvalidOperationException("X and Y are only supported in two- or three-dimensional space");
-        public int Y => IsTwoDimensional || IsThreeDimensional ? _value[1] : throw new InvalidOperationException("X and Y are only supported in two- or three-dimensional space");
-        public int Z => IsThreeDimensional ? _value[2] : throw new InvalidOperationException("Z iz only supported in a three-dimensional space");
+        public int X => IsTwoDimensional || IsThreeDimensional ? _value[0] :
+            throw new InvalidOperationException("X and Y are only supported in two- or three-dimensional space");
+        public int Y => IsTwoDimensional || IsThreeDimensional ? _value[1] :
+            throw new InvalidOperationException("X and Y are only supported in two- or three-dimensional space");
         public int Area => _value.Aggregate((a, b) => a * b);
+        /// <summary>
+        /// A quick hack to avoid sq.rt
+        /// </summary>
+        public double Average => _value.Average();
+        public int MagnitudeSq => _value.Sum(a => a * a);
 
         /// <summary>
         /// 
@@ -62,19 +68,35 @@ namespace Nour.Play {
             return apply();
         }
 
+        public bool All(Vector another, Func<int, int, bool> comparer) => _value.Zip(another._value, comparer).All(_ => _);
+        public bool Any(Vector another, Func<int, int, bool> comparer) => _value.Zip(another._value, comparer).Any(_ => _);
+
+        public bool AllGreaterThan(Vector another) => _value.Zip(another._value, (a, b) => a > b).All(_ => _);
+        public bool AllGreaterThanOrEqualTo(Vector another) => _value.Zip(another._value, (a, b) => a >= b).All(_ => _);
+        public bool AnyGreaterThan(Vector another) => _value.Zip(another._value, (a, b) => a > b).Any(_ => _);
+        public bool AnyGreaterThanOrEqualTo(Vector another) => _value.Zip(another._value, (a, b) => a >= b).Any(_ => _);
+        public bool AllLessThan(Vector another) => _value.Zip(another._value, (a, b) => a < b).All(_ => _);
+        public bool AllLessThanOrEqualTo(Vector another) => _value.Zip(another._value, (a, b) => a <= b).All(_ => _);
+        public bool AnyLessThan(Vector another) => _value.Zip(another._value, (a, b) => a < b).Any(_ => _);
+        public bool AnyLessThanOrEqualTo(Vector another) => _value.Zip(another._value, (a, b) => a <= b).Any(_ => _);
+
         public static bool operator ==(Vector one, Vector another) =>
             one.Equals(another);
         public static bool operator !=(Vector one, Vector another) =>
             !one.Equals(another);
+        [Obsolete("Can't compare like this")]
         public static bool operator >(Vector one, Vector another) =>
             one.IsEmpty && another.IsEmpty ? false :
             ThrowIfEmptyOrApply(one, another, () => one._value.Zip(another._value, (a, b) => a > b).All(_ => _));
+        [Obsolete("Can't compare like this")]
         public static bool operator >=(Vector one, Vector another) =>
             one.IsEmpty && another.IsEmpty ? false :
             ThrowIfEmptyOrApply(one, another, () => one._value.Zip(another._value, (a, b) => a >= b).All(_ => _));
+        [Obsolete("Can't compare like this")]
         public static bool operator <(Vector one, Vector another) =>
             one.IsEmpty && another.IsEmpty ? false :
             ThrowIfEmptyOrApply(one, another, () => one._value.Zip(another._value, (a, b) => a < b).All(_ => _));
+        [Obsolete("Can't compare like this")]
         public static bool operator <=(Vector one, Vector another) =>
             one.IsEmpty && another.IsEmpty ? false :
             ThrowIfEmptyOrApply(one, another, () => one._value.Zip(another._value, (a, b) => a <= b).All(_ => _));
@@ -83,6 +105,10 @@ namespace Nour.Play {
         public static Vector operator +(Vector one, int delta) =>
             ThrowIfEmptyOrApply(one, Vector.Zero2D, () => new Vector(one._value.Select(e => e + delta)));
         public static Vector operator +(int delta, Vector one) => one + delta;
+
+        public static VectorD operator +(Vector one, VectorD another) =>
+            one.IsEmpty || another.IsEmpty ? throw new InvalidOperationException("Cannot operate on an empty vector") :
+            new VectorD(one._value.Zip(another.Value, (a, b) => a + b));
         public static Vector operator -(Vector one, Vector another) =>
             ThrowIfEmptyOrApply(one, another, () => new Vector(one._value.Zip(another._value, (a, b) => a - b)));
         public static Vector operator -(Vector one, int delta) =>
@@ -93,8 +119,15 @@ namespace Nour.Play {
             ThrowIfEmptyOrApply(dividend, divisor, () => new Vector(dividend._value.Zip(divisor._value, (a, b) => a / b)));
         public static Vector operator /(Vector dividend, int divisor) =>
             ThrowIfEmptyOrApply(dividend, Vector.Zero2D,
-            () => new Vector(dividend._value.Select(e => e % divisor != 0 ?
-                throw new InvalidOperationException($"Can't divide with rounding (${e}/${divisor})") : e / divisor)));
+            () => new Vector(dividend._value.Select(e =>
+                divisor == 0 ? throw new InvalidOperationException("Can't divide by zero") :
+                e % divisor != 0 ? throw new InvalidOperationException($"Can't divide with rounding (${e}/${divisor})") :
+                e / divisor)));
+        public static VectorD operator /(Vector dividend, double divisor) =>
+            ThrowIfEmptyOrApply(dividend, Vector.Zero2D,
+            () => new VectorD(dividend._value.Select(e =>
+                divisor < Double.Epsilon ? throw new InvalidOperationException("Can't divide by zero") :
+                e / divisor)));
         public static Vector operator *(Vector one, Vector another) =>
             ThrowIfEmptyOrApply(one, another, () => new Vector(one._value.Zip(another._value, (a, b) => a * b)));
         public static Vector operator *(Vector one, int another) =>
@@ -103,11 +136,15 @@ namespace Nour.Play {
 
         public override bool Equals(object obj) => this.Equals((Vector)obj);
         public override int GetHashCode() =>
-            IsEmpty ? throw new InvalidOperationException("Cannot get hash code of an empty vector") :
+            _value == null ? base.GetHashCode() :
+            IsEmpty ? _value.GetHashCode() :
             ((IStructuralEquatable)_value).GetHashCode(EqualityComparer<int>.Default);
         public override string ToString() => IsEmpty ? "<empty>" : _value.Length == 0 ? "00" : String.Join("x", _value);
         public bool Equals(Vector another) =>
             (this.IsEmpty && another.IsEmpty)
             || (!this.IsEmpty && !another.IsEmpty && this._value.SequenceEqual(another._value));
+
+        internal static Vector Parse(string v) =>
+            new Vector(v.Trim().Split('x').Select(s => Int32.Parse(s)));
     }
 }

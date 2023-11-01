@@ -31,7 +31,7 @@ namespace Nour.Play {
             Vector p1 = new Vector(1, 2);
             Vector p2 = new Vector(1, 2);
             Assert.AreEqual(p1.GetHashCode(), p2.GetHashCode());
-            Assert.Throws<InvalidOperationException>(() => Vector.Empty.GetHashCode());
+            Assert.DoesNotThrow(() => Vector.Empty.GetHashCode());
         }
 
         [Test]
@@ -179,6 +179,19 @@ namespace Nour.Play {
             Assert.Throws<ArgumentException>(() => new Vector(new int[] { 0, 1, 2, 3 }).ThrowIfNot2D());
             Assert.DoesNotThrow(() => new Vector(new int[] { 1, -1 }).ThrowIfNot2D());
             Assert.Throws<ArgumentException>(() => new Vector(new int[] { 1 }).ThrowIfNot2D());
+        }
+
+        [Test]
+        public void Vector_SnappedForce() {
+            Assert.AreEqual(new Vector(-4, -2), new VectorD(new double[] { 2, 1 }).WithMagnitude(-5).RoundToInt());
+            Assert.AreEqual(new Vector(-4, -2), new VectorD(new double[] { -2, -1 }).WithMagnitude(5).RoundToInt());
+            Assert.AreEqual(new Vector(4, 2), new VectorD(new double[] { -2, -1 }).WithMagnitude(-5).RoundToInt());
+            Assert.AreEqual(new Vector(4, 2), new VectorD(new double[] { 2, 1 }).WithMagnitude(5).RoundToInt());
+            Assert.AreEqual(new Vector(2, 1), new VectorD(new double[] { 10, 5 }).WithMagnitude(2.5).RoundToInt());
+            Assert.AreEqual(new Vector(0, 0), new VectorD(new double[] { -8, 4 }).WithMagnitude(0).RoundToInt());
+            Assert.AreEqual(new Vector(0, 1), new VectorD(new double[] { 0, -10 }).WithMagnitude(-1).RoundToInt());
+            Assert.AreEqual(new Vector(0, 0), new VectorD(new double[] { 0, 0 }).WithMagnitude(1044).RoundToInt());
+            Assert.AreEqual(new Vector(566, 566), new VectorD(new double[] { -3, -3 }).WithMagnitude(-800).RoundToInt());
         }
     }
 }

@@ -1,5 +1,5 @@
 {
   "dotnet.server.useOmnisharp": true,
   "omnisharp.useModernNet": false,
-  "cSpell.words": ["Aldous", "Backtracker", "Broder", "Wilsons"]
+  "cSpell.words": ["Aldous", "Backtracker", "Broder", "Memberwise", "Wilsons"]
 }

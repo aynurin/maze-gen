@@ -7,6 +7,7 @@ namespace Nour.Play {
     internal static class GlobalRandom {
         private static Random _random = new Random();
         public static int Next() => _random.Next();
+        public static int Next(int min, int max) => _random.Next(min, max);
         public static byte[] NextBytes(int count) {
             var rndBytes = new byte[count];
             var rnd = System.Security.Cryptography.RNGCryptoServiceProvider.Create();
