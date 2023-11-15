@@ -30,7 +30,8 @@ public class RandomAreaGeneratorTest {
             }
 
             foreach (var tag in area.Tags) {
-                Assert.IsNotNullOrEmpty(tag);
+                Assert.IsNotNull(tag);
+                Assert.IsNotEmpty(tag);
                 if (tags.ContainsKey(tag)) {
                     tags[tag] += +1;
                 } else {
@@ -80,7 +81,8 @@ public class RandomAreaGeneratorTest {
             }
 
             foreach (var tag in area.Tags) {
-                Assert.IsNotNullOrEmpty(tag);
+                Assert.IsNotNull(tag);
+                Assert.IsNotEmpty(tag);
                 if (tags.ContainsKey(tag)) {
                     tags[tag] += +1;
                 } else {

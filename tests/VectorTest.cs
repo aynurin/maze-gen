@@ -182,6 +182,15 @@ namespace Nour.Play {
         }
 
         [Test]
+        public void VectorD_NotZero() {
+            var arg = new VectorD(0, 0);
+            var direction = new VectorD(-1, 1);
+            var expected = new VectorD(-0.1, 0.1);
+            var actual = arg.NotZero(direction);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
         public void Vector_SnappedForce() {
             Assert.AreEqual(new Vector(-4, -2), new VectorD(new double[] { 2, 1 }).WithMagnitude(-5).RoundToInt());
             Assert.AreEqual(new Vector(-4, -2), new VectorD(new double[] { -2, -1 }).WithMagnitude(5).RoundToInt());

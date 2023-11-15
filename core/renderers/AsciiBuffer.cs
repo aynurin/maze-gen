@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 
 namespace Nour.Play {
@@ -30,7 +31,7 @@ namespace Nour.Play {
         }
 
         public override string ToString() {
-            var buffer = new StringBuilder();
+            var buffer = new StringBuilder(Environment.NewLine);
             foreach (var line in _buffer) {
                 buffer.AppendLine(new String(line));
             }
