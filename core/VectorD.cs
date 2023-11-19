@@ -24,10 +24,6 @@ namespace Nour.Play {
             throw new InvalidOperationException("X and Y are only supported in two- or three-dimensional space");
         public double Y => IsTwoDimensional || IsThreeDimensional ? _value[1] :
             throw new InvalidOperationException("X and Y are only supported in two- or three-dimensional space");
-        /// <summary>
-        /// A quick hack to avoid sq.rt
-        /// </summary>
-        public double Average => _value.Average();
         public double MagnitudeSq => _value.Sum(a => a * a);
         public double Magnitude => Double.IsNaN(_length) ? _length = Math.Sqrt(MagnitudeSq) : _length;
 
@@ -53,55 +49,44 @@ namespace Nour.Play {
             new Vector(_value.Select(a => (int)Math.Round(a)));
 
         public bool IsZero() => _value.All(v => v >= -MIN && v <= MIN);
-        public VectorD NotZero(VectorD direction) {
-            return direction / direction / 10D;
+
+        /// <summary>
+        /// Crops the given vector using the given box
+        /// </summary>
+        /// <param name="vector">The vector to crop will be treated as going out of the center of the box</param>
+        /// <param name="box">The box to use to crop the vector</param>
+        /// <returns></returns>
+        public VectorD CropWithBox2D(VectorD box) {
+            // TODO: I still have X and Y all messed up.
+            double x, y;
+            var rt = box / 2;
+            var rb = new VectorD(-box.X / 2, box.Y / 2);
+            var lb = VectorD.Zero2D - box / 2;
+            var lt = new VectorD(box.X / 2, -box.Y / 2);
+            var alphaT = Math.Atan2(rt.X, rt.Y);
+            var alphaL = Math.Atan2(lt.X, lt.Y);
+            var alphaB = Math.Atan2(lb.X, lb.Y);
+            var alphaR = Math.Atan2(rb.X, rb.Y);
+            var alpha = Math.Atan2(X, Y);
+            if (alpha >= alphaT && alpha <= alphaL) {
+                // v crosses the top edge
+                x = box.X / 2;
+                y = x * Math.Tan(Math.PI / 2 - alpha);
+            } else if (alpha > alphaL || alpha < alphaB) {
+                // v crosses the left edge
+                y = -box.Y / 2;
+                x = y * Math.Tan(Math.PI + alpha);
+            } else if (alpha <= alphaR && alpha >= alphaB) {
+                // v crosses the bottom edge
+                x = -box.X / 2;
+                y = x * Math.Tan(Math.PI / 2 - alpha);
+            } else {
+                // v crosses the right edge
+                y = box.Y / 2;
+                x = y * Math.Tan(alpha);
+            }
+            return new VectorD(x, y);
         }
-
-        // public VectorD NotZeroVerbose(Log log, VectorD direction) {
-        //     const double minVal = 10E-16;
-        //     var nonZero = new List<double>();
-        //     StringBuilder debugString = new StringBuilder();
-        //     for (int i = 0; i < this._value.Length; i++) {
-        //         var a = _value[i];
-        //         var dir = direction._value[i];
-        //         debugString.Append($"{i}({a:F2},{dir:F2},");
-        //         if (Math.Abs(a) > 0.1) {
-        //             debugString.Append($"case 0({Math.Abs(a)})");
-        //             nonZero.Add(a);
-        //         } else if (a > minVal) {
-        //             debugString.Append($"case 1({a})");
-        //             nonZero.Add(0.1);
-        //         } else if (a < -minVal) {
-        //             debugString.Append($"case 2({a})");
-        //             nonZero.Add(-0.1);
-        //         } else if (dir > minVal) {
-        //             debugString.Append($"case 3({dir})");
-        //             nonZero.Add(0.1);
-        //         } else if (dir < -minVal) {
-        //             debugString.Append($"case 4({dir})");
-        //             nonZero.Add(-0.1);
-        //         } else {
-        //             debugString.Append("case 5"); nonZero.Add(0);
-        //         }
-        //         debugString.Append(")");
-        //     }
-        //     log.Buffered.D(debugString.ToString());
-        //     return new VectorD(nonZero);
-        // }
-
-        public double DotProduct(VectorD other) {
-            return this._value.Zip(other._value, (a, b) => a * b)
-                              .Aggregate((acc, a) => acc + a);
-        }
-
-        public VectorD Inc(double val) {
-            return new VectorD(this._value.Select(v =>
-                v >= MIN ? v + val :
-                v <= -MIN ? v - val :
-                v));
-        }
-
-        public VectorD UnitVector => new VectorD(X / Magnitude, Y / Magnitude);
 
         public static VectorD operator -(VectorD one, VectorD another) =>
             ThrowIfEmptyOrApply(one, another, () => new VectorD(one._value.Zip(another._value, (a, b) => a - b)));

@@ -13,17 +13,79 @@ namespace Nour.Play.Areas {
     // TODO: Create an area generator
     // TODO: Update generators to honor areas
     // TODO: Update Dijkstra to use hall sizes
-    public class MapArea {
+    public class MapArea : IObject2D {
+        private Vector _position;
+
         public AreaType Type { get; private set; }
         public string[] Tags { get; private set; }
         public Vector Size { get; private set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// There should be a clear separation in code between
+        /// positioned areas and non-positioned areas, so we will
+        /// throw here without letting the consumer to check if
+        /// the area is positioned or not.
+        /// </remarks>
+        public Vector Position {
+            get {
+                if (_position.IsEmpty) {
+                    throw new InvalidOperationException(
+                        "Position is not initialized");
+                }
+                return _position;
+            }
+            set => _position = value;
+        }
         public List<Cell> Cells { get; private set; }
 
-        public MapArea(AreaType type, Vector size, params string[] tags) {
+        public double LowX => Position.X;
+        public double HighX => Position.X + Size.X;
+        public double LowY => Position.Y;
+        public double HighY => Position.Y + Size.Y;
+
+        public MapArea(AreaType type, Vector size, params string[] tags)
+            : this(type, size, Vector.Empty, tags) { }
+
+        public MapArea(AreaType type, Vector size, Vector position, params string[] tags) {
             Cells = new List<Cell>(size.Area);
             Type = type;
             Tags = tags;
             Size = size;
+            _position = position;
+        }
+
+        Vector IObject2D.GetPosition() => _position;
+        Vector IObject2D.GetSize() => Size;
+
+        public bool Overlaps(MapArea other) {
+            if (this == other)
+                throw new InvalidOperationException("Can't compare with self");
+            var noOverlap = this.HighX <= other.LowX || this.LowX >= other.HighX;
+            noOverlap |= this.HighY <= other.LowY || this.LowY >= other.HighY;
+            return !noOverlap;
+        }
+
+        public bool Contains(VectorD point) {
+            return point.X >= Position.X && point.X <= Size.X + Position.X &&
+                point.Y >= Position.Y && point.Y <= Size.Y + Position.Y;
+        }
+
+        internal bool Fits(MapArea other) {
+            // Check if the inner rectangle is completely within the outer rectangle.
+            return this.LowX >= other.LowX &&
+                this.HighX <= other.HighX &&
+                this.LowY >= other.LowY &&
+                this.HighY <= other.HighY;
+        }
+
+        internal bool Fits(Vector position, Vector size) {
+            // Check if the inner rectangle is completely within the outer rectangle.
+            return this.LowX >= position.X &&
+                this.HighX <= position.X + size.X &&
+                this.LowY >= position.Y &&
+                this.HighY <= position.Y + size.Y;
         }
     }
 }

@@ -33,9 +33,11 @@ namespace Nour.Play {
         public override string ToString() {
             var buffer = new StringBuilder(Environment.NewLine);
             foreach (var line in _buffer) {
-                buffer.AppendLine(new String(line));
+                var strLine = new String(line);
+                if (strLine.Trim().Length > 0)
+                    buffer.AppendLine(new String(line));
             }
-            return buffer.ToString();
+            return Environment.NewLine + buffer.ToString() + Environment.NewLine;
         }
     }
 }

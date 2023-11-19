@@ -1,68 +1,108 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
+using Nour.Play.Areas;
 using Nour.Play.Maze;
 using NUnit.Framework;
 
 namespace Nour.Play {
-    public class AreaDistributorHelper {
-        private int counter;
-        private int item1;
-        private int countFit;
-
-        private readonly Log _log;
-
-        public AreaDistributorHelper(Log log) {
-            _log = log;
+    internal class AreaDistributorHelper {
+        internal static DistributeResult Distribute(
+            Log log,
+            Vector mazeSize,
+            IEnumerable<AreaDistributor.Room> rooms,
+            int maxEpochs = -1) {
+            var mapAreas = rooms.Select(
+                room => new MapArea(
+                    AreaType.None,
+                    room.Size.RoundToInt(),
+                    room.Position.RoundToInt()))
+                .ToList();
+            return Distribute(log, new Maze2D(mazeSize), mapAreas, maxEpochs);
         }
 
-        public void Stats() {
-            _log.Buffered.I($"===== FIT ROOMS: {countFit} =====");
-            _log.Buffered.I($"===== NOT FIT ROOMS: {item1} =====");
-            _log.Buffered.I($"===== REQUESTS: {counter} =====");
-        }
+        internal static DistributeResult Distribute(
+            Log log,
+            Maze2D maze,
+            IEnumerable<MapArea> areas,
+            int maxEpochs = -1) {
 
-        public Tuple<int, string> PlaceRoomsAndValidate(AreaDistributor d,
-            Maze2D maze, List<AreaDistributor.Room> placedRooms, int maxEpochs = -1) {
-            Interlocked.Increment(ref counter);
-            Tuple<int, string> result;
-            try {
-                placedRooms = d.DistributePlacedRooms(maze, placedRooms, maxEpochs);
-                var fitRooms = placedRooms.Where(room =>
-                                                (room.Position + room.Size).RoundToInt().AllLessThanOrEqualTo(maze.Size) &&
-                                                 room.Position.RoundToInt().AllGreaterThanOrEqualTo(Vector.Zero2D)).ToList();
-                var unfitRooms = placedRooms.Where(room =>
-                                                (room.Position + room.Size).RoundToInt().AnyGreaterThan(maze.Size) ||
-                                                 room.Position.RoundToInt().AnyLessThan(Vector.Zero2D)).ToList();
-                var overlappingRooms = placedRooms.Where(room =>
-                                                 placedRooms.Any(otherRoom => room != otherRoom &&
-                                                 DoOverlap(room, otherRoom))).ToList();
-                string message =
-                    $"{maze.Size}: " +
-                    (unfitRooms.Count > 0 || overlappingRooms.Count > 0 ? "OVERLAP" : "OK") +
-                    $" Didn't fit {unfitRooms.Count}: " + String.Join(", ", unfitRooms) +
-                    $"; Fit {fitRooms.Count}: " + String.Join(", ", fitRooms) +
-                    $"; Overlap {overlappingRooms.Count}: " + String.Join(", ", overlappingRooms);
-                Interlocked.Add(ref countFit, fitRooms.Count);
-                result = new Tuple<int, string>(unfitRooms.Count + overlappingRooms.Count, message);
-            } catch (InvalidOperationException ex) {
-                result = new Tuple<int, string>(placedRooms.Count,
-                    $"{maze.Size}: " + String.Join(", ", placedRooms) + ": " + ex.Message);
-            } catch (Exception ex) {
-                result = new Tuple<int, string>(placedRooms.Count,
-                    $"{maze.Size}: " + String.Join(", ", placedRooms) + ": " + ex.ToString());
+            var drawEachEpoch = false;
+            if (TestContext.Parameters.Exists("DEBUG")) {
+                drawEachEpoch = int.Parse(TestContext.Parameters["DEBUG"]) >= 5;
             }
-            Interlocked.Add(ref item1, result.Item1);
+            if (TestContext.Parameters.Exists("EPOCHS")) {
+                maxEpochs = int.Parse(TestContext.Parameters["EPOCHS"]);
+            }
+
+            var originalCopy = areas
+                .Select(x => new MapArea(x.Type, x.Size, x.Position, x.Tags))
+                .ToList();
+
+            var result = new DistributeResult {
+                Log = log,
+                VerboseOutput = TestContext.Parameters.Exists("VERBOSE"),
+                MaxEpochs = maxEpochs,
+                OriginalAreas = originalCopy,
+                OriginalOverlapping =
+                    originalCopy
+                        .Where(
+                            a => originalCopy.Any(b => a != b && a.Overlaps(b)))
+                        .ToList(),
+                OriginalOutOfBounds =
+                    originalCopy
+                        .Where(
+                            area => !area.Fits(Vector.Zero2D, maze.Size))
+                        .ToList(),
+                PlacedAreas = new AreaDistributor(log)
+                    .DistributePlacedRooms2(maze, areas.ToList(), maxEpochs)
+            };
+
+            result.PlacedOverlapping =
+                result.PlacedAreas
+                      .Where(a => result.PlacedAreas
+                                        .Any(b => a != b && a.Overlaps(b)))
+                      .ToList();
+            result.PlacedOutOfBounds =
+                result.PlacedAreas
+                      .Where(block => !block.Fits(Vector.Zero2D, maze.Size))
+                      .ToList();
+
+            result.TestString = $"yield return \"{maze.Size}: " +
+                String.Join(" ", result.OriginalAreas.Select(area =>
+                    $"P{area.Position};S{area.Size}")) + "\"";
+
+            if (result.VerboseOutput) {
+                log.Buffered.Flush();
+            }
+
             return result;
         }
 
-        private bool DoOverlap(AreaDistributor.Room one, AreaDistributor.Room another) {
-            bool noOverlap = one.LowX > another.HighX ||
-                               one.HighY > another.LowY ||
-                               another.LowX > one.HighX ||
-                               another.HighY > one.LowY;
-            return !noOverlap;
+        internal class DistributeResult {
+            public Log Log { get; set; }
+            public Vector MazeSize { get; set; }
+            public List<MapArea> OriginalOutOfBounds { get; set; }
+            public List<MapArea> OriginalOverlapping { get; set; }
+            public List<MapArea> OriginalAreas { get; set; }
+            public List<MapArea> PlacedOutOfBounds { get; set; }
+            public List<MapArea> PlacedOverlapping { get; set; }
+            public List<MapArea> PlacedAreas { get; set; }
+            public int MaxEpochs { get; set; }
+            public string TestString { get; set; }
+            public bool VerboseOutput { get; internal set; }
+
+            internal void AssertAllFit() {
+                if (PlacedOutOfBounds.Count > 0 || PlacedOverlapping.Count > 0) {
+                    Log?.Buffered.Flush();
+                }
+                Assert.IsEmpty(PlacedOutOfBounds,
+                    "Out Of Bounds: " + String.Join(", ",
+                        PlacedOutOfBounds.Select(area => $"P{area.Position};S{area.Size}")));
+                Assert.IsEmpty(PlacedOverlapping,
+                    "Overlapping: " + String.Join(", ",
+                        PlacedOverlapping.Select(area => $"P{area.Position};S{area.Size}")));
+            }
         }
     }
 }

@@ -32,9 +32,6 @@
     <Reference Include="AltCover.Monitor">
       <HintPath>..\packages\altcover.8.6.68\lib\net20\AltCover.Monitor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Numerics.Vectors">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System.Numerics" />
   </ItemGroup>

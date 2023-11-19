@@ -12,6 +12,8 @@ public class Log {
     private ILogWriter _writer;
     public BufferedLog Buffered => _buffered;
 
+    public static int DebugLevel { get; set; } = 0;
+
     public Log(string name) : this(name, new DefaultLogWriter()) { }
 
     public Log(string name, ILogWriter writer) {
@@ -20,9 +22,11 @@ public class Log {
         _writer = writer;
     }
 
-    public void D(String message) {
+    public void D(int debugLevel, String message) {
 #if DEBUG
-        Write(LogMessage.D(message));
+        if (debugLevel <= DebugLevel) {
+            Write(LogMessage.D(debugLevel, message));
+        }
 #endif
     }
 
@@ -42,7 +46,7 @@ public class Log {
 
     private class DefaultLogWriter : ILogWriter {
         public void Write(string logName, LogMessage message) {
-            Console.WriteLine($"[{logName}] {message.Time:s} {message.Level}: {message.Message}");
+            Console.WriteLine($"{message.Message}");
         }
     }
 
@@ -58,10 +62,11 @@ public class Log {
             _buffer.Clear();
         }
 
-        public void D(String message) {
+        public void D(int debugLevel, String message) {
 #if DEBUG
-            //Console.WriteLine(message.GetType().FullName);
-            _buffer.Add(LogMessage.D(message));
+            if (debugLevel <= Log.DebugLevel) {
+                _buffer.Add(LogMessage.D(debugLevel, message));
+            }
 #endif
         }
 
@@ -83,15 +88,20 @@ public class Log {
         public LogLevel Level { get; set; }
         public DateTime Time { get; set; }
         public String Message { get; set; }
+        public int DebugLevel { get; set; }
 
-        public LogMessage(LogLevel level, String message) {
+        public LogMessage(LogLevel level, String message) :
+            this(level, 0, message) { }
+
+        public LogMessage(LogLevel level, int debugLevel, String message) {
             Level = level;
             Time = DateTime.UtcNow;
             Message = message;
+            DebugLevel = debugLevel;
         }
 
-        public static LogMessage D(String message) =>
-            new LogMessage(LogLevel.Debug, message);
+        public static LogMessage D(int debugLevel, String message) =>
+            new LogMessage(LogLevel.Debug, debugLevel, message);
         public static LogMessage I(String message) =>
             new LogMessage(LogLevel.Info, message);
         public static LogMessage W(String message) =>

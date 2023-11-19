@@ -6,7 +6,9 @@
     "Appender",
     "Backtracker",
     "Broder",
+    "mazegen",
     "Memberwise",
+    "stddev",
     "Wilsons"
   ]
 }
