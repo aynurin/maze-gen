@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Nour.Play.Areas {
+namespace Nour.Play.Areas.Evolving {
     public abstract class SimulatedSystem {
         /// <summary>
         /// When overridden, evolves the system using its internal forces to

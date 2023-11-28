@@ -146,8 +146,7 @@ namespace Nour.Play {
 
         internal static VectorD Parse(string v) =>
             new VectorD(v.Trim().Split('x').Select(s => {
-                double val;
-                if (!Double.TryParse(s, out val)) {
+                if (!double.TryParse(s.Trim('P', 'S'), out var val)) {
                     throw new FormatException($"Input string was not in a correct format ({s}).");
                 }
                 return val;

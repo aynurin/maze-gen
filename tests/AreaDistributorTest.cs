@@ -1,60 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nour.Play.Areas;
-using Nour.Play.Maze;
 using NUnit.Framework;
 
-namespace Nour.Play {
+namespace Nour.Play.Areas.Evolving {
+    // msbuild && reset && pushd build/Debug/tests && nunit3-console tests.dll --where="class=Nour.Play.AreaDistributorLoadTest" --params=DEBUG=4; popd
+    // msbuild && reset && pushd build/Debug/tests && nunit3-console tests.dll --test="Nour.Play.AreaDistributorTest.AreaDistributorTest_SidePressure" --params=DEBUG=5; popd
     [TestFixture]
     public class AreaDistributorTest {
-
-        // [Test]
-        // public void AreaDistributor_CanFindDistanceBetweenBoxes() {
-        //     var log = Log.Create("CanFindDistanceBetweenBoxes");
-        //     var env = new Maze2D(20, 20);
-        //     var A = new AreaDistributor.Room(new VectorD(7, 8), new VectorD(6, 4));
-        //     var B1 = new AreaDistributor.Room(new VectorD(15, 11), new VectorD(2, 3));
-        //     var B2 = new AreaDistributor.Room(new VectorD(15, 0), new VectorD(4, 4));
-        //     var B3 = new AreaDistributor.Room(new VectorD(11, 1), new VectorD(3, 5));
-        //     var B4 = new AreaDistributor.Room(new VectorD(2, 2), new VectorD(2, 4));
-        //     var B5 = new AreaDistributor.Room(new VectorD(2, 7), new VectorD(2, 4));
-        //     var B6 = new AreaDistributor.Room(new VectorD(1, 15), new VectorD(4, 2));
-        //     var B7 = new AreaDistributor.Room(new VectorD(6, 15), new VectorD(3, 3));
-        //     var B8 = new AreaDistributor.Room(new VectorD(10, 15), new VectorD(5, 4));
-        //     var rooms = new AreaDistributor.Room[] {
-        //         A, B1, B2, B3, B4, B5, B6, B7, B8
-        //     };
-        //     AreaDistributor.Draw(log, env.Size, rooms);
-
-        //     Func<AreaDistributor.Room, AreaDistributor.Room, double, bool> tt =
-        //         (a, b, expected) => {
-        //             var actual = AreaDistributor.Distance(log, a, b);
-        //             var diff = Math.Round(expected, 4) - Math.Round(actual, 4);
-        //             var close = diff > -Double.Epsilon && diff < Double.Epsilon;
-        //             if (!close) {
-        //                 log.Buffered.Flush();
-        //             }
-        //             Assert.IsTrue(close, $"expected {expected:F4}, actual {actual:F4}");
-        //             return close;
-        //         };
-        //     tt(A, B1, 2.1667);
-        //     tt(A, B2, 5.3151);
-        //     tt(A, B3, 2.1428);
-        //     tt(A, B4, 4.8293);
-        //     tt(A, B5, 3.0305);
-        //     tt(A, B6, 4.6098);
-        //     tt(A, B7, 3.2142);
-        //     tt(A, B8, 3.1856);
-        // }
+        private static MapArea TestArea(int x, int y, int width, int height) =>
+            new MapArea(AreaType.None, new Vector(width, height), new Vector(x, y));
 
         [Test]
         public void AreaDistributorTest_OneTest() =>
             AreaDistributorHelper.Distribute(
                 Log.CreateForThisTest(), new Vector(10, 10),
-                new List<AreaDistributor.Room>() {
-                    new AreaDistributor.Room(VectorD.Zero2D, new VectorD(4, 4))
-                },
+                new List<MapArea>() { TestArea(0, 0, 4, 4) },
                 maxEpochs: 10)
                 .AssertAllFit();
 
@@ -62,11 +23,11 @@ namespace Nour.Play {
         public void AreaDistributorTest_SidePressure() =>
             AreaDistributorHelper.Distribute(
                 Log.CreateForThisTest(), new Vector(10, 10),
-                new List<AreaDistributor.Room>() {
-                    new AreaDistributor.Room(new VectorD(1, 4), new VectorD(8, 2)),
-                    new AreaDistributor.Room(new VectorD(1, 5), new VectorD(2, 4)),
-                    new AreaDistributor.Room(new VectorD(2, 6), new VectorD(2, 4)),
-                    new AreaDistributor.Room(new VectorD(3, 7), new VectorD(2, 4))
+                new List<MapArea>() {
+                    TestArea(1, 4, 8, 2),
+                    TestArea(1, 5, 2, 4),
+                    TestArea(2, 6, 2, 4),
+                    TestArea(3, 7, 2, 4)
                 },
                 maxEpochs: 10)
                 .AssertAllFit();
@@ -75,9 +36,9 @@ namespace Nour.Play {
         public void AreaDistributorTest_TwoTest() =>
             AreaDistributorHelper.Distribute(Log.CreateForThisTest(),
                 new Vector(10, 10),
-                new List<AreaDistributor.Room>() {
-                    new AreaDistributor.Room(VectorD.Zero2D, new VectorD(2, 2)),
-                    new AreaDistributor.Room(new VectorD(10, 10), new VectorD(2, 2))
+                new List<MapArea>() {
+                    TestArea(0, 0, 2, 2),
+                    TestArea(10, 10, 2, 2)
                 },
                 maxEpochs: 10
                 ).AssertAllFit();
@@ -90,7 +51,7 @@ namespace Nour.Play {
             AreaDistributorHelper.Distribute(
                 Log.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => AreaDistributor.Room.Parse(s)),
+                        .Select(s => s.ToArea()),
                 maxEpochs: 10)
                 .AssertAllFit();
         }
@@ -103,7 +64,7 @@ namespace Nour.Play {
             AreaDistributorHelper.Distribute(
                 Log.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => AreaDistributor.Room.Parse(s)),
+                        .Select(s => s.ToArea()),
                 maxEpochs: 10)
                 .AssertAllFit();
         }
@@ -116,7 +77,7 @@ namespace Nour.Play {
             AreaDistributorHelper.Distribute(
                 Log.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => AreaDistributor.Room.Parse(s)),
+                        .Select(s => s.ToArea()),
                 maxEpochs: 10)
                 .AssertAllFit();
         }

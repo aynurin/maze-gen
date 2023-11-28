@@ -13,7 +13,7 @@ namespace Nour.Play.Areas {
     // TODO: Create an area generator
     // TODO: Update generators to honor areas
     // TODO: Update Dijkstra to use hall sizes
-    public class MapArea : IObject2D {
+    public class MapArea {
         private Vector _position;
 
         public AreaType Type { get; private set; }
@@ -56,28 +56,12 @@ namespace Nour.Play.Areas {
             _position = position;
         }
 
-        Vector IObject2D.GetPosition() => _position;
-        Vector IObject2D.GetSize() => Size;
-
         public bool Overlaps(MapArea other) {
             if (this == other)
                 throw new InvalidOperationException("Can't compare with self");
             var noOverlap = this.HighX <= other.LowX || this.LowX >= other.HighX;
             noOverlap |= this.HighY <= other.LowY || this.LowY >= other.HighY;
             return !noOverlap;
-        }
-
-        public bool Contains(VectorD point) {
-            return point.X >= Position.X && point.X <= Size.X + Position.X &&
-                point.Y >= Position.Y && point.Y <= Size.Y + Position.Y;
-        }
-
-        internal bool Fits(MapArea other) {
-            // Check if the inner rectangle is completely within the outer rectangle.
-            return this.LowX >= other.LowX &&
-                this.HighX <= other.HighX &&
-                this.LowY >= other.LowY &&
-                this.HighY <= other.HighY;
         }
 
         internal bool Fits(Vector position, Vector size) {

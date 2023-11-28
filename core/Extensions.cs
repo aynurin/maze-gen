@@ -75,6 +75,15 @@ namespace Nour.Play {
                 dictionary.Add(key, value);
             }
         }
+        public static bool TryDequeue<T>(this Queue<T> queue, out T result) {
+            try {
+                result = queue.Dequeue();
+                return true;
+            } catch (InvalidOperationException) {
+                result = default(T);
+                return false;
+            }
+        }
     }
 
     public struct BaseStats {

@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nour.Play.Areas {
+namespace Nour.Play.Areas.Evolving {
     /// <summary>
     /// Evolves a <see cref="TargetSystem" /> over time using its own internal
     /// impact over time.
     /// </summary>
     public class EvolvingSimulator {
-        private int _epochs;
-        private int _generationsPerEpoch;
+        private readonly int _epochs;
+        private readonly int _generationsPerEpoch;
 
         /// <summary>
         /// Creates an instance of EvolvingSimulator with the given max number of epochs
