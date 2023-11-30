@@ -10,9 +10,9 @@ namespace Nour.Play {
 
         public static readonly VectorD Zero2D = new VectorD(new double[] { 0, 0 });
 
-        private double[] _value;
+        private readonly double[] _value;
         private double _length;
-        private bool _isInitialized; // false on initialization
+        private readonly bool _isInitialized; // false on initialization
 
         public double[] Value => _value;
         public bool IsEmpty => !_isInitialized;
