@@ -1,17 +1,12 @@
 using System;
-using System.Linq;
 using System.Text;
 
-namespace Nour.Play {
+namespace Nour.Play.Renderers {
     public class AsciiBuffer {
-        private int _rows;
-        private int _cols;
-        private bool _hideOverflow;
-        private char[][] _buffer;
+        private readonly bool _hideOverflow;
+        private readonly char[][] _buffer;
 
         public AsciiBuffer(int rows, int cols, bool hideOverflow) {
-            _rows = rows;
-            _cols = cols;
             _hideOverflow = hideOverflow;
             _buffer = new char[rows][];
             for (int i = 0; i < rows; i++) {

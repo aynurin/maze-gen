@@ -65,8 +65,8 @@ namespace Nour.Play.Areas.Evolving {
                     other.OpposingForce = direction;
                 }
             }
-            var thisV = direction.CropWithBox2D(area.Size);
-            var otherV = VectorD.Zero2D - (VectorD.Zero2D - direction).CropWithBox2D(other.Size);
+            var thisV = CropWithBox2D(direction, area.Size);
+            var otherV = VectorD.Zero2D - CropWithBox2D((VectorD.Zero2D - direction), other.Size);
 
             var caseName = "NONE";
             VectorD force, distance;
@@ -109,6 +109,44 @@ namespace Nour.Play.Areas.Evolving {
             }
             _log.Buffered.D(5, $"GetRoomForce({area}, {other}): {caseName},thisV={thisV},otherV={otherV},direction={direction},distance={distance},distance.Magnitude={distance.Magnitude},force={force}");
             return force;
+        }
+
+        /// <summary>
+        /// Crops the given vector using the given box
+        /// </summary>
+        /// <param name="vector">The vector to crop will be treated as going out of the center of the box</param>
+        /// <param name="box">The box to use to crop the vector</param>
+        /// <returns></returns>
+        public VectorD CropWithBox2D(VectorD vector, VectorD box) {
+            // TODO: I still have X and Y all messed up.
+            double x, y;
+            var rt = box / 2;
+            var rb = new VectorD(-box.X / 2, box.Y / 2);
+            var lb = VectorD.Zero2D - box / 2;
+            var lt = new VectorD(box.X / 2, -box.Y / 2);
+            var alphaT = Math.Atan2(rt.X, rt.Y);
+            var alphaL = Math.Atan2(lt.X, lt.Y);
+            var alphaB = Math.Atan2(lb.X, lb.Y);
+            var alphaR = Math.Atan2(rb.X, rb.Y);
+            var alpha = Math.Atan2(vector.X, vector.Y);
+            if (alpha >= alphaT && alpha <= alphaL) {
+                // v crosses the top edge
+                x = box.X / 2;
+                y = x * Math.Tan(Math.PI / 2 - alpha);
+            } else if (alpha > alphaL || alpha < alphaB) {
+                // v crosses the left edge
+                y = -box.Y / 2;
+                x = y * Math.Tan(Math.PI + alpha);
+            } else if (alpha <= alphaR && alpha >= alphaB) {
+                // v crosses the bottom edge
+                x = -box.X / 2;
+                y = x * Math.Tan(Math.PI / 2 - alpha);
+            } else {
+                // v crosses the right edge
+                y = box.Y / 2;
+                x = y * Math.Tan(alpha);
+            }
+            return new VectorD(x, y);
         }
     }
 }

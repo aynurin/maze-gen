@@ -193,5 +193,15 @@ namespace Nour.Play {
             Assert.AreEqual(new Vector(0, 0), new VectorD(new double[] { 0, 0 }).WithMagnitude(1044).RoundToInt());
             Assert.AreEqual(new Vector(566, 566), new VectorD(new double[] { -3, -3 }).WithMagnitude(-800).RoundToInt());
         }
+
+        [Test]
+        public void Vector_Parse() {
+            Assert.AreEqual(new Vector(0, -1), Vector.Parse("0x-1"));
+        }
+
+        [Test]
+        public void VectorD_Parse() {
+            Assert.AreEqual(new VectorD(0.3, -1), VectorD.Parse("S0.3x-1"));
+        }
     }
 }

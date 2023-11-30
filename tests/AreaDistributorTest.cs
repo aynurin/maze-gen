@@ -69,7 +69,7 @@ namespace Nour.Play.Areas.Evolving {
                 .AssertAllFit();
         }
 
-        [Test]
+        [Test, Property("Category", "Load")]
         public void AreaDistributorTest_CanLayout(
             [ValueSource("TestLayouts")] string layout
             ) {
@@ -110,8 +110,6 @@ namespace Nour.Play.Areas.Evolving {
             // outside
             yield return "6x12: P-1x-4;S2x2";
         }
-
-        // TODO: Add a test where several rooms push onto a wall.
 
         public static IEnumerable<String> TestLayouts() {
             yield return "13x8: P9x6;S3x1 P1x4;S2x1";

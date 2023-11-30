@@ -17,8 +17,8 @@ namespace Nour.Play {
         public static readonly Vector South2D = new Vector(1, 0);
         public static readonly Vector SouthWest2D = new Vector(1, 1);
 
-        private int[] _value;
-        private bool _isInitialized; // false on initialization
+        private readonly int[] _value;
+        private readonly bool _isInitialized; // false on initialization
 
         public int[] Value => _value;
         public bool IsEmpty => !_isInitialized;
@@ -31,15 +31,8 @@ namespace Nour.Play {
         public int Y => IsTwoDimensional || IsThreeDimensional ? _value[1] :
             throw new InvalidOperationException("X and Y are only supported in two- or three-dimensional space");
         public int Area => _value.Aggregate((a, b) => a * b);
-        /// <summary>
-        /// A quick hack to avoid sq.rt
-        /// </summary>
-        public double Average => _value.Average();
         public int MagnitudeSq => _value.Sum(a => a * a);
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="x">X coordinate (rows)</param>
         /// <param name="y">Y coordinate (columns)</param>
         public Vector(int x, int y) : this(new int[] { x, y }) { }
@@ -86,29 +79,31 @@ namespace Nour.Play {
             !one.Equals(another);
         [Obsolete("Can't compare like this")]
         public static bool operator >(Vector one, Vector another) =>
-            one.IsEmpty && another.IsEmpty ? false :
-            ThrowIfEmptyOrApply(one, another, () => one._value.Zip(another._value, (a, b) => a > b).All(_ => _));
+            (!one.IsEmpty || !another.IsEmpty) &&
+            ThrowIfEmptyOrApply(one, another,
+                () => one._value.Zip(another._value, (a, b) => a > b).All(_ => _));
         [Obsolete("Can't compare like this")]
         public static bool operator >=(Vector one, Vector another) =>
-            one.IsEmpty && another.IsEmpty ? false :
-            ThrowIfEmptyOrApply(one, another, () => one._value.Zip(another._value, (a, b) => a >= b).All(_ => _));
+            (!one.IsEmpty || !another.IsEmpty) &&
+            ThrowIfEmptyOrApply(one, another,
+                () => one._value.Zip(another._value, (a, b) => a >= b).All(_ => _));
         [Obsolete("Can't compare like this")]
         public static bool operator <(Vector one, Vector another) =>
-            one.IsEmpty && another.IsEmpty ? false :
-            ThrowIfEmptyOrApply(one, another, () => one._value.Zip(another._value, (a, b) => a < b).All(_ => _));
+            (!one.IsEmpty || !another.IsEmpty) &&
+            ThrowIfEmptyOrApply(one, another,
+                () => one._value.Zip(another._value, (a, b) => a < b).All(_ => _));
         [Obsolete("Can't compare like this")]
         public static bool operator <=(Vector one, Vector another) =>
-            one.IsEmpty && another.IsEmpty ? false :
-            ThrowIfEmptyOrApply(one, another, () => one._value.Zip(another._value, (a, b) => a <= b).All(_ => _));
+            (!one.IsEmpty || !another.IsEmpty) &&
+            ThrowIfEmptyOrApply(one, another,
+                () => one._value.Zip(another._value, (a, b) => a <= b).All(_ => _));
         public static Vector operator +(Vector one, Vector another) =>
-            ThrowIfEmptyOrApply(one, another, () => new Vector(one._value.Zip(another._value, (a, b) => a + b)));
+            ThrowIfEmptyOrApply(one, another,
+                () => new Vector(one._value.Zip(another._value, (a, b) => a + b)));
         public static Vector operator +(Vector one, int delta) =>
-            ThrowIfEmptyOrApply(one, Vector.Zero2D, () => new Vector(one._value.Select(e => e + delta)));
+            ThrowIfEmptyOrApply(one, Vector.Zero2D,
+                () => new Vector(one._value.Select(e => e + delta)));
         public static Vector operator +(int delta, Vector one) => one + delta;
-
-        public static VectorD operator +(Vector one, VectorD another) =>
-            one.IsEmpty || another.IsEmpty ? throw new InvalidOperationException("Cannot operate on an empty vector") :
-            new VectorD(one._value.Zip(another.Value, (a, b) => a + b));
         public static Vector operator -(Vector one, Vector another) =>
             ThrowIfEmptyOrApply(one, another, () => new Vector(one._value.Zip(another._value, (a, b) => a - b)));
         public static Vector operator -(Vector one, int delta) =>
@@ -122,11 +117,6 @@ namespace Nour.Play {
             () => new Vector(dividend._value.Select(e =>
                 divisor == 0 ? throw new InvalidOperationException("Can't divide by zero") :
                 e % divisor != 0 ? throw new InvalidOperationException($"Can't divide with rounding (${e}/${divisor})") :
-                e / divisor)));
-        public static VectorD operator /(Vector dividend, double divisor) =>
-            ThrowIfEmptyOrApply(dividend, Vector.Zero2D,
-            () => new VectorD(dividend._value.Select(e =>
-                divisor < Double.Epsilon ? throw new InvalidOperationException("Can't divide by zero") :
                 e / divisor)));
         public static Vector operator *(Vector one, Vector another) =>
             ThrowIfEmptyOrApply(one, another, () => new Vector(one._value.Zip(another._value, (a, b) => a * b)));
