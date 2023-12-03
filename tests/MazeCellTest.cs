@@ -8,31 +8,38 @@ namespace Nour.Play {
 
         [Test]
         public void Map2D_LinksAreMutual() {
-            MazeCell a = new MazeCell(1, 2);
-            MazeCell b = new MazeCell(2, 2);
+            var a = new MazeCell(2, 1);
+            var b = new MazeCell(2, 2);
             a.Link(b);
-            Assert.IsTrue(b.Links(Vector.North2D).HasValue);
-            Assert.AreEqual(b.Links(Vector.North2D).Value, a);
+            Assert.That(a.Links(), Has.Count.EqualTo(1));
+            Assert.That(b.Links(), Has.Count.EqualTo(1));
+            Assert.IsTrue(a.Links(Vector.North2D).HasValue);
+            Assert.IsTrue(b.Links(Vector.South2D).HasValue);
+            Assert.AreEqual(a.Links(Vector.North2D).Value, b);
+            Assert.AreEqual(b.Links(Vector.South2D).Value, a);
 
             b.Unlink(a);
-            Assert.IsFalse(a.Links(Vector.South2D).HasValue);
+            Assert.IsFalse(a.Links(Vector.North2D).HasValue);
+            Assert.IsFalse(b.Links(Vector.South2D).HasValue);
+            Assert.That(a.Links(), Has.Count.EqualTo(0));
+            Assert.That(b.Links(), Has.Count.EqualTo(0));
         }
 
         [Test]
         public void Map2D_ToString() {
-            MazeCell a = new MazeCell(1, 2);
-            MazeCell b = new MazeCell(2, 2);
+            var a = new MazeCell(2, 1);
+            var b = new MazeCell(2, 2);
             a.Link(b);
-            Assert.AreEqual("1x2", a.ToString());
-            Assert.AreEqual("1x2: ---W", a.ToLongString());
-            Assert.AreEqual("2x2", b.ToString());
-            Assert.AreEqual("2x2: -E--", b.ToLongString());
+            Assert.AreEqual("2x1V", a.ToString());
+            Assert.AreEqual("2x1V(N---)", a.ToLongString());
+            Assert.AreEqual("2x2V", b.ToString());
+            Assert.AreEqual("2x2V(--S-)", b.ToLongString());
 
-            MazeCell c = new MazeCell(1, 1);
-            MazeCell d = new MazeCell(1, 2);
+            var c = new MazeCell(1, 1);
+            var d = new MazeCell(2, 1);
             c.Link(d);
-            Assert.AreEqual("1x1: --S-", c.ToLongString());
-            Assert.AreEqual("1x2: N---", d.ToLongString());
+            Assert.AreEqual("1x1V(-E--)", c.ToLongString());
+            Assert.AreEqual("2x1V(---W)", d.ToLongString());
 
             b.Unlink(a);
             Assert.IsFalse(a.Links(Vector.South2D).HasValue);
@@ -40,8 +47,8 @@ namespace Nour.Play {
 
         [Test]
         public void Map2D_DoubleLinkingThrowsError() {
-            MazeCell a = new MazeCell(1, 2);
-            MazeCell b = new MazeCell(2, 2);
+            var a = new MazeCell(1, 2);
+            var b = new MazeCell(2, 2);
             a.Link(b);
             Assert.Throws<InvalidOperationException>(() => b.Link(a));
         }

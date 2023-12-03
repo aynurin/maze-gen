@@ -5,7 +5,7 @@ namespace Nour.Play.Maze {
     public class SidewinderMazeGenerator : MazeGenerator {
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
             Console.WriteLine("Sidewinder v0.1");
-            Console.WriteLine($"Generating maze {layout.XHeightRows}x{layout.YWidthColumns}");
+            Console.WriteLine($"Generating maze {layout.XWidthColumns}x{layout.YHeightRows}");
             if (options.FillFactor != GeneratorOptions.FillFactorOption.Full) {
                 throw new ArgumentException(this.GetType().Name + " doesn't currently " +
                     "support fill factors other than Full");
@@ -23,7 +23,7 @@ namespace Nour.Play.Maze {
                 run.Add(cell);
 
                 // link north
-                if ((linkNorth || !cell.Neighbors(Vector.East2D).HasValue)) {
+                if (linkNorth || !cell.Neighbors(Vector.East2D).HasValue) {
                     var member = run[cellStates[i] % run.Count];
                     if (member.Neighbors(Vector.North2D).HasValue) {
                         member.Link(member.Neighbors(Vector.North2D).Value);

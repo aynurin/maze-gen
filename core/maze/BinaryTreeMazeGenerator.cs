@@ -4,7 +4,7 @@ namespace Nour.Play.Maze {
     public class BinaryTreeMazeGenerator : MazeGenerator {
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
             Console.WriteLine("BinaryTree v0.1");
-            Console.WriteLine($"Generating maze {layout.XHeightRows}x{layout.YWidthColumns}");
+            Console.WriteLine($"Generating maze {layout.XWidthColumns}x{layout.YHeightRows}");
             if (options.FillFactor != GeneratorOptions.FillFactorOption.Full) {
                 throw new ArgumentException(this.GetType().Name + " doesn't currently " +
                     "support fill factors other than Full");

@@ -8,14 +8,14 @@ namespace Nour.Play {
     public struct Vector : IEquatable<Vector> {
         public static readonly Vector Empty = new Vector();
         public static readonly Vector Zero2D = new Vector(0, 0);
-        public static readonly Vector NorthWest2D = new Vector(-1, -1);
-        public static readonly Vector North2D = new Vector(-1, 0);
-        public static readonly Vector NorthEast2D = new Vector(-1, 1);
-        public static readonly Vector West2D = new Vector(0, -1);
-        public static readonly Vector East2D = new Vector(0, 1);
-        public static readonly Vector SouthEast2D = new Vector(1, -1);
-        public static readonly Vector South2D = new Vector(1, 0);
-        public static readonly Vector SouthWest2D = new Vector(1, 1);
+        public static readonly Vector NorthWest2D = new Vector(-1, 1);
+        public static readonly Vector North2D = new Vector(0, 1);
+        public static readonly Vector NorthEast2D = new Vector(1, 1);
+        public static readonly Vector West2D = new Vector(-1, 0);
+        public static readonly Vector East2D = new Vector(1, 0);
+        public static readonly Vector SouthEast2D = new Vector(-1, -1);
+        public static readonly Vector South2D = new Vector(0, -1);
+        public static readonly Vector SouthWest2D = new Vector(1, -1);
 
         private readonly int[] _value;
         private readonly bool _isInitialized; // false on initialization
@@ -136,5 +136,18 @@ namespace Nour.Play {
 
         internal static Vector Parse(string v) =>
             new Vector(v.Trim().Split('x').Select(s => Int32.Parse(s)));
+
+        internal int ToIndex(int maxX) {
+            if (X > maxX) {
+                throw new IndexOutOfRangeException($"Can't get index of vector {this} in a space that's limited by Xmax = {maxX}");
+            }
+            return Y * maxX + X;
+        }
+
+        internal static Vector FromIndex(int i, int maxX) {
+            var x = i % maxX;
+            var y = i / maxX;
+            return new Vector(x, y);
+        }
     }
 }

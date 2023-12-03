@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nour.Play.Maze.PostProcessing;
 using Nour.Play.Renderers;
 
 namespace Nour.Play.Maze {
@@ -14,35 +15,44 @@ namespace Nour.Play.Maze {
         public IEnumerable<MazeCell> VisitedCells =>
             _cells.Where(cell => cell.IsVisited);
 
-        public int XHeightRows { get => _size.X; }
+        public int XWidthColumns { get => _size.X; }
 
-        public int YWidthColumns { get => _size.Y; }
+        public int YHeightRows { get => _size.Y; }
 
         public Vector Size { get => _size; }
 
         public int Area { get => _size.Area; }
 
+        public Optional<List<MazeCell>> LongestPath {
+            get =>
+                Attributes.ContainsKey(DijkstraDistance.LongestTrailAttribute) ?
+                Attributes[DijkstraDistance.LongestTrailAttribute] :
+                    Optional<List<MazeCell>>.Empty;
+        }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="x">rows</param>
-        /// <param name="y">columns</param>
+        /// <param name="x">columns</param>
+        /// <param name="y">rows</param>
         public Maze2D(int x, int y) : this(new Vector(x, y)) { }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="size">Map two-dimensional size, where X - rows (height), and Y - columns (width)</param>
+        /// <param name="size">Map two-dimensional size,
+        ///     where X - width, number of columns,
+        ///     and Y - height, number of rows</param>
         public Maze2D(Vector size) {
             size.ThrowIfNotAValidSize();
             _size = size;
             var cells = new MazeCell[_size.Area];
             // ? P'haps the direction is a property of the gate, not it's identity.
-            for (int i = 0; i < cells.Length; i++) {
-                var x = i / _size.Y;
-                var y = i % _size.Y;
-                var northI = i - _size.Y;
-                var westI = y > 0 ? (i - 1) : -1;
+            for (var i = 0; i < cells.Length; i++) {
+                var x = i % _size.X;
+                var y = i / _size.X;
+                var northI = i - _size.X;
+                var westI = x > 0 ? (i - 1) : -1;
                 var cell = new MazeCell(x, y);
                 if (northI >= 0) {
                     cell.Neighbors().Add(cells[northI]);
@@ -57,8 +67,10 @@ namespace Nour.Play.Maze {
             _cells = new List<MazeCell>(cells);
         }
 
-        public Map2D ToMap(Maze2DToMap2DConverter.MazeToMapOptions options) {
-            return new Maze2DToMap2DConverter().Convert(this, options);
+        public Map2D ToMap(Maze2DRenderer.MazeToMapOptions options) {
+            var map = Maze2DRenderer.CreateMapForMaze(options);
+            new Maze2DRenderer(this, options).Render(map);
+            return map;
         }
 
         public override string ToString() {
@@ -67,10 +79,10 @@ namespace Nour.Play.Maze {
 
         public static Maze2D Parse(string serialized) {
             var parts = serialized.Split(';', '\n');
-            var maze = new Maze2D(new Vector(parts[0].Split('x').Select(Int32.Parse)));
-            for (int i = 1; i < parts.Length; i++) {
-                var part = parts[i].Split(':', ',').Select(Int32.Parse).ToArray();
-                for (int j = 1; j < part.Length; j++)
+            var maze = new Maze2D(new Vector(parts[0].Split('x').Select(int.Parse)));
+            for (var i = 1; i < parts.Length; i++) {
+                var part = parts[i].Split(':', ',').Select(int.Parse).ToArray();
+                for (var j = 1; j < part.Length; j++)
                     maze.Cells[part[0]].Link(maze.Cells[part[j]]);
             }
             return maze;

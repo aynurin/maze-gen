@@ -6,7 +6,7 @@ namespace Nour.Play.Maze {
     public class HuntAndKillMazeGenerator : MazeGenerator {
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
             Console.WriteLine("HuntAndKillMazeGenerator v0.1");
-            Console.WriteLine($"Generating maze {layout.XHeightRows}x{layout.YWidthColumns}");
+            Console.WriteLine($"Generating maze {layout.XWidthColumns}x{layout.YHeightRows}");
 
             var currentCell = layout.Cells.GetRandom();
             while (!IsFillComplete(options, layout)) {

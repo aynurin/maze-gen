@@ -5,12 +5,12 @@ using Nour.Play;
 using Nour.Play.Areas;
 
 public static class TestExtensions {
-    public static T ElementAt<T>(this ICollection<T> collection, Vector vector, Vector size) {
-        return collection.ElementAt(vector.ToIndex(size));
+    public static T ElementAt<T>(this ICollection<T> collection, Vector vector, Vector areaSize) {
+        return collection.ElementAt(vector.ToIndex(areaSize));
     }
 
     public static int ToIndex(this Vector vector, Vector size) {
-        return vector.X * size.Y + vector.Y;
+        return vector.Y * size.X + vector.X;
     }
 
     /// <summary>
@@ -27,5 +27,9 @@ public static class TestExtensions {
         var position = VectorD.Parse(parts[0]).RoundToInt();
         var size = VectorD.Parse(parts[1]).RoundToInt();
         return new MapArea(AreaType.None, size, position);
+    }
+
+    public static Vector Position(this Cell cell, Map2D area) {
+        return Vector.FromIndex(area.Cells.IndexOf(cell), area.Size.X);
     }
 }

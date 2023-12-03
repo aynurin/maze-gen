@@ -43,8 +43,14 @@ namespace Nour.Play.Maze {
         public Optional<MazeCell> Links(Vector unitVector) =>
             new Optional<MazeCell>(_links.Find(cell => cell.Coordinates == this.Coordinates + unitVector));
 
-        public string ToLongString() => $"{Coordinates}: {(Links(Vector.West2D).HasValue ? "N" : "-")}{(Links(Vector.North2D).HasValue ? "E" : "-")}{(Links(Vector.East2D).HasValue ? "S" : "-")}{(Links(Vector.South2D).HasValue ? "W" : "-")}";
+        public string GatesString() => string.Concat(
+            Links(Vector.North2D).HasValue ? "N" : "-",
+            Links(Vector.East2D).HasValue ? "E" : "-",
+            Links(Vector.South2D).HasValue ? "S" : "-",
+            Links(Vector.West2D).HasValue ? "W" : "-");
 
-        public override string ToString() => Coordinates.ToString();
+        public string ToLongString() => $"{ToString()}({GatesString()})";
+
+        public override string ToString() => $"{Coordinates}{(IsVisited ? "V" : "")}";
     }
 }

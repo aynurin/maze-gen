@@ -8,6 +8,7 @@ namespace Nour.Play {
 
         private readonly T _value;
 
+        // TODO: Test this with null
         public Optional(T value) {
             _value = value;
             if (_value != null) {

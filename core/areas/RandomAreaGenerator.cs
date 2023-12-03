@@ -39,7 +39,7 @@ namespace Nour.Play.Areas {
         private static T PickRandom<T>(IDictionary<T, float> distribution) {
             var random = GlobalRandom.RandomSingle();
             var cumulativeProb = 0f;
-            T lastItem = default(T);
+            T lastItem = default;
             foreach (var couple in distribution) {
                 cumulativeProb += couple.Value;
                 if (random < cumulativeProb) {

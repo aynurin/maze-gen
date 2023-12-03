@@ -18,7 +18,7 @@ namespace Nour.Play.Maze {
         where T : MazeGenerator, new() {
             var maze = MazeGenerator.Generate<T>(size,
                 new GeneratorOptions() { FillFactor = fillFactor });
-            var map = maze.ToMap(Maze2DToMap2DConverter.MazeToMapOptions.Custom(1, 2, 1, 2, maze.Size));
+            var map = maze.ToMap(Maze2DRenderer.MazeToMapOptions.Custom(1, 2, 1, 2, maze.Size));
             if (drawAscii) {
                 Console.WriteLine(new Map2DAsciiRenderer().Render(map));
             }

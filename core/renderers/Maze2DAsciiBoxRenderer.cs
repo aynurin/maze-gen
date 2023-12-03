@@ -14,40 +14,42 @@ namespace Nour.Play.Renderers {
         private readonly int _asciiMazeHeight;
         private readonly int _asciiMazeWidth;
         private readonly Border.Type[] _buffer;
-        private readonly Dictionary<int, string> _data = new System.Collections.Generic.Dictionary<int, string>();
+        private readonly Dictionary<int, string> _data =
+            new Dictionary<int, string>();
 
-        public Maze2DAsciiBoxRenderer(Maze2D maze, int cellInnerHeight = 1, int cellInnerWidth = 3) {
-            _maze = maze;
-            _cellInnerHeight = cellInnerHeight;
+        public Maze2DAsciiBoxRenderer(Maze2D maze,
+                                      int cellInnerHeight = 1,
+                                      int cellInnerWidth = 3) {
+            _maze = maze; // 4x4
             _cellInnerWidth = cellInnerWidth;
-            _asciiMazeHeight = _maze.XHeightRows * (_cellInnerHeight + 1) + 1;
-            _asciiMazeWidth = _maze.YWidthColumns * (_cellInnerWidth + 1) + 1;
-            _buffer = new Border.Type[_asciiMazeHeight * _asciiMazeWidth];
-            for (int x = 0; x < _asciiMazeHeight; x++) {
-                for (int y = 0; y < _asciiMazeWidth; y++) {
-                    var borderType = Border.Type.Inner;
-                    if (x == 0 || y == 0 || x == _asciiMazeHeight - 1 || y == _asciiMazeWidth - 1) {
-                        borderType |= Border.Type.Outer;
-                    }
-                    if (y % (_cellInnerWidth + 1) == 0 && x % (_cellInnerHeight + 1) == 0) {
-                        borderType |= Border.Type.X;
-                    }
-                    _buffer[x * _asciiMazeWidth + y] = borderType;
+            _cellInnerHeight = cellInnerHeight;
+            _asciiMazeWidth = _maze.XWidthColumns * (_cellInnerWidth + 1) + 1; // 17
+            _asciiMazeHeight = _maze.YHeightRows * (_cellInnerHeight + 1) + 1; // 9
+            _buffer = new Border.Type[_asciiMazeWidth * _asciiMazeHeight]; // 17x9
+        }
+
+        public string WithTrail() {
+            var trail = _maze.LongestPath.HasValue ?
+                _maze.LongestPath.Value :
+                new List<MazeCell>();
+            var solutionCells = new HashSet<MazeCell>(trail);
+            // print cells from top to bottom
+            for (var y = _maze.YHeightRows - 1; y >= 0; y--) {
+                for (var x = 0; x < _maze.XWidthColumns; x++) {
+                    var mazeIndex = new Vector(x, y).ToIndex(_maze.XWidthColumns);
+                    var mazeCell = _maze.Cells[mazeIndex];
+                    var cellData = solutionCells.Contains(mazeCell) ?
+                        Convert.ToString(trail.IndexOf(mazeCell), 16) :
+                        string.Empty;
+                    PrintCell(mazeCell, cellData);
                 }
             }
-        }
-        public string WithTrail() {
-            var trail = _maze.Attributes.ContainsKey(DijkstraDistance.LongestTrailAttribute) ? _maze.Attributes[DijkstraDistance.LongestTrailAttribute] : new List<MazeCell>();
-            var solutionCells = new HashSet<MazeCell>(trail);
-            foreach (var cell in _maze.Cells) {
-                var cellData = solutionCells.Contains(cell) ? System.Convert.ToString(trail.IndexOf(cell), 16) : String.Empty;
-                PrintCell(cell, cellData);
-            }
 
+            // render cells in a string buffer
             var strBuffer = new StringBuilder();
-            for (int x = 0; x < _asciiMazeHeight; x++) {
-                for (int y = 0; y < _asciiMazeWidth; y++) {
-                    var index = x * _asciiMazeWidth + y;
+            for (var y = 0; y < _asciiMazeHeight; y++) {
+                for (var x = 0; x < _asciiMazeWidth; x++) {
+                    var index = new Vector(x, y).ToIndex(_asciiMazeWidth);
                     if (_data.ContainsKey(index)) {
                         strBuffer.Append(_data[index]);
                         y += _data[index].Length - 1;
@@ -60,11 +62,89 @@ namespace Nour.Play.Renderers {
             return strBuffer.ToString();
         }
 
+        private void PrintCell(MazeCell cell, string cellData) {
+            var asciiCoords = GetCellCoords(cell);
+            if (!cell.IsVisited) return;
+            _buffer[I(asciiCoords.Northeast)] |= Border.Type.X;
+            _buffer[I(asciiCoords.Northwest)] |= Border.Type.X;
+            _buffer[I(asciiCoords.Southeast)] |= Border.Type.X;
+            _buffer[I(asciiCoords.Southwest)] |= Border.Type.X;
+            if (!cell.Links(Vector.North2D).HasValue) {
+                _buffer[I(asciiCoords.Northeast)] |= Border.Type.Left;
+                _buffer[I(asciiCoords.Northwest)] |= Border.Type.Right;
+                foreach (var x in asciiCoords.North) _buffer[I(x)] |= Border.Type.South;
+            }
+            if (!cell.Links(Vector.South2D).HasValue) {
+                _buffer[I(asciiCoords.Southeast)] |= Border.Type.Left;
+                _buffer[I(asciiCoords.Southwest)] |= Border.Type.Right;
+                foreach (var x in asciiCoords.South) _buffer[I(x)] |= Border.Type.North;
+            }
+            if (!cell.Links(Vector.East2D).HasValue) {
+                _buffer[I(asciiCoords.Southeast)] |= Border.Type.Top;
+                _buffer[I(asciiCoords.Northeast)] |= Border.Type.Bottom;
+                foreach (var x in asciiCoords.East) _buffer[I(x)] |= Border.Type.East;
+            }
+            if (!cell.Links(Vector.West2D).HasValue) {
+                _buffer[I(asciiCoords.Southwest)] |= Border.Type.Top;
+                _buffer[I(asciiCoords.Northwest)] |= Border.Type.Bottom;
+                foreach (var x in asciiCoords.West) _buffer[I(x)] |= Border.Type.West;
+            }
+            if (!string.IsNullOrEmpty(cellData)) {
+                _data.Add(I(asciiCoords.Center), cellData);
+            }
+        }
+
+        private CellCoords GetCellCoords(MazeCell cell) {
+            // we have to conversions here:
+            // 1. maze cell X,Y is rendered at X,(_maze.Size.Y - cell.Y - 1)
+            // 2. ascii coord of maze cell X,Y is rendered at X,(_asciiMazeHeight - Y - 1)
+            var scaledCell = new {
+                x = cell.X * (_cellInnerWidth + 1),
+                y = (_maze.Size.Y - cell.Y) * (_cellInnerHeight + 1)
+            };
+            // I will print cell 0x3
+            // it's ascii coordinates will be:
+            // NW: 0x0 which converts to index 0
+            // SW: 0x3 which converts to index 0 + 17*2 = 34
+            // NE: 4x0 which converts to index 4
+            // SE: 4x3 which converts to index 4 + 17*2 = 38
+
+            // maze cell 0x0 = ascii coords 0x(asciiHeight-0)
+            // Northwest = 0 + (_maze.XWidthColumns * (_cellInnerWidth + 1) + 1) * (_cellInnerHeight + 1) = 
+            Vector CellCoord(int dY, int dX) =>
+                new Vector(scaledCell.x + dX, scaledCell.y - dY);
+            var c = new CellCoords {
+                Northwest = CellCoord(_cellInnerHeight + 1, 0),
+                Southwest = CellCoord(0, 0),
+                Northeast = CellCoord(_cellInnerHeight + 1, _cellInnerWidth + 1),
+                Southeast = CellCoord(0, _cellInnerWidth + 1),
+                Center = CellCoord(1, 2),
+                West = Enumerable.Range(0, _cellInnerHeight).Select(i => CellCoord(i + 1, 0)).ToArray(),
+                East = Enumerable.Range(0, _cellInnerHeight).Select(i => CellCoord(i + 1, _cellInnerWidth + 1)).ToArray(),
+                North = Enumerable.Range(0, _cellInnerWidth).Select(i => CellCoord(_cellInnerHeight + 1, i + 1)).ToArray(),
+                South = Enumerable.Range(0, _cellInnerWidth).Select(i => CellCoord(0, i + 1)).ToArray(),
+            };
+            return c;
+        }
+
+        private int I(Vector v) => v.ToIndex(_asciiMazeWidth);
+
+        struct CellCoords {
+            public Vector Northwest;
+            public Vector Southwest;
+            public Vector Northeast;
+            public Vector Southeast;
+            public Vector Center;
+
+            public Vector[] West;
+            public Vector[] East;
+            public Vector[] North;
+            public Vector[] South;
+        }
+
         private static class Border {
             [Flags]
             public enum Type {
-                Outer = 0b000000000000001,
-                Inner = 0b000000000000000,
                 North = 0b000000000000100,
                 East = 0b000000000001000,
                 West = 0b000000000010000,
@@ -77,128 +157,42 @@ namespace Nour.Play.Renderers {
                 Top = 0b001000000000000,
                 Bottom = 0b010000000000000,
                 Mark = 0b100000000000000,
+                None = 0b000000000000000,
             }
 
-            private static readonly Dictionary<Type, char> _chars = new Dictionary<Type, char>() {
-            {Type.Outer | Type.North, '═'},
-            {Type.Outer | Type.South, '═'},
-            {Type.Outer | Type.X | Type.Left | Type.Right, '═'},
-            {Type.Outer | Type.West, '║'},
-            {Type.Outer | Type.East, '║'},
-            {Type.Outer | Type.X | Type.Top | Type.Bottom, '║'},
+            private static readonly Dictionary<Type, char> s_chars =
+                new Dictionary<Type, char>() {
+                    {Type.North, '─'},
+                    {Type.South, '─'},
+                    {Type.North | Type.South, '─'},
+                    {Type.X | Type.Left | Type.Right, '─'},
+                    {Type.West, '│'},
+                    {Type.East, '│'},
+                    {Type.West | Type.East, '│'},
+                    {Type.X | Type.Top | Type.Bottom, '│'},
 
-            {Type.Inner | Type.North, '─'},
-            {Type.Inner | Type.South, '─'},
-            {Type.Inner | Type.North | Type.South, '─'},
-            {Type.Inner | Type.X | Type.Left | Type.Right, '─'},
-            {Type.Inner | Type.West, '│'},
-            {Type.Inner | Type.East, '│'},
-            {Type.Inner | Type.West | Type.East, '│'},
-            {Type.Inner | Type.X | Type.Top | Type.Bottom, '│'},
+                    {Type.X | Type.Left, '╴'},
+                    {Type.X | Type.Right, '╶'},
+                    {Type.X | Type.Top, '╵'},
+                    {Type.X | Type.Bottom, '╷'},
 
-            {Type.Inner | Type.X | Type.Left, '╴'},
-            {Type.Inner | Type.X | Type.Right, '╶'},
-            {Type.Inner | Type.X | Type.Top, '╵'},
-            {Type.Inner | Type.X | Type.Bottom, '╷'},
+                    {Type.X | Type.Right | Type.Bottom, '┌'},
+                    {Type.X | Type.Left | Type.Bottom, '┐'},
+                    {Type.X | Type.Right | Type.Top, '└'},
+                    {Type.X | Type.Left | Type.Top, '┘'},
 
-            {Type.Outer | Type.X | Type.Right | Type.Bottom, '╔'},
-            {Type.Outer | Type.X | Type.Left | Type.Bottom, '╗'},
-            {Type.Outer | Type.X | Type.Right | Type.Top, '╚'},
-            {Type.Outer | Type.X | Type.Left | Type.Top, '╝'},
+                    {Type.X | Type.Left | Type.Right | Type.Top, '┴'},
+                    {Type.X | Type.Left | Type.Right | Type.Bottom, '┬'},
+                    {Type.X | Type.Right | Type.Top | Type.Bottom, '├'},
+                    {Type.X | Type.Left | Type.Top | Type.Bottom, '┤'},
 
-            {Type.Inner | Type.X | Type.Right | Type.Bottom, '┌'},
-            {Type.Inner | Type.X | Type.Left | Type.Bottom, '┐'},
-            {Type.Inner | Type.X | Type.Right | Type.Top, '└'},
-            {Type.Inner | Type.X | Type.Left | Type.Top, '┘'},
+                    {Type.X, '┼'},
+                    {Type.X | Type.Left | Type.Right | Type.Top | Type.Bottom, '┼'},
+                    {Type.Mark, '*'},
+                    {Type.None, ' '},
+                };
 
-            {Type.Outer | Type.X | Type.Left | Type.Right | Type.Top, '╧'},
-            {Type.Outer | Type.X | Type.Left | Type.Right | Type.Bottom, '╤'},
-            {Type.Outer | Type.X | Type.Right | Type.Top | Type.Bottom, '╟'},
-            {Type.Outer | Type.X | Type.Left | Type.Top | Type.Bottom, '╢'},
-
-            {Type.Inner | Type.X | Type.Left | Type.Right | Type.Top, '┴'},
-            {Type.Inner | Type.X | Type.Left | Type.Right | Type.Bottom, '┬'},
-            {Type.Inner | Type.X | Type.Right | Type.Top | Type.Bottom, '├'},
-            {Type.Inner | Type.X | Type.Left | Type.Top | Type.Bottom, '┤'},
-
-            {Type.Outer | Type.X | Type.North | Type.Exit1, '╕'},
-            {Type.Outer | Type.X | Type.North | Type.Exit2, '╒'},
-            {Type.Outer | Type.X | Type.South | Type.Exit1, '╛'},
-            {Type.Outer | Type.X | Type.South | Type.Exit2, '╘'},
-
-            {Type.Outer | Type.X | Type.East | Type.Exit1, '╜'},
-            {Type.Outer | Type.X | Type.East | Type.Exit2, '╖'},
-            {Type.Outer | Type.X | Type.West | Type.Exit1, '╙'},
-            {Type.Outer | Type.X | Type.West | Type.Exit2, '╓'},
-
-            {Type.Inner | Type.X, '┼'},
-            {Type.Inner | Type.X | Type.Left | Type.Right | Type.Top | Type.Bottom, '┼'},
-            {Type.Inner, ' '},
-            {Type.Outer, ' '},
-            {Type.Mark, '*'},
-        };
-
-            public static char Char(Type t) => _chars[t];
-        }
-
-        private void PrintCell(MazeCell cell, string cellData) {
-            // Console.WriteLine($"MazeCell {cell.X,2}x{cell.Y,2}: {(!cell.Links(Vector.North2D).HasValue ? "-" : "N")}, {(!cell.Links(Vector.East2D).HasValue ? "-" : "E")}, {(!cell.Links(Vector.South2D).HasValue ? "-" : "S")}, {(!cell.Links(Vector.West2D).HasValue ? "-" : "W")}");
-            var asciiCoords = GetCellCoords(cell);
-            if (!cell.Links(Vector.North2D).HasValue) {
-                _buffer[asciiCoords.Northeast] |= Border.Type.Left;
-                _buffer[asciiCoords.Northwest] |= Border.Type.Right;
-                foreach (var x in asciiCoords.North) _buffer[x] |= Border.Type.North;
-            }
-            if (!cell.Links(Vector.South2D).HasValue) {
-                _buffer[asciiCoords.Southeast] |= Border.Type.Left;
-                _buffer[asciiCoords.Southwest] |= Border.Type.Right;
-                foreach (var x in asciiCoords.South) _buffer[x] |= Border.Type.South;
-            }
-            if (!cell.Links(Vector.East2D).HasValue) {
-                _buffer[asciiCoords.Southeast] |= Border.Type.Top;
-                _buffer[asciiCoords.Northeast] |= Border.Type.Bottom;
-                foreach (var x in asciiCoords.East) _buffer[x] |= Border.Type.East;
-            }
-            if (!cell.Links(Vector.West2D).HasValue) {
-                _buffer[asciiCoords.Southwest] |= Border.Type.Top;
-                _buffer[asciiCoords.Northwest] |= Border.Type.Bottom;
-                foreach (var x in asciiCoords.West) _buffer[x] |= Border.Type.West;
-            }
-            if (!String.IsNullOrEmpty(cellData)) {
-                _data.Add(asciiCoords.Center, cellData);
-            }
-        }
-
-        private CellCoords GetCellCoords(MazeCell cell) {
-            int scaledRow = cell.X * (_cellInnerHeight + 1); // each cell height = inner height + border
-            int scaledCol = cell.Y * (_cellInnerWidth + 1); // each cell width = inner width + border
-            var scaledGrid = new { rows = _maze.XHeightRows * (_cellInnerHeight + 1) + 1, cols = _maze.YWidthColumns * (_cellInnerWidth + 1) + 1 };
-            var scaledCell = new { x = cell.X * (_cellInnerHeight + 1), y = cell.Y * (_cellInnerWidth + 1) };
-            Func<int, int, int> cellCoord = (int dRow, int dCol) => (scaledCell.x + dRow) * scaledGrid.cols + (scaledCell.y + dCol);
-            return new CellCoords {
-                Northwest = cellCoord(0, 0),
-                Southwest = cellCoord(_cellInnerHeight + 1, 0),
-                Northeast = cellCoord(0, _cellInnerWidth + 1),
-                Southeast = cellCoord(_cellInnerHeight + 1, _cellInnerWidth + 1),
-                Center = cellCoord(1, 2),
-                West = Enumerable.Range(0, _cellInnerHeight).Select(i => cellCoord(i + 1, 0)).ToArray(),
-                East = Enumerable.Range(0, _cellInnerHeight).Select(i => cellCoord(i + 1, _cellInnerWidth + 1)).ToArray(),
-                North = Enumerable.Range(0, _cellInnerWidth).Select(i => cellCoord(0, i + 1)).ToArray(),
-                South = Enumerable.Range(0, _cellInnerWidth).Select(i => cellCoord(_cellInnerHeight + 1, i + 1)).ToArray(),
-            };
-        }
-
-        struct CellCoords {
-            public int Northwest;
-            public int Southwest;
-            public int Northeast;
-            public int Southeast;
-            public int Center;
-
-            public int[] West;
-            public int[] East;
-            public int[] North;
-            public int[] South;
+            public static char Char(Type t) => s_chars[t];
         }
     }
 }

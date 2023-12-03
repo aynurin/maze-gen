@@ -1,10 +1,12 @@
+using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
+using System.Linq;
 using Nour.Play.Renderers;
 
 namespace Nour.Play {
     public class Map2D {
-        private List<Cell> _cells;
+        private readonly List<Cell> _cells;
 
         // TBD
         public Vector Size { get; private set; }
@@ -19,13 +21,19 @@ namespace Nour.Play {
             }
         }
 
-        public Cell CellAt(Vector xy) => _cells[xy.X * Size.Y + xy.Y];
+        public Cell CellAt(Vector xy) => _cells[xy.ToIndex(Size.X)];
 
         public IEnumerable<Cell> CellsAt(Vector xy, Vector areaSize) {
-            for (var x = xy.X; x < xy.X + areaSize.X; x++) {
-                for (var y = xy.Y; y < xy.Y + areaSize.Y; y++) {
-                    var i = x * Size.Y + y;
-                    yield return _cells[i];
+            if (xy.X + areaSize.X > Size.X || xy.Y + areaSize.Y > Size.Y) {
+                throw new IndexOutOfRangeException($"Can't retrieve area of size {areaSize} at {xy} in map of size {Size}");
+            }
+            return AnyCellsAt(xy, areaSize);
+        }
+
+        public IEnumerable<Cell> AnyCellsAt(Vector xy, Vector areaSize) {
+            for (var x = Math.Max(0, xy.X); x < Math.Min(xy.X + areaSize.X, Size.X); x++) {
+                for (var y = Math.Max(0, xy.Y); y < Math.Min(xy.Y + areaSize.Y, Size.Y); y++) {
+                    yield return _cells[new Vector(x, y).ToIndex(Size.X)];
                 }
             }
         }

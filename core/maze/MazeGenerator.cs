@@ -10,7 +10,7 @@ namespace Nour.Play.Maze {
         public static Maze2D Generate<T>(Vector size, GeneratorOptions options)
             where T : MazeGenerator, new() {
             var maze = new Maze2D(size);
-            (new T()).GenerateMaze(maze, options);
+            new T().GenerateMaze(maze, options);
             maze.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(maze));
             maze.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
                 DijkstraDistance.FindLongestTrail(maze));
