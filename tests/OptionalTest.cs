@@ -37,6 +37,21 @@ namespace Nour.Play {
         }
 
         [Test]
+        public void Optional_Null() {
+            var optNull1 = new Optional<object>(null);
+            Optional<object> optNull2 = null;
+            Assert.IsTrue(optNull1 == null, "optNull1 == null");
+            Assert.IsTrue(null == optNull1, "optNull1 == null");
+            Assert.IsFalse(optNull1 != null, "optNull1 == null");
+            Assert.IsFalse(null != optNull1, "optNull1 == null");
+            Assert.IsFalse(optNull1 is null, "optNull1 == null");
+            Assert.IsTrue(optNull2 == null, "optNull2 == null");
+            Assert.IsTrue(optNull2 is null, "optNull2 == null");
+            Assert.IsFalse(optNull1.HasValue);
+            Assert.Throws<NullReferenceException>(() => { var shouldFail = optNull2.HasValue; });
+        }
+
+        [Test]
         public void Optional_GetHashCode() {
             var a = new { x = 1 };
             var optA = new Optional<dynamic>(a);

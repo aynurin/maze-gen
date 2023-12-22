@@ -30,8 +30,14 @@ namespace Nour.Play {
         }
 
         public override bool Equals(object obj) {
+            if (obj is null) {
+                return this.HasValue == false;
+            }
             if (obj is T) {
                 return this.Value.Equals(obj);
+            }
+            if (obj is Optional<T> optional) {
+                return this.Value.Equals(optional.Value);
             }
             return base.Equals(obj);
         }
@@ -51,6 +57,30 @@ namespace Nour.Play {
         public static explicit operator T(Optional<T> optional) =>
             optional.HasValue ? optional.Value :
             throw new InvalidOperationException($"This Optional<{typeof(T).Name}> is empty");
+
+        public static bool operator ==(Optional<T> left, Optional<T> right) {
+            if (left is null) {
+                if (right is null) {
+                    return Object.ReferenceEquals(left, right);
+                } else {
+                    return right.Equals(left);
+                }
+            } else {
+                return left.Equals(right);
+            }
+        }
+
+        public static bool operator !=(Optional<T> left, Optional<T> right) {
+            if (left is null) {
+                if (right is null) {
+                    return !Object.ReferenceEquals(left, right);
+                } else {
+                    return !right.Equals(left);
+                }
+            } else {
+                return !left.Equals(right);
+            }
+        }
 
         public static implicit operator Optional<T>(T val) => new Optional<T>(val);
     }

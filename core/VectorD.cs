@@ -12,19 +12,16 @@ namespace Nour.Play {
 
         private readonly double[] _value;
         private double _length;
-        private readonly bool _isInitialized; // false on initialization
-
         public double[] Value => _value;
-        public bool IsEmpty => !_isInitialized;
+        public bool IsEmpty => _value == null || _value.Length == 0;
 
         public bool IsTwoDimensional => !IsEmpty && _value.Length == 2;
-        public bool IsThreeDimensional => !IsEmpty && _value.Length == 3;
-        public double X => IsTwoDimensional || IsThreeDimensional ? _value[0] :
+        public double X => IsTwoDimensional ? _value[0] :
             throw new InvalidOperationException("X and Y are only supported in two- or three-dimensional space");
-        public double Y => IsTwoDimensional || IsThreeDimensional ? _value[1] :
+        public double Y => IsTwoDimensional ? _value[1] :
             throw new InvalidOperationException("X and Y are only supported in two- or three-dimensional space");
         public double MagnitudeSq => _value.Sum(a => a * a);
-        public double Magnitude => Double.IsNaN(_length) ? _length = Math.Sqrt(MagnitudeSq) : _length;
+        public double Magnitude => double.IsNaN(_length) ? _length = Math.Sqrt(MagnitudeSq) : _length;
 
         public VectorD WithMagnitude(double newMagnitude) {
             var mag = Magnitude;
@@ -34,8 +31,7 @@ namespace Nour.Play {
         public VectorD(IEnumerable<double> dimensions) {
             dimensions.ThrowIfNull("dimensions");
             _value = dimensions.ToArray();
-            _length = Double.NaN;
-            _isInitialized = true;
+            _length = double.NaN;
         }
 
         public VectorD(double x, double y) :
@@ -62,11 +58,15 @@ namespace Nour.Play {
         public static VectorD operator *(VectorD one, double another) =>
             ThrowIfEmptyOrApply(one, VectorD.Zero2D, () => new VectorD(one._value.Select(e => e * another)));
 
+        public static bool operator ==(VectorD one, VectorD another) =>
+            one.Equals(another);
+        public static bool operator !=(VectorD one, VectorD another) =>
+            !one.Equals(another);
         public override bool Equals(object obj) => this.Equals((VectorD)obj);
         public override int GetHashCode() =>
             IsEmpty ? _value.GetHashCode() :
-            ((IStructuralEquatable)_value).GetHashCode(EqualityComparer<int>.Default);
-        public override string ToString() => IsEmpty ? "<empty>" : _value.Length == 0 ? "--" : String.Join("x", _value.Select(v => v.ToString("F2")));
+            ((IStructuralEquatable)_value.Select(v => Math.Round(v, 9)).ToArray()).GetHashCode(EqualityComparer<double>.Default);
+        public override string ToString() => IsEmpty ? "<empty>" : _value.Length == 0 ? "--" : string.Join("x", _value.Select(v => v.ToString("F2")));
         public bool Equals(VectorD another) =>
             (this.IsEmpty && another.IsEmpty)
             || (!this.IsEmpty && !another.IsEmpty && this._value.Zip(another._value, (a, b) => Math.Abs(a - b) < MIN).All(a => a));

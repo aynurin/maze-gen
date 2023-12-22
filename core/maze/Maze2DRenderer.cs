@@ -57,10 +57,10 @@ namespace Nour.Play.Maze {
         }
 
         public bool Fits(Map2D map, MazeToMapOptions options) {
-            return map.Size.AllGreaterThanOrEqualTo(
-                new Vector(
-                    options.TrailXWidths.Sum() + options.WallXWidths.Sum(),
-                    options.TrailYHeights.Sum() + options.WallYHeights.Sum()));
+            return map.Size.X >=
+                    options.TrailXWidths.Sum() + options.WallXWidths.Sum()
+                && map.Size.Y >=
+                    options.TrailYHeights.Sum() + options.WallYHeights.Sum();
         }
 
         public CellsMapping CreateCellsMapping(Map2D map, MazeCell mazeCell)
