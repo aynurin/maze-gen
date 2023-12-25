@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nour.Play.Areas;
 using Nour.Play.Maze.PostProcessing;
 using Nour.Play.Renderers;
 
@@ -49,11 +50,10 @@ namespace Nour.Play.Maze {
             var cells = new MazeCell[_size.Area];
             // ? P'haps the direction is a property of the gate, not it's identity.
             for (var i = 0; i < cells.Length; i++) {
-                var x = i % _size.X;
-                var y = i / _size.X;
+                var xy = Vector.FromIndex(i, _size.X);
                 var northI = i - _size.X;
-                var westI = x > 0 ? (i - 1) : -1;
-                var cell = new MazeCell(x, y);
+                var westI = xy.X > 0 ? (i - 1) : -1;
+                var cell = new MazeCell(xy);
                 if (northI >= 0) {
                     cell.Neighbors().Add(cells[northI]);
                     cells[northI].Neighbors().Add(cell);
@@ -65,6 +65,24 @@ namespace Nour.Play.Maze {
                 cells[i] = cell;
             }
             _cells = new List<MazeCell>(cells);
+        }
+
+        public List<MapArea> Areas { get; private set; } = new List<MapArea>();
+
+        internal void AddArea(MapArea area) {
+            Areas.Add(area);
+            Console.WriteLine(
+                $"Adding area P{area.Position};S{area.Size} " +
+                $"({string.Join(",", area.Tags)})");
+            // key effects of MapArea:
+            // 1. maze algorithms should be aware of areas. E.g., 
+            // Ways to represent areas in a maze:
+            // 1. Same MazeCell is referenced at all MapArea coordinates
+            //      pros: easy to implement now
+            // 2. Each MazeCell in the MapArea space is linked to its MapArea
+            //      pros: makes sense
+            //      cons: 
+
         }
 
         public Map2D ToMap(Maze2DRenderer.MazeToMapOptions options) {

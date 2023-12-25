@@ -8,6 +8,8 @@ namespace Nour.Play.Maze {
             Console.WriteLine("HuntAndKillMazeGenerator v0.1");
             Console.WriteLine($"Generating maze {layout.XWidthColumns}x{layout.YHeightRows}");
 
+            // TODO (MapArea): If there are unvisited visitable areas, start at one of them.
+            // TODO (MapArea): Choose only visitable areas.
             var currentCell = layout.Cells.GetRandom();
             while (!IsFillComplete(options, layout)) {
                 var potentiallyNext = currentCell.Neighbors().Where(cell => !cell.IsVisited).ToList();

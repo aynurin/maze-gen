@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace Nour.Play.Areas {
-    internal class RandomAreaGenerator : IEnumerable<MapArea>, IEnumerator<MapArea> {
+    public class RandomAreaGenerator : IEnumerable<MapArea>, IEnumerator<MapArea> {
         private MapArea _current;
 
         public GeneratorSettings Settings { get; set; }

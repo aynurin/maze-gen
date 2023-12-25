@@ -107,7 +107,7 @@ namespace Nour.Play.Areas.Evolving {
                 force = new VectorD(forceX, forceY);
                 caseName = "OVERLAP";
             }
-            _log.Buffered.D(5, $"GetRoomForce({area}, {other}): {caseName},thisV={thisV},otherV={otherV},direction={direction},distance={distance},distance.Magnitude={distance.Magnitude},force={force}");
+            _log?.Buffered.D(5, $"GetRoomForce({area}, {other}): {caseName},thisV={thisV},otherV={otherV},direction={direction},distance={distance},distance.Magnitude={distance.Magnitude},force={force}");
             return force;
         }
 

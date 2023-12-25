@@ -11,9 +11,13 @@ namespace Nour.Play.Maze {
             }
             var states = GlobalRandom.NextBytes(layout.Area);
             for (var i = 0; i < layout.Cells.Count; i++) {
+                // TODO (MapArea): If the cell is an Area, the next cell should
+                //                 be outside of the area.
+                // TODO (MapArea): Choose only visitable areas.
                 var cell = layout.Cells[i];
                 var linkNorth = states[i] % 2 == 0;
                 // link north
+                // TODO (MapArea): Choose only visitable areas.
                 if ((linkNorth || !cell.Neighbors(Vector.East2D).HasValue) && cell.Neighbors(Vector.North2D).HasValue) {
                     cell.Link(cell.Neighbors(Vector.North2D).Value);
                 }

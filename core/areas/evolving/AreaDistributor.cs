@@ -7,6 +7,8 @@ namespace Nour.Play.Areas.Evolving {
         private readonly MapAreaLogRenderer _renderer;
         private readonly bool _verboseOutput;
 
+        public AreaDistributor() : this(null, null, false) { }
+
         public AreaDistributor(Log log,
                                MapAreaLogRenderer renderer = null,
                                bool verboseOutput = false) {

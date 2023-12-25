@@ -10,6 +10,8 @@ namespace Nour.Play.Maze {
             var currentCell = layout.Cells.GetRandom();
             var visitedCells = new HashSet<MazeCell>() { currentCell };
             while (!IsFillComplete(options, visitedCells, layout.Size)) {
+                // TODO (MapArea): If there are unvisited areas, start at one of them.
+                // TODO (MapArea): Choose only visitable areas.
                 var next = currentCell.Neighbors().GetRandom();
                 if (!visitedCells.Contains(next)) {
                     currentCell.Link(next);

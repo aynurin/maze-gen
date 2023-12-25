@@ -66,7 +66,7 @@ namespace Nour.Play {
         }
 
         [Test]
-        public void Maze2D_CanScaleMap() {
+        public void Maze2D_CanRenderMap() {
             var map = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(3, 3),
                 new GeneratorOptions() {
                     FillFactor = GeneratorOptions.FillFactorOption.Full
@@ -76,6 +76,36 @@ namespace Nour.Play {
             var expectedSize = new Vector(13, 15);
 
             Assert.AreEqual(expectedSize.Area, scaledMap.Cells.Count);
+        }
+
+        [Test]
+        public void Maze2D_AddsNoRoomsWhenNoneRequested() {
+            var maze = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(10, 10),
+                new GeneratorOptions() {
+                    FillFactor = GeneratorOptions.FillFactorOption.Full,
+                    MapAreas = GeneratorOptions.MapAreaOptions.Manual,
+                });
+            Assert.That(maze.Areas.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Maze2D_AddsNoRoomsToASmallMaze() {
+            var maze = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(3, 3),
+                new GeneratorOptions() {
+                    FillFactor = GeneratorOptions.FillFactorOption.Full,
+                    MapAreas = GeneratorOptions.MapAreaOptions.Auto,
+                });
+            Assert.That(maze.Areas.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Maze2D_AddsRooms() {
+            var maze = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(5, 5),
+                new GeneratorOptions() {
+                    FillFactor = GeneratorOptions.FillFactorOption.Full,
+                    MapAreas = GeneratorOptions.MapAreaOptions.Auto,
+                });
+            Assert.That(maze.Areas.Count, Is.GreaterThan(0));
         }
 
         [Test]

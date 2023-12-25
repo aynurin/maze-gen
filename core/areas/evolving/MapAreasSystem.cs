@@ -50,7 +50,7 @@ namespace Nour.Play.Areas.Evolving {
                 force += envForceProducer.GetEnvironmentForce(area, _envSize);
                 // compensate opposing force
                 areasForces.Add(force);
-                _log.Buffered.D(5, $"OverallForce({area}): {force}");
+                _log?.Buffered.D(5, $"OverallForce({area}): {force}");
             }
             // apply epoch force in this generation
             for (var i = 0; i < _areas.Count; i++) {
@@ -106,7 +106,7 @@ namespace Nour.Play.Areas.Evolving {
             epochResult.CompleteEvolution =
                 epochResult.Stats.mode == 0 && epochResult.Stats.variance <= 0.1;
 
-            _log.Buffered.D(4, $"CompleteEpoch(): {epochResult.DebugString()}, {epochResult.Stats.DebugString()}");
+            _log?.Buffered.D(4, $"CompleteEpoch(): {epochResult.DebugString()}, {epochResult.Stats.DebugString()}");
 
             _onEpoch(epochResult);
 

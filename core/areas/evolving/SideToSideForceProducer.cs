@@ -121,7 +121,7 @@ namespace Nour.Play.Areas.Evolving {
             }
             var force = new VectorD(fX.force, fY.force);
 
-            _log.Buffered.D(5, $"GetRoomForce (({area}), ({other})): {fX.caseName},{fY.caseName},f={fXo:F2}x{fYo:F2},thisForce={thisForceX:F2}x{thisForceY:F2},distance={distance},opposingForce={opposingForceX:F2}x{opposingForceY:F2},force={force}");
+            _log?.Buffered.D(5, $"GetRoomForce (({area}), ({other})): {fX.caseName},{fY.caseName},f={fXo:F2}x{fYo:F2},thisForce={thisForceX:F2}x{thisForceY:F2},distance={distance},opposingForce={opposingForceX:F2}x{opposingForceY:F2},force={force}");
             return force;
         }
 
@@ -140,7 +140,7 @@ namespace Nour.Play.Areas.Evolving {
 
             var distance = new VectorD(distanceX, distanceY);
             var force = new VectorD(forceX, forceY);
-            _log.Buffered.D(5, $"GetMapForce (({area}), {env.Size}): {caseX},{caseY},distance={distance},force={force}");
+            _log?.Buffered.D(5, $"GetMapForce (({area}), {env.Size}): {caseX},{caseY},distance={distance},force={force}");
             return force;
         }
 

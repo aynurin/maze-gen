@@ -20,7 +20,7 @@ namespace Nour.Play.Renderers {
                            area.Position.Y + offset.Y),
                            area.Size,
                            roomChars));
-            _log.Buffered.D(4, buffer.ToString());
+            _log?.Buffered.D(4, buffer.ToString());
         }
 
         private void DrawRect(AsciiBuffer buffer, Vector pos, Vector size, char[] wallChars) {
