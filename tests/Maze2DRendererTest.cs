@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nour.Play.Areas;
 using Nour.Play.MapFilters;
 using Nour.Play.Maze;
 using Nour.Play.Maze.PostProcessing;
@@ -15,10 +16,9 @@ namespace Nour.Play {
         [SetUp]
         public void SetUp() {
             _maze = Maze2D.Parse("4x4;0:1,4;1:2,5;2:3;3:7;4:5,8;8:12;12:13;13:14;14:10;10:11");
-            Console.WriteLine(_maze.ToString());
         }
         [Test]
-        public void Maze2DToMap2DConverter_CanGenerateMap() {
+        public void CanRenderAMapWithAntiAliasing() {
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailXWidths: new int[] { 1, 2, 1, 2 },
                 trailYHeights: new int[] { 2, 1, 2, 1 },
@@ -49,7 +49,7 @@ namespace Nour.Play {
         }
 
         [Test]
-        public void Maze2DToMap2DConverter_CanGenerateMap2() {
+        public void CanRenderAMapWithVoids() {
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailXWidths: new int[] { 2, 3, 3, 2 },
                 trailYHeights: new int[] { 1, 2, 1, 1 },
@@ -75,6 +75,71 @@ namespace Nour.Play {
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
             var actual = map.ToString();
+            Console.WriteLine(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CanRenderAMapWithFilledAreas() {
+            _maze.AddArea(new MapArea(AreaType.Fill, new Vector(1, 1), new Vector(1, 1)));
+            var mazeRenderingOptions = new MazeToMapOptions(
+                trailXWidths: new int[] { 2, 3, 3, 2 },
+                trailYHeights: new int[] { 1, 2, 1, 1 },
+                wallXWidths: new int[] { 2, 2, 2, 2, 2 },
+                wallYHeights: new int[] { 1, 2, 1, 2, 1 });
+            var map = CreateMapForMaze(mazeRenderingOptions);
+
+            var mazeRenderer = new Maze2DRenderer(_maze, mazeRenderingOptions);
+            mazeRenderer.Render(map);
+            Console.WriteLine(map.ToString());
+
+            var expected =
+                "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓00000\n" +
+                "0▓░░░░░░░░░░░░▓00000\n" +
+                "0▓░░▒▓▓▓▓▓▒░░░▓▓0000\n" +
+                "0▓░░▓▓000░▓░░░▒▓▓▓▓0\n" +
+                "0▓░░▓00000▓░░░░░░░▓0\n" +
+                "0▓░░▓00000▓▓▓▓▓▓▓▓▓0\n" +
+                "0▓░░▓0000000000▓░░▓0\n" +
+                "0▓░░▓0000000000▓░░▓0\n" +
+                "0▓░░▓▓00000000▓▓░░▓0\n" +
+                "0▓░░▒▓▓▓▓▓▓▓▓▓▓▒░░▓0\n" +
+                "0▓░░░░░░░░░░░░░░░░▓0\n" +
+                "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
+            var actual = map.ToString();
+            Console.WriteLine(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CanRenderAMapWithHallAreas() {
+            _maze.AddArea(new MapArea(AreaType.Hall, new Vector(4, 2), new Vector(0, 0)));
+            var mazeRenderingOptions = new MazeToMapOptions(
+                trailXWidths: new int[] { 2, 3, 3, 2 },
+                trailYHeights: new int[] { 1, 2, 1, 1 },
+                wallXWidths: new int[] { 2, 2, 2, 2, 2 },
+                wallYHeights: new int[] { 1, 2, 1, 2, 1 });
+            var map = CreateMapForMaze(mazeRenderingOptions);
+
+            var mazeRenderer = new Maze2DRenderer(_maze, mazeRenderingOptions);
+            mazeRenderer.Render(map);
+            Console.WriteLine(map.ToString());
+
+            var expected =
+                "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓00000\n" +
+                "0▓░░░░░░░░░░░░▓00000\n" +
+                "0▓░░▒▓▓▓▓▓▒░░░▓▓0000\n" +
+                "0▓░░▓▓▓▓▓▓▓░░░▒▓▓▓▓0\n" +
+                "0▓░░▓▓▓▓▓▓▓░░░░░░░▓0\n" +
+                "0▓░░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n" +
+                "0▓░░░░░░░░░░░░░░░░▓0\n" +
+                "0▓░░░░░░░░░░░░░░░░▓0\n" +
+                "0▓░░░░░░░░░░░░░░░░▓0\n" +
+                "0▓░░░░░░░░░░░░░░░░▓0\n" +
+                "0▓░░░░░░░░░░░░░░░░▓0\n" +
+                "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
+            var actual = map.ToString();
+            Console.WriteLine(actual);
             Assert.AreEqual(expected, actual);
         }
 
