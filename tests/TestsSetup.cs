@@ -1,5 +1,7 @@
 using System;
+using System.Diagnostics;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 
 [SetUpFixture]
 public class SetUpTests {
@@ -13,5 +15,6 @@ public class SetUpTests {
     [OneTimeTearDown]
     public void RunAfterAnyTests() {
         // ...
+        Trace.Flush();
     }
 }

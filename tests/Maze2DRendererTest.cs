@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Nour.Play.MapFilters;
 using Nour.Play.Maze;
+using Nour.Play.Maze.PostProcessing;
 using NUnit.Framework;
 using static Nour.Play.Maze.Maze2DRenderer;
 
@@ -10,7 +11,6 @@ namespace Nour.Play {
     [TestFixture]
     public class Maze2DRendererTest {
         private Maze2D _maze;
-        private Map2D _map;
 
         [SetUp]
         public void SetUp() {
@@ -95,56 +95,36 @@ namespace Nour.Play {
         }
 
         [Test]
+        public void Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData() {
+            var expected =
+                "┌───────────┐    \n" +
+                "│ 4   3   2 │    \n" +
+                "│   ┌───┐   └───┐\n" +
+                "│ 5 │   │ 1   0 │\n" +
+                "│   └───┼───┬───┤\n" +
+                "│ 6     │   │ b │\n" +
+                "│   ┼   └───┘   │\n" +
+                "│ 7   8   9   a │\n" +
+                "└───────────────┘\n";
+            _maze.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(_maze));
+            _maze.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
+                DijkstraDistance.FindLongestTrail(_maze));
+            Console.WriteLine(_maze.ToString());
+            Assert.AreEqual(expected, _maze.ToString());
+        }
+
+        [Test]
         public void Maze2DToMap2DConverter_ThrowsIfInvalidOptions() {
-            var maze = Maze2D.Parse("4x4;0:1,4;1:2,5;2:3;3:7;4:5,8;8:12;12:13;13:14;14:10;10:11");
             Assert.Throws<ArgumentException>(() => new MazeToMapOptions(new int[] { 1 }, new int[] { 2 }, new int[] { 3 }, new int[] { 0 }));
             Assert.Throws<ArgumentException>(() => new MazeToMapOptions(new int[] { 1 }, new int[] { 2 }, new int[] { -3 }, new int[] { 4 }));
             Assert.Throws<ArgumentException>(() => new MazeToMapOptions(new int[] { 1 }, new int[] { -2 }, new int[] { 3 }, new int[] { 4 }));
             Assert.Throws<ArgumentException>(() => new MazeToMapOptions(new int[] { -1 }, new int[] { 2 }, new int[] { 3 }, new int[] { 4 }));
-            Assert.DoesNotThrow(() => new MazeToMapOptions(new int[] { 1, 2, 1, 1 }, new int[] { 2, 2, 3, 2 }, new int[] { 1, 2, 1, 2, 1 }, new int[] { 2, 3, 2, 2, 2 }).ThrowIfWrong(maze));
-            Assert.Throws<ArgumentException>(() => new MazeToMapOptions(new int[] { -1 }, new int[] { 2 }, new int[] { 3 }, new int[] { 4 }).ThrowIfWrong(maze));
+            Assert.DoesNotThrow(() => new MazeToMapOptions(new int[] { 1, 2, 1, 1 }, new int[] { 2, 2, 3, 2 }, new int[] { 1, 2, 1, 2, 1 }, new int[] { 2, 3, 2, 2, 2 }).ThrowIfWrong(_maze));
+            Assert.Throws<ArgumentException>(() => new MazeToMapOptions(new int[] { -1 }, new int[] { 2 }, new int[] { 3 }, new int[] { 4 }).ThrowIfWrong(_maze));
         }
 
         [Test]
         public void CellsMapping_ValidMapping() {
-            var maze = Maze2D.Parse("4x4;0:1,4;1:2,5;2:3;3:7;4:5,8;8:12;12:13;13:14;14:10;10:11");
-            // Console.WriteLine(maze.ToString());
-            // ╔═══════════════╗
-            // ║0x0 1x0 2x0 3x0║
-            // ║   ┼   ╔═══╗   ║
-            // ║0x1 1x1║   ║3x1║
-            // ║   ╔═══┼═══╝───╢
-            // ║0x2║   ║2x2 3x2║
-            // ║   ╚═══╝   ╔═══╝
-            // ║0x3 1x3 2x3║3x3
-            // ╚═══════════╝
-            // Console.WriteLine(new Maze2DToMap2DConverter().Convert(
-            //     maze,
-            //     Maze2DToMap2DConverter.MazeToMapOptions.Custom(
-            //         trailXWidths: new int[] { 1, 2, 1, 2 },
-            //         trailYHeights: new int[] { 2, 1, 2, 1 },
-            //         wallXWidths: new int[] { 1, 2, 1, 2, 1 },
-            //         wallYHeights: new int[] { 2, 1, 2, 1, 2 }))
-            //         .ToString());
-            //
-            //           13 x 14
-            //  WYH_4 -- ▓▓▓▓▓▓▓▓     
-            //  WYH_4 -- ▓▓▓▓▓▓▓▓▓    
-            //  TYH_3    ▓░░░░░░░▓▓▓▓ 
-            //  WYH_3 -- ▓░▒▓▓▓▒░▒▓▓▓▓
-            //  TYH_2    ▓░▓▓▓▓▓░░░░░▓
-            //  TYH_2    ▓░▓▓▓▓▓░░░░░▓
-            //  WYH_2 -- ▓░▓▓▓▓▓▓▓▓▓▓▓
-            //  WYH_2 -- ▓░▒▓▓▓▓▓▓▓▓▓▓
-            //  TYH_1    ▓░░░░░▓▓▓▓░░▓
-            //  WYH_1 -- ▓░░░░░▒▓▓▒░░▓
-            //  TYH_0    ▓░░░░░░░░░░░▓
-            //  TYH_0    ▓░░░░░░░░░░░▓
-            //  WYH_0 -- ▓▓▓▓▓▓▓▓▓▓▓▓▓
-            //  WYH_0 -- ▓▓▓▓▓▓▓▓▓▓▓▓▓
-            //           WTWWTTWTWWTTW
-            //           001 1 223 3 4
-
             // The goal is to make sure the cellMapping *Cells properties return
             // valid groups of cells
             // how to validate? make sure x,y matches expected values for all
@@ -159,8 +139,8 @@ namespace Nour.Play {
                 wallXWidths: new int[] { 1, 2, 1, 2, 1 },
                 wallYHeights: new int[] { 2, 1, 2, 1, 2 });
             var map = CreateMapForMaze(mazeToMapOptions);
-            var mazeToMap = new Maze2DRenderer(maze, mazeToMapOptions);
-            var cellMapping = mazeToMap.CreateCellsMapping(map, maze.Cells[0]);
+            var mazeToMap = new Maze2DRenderer(_maze, mazeToMapOptions);
+            var cellMapping = mazeToMap.CreateCellsMapping(map, _maze.AllCells[0]);
 
             Assert.That(cellMapping.SWPosition, Is.EqualTo(new Vector(0, 0)), "SWPosition");
             Assert.That(cellMapping.SWSize, Is.EqualTo(new Vector(1, 2)), "SWSize");

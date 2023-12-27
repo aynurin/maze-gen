@@ -6,3 +6,4 @@ packages
 
 # Visual Studio 2015 / MonoDevelop
 .vs/
+*.log

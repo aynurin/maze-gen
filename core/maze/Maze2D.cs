@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Nour.Play.Areas;
 using Nour.Play.Maze.PostProcessing;
@@ -9,10 +10,11 @@ namespace Nour.Play.Maze {
     public class Maze2D {
         private readonly Vector _size;
         private readonly List<MazeCell> _cells;
+        private readonly List<MazeCell> _visitableCells;
         public Dictionary<string, List<MazeCell>> Attributes { get; } =
             new Dictionary<string, List<MazeCell>>();
-
-        public IList<MazeCell> Cells => _cells.AsReadOnly();
+        public IList<MazeCell> AllCells => _cells.AsReadOnly();
+        public IList<MazeCell> VisitableCells => _visitableCells.AsReadOnly();
         public IEnumerable<MazeCell> VisitedCells =>
             _cells.Where(cell => cell.IsVisited);
 
@@ -65,24 +67,27 @@ namespace Nour.Play.Maze {
                 cells[i] = cell;
             }
             _cells = new List<MazeCell>(cells);
+            _visitableCells = new List<MazeCell>(cells);
         }
 
         public List<MapArea> Areas { get; private set; } = new List<MapArea>();
 
         internal void AddArea(MapArea area) {
             Areas.Add(area);
-            Console.WriteLine(
-                $"Adding area P{area.Position};S{area.Size} " +
-                $"({string.Join(",", area.Tags)})");
-            // key effects of MapArea:
-            // 1. maze algorithms should be aware of areas. E.g., 
-            // Ways to represent areas in a maze:
-            // 1. Same MazeCell is referenced at all MapArea coordinates
-            //      pros: easy to implement now
-            // 2. Each MazeCell in the MapArea space is linked to its MapArea
-            //      pros: makes sense
-            //      cons: 
-
+            var areaCells = new List<MazeCell>();
+            for (var x = 0; x < area.Size.X; x++) {
+                for (var y = 0; y < area.Size.Y; y++) {
+                    areaCells.Add(
+                        _cells[(new Vector(x, y) + area.Position)
+                            .ToIndex(this.Size.X)]);
+                }
+            }
+            foreach (var cell in areaCells) {
+                cell.AssignMapArea(area, areaCells);
+                if (area.Type == AreaType.Fill) {
+                    _visitableCells.Remove(cell);
+                }
+            }
         }
 
         public Map2D ToMap(Maze2DRenderer.MazeToMapOptions options) {
@@ -101,7 +106,7 @@ namespace Nour.Play.Maze {
             for (var i = 1; i < parts.Length; i++) {
                 var part = parts[i].Split(':', ',').Select(int.Parse).ToArray();
                 for (var j = 1; j < part.Length; j++)
-                    maze.Cells[part[0]].Link(maze.Cells[part[j]]);
+                    maze.AllCells[part[0]].Link(maze.AllCells[part[j]]);
             }
             return maze;
         }

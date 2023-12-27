@@ -4,12 +4,9 @@ using System.Collections.Generic;
 namespace Nour.Play.Maze {
     public class AldousBroderMazeGenerator : MazeGenerator {
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
-            Console.WriteLine("AldousBroderMazeGenerator v0.1");
-            Console.WriteLine($"Generating maze {layout.XWidthColumns}x{layout.YHeightRows}");
-
-            var currentCell = layout.Cells.GetRandom();
+            var currentCell = layout.VisitableCells.GetRandom();
             var visitedCells = new HashSet<MazeCell>() { currentCell };
-            while (!IsFillComplete(options, visitedCells, layout.Size)) {
+            while (!IsFillComplete(options, layout)) {
                 // TODO (MapArea): If there are unvisited areas, start at one of them.
                 // TODO (MapArea): Choose only visitable areas.
                 var next = currentCell.Neighbors().GetRandom();

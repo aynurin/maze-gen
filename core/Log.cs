@@ -40,6 +40,11 @@ public class Log {
         _writer.Write(_name, message);
     }
 
+    public static void WriteImmediate(object message) {
+        new ImmediateFileLogWriter()
+            .Write("immediate.log", LogMessage.I(message.ToString()));
+    }
+
     public interface ILogWriter {
         void Write(string logName, LogMessage message);
     }
@@ -47,6 +52,17 @@ public class Log {
     private class DefaultLogWriter : ILogWriter {
         public void Write(string logName, LogMessage message) {
             Console.WriteLine($"{message.Message}");
+        }
+    }
+
+    public class ImmediateFileLogWriter : ILogWriter {
+        private static readonly object s_lock = new object();
+        public void Write(string logName, LogMessage message) {
+            lock (s_lock) {
+                using (var writer = new StreamWriter(Path.Combine(Environment.CurrentDirectory, $"{logName}.log"), true)) {
+                    writer.WriteLine($"{message.Message}");
+                }
+            }
         }
     }
 

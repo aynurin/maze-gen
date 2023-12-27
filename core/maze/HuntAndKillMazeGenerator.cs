@@ -5,12 +5,9 @@ using System.Linq;
 namespace Nour.Play.Maze {
     public class HuntAndKillMazeGenerator : MazeGenerator {
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
-            Console.WriteLine("HuntAndKillMazeGenerator v0.1");
-            Console.WriteLine($"Generating maze {layout.XWidthColumns}x{layout.YHeightRows}");
-
             // TODO (MapArea): If there are unvisited visitable areas, start at one of them.
             // TODO (MapArea): Choose only visitable areas.
-            var currentCell = layout.Cells.GetRandom();
+            var currentCell = layout.VisitableCells.GetRandom();
             while (!IsFillComplete(options, layout)) {
                 var potentiallyNext = currentCell.Neighbors().Where(cell => !cell.IsVisited).ToList();
                 if (potentiallyNext.Count > 0) {
@@ -18,7 +15,7 @@ namespace Nour.Play.Maze {
                     currentCell.Link(nextCell);
                     currentCell = nextCell;
                 } else {
-                    foreach (var hunt in layout.Cells) {
+                    foreach (var hunt in layout.VisitableCells) {
                         if (!hunt.IsVisited && hunt.Neighbors().Any(cell => cell.IsVisited)) {
                             currentCell = hunt;
                             currentCell.Link(hunt.Neighbors().Where(cell => cell.IsVisited).First());

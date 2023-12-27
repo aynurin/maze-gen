@@ -23,7 +23,7 @@ namespace Nour.Play {
         public void DijkstraDistance_CanSolveAMaze() {
             var maze = Maze2D.Parse("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance
-                .Solve(maze.Cells.First(), maze.Cells.Last());
+                .Solve(maze.VisitableCells.First(), maze.VisitableCells.Last());
             Assert.IsTrue(solution.HasValue);
             Assert.AreEqual(5, solution.Value.Count);
             Assert.AreEqual(new Vector(0, 0),
@@ -36,7 +36,7 @@ namespace Nour.Play {
         public void DijkstraDistance_ReturnsEmptyIfNoSolutionFound() {
             var maze = Maze2D.Parse("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance
-                .Solve(maze.Cells.First(), new MazeCell(1, 2));
+                .Solve(maze.VisitableCells.First(), new MazeCell(1, 2));
             Assert.IsFalse(solution.HasValue);
         }
 
@@ -45,13 +45,13 @@ namespace Nour.Play {
             var maze = Maze2D.Parse("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance.FindLongestTrail(maze);
             Assert.AreEqual(6, solution.Count);
-            Assert.AreEqual(8, maze.Cells.Count(
+            Assert.AreEqual(8, maze.AllCells.Count(
                 cell => !cell.Attributes.ContainsKey(
                     DijkstraDistance.LongestTrailStartAttribute)));
-            Assert.AreEqual(8, maze.Cells.Count(
+            Assert.AreEqual(8, maze.AllCells.Count(
                 cell => !cell.Attributes.ContainsKey(
                     DijkstraDistance.LongestTrailEndAttribute)));
-            Assert.AreEqual(3, maze.Cells.Count(
+            Assert.AreEqual(3, maze.AllCells.Count(
                 cell => !cell.Attributes.ContainsKey(
                     DijkstraDistance.LongestTrailAttribute)));
         }

@@ -31,7 +31,7 @@ namespace Nour.Play.Maze {
             if (!Fits(map, _options)) {
                 throw new ArgumentException("Map does not fit the maze.");
             }
-            foreach (var cell in _maze.Cells) {
+            foreach (var cell in _maze.AllCells) {
                 var mapping = new CellsMapping(map, cell, _options);
                 if (cell.IsVisited) {
                     mapping.CenterCells.ForEach(c => c.Tags.Add(MapCellType.Trail));

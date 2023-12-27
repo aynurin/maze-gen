@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Nour.Play.Areas;
 using Nour.Play.Maze;
 using NUnit.Framework;
 
@@ -10,6 +12,9 @@ namespace Nour.Play {
         public void Map2D_LinksAreMutual() {
             var a = new MazeCell(2, 1);
             var b = new MazeCell(2, 2);
+            a.Neighbors().Add(b);
+            b.Neighbors().Add(a);
+
             a.Link(b);
             Assert.That(a.Links(), Has.Count.EqualTo(1));
             Assert.That(b.Links(), Has.Count.EqualTo(1));
@@ -26,9 +31,22 @@ namespace Nour.Play {
         }
 
         [Test]
+        public void Map2D_CanAssignMapAreaOnce() {
+            var a = new MazeCell(2, 1);
+            var mapArea = new MapArea(AreaType.Fill, new Vector(2, 2), new Vector(2, 2));
+
+            Assert.That(() => a.AssignMapArea(mapArea, new List<MazeCell> { a }), Throws.Nothing);
+            Assert.That(() => a.AssignMapArea(mapArea, new List<MazeCell> { a }), Throws.InvalidOperationException);
+            Assert.That(a.MapArea, Is.SameAs(mapArea));
+        }
+
+        [Test]
         public void Map2D_ToString() {
             var a = new MazeCell(2, 1);
             var b = new MazeCell(2, 2);
+            a.Neighbors().Add(b);
+            b.Neighbors().Add(a);
+
             a.Link(b);
             Assert.AreEqual("2x1V", a.ToString());
             Assert.AreEqual("2x1V(N---)", a.ToLongString());
@@ -37,6 +55,9 @@ namespace Nour.Play {
 
             var c = new MazeCell(1, 1);
             var d = new MazeCell(2, 1);
+            c.Neighbors().Add(d);
+            d.Neighbors().Add(c);
+
             c.Link(d);
             Assert.AreEqual("1x1V(-E--)", c.ToLongString());
             Assert.AreEqual("2x1V(---W)", d.ToLongString());
@@ -49,6 +70,8 @@ namespace Nour.Play {
         public void Map2D_DoubleLinkingThrowsError() {
             var a = new MazeCell(1, 2);
             var b = new MazeCell(2, 2);
+            a.Neighbors().Add(b);
+            b.Neighbors().Add(a);
             a.Link(b);
             Assert.Throws<InvalidOperationException>(() => b.Link(a));
         }

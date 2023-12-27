@@ -71,5 +71,17 @@ namespace Nour.Play.Areas {
                 this.LowY >= position.Y &&
                 this.HighY <= position.Y + size.Y;
         }
+
+        internal static MapArea Parse(string v) {
+            var parts = v.Split(';');
+            var type = (AreaType)Enum.Parse(typeof(AreaType), parts[2]);
+            var size = VectorD.Parse(parts[1]).RoundToInt();
+            var position = VectorD.Parse(parts[0]).RoundToInt();
+            return new MapArea(type, size, position);
+        }
+
+        public override string ToString() {
+            return $"P{Position};S{Size};{Type}";
+        }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Nour.Play {
@@ -27,12 +28,20 @@ namespace Nour.Play {
             BaseStats.From(values.Select(x => (double)x));
 
         public static string DebugString(this object item) {
+            return item.DebugString((member, value) => $"\t{member.Name} = {value}\n");
+        }
+
+        public static string ShortDebugString(this object item) {
+            return item.DebugString((member, value) => value);
+        }
+
+        public static string DebugString(this object item, Func<MemberInfo, string, string> memberFormatter) {
             var members = item.GetType().GetMembers(
                     System.Reflection.BindingFlags.Public |
                     System.Reflection.BindingFlags.Instance);
-            var buffer = new StringBuilder();
+            var values = new List<string>();
             foreach (var member in members) {
-                Object value;
+                object value;
                 Type type;
                 if (member is System.Reflection.FieldInfo field) {
                     value = field.GetValue(item);
@@ -41,22 +50,24 @@ namespace Nour.Play {
                     value = property.GetValue(item);
                     type = property.PropertyType;
                 } else continue;
-                String strValue;
+                string strValue;
                 if (value == null) {
                     strValue = "<null>";
                 } else if (value is ICollection collection) {
-                    var generic = String.Join(",", type.GetGenericArguments().Select(a => a.Name));
+                    var generic = string.Join(",", type.GetGenericArguments().Select(a => a.Name));
                     strValue = type.Name +
                         (generic.Length > 0 ? $"<{generic}>" : "") +
-                        "(" + String.Join(", ", collection.Cast<object>().Take(5)) +
+                        "(" + string.Join(", ", collection.Cast<object>().Take(5)) +
                         (collection.Count > 5 ? $"...({collection.Count})" : "") + ")";
                 } else {
                     strValue = value.ToString();
                 }
-                buffer.AppendLine($"\t{member.Name} = {strValue}");
+                values.Add(memberFormatter(member, strValue));
             }
-            return item.GetType().FullName + $" \n{buffer}";
+            var valuesStr = "(" + string.Join(", ", values.Take(50)) + (values.Count > 50 ? $"...({values.Count})" : "") + ")";
+            return item.GetType().FullName + valuesStr;
         }
+
         /// <summary>
         /// 
         /// </summary>

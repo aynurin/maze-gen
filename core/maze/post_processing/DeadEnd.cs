@@ -7,7 +7,7 @@ namespace Nour.Play.Maze.PostProcessing {
             "Nour.Play.Maze.PostProcessing.DeadEnd.DeadEndAttribute";
 
         public static List<MazeCell> Find(Maze2D maze) {
-            var deadEnds = maze.Cells.Where(cell => cell.Links().Count == 1)
+            var deadEnds = maze.VisitableCells.Where(cell => cell.Links().Count == 1)
                 .ToList();
             foreach (var cell in deadEnds) {
                 cell.Attributes.Set(DeadEndAttribute,

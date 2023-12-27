@@ -21,8 +21,8 @@ namespace Nour.Play.Maze {
             //  2. Generate rooms
             //  3. Initialize maze graph with the rooms
             //  4. Generate the maze
-
-            if (options.MapAreas == GeneratorOptions.MapAreaOptions.Auto) {
+            Console.WriteLine($"{typeof(T).Name}: Generating maze {maze.Size} with {options.ShortDebugString()}");
+            if (options.MapAreasOptions == GeneratorOptions.MapAreaOptions.Auto) {
                 var attempts = 3;
                 while (true) {
                     attempts--;
@@ -47,12 +47,10 @@ namespace Nour.Play.Maze {
                     }
 
                     if (areas.Count == 0) {
-                        Console.WriteLine($"Adding no areas to this maze ({size}).");
                         break;
                     }
                     new AreaDistributor()
                         .Distribute(size, areas, 100);
-
                     var errors =
                         areas.Count(
                             a => areas.Any(b => a != b && a.Overlaps(b))) +
@@ -72,6 +70,12 @@ namespace Nour.Play.Maze {
                             $"({string.Join(" ", roomsDebugStr)}).");
                     }
                 }
+            } else if (options.MapAreasOptions ==
+                            GeneratorOptions.MapAreaOptions.Manual
+                       && options.MapAreas != null) {
+                foreach (var area in options.MapAreas) {
+                    maze.AddArea(area);
+                }
             }
             new T().GenerateMaze(maze, options);
             maze.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(maze));
@@ -81,11 +85,16 @@ namespace Nour.Play.Maze {
         }
 
         protected bool IsFillComplete(GeneratorOptions options, Maze2D map) =>
-            IsFillComplete(options, map.VisitedCells.ToList(), map.Size);
+            IsFillComplete(options, map.VisitedCells.ToList(), map.VisitableCells, map.Size);
 
         // TODO (MapArea): if the cell belongs to an area, use Area space
         //                 instead of one cell space.
-        protected bool IsFillComplete(GeneratorOptions options, ICollection<MazeCell> visitedCells, Vector mazeSize) {
+        protected bool IsFillComplete(GeneratorOptions options, ICollection<MazeCell> visitedCells, ICollection<MazeCell> visitableCells, Vector mazeSize) {
+            var l = new Log("Maze2D", new Log.ImmediateFileLogWriter());
+            l.I("IsFillComplete: " + options.FillFactor + ", visitedCells: " + visitedCells.Count + " visitableCells: " + visitableCells.Count + " mazeSize: " + mazeSize.Area);
+            if (visitedCells.Count == 0) {
+                return false;
+            }
             if (options.FillFactor == GeneratorOptions.FillFactorOption.FullHeight) {
                 var minX = visitedCells.Min(c => c.X);
                 var maxX = visitedCells.Max(c => c.X);
@@ -95,14 +104,14 @@ namespace Nour.Play.Maze {
                 var maxY = visitedCells.Max(c => c.Y);
                 return minY == 0 && maxY == mazeSize.Y - 1;
             } else if (options.FillFactor == GeneratorOptions.FillFactorOption.Full) {
-                return visitedCells.Count == mazeSize.Area;
+                return visitedCells.Count == visitableCells.Count;
             } else {
                 var fillFactor =
                     options.FillFactor == GeneratorOptions.FillFactorOption.Quarter ? 0.25 :
                     options.FillFactor == GeneratorOptions.FillFactorOption.Half ? 0.5 :
                     options.FillFactor == GeneratorOptions.FillFactorOption.ThreeQuarters ? 0.75 :
                     0.9;
-                return visitedCells.Count >= mazeSize.Area * fillFactor;
+                return visitedCells.Count >= visitableCells.Count * fillFactor;
             }
         }
     }

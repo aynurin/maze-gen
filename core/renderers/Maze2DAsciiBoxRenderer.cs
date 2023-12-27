@@ -37,7 +37,7 @@ namespace Nour.Play.Renderers {
             for (var y = _maze.YHeightRows - 1; y >= 0; y--) {
                 for (var x = 0; x < _maze.XWidthColumns; x++) {
                     var mazeIndex = new Vector(x, y).ToIndex(_maze.XWidthColumns);
-                    var mazeCell = _maze.Cells[mazeIndex];
+                    var mazeCell = _maze.AllCells[mazeIndex];
                     var cellData = solutionCells.Contains(mazeCell) ?
                         Convert.ToString(trail.IndexOf(mazeCell), 16) :
                         string.Empty;
@@ -52,7 +52,7 @@ namespace Nour.Play.Renderers {
                     var index = new Vector(x, y).ToIndex(_asciiMazeWidth);
                     if (_data.ContainsKey(index)) {
                         strBuffer.Append(_data[index]);
-                        y += _data[index].Length - 1;
+                        x += _data[index].Length - 1;
                     } else {
                         strBuffer.Append(Border.Char(_buffer[index]));
                     }
@@ -64,6 +64,9 @@ namespace Nour.Play.Renderers {
 
         private void PrintCell(MazeCell cell, string cellData) {
             var asciiCoords = GetCellCoords(cell);
+            if (!string.IsNullOrEmpty(cellData)) {
+                _data.Add(I(asciiCoords.Center), cellData);
+            }
             if (!cell.IsVisited) return;
             _buffer[I(asciiCoords.Northeast)] |= Border.Type.X;
             _buffer[I(asciiCoords.Northwest)] |= Border.Type.X;
@@ -88,9 +91,6 @@ namespace Nour.Play.Renderers {
                 _buffer[I(asciiCoords.Southwest)] |= Border.Type.Top;
                 _buffer[I(asciiCoords.Northwest)] |= Border.Type.Bottom;
                 foreach (var x in asciiCoords.West) _buffer[I(x)] |= Border.Type.West;
-            }
-            if (!string.IsNullOrEmpty(cellData)) {
-                _data.Add(I(asciiCoords.Center), cellData);
             }
         }
 
