@@ -1,0 +1,24 @@
+name: Build and Test .NET on Mono
+
+on: [push]  # Trigger the workflow on push events
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest  # Use a Linux runner with Mono support
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Mono
+        uses: mono/setup-mono@v4
+        with:
+          mono-version: 6.4.0
+
+      - name: Restore dependencies
+        run: nuget restore
+
+      - name: Build
+        run: msbuild maze-gen.sln
+
+      - name: Test
+        run: cd build/Debug/tests && nunit3-console tests.dll --where=\"Category!=Load\"  # Replace with your test assembly path
