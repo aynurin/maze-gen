@@ -25,4 +25,4 @@ jobs:
           ls -laR
 
       - name: Test
-        run: cd build/Debug/tests && ../../../packages/NUnit.ConsoleRunner.3.13.0/tools/nunit3-console.exe tests.dll --where=\"cat!=Load\"  # Replace with your test assembly path
+        run: cd build/Debug/tests && ../../../packages/NUnit.ConsoleRunner.3.13.0/tools/nunit3-console.exe tests.dll --where='cat!=Load'  # Replace with your test assembly path
