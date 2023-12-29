@@ -15,10 +15,12 @@ jobs:
           sudo apt-get install -y nuget
 
       - name: Restore dependencies
-        run: nuget restore
+        run: |
+          nuget restore
+          nuget install NUnit.ConsoleRunner --version 3.16.3 -o packages
 
       - name: Build
         run: msbuild maze-gen.sln
 
       - name: Test
-        run: cd build/Debug/tests && nunit3-console tests.dll --where=\"Category!=Load\"  # Replace with your test assembly path
+        run: cd build/Debug/tests && ../../../packages/NUnit.ConsoleRunner.3.13.0/tools/nunit3-console tests.dll --where=\"Category!=Load\"  # Replace with your test assembly path
