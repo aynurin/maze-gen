@@ -11,8 +11,8 @@ jobs:
 
       - name: Setup Mono
         run: |
-          apt-get install -y mono-complete
-          apt-get install -y nuget
+          sudo apt-get install -y mono-complete
+          sudo apt-get install -y nuget
 
       - name: Restore dependencies
         run: nuget restore
