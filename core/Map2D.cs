@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Nour.Play.Renderers;
+using PlayersWorlds.Maps.Renderers;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
     public class Map2D {
         private readonly List<Cell> _cells;
 

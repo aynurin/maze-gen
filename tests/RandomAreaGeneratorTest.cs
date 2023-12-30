@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nour.Play;
-using Nour.Play.Areas;
 using NUnit.Framework;
+using PlayersWorlds.Maps;
+using PlayersWorlds.Maps.Areas;
 
 [TestFixture]
 public class RandomAreaGeneratorTest {

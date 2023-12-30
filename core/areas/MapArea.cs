@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Nour.Play.Areas {
+namespace PlayersWorlds.Maps.Areas {
     // ? The issue is that Halls can be entered, so they should act as cells,
     // ? and Fills can't be entered, so they are invisible to all algorithms. 
     // ? For Dijkstra, Halls should act as regular cells, but with increased a

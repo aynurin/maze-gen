@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nour.Play.Areas;
-using Nour.Play.MapFilters;
-using Nour.Play.Maze;
-using Nour.Play.Maze.PostProcessing;
 using NUnit.Framework;
-using static Nour.Play.Maze.Maze2DRenderer;
+using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.MapFilters;
+using PlayersWorlds.Maps.Maze;
+using PlayersWorlds.Maps.Maze.PostProcessing;
+using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
     [TestFixture]
     public class Maze2DRendererTest {
         private Maze2D _maze;

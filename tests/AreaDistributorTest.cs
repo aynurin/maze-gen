@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
-namespace Nour.Play.Areas.Evolving {
-    // msbuild && reset && pushd build/Debug/tests && nunit3-console tests.dll --where="class=Nour.Play.AreaDistributorLoadTest" --params=DEBUG=4; popd
-    // msbuild && reset && pushd build/Debug/tests && nunit3-console tests.dll --test="Nour.Play.AreaDistributorTest.AreaDistributorTest_SidePressure" --params=DEBUG=5; popd
+namespace PlayersWorlds.Maps.Areas.Evolving {
+    // msbuild && reset && pushd build/Debug/tests && nunit3-console tests.dll --where="class=PlayersWorlds.Maps.AreaDistributorLoadTest" --params=DEBUG=4; popd
+    // msbuild && reset && pushd build/Debug/tests && nunit3-console tests.dll --test="PlayersWorlds.Maps.AreaDistributorTest.AreaDistributorTest_SidePressure" --params=DEBUG=5; popd
     [TestFixture]
     public class AreaDistributorTest {
         private static MapArea TestArea(int x, int y, int width, int height) =>

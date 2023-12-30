@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
     // ? Maybe find a better name
     public struct VectorD : IEquatable<VectorD> {
         public const double MIN = 1E-10;

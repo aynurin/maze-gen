@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
     // ? Maybe find a better name
     public struct Vector : IEquatable<Vector> {
         public static readonly Vector Empty = new Vector();

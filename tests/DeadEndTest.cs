@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
-using Nour.Play.Maze;
-using Nour.Play.Maze.PostProcessing;
 using NUnit.Framework;
+using PlayersWorlds.Maps.Maze;
+using PlayersWorlds.Maps.Maze.PostProcessing;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
     [TestFixture]
     public class DeadEndTest {
         [Test]

@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Nour.Play.Renderers {
+namespace PlayersWorlds.Maps.Renderers {
     public class AsciiBuffer {
         private readonly bool _hideOverflow;
         private readonly char[][] _buffer;

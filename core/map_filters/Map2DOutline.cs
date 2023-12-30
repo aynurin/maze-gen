@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace Nour.Play.MapFilters {
+namespace PlayersWorlds.Maps.MapFilters {
 
     public class Map2DOutline {
         private readonly string[] _cellType;

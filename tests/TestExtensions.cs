@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nour.Play;
-using Nour.Play.Areas;
+using PlayersWorlds.Maps;
+using PlayersWorlds.Maps.Areas;
 
 public static class TestExtensions {
     public static T ElementAt<T>(this ICollection<T> collection, Vector vector, Vector areaSize) {

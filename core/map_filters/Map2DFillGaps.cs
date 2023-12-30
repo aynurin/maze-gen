@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace Nour.Play.MapFilters {
+namespace PlayersWorlds.Maps.MapFilters {
 
     internal class Map2DFillGaps {
         private readonly string[] _gapsType;

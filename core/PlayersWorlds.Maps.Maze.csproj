@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1475F129-1D8B-4631-92ED-30972E539CF2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Nour.Play.Maze</RootNamespace>
-    <AssemblyName>Nour.Play.Maze</AssemblyName>
+    <RootNamespace>PlayersWorlds.Maps.Maze</RootNamespace>
+    <AssemblyName>PlayersWorlds.Maps.Maze</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <IntermediateOutputPath>..\build\$(Configuration)\obj\Nour.Play.Maze</IntermediateOutputPath>
-    <OutputPath>..\build\$(Configuration)\Nour.Play.Maze</OutputPath>
+    <IntermediateOutputPath>..\build\$(Configuration)\obj\PlayersWorlds.Maps.Maze</IntermediateOutputPath>
+    <OutputPath>..\build\$(Configuration)\PlayersWorlds.Maps.Maze</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Nour.Play.Areas;
-using Nour.Play.Maze;
+using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.Maze;
 
-namespace Nour.Play.Maze {
+namespace PlayersWorlds.Maps.Maze {
     public class GeneratorOptions {
         /// <summary>
         /// How much to fill the maze. <see

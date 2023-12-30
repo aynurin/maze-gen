@@ -1,12 +1,11 @@
 ﻿using System;
-using Nour.Play.Renderers;
+using PlayersWorlds.Maps.Renderers;
 
-namespace Nour.Play.Maze {
+namespace PlayersWorlds.Maps.Maze {
     class MainClass {
         public static void Main(string[] args) {
             var size = new Vector(20, 20);
             // As a user, how can I generate a maze?
-            // TODO: Rename namespaces
             // TODO: Organize tests by namespaces
             // TODO: Check public symbols
             // TODO: Create an extendible generator class

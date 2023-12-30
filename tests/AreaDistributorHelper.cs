@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using Nour.Play.Renderers;
 using NUnit.Framework;
+using PlayersWorlds.Maps.Renderers;
 
-namespace Nour.Play.Areas.Evolving {
+namespace PlayersWorlds.Maps.Areas.Evolving {
     internal class AreaDistributorHelper {
         internal static DistributeResult Distribute(
             Log log,

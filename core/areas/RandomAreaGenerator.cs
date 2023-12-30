@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Nour.Play.Areas {
+namespace PlayersWorlds.Maps.Areas {
     public class RandomAreaGenerator : IEnumerable<MapArea>, IEnumerator<MapArea> {
         private MapArea _current;
 

@@ -1,5 +1,5 @@
 
-namespace Nour.Play.Areas {
+namespace PlayersWorlds.Maps.Areas {
     public enum AreaType {
         None = 0,
         /// E.g., a hall with walls around it or a valley with a lake and a

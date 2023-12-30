@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Nour.Play.Maze;
 using NUnit.Framework;
+using PlayersWorlds.Maps.Maze;
 
-namespace Nour.Play.Areas.Evolving {
+namespace PlayersWorlds.Maps.Areas.Evolving {
     [TestFixture]
     public class AreaDistributorLoadTest {
 

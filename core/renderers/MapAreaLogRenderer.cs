@@ -1,8 +1,8 @@
 
 using System.Collections.Generic;
-using Nour.Play.Areas;
+using PlayersWorlds.Maps.Areas;
 
-namespace Nour.Play.Renderers {
+namespace PlayersWorlds.Maps.Renderers {
     public class MapAreaLogRenderer {
         private readonly Log _log;
         public MapAreaLogRenderer(Log log) {

@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nour.Play.MapFilters;
+using PlayersWorlds.Maps.MapFilters;
 
-namespace Nour.Play.Maze {
+namespace PlayersWorlds.Maps.Maze {
 
     public class Maze2DRenderer {
         private readonly Maze2D _maze;

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nour.Play.Areas;
-using Nour.Play.Areas.Evolving;
-using Nour.Play.Maze.PostProcessing;
+using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.Areas.Evolving;
+using PlayersWorlds.Maps.Maze.PostProcessing;
 
-namespace Nour.Play.Maze {
+namespace PlayersWorlds.Maps.Maze {
     public abstract class MazeGenerator {
         public abstract void GenerateMaze(Maze2D maze, GeneratorOptions options);
 

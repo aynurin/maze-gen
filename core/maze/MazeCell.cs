@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using Nour.Play.Areas;
+using PlayersWorlds.Maps.Areas;
 
-namespace Nour.Play.Maze {
+namespace PlayersWorlds.Maps.Maze {
     public class MazeCell {
         private readonly List<MazeCell> _links = new List<MazeCell>();
         private readonly List<MazeCell> _neighbors = new List<MazeCell>();

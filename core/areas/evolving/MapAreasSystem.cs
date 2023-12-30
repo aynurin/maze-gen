@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nour.Play.Areas.Evolving {
+namespace PlayersWorlds.Maps.Areas.Evolving {
     public class MapAreasSystem : SimulatedSystem {
         private static readonly string[] NICKNAMES = new[] {
             "BEAR", "LION", "WOLF", "FOXY", "DEER", "MOOS", "ELKK", "HARE", "RABB", "OTTR", "PUMA", "HYNA", "PNDA", "CHTA", "RINO", "BSON", "ZEBR", "ORCA", "PENG"

@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Nour.Play.Areas.Evolving {
+namespace PlayersWorlds.Maps.Areas.Evolving {
     public class FloatingArea {
         private readonly MapArea _linkedArea;
         public VectorD Position { get; private set; }

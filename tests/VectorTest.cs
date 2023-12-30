@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
     [TestFixture]
     public class VectorTest {
         [Test]

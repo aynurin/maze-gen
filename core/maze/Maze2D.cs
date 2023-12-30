@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Nour.Play.Areas;
-using Nour.Play.Maze.PostProcessing;
-using Nour.Play.Renderers;
+using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.Maze.PostProcessing;
+using PlayersWorlds.Maps.Renderers;
 
-namespace Nour.Play.Maze {
+namespace PlayersWorlds.Maps.Maze {
     public class Maze2D {
         private readonly Vector _size;
         private readonly List<MazeCell> _cells;

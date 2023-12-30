@@ -30,19 +30,19 @@ mono --debug build/Debug/mazegen/maze-gen.exe
 ### Smoke tests
 
 ```
-msbuild && pushd build/Debug/tests; nunit3-console tests.dll --where="class=Nour.Play.AreaDistributorTest and cat=Smoke"; popd
+msbuild && pushd build/Debug/tests; nunit3-console tests.dll --where="class=PlayersWorlds.Maps.AreaDistributorTest and cat=Smoke"; popd
 ```
 
 ### One method
 
 ```
-msbuild && pushd build/Debug/tests; nunit3-console tests.dll --where="class=Nour.Play.AreaDistributorTest and method=AreaDistributorTest_SingleMapForce"; popd
+msbuild && pushd build/Debug/tests; nunit3-console tests.dll --where="class=PlayersWorlds.Maps.AreaDistributorTest and method=AreaDistributorTest_SingleMapForce"; popd
 ```
 
 ### One test (w/ generated parameters)
 
 ```
-msbuild && pushd build/Debug/tests; nunit3-console tests.dll --test="Nour.Play.AreaDistributorTest.AreaDistributorTest_SingleMapForce(\"6x12: P1x2;S2x2\")"; popd
+msbuild && pushd build/Debug/tests; nunit3-console tests.dll --test="PlayersWorlds.Maps.AreaDistributorTest.AreaDistributorTest_SingleMapForce(\"6x12: P1x2;S2x2\")"; popd
 ```
 
 ## Nuget

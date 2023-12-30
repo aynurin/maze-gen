@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nour.Play.Maze.PostProcessing {
+namespace PlayersWorlds.Maps.Maze.PostProcessing {
     public static class DijkstraDistance {
         public const string LongestTrailStartAttribute =
-            "Nour.Play.Maze.PostProcessing.DijkstraDistance.LongestTrailStartAttribute";
+            "PlayersWorlds.Maps.Maze.PostProcessing.DijkstraDistance.LongestTrailStartAttribute";
         public const string LongestTrailEndAttribute =
-            "Nour.Play.Maze.PostProcessing.DijkstraDistance.LongestTrailEndAttribute";
+            "PlayersWorlds.Maps.Maze.PostProcessing.DijkstraDistance.LongestTrailEndAttribute";
         public const string LongestTrailAttribute =
-            "Nour.Play.Maze.PostProcessing.DijkstraDistance.LongestTrailAttribute";
+            "PlayersWorlds.Maps.Maze.PostProcessing.DijkstraDistance.LongestTrailAttribute";
         public const string DistanceAttribute =
-            "Nour.Play.Maze.PostProcessing.DijkstraDistance.DistanceAttribute";
+            "PlayersWorlds.Maps.Maze.PostProcessing.DijkstraDistance.DistanceAttribute";
 
         /// Finds Dijkstra distances for the given cell.
         public static Dictionary<MazeCell, int> Find(MazeCell startingCell) {

@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
 
     [TestFixture]
     internal class Map2DTest {

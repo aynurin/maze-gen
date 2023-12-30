@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 
-namespace Nour.Play.Areas {
+namespace PlayersWorlds.Maps.Areas {
 
     [TestFixture]
     internal class MapAreaTest {

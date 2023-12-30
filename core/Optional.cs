@@ -1,6 +1,6 @@
 using System;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
     public class Optional<T>
     where T : class {
 

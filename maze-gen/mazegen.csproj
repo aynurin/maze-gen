@@ -34,9 +34,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\core\Nour.Play.Maze.csproj">
+    <ProjectReference Include="..\core\PlayersWorlds.Maps.Maze.csproj">
       <Project>{1475F129-1D8B-4631-92ED-30972E539CF2}</Project>
-      <Name>Nour.Play.Maze</Name>
+      <Name>PlayersWorlds.Maps.Maze</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

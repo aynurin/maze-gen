@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Moq;
-using Nour.Play.Areas;
-using Nour.Play.Maze;
-using Nour.Play.Maze.PostProcessing;
 using NUnit.Framework;
-using static Nour.Play.Maze.Maze2DRenderer;
+using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.Maze;
+using PlayersWorlds.Maps.Maze.PostProcessing;
+using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
     [TestFixture]
     public class MazeGeneratorTest {
 
@@ -173,7 +173,7 @@ namespace Nour.Play {
 
         public static IEnumerable<Type> GetAllGenerators() {
             return AppDomain.CurrentDomain.GetAssemblies()
-                .Where(asm => asm.GetName().Name == "Nour.Play.Maze")
+                .Where(asm => asm.GetName().Name == "PlayersWorlds.Maps.Maze")
                 .SelectMany(s => s.GetTypes())
                 .Where(p => typeof(MazeGenerator) != p &&
                             typeof(MazeGenerator).IsAssignableFrom(p));

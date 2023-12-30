@@ -1,5 +1,5 @@
 
-namespace Nour.Play.Areas.Evolving {
+namespace PlayersWorlds.Maps.Areas.Evolving {
     public interface IAreaForceProducer {
         VectorD GetAreaForce(
             FloatingArea area, FloatingArea other);

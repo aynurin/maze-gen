@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nour.Play.Maze {
+namespace PlayersWorlds.Maps.Maze {
     public class HuntAndKillMazeGenerator : MazeGenerator {
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
             // TODO (MapArea): If there are unvisited visitable areas, start at one of them.

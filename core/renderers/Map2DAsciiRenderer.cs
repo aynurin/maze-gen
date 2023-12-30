@@ -1,7 +1,7 @@
 using System.Text;
-using Nour.Play.Maze;
+using PlayersWorlds.Maps.Maze;
 
-namespace Nour.Play.Renderers {
+namespace PlayersWorlds.Maps.Renderers {
     public class Map2DAsciiRenderer {
 
         public string Render(Map2D map) {

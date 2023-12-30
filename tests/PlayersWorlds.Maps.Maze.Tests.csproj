@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C0FBCEBB-2BFA-49B2-92E0-D1F64D4D82E2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Nour.Play.Maze.Tests</RootNamespace>
+    <RootNamespace>PlayersWorlds.Maps.Maze.Tests</RootNamespace>
     <AssemblyName>tests</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <IntermediateOutputPath>..\build\$(Configuration)\obj\tests</IntermediateOutputPath>
@@ -51,9 +51,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\core\Nour.Play.Maze.csproj">
+    <ProjectReference Include="..\core\PlayersWorlds.Maps.Maze.csproj">
       <Project>{1475F129-1D8B-4631-92ED-30972E539CF2}</Project>
-      <Name>Nour.Play.Maze</Name>
+      <Name>PlayersWorlds.Maps.Maze</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

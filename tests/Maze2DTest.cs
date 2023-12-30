@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Nour.Play.Areas;
-using Nour.Play.Maze;
-using Nour.Play.Maze.PostProcessing;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
+using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.Maze;
+using PlayersWorlds.Maps.Maze.PostProcessing;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
     [TestFixture]
     public class Maze2DTest {
         [Test]

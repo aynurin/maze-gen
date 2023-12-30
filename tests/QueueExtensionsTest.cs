@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Nour.Play.Maze;
 using NUnit.Framework;
+using PlayersWorlds.Maps.Maze;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
     [TestFixture]
     public class QueueExtensionsTest {
 

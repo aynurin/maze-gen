@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Nour.Play.Areas.Evolving {
+namespace PlayersWorlds.Maps.Areas.Evolving {
     internal class ForceFormula : IForceFormula {
         private const double K = 1;
 

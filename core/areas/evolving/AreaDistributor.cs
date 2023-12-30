@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Nour.Play.Renderers;
+using PlayersWorlds.Maps.Renderers;
 
-namespace Nour.Play.Areas.Evolving {
+namespace PlayersWorlds.Maps.Areas.Evolving {
     public class AreaDistributor {
         private readonly Log _log;
         private readonly MapAreaLogRenderer _renderer;

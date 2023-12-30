@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nour.Play.Maze;
-using Nour.Play.Maze.PostProcessing;
+using PlayersWorlds.Maps.Maze;
+using PlayersWorlds.Maps.Maze.PostProcessing;
 
-namespace Nour.Play.Renderers {
+namespace PlayersWorlds.Maps.Renderers {
     public class Maze2DAsciiBoxRenderer {
 
         private readonly Maze2D _maze;

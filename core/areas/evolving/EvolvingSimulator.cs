@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nour.Play.Areas.Evolving {
+namespace PlayersWorlds.Maps.Areas.Evolving {
     /// <summary>
     /// Evolves a <see cref="TargetSystem" /> over time using its own internal
     /// impact over time.

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Nour.Play.Maze {
+namespace PlayersWorlds.Maps.Maze {
     public class WilsonsMazeGenerator : MazeGenerator {
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
             var currentCell = layout.VisitableCells.GetRandom();

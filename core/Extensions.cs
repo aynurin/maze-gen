@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
     public static class Extensions {
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
             source.ThrowIfNull("source");

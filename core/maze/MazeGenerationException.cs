@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Nour.Play.Maze {
+namespace PlayersWorlds.Maps.Maze {
     [Serializable]
     internal class MazeGenerationException : Exception {
         public MazeGenerationException() {

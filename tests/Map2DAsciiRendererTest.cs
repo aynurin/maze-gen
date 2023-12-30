@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nour.Play.Maze;
 using NUnit.Framework;
+using PlayersWorlds.Maps.Maze;
 
-namespace Nour.Play.Renderers {
+namespace PlayersWorlds.Maps.Renderers {
 
     [TestFixture]
     internal class Map2DAsciiRendererTest {

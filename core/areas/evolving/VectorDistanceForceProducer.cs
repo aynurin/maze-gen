@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Nour.Play.Areas.Evolving {
+namespace PlayersWorlds.Maps.Areas.Evolving {
     public class VectorDistanceForceProducer : IAreaForceProducer {
         private readonly Log _log;
         private readonly IForceFormula _forceFormula;

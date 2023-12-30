@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Nour.Play.Areas.Evolving {
+namespace PlayersWorlds.Maps.Areas.Evolving {
     [TestFixture]
     public class ForceFormulaTestTest {
         [Test]

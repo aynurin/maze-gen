@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Nour.Play {
+namespace PlayersWorlds.Maps {
     internal static class GlobalRandom {
         private static Random _random = new Random();
         public static int Next() => _random.Next();

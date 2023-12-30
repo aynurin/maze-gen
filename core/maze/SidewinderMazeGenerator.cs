@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Nour.Play.Maze {
+namespace PlayersWorlds.Maps.Maze {
     public class SidewinderMazeGenerator : MazeGenerator {
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
             if (options.FillFactor != GeneratorOptions.FillFactorOption.Full) {
