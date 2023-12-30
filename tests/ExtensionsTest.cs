@@ -4,7 +4,7 @@ using PlayersWorlds.Maps.Maze;
 
 namespace PlayersWorlds.Maps {
     [TestFixture]
-    public class QueueExtensionsTest {
+    public class ExtensionsTest {
 
         [Test]
         public void TryDequeue_DoesNotThrow() {

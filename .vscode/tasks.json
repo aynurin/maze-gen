@@ -24,7 +24,7 @@
     {
       "label": "coverage",
       "type": "shell",
-      "command": "./tests/coverage.sh",
+      "command": "./coverage.sh",
       "problemMatcher": [],
       "dependsOn": ["build"],
       "group": {

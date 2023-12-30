@@ -42,7 +42,6 @@ namespace PlayersWorlds.Maps.Maze {
                         neighbor.IsVisited = false;
                     }
                 }
-                Log.WriteImmediate(_mapArea.DebugString());
                 _neighbors.Clear();
                 _links.Clear();
                 this.IsVisited = false;

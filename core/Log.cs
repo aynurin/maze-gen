@@ -42,7 +42,7 @@ public class Log {
 
     public static void WriteImmediate(object message) {
         new ImmediateFileLogWriter()
-            .Write("immediate.log", LogMessage.I(message.ToString()));
+            .Write("immediate", LogMessage.I(message.ToString()));
     }
 
     public interface ILogWriter {
