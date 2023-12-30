@@ -63,7 +63,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void Optional_CanBeCastToT() {
-            string a = "abc";
+            var a = "abc";
             Optional<string> optA = a;
             Assert.AreEqual("abc", (string)optA);
         }

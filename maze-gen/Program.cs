@@ -3,9 +3,10 @@ using PlayersWorlds.Maps.Renderers;
 
 namespace PlayersWorlds.Maps.Maze {
     class MainClass {
-        public static void Main(string[] args) {
+        public static void Main() {
             var size = new Vector(20, 20);
             // As a user, how can I generate a maze?
+            // TODO: Add coverage report to git
             // TODO: Check if all classes have tests
             // TODO: Check public symbols
             // TODO: Create an extendible generator class

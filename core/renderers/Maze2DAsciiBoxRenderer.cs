@@ -63,7 +63,10 @@ namespace PlayersWorlds.Maps.Renderers {
         }
 
         private void PrintCell(MazeCell cell, string cellData) {
-            var asciiCoords = GetCellCoords(cell);
+            var asciiCoords = CellCoords.Create(_maze.Size,
+                                                cell.Coordinates,
+                                                _cellInnerWidth,
+                                                _cellInnerHeight);
             if (!string.IsNullOrEmpty(cellData)) {
                 _data.Add(I(asciiCoords.Center), cellData);
             }
@@ -94,52 +97,39 @@ namespace PlayersWorlds.Maps.Renderers {
             }
         }
 
-        private CellCoords GetCellCoords(MazeCell cell) {
-            // we have to conversions here:
-            // 1. maze cell X,Y is rendered at X,(_maze.Size.Y - cell.Y - 1)
-            // 2. ascii coord of maze cell X,Y is rendered at X,(_asciiMazeHeight - Y - 1)
-            var scaledCell = new {
-                x = cell.X * (_cellInnerWidth + 1),
-                y = (_maze.Size.Y - cell.Y) * (_cellInnerHeight + 1)
-            };
-            // I will print cell 0x3
-            // it's ascii coordinates will be:
-            // NW: 0x0 which converts to index 0
-            // SW: 0x3 which converts to index 0 + 17*2 = 34
-            // NE: 4x0 which converts to index 4
-            // SE: 4x3 which converts to index 4 + 17*2 = 38
-
-            // maze cell 0x0 = ascii coords 0x(asciiHeight-0)
-            // Northwest = 0 + (_maze.XWidthColumns * (_cellInnerWidth + 1) + 1) * (_cellInnerHeight + 1) = 
-            Vector CellCoord(int dY, int dX) =>
-                new Vector(scaledCell.x + dX, scaledCell.y - dY);
-            var c = new CellCoords {
-                Northwest = CellCoord(_cellInnerHeight + 1, 0),
-                Southwest = CellCoord(0, 0),
-                Northeast = CellCoord(_cellInnerHeight + 1, _cellInnerWidth + 1),
-                Southeast = CellCoord(0, _cellInnerWidth + 1),
-                Center = CellCoord(1, 2),
-                West = Enumerable.Range(0, _cellInnerHeight).Select(i => CellCoord(i + 1, 0)).ToArray(),
-                East = Enumerable.Range(0, _cellInnerHeight).Select(i => CellCoord(i + 1, _cellInnerWidth + 1)).ToArray(),
-                North = Enumerable.Range(0, _cellInnerWidth).Select(i => CellCoord(_cellInnerHeight + 1, i + 1)).ToArray(),
-                South = Enumerable.Range(0, _cellInnerWidth).Select(i => CellCoord(0, i + 1)).ToArray(),
-            };
-            return c;
-        }
-
         private int I(Vector v) => v.ToIndex(_asciiMazeWidth);
 
         struct CellCoords {
-            public Vector Northwest;
-            public Vector Southwest;
-            public Vector Northeast;
-            public Vector Southeast;
-            public Vector Center;
+            public Vector Northwest { get; private set; }
+            public Vector Southwest { get; private set; }
+            public Vector Northeast { get; private set; }
+            public Vector Southeast { get; private set; }
+            public Vector Center { get; private set; }
 
-            public Vector[] West;
-            public Vector[] East;
-            public Vector[] North;
-            public Vector[] South;
+            public Vector[] West { get; private set; }
+            public Vector[] East { get; private set; }
+            public Vector[] North { get; private set; }
+            public Vector[] South { get; private set; }
+
+            public static CellCoords Create(Vector mazeSize, Vector cellPosition, int cellInnerWidth, int cellInnerHeight) {
+                var scaledCell = new {
+                    x = cellPosition.X * (cellInnerWidth + 1),
+                    y = (mazeSize.Y - cellPosition.Y) * (cellInnerHeight + 1)
+                };
+                Vector CellCoord(int dY, int dX) =>
+                    new Vector(scaledCell.x + dX, scaledCell.y - dY);
+                return new CellCoords {
+                    Northwest = CellCoord(cellInnerHeight + 1, 0),
+                    Southwest = CellCoord(0, 0),
+                    Northeast = CellCoord(cellInnerHeight + 1, cellInnerWidth + 1),
+                    Southeast = CellCoord(0, cellInnerWidth + 1),
+                    Center = CellCoord(1, 2),
+                    West = Enumerable.Range(0, cellInnerHeight).Select(i => CellCoord(i + 1, 0)).ToArray(),
+                    East = Enumerable.Range(0, cellInnerHeight).Select(i => CellCoord(i + 1, cellInnerWidth + 1)).ToArray(),
+                    North = Enumerable.Range(0, cellInnerWidth).Select(i => CellCoord(cellInnerHeight + 1, i + 1)).ToArray(),
+                    South = Enumerable.Range(0, cellInnerWidth).Select(i => CellCoord(0, i + 1)).ToArray(),
+                };
+            }
         }
 
         private static class Border {

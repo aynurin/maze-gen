@@ -48,7 +48,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             // from the original impact.
 
             var epochResults = new List<EpochResult>();
-            for (int e = 0; e < _epochs; e++) {
+            for (var e = 0; e < _epochs; e++) {
                 var impact = Enumerable.Range(0, _generationsPerEpoch)
                     .Select(gen => system.Evolve(1D / _generationsPerEpoch));
                 var epochResult = system.CompleteEpoch(

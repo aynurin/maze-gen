@@ -10,7 +10,7 @@ namespace PlayersWorlds.Maps.Renderers {
             _hideOverflow = hideOverflow;
             _buffer = new char[rows][];
             for (int i = 0; i < rows; i++) {
-                _buffer[i] = new String(' ', cols).ToCharArray();
+                _buffer[i] = new string(' ', cols).ToCharArray();
             }
         }
 
@@ -28,9 +28,9 @@ namespace PlayersWorlds.Maps.Renderers {
         public override string ToString() {
             var buffer = new StringBuilder(Environment.NewLine);
             foreach (var line in _buffer) {
-                var strLine = new String(line);
+                var strLine = new string(line);
                 if (strLine.Trim().Length > 0)
-                    buffer.AppendLine(new String(line));
+                    buffer.AppendLine(new string(line));
             }
             return Environment.NewLine + buffer.ToString() + Environment.NewLine;
         }

@@ -8,7 +8,6 @@ namespace PlayersWorlds.Maps.Maze {
             var visitedCells = new HashSet<MazeCell>() { currentCell };
             while (!IsFillComplete(options, layout)) {
                 // TODO (MapArea): If there are unvisited areas, start at one of them.
-                // TODO (MapArea): Choose only visitable areas.
                 var next = currentCell.Neighbors().GetRandom();
                 if (!visitedCells.Contains(next)) {
                     currentCell.Link(next);

@@ -13,13 +13,13 @@ namespace PlayersWorlds.Maps.Renderers {
             var bufferSize = new Vector(envSize.X * 2, envSize.Y * 2 * 2);
             var buffer = new AsciiBuffer(bufferSize.X, bufferSize.Y, true);
             var offset = new Vector(envSize.X / 2, envSize.Y / 2);
-            DrawRect(buffer, new Vector(offset.X, offset.Y), envSize, mazeChars);
+            DrawRect(buffer, new Vector(offset.X, offset.Y), envSize, s_mazeChars);
             // transpile room positions to reflect reversed X in Terminal
             areas.ForEach(area => DrawRect(buffer,
                 new Vector(envSize.X - area.Position.X - area.Size.X + offset.X,
                            area.Position.Y + offset.Y),
                            area.Size,
-                           roomChars));
+                           s_roomChars));
             _log?.Buffered.D(4, buffer.ToString());
         }
 
@@ -30,16 +30,16 @@ namespace PlayersWorlds.Maps.Renderers {
             buffer.PutC(pos.X, pos.Y + size.Y, wallChars[3]);
             buffer.PutC(pos.X + size.X, pos.Y, wallChars[4]);
             buffer.PutC(pos.X + size.X, pos.Y + size.Y, wallChars[5]);
-            for (int row = 1; row < size.X; row++) {
+            for (var row = 1; row < size.X; row++) {
                 buffer.PutC(pos.X + row, pos.Y, wallChars[1]);
                 buffer.PutC(pos.X + row, pos.Y + size.Y, wallChars[1]);
             }
-            for (int col = 1; col < size.Y; col++) {
+            for (var col = 1; col < size.Y; col++) {
                 buffer.PutC(pos.X, pos.Y + col, wallChars[0]);
                 buffer.PutC(pos.X + size.X, pos.Y + col, wallChars[0]);
             }
         }
-        private static char[] mazeChars = new char[] { '═', '║', '╔', '╗', '╚', '╝' };
-        private static char[] roomChars = new char[] { '─', '│', '┌', '┐', '└', '┘' };
+        private static readonly char[] s_mazeChars = new char[] { '═', '║', '╔', '╗', '╚', '╝' };
+        private static readonly char[] s_roomChars = new char[] { '─', '│', '┌', '┐', '└', '┘' };
     }
 }

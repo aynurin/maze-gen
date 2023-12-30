@@ -10,7 +10,7 @@ namespace PlayersWorlds.Maps {
         public void CellsAt_OneCell() {
             var map = new Map2D(new Vector(5, 5));
             var cells = map.CellsAt(new Vector(0, 0), new Vector(1, 1)).ToList();
-            var debugString = String.Join(",", cells.Select(c => map.Cells.IndexOf(c)));
+            var debugString = string.Join(",", cells.Select(c => map.Cells.IndexOf(c)));
             Assert.AreEqual(1, cells.Count());
             Assert.AreEqual(new Vector(0, 0).ToIndex(5), map.Cells.IndexOf(cells.First()));
         }
@@ -19,7 +19,7 @@ namespace PlayersWorlds.Maps {
         public void CellsAt_TwoCells() {
             var map = new Map2D(new Vector(5, 5));
             var cells = map.CellsAt(new Vector(0, 0), new Vector(2, 1)).ToList();
-            var debugString = String.Join(",", cells.Select(c => map.Cells.IndexOf(c)));
+            var debugString = string.Join(",", cells.Select(c => map.Cells.IndexOf(c)));
             Assert.AreEqual(2, cells.Count());
             Assert.AreEqual(new Vector(0, 0).ToIndex(5), map.Cells.IndexOf(cells.First()), "0,0: " + debugString);
             Assert.AreEqual(new Vector(1, 0).ToIndex(5), map.Cells.IndexOf(cells.Last()), "1,0: " + debugString);
@@ -29,7 +29,7 @@ namespace PlayersWorlds.Maps {
         public void CellsAt_TreeByTwo() {
             var map = new Map2D(new Vector(5, 5));
             var cells = map.CellsAt(new Vector(0, 0), new Vector(3, 2)).ToList();
-            var debugString = String.Join(",", cells.Select(c => map.Cells.IndexOf(c)));
+            var debugString = string.Join(",", cells.Select(c => map.Cells.IndexOf(c)));
             Assert.AreEqual(6, cells.Count());
             Assert.AreEqual(new Vector(0, 0).ToIndex(5), map.Cells.IndexOf(cells[0]), "0,0: " + debugString);
             Assert.AreEqual(new Vector(0, 1).ToIndex(5), map.Cells.IndexOf(cells[1]), "0,1: " + debugString);
@@ -43,7 +43,7 @@ namespace PlayersWorlds.Maps {
         public void CellsAt_FourCellsFar() {
             var map = new Map2D(new Vector(5, 5));
             var cells = map.CellsAt(new Vector(3, 3), new Vector(2, 2)).ToList();
-            var debugString = String.Join(",", cells.Select(c => map.Cells.IndexOf(c)));
+            var debugString = string.Join(",", cells.Select(c => map.Cells.IndexOf(c)));
             Assert.AreEqual(4, cells.Count());
             Assert.AreEqual(new Vector(3, 3).ToIndex(5), map.Cells.IndexOf(cells[0]), "3,3: " + debugString);
             Assert.AreEqual(new Vector(3, 4).ToIndex(5), map.Cells.IndexOf(cells[1]), "3,4: " + debugString);

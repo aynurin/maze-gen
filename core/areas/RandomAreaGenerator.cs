@@ -57,14 +57,14 @@ namespace PlayersWorlds.Maps.Areas {
         }
 
         public class GeneratorSettings {
-            public Dictionary<Vector, float> DimensionProbabilities { get; set; } = DEFAULT_DIMENSIONS;
-            public Dictionary<AreaType, float> AreaTypeProbabilities { get; set; } = DEFAULT_AREA_TYPES;
-            public Dictionary<String, float> TagProbabilities { get; set; } = DEFAULT_TAGS;
+            public Dictionary<Vector, float> DimensionProbabilities { get; set; } = s_default_dimensions;
+            public Dictionary<AreaType, float> AreaTypeProbabilities { get; set; } = s_default_area_types;
+            public Dictionary<string, float> TagProbabilities { get; set; } = s_default_tags;
 
             public GeneratorSettings(
                 Dictionary<Vector, float> dimensionProbabilities,
                 Dictionary<AreaType, float> areaTypeProbabilities,
-                Dictionary<String, float> tagProbabilities) {
+                Dictionary<string, float> tagProbabilities) {
                 if (dimensionProbabilities != null) {
                     DimensionProbabilities = dimensionProbabilities;
                 }
@@ -85,7 +85,7 @@ namespace PlayersWorlds.Maps.Areas {
             // 4x8 : 20%
             // 5x6 : 20%
             // 7x7 : 5%
-            private static readonly Dictionary<Vector, float> DEFAULT_DIMENSIONS = new Dictionary<Vector, float>() {
+            private static readonly Dictionary<Vector, float> s_default_dimensions = new Dictionary<Vector, float>() {
                 { new Vector(2, 2), 0.25f },
                 { new Vector(2, 3), 0.25f },
                 { new Vector(3, 4), 0.15f },
@@ -95,13 +95,13 @@ namespace PlayersWorlds.Maps.Areas {
                 { new Vector(7, 7), 0.005f }
             };
 
-            private static readonly Dictionary<AreaType, float> DEFAULT_AREA_TYPES = new Dictionary<AreaType, float>() {
+            private static readonly Dictionary<AreaType, float> s_default_area_types = new Dictionary<AreaType, float>() {
                 { AreaType.Fill, 0.7f },
                 { AreaType.Hall, 0.3f }
             };
 
 
-            private static readonly Dictionary<String, float> DEFAULT_TAGS = new Dictionary<String, float>() {
+            private static readonly Dictionary<string, float> s_default_tags = new Dictionary<string, float>() {
                 { "room", 0.5f },
                 { "lake", 0.15f },
                 { "dirt", 0.15f },

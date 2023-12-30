@@ -4,8 +4,6 @@ using System.Linq;
 using NUnit.Framework;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
-    // msbuild && reset && pushd build/Debug/tests && nunit3-console tests.dll --where="class=PlayersWorlds.Maps.AreaDistributorLoadTest" --params=DEBUG=4; popd
-    // msbuild && reset && pushd build/Debug/tests && nunit3-console tests.dll --test="PlayersWorlds.Maps.AreaDistributorTest.AreaDistributorTest_SidePressure" --params=DEBUG=5; popd
     [TestFixture]
     public class AreaDistributorTest {
         private static MapArea TestArea(int x, int y, int width, int height) =>
@@ -111,7 +109,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             yield return "6x12: P-1x-4;S2x2";
         }
 
-        public static IEnumerable<String> TestLayouts() {
+        public static IEnumerable<string> TestLayouts() {
             yield return "13x8: P9x6;S3x1 P1x4;S2x1";
             yield return "20x20: P14x14;S5x3 P-2x14;S1x4 P7x-3;S2x4 P2x4;S1x3";
             yield return "6x14: P0x10;S1x3";

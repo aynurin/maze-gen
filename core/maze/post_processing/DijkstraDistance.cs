@@ -15,8 +15,9 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
 
         /// Finds Dijkstra distances for the given cell.
         public static Dictionary<MazeCell, int> Find(MazeCell startingCell) {
-            var distances = new Dictionary<MazeCell, int>();
-            distances.Add(startingCell, 0);
+            var distances = new Dictionary<MazeCell, int> {
+                { startingCell, 0 }
+            };
             startingCell.Attributes.Set(DistanceAttribute, "0");
             var stack = new Stack<MazeCell>();
             stack.Push(startingCell);

@@ -11,13 +11,10 @@ public class RandomAreaGeneratorTest {
     [Test]
     public void ZoneGenerator_CanGenerateZones() {
         var zonesGenerator = new RandomAreaGenerator(RandomAreaGenerator.GeneratorSettings.Default);
-        var enumerator = zonesGenerator.GetEnumerator();
-
         var sizes = new Dictionary<Vector, int>();
-        var tags = new Dictionary<String, int>();
+        var tags = new Dictionary<string, int>();
         var types = new Dictionary<AreaType, int>();
-
-        int count = 1000;
+        var count = 1000;
         foreach (var area in zonesGenerator) {
             if (--count < 0) break;
             //Assert.Greater(area.Cells.Count, 0);
@@ -62,13 +59,10 @@ public class RandomAreaGeneratorTest {
             new Dictionary<AreaType, float>() { { AreaType.Hall, 1 } },
             new Dictionary<string, float>() { { "some_tag", 1 } }
         ));
-        var enumerator = zonesGenerator.GetEnumerator();
-
         var sizes = new Dictionary<Vector, int>();
-        var tags = new Dictionary<String, int>();
+        var tags = new Dictionary<string, int>();
         var types = new Dictionary<AreaType, int>();
-
-        int count = 10;
+        var count = 10;
         foreach (var area in zonesGenerator) {
             if (--count < 0) break;
             //Assert.Greater(area.Cells.Count, 0);

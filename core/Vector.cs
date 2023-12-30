@@ -73,7 +73,7 @@ namespace PlayersWorlds.Maps {
             _value == null ? base.GetHashCode() :
             IsEmpty ? _value.GetHashCode() :
             ((IStructuralEquatable)_value).GetHashCode(EqualityComparer<int>.Default);
-        public override string ToString() => IsEmpty ? "<empty>" : _value.Length == 0 ? "00" : String.Join("x", _value);
+        public override string ToString() => IsEmpty ? "<empty>" : _value.Length == 0 ? "00" : string.Join("x", _value);
         public bool Equals(Vector another) =>
             (this.IsEmpty && another.IsEmpty)
             || (!this.IsEmpty && !another.IsEmpty && this._value.SequenceEqual(another._value));

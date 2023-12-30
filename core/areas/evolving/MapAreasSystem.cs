@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
     public class MapAreasSystem : SimulatedSystem {
-        private static readonly string[] NICKNAMES = new[] {
+        private static readonly string[] s_nicknames = new[] {
             "BEAR", "LION", "WOLF", "FOXY", "DEER", "MOOS", "ELKK", "HARE", "RABB", "OTTR", "PUMA", "HYNA", "PNDA", "CHTA", "RINO", "BSON", "ZEBR", "ORCA", "PENG"
         };
         private readonly Dictionary<FloatingArea, string> _nicknames =
@@ -29,7 +29,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             _areas = areas.Select(area => FloatingArea.FromMapArea(area))
                           .ToList();
             foreach (var area in _areas) {
-                _nicknames.Add(area, NICKNAMES[_nicknames.Count]);
+                _nicknames.Add(area, s_nicknames[_nicknames.Count]);
             }
             _log = log;
             _onGeneration = impact => onGeneration?.Invoke(impact);
@@ -56,7 +56,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             for (var i = 0; i < _areas.Count; i++) {
                 _areas[i].AdjustPosition(areasForces[i] * fragment);
             }
-            var impact = new _GenerationImpact(
+            var impact = new MasGenerationImpact(
                 IsLayoutValid(),
                 areasForces,
                 _areas.Select(area => area.Position));
@@ -93,10 +93,10 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             // positions
             var roomsShifts = roomPositions.Select((position, i) =>
                 (!(previousEpochsResults.LastOrDefault() is
-                    _EpochResult previousImpact))
+                    MasEpochResult previousImpact))
                     ? position
                     : previousImpact.RoomPositions[i] - position).ToList();
-            var epochResult = new _EpochResult(
+            var epochResult = new MasEpochResult(
                 previousEpochsResults.Length,
                 roomPositions,
                 roomsShifts.Aggregate((acc, a) => acc + a),
@@ -104,7 +104,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 IsLayoutValid());
             // complete evolution when there room shifts are minimal
             epochResult.CompleteEvolution =
-                epochResult.Stats.mode == 0 && epochResult.Stats.variance <= 0.1;
+                epochResult.Stats.Mode == 0 && epochResult.Stats.Variance <= 0.1;
 
             _log?.Buffered.D(4, $"CompleteEpoch(): {epochResult.DebugString()}, {epochResult.Stats.DebugString()}");
 
@@ -114,8 +114,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         }
 
 
-        private class _GenerationImpact : GenerationImpact {
-            public _GenerationImpact(bool layoutIsValid,
+        private class MasGenerationImpact : GenerationImpact {
+            public MasGenerationImpact(bool layoutIsValid,
                 IEnumerable<VectorD> forces, IEnumerable<VectorD> positions) {
                 LayoutIsValid = layoutIsValid;
                 Forces = new List<VectorD>(forces);
@@ -127,8 +127,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             public IList<VectorD> Positions { get; private set; }
         }
 
-        private class _EpochResult : EpochResult {
-            public _EpochResult(
+        private class MasEpochResult : EpochResult {
+            public MasEpochResult(
                 int epoch,
                 List<Vector> roomPositions,
                 Vector totalRoomsShift, BaseStats stats,

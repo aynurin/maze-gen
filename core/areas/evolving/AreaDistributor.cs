@@ -28,8 +28,5 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 r => { if (_verboseOutput) _renderer?.Draw(mapSize, areas); });
             simulator.Evolve(system);
         }
-
-        // TODO: change VectorD to Single
-        // TODO: I still have X and Y all messed up.
     }
 }

@@ -10,7 +10,7 @@ namespace PlayersWorlds.Maps {
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
             source.ThrowIfNull("source");
             action.ThrowIfNull("action");
-            foreach (T element in source) {
+            foreach (var element in source) {
                 action(element);
             }
         }
@@ -94,32 +94,32 @@ namespace PlayersWorlds.Maps {
     }
 
     public struct BaseStats {
-        public double min;
-        public double max;
-        public double mean;
-        public double median;
-        public double mode;
-        public double stddev;
-        public double variance;
-        public int count;
+        public double Min { get; private set; }
+        public double Max { get; private set; }
+        public double Mean { get; private set; }
+        public double Median { get; private set; }
+        public double Mode { get; private set; }
+        public double Stddev { get; private set; }
+        public double Variance { get; private set; }
+        public int Count { get; private set; }
 
         public static BaseStats From(IEnumerable<double> values) {
             values.ThrowIfNull("values");
             var list = values.ToList();
             var stats = new BaseStats {
-                count = list.Count
+                Count = list.Count
             };
-            if (stats.count > 0) {
-                stats.min = list.Min();
-                stats.max = list.Max();
-                stats.mean = list.Average();
-                stats.median = list[list.Count / 2];
-                stats.mode = list
+            if (stats.Count > 0) {
+                stats.Min = list.Min();
+                stats.Max = list.Max();
+                stats.Mean = list.Average();
+                stats.Median = list[list.Count / 2];
+                stats.Mode = list
                     .GroupBy(v => v)
                     .OrderByDescending(g => g.Count())
                     .First().Key;
-                stats.variance = list.Select(v => v * v).Average() - stats.mean * stats.mean;
-                stats.stddev = Math.Sqrt(stats.variance);
+                stats.Variance = list.Select(v => v * v).Average() - stats.Mean * stats.Mean;
+                stats.Stddev = Math.Sqrt(stats.Variance);
             }
             return stats;
         }

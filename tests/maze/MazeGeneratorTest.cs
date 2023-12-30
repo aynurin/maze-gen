@@ -173,7 +173,7 @@ namespace PlayersWorlds.Maps {
 
         public static IEnumerable<Type> GetAllGenerators() {
             return AppDomain.CurrentDomain.GetAssemblies()
-                .Where(asm => asm.GetName().Name == "PlayersWorlds.Maps.Maze")
+                .Where(asm => asm.GetName().Name == "PlayersWorlds.Maps")
                 .SelectMany(s => s.GetTypes())
                 .Where(p => typeof(MazeGenerator) != p &&
                             typeof(MazeGenerator).IsAssignableFrom(p));
