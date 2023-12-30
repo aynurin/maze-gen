@@ -66,6 +66,8 @@ namespace Nour.Play {
         public static Vector operator -(Vector one, Vector another) =>
             ThrowIfEmptyOrApply(one, another, (a, b) => new Vector(one._value.Zip(another._value, (x1, x2) => x1 - x2)));
 
+        public bool Fits(Vector greater) => _value.Zip(greater._value, (a, b) => a <= b).All(b => b);
+
         public override bool Equals(object obj) => this.Equals((Vector)obj);
         public override int GetHashCode() =>
             _value == null ? base.GetHashCode() :
@@ -75,6 +77,8 @@ namespace Nour.Play {
         public bool Equals(Vector another) =>
             (this.IsEmpty && another.IsEmpty)
             || (!this.IsEmpty && !another.IsEmpty && this._value.SequenceEqual(another._value));
+
+        public static implicit operator Vector(int[] value) => new Vector(value);
 
         internal int ToIndex(int maxX) {
             if (X > maxX) {

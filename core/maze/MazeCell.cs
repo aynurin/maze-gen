@@ -70,7 +70,7 @@ namespace Nour.Play.Maze {
                     "Linking with non-adjacent cells is not supported yet");
             // fool-proof to avoid double linking.
             if (_links.Contains(cell))
-                throw new InvalidOperationException("This link already exists");
+                throw new InvalidOperationException($"This link already exists ({this}->{cell})");
 
             IsVisited = true;
             cell.IsVisited = true;
@@ -88,15 +88,7 @@ namespace Nour.Play.Maze {
         public List<MazeCell> Neighbors() => _neighbors;
 
         public Optional<MazeCell> Neighbors(Vector unitVector) =>
-            new Optional<MazeCell>(_neighbors.Find(cell => {
-                if (unitVector.X == 0 && unitVector.Y != 0) {
-                    return cell.Coordinates.Y == this.Coordinates.Y + unitVector.Y;
-                }
-                if (unitVector.X != 0 && unitVector.Y == 0) {
-                    return cell.Coordinates.X == this.Coordinates.X + unitVector.X;
-                }
-                return cell.Coordinates == this.Coordinates + unitVector;
-            }));
+            new Optional<MazeCell>(_neighbors.Find(cell => cell.Coordinates == this.Coordinates + unitVector));
 
         // TODO (MapArea): if the cell belongs to an area, use Area links
         // TODO (MapArea): Choose only visitable areas.

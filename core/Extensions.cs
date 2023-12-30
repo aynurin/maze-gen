@@ -15,14 +15,20 @@ namespace Nour.Play {
             }
         }
 
-        public static void ThrowIfNull(this Object item, string argName) {
+        public static void ThrowIfNull(this object item, string argName) {
             if (item == null) {
                 throw new ArgumentNullException(argName);
             }
         }
 
-        public static BaseStats Stats(this IEnumerable<double> values) =>
-            BaseStats.From(values);
+        public static void ThrowIfNullOrEmpty(this IEnumerable item, string argName) {
+            if (item == null) {
+                throw new ArgumentNullException(argName);
+            }
+            if (!item.GetEnumerator().MoveNext()) {
+                throw new ArgumentException(argName + " is empty.");
+            }
+        }
 
         public static BaseStats Stats(this IEnumerable<int> values) =>
             BaseStats.From(values.Select(x => (double)x));
@@ -68,16 +74,6 @@ namespace Nour.Play {
             return item.GetType().FullName + valuesStr;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="min">inclusive</param>
-        /// <param name="max">inclusive</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public static bool IsBetween(this double x, double min, double max) =>
-            x >= min && x <= max;
-
         public static void Set<K, V>(this Dictionary<K, V> dictionary,
             K key, V value) {
             if (dictionary.ContainsKey(key)) {
@@ -91,7 +87,7 @@ namespace Nour.Play {
                 result = queue.Dequeue();
                 return true;
             } catch (InvalidOperationException) {
-                result = default(T);
+                result = default;
                 return false;
             }
         }

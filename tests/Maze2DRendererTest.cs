@@ -20,11 +20,11 @@ namespace Nour.Play {
         [Test]
         public void CanRenderAMapWithAntiAliasing() {
             var mazeRenderingOptions = new MazeToMapOptions(
-                trailXWidths: new int[] { 1, 2, 1, 2 },
-                trailYHeights: new int[] { 2, 1, 2, 1 },
-                wallXWidths: new int[] { 1, 2, 1, 2, 1 },
-                wallYHeights: new int[] { 2, 1, 2, 1, 2 });
-            var map = CreateMapForMaze(mazeRenderingOptions);
+                trailWidths: new int[] { 1, 2, 1, 2 },
+                trailHeights: new int[] { 2, 1, 2, 1 },
+                wallWidths: new int[] { 1, 2, 1, 2, 1 },
+                wallHeights: new int[] { 2, 1, 2, 1, 2 });
+            var map = CreateMapForMaze(_maze, mazeRenderingOptions);
 
             var mazeRenderer = new Maze2DRenderer(_maze, mazeRenderingOptions);
             mazeRenderer.Render(map);
@@ -51,11 +51,11 @@ namespace Nour.Play {
         [Test]
         public void CanRenderAMapWithVoids() {
             var mazeRenderingOptions = new MazeToMapOptions(
-                trailXWidths: new int[] { 2, 3, 3, 2 },
-                trailYHeights: new int[] { 1, 2, 1, 1 },
-                wallXWidths: new int[] { 2, 2, 2, 2, 2 },
-                wallYHeights: new int[] { 1, 2, 1, 2, 1 });
-            var map = CreateMapForMaze(mazeRenderingOptions);
+                trailWidths: new int[] { 2, 3, 3, 2 },
+                trailHeights: new int[] { 1, 2, 1, 1 },
+                wallWidths: new int[] { 2, 2, 2, 2, 2 },
+                wallHeights: new int[] { 1, 2, 1, 2, 1 });
+            var map = CreateMapForMaze(_maze, mazeRenderingOptions);
 
             var mazeRenderer = new Maze2DRenderer(_maze, mazeRenderingOptions);
             mazeRenderer.Render(map);
@@ -83,11 +83,11 @@ namespace Nour.Play {
         public void CanRenderAMapWithFilledAreas() {
             _maze.AddArea(new MapArea(AreaType.Fill, new Vector(1, 1), new Vector(1, 1)));
             var mazeRenderingOptions = new MazeToMapOptions(
-                trailXWidths: new int[] { 2, 3, 3, 2 },
-                trailYHeights: new int[] { 1, 2, 1, 1 },
-                wallXWidths: new int[] { 2, 2, 2, 2, 2 },
-                wallYHeights: new int[] { 1, 2, 1, 2, 1 });
-            var map = CreateMapForMaze(mazeRenderingOptions);
+                trailWidths: new int[] { 2, 3, 3, 2 },
+                trailHeights: new int[] { 1, 2, 1, 1 },
+                wallWidths: new int[] { 2, 2, 2, 2, 2 },
+                wallHeights: new int[] { 1, 2, 1, 2, 1 });
+            var map = CreateMapForMaze(_maze, mazeRenderingOptions);
 
             var mazeRenderer = new Maze2DRenderer(_maze, mazeRenderingOptions);
             mazeRenderer.Render(map);
@@ -115,11 +115,11 @@ namespace Nour.Play {
         public void CanRenderAMapWithHallAreas() {
             _maze.AddArea(new MapArea(AreaType.Hall, new Vector(4, 2), new Vector(0, 0)));
             var mazeRenderingOptions = new MazeToMapOptions(
-                trailXWidths: new int[] { 2, 3, 3, 2 },
-                trailYHeights: new int[] { 1, 2, 1, 1 },
-                wallXWidths: new int[] { 2, 2, 2, 2, 2 },
-                wallYHeights: new int[] { 1, 2, 1, 2, 1 });
-            var map = CreateMapForMaze(mazeRenderingOptions);
+                trailWidths: new int[] { 2, 3, 3, 2 },
+                trailHeights: new int[] { 1, 2, 1, 1 },
+                wallWidths: new int[] { 2, 2, 2, 2, 2 },
+                wallHeights: new int[] { 1, 2, 1, 2, 1 });
+            var map = CreateMapForMaze(_maze, mazeRenderingOptions);
 
             var mazeRenderer = new Maze2DRenderer(_maze, mazeRenderingOptions);
             mazeRenderer.Render(map);
@@ -180,12 +180,17 @@ namespace Nour.Play {
 
         [Test]
         public void Maze2DToMap2DConverter_ThrowsIfInvalidOptions() {
-            Assert.Throws<ArgumentException>(() => new MazeToMapOptions(new int[] { 1 }, new int[] { 2 }, new int[] { 3 }, new int[] { 0 }));
-            Assert.Throws<ArgumentException>(() => new MazeToMapOptions(new int[] { 1 }, new int[] { 2 }, new int[] { -3 }, new int[] { 4 }));
-            Assert.Throws<ArgumentException>(() => new MazeToMapOptions(new int[] { 1 }, new int[] { -2 }, new int[] { 3 }, new int[] { 4 }));
-            Assert.Throws<ArgumentException>(() => new MazeToMapOptions(new int[] { -1 }, new int[] { 2 }, new int[] { 3 }, new int[] { 4 }));
-            Assert.DoesNotThrow(() => new MazeToMapOptions(new int[] { 1, 2, 1, 1 }, new int[] { 2, 2, 3, 2 }, new int[] { 1, 2, 1, 2, 1 }, new int[] { 2, 3, 2, 2, 2 }).ThrowIfWrong(_maze));
-            Assert.Throws<ArgumentException>(() => new MazeToMapOptions(new int[] { -1 }, new int[] { 2 }, new int[] { 3 }, new int[] { 4 }).ThrowIfWrong(_maze));
+            Assert.Throws<ArgumentException>(() => MazeToMapOptions.RectCells(new Vector(1, 2), new Vector(3, 0)));
+            Assert.Throws<ArgumentException>(() => MazeToMapOptions.RectCells(new Vector(1, -2), new Vector(3, 4)));
+            Assert.Throws<ArgumentException>(() => MazeToMapOptions.SquareCells(1, -2));
+            Assert.Throws<ArgumentException>(() => MazeToMapOptions.SquareCells(0, 2));
+            var mazeRenderingOptions = MazeToMapOptions.Custom(
+                trailWidths: new int[] { 1, 2, 1, 1 },
+                trailHeights: new int[] { 2, 2, 3, 2 },
+                wallWidths: new int[] { 1, 2, 1, 2, 1 },
+                wallHeights: new int[] { 2, 3, 2, 2, 2 });
+            Assert.DoesNotThrow(() => mazeRenderingOptions.ThrowIfWrong(_maze.Size));
+            Assert.Throws<ArgumentException>(() => mazeRenderingOptions.ThrowIfWrong(_maze.Size + Vector.East2D));
         }
 
         [Test]
@@ -199,11 +204,11 @@ namespace Nour.Play {
             // Assert.YIn([1, 2], cellMapping.NWCells.Select(cell => CellPosition(map, cell)))
 
             var mazeToMapOptions = new MazeToMapOptions(
-                trailXWidths: new int[] { 1, 2, 1, 2 },
-                trailYHeights: new int[] { 2, 1, 2, 1 },
-                wallXWidths: new int[] { 1, 2, 1, 2, 1 },
-                wallYHeights: new int[] { 2, 1, 2, 1, 2 });
-            var map = CreateMapForMaze(mazeToMapOptions);
+                trailWidths: new int[] { 1, 2, 1, 2 },
+                trailHeights: new int[] { 2, 1, 2, 1 },
+                wallWidths: new int[] { 1, 2, 1, 2, 1 },
+                wallHeights: new int[] { 2, 1, 2, 1, 2 });
+            var map = CreateMapForMaze(_maze, mazeToMapOptions);
             var mazeToMap = new Maze2DRenderer(_maze, mazeToMapOptions);
             var cellMapping = mazeToMap.CreateCellsMapping(map, _maze.AllCells[0]);
 

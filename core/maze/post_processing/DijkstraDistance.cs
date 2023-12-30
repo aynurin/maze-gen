@@ -64,6 +64,7 @@ namespace Nour.Play.Maze.PostProcessing {
         }
 
         public static List<MazeCell> FindLongestTrail(Maze2D maze) {
+            maze.VisitedCells.ThrowIfNullOrEmpty("maze.VisitedCells");
             var distances = Find(maze.VisitedCells.First());
             var startingPoint = distances.OrderByDescending(kvp => kvp.Value)
                                          .Select(kvp => kvp.Key).First();

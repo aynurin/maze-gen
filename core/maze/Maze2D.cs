@@ -91,7 +91,8 @@ namespace Nour.Play.Maze {
         }
 
         public Map2D ToMap(Maze2DRenderer.MazeToMapOptions options) {
-            var map = Maze2DRenderer.CreateMapForMaze(options);
+            options.ThrowIfWrong(this.Size);
+            var map = Maze2DRenderer.CreateMapForMaze(this, options);
             new Maze2DRenderer(this, options).Render(map);
             return map;
         }

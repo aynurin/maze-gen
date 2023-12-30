@@ -77,7 +77,8 @@ namespace Nour.Play {
 
         [Test]
         public void ConstructorChecksArguments() {
-            Assert.Throws<ArgumentNullException>(() => new VectorD(null));
+            IEnumerable<double> n = null;
+            Assert.Throws<ArgumentNullException>(() => new VectorD(n));
         }
 
         [Test]

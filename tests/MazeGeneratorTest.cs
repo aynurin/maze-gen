@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Moq;
 using Nour.Play.Areas;
 using Nour.Play.Maze;
 using Nour.Play.Maze.PostProcessing;
@@ -19,7 +20,8 @@ namespace Nour.Play {
             var generator = (MazeGenerator)Activator.CreateInstance(generatorType);
             // var map = new Maze2D(3, 4);
             // Assert.IsTrue(map.Cells.All(cell => cell.Links().Count == 0));
-            var map = (Maze2D)typeof(MazeGenerator).GetMethod("Generate")
+            var map = (Maze2D)typeof(MazeGenerator).GetMethods(BindingFlags.Public | BindingFlags.Static)
+                .First(m => m.Name == "Generate" && m.IsGenericMethod)
                 .MakeGenericMethod(generatorType)
                 .Invoke(null, new object[] { new Vector(3, 4), new GeneratorOptions() { FillFactor = GeneratorOptions.FillFactorOption.Full } });
             // generator.GenerateMaze(map);
@@ -126,6 +128,32 @@ namespace Nour.Play {
             map.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(map));
             map.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
                 solution);
+        }
+
+        [Test]
+        public void WrongGeneratorOptions() {
+            Assert.That(() => MazeGenerator.Generate(new Vector(3, 4), new GeneratorOptions()), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => MazeGenerator.Generate(new Vector(3, 4), new GeneratorOptions { Algorithm = typeof(string) }), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => MazeGenerator.Generate(new Vector(3, 4), new GeneratorOptions { Algorithm = typeof(TestGeneratorA) }), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => MazeGenerator.Generate(new Vector(3, 4), new GeneratorOptions { Algorithm = typeof(TestGeneratorB) }), Throws.Nothing);
+        }
+
+        class TestGeneratorA : MazeGenerator {
+            public TestGeneratorA(string _) : base() { }
+            public override void GenerateMaze(Maze2D map,
+                                              GeneratorOptions options) { }
+        }
+
+        class TestGeneratorB : MazeGenerator {
+            public override void GenerateMaze(Maze2D map,
+                                              GeneratorOptions options) {
+                map.AllCells.ForEach(cell => {
+                    if (cell.Neighbors(Vector.East2D).HasValue)
+                        cell.Link(cell.Neighbors(Vector.East2D).Value);
+                    if (cell.Neighbors(Vector.North2D).HasValue)
+                        cell.Link(cell.Neighbors(Vector.North2D).Value);
+                });
+            }
         }
 
         [Test]

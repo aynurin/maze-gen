@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<test-run id="2" testcasecount="711" result="Passed" total="156" passed="156" failed="0" inconclusive="0" skipped="0" asserts="4677" engine-version="3.4.1.0" clr-version="4.0.30319.42000" start-time="2023-12-27 19:08:26Z" end-time="2023-12-27 19:08:27Z" duration="0.496948">
+<test-run id="2" testcasecount="712" result="Passed" total="157" passed="157" failed="0" inconclusive="0" skipped="0" asserts="4681" engine-version="3.4.1.0" clr-version="4.0.30319.42000" start-time="2023-12-30 16:41:12Z" end-time="2023-12-30 16:41:13Z" duration="0.460850">
   <command-line><![CDATA[/usr/lib/nunit3/nunit3-console.exe build/Debug/tests/tests.dll --where=Category!=Load]]></command-line>
   <filter>
     <not>
       <prop name="Category">Load</prop>
     </not>
   </filter>
-  <test-suite type="Assembly" id="0-1739" name="tests.dll" fullname="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/tests.dll" runstate="Runnable" testcasecount="711" result="Passed" start-time="2023-12-27T19:08:26.7050780Z" end-time="2023-12-27T19:08:27.1749700Z" duration="0.469789" total="156" passed="156" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="4677">
+  <test-suite type="Assembly" id="0-1740" name="tests.dll" fullname="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/tests.dll" runstate="Runnable" testcasecount="712" result="Passed" start-time="2023-12-30T16:41:12.8720820Z" end-time="2023-12-30T16:41:13.3049070Z" duration="0.432732" total="157" passed="157" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="4681">
     <environment framework-version="3.14.0.0" clr-version="4.0.30319.42000" os-version="Unix 6.1.49.1" platform="Unix" cwd="/home/data/repos/github.com/aynurin/maze-gen" machine-name="lightview" user="shav" user-domain="lightview" culture="en-US" uiculture="en-US" os-architecture="x64" />
     <settings>
       <setting name="WorkDirectory" value="/home/data/repos/github.com/aynurin/maze-gen" />
@@ -17,290 +17,290 @@
       <setting name="NumberOfTestWorkers" value="24" />
     </settings>
     <properties>
-      <property name="_PID" value="568758" />
+      <property name="_PID" value="630294" />
       <property name="_APPDOMAIN" value="test-domain-" />
     </properties>
-    <test-suite type="SetUpFixture" id="0-1003" name="[default namespace]" fullname="SetUpTests" classname="SetUpTests" runstate="Runnable" testcasecount="711" result="Passed" start-time="2023-12-27T19:08:26.7103420Z" end-time="2023-12-27T19:08:27.1749590Z" duration="0.464617" total="156" passed="156" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="4677">
+    <test-suite type="SetUpFixture" id="0-1003" name="[default namespace]" fullname="SetUpTests" classname="SetUpTests" runstate="Runnable" testcasecount="712" result="Passed" start-time="2023-12-30T16:41:12.8772230Z" end-time="2023-12-30T16:41:13.3048960Z" duration="0.427673" total="157" passed="157" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="4681">
       <properties />
-      <test-suite type="TestSuite" id="0-1740" name="Nour" fullname="Nour" runstate="Runnable" testcasecount="709" result="Passed" start-time="2023-12-27T19:08:26.7128580Z" end-time="2023-12-27T19:08:27.1638550Z" duration="0.450997" total="154" passed="154" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="625">
+      <test-suite type="TestSuite" id="0-1741" name="Nour" fullname="Nour" runstate="Runnable" testcasecount="710" result="Passed" start-time="2023-12-30T16:41:12.8793600Z" end-time="2023-12-30T16:41:13.2938460Z" duration="0.414487" total="155" passed="155" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="629">
         <properties />
-        <test-suite type="TestSuite" id="0-1741" name="Play" fullname="Nour.Play" runstate="Runnable" testcasecount="709" result="Passed" start-time="2023-12-27T19:08:26.7129280Z" end-time="2023-12-27T19:08:27.1638510Z" duration="0.450923" total="154" passed="154" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="625">
+        <test-suite type="TestSuite" id="0-1742" name="Play" fullname="Nour.Play" runstate="Runnable" testcasecount="710" result="Passed" start-time="2023-12-30T16:41:12.8794150Z" end-time="2023-12-30T16:41:13.2938420Z" duration="0.414427" total="155" passed="155" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="629">
           <properties />
-          <test-suite type="TestSuite" id="0-1743" name="Areas" fullname="Nour.Play.Areas" runstate="Runnable" testcasecount="113" result="Passed" start-time="2023-12-27T19:08:26.7129360Z" end-time="2023-12-27T19:08:26.8942140Z" duration="0.181278" total="62" passed="62" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="193">
+          <test-suite type="TestSuite" id="0-1744" name="Areas" fullname="Nour.Play.Areas" runstate="Runnable" testcasecount="113" result="Passed" start-time="2023-12-30T16:41:12.8794220Z" end-time="2023-12-30T16:41:13.0650830Z" duration="0.185661" total="62" passed="62" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="193">
             <properties />
-            <test-suite type="TestSuite" id="0-1744" name="Evolving" fullname="Nour.Play.Areas.Evolving" runstate="Runnable" testcasecount="109" result="Passed" start-time="2023-12-27T19:08:26.7129420Z" end-time="2023-12-27T19:08:26.8930070Z" duration="0.180066" total="58" passed="58" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="175">
+            <test-suite type="TestSuite" id="0-1745" name="Evolving" fullname="Nour.Play.Areas.Evolving" runstate="Runnable" testcasecount="109" result="Passed" start-time="2023-12-30T16:41:12.8794270Z" end-time="2023-12-30T16:41:13.0634420Z" duration="0.184014" total="58" passed="58" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="175">
               <properties />
-              <test-suite type="TestFixture" id="0-1623" name="AreaDistributorTest" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" testcasecount="73" result="Passed" start-time="2023-12-27T19:08:26.7129670Z" end-time="2023-12-27T19:08:26.7845540Z" duration="0.071587" total="23" passed="23" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="46">
+              <test-suite type="TestFixture" id="0-1624" name="AreaDistributorTest" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" testcasecount="73" result="Passed" start-time="2023-12-30T16:41:12.8794480Z" end-time="2023-12-30T16:41:12.9510780Z" duration="0.071630" total="23" passed="23" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="46">
                 <properties />
-                <test-case id="0-1624" name="AreaDistributorTest_OneTest" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OneTest" methodname="AreaDistributorTest_OneTest" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="2129995334" result="Passed" start-time="2023-12-27T19:08:26.7130320Z" end-time="2023-12-27T19:08:26.7519240Z" duration="0.038960" asserts="2">
+                <test-case id="0-1625" name="AreaDistributorTest_OneTest" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OneTest" methodname="AreaDistributorTest_OneTest" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1428300386" result="Passed" start-time="2023-12-30T16:41:12.8795100Z" end-time="2023-12-30T16:41:12.9188760Z" duration="0.039439" asserts="2">
                   <properties />
                 </test-case>
-                <test-suite type="ParameterizedMethod" id="0-1637" name="AreaDistributorTest_OverlapTwo" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" testcasecount="10" result="Passed" start-time="2023-12-27T19:08:26.7532600Z" end-time="2023-12-27T19:08:26.7722510Z" duration="0.018991" total="10" passed="10" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="20">
+                <test-suite type="ParameterizedMethod" id="0-1638" name="AreaDistributorTest_OverlapTwo" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" testcasecount="10" result="Passed" start-time="2023-12-30T16:41:12.9202280Z" end-time="2023-12-30T16:41:12.9390140Z" duration="0.018786" total="10" passed="10" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="20">
                   <properties />
-                  <test-case id="0-1627" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P2x2;S4x4 P5x5;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P2x2;S4x4 P5x5;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="701786759" result="Passed" start-time="2023-12-27T19:08:26.7533460Z" end-time="2023-12-27T19:08:26.7592300Z" duration="0.005884" asserts="2">
+                  <test-case id="0-1628" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P2x2;S4x4 P5x5;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P2x2;S4x4 P5x5;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1301855067" result="Passed" start-time="2023-12-30T16:41:12.9203200Z" end-time="2023-12-30T16:41:12.9261780Z" duration="0.005858" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1628" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P5x2;S4x4 P2x5;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P5x2;S4x4 P2x5;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="740096322" result="Passed" start-time="2023-12-27T19:08:26.7592380Z" end-time="2023-12-27T19:08:26.7603360Z" duration="0.001099" asserts="2">
+                  <test-case id="0-1629" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P5x2;S4x4 P2x5;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P5x2;S4x4 P2x5;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="164001178" result="Passed" start-time="2023-12-30T16:41:12.9261860Z" end-time="2023-12-30T16:41:12.9272990Z" duration="0.001113" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1629" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P2x5;S4x4 P5x2;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P2x5;S4x4 P5x2;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="95673419" result="Passed" start-time="2023-12-27T19:08:26.7603430Z" end-time="2023-12-27T19:08:26.7614150Z" duration="0.001072" asserts="2">
+                  <test-case id="0-1630" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P2x5;S4x4 P5x2;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P2x5;S4x4 P5x2;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="474179683" result="Passed" start-time="2023-12-30T16:41:12.9273060Z" end-time="2023-12-30T16:41:12.9284140Z" duration="0.001108" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1630" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P5x5;S4x4 P2x2;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P5x5;S4x4 P2x2;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1840249435" result="Passed" start-time="2023-12-27T19:08:26.7614220Z" end-time="2023-12-27T19:08:26.7625810Z" duration="0.001159" asserts="2">
+                  <test-case id="0-1631" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P5x5;S4x4 P2x2;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P5x5;S4x4 P2x2;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="422930506" result="Passed" start-time="2023-12-30T16:41:12.9284200Z" end-time="2023-12-30T16:41:12.9295110Z" duration="0.001091" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1631" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P4x4;S4x4 P3x3;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P4x4;S4x4 P3x3;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="758721652" result="Passed" start-time="2023-12-27T19:08:26.7625880Z" end-time="2023-12-27T19:08:26.7646600Z" duration="0.002072" asserts="2">
+                  <test-case id="0-1632" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P4x4;S4x4 P3x3;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P4x4;S4x4 P3x3;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1451718986" result="Passed" start-time="2023-12-30T16:41:12.9295170Z" end-time="2023-12-30T16:41:12.9315100Z" duration="0.001993" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1632" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P4x3;S4x4 P3x4;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P4x3;S4x4 P3x4;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="2060478842" result="Passed" start-time="2023-12-27T19:08:26.7646680Z" end-time="2023-12-27T19:08:26.7658360Z" duration="0.001169" asserts="2">
+                  <test-case id="0-1633" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P4x3;S4x4 P3x4;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P4x3;S4x4 P3x4;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1790103240" result="Passed" start-time="2023-12-30T16:41:12.9315170Z" end-time="2023-12-30T16:41:12.9325980Z" duration="0.001081" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1633" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P3.5x3.5;S4x4 P3.5x3.5;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P3.5x3.5;S4x4 P3.5x3.5;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="516061180" result="Passed" start-time="2023-12-27T19:08:26.7658440Z" end-time="2023-12-27T19:08:26.7680190Z" duration="0.002175" asserts="2">
+                  <test-case id="0-1634" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P3.5x3.5;S4x4 P3.5x3.5;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P3.5x3.5;S4x4 P3.5x3.5;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1768973031" result="Passed" start-time="2023-12-30T16:41:12.9326040Z" end-time="2023-12-30T16:41:12.9347450Z" duration="0.002141" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1634" name="AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x9;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x9;S2x2&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1716629349" result="Passed" start-time="2023-12-27T19:08:26.7680290Z" end-time="2023-12-27T19:08:26.7691470Z" duration="0.001118" asserts="2">
+                  <test-case id="0-1635" name="AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x9;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x9;S2x2&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="818748562" result="Passed" start-time="2023-12-30T16:41:12.9347550Z" end-time="2023-12-30T16:41:12.9358780Z" duration="0.001124" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1635" name="AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x7;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x7;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1629232442" result="Passed" start-time="2023-12-27T19:08:26.7691570Z" end-time="2023-12-27T19:08:26.7702470Z" duration="0.001090" asserts="2">
+                  <test-case id="0-1636" name="AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x7;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x7;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="516139234" result="Passed" start-time="2023-12-30T16:41:12.9358870Z" end-time="2023-12-30T16:41:12.9369810Z" duration="0.001095" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1636" name="AreaDistributorTest_OverlapTwo(&quot;16x16: P5x5;S6x6 P6x6;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;16x16: P5x5;S6x6 P6x6;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1604485648" result="Passed" start-time="2023-12-27T19:08:26.7702560Z" end-time="2023-12-27T19:08:26.7713250Z" duration="0.001069" asserts="2">
+                  <test-case id="0-1637" name="AreaDistributorTest_OverlapTwo(&quot;16x16: P5x5;S6x6 P6x6;S4x4&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;16x16: P5x5;S6x6 P6x6;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="171382024" result="Passed" start-time="2023-12-30T16:41:12.9369900Z" end-time="2023-12-30T16:41:12.9380780Z" duration="0.001088" asserts="2">
                     <properties />
                   </test-case>
                 </test-suite>
-                <test-case id="0-1625" name="AreaDistributorTest_SidePressure" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SidePressure" methodname="AreaDistributorTest_SidePressure" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="670375963" result="Passed" start-time="2023-12-27T19:08:26.7729790Z" end-time="2023-12-27T19:08:26.7782470Z" duration="0.005267" asserts="2">
+                <test-case id="0-1626" name="AreaDistributorTest_SidePressure" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SidePressure" methodname="AreaDistributorTest_SidePressure" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="115983527" result="Passed" start-time="2023-12-30T16:41:12.9396930Z" end-time="2023-12-30T16:41:12.9451340Z" duration="0.005441" asserts="2">
                   <properties />
                 </test-case>
-                <test-suite type="ParameterizedMethod" id="0-1648" name="AreaDistributorTest_SingleMapForce" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" testcasecount="10" result="Passed" start-time="2023-12-27T19:08:26.7782950Z" end-time="2023-12-27T19:08:26.7830750Z" duration="0.004780" total="10" passed="10" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="20">
+                <test-suite type="ParameterizedMethod" id="0-1649" name="AreaDistributorTest_SingleMapForce" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" testcasecount="10" result="Passed" start-time="2023-12-30T16:41:12.9451440Z" end-time="2023-12-30T16:41:12.9495920Z" duration="0.004448" total="10" passed="10" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="20">
                   <properties />
-                  <test-case id="0-1638" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P1x2;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P1x2;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1540621418" result="Passed" start-time="2023-12-27T19:08:26.7783120Z" end-time="2023-12-27T19:08:26.7789700Z" duration="0.000659" asserts="2">
+                  <test-case id="0-1639" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P1x2;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P1x2;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1367143587" result="Passed" start-time="2023-12-30T16:41:12.9451590Z" end-time="2023-12-30T16:41:12.9457450Z" duration="0.000586" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1639" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P2x2;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P2x2;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="586419569" result="Passed" start-time="2023-12-27T19:08:26.7789780Z" end-time="2023-12-27T19:08:26.7794140Z" duration="0.000436" asserts="2">
+                  <test-case id="0-1640" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P2x2;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P2x2;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="444859240" result="Passed" start-time="2023-12-30T16:41:12.9457520Z" end-time="2023-12-30T16:41:12.9461560Z" duration="0.000404" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1640" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P3x2;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P3x2;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="771157189" result="Passed" start-time="2023-12-27T19:08:26.7794210Z" end-time="2023-12-27T19:08:26.7798440Z" duration="0.000424" asserts="2">
+                  <test-case id="0-1641" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P3x2;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P3x2;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="188818303" result="Passed" start-time="2023-12-30T16:41:12.9461620Z" end-time="2023-12-30T16:41:12.9465710Z" duration="0.000409" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1641" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P1x5;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P1x5;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="569664601" result="Passed" start-time="2023-12-27T19:08:26.7798500Z" end-time="2023-12-27T19:08:26.7802480Z" duration="0.000398" asserts="2">
+                  <test-case id="0-1642" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P1x5;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P1x5;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="818492123" result="Passed" start-time="2023-12-30T16:41:12.9465770Z" end-time="2023-12-30T16:41:12.9469900Z" duration="0.000413" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1642" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P2x5;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P2x5;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="710699585" result="Passed" start-time="2023-12-27T19:08:26.7802560Z" end-time="2023-12-27T19:08:26.7806880Z" duration="0.000432" asserts="2">
+                  <test-case id="0-1643" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P2x5;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P2x5;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1473849657" result="Passed" start-time="2023-12-30T16:41:12.9469960Z" end-time="2023-12-30T16:41:12.9473780Z" duration="0.000382" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1643" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P3x5;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P3x5;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="2141759983" result="Passed" start-time="2023-12-27T19:08:26.7806950Z" end-time="2023-12-27T19:08:26.7811010Z" duration="0.000406" asserts="2">
+                  <test-case id="0-1644" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P3x5;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P3x5;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1764736281" result="Passed" start-time="2023-12-30T16:41:12.9473840Z" end-time="2023-12-30T16:41:12.9478100Z" duration="0.000426" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1644" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P1x8;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P1x8;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="2007822961" result="Passed" start-time="2023-12-27T19:08:26.7811070Z" end-time="2023-12-27T19:08:26.7815340Z" duration="0.000428" asserts="2">
+                  <test-case id="0-1645" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P1x8;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P1x8;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="239684498" result="Passed" start-time="2023-12-30T16:41:12.9478170Z" end-time="2023-12-30T16:41:12.9482280Z" duration="0.000411" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1645" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P2x8;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P2x8;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="455816555" result="Passed" start-time="2023-12-27T19:08:26.7815400Z" end-time="2023-12-27T19:08:26.7819570Z" duration="0.000417" asserts="2">
+                  <test-case id="0-1646" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P2x8;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P2x8;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="118499629" result="Passed" start-time="2023-12-30T16:41:12.9482340Z" end-time="2023-12-30T16:41:12.9486290Z" duration="0.000396" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1646" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P3x8;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P3x8;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1834347147" result="Passed" start-time="2023-12-27T19:08:26.7819630Z" end-time="2023-12-27T19:08:26.7824840Z" duration="0.000521" asserts="2">
+                  <test-case id="0-1647" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P3x8;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P3x8;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="729494696" result="Passed" start-time="2023-12-30T16:41:12.9486350Z" end-time="2023-12-30T16:41:12.9490410Z" duration="0.000407" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1647" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P-1x-4;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P-1x-4;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1324196263" result="Passed" start-time="2023-12-27T19:08:26.7824910Z" end-time="2023-12-27T19:08:26.7830650Z" duration="0.000574" asserts="2">
+                  <test-case id="0-1648" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P-1x-4;S2x2&quot;)" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P-1x-4;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="2140115584" result="Passed" start-time="2023-12-30T16:41:12.9490470Z" end-time="2023-12-30T16:41:12.9495810Z" duration="0.000534" asserts="2">
                     <properties />
                   </test-case>
                 </test-suite>
-                <test-case id="0-1626" name="AreaDistributorTest_TwoTest" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_TwoTest" methodname="AreaDistributorTest_TwoTest" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1705792858" result="Passed" start-time="2023-12-27T19:08:26.7830820Z" end-time="2023-12-27T19:08:26.7845200Z" duration="0.001439" asserts="2">
+                <test-case id="0-1627" name="AreaDistributorTest_TwoTest" fullname="Nour.Play.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_TwoTest" methodname="AreaDistributorTest_TwoTest" classname="Nour.Play.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="328151805" result="Passed" start-time="2023-12-30T16:41:12.9495980Z" end-time="2023-12-30T16:41:12.9510450Z" duration="0.001447" asserts="2">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-suite type="TestFixture" id="0-1700" name="EvolvingSimulatorTest" fullname="Nour.Play.Areas.Evolving.EvolvingSimulatorTest" classname="Nour.Play.Areas.Evolving.EvolvingSimulatorTest" runstate="Runnable" testcasecount="2" result="Passed" start-time="2023-12-27T19:08:26.7849580Z" end-time="2023-12-27T19:08:26.8813940Z" duration="0.096436" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="2">
+              <test-suite type="TestFixture" id="0-1701" name="EvolvingSimulatorTest" fullname="Nour.Play.Areas.Evolving.EvolvingSimulatorTest" classname="Nour.Play.Areas.Evolving.EvolvingSimulatorTest" runstate="Runnable" testcasecount="2" result="Passed" start-time="2023-12-30T16:41:12.9515040Z" end-time="2023-12-30T16:41:13.0517530Z" duration="0.100249" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="2">
                 <properties />
-                <test-case id="0-1702" name="EvolvingSimulator_ReturnsEpochsIfEvolitionIsNotComplete" fullname="Nour.Play.Areas.Evolving.EvolvingSimulatorTest.EvolvingSimulator_ReturnsEpochsIfEvolitionIsNotComplete" methodname="EvolvingSimulator_ReturnsEpochsIfEvolitionIsNotComplete" classname="Nour.Play.Areas.Evolving.EvolvingSimulatorTest" runstate="Runnable" seed="1305248335" result="Passed" start-time="2023-12-27T19:08:26.7850050Z" end-time="2023-12-27T19:08:26.8791780Z" duration="0.094174" asserts="1">
+                <test-case id="0-1703" name="EvolvingSimulator_ReturnsEpochsIfEvolitionIsNotComplete" fullname="Nour.Play.Areas.Evolving.EvolvingSimulatorTest.EvolvingSimulator_ReturnsEpochsIfEvolitionIsNotComplete" methodname="EvolvingSimulator_ReturnsEpochsIfEvolitionIsNotComplete" classname="Nour.Play.Areas.Evolving.EvolvingSimulatorTest" runstate="Runnable" seed="1933944481" result="Passed" start-time="2023-12-30T16:41:12.9515560Z" end-time="2023-12-30T16:41:13.0494210Z" duration="0.097865" asserts="1">
                   <properties />
                 </test-case>
-                <test-case id="0-1701" name="EvolvingSimulator_ThrowsIfMaxEpochsIsZero" fullname="Nour.Play.Areas.Evolving.EvolvingSimulatorTest.EvolvingSimulator_ThrowsIfMaxEpochsIsZero" methodname="EvolvingSimulator_ThrowsIfMaxEpochsIsZero" classname="Nour.Play.Areas.Evolving.EvolvingSimulatorTest" runstate="Runnable" seed="1404209577" result="Passed" start-time="2023-12-27T19:08:26.8791930Z" end-time="2023-12-27T19:08:26.8813770Z" duration="0.002184" asserts="1">
+                <test-case id="0-1702" name="EvolvingSimulator_ThrowsIfMaxEpochsIsZero" fullname="Nour.Play.Areas.Evolving.EvolvingSimulatorTest.EvolvingSimulator_ThrowsIfMaxEpochsIsZero" methodname="EvolvingSimulator_ThrowsIfMaxEpochsIsZero" classname="Nour.Play.Areas.Evolving.EvolvingSimulatorTest" runstate="Runnable" seed="1764219698" result="Passed" start-time="2023-12-30T16:41:13.0494330Z" end-time="2023-12-30T16:41:13.0517380Z" duration="0.002305" asserts="1">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-suite type="TestFixture" id="0-1703" name="FloatingAreaTest" fullname="Nour.Play.Areas.Evolving.FloatingAreaTest" classname="Nour.Play.Areas.Evolving.FloatingAreaTest" runstate="Runnable" testcasecount="3" result="Passed" start-time="2023-12-27T19:08:26.8814070Z" end-time="2023-12-27T19:08:26.8849000Z" duration="0.003493" total="3" passed="3" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="6">
+              <test-suite type="TestFixture" id="0-1704" name="FloatingAreaTest" fullname="Nour.Play.Areas.Evolving.FloatingAreaTest" classname="Nour.Play.Areas.Evolving.FloatingAreaTest" runstate="Runnable" testcasecount="3" result="Passed" start-time="2023-12-30T16:41:13.0517670Z" end-time="2023-12-30T16:41:13.0554060Z" duration="0.003640" total="3" passed="3" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="6">
                 <properties />
-                <test-case id="0-1706" name="Contains" fullname="Nour.Play.Areas.Evolving.FloatingAreaTest.Contains" methodname="Contains" classname="Nour.Play.Areas.Evolving.FloatingAreaTest" runstate="Runnable" seed="965824579" result="Passed" start-time="2023-12-27T19:08:26.8814520Z" end-time="2023-12-27T19:08:26.8818620Z" duration="0.000410" asserts="2">
+                <test-case id="0-1707" name="Contains" fullname="Nour.Play.Areas.Evolving.FloatingAreaTest.Contains" methodname="Contains" classname="Nour.Play.Areas.Evolving.FloatingAreaTest" runstate="Runnable" seed="226467155" result="Passed" start-time="2023-12-30T16:41:13.0518150Z" end-time="2023-12-30T16:41:13.0522400Z" duration="0.000425" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1705" name="Overlaps" fullname="Nour.Play.Areas.Evolving.FloatingAreaTest.Overlaps" methodname="Overlaps" classname="Nour.Play.Areas.Evolving.FloatingAreaTest" runstate="Runnable" seed="1291163922" result="Passed" start-time="2023-12-27T19:08:26.8818690Z" end-time="2023-12-27T19:08:26.8820760Z" duration="0.000206" asserts="2">
+                <test-case id="0-1706" name="Overlaps" fullname="Nour.Play.Areas.Evolving.FloatingAreaTest.Overlaps" methodname="Overlaps" classname="Nour.Play.Areas.Evolving.FloatingAreaTest" runstate="Runnable" seed="547180082" result="Passed" start-time="2023-12-30T16:41:13.0522480Z" end-time="2023-12-30T16:41:13.0524540Z" duration="0.000206" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1704" name="Parse" fullname="Nour.Play.Areas.Evolving.FloatingAreaTest.Parse" methodname="Parse" classname="Nour.Play.Areas.Evolving.FloatingAreaTest" runstate="Runnable" seed="850445273" result="Passed" start-time="2023-12-27T19:08:26.8820820Z" end-time="2023-12-27T19:08:26.8848840Z" duration="0.002802" asserts="2">
+                <test-case id="0-1705" name="Parse" fullname="Nour.Play.Areas.Evolving.FloatingAreaTest.Parse" methodname="Parse" classname="Nour.Play.Areas.Evolving.FloatingAreaTest" runstate="Runnable" seed="1248820223" result="Passed" start-time="2023-12-30T16:41:13.0524600Z" end-time="2023-12-30T16:41:13.0553920Z" duration="0.002931" asserts="2">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-suite type="TestFixture" id="0-1707" name="ForceFormulaTestTest" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" testcasecount="8" result="Passed" start-time="2023-12-27T19:08:26.8849120Z" end-time="2023-12-27T19:08:26.8873190Z" duration="0.002407" total="8" passed="8" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="42">
+              <test-suite type="TestFixture" id="0-1708" name="ForceFormulaTestTest" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" testcasecount="8" result="Passed" start-time="2023-12-30T16:41:13.0554170Z" end-time="2023-12-30T16:41:13.0578990Z" duration="0.002482" total="8" passed="8" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="42">
                 <properties />
-                <test-case id="0-1713" name="CollideForce_Negative" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.CollideForce_Negative" methodname="CollideForce_Negative" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1832214701" result="Passed" start-time="2023-12-27T19:08:26.8849560Z" end-time="2023-12-27T19:08:26.8857330Z" duration="0.000777" asserts="9">
+                <test-case id="0-1714" name="CollideForce_Negative" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.CollideForce_Negative" methodname="CollideForce_Negative" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1374757767" result="Passed" start-time="2023-12-30T16:41:13.0554610Z" end-time="2023-12-30T16:41:13.0562650Z" duration="0.000805" asserts="9">
                   <properties />
                 </test-case>
-                <test-case id="0-1712" name="CollideForce_Positive" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.CollideForce_Positive" methodname="CollideForce_Positive" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="682731685" result="Passed" start-time="2023-12-27T19:08:26.8857400Z" end-time="2023-12-27T19:08:26.8860610Z" duration="0.000321" asserts="9">
+                <test-case id="0-1713" name="CollideForce_Positive" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.CollideForce_Positive" methodname="CollideForce_Positive" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1996315393" result="Passed" start-time="2023-12-30T16:41:13.0562730Z" end-time="2023-12-30T16:41:13.0565870Z" duration="0.000314" asserts="9">
                   <properties />
                 </test-case>
-                <test-case id="0-1709" name="NormalForce_Negative" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.NormalForce_Negative" methodname="NormalForce_Negative" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="679910009" result="Passed" start-time="2023-12-27T19:08:26.8860680Z" end-time="2023-12-27T19:08:26.8864130Z" duration="0.000345" asserts="3">
+                <test-case id="0-1710" name="NormalForce_Negative" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.NormalForce_Negative" methodname="NormalForce_Negative" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="2012643833" result="Passed" start-time="2023-12-30T16:41:13.0565940Z" end-time="2023-12-30T16:41:13.0569530Z" duration="0.000359" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1711" name="NormalForce_NegativeCapped" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.NormalForce_NegativeCapped" methodname="NormalForce_NegativeCapped" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="946892596" result="Passed" start-time="2023-12-27T19:08:26.8864200Z" end-time="2023-12-27T19:08:26.8865760Z" duration="0.000156" asserts="5">
+                <test-case id="0-1712" name="NormalForce_NegativeCapped" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.NormalForce_NegativeCapped" methodname="NormalForce_NegativeCapped" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="612062397" result="Passed" start-time="2023-12-30T16:41:13.0569600Z" end-time="2023-12-30T16:41:13.0571200Z" duration="0.000160" asserts="5">
                   <properties />
                 </test-case>
-                <test-case id="0-1708" name="NormalForce_Positive" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.NormalForce_Positive" methodname="NormalForce_Positive" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="27910383" result="Passed" start-time="2023-12-27T19:08:26.8865820Z" end-time="2023-12-27T19:08:26.8866900Z" duration="0.000108" asserts="3">
+                <test-case id="0-1709" name="NormalForce_Positive" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.NormalForce_Positive" methodname="NormalForce_Positive" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1804526437" result="Passed" start-time="2023-12-30T16:41:13.0571260Z" end-time="2023-12-30T16:41:13.0572370Z" duration="0.000111" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1710" name="NormalForce_PositiveCapped" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.NormalForce_PositiveCapped" methodname="NormalForce_PositiveCapped" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="2075020775" result="Passed" start-time="2023-12-27T19:08:26.8866950Z" end-time="2023-12-27T19:08:26.8868330Z" duration="0.000138" asserts="5">
+                <test-case id="0-1711" name="NormalForce_PositiveCapped" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.NormalForce_PositiveCapped" methodname="NormalForce_PositiveCapped" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1856371075" result="Passed" start-time="2023-12-30T16:41:13.0572430Z" end-time="2023-12-30T16:41:13.0573860Z" duration="0.000143" asserts="5">
                   <properties />
                 </test-case>
-                <test-case id="0-1715" name="OverlapForce_Negative" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.OverlapForce_Negative" methodname="OverlapForce_Negative" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1440458169" result="Passed" start-time="2023-12-27T19:08:26.8868390Z" end-time="2023-12-27T19:08:26.8870770Z" duration="0.000239" asserts="4">
+                <test-case id="0-1716" name="OverlapForce_Negative" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.OverlapForce_Negative" methodname="OverlapForce_Negative" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="841505096" result="Passed" start-time="2023-12-30T16:41:13.0573920Z" end-time="2023-12-30T16:41:13.0576470Z" duration="0.000255" asserts="4">
                   <properties />
                 </test-case>
-                <test-case id="0-1714" name="OverlapForce_Positive" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.OverlapForce_Positive" methodname="OverlapForce_Positive" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="916459895" result="Passed" start-time="2023-12-27T19:08:26.8870830Z" end-time="2023-12-27T19:08:26.8873080Z" duration="0.000225" asserts="4">
+                <test-case id="0-1715" name="OverlapForce_Positive" fullname="Nour.Play.Areas.Evolving.ForceFormulaTestTest.OverlapForce_Positive" methodname="OverlapForce_Positive" classname="Nour.Play.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="572826959" result="Passed" start-time="2023-12-30T16:41:13.0576530Z" end-time="2023-12-30T16:41:13.0578880Z" duration="0.000236" asserts="4">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-suite type="TestFixture" id="0-1716" name="SideToSideForceProducerTest" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" testcasecount="22" result="Passed" start-time="2023-12-27T19:08:26.8873310Z" end-time="2023-12-27T19:08:26.8930000Z" duration="0.005670" total="22" passed="22" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="79">
+              <test-suite type="TestFixture" id="0-1717" name="SideToSideForceProducerTest" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" testcasecount="22" result="Passed" start-time="2023-12-30T16:41:13.0579100Z" end-time="2023-12-30T16:41:13.0634360Z" duration="0.005526" total="22" passed="22" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="79">
                 <properties />
-                <test-case id="0-1734" name="GetAxisDistance_Collide" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Collide" methodname="GetAxisDistance_Collide" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1465652688" result="Passed" start-time="2023-12-27T19:08:26.8873760Z" end-time="2023-12-27T19:08:26.8882750Z" duration="0.000899" asserts="6">
+                <test-case id="0-1735" name="GetAxisDistance_Collide" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Collide" methodname="GetAxisDistance_Collide" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="205693391" result="Passed" start-time="2023-12-30T16:41:13.0579560Z" end-time="2023-12-30T16:41:13.0589030Z" duration="0.000948" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1737" name="GetAxisDistance_Contain1" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Contain1" methodname="GetAxisDistance_Contain1" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="331848756" result="Passed" start-time="2023-12-27T19:08:26.8882820Z" end-time="2023-12-27T19:08:26.8885860Z" duration="0.000305" asserts="6">
+                <test-case id="0-1738" name="GetAxisDistance_Contain1" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Contain1" methodname="GetAxisDistance_Contain1" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="2086747557" result="Passed" start-time="2023-12-30T16:41:13.0589110Z" end-time="2023-12-30T16:41:13.0592290Z" duration="0.000318" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1738" name="GetAxisDistance_Contain2" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Contain2" methodname="GetAxisDistance_Contain2" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="844616845" result="Passed" start-time="2023-12-27T19:08:26.8885930Z" end-time="2023-12-27T19:08:26.8888690Z" duration="0.000276" asserts="6">
+                <test-case id="0-1739" name="GetAxisDistance_Contain2" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Contain2" methodname="GetAxisDistance_Contain2" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1015704624" result="Passed" start-time="2023-12-30T16:41:13.0592360Z" end-time="2023-12-30T16:41:13.0595240Z" duration="0.000288" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1732" name="GetAxisDistance_Normal1" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Normal1" methodname="GetAxisDistance_Normal1" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1630217912" result="Passed" start-time="2023-12-27T19:08:26.8888750Z" end-time="2023-12-27T19:08:26.8891450Z" duration="0.000270" asserts="6">
+                <test-case id="0-1733" name="GetAxisDistance_Normal1" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Normal1" methodname="GetAxisDistance_Normal1" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="461265099" result="Passed" start-time="2023-12-30T16:41:13.0595300Z" end-time="2023-12-30T16:41:13.0598090Z" duration="0.000279" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1733" name="GetAxisDistance_Normal2" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Normal2" methodname="GetAxisDistance_Normal2" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="865340835" result="Passed" start-time="2023-12-27T19:08:26.8891510Z" end-time="2023-12-27T19:08:26.8894380Z" duration="0.000287" asserts="6">
+                <test-case id="0-1734" name="GetAxisDistance_Normal2" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Normal2" methodname="GetAxisDistance_Normal2" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1029621800" result="Passed" start-time="2023-12-30T16:41:13.0598150Z" end-time="2023-12-30T16:41:13.0600890Z" duration="0.000274" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1735" name="GetAxisDistance_Overlap1" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Overlap1" methodname="GetAxisDistance_Overlap1" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1787197257" result="Passed" start-time="2023-12-27T19:08:26.8894440Z" end-time="2023-12-27T19:08:26.8897120Z" duration="0.000268" asserts="6">
+                <test-case id="0-1736" name="GetAxisDistance_Overlap1" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Overlap1" methodname="GetAxisDistance_Overlap1" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="522520102" result="Passed" start-time="2023-12-30T16:41:13.0600960Z" end-time="2023-12-30T16:41:13.0603700Z" duration="0.000274" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1736" name="GetAxisDistance_Overlap2" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Overlap2" methodname="GetAxisDistance_Overlap2" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="855680530" result="Passed" start-time="2023-12-27T19:08:26.8897180Z" end-time="2023-12-27T19:08:26.8900010Z" duration="0.000283" asserts="6">
+                <test-case id="0-1737" name="GetAxisDistance_Overlap2" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Overlap2" methodname="GetAxisDistance_Overlap2" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1530142001" result="Passed" start-time="2023-12-30T16:41:13.0603760Z" end-time="2023-12-30T16:41:13.0606470Z" duration="0.000271" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1726" name="GetOpposingForce_CentersInside_NoOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersInside_NoOpposingForce" methodname="GetOpposingForce_CentersInside_NoOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1270307765" result="Passed" start-time="2023-12-27T19:08:26.8900070Z" end-time="2023-12-27T19:08:26.8902230Z" duration="0.000216" asserts="2">
+                <test-case id="0-1727" name="GetOpposingForce_CentersInside_NoOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersInside_NoOpposingForce" methodname="GetOpposingForce_CentersInside_NoOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1416128868" result="Passed" start-time="2023-12-30T16:41:13.0606540Z" end-time="2023-12-30T16:41:13.0608700Z" duration="0.000216" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1727" name="GetOpposingForce_CentersInside_WithOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersInside_WithOpposingForce" methodname="GetOpposingForce_CentersInside_WithOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="147047760" result="Passed" start-time="2023-12-27T19:08:26.8902300Z" end-time="2023-12-27T19:08:26.8904230Z" duration="0.000193" asserts="2">
+                <test-case id="0-1728" name="GetOpposingForce_CentersInside_WithOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersInside_WithOpposingForce" methodname="GetOpposingForce_CentersInside_WithOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="375133240" result="Passed" start-time="2023-12-30T16:41:13.0608760Z" end-time="2023-12-30T16:41:13.0610620Z" duration="0.000186" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1728" name="GetOpposingForce_CentersOutside_NoOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersOutside_NoOpposingForce" methodname="GetOpposingForce_CentersOutside_NoOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="157591895" result="Passed" start-time="2023-12-27T19:08:26.8904290Z" end-time="2023-12-27T19:08:26.8906020Z" duration="0.000174" asserts="2">
+                <test-case id="0-1729" name="GetOpposingForce_CentersOutside_NoOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersOutside_NoOpposingForce" methodname="GetOpposingForce_CentersOutside_NoOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="734474603" result="Passed" start-time="2023-12-30T16:41:13.0610680Z" end-time="2023-12-30T16:41:13.0612410Z" duration="0.000174" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1729" name="GetOpposingForce_CentersOutside_WithOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersOutside_WithOpposingForce" methodname="GetOpposingForce_CentersOutside_WithOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1703039284" result="Passed" start-time="2023-12-27T19:08:26.8906080Z" end-time="2023-12-27T19:08:26.8907770Z" duration="0.000169" asserts="2">
+                <test-case id="0-1730" name="GetOpposingForce_CentersOutside_WithOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersOutside_WithOpposingForce" methodname="GetOpposingForce_CentersOutside_WithOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1248254072" result="Passed" start-time="2023-12-30T16:41:13.0612470Z" end-time="2023-12-30T16:41:13.0614200Z" duration="0.000173" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1730" name="GetOpposingForce_NoIntersection_NoOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_NoIntersection_NoOpposingForce" methodname="GetOpposingForce_NoIntersection_NoOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1143061038" result="Passed" start-time="2023-12-27T19:08:26.8907820Z" end-time="2023-12-27T19:08:26.8909540Z" duration="0.000172" asserts="2">
+                <test-case id="0-1731" name="GetOpposingForce_NoIntersection_NoOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_NoIntersection_NoOpposingForce" methodname="GetOpposingForce_NoIntersection_NoOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="465999045" result="Passed" start-time="2023-12-30T16:41:13.0614260Z" end-time="2023-12-30T16:41:13.0615960Z" duration="0.000170" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1731" name="GetOpposingForce_NoIntersection_WithOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_NoIntersection_WithOpposingForce" methodname="GetOpposingForce_NoIntersection_WithOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1480875267" result="Passed" start-time="2023-12-27T19:08:26.8909600Z" end-time="2023-12-27T19:08:26.8911280Z" duration="0.000169" asserts="2">
+                <test-case id="0-1732" name="GetOpposingForce_NoIntersection_WithOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_NoIntersection_WithOpposingForce" methodname="GetOpposingForce_NoIntersection_WithOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1267478193" result="Passed" start-time="2023-12-30T16:41:13.0616010Z" end-time="2023-12-30T16:41:13.0617680Z" duration="0.000167" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1724" name="GetOpposingForce_WhenCenterMatches_NoOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_WhenCenterMatches_NoOpposingForce" methodname="GetOpposingForce_WhenCenterMatches_NoOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="2082160943" result="Passed" start-time="2023-12-27T19:08:26.8911340Z" end-time="2023-12-27T19:08:26.8913080Z" duration="0.000174" asserts="2">
+                <test-case id="0-1725" name="GetOpposingForce_WhenCenterMatches_NoOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_WhenCenterMatches_NoOpposingForce" methodname="GetOpposingForce_WhenCenterMatches_NoOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1604959952" result="Passed" start-time="2023-12-30T16:41:13.0617740Z" end-time="2023-12-30T16:41:13.0619410Z" duration="0.000167" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1725" name="GetOpposingForce_WhenCenterMatches_WithOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_WhenCenterMatches_WithOpposingForce" methodname="GetOpposingForce_WhenCenterMatches_WithOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1189072667" result="Passed" start-time="2023-12-27T19:08:26.8913130Z" end-time="2023-12-27T19:08:26.8914850Z" duration="0.000172" asserts="2">
+                <test-case id="0-1726" name="GetOpposingForce_WhenCenterMatches_WithOpposingForce" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_WhenCenterMatches_WithOpposingForce" methodname="GetOpposingForce_WhenCenterMatches_WithOpposingForce" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1540975620" result="Passed" start-time="2023-12-30T16:41:13.0619460Z" end-time="2023-12-30T16:41:13.0621140Z" duration="0.000168" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1720" name="MapAreaSystemTest_DistanceCentersMatch" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceCentersMatch" methodname="MapAreaSystemTest_DistanceCentersMatch" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1734534089" result="Passed" start-time="2023-12-27T19:08:26.8914900Z" end-time="2023-12-27T19:08:26.8916960Z" duration="0.000206" asserts="3">
+                <test-case id="0-1721" name="MapAreaSystemTest_DistanceCentersMatch" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceCentersMatch" methodname="MapAreaSystemTest_DistanceCentersMatch" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="757603697" result="Passed" start-time="2023-12-30T16:41:13.0621210Z" end-time="2023-12-30T16:41:13.0623200Z" duration="0.000200" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1723" name="MapAreaSystemTest_DistanceNegativeCollide" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceNegativeCollide" methodname="MapAreaSystemTest_DistanceNegativeCollide" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1433079839" result="Passed" start-time="2023-12-27T19:08:26.8917020Z" end-time="2023-12-27T19:08:26.8919020Z" duration="0.000201" asserts="3">
+                <test-case id="0-1724" name="MapAreaSystemTest_DistanceNegativeCollide" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceNegativeCollide" methodname="MapAreaSystemTest_DistanceNegativeCollide" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1267497480" result="Passed" start-time="2023-12-30T16:41:13.0623260Z" end-time="2023-12-30T16:41:13.0625260Z" duration="0.000199" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1721" name="MapAreaSystemTest_DistanceNegativeNormal" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceNegativeNormal" methodname="MapAreaSystemTest_DistanceNegativeNormal" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="145830903" result="Passed" start-time="2023-12-27T19:08:26.8919080Z" end-time="2023-12-27T19:08:26.8920910Z" duration="0.000182" asserts="3">
+                <test-case id="0-1722" name="MapAreaSystemTest_DistanceNegativeNormal" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceNegativeNormal" methodname="MapAreaSystemTest_DistanceNegativeNormal" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1102815549" result="Passed" start-time="2023-12-30T16:41:13.0625320Z" end-time="2023-12-30T16:41:13.0627100Z" duration="0.000178" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1722" name="MapAreaSystemTest_DistanceNegativeOverlap" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceNegativeOverlap" methodname="MapAreaSystemTest_DistanceNegativeOverlap" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1166243906" result="Passed" start-time="2023-12-27T19:08:26.8920960Z" end-time="2023-12-27T19:08:26.8922690Z" duration="0.000173" asserts="3">
+                <test-case id="0-1723" name="MapAreaSystemTest_DistanceNegativeOverlap" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceNegativeOverlap" methodname="MapAreaSystemTest_DistanceNegativeOverlap" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="475022798" result="Passed" start-time="2023-12-30T16:41:13.0627150Z" end-time="2023-12-30T16:41:13.0628890Z" duration="0.000173" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1719" name="MapAreaSystemTest_DistancePositiveCollide" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistancePositiveCollide" methodname="MapAreaSystemTest_DistancePositiveCollide" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="325561203" result="Passed" start-time="2023-12-27T19:08:26.8923820Z" end-time="2023-12-27T19:08:26.8925760Z" duration="0.000194" asserts="3">
+                <test-case id="0-1720" name="MapAreaSystemTest_DistancePositiveCollide" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistancePositiveCollide" methodname="MapAreaSystemTest_DistancePositiveCollide" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="349895205" result="Passed" start-time="2023-12-30T16:41:13.0628940Z" end-time="2023-12-30T16:41:13.0630680Z" duration="0.000174" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1717" name="MapAreaSystemTest_DistancePositiveNormal" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistancePositiveNormal" methodname="MapAreaSystemTest_DistancePositiveNormal" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="2060091322" result="Passed" start-time="2023-12-27T19:08:26.8925890Z" end-time="2023-12-27T19:08:26.8927930Z" duration="0.000204" asserts="3">
+                <test-case id="0-1718" name="MapAreaSystemTest_DistancePositiveNormal" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistancePositiveNormal" methodname="MapAreaSystemTest_DistancePositiveNormal" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1993551199" result="Passed" start-time="2023-12-30T16:41:13.0630740Z" end-time="2023-12-30T16:41:13.0632470Z" duration="0.000173" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1718" name="MapAreaSystemTest_DistancePositiveOverlap" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistancePositiveOverlap" methodname="MapAreaSystemTest_DistancePositiveOverlap" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="799690483" result="Passed" start-time="2023-12-27T19:08:26.8927990Z" end-time="2023-12-27T19:08:26.8929890Z" duration="0.000189" asserts="3">
+                <test-case id="0-1719" name="MapAreaSystemTest_DistancePositiveOverlap" fullname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistancePositiveOverlap" methodname="MapAreaSystemTest_DistancePositiveOverlap" classname="Nour.Play.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1505312772" result="Passed" start-time="2023-12-30T16:41:13.0632520Z" end-time="2023-12-30T16:41:13.0634250Z" duration="0.000173" asserts="3">
                   <properties />
                 </test-case>
               </test-suite>
             </test-suite>
-            <test-suite type="TestFixture" id="0-1616" name="MapAreaTest" fullname="Nour.Play.Areas.MapAreaTest" classname="Nour.Play.Areas.MapAreaTest" runstate="Runnable" testcasecount="4" result="Passed" start-time="2023-12-27T19:08:26.8930200Z" end-time="2023-12-27T19:08:26.8942090Z" duration="0.001188" total="4" passed="4" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="18">
+            <test-suite type="TestFixture" id="0-1617" name="MapAreaTest" fullname="Nour.Play.Areas.MapAreaTest" classname="Nour.Play.Areas.MapAreaTest" runstate="Runnable" testcasecount="4" result="Passed" start-time="2023-12-30T16:41:13.0634540Z" end-time="2023-12-30T16:41:13.0650780Z" duration="0.001624" total="4" passed="4" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="18">
               <properties />
-              <test-case id="0-1619" name="Overlaps_ReturnsFalseIfDoesNotOverlap" fullname="Nour.Play.Areas.MapAreaTest.Overlaps_ReturnsFalseIfDoesNotOverlap" methodname="Overlaps_ReturnsFalseIfDoesNotOverlap" classname="Nour.Play.Areas.MapAreaTest" runstate="Runnable" seed="1531618618" result="Passed" start-time="2023-12-27T19:08:26.8930630Z" end-time="2023-12-27T19:08:26.8931990Z" duration="0.000136" asserts="7">
+              <test-case id="0-1620" name="Overlaps_ReturnsFalseIfDoesNotOverlap" fullname="Nour.Play.Areas.MapAreaTest.Overlaps_ReturnsFalseIfDoesNotOverlap" methodname="Overlaps_ReturnsFalseIfDoesNotOverlap" classname="Nour.Play.Areas.MapAreaTest" runstate="Runnable" seed="847217201" result="Passed" start-time="2023-12-30T16:41:13.0634970Z" end-time="2023-12-30T16:41:13.0636300Z" duration="0.000134" asserts="7">
                 <properties />
               </test-case>
-              <test-case id="0-1618" name="Overlaps_ReturnsTrueIfOverlaps" fullname="Nour.Play.Areas.MapAreaTest.Overlaps_ReturnsTrueIfOverlaps" methodname="Overlaps_ReturnsTrueIfOverlaps" classname="Nour.Play.Areas.MapAreaTest" runstate="Runnable" seed="520615355" result="Passed" start-time="2023-12-27T19:08:26.8932050Z" end-time="2023-12-27T19:08:26.8932900Z" duration="0.000085" asserts="7">
+              <test-case id="0-1619" name="Overlaps_ReturnsTrueIfOverlaps" fullname="Nour.Play.Areas.MapAreaTest.Overlaps_ReturnsTrueIfOverlaps" methodname="Overlaps_ReturnsTrueIfOverlaps" classname="Nour.Play.Areas.MapAreaTest" runstate="Runnable" seed="1925108359" result="Passed" start-time="2023-12-30T16:41:13.0636370Z" end-time="2023-12-30T16:41:13.0637230Z" duration="0.000087" asserts="7">
                 <properties />
               </test-case>
-              <test-case id="0-1617" name="Overlaps_ThrowsIfSame" fullname="Nour.Play.Areas.MapAreaTest.Overlaps_ThrowsIfSame" methodname="Overlaps_ThrowsIfSame" classname="Nour.Play.Areas.MapAreaTest" runstate="Runnable" seed="1410343366" result="Passed" start-time="2023-12-27T19:08:26.8932950Z" end-time="2023-12-27T19:08:26.8939610Z" duration="0.000666" asserts="2">
+              <test-case id="0-1618" name="Overlaps_ThrowsIfSame" fullname="Nour.Play.Areas.MapAreaTest.Overlaps_ThrowsIfSame" methodname="Overlaps_ThrowsIfSame" classname="Nour.Play.Areas.MapAreaTest" runstate="Runnable" seed="1838986857" result="Passed" start-time="2023-12-30T16:41:13.0637280Z" end-time="2023-12-30T16:41:13.0644010Z" duration="0.000673" asserts="2">
                 <properties />
               </test-case>
-              <test-case id="0-1620" name="Position_ThrowsIfNotInitialized" fullname="Nour.Play.Areas.MapAreaTest.Position_ThrowsIfNotInitialized" methodname="Position_ThrowsIfNotInitialized" classname="Nour.Play.Areas.MapAreaTest" runstate="Runnable" seed="1711490715" result="Passed" start-time="2023-12-27T19:08:26.8939680Z" end-time="2023-12-27T19:08:26.8941970Z" duration="0.000229" asserts="2">
+              <test-case id="0-1621" name="Position_ThrowsIfNotInitialized" fullname="Nour.Play.Areas.MapAreaTest.Position_ThrowsIfNotInitialized" methodname="Position_ThrowsIfNotInitialized" classname="Nour.Play.Areas.MapAreaTest" runstate="Runnable" seed="1030642448" result="Passed" start-time="2023-12-30T16:41:13.0644090Z" end-time="2023-12-30T16:41:13.0650670Z" duration="0.000658" asserts="2">
                 <properties />
               </test-case>
             </test-suite>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1041" name="CellTest" fullname="Nour.Play.CellTest" classname="Nour.Play.CellTest" runstate="Runnable" testcasecount="4" result="Passed" start-time="2023-12-27T19:08:26.8942250Z" end-time="2023-12-27T19:08:26.9059360Z" duration="0.011712" total="4" passed="4" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="21">
+          <test-suite type="TestFixture" id="0-1041" name="CellTest" fullname="Nour.Play.CellTest" classname="Nour.Play.CellTest" runstate="Runnable" testcasecount="4" result="Passed" start-time="2023-12-30T16:41:13.0650930Z" end-time="2023-12-30T16:41:13.0719770Z" duration="0.006885" total="4" passed="4" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="21">
             <properties />
-            <test-case id="0-1043" name="Map2D_CanAssignMapAreaOnce" fullname="Nour.Play.CellTest.Map2D_CanAssignMapAreaOnce" methodname="Map2D_CanAssignMapAreaOnce" classname="Nour.Play.CellTest" runstate="Runnable" seed="95213496" result="Passed" start-time="2023-12-27T19:08:26.8942680Z" end-time="2023-12-27T19:08:26.9034010Z" duration="0.009133" asserts="3">
+            <test-case id="0-1043" name="Map2D_CanAssignMapAreaOnce" fullname="Nour.Play.CellTest.Map2D_CanAssignMapAreaOnce" methodname="Map2D_CanAssignMapAreaOnce" classname="Nour.Play.CellTest" runstate="Runnable" seed="395566835" result="Passed" start-time="2023-12-30T16:41:13.0652440Z" end-time="2023-12-30T16:41:13.0694240Z" duration="0.004181" asserts="3">
               <properties />
             </test-case>
-            <test-case id="0-1045" name="Map2D_DoubleLinkingThrowsError" fullname="Nour.Play.CellTest.Map2D_DoubleLinkingThrowsError" methodname="Map2D_DoubleLinkingThrowsError" classname="Nour.Play.CellTest" runstate="Runnable" seed="2129237080" result="Passed" start-time="2023-12-27T19:08:26.9034100Z" end-time="2023-12-27T19:08:26.9037780Z" duration="0.000368" asserts="1">
+            <test-case id="0-1045" name="Map2D_DoubleLinkingThrowsError" fullname="Nour.Play.CellTest.Map2D_DoubleLinkingThrowsError" methodname="Map2D_DoubleLinkingThrowsError" classname="Nour.Play.CellTest" runstate="Runnable" seed="834526180" result="Passed" start-time="2023-12-30T16:41:13.0694330Z" end-time="2023-12-30T16:41:13.0698220Z" duration="0.000389" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1042" name="Map2D_LinksAreMutual" fullname="Nour.Play.CellTest.Map2D_LinksAreMutual" methodname="Map2D_LinksAreMutual" classname="Nour.Play.CellTest" runstate="Runnable" seed="77304265" result="Passed" start-time="2023-12-27T19:08:26.9037850Z" end-time="2023-12-27T19:08:26.9055430Z" duration="0.001758" asserts="10">
+            <test-case id="0-1042" name="Map2D_LinksAreMutual" fullname="Nour.Play.CellTest.Map2D_LinksAreMutual" methodname="Map2D_LinksAreMutual" classname="Nour.Play.CellTest" runstate="Runnable" seed="523613915" result="Passed" start-time="2023-12-30T16:41:13.0698290Z" end-time="2023-12-30T16:41:13.0715700Z" duration="0.001742" asserts="10">
               <properties />
             </test-case>
-            <test-case id="0-1044" name="Map2D_ToString" fullname="Nour.Play.CellTest.Map2D_ToString" methodname="Map2D_ToString" classname="Nour.Play.CellTest" runstate="Runnable" seed="1458351104" result="Passed" start-time="2023-12-27T19:08:26.9055510Z" end-time="2023-12-27T19:08:26.9059240Z" duration="0.000373" asserts="7">
+            <test-case id="0-1044" name="Map2D_ToString" fullname="Nour.Play.CellTest.Map2D_ToString" methodname="Map2D_ToString" classname="Nour.Play.CellTest" runstate="Runnable" seed="314595451" result="Passed" start-time="2023-12-30T16:41:13.0715780Z" end-time="2023-12-30T16:41:13.0719660Z" duration="0.000388" asserts="7">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1004" name="DeadEndTest" fullname="Nour.Play.DeadEndTest" classname="Nour.Play.DeadEndTest" runstate="Runnable" testcasecount="1" result="Passed" start-time="2023-12-27T19:08:26.9059500Z" end-time="2023-12-27T19:08:26.9087750Z" duration="0.002825" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="7">
+          <test-suite type="TestFixture" id="0-1004" name="DeadEndTest" fullname="Nour.Play.DeadEndTest" classname="Nour.Play.DeadEndTest" runstate="Runnable" testcasecount="1" result="Passed" start-time="2023-12-30T16:41:13.0719890Z" end-time="2023-12-30T16:41:13.0748670Z" duration="0.002878" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="7">
             <properties />
-            <test-case id="0-1005" name="DeadEnd_CanFindDeadEnds" fullname="Nour.Play.DeadEndTest.DeadEnd_CanFindDeadEnds" methodname="DeadEnd_CanFindDeadEnds" classname="Nour.Play.DeadEndTest" runstate="Runnable" seed="688235654" result="Passed" start-time="2023-12-27T19:08:26.9060020Z" end-time="2023-12-27T19:08:26.9087620Z" duration="0.002760" asserts="7">
+            <test-case id="0-1005" name="DeadEnd_CanFindDeadEnds" fullname="Nour.Play.DeadEndTest.DeadEnd_CanFindDeadEnds" methodname="DeadEnd_CanFindDeadEnds" classname="Nour.Play.DeadEndTest" runstate="Runnable" seed="1052313450" result="Passed" start-time="2023-12-30T16:41:13.0720340Z" end-time="2023-12-30T16:41:13.0748540Z" duration="0.002820" asserts="7">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1006" name="DijkstraDistanceTest" fullname="Nour.Play.DijkstraDistanceTest" classname="Nour.Play.DijkstraDistanceTest" runstate="Runnable" testcasecount="4" result="Passed" start-time="2023-12-27T19:08:26.9087870Z" end-time="2023-12-27T19:08:26.9464310Z" duration="0.037643" total="4" passed="4" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="11">
+          <test-suite type="TestFixture" id="0-1006" name="DijkstraDistanceTest" fullname="Nour.Play.DijkstraDistanceTest" classname="Nour.Play.DijkstraDistanceTest" runstate="Runnable" testcasecount="4" result="Passed" start-time="2023-12-30T16:41:13.0748770Z" end-time="2023-12-30T16:41:13.1116330Z" duration="0.036756" total="4" passed="4" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="11">
             <properties />
-            <test-case id="0-1010" name="DijkstraDistance_CanFindLongestTrail" fullname="Nour.Play.DijkstraDistanceTest.DijkstraDistance_CanFindLongestTrail" methodname="DijkstraDistance_CanFindLongestTrail" classname="Nour.Play.DijkstraDistanceTest" runstate="Runnable" seed="1990973058" result="Passed" start-time="2023-12-27T19:08:26.9088410Z" end-time="2023-12-27T19:08:26.9122970Z" duration="0.003456" asserts="4">
+            <test-case id="0-1010" name="DijkstraDistance_CanFindLongestTrail" fullname="Nour.Play.DijkstraDistanceTest.DijkstraDistance_CanFindLongestTrail" methodname="DijkstraDistance_CanFindLongestTrail" classname="Nour.Play.DijkstraDistanceTest" runstate="Runnable" seed="829964325" result="Passed" start-time="2023-12-30T16:41:13.0749220Z" end-time="2023-12-30T16:41:13.0783970Z" duration="0.003476" asserts="4">
               <properties />
             </test-case>
-            <test-case id="0-1008" name="DijkstraDistance_CanSolveAMaze" fullname="Nour.Play.DijkstraDistanceTest.DijkstraDistance_CanSolveAMaze" methodname="DijkstraDistance_CanSolveAMaze" classname="Nour.Play.DijkstraDistanceTest" runstate="Runnable" seed="1318773510" result="Passed" start-time="2023-12-27T19:08:26.9123090Z" end-time="2023-12-27T19:08:26.9126650Z" duration="0.000356" asserts="4">
+            <test-case id="0-1008" name="DijkstraDistance_CanSolveAMaze" fullname="Nour.Play.DijkstraDistanceTest.DijkstraDistance_CanSolveAMaze" methodname="DijkstraDistance_CanSolveAMaze" classname="Nour.Play.DijkstraDistanceTest" runstate="Runnable" seed="244138611" result="Passed" start-time="2023-12-30T16:41:13.0784080Z" end-time="2023-12-30T16:41:13.0787480Z" duration="0.000339" asserts="4">
               <properties />
             </test-case>
-            <test-case id="0-1007" name="DijkstraDistance_FindsAllDistances" fullname="Nour.Play.DijkstraDistanceTest.DijkstraDistance_FindsAllDistances" methodname="DijkstraDistance_FindsAllDistances" classname="Nour.Play.DijkstraDistanceTest" runstate="Runnable" seed="1280023867" result="Passed" start-time="2023-12-27T19:08:26.9126720Z" end-time="2023-12-27T19:08:26.9462400Z" duration="0.033568" asserts="2">
+            <test-case id="0-1007" name="DijkstraDistance_FindsAllDistances" fullname="Nour.Play.DijkstraDistanceTest.DijkstraDistance_FindsAllDistances" methodname="DijkstraDistance_FindsAllDistances" classname="Nour.Play.DijkstraDistanceTest" runstate="Runnable" seed="1942965812" result="Passed" start-time="2023-12-30T16:41:13.0787550Z" end-time="2023-12-30T16:41:13.1114460Z" duration="0.032691" asserts="2">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with GeneratorOptions(Full, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with Nour.Play.Maze.GeneratorOptions(Full, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1009" name="DijkstraDistance_ReturnsEmptyIfNoSolutionFound" fullname="Nour.Play.DijkstraDistanceTest.DijkstraDistance_ReturnsEmptyIfNoSolutionFound" methodname="DijkstraDistance_ReturnsEmptyIfNoSolutionFound" classname="Nour.Play.DijkstraDistanceTest" runstate="Runnable" seed="203189762" result="Passed" start-time="2023-12-27T19:08:26.9462600Z" end-time="2023-12-27T19:08:26.9464170Z" duration="0.000157" asserts="1">
+            <test-case id="0-1009" name="DijkstraDistance_ReturnsEmptyIfNoSolutionFound" fullname="Nour.Play.DijkstraDistanceTest.DijkstraDistance_ReturnsEmptyIfNoSolutionFound" methodname="DijkstraDistance_ReturnsEmptyIfNoSolutionFound" classname="Nour.Play.DijkstraDistanceTest" runstate="Runnable" seed="1456399778" result="Passed" start-time="2023-12-30T16:41:13.1114580Z" end-time="2023-12-30T16:41:13.1116210Z" duration="0.000163" asserts="1">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1011" name="Map2DTest" fullname="Nour.Play.Map2DTest" classname="Nour.Play.Map2DTest" runstate="Runnable" testcasecount="5" result="Passed" start-time="2023-12-27T19:08:26.9464440Z" end-time="2023-12-27T19:08:26.9493960Z" duration="0.002952" total="5" passed="5" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="21">
+          <test-suite type="TestFixture" id="0-1011" name="Map2DTest" fullname="Nour.Play.Map2DTest" classname="Nour.Play.Map2DTest" runstate="Runnable" testcasecount="5" result="Passed" start-time="2023-12-30T16:41:13.1116460Z" end-time="2023-12-30T16:41:13.1148150Z" duration="0.003169" total="5" passed="5" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="21">
             <properties />
-            <test-case id="0-1015" name="CellsAt_FourCellsFar" fullname="Nour.Play.Map2DTest.CellsAt_FourCellsFar" methodname="CellsAt_FourCellsFar" classname="Nour.Play.Map2DTest" runstate="Runnable" seed="1511981527" result="Passed" start-time="2023-12-27T19:08:26.9465060Z" end-time="2023-12-27T19:08:26.9480980Z" duration="0.001592" asserts="5">
+            <test-case id="0-1015" name="CellsAt_FourCellsFar" fullname="Nour.Play.Map2DTest.CellsAt_FourCellsFar" methodname="CellsAt_FourCellsFar" classname="Nour.Play.Map2DTest" runstate="Runnable" seed="273463375" result="Passed" start-time="2023-12-30T16:41:13.1117120Z" end-time="2023-12-30T16:41:13.1134100Z" duration="0.001698" asserts="5">
               <properties />
             </test-case>
-            <test-case id="0-1012" name="CellsAt_OneCell" fullname="Nour.Play.Map2DTest.CellsAt_OneCell" methodname="CellsAt_OneCell" classname="Nour.Play.Map2DTest" runstate="Runnable" seed="189467803" result="Passed" start-time="2023-12-27T19:08:26.9481070Z" end-time="2023-12-27T19:08:26.9483380Z" duration="0.000230" asserts="2">
+            <test-case id="0-1012" name="CellsAt_OneCell" fullname="Nour.Play.Map2DTest.CellsAt_OneCell" methodname="CellsAt_OneCell" classname="Nour.Play.Map2DTest" runstate="Runnable" seed="567638568" result="Passed" start-time="2023-12-30T16:41:13.1134190Z" end-time="2023-12-30T16:41:13.1136540Z" duration="0.000235" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1016" name="CellsAt_OutOfBounds" fullname="Nour.Play.Map2DTest.CellsAt_OutOfBounds" methodname="CellsAt_OutOfBounds" classname="Nour.Play.Map2DTest" runstate="Runnable" seed="1727349178" result="Passed" start-time="2023-12-27T19:08:26.9483450Z" end-time="2023-12-27T19:08:26.9487290Z" duration="0.000384" asserts="4">
+            <test-case id="0-1016" name="CellsAt_OutOfBounds" fullname="Nour.Play.Map2DTest.CellsAt_OutOfBounds" methodname="CellsAt_OutOfBounds" classname="Nour.Play.Map2DTest" runstate="Runnable" seed="1967745606" result="Passed" start-time="2023-12-30T16:41:13.1136620Z" end-time="2023-12-30T16:41:13.1140800Z" duration="0.000419" asserts="4">
               <properties />
             </test-case>
-            <test-case id="0-1014" name="CellsAt_TreeByTwo" fullname="Nour.Play.Map2DTest.CellsAt_TreeByTwo" methodname="CellsAt_TreeByTwo" classname="Nour.Play.Map2DTest" runstate="Runnable" seed="257725562" result="Passed" start-time="2023-12-27T19:08:26.9487360Z" end-time="2023-12-27T19:08:26.9491110Z" duration="0.000375" asserts="7">
+            <test-case id="0-1014" name="CellsAt_TreeByTwo" fullname="Nour.Play.Map2DTest.CellsAt_TreeByTwo" methodname="CellsAt_TreeByTwo" classname="Nour.Play.Map2DTest" runstate="Runnable" seed="1296311871" result="Passed" start-time="2023-12-30T16:41:13.1140870Z" end-time="2023-12-30T16:41:13.1145190Z" duration="0.000432" asserts="7">
               <properties />
             </test-case>
-            <test-case id="0-1013" name="CellsAt_TwoCells" fullname="Nour.Play.Map2DTest.CellsAt_TwoCells" methodname="CellsAt_TwoCells" classname="Nour.Play.Map2DTest" runstate="Runnable" seed="94259570" result="Passed" start-time="2023-12-27T19:08:26.9491180Z" end-time="2023-12-27T19:08:26.9493840Z" duration="0.000267" asserts="3">
+            <test-case id="0-1013" name="CellsAt_TwoCells" fullname="Nour.Play.Map2DTest.CellsAt_TwoCells" methodname="CellsAt_TwoCells" classname="Nour.Play.Map2DTest" runstate="Runnable" seed="353918242" result="Passed" start-time="2023-12-30T16:41:13.1145270Z" end-time="2023-12-30T16:41:13.1148040Z" duration="0.000277" asserts="3">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1018" name="Maze2DRendererTest" fullname="Nour.Play.Maze2DRendererTest" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" testcasecount="8" result="Passed" start-time="2023-12-27T19:08:26.9494080Z" end-time="2023-12-27T19:08:26.9664340Z" duration="0.017026" total="8" passed="8" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="57">
+          <test-suite type="TestFixture" id="0-1018" name="Maze2DRendererTest" fullname="Nour.Play.Maze2DRendererTest" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" testcasecount="8" result="Passed" start-time="2023-12-30T16:41:13.1148260Z" end-time="2023-12-30T16:41:13.1333440Z" duration="0.018518" total="8" passed="8" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="57">
             <properties />
-            <test-case id="0-1019" name="CanRenderAMapWithAntiAliasing" fullname="Nour.Play.Maze2DRendererTest.CanRenderAMapWithAntiAliasing" methodname="CanRenderAMapWithAntiAliasing" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="912153747" result="Passed" start-time="2023-12-27T19:08:26.9494480Z" end-time="2023-12-27T19:08:26.9537910Z" duration="0.004343" asserts="1">
+            <test-case id="0-1019" name="CanRenderAMapWithAntiAliasing" fullname="Nour.Play.Maze2DRendererTest.CanRenderAMapWithAntiAliasing" methodname="CanRenderAMapWithAntiAliasing" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="205312687" result="Passed" start-time="2023-12-30T16:41:13.1148730Z" end-time="2023-12-30T16:41:13.1201360Z" duration="0.005263" asserts="1">
               <properties />
               <output><![CDATA[0000000000000
 ▓▓▓▓▓▓▓▓▓0000
@@ -319,7 +319,7 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1021" name="CanRenderAMapWithFilledAreas" fullname="Nour.Play.Maze2DRendererTest.CanRenderAMapWithFilledAreas" methodname="CanRenderAMapWithFilledAreas" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="1338220476" result="Passed" start-time="2023-12-27T19:08:26.9538120Z" end-time="2023-12-27T19:08:26.9554970Z" duration="0.001685" asserts="1">
+            <test-case id="0-1021" name="CanRenderAMapWithFilledAreas" fullname="Nour.Play.Maze2DRendererTest.CanRenderAMapWithFilledAreas" methodname="CanRenderAMapWithFilledAreas" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="1062692910" result="Passed" start-time="2023-12-30T16:41:13.1201470Z" end-time="2023-12-30T16:41:13.1215540Z" duration="0.001407" asserts="1">
               <properties />
               <output><![CDATA[0▓▓▓▓▓▓▓▓▓▓▓▓▓▓00000
 0▓░░░░░░░░░░░░▓00000
@@ -349,7 +349,7 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1022" name="CanRenderAMapWithHallAreas" fullname="Nour.Play.Maze2DRendererTest.CanRenderAMapWithHallAreas" methodname="CanRenderAMapWithHallAreas" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="1459092051" result="Passed" start-time="2023-12-27T19:08:26.9555070Z" end-time="2023-12-27T19:08:26.9565010Z" duration="0.000994" asserts="1">
+            <test-case id="0-1022" name="CanRenderAMapWithHallAreas" fullname="Nour.Play.Maze2DRendererTest.CanRenderAMapWithHallAreas" methodname="CanRenderAMapWithHallAreas" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="495218467" result="Passed" start-time="2023-12-30T16:41:13.1215640Z" end-time="2023-12-30T16:41:13.1229570Z" duration="0.001393" asserts="1">
               <properties />
               <output><![CDATA[0▓▓▓▓▓▓▓▓▓▓▓▓▓▓00000
 0▓░░░░░░░░░░░░▓00000
@@ -379,7 +379,7 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1020" name="CanRenderAMapWithVoids" fullname="Nour.Play.Maze2DRendererTest.CanRenderAMapWithVoids" methodname="CanRenderAMapWithVoids" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="1649774246" result="Passed" start-time="2023-12-27T19:08:26.9565140Z" end-time="2023-12-27T19:08:26.9574220Z" duration="0.000908" asserts="1">
+            <test-case id="0-1020" name="CanRenderAMapWithVoids" fullname="Nour.Play.Maze2DRendererTest.CanRenderAMapWithVoids" methodname="CanRenderAMapWithVoids" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="557295763" result="Passed" start-time="2023-12-30T16:41:13.1229660Z" end-time="2023-12-30T16:41:13.1238990Z" duration="0.000933" asserts="1">
               <properties />
               <output><![CDATA[0▓▓▓▓▓▓▓▓▓▓▓▓▓▓00000
 0▓░░░░░░░░░░░░▓00000
@@ -409,10 +409,10 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1026" name="CellsMapping_ValidMapping" fullname="Nour.Play.Maze2DRendererTest.CellsMapping_ValidMapping" methodname="CellsMapping_ValidMapping" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="702350780" result="Passed" start-time="2023-12-27T19:08:26.9574310Z" end-time="2023-12-27T19:08:26.9612260Z" duration="0.003794" asserts="45">
+            <test-case id="0-1026" name="CellsMapping_ValidMapping" fullname="Nour.Play.Maze2DRendererTest.CellsMapping_ValidMapping" methodname="CellsMapping_ValidMapping" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="191054356" result="Passed" start-time="2023-12-30T16:41:13.1239080Z" end-time="2023-12-30T16:41:13.1280200Z" duration="0.004112" asserts="45">
               <properties />
             </test-case>
-            <test-case id="0-1023" name="Maze2DAsciiBoxRenderer_CanConvertToAscii" fullname="Nour.Play.Maze2DRendererTest.Maze2DAsciiBoxRenderer_CanConvertToAscii" methodname="Maze2DAsciiBoxRenderer_CanConvertToAscii" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="70713968" result="Passed" start-time="2023-12-27T19:08:26.9612370Z" end-time="2023-12-27T19:08:26.9648160Z" duration="0.003579" asserts="1">
+            <test-case id="0-1023" name="Maze2DAsciiBoxRenderer_CanConvertToAscii" fullname="Nour.Play.Maze2DRendererTest.Maze2DAsciiBoxRenderer_CanConvertToAscii" methodname="Maze2DAsciiBoxRenderer_CanConvertToAscii" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="857559691" result="Passed" start-time="2023-12-30T16:41:13.1280310Z" end-time="2023-12-30T16:41:13.1315680Z" duration="0.003537" asserts="1">
               <properties />
               <output><![CDATA[┌───────────┐    
 │           │    
@@ -426,7 +426,7 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1024" name="Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData" fullname="Nour.Play.Maze2DRendererTest.Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData" methodname="Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="1072539536" result="Passed" start-time="2023-12-27T19:08:26.9648270Z" end-time="2023-12-27T19:08:26.9658860Z" duration="0.001059" asserts="1">
+            <test-case id="0-1024" name="Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData" fullname="Nour.Play.Maze2DRendererTest.Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData" methodname="Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="285676887" result="Passed" start-time="2023-12-30T16:41:13.1315780Z" end-time="2023-12-30T16:41:13.1326750Z" duration="0.001097" asserts="1">
               <properties />
               <output><![CDATA[┌───────────┐    
 │ 4   3   2 │    
@@ -440,38 +440,38 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1025" name="Maze2DToMap2DConverter_ThrowsIfInvalidOptions" fullname="Nour.Play.Maze2DRendererTest.Maze2DToMap2DConverter_ThrowsIfInvalidOptions" methodname="Maze2DToMap2DConverter_ThrowsIfInvalidOptions" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="1126583670" result="Passed" start-time="2023-12-27T19:08:26.9658970Z" end-time="2023-12-27T19:08:26.9664210Z" duration="0.000524" asserts="6">
+            <test-case id="0-1025" name="Maze2DToMap2DConverter_ThrowsIfInvalidOptions" fullname="Nour.Play.Maze2DRendererTest.Maze2DToMap2DConverter_ThrowsIfInvalidOptions" methodname="Maze2DToMap2DConverter_ThrowsIfInvalidOptions" classname="Nour.Play.Maze2DRendererTest" runstate="Runnable" seed="201471028" result="Passed" start-time="2023-12-30T16:41:13.1326850Z" end-time="2023-12-30T16:41:13.1333290Z" duration="0.000644" asserts="6">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1027" name="Maze2DTest" fullname="Nour.Play.Maze2DTest" classname="Nour.Play.Maze2DTest" runstate="Runnable" testcasecount="13" result="Passed" start-time="2023-12-27T19:08:26.9664480Z" end-time="2023-12-27T19:08:27.0323380Z" duration="0.065890" total="13" passed="13" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="177">
+          <test-suite type="TestFixture" id="0-1027" name="Maze2DTest" fullname="Nour.Play.Maze2DTest" classname="Nour.Play.Maze2DTest" runstate="Runnable" testcasecount="13" result="Passed" start-time="2023-12-30T16:41:13.1333610Z" end-time="2023-12-30T16:41:13.1831190Z" duration="0.049759" total="13" passed="13" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="177">
             <properties />
-            <test-case id="0-1034" name="Maze2D_AddsNoRoomsToASmallMaze" fullname="Nour.Play.Maze2DTest.Maze2D_AddsNoRoomsToASmallMaze" methodname="Maze2D_AddsNoRoomsToASmallMaze" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="654990607" result="Passed" start-time="2023-12-27T19:08:26.9664860Z" end-time="2023-12-27T19:08:26.9694150Z" duration="0.002930" asserts="1">
+            <test-case id="0-1034" name="Maze2D_AddsNoRoomsToASmallMaze" fullname="Nour.Play.Maze2DTest.Maze2D_AddsNoRoomsToASmallMaze" methodname="Maze2D_AddsNoRoomsToASmallMaze" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1716082119" result="Passed" start-time="2023-12-30T16:41:13.1334020Z" end-time="2023-12-30T16:41:13.1366540Z" duration="0.003252" asserts="1">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x3 with GeneratorOptions(Full, Auto, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x3 with Nour.Play.Maze.GeneratorOptions(Full, Auto, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1033" name="Maze2D_AddsNoRoomsWhenNoneRequested" fullname="Nour.Play.Maze2DTest.Maze2D_AddsNoRoomsWhenNoneRequested" methodname="Maze2D_AddsNoRoomsWhenNoneRequested" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1555499297" result="Passed" start-time="2023-12-27T19:08:26.9694270Z" end-time="2023-12-27T19:08:27.0095330Z" duration="0.040106" asserts="1">
+            <test-case id="0-1033" name="Maze2D_AddsNoRoomsWhenNoneRequested" fullname="Nour.Play.Maze2DTest.Maze2D_AddsNoRoomsWhenNoneRequested" methodname="Maze2D_AddsNoRoomsWhenNoneRequested" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1269398515" result="Passed" start-time="2023-12-30T16:41:13.1366650Z" end-time="2023-12-30T16:41:13.1622890Z" duration="0.025624" asserts="1">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with GeneratorOptions(Full, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with Nour.Play.Maze.GeneratorOptions(Full, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1037" name="Maze2D_AddsOneFill" fullname="Nour.Play.Maze2DTest.Maze2D_AddsOneFill" methodname="Maze2D_AddsOneFill" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="917936324" result="Passed" start-time="2023-12-27T19:08:27.0095480Z" end-time="2023-12-27T19:08:27.0139850Z" duration="0.004438" asserts="1">
+            <test-case id="0-1037" name="Maze2D_AddsOneFill" fullname="Nour.Play.Maze2DTest.Maze2D_AddsOneFill" methodname="Maze2D_AddsOneFill" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1462041553" result="Passed" start-time="2023-12-30T16:41:13.1623020Z" end-time="2023-12-30T16:41:13.1698970Z" duration="0.007596" asserts="1">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 5x5 with GeneratorOptions(Full, Manual, List`1<MapArea>(P2x1;S2x2;Fill), Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 5x5 with Nour.Play.Maze.GeneratorOptions(Full, Manual, List`1<MapArea>(P2x1;S2x2;Fill), Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1036" name="Maze2D_AddsOneHall" fullname="Nour.Play.Maze2DTest.Maze2D_AddsOneHall" methodname="Maze2D_AddsOneHall" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="572486964" result="Passed" start-time="2023-12-27T19:08:27.0139970Z" end-time="2023-12-27T19:08:27.0207220Z" duration="0.006725" asserts="1">
+            <test-case id="0-1036" name="Maze2D_AddsOneHall" fullname="Nour.Play.Maze2DTest.Maze2D_AddsOneHall" methodname="Maze2D_AddsOneHall" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1858445142" result="Passed" start-time="2023-12-30T16:41:13.1699090Z" end-time="2023-12-30T16:41:13.1737860Z" duration="0.003877" asserts="1">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 5x5 with GeneratorOptions(Full, Manual, List`1<MapArea>(P2x1;S2x2;Hall), Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 5x5 with Nour.Play.Maze.GeneratorOptions(Full, Manual, List`1<MapArea>(P2x1;S2x2;Hall), Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1035" name="Maze2D_AddsRooms" fullname="Nour.Play.Maze2DTest.Maze2D_AddsRooms" methodname="Maze2D_AddsRooms" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1976011333" result="Passed" start-time="2023-12-27T19:08:27.0207330Z" end-time="2023-12-27T19:08:27.0248530Z" duration="0.004120" asserts="1">
+            <test-case id="0-1035" name="Maze2D_AddsRooms" fullname="Nour.Play.Maze2DTest.Maze2D_AddsRooms" methodname="Maze2D_AddsRooms" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1669770275" result="Passed" start-time="2023-12-30T16:41:13.1737970Z" end-time="2023-12-30T16:41:13.1759470Z" duration="0.002151" asserts="1">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 5x5 with GeneratorOptions(Full, Auto, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 5x5 with Nour.Play.Maze.GeneratorOptions(Full, Auto, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1039" name="Maze2D_CanParse" fullname="Nour.Play.Maze2DTest.Maze2D_CanParse" methodname="Maze2D_CanParse" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="684860174" result="Passed" start-time="2023-12-27T19:08:27.0248660Z" end-time="2023-12-27T19:08:27.0255100Z" duration="0.000644" asserts="16">
+            <test-case id="0-1039" name="Maze2D_CanParse" fullname="Nour.Play.Maze2DTest.Maze2D_CanParse" methodname="Maze2D_CanParse" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="360168858" result="Passed" start-time="2023-12-30T16:41:13.1759580Z" end-time="2023-12-30T16:41:13.1765390Z" duration="0.000581" asserts="16">
               <properties />
               <output><![CDATA[┌───────────┐
 │           │
@@ -483,322 +483,327 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1040" name="Maze2D_CanParse2" fullname="Nour.Play.Maze2DTest.Maze2D_CanParse2" methodname="Maze2D_CanParse2" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1091353479" result="Passed" start-time="2023-12-27T19:08:27.0255210Z" end-time="2023-12-27T19:08:27.0256000Z" duration="0.000079" asserts="1">
+            <test-case id="0-1040" name="Maze2D_CanParse2" fullname="Nour.Play.Maze2DTest.Maze2D_CanParse2" methodname="Maze2D_CanParse2" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="568770657" result="Passed" start-time="2023-12-30T16:41:13.1765470Z" end-time="2023-12-30T16:41:13.1766240Z" duration="0.000077" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1032" name="Maze2D_CanRenderMap" fullname="Nour.Play.Maze2DTest.Maze2D_CanRenderMap" methodname="Maze2D_CanRenderMap" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1172189254" result="Passed" start-time="2023-12-27T19:08:27.0256060Z" end-time="2023-12-27T19:08:27.0271920Z" duration="0.001586" asserts="1">
+            <test-case id="0-1032" name="Maze2D_CanRenderMap" fullname="Nour.Play.Maze2DTest.Maze2D_CanRenderMap" methodname="Maze2D_CanRenderMap" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1938469058" result="Passed" start-time="2023-12-30T16:41:13.1766300Z" end-time="2023-12-30T16:41:13.1782240Z" duration="0.001594" asserts="1">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x3 with GeneratorOptions(Full, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x3 with Nour.Play.Maze.GeneratorOptions(Full, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1031" name="Maze2D_CellsNeighborsAreValid" fullname="Nour.Play.Maze2DTest.Maze2D_CellsNeighborsAreValid" methodname="Maze2D_CellsNeighborsAreValid" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="490931210" result="Passed" start-time="2023-12-27T19:08:27.0272050Z" end-time="2023-12-27T19:08:27.0286330Z" duration="0.001428" asserts="136">
+            <test-case id="0-1031" name="Maze2D_CellsNeighborsAreValid" fullname="Nour.Play.Maze2DTest.Maze2D_CellsNeighborsAreValid" methodname="Maze2D_CellsNeighborsAreValid" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="36763537" result="Passed" start-time="2023-12-30T16:41:13.1782340Z" end-time="2023-12-30T16:41:13.1795990Z" duration="0.001366" asserts="136">
               <properties />
             </test-case>
-            <test-case id="0-1038" name="Maze2D_HasAttributesSet" fullname="Nour.Play.Maze2DTest.Maze2D_HasAttributesSet" methodname="Maze2D_HasAttributesSet" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1769398513" result="Passed" start-time="2023-12-27T19:08:27.0286440Z" end-time="2023-12-27T19:08:27.0305740Z" duration="0.001930" asserts="2">
+            <test-case id="0-1038" name="Maze2D_HasAttributesSet" fullname="Nour.Play.Maze2DTest.Maze2D_HasAttributesSet" methodname="Maze2D_HasAttributesSet" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1573853877" result="Passed" start-time="2023-12-30T16:41:13.1796100Z" end-time="2023-12-30T16:41:13.1808860Z" duration="0.001277" asserts="2">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x3 with GeneratorOptions(Full, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x3 with Nour.Play.Maze.GeneratorOptions(Full, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1028" name="Maze2D_IsInitialized" fullname="Nour.Play.Maze2DTest.Maze2D_IsInitialized" methodname="Maze2D_IsInitialized" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="205006011" result="Passed" start-time="2023-12-27T19:08:27.0305950Z" end-time="2023-12-27T19:08:27.0307610Z" duration="0.000166" asserts="4">
+            <test-case id="0-1028" name="Maze2D_IsInitialized" fullname="Nour.Play.Maze2DTest.Maze2D_IsInitialized" methodname="Maze2D_IsInitialized" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="387343291" result="Passed" start-time="2023-12-30T16:41:13.1808960Z" end-time="2023-12-30T16:41:13.1810490Z" duration="0.000154" asserts="4">
               <properties />
             </test-case>
-            <test-case id="0-1030" name="Maze2D_ToMapWrongOptions" fullname="Nour.Play.Maze2DTest.Maze2D_ToMapWrongOptions" methodname="Maze2D_ToMapWrongOptions" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1277860860" result="Passed" start-time="2023-12-27T19:08:27.0307680Z" end-time="2023-12-27T19:08:27.0320380Z" duration="0.001271" asserts="7">
+            <test-case id="0-1030" name="Maze2D_ToMapWrongOptions" fullname="Nour.Play.Maze2DTest.Maze2D_ToMapWrongOptions" methodname="Maze2D_ToMapWrongOptions" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="764594642" result="Passed" start-time="2023-12-30T16:41:13.1810570Z" end-time="2023-12-30T16:41:13.1828240Z" duration="0.001767" asserts="7">
               <properties />
             </test-case>
-            <test-case id="0-1029" name="Maze2D_WrongSize" fullname="Nour.Play.Maze2DTest.Maze2D_WrongSize" methodname="Maze2D_WrongSize" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="645454455" result="Passed" start-time="2023-12-27T19:08:27.0320490Z" end-time="2023-12-27T19:08:27.0323240Z" duration="0.000275" asserts="5">
+            <test-case id="0-1029" name="Maze2D_WrongSize" fullname="Nour.Play.Maze2DTest.Maze2D_WrongSize" methodname="Maze2D_WrongSize" classname="Nour.Play.Maze2DTest" runstate="Runnable" seed="1219207674" result="Passed" start-time="2023-12-30T16:41:13.1828330Z" end-time="2023-12-30T16:41:13.1831060Z" duration="0.000273" asserts="5">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1046" name="MazeGeneratorTest" fullname="Nour.Play.MazeGeneratorTest" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" testcasecount="524" result="Passed" start-time="2023-12-27T19:08:27.0323560Z" end-time="2023-12-27T19:08:27.1555610Z" duration="0.123205" total="20" passed="20" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="33">
+          <test-suite type="TestFixture" id="0-1046" name="MazeGeneratorTest" fullname="Nour.Play.MazeGeneratorTest" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" testcasecount="525" result="Passed" start-time="2023-12-30T16:41:13.1831360Z" end-time="2023-12-30T16:41:13.2852970Z" duration="0.102161" total="21" passed="21" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="37">
             <properties />
-            <test-suite type="ParameterizedMethod" id="0-1573" name="CanFindPaths" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" testcasecount="6" result="Passed" start-time="2023-12-27T19:08:27.0323980Z" end-time="2023-12-27T19:08:27.0429970Z" duration="0.010599" total="6" passed="6" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="12">
+            <test-suite type="ParameterizedMethod" id="0-1574" name="CanFindPaths" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" testcasecount="6" result="Passed" start-time="2023-12-30T16:41:13.1831770Z" end-time="2023-12-30T16:41:13.1937140Z" duration="0.010537" total="6" passed="6" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="12">
               <properties />
-              <test-case id="0-1567" name="CanFindPaths(Nour.Play.Maze.AldousBroderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths(Nour.Play.Maze.AldousBroderMazeGenerator)" methodname="CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="174283857" result="Passed" start-time="2023-12-27T19:08:27.0324130Z" end-time="2023-12-27T19:08:27.0340450Z" duration="0.001633" asserts="2">
+              <test-case id="0-1568" name="CanFindPaths(Nour.Play.Maze.AldousBroderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths(Nour.Play.Maze.AldousBroderMazeGenerator)" methodname="CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="175334342" result="Passed" start-time="2023-12-30T16:41:13.1831920Z" end-time="2023-12-30T16:41:13.1843770Z" duration="0.001185" asserts="2">
                 <properties />
               </test-case>
-              <test-case id="0-1568" name="CanFindPaths(Nour.Play.Maze.BinaryTreeMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths(Nour.Play.Maze.BinaryTreeMazeGenerator)" methodname="CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1587314406" result="Passed" start-time="2023-12-27T19:08:27.0340570Z" end-time="2023-12-27T19:08:27.0391260Z" duration="0.005069" asserts="2">
+              <test-case id="0-1569" name="CanFindPaths(Nour.Play.Maze.BinaryTreeMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths(Nour.Play.Maze.BinaryTreeMazeGenerator)" methodname="CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="488519159" result="Passed" start-time="2023-12-30T16:41:13.1843840Z" end-time="2023-12-30T16:41:13.1901770Z" duration="0.005794" asserts="2">
                 <properties />
               </test-case>
-              <test-case id="0-1569" name="CanFindPaths(Nour.Play.Maze.HuntAndKillMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths(Nour.Play.Maze.HuntAndKillMazeGenerator)" methodname="CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="655178699" result="Passed" start-time="2023-12-27T19:08:27.0391370Z" end-time="2023-12-27T19:08:27.0403490Z" duration="0.001212" asserts="2">
+              <test-case id="0-1570" name="CanFindPaths(Nour.Play.Maze.HuntAndKillMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths(Nour.Play.Maze.HuntAndKillMazeGenerator)" methodname="CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1207638535" result="Passed" start-time="2023-12-30T16:41:13.1901900Z" end-time="2023-12-30T16:41:13.1910480Z" duration="0.000859" asserts="2">
                 <properties />
               </test-case>
-              <test-case id="0-1570" name="CanFindPaths(Nour.Play.Maze.RecursiveBacktrackerMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths(Nour.Play.Maze.RecursiveBacktrackerMazeGenerator)" methodname="CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1571209713" result="Passed" start-time="2023-12-27T19:08:27.0403590Z" end-time="2023-12-27T19:08:27.0414500Z" duration="0.001091" asserts="2">
+              <test-case id="0-1571" name="CanFindPaths(Nour.Play.Maze.RecursiveBacktrackerMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths(Nour.Play.Maze.RecursiveBacktrackerMazeGenerator)" methodname="CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="2028414772" result="Passed" start-time="2023-12-30T16:41:13.1910580Z" end-time="2023-12-30T16:41:13.1920250Z" duration="0.000967" asserts="2">
                 <properties />
               </test-case>
-              <test-case id="0-1571" name="CanFindPaths(Nour.Play.Maze.SidewinderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths(Nour.Play.Maze.SidewinderMazeGenerator)" methodname="CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="412337723" result="Passed" start-time="2023-12-27T19:08:27.0414600Z" end-time="2023-12-27T19:08:27.0418760Z" duration="0.000416" asserts="2">
+              <test-case id="0-1572" name="CanFindPaths(Nour.Play.Maze.SidewinderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths(Nour.Play.Maze.SidewinderMazeGenerator)" methodname="CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1788419491" result="Passed" start-time="2023-12-30T16:41:13.1920340Z" end-time="2023-12-30T16:41:13.1924750Z" duration="0.000441" asserts="2">
                 <properties />
               </test-case>
-              <test-case id="0-1572" name="CanFindPaths(Nour.Play.Maze.WilsonsMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths(Nour.Play.Maze.WilsonsMazeGenerator)" methodname="CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="423278854" result="Passed" start-time="2023-12-27T19:08:27.0418830Z" end-time="2023-12-27T19:08:27.0429840Z" duration="0.001101" asserts="2">
+              <test-case id="0-1573" name="CanFindPaths(Nour.Play.Maze.WilsonsMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanFindPaths(Nour.Play.Maze.WilsonsMazeGenerator)" methodname="CanFindPaths" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="2039095013" result="Passed" start-time="2023-12-30T16:41:13.1924840Z" end-time="2023-12-30T16:41:13.1937010Z" duration="0.001217" asserts="2">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="ParameterizedMethod" id="0-1053" name="CanGenerateMazes" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" testcasecount="6" result="Passed" start-time="2023-12-27T19:08:27.0430060Z" end-time="2023-12-27T19:08:27.0464430Z" duration="0.003438" total="6" passed="6" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="12">
+            <test-suite type="ParameterizedMethod" id="0-1053" name="CanGenerateMazes" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" testcasecount="6" result="Passed" start-time="2023-12-30T16:41:13.1937240Z" end-time="2023-12-30T16:41:13.1996790Z" duration="0.005955" total="6" passed="6" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="12">
               <properties />
-              <test-case id="0-1047" name="CanGenerateMazes(Nour.Play.Maze.AldousBroderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes(Nour.Play.Maze.AldousBroderMazeGenerator)" methodname="CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1706437276" result="Passed" start-time="2023-12-27T19:08:27.0430190Z" end-time="2023-12-27T19:08:27.0444600Z" duration="0.001442" asserts="2">
+              <test-case id="0-1047" name="CanGenerateMazes(Nour.Play.Maze.AldousBroderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes(Nour.Play.Maze.AldousBroderMazeGenerator)" methodname="CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1114602679" result="Passed" start-time="2023-12-30T16:41:13.1937410Z" end-time="2023-12-30T16:41:13.1969400Z" duration="0.003199" asserts="2">
                 <properties />
-                <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x4 with GeneratorOptions(Full, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+                <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x4 with Nour.Play.Maze.GeneratorOptions(Full, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
               </test-case>
-              <test-case id="0-1048" name="CanGenerateMazes(Nour.Play.Maze.BinaryTreeMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes(Nour.Play.Maze.BinaryTreeMazeGenerator)" methodname="CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1534572810" result="Passed" start-time="2023-12-27T19:08:27.0444720Z" end-time="2023-12-27T19:08:27.0445890Z" duration="0.000118" asserts="2">
+              <test-case id="0-1048" name="CanGenerateMazes(Nour.Play.Maze.BinaryTreeMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes(Nour.Play.Maze.BinaryTreeMazeGenerator)" methodname="CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="149985663" result="Passed" start-time="2023-12-30T16:41:13.1969510Z" end-time="2023-12-30T16:41:13.1970850Z" duration="0.000134" asserts="2">
                 <properties />
-                <output><![CDATA[BinaryTreeMazeGenerator: Generating maze 3x4 with GeneratorOptions(Full, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+                <output><![CDATA[BinaryTreeMazeGenerator: Generating maze 3x4 with Nour.Play.Maze.GeneratorOptions(Full, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
               </test-case>
-              <test-case id="0-1049" name="CanGenerateMazes(Nour.Play.Maze.HuntAndKillMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes(Nour.Play.Maze.HuntAndKillMazeGenerator)" methodname="CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1142304285" result="Passed" start-time="2023-12-27T19:08:27.0445960Z" end-time="2023-12-27T19:08:27.0450820Z" duration="0.000486" asserts="2">
+              <test-case id="0-1049" name="CanGenerateMazes(Nour.Play.Maze.HuntAndKillMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes(Nour.Play.Maze.HuntAndKillMazeGenerator)" methodname="CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1186615213" result="Passed" start-time="2023-12-30T16:41:13.1970910Z" end-time="2023-12-30T16:41:13.1979150Z" duration="0.000824" asserts="2">
                 <properties />
-                <output><![CDATA[HuntAndKillMazeGenerator: Generating maze 3x4 with GeneratorOptions(Full, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+                <output><![CDATA[HuntAndKillMazeGenerator: Generating maze 3x4 with Nour.Play.Maze.GeneratorOptions(Full, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
               </test-case>
-              <test-case id="0-1050" name="CanGenerateMazes(Nour.Play.Maze.RecursiveBacktrackerMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes(Nour.Play.Maze.RecursiveBacktrackerMazeGenerator)" methodname="CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1151031335" result="Passed" start-time="2023-12-27T19:08:27.0450890Z" end-time="2023-12-27T19:08:27.0457090Z" duration="0.000620" asserts="2">
+              <test-case id="0-1050" name="CanGenerateMazes(Nour.Play.Maze.RecursiveBacktrackerMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes(Nour.Play.Maze.RecursiveBacktrackerMazeGenerator)" methodname="CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="176896876" result="Passed" start-time="2023-12-30T16:41:13.1979220Z" end-time="2023-12-30T16:41:13.1984090Z" duration="0.000487" asserts="2">
                 <properties />
-                <output><![CDATA[RecursiveBacktrackerMazeGenerator: Generating maze 3x4 with GeneratorOptions(Full, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+                <output><![CDATA[RecursiveBacktrackerMazeGenerator: Generating maze 3x4 with Nour.Play.Maze.GeneratorOptions(Full, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
               </test-case>
-              <test-case id="0-1051" name="CanGenerateMazes(Nour.Play.Maze.SidewinderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes(Nour.Play.Maze.SidewinderMazeGenerator)" methodname="CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="92716953" result="Passed" start-time="2023-12-27T19:08:27.0457170Z" end-time="2023-12-27T19:08:27.0458140Z" duration="0.000098" asserts="2">
+              <test-case id="0-1051" name="CanGenerateMazes(Nour.Play.Maze.SidewinderMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes(Nour.Play.Maze.SidewinderMazeGenerator)" methodname="CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1131313802" result="Passed" start-time="2023-12-30T16:41:13.1984160Z" end-time="2023-12-30T16:41:13.1985470Z" duration="0.000131" asserts="2">
                 <properties />
-                <output><![CDATA[SidewinderMazeGenerator: Generating maze 3x4 with GeneratorOptions(Full, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+                <output><![CDATA[SidewinderMazeGenerator: Generating maze 3x4 with Nour.Play.Maze.GeneratorOptions(Full, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
               </test-case>
-              <test-case id="0-1052" name="CanGenerateMazes(Nour.Play.Maze.WilsonsMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes(Nour.Play.Maze.WilsonsMazeGenerator)" methodname="CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1024193530" result="Passed" start-time="2023-12-27T19:08:27.0458250Z" end-time="2023-12-27T19:08:27.0464330Z" duration="0.000608" asserts="2">
+              <test-case id="0-1052" name="CanGenerateMazes(Nour.Play.Maze.WilsonsMazeGenerator)" fullname="Nour.Play.MazeGeneratorTest.CanGenerateMazes(Nour.Play.Maze.WilsonsMazeGenerator)" methodname="CanGenerateMazes" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1704430163" result="Passed" start-time="2023-12-30T16:41:13.1985540Z" end-time="2023-12-30T16:41:13.1996690Z" duration="0.001115" asserts="2">
                 <properties />
-                <output><![CDATA[WilsonsMazeGenerator: Generating maze 3x4 with GeneratorOptions(Full, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+                <output><![CDATA[WilsonsMazeGenerator: Generating maze 3x4 with Nour.Play.Maze.GeneratorOptions(Full, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
               </test-case>
             </test-suite>
-            <test-case id="0-1056" name="IsFillComplete_Full" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_Full" methodname="IsFillComplete_Full" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="295606179" result="Passed" start-time="2023-12-27T19:08:27.0464510Z" end-time="2023-12-27T19:08:27.0969120Z" duration="0.050461" asserts="1">
+            <test-case id="0-1056" name="IsFillComplete_Full" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_Full" methodname="IsFillComplete_Full" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="2123116658" result="Passed" start-time="2023-12-30T16:41:13.1996880Z" end-time="2023-12-30T16:41:13.2300120Z" duration="0.030325" asserts="1">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with GeneratorOptions(Full, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
-┌───┬───┬───────────────────┬───┬───┬───┐
-│   │   │                   │   │   │   │
-│   ╵   │   ┌───╴   ┌───────┘   ╵   ╵   │
-│       │   │       │ 1   2   3         │
-├───╴   ├───┘   ╶───┤   ┌───╴   ╶───┐   │
-│       │           │ 0 │     4   5 │   │
-│   ╶───┼───────╴   └───┼───────╴   ├───┤
-│       │ 10  f   e   d │     7   6 │   │
-│   ╷   ╵   ┌───╴   ╷   │   ╷   ╷   ╵   │
-│   │ 12  11│       │ c │   │ 8 │       │
-├───┤   ╶───┴───┐   │   └───┘   ├───┐   │
-│   │ 13        │   │ b   a   9 │   │   │
-│   ╵   ┌───────┼───┘   ┌───┐   ╵   │   │
-│     14│ 23  22│       │   │       │   │
-├───╴   ├───╴   └───┬───┘   │   ╷   │   │
-│ 16  15│     21  20│       │   │   │   │
-│   ┌───┼───┬───┐   └───╴   │   └───┴───┤
-│ 17│   │   │   │ 1f  1e    │           │
-│   ╵   ╵   ╵   └───╴   ╷   └───┐   ╶───┤
-│ 18  19  1a  1b  1c  1d│       │       │
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with Nour.Play.Maze.GeneratorOptions(Full, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
+┌───┬───────┬───────┬───────┬───────────┐
+│   │       │       │ 1   0 │           │
+│   ╵   ╶───┼───╴   ╵   ╶───┤   ╶───────┤
+│           │     3   2     │           │
+├───┐   ╶───┼───┐   ╶───────┼───────╴   │
+│   │       │   │ 4         │ 9   a   b │
+│   │   ┌───┤   │   ╶───────┘   ┌───┐   │
+│   │   │   │   │ 5   6   7   8 │   │ c │
+│   ╵   ╵   │   ╵   ╷   ┌───┬───┘   ╵   │
+│           │       │   │   │     e   d │
+│   ┌───╴   └───────┴───┘   ├───┐   ╶───┤
+│   │ 1c  1b                │   │ f     │
+│   │   ╷   ╶───┬───┐   ╷   │   ╵   ╷   │
+│   │ 1d│ 1a  19│   │   │   │ 11  10│   │
+│   │   ├───╴   ╵   └───┼───┘   ┌───┘   │
+│   │ 1e│     18  17  16│ 13  12│       │
+│   │   │   ┌───┬───┐   ╵   ╷   └───┐   │
+│   │ 1f│   │   │ 24│ 15  14│       │   │
+│   │   └───┘   ╵   │   ┌───┘   ╶───┤   │
+│   │ 20  21  22  23│   │           │   │
+└───┴───────────────┴───┴───────────┴───┘
+
+]]></output>
+            </test-case>
+            <test-case id="0-1061" name="IsFillComplete_FullHeight" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_FullHeight" methodname="IsFillComplete_FullHeight" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1976869159" result="Passed" start-time="2023-12-30T16:41:13.2300290Z" end-time="2023-12-30T16:41:13.2381250Z" duration="0.008096" asserts="1">
+              <properties />
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with Nour.Play.Maze.GeneratorOptions(FullHeight, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
+                                         
+                                         
+                    ┌───┐                
+                    │ 0 │                
+                    │   │                
+                    │ 1 │                
+    ┌───────┐       │   │                
+    │       │       │ 2 │                
+┌───┘   ╶───┤       │   │                
+│           │       │ 3 │                
+├───╴   ╷   ├───┐   │   │                
+│       │   │   │   │ 4 │                
+├───┐   ├───┘   └───┘   └───────────────┐
+│   │   │ 8   7   6   5                 │
+│   ╵   ╵   ╷   ┌───┐   ╶───┬───────────┘
+│     a   9 │   │ 11│       │            
+│   ╷   ╶───┼───┤   ├───────┘            
+│   │ b   c │   │ 10│                    
+│   └───┐   ╵   ╵   └───┐                
+│       │ d   e   f     │                
+└───────┴───────────────┘                
+
+]]></output>
+            </test-case>
+            <test-case id="0-1060" name="IsFillComplete_FullWidth" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_FullWidth" methodname="IsFillComplete_FullWidth" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="2015792390" result="Passed" start-time="2023-12-30T16:41:13.2381390Z" end-time="2023-12-30T16:41:13.2411940Z" duration="0.003055" asserts="1">
+              <properties />
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with Nour.Play.Maze.GeneratorOptions(FullWidth, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
+            ┌───┐                        
+            │ 0 │                        
+            │   │                        
+            │ 1 │                        
+            │   │                        
+            │ 2 │                        
+            │   │                        
+            │ 3 │                        
+            │   │                        
+            │ 4 │                        
+            │   └───┐                    
+            │ 5   6 │                    
+    ┌───────┼───╴   └───┐                
+    │       │ 8   7     │                
+┌───┤   ╷   ╵   ┌───────┤                
+│   │   │ a   9 │ e   f │                
+│   └───┘   ╶───┘   ╷   │                
+│         b   c   d │ 10│                
+├───╴   ┌───────────┴───┘                
+│       │                                
+└───────┘                                
+
+]]></output>
+            </test-case>
+            <test-case id="0-1055" name="IsFillComplete_Half" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_Half" methodname="IsFillComplete_Half" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1001861012" result="Passed" start-time="2023-12-30T16:41:13.2412060Z" end-time="2023-12-30T16:41:13.2459110Z" duration="0.004705" asserts="1">
+              <properties />
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with Nour.Play.Maze.GeneratorOptions(Half, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
+    ┌───────────────────┐                
+    │ 2   3             │                
+    │   ╷   ┌───────────┼───┐            
+    │ 1 │ 4 │           │ 14│            
+    │   │   └───┐       │   └───┐        
+    │ 0 │ 5     │       │ 13  12│        
+┌───┴───┘   ┌───┤       ├───╴   ├───────┐
+│         6 │   │       │     11│       │
+├───────╴   ╵   └───┬───┴───┐   ╵   ╶───┤
+│         7   8   9 │       │ 10  f     │
+├───────┐   ┌───┐   ╵   ╶───┴───╴   ╶───┤
+│       │   │   │ a   b   c   d   e     │
+│   ╶───┘   │   └───────────┬───╴   ╶───┤
+│           │               │           │
+└───────────┘               ├───╴   ╶───┤
+                            │           │
+                            └───────┐   │
+                                    │   │
+                                    └───┘
+                                         
+                                         
+
+]]></output>
+            </test-case>
+            <test-case id="0-1059" name="IsFillComplete_NinetyPercent" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_NinetyPercent" methodname="IsFillComplete_NinetyPercent" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1067315781" result="Passed" start-time="2023-12-30T16:41:13.2459230Z" end-time="2023-12-30T16:41:13.2684610Z" duration="0.022539" asserts="1">
+              <properties />
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with Nour.Play.Maze.GeneratorOptions(NinetyPercent, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
+┌───────────┬───────────┬───────┐        
+│ 2   3   4 │           │       │        
+│   ╷   ╷   ├───╴   ╶───┘   ╶───┤        
+│ 1 │   │ 5 │     b   c         │        
+│   │   │   ├───┐   ╷   ╶───┐   │        
+│ 0 │   │ 6 │   │ a │ d     │   │        
+├───┼───┘   ╵   ╵   │   ╷   └───┤        
+│   │     7   8   9 │ e │       │        
+│   ╵   ╷   ╷   ┌───┤   ├───┐   └───┐    
+│       │   │   │   │ f │   │       │    
+│   ╶───┼───┴───┘   ╵   └───┼───┐   └───┐
+│       │ 13  12  11  10    │   │       │
+├───────┤   ╶───┬───────────┤   │   ╶───┤
+│       │ 14  15│           │   │       │
+│   ╶───┼───┐   │   ╷   ╶───┘   └───┐   │
+│       │   │ 16│   │ 1a  1b        │   │
+├───╴   ╵   ╵   └───┘   ╷   ╶───┬───┘   │
+│             17  18  19│ 1c  1d│       │
+├───╴   ╶───────────────┼───╴   ├───╴   │
+│                       │ 1f  1e│       │
 └───────────────────────┴───────┴───────┘
 
 ]]></output>
             </test-case>
-            <test-case id="0-1061" name="IsFillComplete_FullHeight" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_FullHeight" methodname="IsFillComplete_FullHeight" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1214442669" result="Passed" start-time="2023-12-27T19:08:27.0969310Z" end-time="2023-12-27T19:08:27.1032400Z" duration="0.006309" asserts="1">
+            <test-case id="0-1057" name="IsFillComplete_Quarter" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_Quarter" methodname="IsFillComplete_Quarter" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1131605797" result="Passed" start-time="2023-12-30T16:41:13.2684830Z" end-time="2023-12-30T16:41:13.2712060Z" duration="0.002723" asserts="1">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with GeneratorOptions(FullHeight, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
-            ┌───────────────┐            
-            │               │            
-            ├───────╴   ╷   ├───┐        
-            │     8   9 │   │   │        
-            ├───╴   ╷   └───┘   ├───┐    
-            │     7 │ a   b     │ 17│    
-┌───────┐   ├───╴   ├───╴   ╷   │   │    
-│ 0   1 │   │     6 │ d   c │   │ 16│    
-└───┐   └───┴───╴   │   ┌───┤   │   └───┐
-    │ 2   3   4   5 │ e │   │   │ 15  14│
-    └───────┬───────┤   ╵   └───┴───╴   │
-            │       │ f   10  11  12  13│
-            │   ╷   └───╴   ╶───────────┤
-            │   │                       │
-            └───┴───────┐   ╷   ╶───┬───┤
-                        │   │       │   │
-                        └───┴───┐   ╵   │
-                                │       │
-                                └───────┘
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with Nour.Play.Maze.GeneratorOptions(Quarter, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
                                          
                                          
+                                         
+                                         
+                                         
+                                         
+                                         
+                                         
+    ┌───────┬───┐                        
+    │       │   │                        
+    │   ┌───┘   └───────┐                
+    │   │     3   2   1 │                
+┌───┘   └───╴   ┌───┐   │                
+│ 7   6   5   4 │   │ 0 │                
+│   ╶───┬───╴   ├───┼───┘                
+│ 8   9 │       │ e │                    
+├───╴   └───────┘   └───┐                
+│     a   b   c   d     │                
+└───────┐   ┌───────────┘                
+        │   │                            
+        └───┘                            
 
 ]]></output>
             </test-case>
-            <test-case id="0-1060" name="IsFillComplete_FullWidth" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_FullWidth" methodname="IsFillComplete_FullWidth" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1356559163" result="Passed" start-time="2023-12-27T19:08:27.1032530Z" end-time="2023-12-27T19:08:27.1140710Z" duration="0.010818" asserts="1">
+            <test-case id="0-1058" name="IsFillComplete_ThreeQuarters" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_ThreeQuarters" methodname="IsFillComplete_ThreeQuarters" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1995443748" result="Passed" start-time="2023-12-30T16:41:13.2712180Z" end-time="2023-12-30T16:41:13.2833400Z" duration="0.012123" asserts="1">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with GeneratorOptions(FullWidth, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
-┌───────────┬───────┬───┬───┐       ┌───┐
-│ 19  1a  1b│       │   │   │       │   │
-│   ┌───╴   ├───┐   ╵   ╵   ├───────┘   │
-│ 18│ 1d  1c│   │           │           │
-│   └───┬───┤   └───╴   ╶───┘   ┌───╴   │
-│ 17    │   │ e   d   c   b     │       │
-│   ╶───┼───┘   ┌───────┐   ╶───┴───┐   │
-│ 16    │ 10  f │       │ a   9     │   │
-│   ╶───┤   ┌───┤   ╷   ╵   ╷   ┌───┼───┘
-│ 15  14│ 11│   │   │       │ 8 │   │    
-│   ╷   ╵   ╵   │   ├───┬───┘   ╵   └───┐
-│   │ 13  12    │   │   │     7   6   5 │
-│   └───┬───╴   └───┘   └───┬───────╴   │
-│       │                   │     3   4 │
-├───╴   ├───╴   ╶───┬───┐   └───┐   ╶───┤
-│       │           │   │       │ 2   1 │
-├───╴   │   ┌───────┼───┘   ┌───┴───┐   │
-│       │   │       │       │       │ 0 │
-│   ┌───┴───┘       └───────┘       └───┘
-│   │                                    
-└───┘                                    
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with Nour.Play.Maze.GeneratorOptions(ThreeQuarters, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
+┌───┬───────────┬───────────────┬───────┐
+│   │ 16  15  14│               │       │
+│   ╵   ╶───┐   └───────╴   ┌───┤   ╷   │
+│ 18  17    │ 13  12  11    │   │   │   │
+│   ╶───────┴───┐   ╷   ┌───┘   ├───┘   │
+│ 19  1a        │   │ 10│       │       │
+├───╴   ╷   ╶───┼───┤   └───────┤   ╶───┤
+│ 1c  1b│       │   │ f   e   d │       │
+│   ┌───┤   ╶───┼───┴───┐   ╷   ├───╴   │
+│ 1d│   │       │ 1   0 │   │ c │       │
+│   ╵   └───┬───┤   ╶───┼───┤   ╵   ╷   │
+│ 1e  1f  20│   │ 2   3 │   │ b   a │   │
+├───╴   ╷   │   └───┐   └───┼───┐   ├───┤
+│       │ 21│       │ 4   5 │   │ 9 │   │
+├───┐   │   │       └───┐   └───┘   ╵   │
+│   │   │ 22│           │ 6   7   8     │
+│   ╵   │   │           └───────────────┘
+│       │ 23│                            
+│   ╷   │   └───┐                        
+│   │   │ 24  25│                        
+└───┴───┴───────┘                        
 
 ]]></output>
             </test-case>
-            <test-case id="0-1055" name="IsFillComplete_Half" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_Half" methodname="IsFillComplete_Half" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1074094854" result="Passed" start-time="2023-12-27T19:08:27.1140880Z" end-time="2023-12-27T19:08:27.1222020Z" duration="0.008114" asserts="1">
+            <test-case id="0-1054" name="OnlyFullGenerators" fullname="Nour.Play.MazeGeneratorTest.OnlyFullGenerators" methodname="OnlyFullGenerators" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="84970683" result="Passed" start-time="2023-12-30T16:41:13.2833540Z" end-time="2023-12-30T16:41:13.2837300Z" duration="0.000377" asserts="2">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with GeneratorOptions(Half, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
-                        ┌───────────┐    
-                        │           │    
-                ┌───┐   │   ┌───╴   ├───┐
-                │   │   │   │ 6   7 │   │
-                │   └───┴───┘   ╷   ╵   │
-                │ 2   3   4   5 │ 8   9 │
-            ┌───┘   ╶───┐   ╶───┼───┐   │
-            │     1   0 │       │   │ a │
-            └───────────┤   ┌───┤   ╵   │
-                        │   │   │     b │
-                    ┌───┴───┤   │   ╷   │
-                    │       │   │   │ c │
-                    │   ╶───┘   ╵   │   │
-                    │               │ d │
-                    │   ┌───┬───────┘   │
-                    │   │   │         e │
-                    ├───┼───┼───────╴   │
-                    │   │   │         f │
-                ┌───┘   ╵   └───────╴   │
-                │ 15  14  13  12  11  10│
-                └───────────────────────┘
-
+              <output><![CDATA[BinaryTreeMazeGenerator: Generating maze 10x10 with Nour.Play.Maze.GeneratorOptions(Half, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
+SidewinderMazeGenerator: Generating maze 10x10 with Nour.Play.Maze.GeneratorOptions(Half, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1059" name="IsFillComplete_NinetyPercent" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_NinetyPercent" methodname="IsFillComplete_NinetyPercent" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="471020915" result="Passed" start-time="2023-12-27T19:08:27.1222230Z" end-time="2023-12-27T19:08:27.1399850Z" duration="0.017762" asserts="1">
+            <test-case id="0-1567" name="WrongGeneratorOptions" fullname="Nour.Play.MazeGeneratorTest.WrongGeneratorOptions" methodname="WrongGeneratorOptions" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1401172742" result="Passed" start-time="2023-12-30T16:41:13.2837400Z" end-time="2023-12-30T16:41:13.2852770Z" duration="0.001538" asserts="4">
               <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with GeneratorOptions(NinetyPercent, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
-┌───────────────┬───────────────────────┐
-│ 27  28  29  2a│ f   e   d   c         │
-│   ╶───┬───────┘   ┌───────╴   ╶───────┤
-│ 26  25│         10│         b   a     │
-├───╴   └───┐   ╷   └───────┬───┐   ┌───┘
-│ 23  24    │   │ 11  12    │   │ 9 │    
-│   ╶───────┼───┼───┐   ┌───┘   │   │    
-│ 22  21    │   │   │ 13│       │ 8 │    
-│   ╷   ╶───┤   ╵   │   └───────┤   ├───┐
-│   │ 20  1f│       │ 14  15  16│ 7 │   │
-├───┘   ╷   ╵   ╶───┼───────╴   │   ╵   │
-│       │ 1e  1d  1c│ 19  18  17│ 6   5 │
-│   ╷   │   ┌───┐   ╵   ┌───┬───┘   ╷   │
-│   │   │   │   │ 1b  1a│   │       │ 4 │
-├───┴───┴───┘   ├───╴   └───┴───┬───┤   │
-│               │               │   │ 3 │
-│   ╶───────┬───┘   ╶───┐   ┌───┼───┘   │
-│           │           │   │   │ 1   2 │
-│   ╶───────┴───╴   ╷   │   │   │   ┌───┘
-│                   │   │   │   │ 0 │    
-└───────────────────┴───┴───┘   └───┘    
-
-]]></output>
-            </test-case>
-            <test-case id="0-1057" name="IsFillComplete_Quarter" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_Quarter" methodname="IsFillComplete_Quarter" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1057513823" result="Passed" start-time="2023-12-27T19:08:27.1399990Z" end-time="2023-12-27T19:08:27.1420910Z" duration="0.002092" asserts="1">
-              <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with GeneratorOptions(Quarter, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
-┌───────────────────┐                    
-│ 9   8             │                    
-│   ╷   ╶───────┐   │                    
-│ a │ 7   6   5 │   │                    
-│   └───┬───╴   ├───┘                    
-│ b   c │     4 │                        
-└───┐   ├───┐   └───────┐                
-    │ d │   │ 3   2   1 │                
-    │   └───┴───┬───┐   │                
-    │ e         │   │ 0 │                
-    │   ┌───────┘   └───┘                
-    │ f │                                
-    │   └───┐                            
-    │ 10  11│                            
-    └───────┘                            
-                                         
-                                         
-                                         
-                                         
-                                         
-                                         
-
-]]></output>
-            </test-case>
-            <test-case id="0-1058" name="IsFillComplete_ThreeQuarters" fullname="Nour.Play.MazeGeneratorTest.IsFillComplete_ThreeQuarters" methodname="IsFillComplete_ThreeQuarters" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="1846553497" result="Passed" start-time="2023-12-27T19:08:27.1421030Z" end-time="2023-12-27T19:08:27.1550680Z" duration="0.012965" asserts="1">
-              <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with GeneratorOptions(ThreeQuarters, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
-    ┌───────┬───────┐                    
-    │       │       │                    
-┌───┘   ┌───┘   ┌───┼───┐                
-│       │ 7   6 │   │   │                
-│   ┌───┤   ╷   └───┘   └───────────┐    
-│   │   │ 8 │ 5   4   3   2   1   0 │    
-│   ╵   │   └───────┐   ╶───┬───┬───┘    
-│       │ 9   a   b │       │   │        
-│   ╶───┴───────╴   └───┬───┘   ├───┐    
-│ 10  f   e   d   c     │       │   │    
-│   ┌───╴   ┌───┐   ╶───┴───╴   ╵   │    
-│ 11│       │   │                   │    
-│   └───────┤   ╵   ╶───┐   ┌───────┘    
-│ 12        │           │   │            
-│   ╶───┐   │   ╷   ┌───┘   └───┐        
-│ 13  14│   │   │   │           │        
-├───╴   │   │   └───┴───┬───╴   │        
-│ 16  15│   │           │       │        
-│   ╷   ├───┴───╴   ╷   └───┐   │        
-│ 17│   │           │       │   │        
-└───┴───┴───────────┴───────┴───┘        
-
-]]></output>
-            </test-case>
-            <test-case id="0-1054" name="OnlyFullGenerators" fullname="Nour.Play.MazeGeneratorTest.OnlyFullGenerators" methodname="OnlyFullGenerators" classname="Nour.Play.MazeGeneratorTest" runstate="Runnable" seed="961929816" result="Passed" start-time="2023-12-27T19:08:27.1550870Z" end-time="2023-12-27T19:08:27.1555420Z" duration="0.000455" asserts="2">
-              <properties />
-              <output><![CDATA[BinaryTreeMazeGenerator: Generating maze 10x10 with GeneratorOptions(Half, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
-SidewinderMazeGenerator: Generating maze 10x10 with GeneratorOptions(Half, Manual, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings)
+              <output><![CDATA[TestGeneratorB: Generating maze 3x4 with Nour.Play.Maze.GeneratorOptions(Full, None, <null>, Nour.Play.Areas.RandomAreaGenerator+GeneratorSettings, Nour.Play.MazeGeneratorTest+TestGeneratorB)
 ]]></output>
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1574" name="OptionalTest" fullname="Nour.Play.OptionalTest" classname="Nour.Play.OptionalTest" runstate="Runnable" testcasecount="7" result="Passed" start-time="2023-12-27T19:08:27.1555800Z" end-time="2023-12-27T19:08:27.1570510Z" duration="0.001471" total="7" passed="7" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="24">
+          <test-suite type="TestFixture" id="0-1575" name="OptionalTest" fullname="Nour.Play.OptionalTest" classname="Nour.Play.OptionalTest" runstate="Runnable" testcasecount="7" result="Passed" start-time="2023-12-30T16:41:13.2853180Z" end-time="2023-12-30T16:41:13.2867490Z" duration="0.001431" total="7" passed="7" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="24">
             <properties />
-            <test-case id="0-1580" name="Optional_CanBeCastToT" fullname="Nour.Play.OptionalTest.Optional_CanBeCastToT" methodname="Optional_CanBeCastToT" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="1245061199" result="Passed" start-time="2023-12-27T19:08:27.1556340Z" end-time="2023-12-27T19:08:27.1557820Z" duration="0.000148" asserts="1">
+            <test-case id="0-1581" name="Optional_CanBeCastToT" fullname="Nour.Play.OptionalTest.Optional_CanBeCastToT" methodname="Optional_CanBeCastToT" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="638094042" result="Passed" start-time="2023-12-30T16:41:13.2853660Z" end-time="2023-12-30T16:41:13.2854930Z" duration="0.000126" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1575" name="Optional_Equality" fullname="Nour.Play.OptionalTest.Optional_Equality" methodname="Optional_Equality" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="393149734" result="Passed" start-time="2023-12-27T19:08:27.1557900Z" end-time="2023-12-27T19:08:27.1559410Z" duration="0.000151" asserts="2">
+            <test-case id="0-1576" name="Optional_Equality" fullname="Nour.Play.OptionalTest.Optional_Equality" methodname="Optional_Equality" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="2093493580" result="Passed" start-time="2023-12-30T16:41:13.2855000Z" end-time="2023-12-30T16:41:13.2856550Z" duration="0.000156" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1577" name="Optional_Equals" fullname="Nour.Play.OptionalTest.Optional_Equals" methodname="Optional_Equals" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="1872789330" result="Passed" start-time="2023-12-27T19:08:27.1559480Z" end-time="2023-12-27T19:08:27.1562130Z" duration="0.000265" asserts="5">
+            <test-case id="0-1578" name="Optional_Equals" fullname="Nour.Play.OptionalTest.Optional_Equals" methodname="Optional_Equals" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="2015600269" result="Passed" start-time="2023-12-30T16:41:13.2856620Z" end-time="2023-12-30T16:41:13.2859020Z" duration="0.000240" asserts="5">
               <properties />
             </test-case>
-            <test-case id="0-1579" name="Optional_GetHashCode" fullname="Nour.Play.OptionalTest.Optional_GetHashCode" methodname="Optional_GetHashCode" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="1856218196" result="Passed" start-time="2023-12-27T19:08:27.1562200Z" end-time="2023-12-27T19:08:27.1564270Z" duration="0.000207" asserts="3">
+            <test-case id="0-1580" name="Optional_GetHashCode" fullname="Nour.Play.OptionalTest.Optional_GetHashCode" methodname="Optional_GetHashCode" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="1738095840" result="Passed" start-time="2023-12-30T16:41:13.2859090Z" end-time="2023-12-30T16:41:13.2861360Z" duration="0.000227" asserts="3">
               <properties />
             </test-case>
-            <test-case id="0-1578" name="Optional_Null" fullname="Nour.Play.OptionalTest.Optional_Null" methodname="Optional_Null" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="106583757" result="Passed" start-time="2023-12-27T19:08:27.1564330Z" end-time="2023-12-27T19:08:27.1567590Z" duration="0.000326" asserts="9">
+            <test-case id="0-1579" name="Optional_Null" fullname="Nour.Play.OptionalTest.Optional_Null" methodname="Optional_Null" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="2061614151" result="Passed" start-time="2023-12-30T16:41:13.2861440Z" end-time="2023-12-30T16:41:13.2864560Z" duration="0.000312" asserts="9">
               <properties />
             </test-case>
-            <test-case id="0-1576" name="Optional_ThrowsIfNoValue" fullname="Nour.Play.OptionalTest.Optional_ThrowsIfNoValue" methodname="Optional_ThrowsIfNoValue" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="1515726614" result="Passed" start-time="2023-12-27T19:08:27.1567660Z" end-time="2023-12-27T19:08:27.1568930Z" duration="0.000127" asserts="2">
+            <test-case id="0-1577" name="Optional_ThrowsIfNoValue" fullname="Nour.Play.OptionalTest.Optional_ThrowsIfNoValue" methodname="Optional_ThrowsIfNoValue" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="27124397" result="Passed" start-time="2023-12-30T16:41:13.2864630Z" end-time="2023-12-30T16:41:13.2865910Z" duration="0.000128" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1581" name="Optional_ToStringShowsValue" fullname="Nour.Play.OptionalTest.Optional_ToStringShowsValue" methodname="Optional_ToStringShowsValue" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="31261728" result="Passed" start-time="2023-12-27T19:08:27.1568990Z" end-time="2023-12-27T19:08:27.1570390Z" duration="0.000140" asserts="2">
+            <test-case id="0-1582" name="Optional_ToStringShowsValue" fullname="Nour.Play.OptionalTest.Optional_ToStringShowsValue" methodname="Optional_ToStringShowsValue" classname="Nour.Play.OptionalTest" runstate="Runnable" seed="658405835" result="Passed" start-time="2023-12-30T16:41:13.2865980Z" end-time="2023-12-30T16:41:13.2867370Z" duration="0.000139" asserts="2">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1582" name="QueueExtensionsTest" fullname="Nour.Play.QueueExtensionsTest" classname="Nour.Play.QueueExtensionsTest" runstate="Runnable" testcasecount="2" result="Passed" start-time="2023-12-27T19:08:27.1570670Z" end-time="2023-12-27T19:08:27.1575910Z" duration="0.000524" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="3">
+          <test-suite type="TestFixture" id="0-1583" name="QueueExtensionsTest" fullname="Nour.Play.QueueExtensionsTest" classname="Nour.Play.QueueExtensionsTest" runstate="Runnable" testcasecount="2" result="Passed" start-time="2023-12-30T16:41:13.2867650Z" end-time="2023-12-30T16:41:13.2872850Z" duration="0.000519" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="3">
             <properties />
-            <test-case id="0-1584" name="TryDequeue_Dequeues" fullname="Nour.Play.QueueExtensionsTest.TryDequeue_Dequeues" methodname="TryDequeue_Dequeues" classname="Nour.Play.QueueExtensionsTest" runstate="Runnable" seed="1623675533" result="Passed" start-time="2023-12-27T19:08:27.1571080Z" end-time="2023-12-27T19:08:27.1575000Z" duration="0.000393" asserts="2">
+            <test-case id="0-1585" name="TryDequeue_Dequeues" fullname="Nour.Play.QueueExtensionsTest.TryDequeue_Dequeues" methodname="TryDequeue_Dequeues" classname="Nour.Play.QueueExtensionsTest" runstate="Runnable" seed="673555189" result="Passed" start-time="2023-12-30T16:41:13.2868070Z" end-time="2023-12-30T16:41:13.2871980Z" duration="0.000391" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1583" name="TryDequeue_DoesNotThrow" fullname="Nour.Play.QueueExtensionsTest.TryDequeue_DoesNotThrow" methodname="TryDequeue_DoesNotThrow" classname="Nour.Play.QueueExtensionsTest" runstate="Runnable" seed="58216264" result="Passed" start-time="2023-12-27T19:08:27.1575090Z" end-time="2023-12-27T19:08:27.1575800Z" duration="0.000071" asserts="1">
+            <test-case id="0-1584" name="TryDequeue_DoesNotThrow" fullname="Nour.Play.QueueExtensionsTest.TryDequeue_DoesNotThrow" methodname="TryDequeue_DoesNotThrow" classname="Nour.Play.QueueExtensionsTest" runstate="Runnable" seed="1890592437" result="Passed" start-time="2023-12-30T16:41:13.2872050Z" end-time="2023-12-30T16:41:13.2872740Z" duration="0.000068" asserts="1">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestSuite" id="0-1742" name="Renderers" fullname="Nour.Play.Renderers" runstate="Runnable" testcasecount="1" result="Passed" start-time="2023-12-27T19:08:26.7129570Z" end-time="2023-12-27T19:08:27.1581800Z" duration="0.445223" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="1">
+          <test-suite type="TestSuite" id="0-1743" name="Renderers" fullname="Nour.Play.Renderers" runstate="Runnable" testcasecount="1" result="Passed" start-time="2023-12-30T16:41:12.8794390Z" end-time="2023-12-30T16:41:13.2878800Z" duration="0.408441" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="1">
             <properties />
-            <test-suite type="TestFixture" id="0-1614" name="Map2DAsciiRendererTest" fullname="Nour.Play.Renderers.Map2DAsciiRendererTest" classname="Nour.Play.Renderers.Map2DAsciiRendererTest" runstate="Runnable" testcasecount="1" result="Passed" start-time="2023-12-27T19:08:27.1576020Z" end-time="2023-12-27T19:08:27.1581740Z" duration="0.000572" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="1">
+            <test-suite type="TestFixture" id="0-1615" name="Map2DAsciiRendererTest" fullname="Nour.Play.Renderers.Map2DAsciiRendererTest" classname="Nour.Play.Renderers.Map2DAsciiRendererTest" runstate="Runnable" testcasecount="1" result="Passed" start-time="2023-12-30T16:41:13.2872970Z" end-time="2023-12-30T16:41:13.2878740Z" duration="0.000577" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="1">
               <properties />
-              <test-case id="0-1615" name="TestRender" fullname="Nour.Play.Renderers.Map2DAsciiRendererTest.TestRender" methodname="TestRender" classname="Nour.Play.Renderers.Map2DAsciiRendererTest" runstate="Runnable" seed="196461653" result="Passed" start-time="2023-12-27T19:08:27.1576400Z" end-time="2023-12-27T19:08:27.1581620Z" duration="0.000523" asserts="1">
+              <test-case id="0-1616" name="TestRender" fullname="Nour.Play.Renderers.Map2DAsciiRendererTest.TestRender" methodname="TestRender" classname="Nour.Play.Renderers.Map2DAsciiRendererTest" runstate="Runnable" seed="1088734464" result="Passed" start-time="2023-12-30T16:41:13.2873350Z" end-time="2023-12-30T16:41:13.2878610Z" duration="0.000526" asserts="1">
                 <properties />
                 <output><![CDATA[▓▓▓▓▓
 ▓░░░▓
@@ -810,101 +815,101 @@ SidewinderMazeGenerator: Generating maze 10x10 with GeneratorOptions(Half, Manua
               </test-case>
             </test-suite>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1585" name="VectorDTest" fullname="Nour.Play.VectorDTest" classname="Nour.Play.VectorDTest" runstate="Runnable" testcasecount="11" result="Passed" start-time="2023-12-27T19:08:27.1581910Z" end-time="2023-12-27T19:08:27.1610810Z" duration="0.002890" total="11" passed="11" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="33">
+          <test-suite type="TestFixture" id="0-1586" name="VectorDTest" fullname="Nour.Play.VectorDTest" classname="Nour.Play.VectorDTest" runstate="Runnable" testcasecount="11" result="Passed" start-time="2023-12-30T16:41:13.2878920Z" end-time="2023-12-30T16:41:13.2912220Z" duration="0.003331" total="11" passed="11" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="33">
             <properties />
-            <test-case id="0-1593" name="CanAddAndSubtract" fullname="Nour.Play.VectorDTest.CanAddAndSubtract" methodname="CanAddAndSubtract" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="216192366" result="Passed" start-time="2023-12-27T19:08:27.1582290Z" end-time="2023-12-27T19:08:27.1586820Z" duration="0.000453" asserts="5">
+            <test-case id="0-1594" name="CanAddAndSubtract" fullname="Nour.Play.VectorDTest.CanAddAndSubtract" methodname="CanAddAndSubtract" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="221008062" result="Passed" start-time="2023-12-30T16:41:13.2879300Z" end-time="2023-12-30T16:41:13.2883580Z" duration="0.000428" asserts="5">
               <properties />
             </test-case>
-            <test-case id="0-1594" name="ConstructorChecksArguments" fullname="Nour.Play.VectorDTest.ConstructorChecksArguments" methodname="ConstructorChecksArguments" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1470575630" result="Passed" start-time="2023-12-27T19:08:27.1586900Z" end-time="2023-12-27T19:08:27.1588200Z" duration="0.000130" asserts="1">
+            <test-case id="0-1595" name="ConstructorChecksArguments" fullname="Nour.Play.VectorDTest.ConstructorChecksArguments" methodname="ConstructorChecksArguments" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1432752825" result="Passed" start-time="2023-12-30T16:41:13.2883660Z" end-time="2023-12-30T16:41:13.2884720Z" duration="0.000106" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1587" name="EqualityIsCheckedByValue" fullname="Nour.Play.VectorDTest.EqualityIsCheckedByValue" methodname="EqualityIsCheckedByValue" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1374276049" result="Passed" start-time="2023-12-27T19:08:27.1588260Z" end-time="2023-12-27T19:08:27.1589820Z" duration="0.000156" asserts="4">
+            <test-case id="0-1588" name="EqualityIsCheckedByValue" fullname="Nour.Play.VectorDTest.EqualityIsCheckedByValue" methodname="EqualityIsCheckedByValue" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="842349939" result="Passed" start-time="2023-12-30T16:41:13.2884780Z" end-time="2023-12-30T16:41:13.2886310Z" duration="0.000153" asserts="4">
               <properties />
             </test-case>
-            <test-case id="0-1588" name="GetHashCodeIsDerivedFromValue" fullname="Nour.Play.VectorDTest.GetHashCodeIsDerivedFromValue" methodname="GetHashCodeIsDerivedFromValue" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1864444324" result="Passed" start-time="2023-12-27T19:08:27.1589890Z" end-time="2023-12-27T19:08:27.1592280Z" duration="0.000239" asserts="1">
+            <test-case id="0-1589" name="GetHashCodeIsDerivedFromValue" fullname="Nour.Play.VectorDTest.GetHashCodeIsDerivedFromValue" methodname="GetHashCodeIsDerivedFromValue" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1479009790" result="Passed" start-time="2023-12-30T16:41:13.2886370Z" end-time="2023-12-30T16:41:13.2889160Z" duration="0.000279" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1591" name="InitializedAsNull" fullname="Nour.Play.VectorDTest.InitializedAsNull" methodname="InitializedAsNull" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="845847912" result="Passed" start-time="2023-12-27T19:08:27.1592350Z" end-time="2023-12-27T19:08:27.1593440Z" duration="0.000109" asserts="1">
+            <test-case id="0-1592" name="InitializedAsNull" fullname="Nour.Play.VectorDTest.InitializedAsNull" methodname="InitializedAsNull" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1315194414" result="Passed" start-time="2023-12-30T16:41:13.2889240Z" end-time="2023-12-30T16:41:13.2890360Z" duration="0.000112" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1590" name="InitializedEmpty" fullname="Nour.Play.VectorDTest.InitializedEmpty" methodname="InitializedEmpty" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="683990005" result="Passed" start-time="2023-12-27T19:08:27.1593500Z" end-time="2023-12-27T19:08:27.1596130Z" duration="0.000263" asserts="4">
+            <test-case id="0-1591" name="InitializedEmpty" fullname="Nour.Play.VectorDTest.InitializedEmpty" methodname="InitializedEmpty" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="229446416" result="Passed" start-time="2023-12-30T16:41:13.2890420Z" end-time="2023-12-30T16:41:13.2892970Z" duration="0.000255" asserts="4">
               <properties />
             </test-case>
-            <test-case id="0-1586" name="IsInitialized" fullname="Nour.Play.VectorDTest.IsInitialized" methodname="IsInitialized" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="717117905" result="Passed" start-time="2023-12-27T19:08:27.1596200Z" end-time="2023-12-27T19:08:27.1599000Z" duration="0.000280" asserts="2">
+            <test-case id="0-1587" name="IsInitialized" fullname="Nour.Play.VectorDTest.IsInitialized" methodname="IsInitialized" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="699750311" result="Passed" start-time="2023-12-30T16:41:13.2893050Z" end-time="2023-12-30T16:41:13.2900180Z" duration="0.000713" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1592" name="IsZero" fullname="Nour.Play.VectorDTest.IsZero" methodname="IsZero" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1293097452" result="Passed" start-time="2023-12-27T19:08:27.1599070Z" end-time="2023-12-27T19:08:27.1601250Z" duration="0.000218" asserts="3">
+            <test-case id="0-1593" name="IsZero" fullname="Nour.Play.VectorDTest.IsZero" methodname="IsZero" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1373093533" result="Passed" start-time="2023-12-30T16:41:13.2900260Z" end-time="2023-12-30T16:41:13.2902490Z" duration="0.000224" asserts="3">
               <properties />
             </test-case>
-            <test-case id="0-1595" name="SnappedForce" fullname="Nour.Play.VectorDTest.SnappedForce" methodname="SnappedForce" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1095971483" result="Passed" start-time="2023-12-27T19:08:27.1601330Z" end-time="2023-12-27T19:08:27.1606270Z" duration="0.000494" asserts="9">
+            <test-case id="0-1596" name="SnappedForce" fullname="Nour.Play.VectorDTest.SnappedForce" methodname="SnappedForce" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="2009812269" result="Passed" start-time="2023-12-30T16:41:13.2902560Z" end-time="2023-12-30T16:41:13.2907260Z" duration="0.000470" asserts="9">
               <properties />
             </test-case>
-            <test-case id="0-1589" name="ToStringFormat" fullname="Nour.Play.VectorDTest.ToStringFormat" methodname="ToStringFormat" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1676444636" result="Passed" start-time="2023-12-27T19:08:27.1606350Z" end-time="2023-12-27T19:08:27.1606990Z" duration="0.000065" asserts="1">
+            <test-case id="0-1590" name="ToStringFormat" fullname="Nour.Play.VectorDTest.ToStringFormat" methodname="ToStringFormat" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1968397097" result="Passed" start-time="2023-12-30T16:41:13.2907330Z" end-time="2023-12-30T16:41:13.2907960Z" duration="0.000063" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1596" name="VectorD_Parse" fullname="Nour.Play.VectorDTest.VectorD_Parse" methodname="VectorD_Parse" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1842812287" result="Passed" start-time="2023-12-27T19:08:27.1607050Z" end-time="2023-12-27T19:08:27.1610670Z" duration="0.000362" asserts="2">
+            <test-case id="0-1597" name="VectorD_Parse" fullname="Nour.Play.VectorDTest.VectorD_Parse" methodname="VectorD_Parse" classname="Nour.Play.VectorDTest" runstate="Runnable" seed="1089213185" result="Passed" start-time="2023-12-30T16:41:13.2908020Z" end-time="2023-12-30T16:41:13.2912090Z" duration="0.000407" asserts="2">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1597" name="VectorTest" fullname="Nour.Play.VectorTest" classname="Nour.Play.VectorTest" runstate="Runnable" testcasecount="16" result="Passed" start-time="2023-12-27T19:08:27.1610930Z" end-time="2023-12-27T19:08:27.1638420Z" duration="0.002749" total="16" passed="16" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="44">
+          <test-suite type="TestFixture" id="0-1598" name="VectorTest" fullname="Nour.Play.VectorTest" classname="Nour.Play.VectorTest" runstate="Runnable" testcasecount="16" result="Passed" start-time="2023-12-30T16:41:13.2912370Z" end-time="2023-12-30T16:41:13.2938330Z" duration="0.002597" total="16" passed="16" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="44">
             <properties />
-            <test-case id="0-1599" name="Size_NotInitialized" fullname="Nour.Play.VectorTest.Size_NotInitialized" methodname="Size_NotInitialized" classname="Nour.Play.VectorTest" runstate="Runnable" seed="1559000296" result="Passed" start-time="2023-12-27T19:08:27.1611310Z" end-time="2023-12-27T19:08:27.1613720Z" duration="0.000241" asserts="2">
+            <test-case id="0-1600" name="Size_NotInitialized" fullname="Nour.Play.VectorTest.Size_NotInitialized" methodname="Size_NotInitialized" classname="Nour.Play.VectorTest" runstate="Runnable" seed="1601024505" result="Passed" start-time="2023-12-30T16:41:13.2912760Z" end-time="2023-12-30T16:41:13.2915200Z" duration="0.000244" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1607" name="Vector_CanAddAndSubtract" fullname="Nour.Play.VectorTest.Vector_CanAddAndSubtract" methodname="Vector_CanAddAndSubtract" classname="Nour.Play.VectorTest" runstate="Runnable" seed="180584740" result="Passed" start-time="2023-12-27T19:08:27.1613790Z" end-time="2023-12-27T19:08:27.1617410Z" duration="0.000362" asserts="6">
+            <test-case id="0-1608" name="Vector_CanAddAndSubtract" fullname="Nour.Play.VectorTest.Vector_CanAddAndSubtract" methodname="Vector_CanAddAndSubtract" classname="Nour.Play.VectorTest" runstate="Runnable" seed="1028793067" result="Passed" start-time="2023-12-30T16:41:13.2915260Z" end-time="2023-12-30T16:41:13.2918700Z" duration="0.000343" asserts="6">
               <properties />
             </test-case>
-            <test-case id="0-1608" name="Vector_ConstructorChecksArguments" fullname="Nour.Play.VectorTest.Vector_ConstructorChecksArguments" methodname="Vector_ConstructorChecksArguments" classname="Nour.Play.VectorTest" runstate="Runnable" seed="1393227895" result="Passed" start-time="2023-12-27T19:08:27.1617490Z" end-time="2023-12-27T19:08:27.1618460Z" duration="0.000098" asserts="1">
+            <test-case id="0-1609" name="Vector_ConstructorChecksArguments" fullname="Nour.Play.VectorTest.Vector_ConstructorChecksArguments" methodname="Vector_ConstructorChecksArguments" classname="Nour.Play.VectorTest" runstate="Runnable" seed="291295811" result="Passed" start-time="2023-12-30T16:41:13.2918770Z" end-time="2023-12-30T16:41:13.2919770Z" duration="0.000101" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1605" name="Vector_EmptyIsEmpty" fullname="Nour.Play.VectorTest.Vector_EmptyIsEmpty" methodname="Vector_EmptyIsEmpty" classname="Nour.Play.VectorTest" runstate="Runnable" seed="2060521085" result="Passed" start-time="2023-12-27T19:08:27.1618520Z" end-time="2023-12-27T19:08:27.1619110Z" duration="0.000059" asserts="1">
+            <test-case id="0-1606" name="Vector_EmptyIsEmpty" fullname="Nour.Play.VectorTest.Vector_EmptyIsEmpty" methodname="Vector_EmptyIsEmpty" classname="Nour.Play.VectorTest" runstate="Runnable" seed="2038337795" result="Passed" start-time="2023-12-30T16:41:13.2919960Z" end-time="2023-12-30T16:41:13.2920580Z" duration="0.000062" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1604" name="Vector_EmptyVectorIsEmpty" fullname="Nour.Play.VectorTest.Vector_EmptyVectorIsEmpty" methodname="Vector_EmptyVectorIsEmpty" classname="Nour.Play.VectorTest" runstate="Runnable" seed="675998594" result="Passed" start-time="2023-12-27T19:08:27.1619180Z" end-time="2023-12-27T19:08:27.1619700Z" duration="0.000053" asserts="1">
+            <test-case id="0-1605" name="Vector_EmptyVectorIsEmpty" fullname="Nour.Play.VectorTest.Vector_EmptyVectorIsEmpty" methodname="Vector_EmptyVectorIsEmpty" classname="Nour.Play.VectorTest" runstate="Runnable" seed="1036721418" result="Passed" start-time="2023-12-30T16:41:13.2920640Z" end-time="2023-12-30T16:41:13.2921270Z" duration="0.000063" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1600" name="Vector_EqualityIsCheckedByValue" fullname="Nour.Play.VectorTest.Vector_EqualityIsCheckedByValue" methodname="Vector_EqualityIsCheckedByValue" classname="Nour.Play.VectorTest" runstate="Runnable" seed="666173246" result="Passed" start-time="2023-12-27T19:08:27.1619770Z" end-time="2023-12-27T19:08:27.1621530Z" duration="0.000176" asserts="5">
+            <test-case id="0-1601" name="Vector_EqualityIsCheckedByValue" fullname="Nour.Play.VectorTest.Vector_EqualityIsCheckedByValue" methodname="Vector_EqualityIsCheckedByValue" classname="Nour.Play.VectorTest" runstate="Runnable" seed="214484078" result="Passed" start-time="2023-12-30T16:41:13.2921330Z" end-time="2023-12-30T16:41:13.2922870Z" duration="0.000154" asserts="5">
               <properties />
             </test-case>
-            <test-case id="0-1612" name="Vector_FromIndex" fullname="Nour.Play.VectorTest.Vector_FromIndex" methodname="Vector_FromIndex" classname="Nour.Play.VectorTest" runstate="Runnable" seed="1914323773" result="Passed" start-time="2023-12-27T19:08:27.1621600Z" end-time="2023-12-27T19:08:27.1622810Z" duration="0.000121" asserts="2">
+            <test-case id="0-1613" name="Vector_FromIndex" fullname="Nour.Play.VectorTest.Vector_FromIndex" methodname="Vector_FromIndex" classname="Nour.Play.VectorTest" runstate="Runnable" seed="1122297889" result="Passed" start-time="2023-12-30T16:41:13.2922940Z" end-time="2023-12-30T16:41:13.2924150Z" duration="0.000121" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1601" name="Vector_GetHashCodeIsDerivedFromValue" fullname="Nour.Play.VectorTest.Vector_GetHashCodeIsDerivedFromValue" methodname="Vector_GetHashCodeIsDerivedFromValue" classname="Nour.Play.VectorTest" runstate="Runnable" seed="1548242172" result="Passed" start-time="2023-12-27T19:08:27.1622900Z" end-time="2023-12-27T19:08:27.1625280Z" duration="0.000239" asserts="2">
+            <test-case id="0-1602" name="Vector_GetHashCodeIsDerivedFromValue" fullname="Nour.Play.VectorTest.Vector_GetHashCodeIsDerivedFromValue" methodname="Vector_GetHashCodeIsDerivedFromValue" classname="Nour.Play.VectorTest" runstate="Runnable" seed="137979320" result="Passed" start-time="2023-12-30T16:41:13.2924210Z" end-time="2023-12-30T16:41:13.2926510Z" duration="0.000230" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1598" name="Vector_IsInitialized" fullname="Nour.Play.VectorTest.Vector_IsInitialized" methodname="Vector_IsInitialized" classname="Nour.Play.VectorTest" runstate="Runnable" seed="559857370" result="Passed" start-time="2023-12-27T19:08:27.1625370Z" end-time="2023-12-27T19:08:27.1626190Z" duration="0.000082" asserts="2">
+            <test-case id="0-1599" name="Vector_IsInitialized" fullname="Nour.Play.VectorTest.Vector_IsInitialized" methodname="Vector_IsInitialized" classname="Nour.Play.VectorTest" runstate="Runnable" seed="645018763" result="Passed" start-time="2023-12-30T16:41:13.2926580Z" end-time="2023-12-30T16:41:13.2927240Z" duration="0.000066" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1606" name="Vector_NotEqualToNull" fullname="Nour.Play.VectorTest.Vector_NotEqualToNull" methodname="Vector_NotEqualToNull" classname="Nour.Play.VectorTest" runstate="Runnable" seed="1463295965" result="Passed" start-time="2023-12-27T19:08:27.1626410Z" end-time="2023-12-27T19:08:27.1627690Z" duration="0.000128" asserts="3">
+            <test-case id="0-1607" name="Vector_NotEqualToNull" fullname="Nour.Play.VectorTest.Vector_NotEqualToNull" methodname="Vector_NotEqualToNull" classname="Nour.Play.VectorTest" runstate="Runnable" seed="969192660" result="Passed" start-time="2023-12-30T16:41:13.2927300Z" end-time="2023-12-30T16:41:13.2928490Z" duration="0.000120" asserts="3">
               <properties />
             </test-case>
-            <test-case id="0-1610" name="Vector_SnappedForce" fullname="Nour.Play.VectorTest.Vector_SnappedForce" methodname="Vector_SnappedForce" classname="Nour.Play.VectorTest" runstate="Runnable" seed="153160584" result="Passed" start-time="2023-12-27T19:08:27.1627750Z" end-time="2023-12-27T19:08:27.1631790Z" duration="0.000404" asserts="9">
+            <test-case id="0-1611" name="Vector_SnappedForce" fullname="Nour.Play.VectorTest.Vector_SnappedForce" methodname="Vector_SnappedForce" classname="Nour.Play.VectorTest" runstate="Runnable" seed="664275395" result="Passed" start-time="2023-12-30T16:41:13.2928560Z" end-time="2023-12-30T16:41:13.2931780Z" duration="0.000323" asserts="9">
               <properties />
             </test-case>
-            <test-case id="0-1609" name="Vector_ThrowsIfNotAValidSize" fullname="Nour.Play.VectorTest.Vector_ThrowsIfNotAValidSize" methodname="Vector_ThrowsIfNotAValidSize" classname="Nour.Play.VectorTest" runstate="Runnable" seed="347111317" result="Passed" start-time="2023-12-27T19:08:27.1631860Z" end-time="2023-12-27T19:08:27.1634330Z" duration="0.000246" asserts="3">
+            <test-case id="0-1610" name="Vector_ThrowsIfNotAValidSize" fullname="Nour.Play.VectorTest.Vector_ThrowsIfNotAValidSize" methodname="Vector_ThrowsIfNotAValidSize" classname="Nour.Play.VectorTest" runstate="Runnable" seed="828822383" result="Passed" start-time="2023-12-30T16:41:13.2931850Z" end-time="2023-12-30T16:41:13.2934240Z" duration="0.000239" asserts="3">
               <properties />
             </test-case>
-            <test-case id="0-1611" name="Vector_ToIndex" fullname="Nour.Play.VectorTest.Vector_ToIndex" methodname="Vector_ToIndex" classname="Nour.Play.VectorTest" runstate="Runnable" seed="1565218177" result="Passed" start-time="2023-12-27T19:08:27.1634400Z" end-time="2023-12-27T19:08:27.1636080Z" duration="0.000169" asserts="3">
+            <test-case id="0-1612" name="Vector_ToIndex" fullname="Nour.Play.VectorTest.Vector_ToIndex" methodname="Vector_ToIndex" classname="Nour.Play.VectorTest" runstate="Runnable" seed="332849790" result="Passed" start-time="2023-12-30T16:41:13.2934310Z" end-time="2023-12-30T16:41:13.2935980Z" duration="0.000168" asserts="3">
               <properties />
             </test-case>
-            <test-case id="0-1602" name="Vector_ToStringFormat" fullname="Nour.Play.VectorTest.Vector_ToStringFormat" methodname="Vector_ToStringFormat" classname="Nour.Play.VectorTest" runstate="Runnable" seed="136871188" result="Passed" start-time="2023-12-27T19:08:27.1636150Z" end-time="2023-12-27T19:08:27.1636870Z" duration="0.000072" asserts="2">
+            <test-case id="0-1603" name="Vector_ToStringFormat" fullname="Nour.Play.VectorTest.Vector_ToStringFormat" methodname="Vector_ToStringFormat" classname="Nour.Play.VectorTest" runstate="Runnable" seed="1004169358" result="Passed" start-time="2023-12-30T16:41:13.2936060Z" end-time="2023-12-30T16:41:13.2936730Z" duration="0.000067" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1603" name="Vector_ZeroVectorIsNotEmpty" fullname="Nour.Play.VectorTest.Vector_ZeroVectorIsNotEmpty" methodname="Vector_ZeroVectorIsNotEmpty" classname="Nour.Play.VectorTest" runstate="Runnable" seed="723560372" result="Passed" start-time="2023-12-27T19:08:27.1636920Z" end-time="2023-12-27T19:08:27.1637580Z" duration="0.000066" asserts="1">
+            <test-case id="0-1604" name="Vector_ZeroVectorIsNotEmpty" fullname="Nour.Play.VectorTest.Vector_ZeroVectorIsNotEmpty" methodname="Vector_ZeroVectorIsNotEmpty" classname="Nour.Play.VectorTest" runstate="Runnable" seed="532980235" result="Passed" start-time="2023-12-30T16:41:13.2936790Z" end-time="2023-12-30T16:41:13.2937430Z" duration="0.000064" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1613" name="VectorD_Parse" fullname="Nour.Play.VectorTest.VectorD_Parse" methodname="VectorD_Parse" classname="Nour.Play.VectorTest" runstate="Runnable" seed="173621105" result="Passed" start-time="2023-12-27T19:08:27.1637650Z" end-time="2023-12-27T19:08:27.1638300Z" duration="0.000066" asserts="1">
+            <test-case id="0-1614" name="VectorD_Parse" fullname="Nour.Play.VectorTest.VectorD_Parse" methodname="VectorD_Parse" classname="Nour.Play.VectorTest" runstate="Runnable" seed="1226933139" result="Passed" start-time="2023-12-30T16:41:13.2937500Z" end-time="2023-12-30T16:41:13.2938210Z" duration="0.000071" asserts="1">
               <properties />
             </test-case>
           </test-suite>
         </test-suite>
       </test-suite>
-      <test-suite type="TestFixture" id="0-1000" name="RandomAreaGeneratorTest" fullname="RandomAreaGeneratorTest" classname="RandomAreaGeneratorTest" runstate="Runnable" testcasecount="2" result="Passed" start-time="2023-12-27T19:08:27.1638680Z" end-time="2023-12-27T19:08:27.1747620Z" duration="0.010894" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="4052">
+      <test-suite type="TestFixture" id="0-1000" name="RandomAreaGeneratorTest" fullname="RandomAreaGeneratorTest" classname="RandomAreaGeneratorTest" runstate="Runnable" testcasecount="2" result="Passed" start-time="2023-12-30T16:41:13.2938590Z" end-time="2023-12-30T16:41:13.3047060Z" duration="0.010848" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="4052">
         <properties />
-        <test-case id="0-1001" name="ZoneGenerator_CanGenerateZones" fullname="RandomAreaGeneratorTest.ZoneGenerator_CanGenerateZones" methodname="ZoneGenerator_CanGenerateZones" classname="RandomAreaGeneratorTest" runstate="Runnable" seed="517607643" result="Passed" start-time="2023-12-27T19:08:27.1639100Z" end-time="2023-12-27T19:08:27.1741860Z" duration="0.010276" asserts="4006">
+        <test-case id="0-1001" name="ZoneGenerator_CanGenerateZones" fullname="RandomAreaGeneratorTest.ZoneGenerator_CanGenerateZones" methodname="ZoneGenerator_CanGenerateZones" classname="RandomAreaGeneratorTest" runstate="Runnable" seed="1824506379" result="Passed" start-time="2023-12-30T16:41:13.2938960Z" end-time="2023-12-30T16:41:13.3041210Z" duration="0.010225" asserts="4006">
           <properties />
         </test-case>
-        <test-case id="0-1002" name="ZoneGenerator_CustomSettings" fullname="RandomAreaGeneratorTest.ZoneGenerator_CustomSettings" methodname="ZoneGenerator_CustomSettings" classname="RandomAreaGeneratorTest" runstate="Runnable" seed="1371343102" result="Passed" start-time="2023-12-27T19:08:27.1741980Z" end-time="2023-12-27T19:08:27.1747490Z" duration="0.000552" asserts="46">
+        <test-case id="0-1002" name="ZoneGenerator_CustomSettings" fullname="RandomAreaGeneratorTest.ZoneGenerator_CustomSettings" methodname="ZoneGenerator_CustomSettings" classname="RandomAreaGeneratorTest" runstate="Runnable" seed="416316980" result="Passed" start-time="2023-12-30T16:41:13.3041320Z" end-time="2023-12-30T16:41:13.3046930Z" duration="0.000561" asserts="46">
           <properties />
         </test-case>
       </test-suite>

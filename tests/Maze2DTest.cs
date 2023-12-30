@@ -35,7 +35,7 @@ namespace Nour.Play {
             Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
             Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
             Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { }, new int[] { 1, 2 })));
-            Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1 })));
+            Assert.DoesNotThrow(() => new Maze2D(2, 3).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1 })));
             Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { })));
             Assert.Throws<ArgumentNullException>(() => new Maze2D(2, 3).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 1, 2 }, null)));
         }

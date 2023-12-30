@@ -4,27 +4,23 @@ using Nour.Play.Renderers;
 namespace Nour.Play.Maze {
     class MainClass {
         public static void Main(string[] args) {
-            var alsoDrawAscii = args[0] == "ascii";
             var size = new Vector(20, 20);
-            Generate<AldousBroderMazeGenerator>(size, alsoDrawAscii, true, GeneratorOptions.FillFactorOption.ThreeQuarters);
-            Generate<WilsonsMazeGenerator>(size, alsoDrawAscii, true, GeneratorOptions.FillFactorOption.ThreeQuarters);
-            Generate<HuntAndKillMazeGenerator>(size, alsoDrawAscii, true, GeneratorOptions.FillFactorOption.ThreeQuarters);
-            Generate<RecursiveBacktrackerMazeGenerator>(size, alsoDrawAscii, true, GeneratorOptions.FillFactorOption.ThreeQuarters);
-            Generate<BinaryTreeMazeGenerator>(size, alsoDrawAscii, true, GeneratorOptions.FillFactorOption.Full);
-            Generate<SidewinderMazeGenerator>(size, alsoDrawAscii, true, GeneratorOptions.FillFactorOption.Full);
-        }
-
-        private static void Generate<T>(Vector size, bool drawAscii, bool drawAsciiBox, GeneratorOptions.FillFactorOption fillFactor)
-        where T : MazeGenerator, new() {
-            var maze = MazeGenerator.Generate<T>(size,
-                new GeneratorOptions() { FillFactor = fillFactor });
-            var map = maze.ToMap(Maze2DRenderer.MazeToMapOptions.Custom(1, 2, 1, 2, maze.Size));
-            if (drawAscii) {
-                Console.WriteLine(new Map2DAsciiRenderer().Render(map));
-            }
-            if (drawAsciiBox) {
-                Console.WriteLine(new Maze2DAsciiBoxRenderer(maze).WithTrail());
-            }
+            // As a user, how can I generate a maze?
+            // TODO: Rename namespaces
+            // TODO: Organize tests by namespaces
+            // TODO: Check public symbols
+            // TODO: Create an extendible generator class
+            // TODO: Rename core to src
+            // TODO: Warning if missing comment on a public symbol
+            // TODO: StyleCop or something
+            // TODO: Remove maze size option from MazeToMapOptions
+            var map = MazeGenerator.Generate(size,
+                new GeneratorOptions() {
+                    Algorithm = GeneratorOptions.Algorithms.RecursiveBacktracker,
+                    FillFactor = GeneratorOptions.FillFactorOption.ThreeQuarters,
+                    MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
+                }).ToMap(Maze.Maze2DRenderer.MazeToMapOptions.SquareCells(1, 1));
+            Console.WriteLine(map);
         }
     }
 }
