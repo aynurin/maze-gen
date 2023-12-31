@@ -111,7 +111,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             if (Math.Abs(opposingForceY) > VectorD.MIN) {
                 otherOpposingForceY = opposingForceY;
             }
-            if (otherOpposingForceX != 0 || otherOpposingForceY != 0) {
+            if (!otherOpposingForceX.IsZero() || !otherOpposingForceY.IsZero()) {
                 var otherOpposingForce = new VectorD(otherOpposingForceX, otherOpposingForceY);
                 if (_opposingForces.ContainsKey((other, area))) {
                     _opposingForces[(other, area)] = otherOpposingForce;

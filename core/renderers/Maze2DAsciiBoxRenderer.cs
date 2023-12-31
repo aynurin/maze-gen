@@ -99,7 +99,7 @@ namespace PlayersWorlds.Maps.Renderers {
 
         private int I(Vector v) => v.ToIndex(_asciiMazeWidth);
 
-        struct CellCoords {
+        class CellCoords {
             public Vector Northwest { get; private set; }
             public Vector Southwest { get; private set; }
             public Vector Northeast { get; private set; }

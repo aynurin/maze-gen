@@ -91,9 +91,11 @@ namespace PlayersWorlds.Maps {
                 return false;
             }
         }
+
+        public static bool IsZero(this double value) => Math.Abs(value) < VectorD.MIN;
     }
 
-    public struct BaseStats {
+    public class BaseStats {
         public double Min { get; private set; }
         public double Max { get; private set; }
         public double Mean { get; private set; }

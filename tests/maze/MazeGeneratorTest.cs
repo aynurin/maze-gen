@@ -114,7 +114,7 @@ namespace PlayersWorlds.Maps {
             };
 
             Assert.That(generator, Is.Not.Null, "Could not create generator of type {0}", generatorType.Name);
-            var generate = typeof(MazeGenerator).GetMethod("Generate");
+            var generate = typeof(MazeGenerator).GetMethods().First(m => m.Name == "Generate" && m.IsGenericMethod);
             Assert.That(generate, Is.Not.Null, "Could not find Generate method on generator of type {0}", generatorType.Name);
             Assert.That(generate.MakeGenericMethod(generatorType), Is.Not.Null, "Could not find generic Generate method on generator of type {0}", generatorType.Name);
 
