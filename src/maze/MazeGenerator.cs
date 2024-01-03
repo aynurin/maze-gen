@@ -48,7 +48,7 @@ namespace PlayersWorlds.Maps.Maze {
             //  2. Generate rooms
             //  3. Initialize maze graph with the rooms
             //  4. Generate the maze
-            Console.WriteLine($"{typeof(T).Name}: Generating maze {maze.Size} with {options.ShortDebugString()}");
+            Console.WriteLine($"{typeof(T).Name}: Generating maze {maze.Size} with {options.ShortDebugString()}");  /*  */
             if (options.MapAreasOptions == GeneratorOptions.MapAreaOptions.Auto) {
                 GenerateMazeAreas(size, options, maze);
             } else if (options.MapAreasOptions ==

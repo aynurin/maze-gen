@@ -6,10 +6,10 @@ namespace PlayersWorlds.Maps.Maze {
         public static void Main() {
             var size = new Vector(20, 20);
             // As a user, how can I generate a maze?
-            // TODO: Check if all classes have tests
+            // TODO: Create a readme with examples
             // TODO: Check public symbols
+            // TODO: Check if all classes have tests
             // TODO: Create an extendible generator class
-            // TODO: Rename core to src
             // TODO: Warning if missing comment on a public symbol
             // TODO: StyleCop or something
             // TODO: Remove maze size option from MazeToMapOptions

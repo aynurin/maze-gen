@@ -1,6 +1,6 @@
 # Summary
 
-- core - the library, a .NET 4.7 assembly compatible with Unity
+- src - the library, a .NET 4.7 assembly compatible with Unity
 - maze-gen - a console client for debugging
 - tests - ...
 
