@@ -6,8 +6,11 @@
     "Appender",
     "Backtracker",
     "Broder",
+    "docfx",
     "mazegen",
     "Memberwise",
+    "msbuild",
+    "nunit",
     "stddev",
     "Wilsons"
   ]

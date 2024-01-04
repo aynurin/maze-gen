@@ -4,8 +4,8 @@ using System.Linq;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
     /// <summary>
-    /// Evolves a <see cref="TargetSystem" /> over time using its own internal
-    /// impact over time.
+    /// Evolves a <see cref="SimulatedSystem" /> over time using its own
+    /// internal impact over time.
     /// </summary>
     public class EvolvingSimulator {
         private readonly int _epochs;

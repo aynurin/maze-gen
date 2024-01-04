@@ -13,7 +13,11 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         public const string DistanceAttribute =
             "PlayersWorlds.Maps.Maze.PostProcessing.DijkstraDistance.DistanceAttribute";
 
+        /// <summary>
         /// Finds Dijkstra distances for the given cell.
+        /// </summary>
+        /// <param name="startingCell">The cell to start the BFS walk.</param>
+        /// <returns></returns>
         public static Dictionary<MazeCell, int> Find(MazeCell startingCell) {
             var distances = new Dictionary<MazeCell, int> {
                 { startingCell, 0 }
@@ -45,9 +49,9 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         /// Finds the shortest path from the startingCell to the targetCell.
         /// </summary>
         /// <param name="targetCell"></param>
-        /// <returns><code>List<MazeCell></code> containing the solution from
+        /// <returns><c>List&lt;MazeCell&gt;</c> containing the solution from
         /// <paramref name="startingCell" /> to <paramref name="targetCell" />
-        /// or <code>Optional<List<MazeCell>>.Empty</code> if the solution
+        /// or <c>Optional&lt;List&lt;MazeCell&gt;&gt;.Empty</c> if the solution
         /// does not exist.</returns>        
         public static Optional<List<MazeCell>> Solve(
             MazeCell startingCell, MazeCell targetCell) {

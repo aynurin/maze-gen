@@ -145,12 +145,11 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         }
 
         /// <summary>
-        /// 
+        /// Returns force calculated using the provided <see
+        /// cref="IForceFormula"/>.
         /// </summary>
-        /// <param name="distanceTop">Distance between high edges of the area and env</param>
-        /// <param name="distanceBottom">Distance between low edges of the area and env</param>
-        /// <param name="fragment"></param>
-        /// <returns></returns>
+        /// <param name="distanceHigh">Distance between high edges of the area and env</param>
+        /// <param name="distanceLow">Distance between low edges of the area and env</param>
         public (double force, double distance, string caseName)
         GetEnvAxisForce(double distanceHigh, double distanceLow) {
             var distance = Math.Abs(distanceHigh) < Math.Abs(distanceLow) ?
@@ -248,9 +247,9 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         /// <param name="oneSize"></param>
         /// <param name="otherPosition"></param>
         /// <param name="otherSize"></param>
-        /// <returns><li>absolute <code>distance</code> between the sides;
-        /// <li><code>sign</code> to apply force to increase the distance;
-        /// <li>and detects if the areas <code>overlap</code>.</returns>
+        /// <returns><li>absolute <c>distance</c> between the sides;</li>
+        /// <li><c>sign</c> to apply force to increase the distance;</li>
+        /// <li>and detects if the areas <c>overlap</c>.</li></returns>
         public (double distance, double sign, bool overlap) GetAxisDistance(double onePosition, double oneSize, double otherPosition, double otherSize) {
             var overlap = false;
             var sign = 1;

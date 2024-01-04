@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<test-run id="2" testcasecount="712" result="Passed" total="157" passed="157" failed="0" inconclusive="0" skipped="0" asserts="4681" engine-version="3.4.1.0" clr-version="4.0.30319.42000" start-time="2024-01-03 15:50:15Z" end-time="2024-01-03 15:50:15Z" duration="0.530550">
+<test-run id="2" testcasecount="712" result="Passed" total="157" passed="157" failed="0" inconclusive="0" skipped="0" asserts="4681" engine-version="3.4.1.0" clr-version="4.0.30319.42000" start-time="2024-01-04 04:53:59Z" end-time="2024-01-04 04:53:59Z" duration="0.444536">
   <command-line><![CDATA[/usr/lib/nunit3/nunit3-console.exe build/Debug/tests/tests.dll --where=Category!=Load]]></command-line>
   <filter>
     <not>
       <prop name="Category">Load</prop>
     </not>
   </filter>
-  <test-suite type="Assembly" id="0-1740" name="tests.dll" fullname="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/tests.dll" runstate="Runnable" testcasecount="712" result="Passed" start-time="2024-01-03T15:50:15.0177620Z" end-time="2024-01-03T15:50:15.5184440Z" duration="0.500579" total="157" passed="157" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="4681">
-    <environment framework-version="3.14.0.0" clr-version="4.0.30319.42000" os-version="Unix 6.1.49.1" platform="Unix" cwd="/home/data/repos/github.com/aynurin/maze-gen" machine-name="lightview" user="shav" user-domain="lightview" culture="en-US" uiculture="en-US" os-architecture="x64" />
+  <test-suite type="Assembly" id="0-1740" name="tests.dll" fullname="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/tests.dll" runstate="Runnable" testcasecount="712" result="Passed" start-time="2024-01-04T04:53:59.3595260Z" end-time="2024-01-04T04:53:59.7786780Z" duration="0.419051" total="157" passed="157" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="4681">
+    <environment framework-version="3.14.0.0" clr-version="4.0.30319.42000" os-version="Unix 6.1.69.1" platform="Unix" cwd="/home/data/repos/github.com/aynurin/maze-gen" machine-name="lightview" user="shav" user-domain="lightview" culture="en-US" uiculture="en-US" os-architecture="x64" />
     <settings>
       <setting name="WorkDirectory" value="/home/data/repos/github.com/aynurin/maze-gen" />
       <setting name="ImageRuntimeVersion" value="4.0.30319" />
@@ -17,299 +17,299 @@
       <setting name="NumberOfTestWorkers" value="24" />
     </settings>
     <properties>
-      <property name="_PID" value="683143" />
+      <property name="_PID" value="51138" />
       <property name="_APPDOMAIN" value="test-domain-" />
     </properties>
-    <test-suite type="SetUpFixture" id="0-1003" name="[default namespace]" fullname="SetUpTests" classname="SetUpTests" runstate="Runnable" testcasecount="712" result="Passed" start-time="2024-01-03T15:50:15.0231920Z" end-time="2024-01-03T15:50:15.5184340Z" duration="0.495242" total="157" passed="157" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="4681">
+    <test-suite type="SetUpFixture" id="0-1003" name="[default namespace]" fullname="SetUpTests" classname="SetUpTests" runstate="Runnable" testcasecount="712" result="Passed" start-time="2024-01-04T04:53:59.3644150Z" end-time="2024-01-04T04:53:59.7786680Z" duration="0.414253" total="157" passed="157" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="4681">
       <properties />
-      <test-suite type="TestSuite" id="0-1741" name="PlayersWorlds" fullname="PlayersWorlds" runstate="Runnable" testcasecount="710" result="Passed" start-time="2024-01-03T15:50:15.0252760Z" end-time="2024-01-03T15:50:15.5077470Z" duration="0.482470" total="155" passed="155" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="629">
+      <test-suite type="TestSuite" id="0-1741" name="PlayersWorlds" fullname="PlayersWorlds" runstate="Runnable" testcasecount="710" result="Passed" start-time="2024-01-04T04:53:59.3664240Z" end-time="2024-01-04T04:53:59.7678850Z" duration="0.401461" total="155" passed="155" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="629">
         <properties />
-        <test-suite type="TestSuite" id="0-1742" name="Maps" fullname="PlayersWorlds.Maps" runstate="Runnable" testcasecount="710" result="Passed" start-time="2024-01-03T15:50:15.0253310Z" end-time="2024-01-03T15:50:15.5077420Z" duration="0.482412" total="155" passed="155" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="629">
+        <test-suite type="TestSuite" id="0-1742" name="Maps" fullname="PlayersWorlds.Maps" runstate="Runnable" testcasecount="710" result="Passed" start-time="2024-01-04T04:53:59.3664830Z" end-time="2024-01-04T04:53:59.7678800Z" duration="0.401397" total="155" passed="155" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="629">
           <properties />
-          <test-suite type="TestSuite" id="0-1744" name="Areas" fullname="PlayersWorlds.Maps.Areas" runstate="Runnable" testcasecount="113" result="Passed" start-time="2024-01-03T15:50:15.0253380Z" end-time="2024-01-03T15:50:15.2102910Z" duration="0.184953" total="62" passed="62" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="193">
+          <test-suite type="TestSuite" id="0-1744" name="Areas" fullname="PlayersWorlds.Maps.Areas" runstate="Runnable" testcasecount="113" result="Passed" start-time="2024-01-04T04:53:59.3664900Z" end-time="2024-01-04T04:53:59.5383440Z" duration="0.171854" total="62" passed="62" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="193">
             <properties />
-            <test-suite type="TestSuite" id="0-1745" name="Evolving" fullname="PlayersWorlds.Maps.Areas.Evolving" runstate="Runnable" testcasecount="109" result="Passed" start-time="2024-01-03T15:50:15.0253430Z" end-time="2024-01-03T15:50:15.2085710Z" duration="0.183228" total="58" passed="58" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="175">
+            <test-suite type="TestSuite" id="0-1745" name="Evolving" fullname="PlayersWorlds.Maps.Areas.Evolving" runstate="Runnable" testcasecount="109" result="Passed" start-time="2024-01-04T04:53:59.3664960Z" end-time="2024-01-04T04:53:59.5372100Z" duration="0.170715" total="58" passed="58" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="175">
               <properties />
-              <test-suite type="TestFixture" id="0-1624" name="AreaDistributorTest" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" testcasecount="73" result="Passed" start-time="2024-01-03T15:50:15.0253640Z" end-time="2024-01-03T15:50:15.0964260Z" duration="0.071062" total="23" passed="23" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="46">
+              <test-suite type="TestFixture" id="0-1624" name="AreaDistributorTest" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" testcasecount="73" result="Passed" start-time="2024-01-04T04:53:59.3665160Z" end-time="2024-01-04T04:53:59.4340120Z" duration="0.067496" total="23" passed="23" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="46">
                 <properties />
-                <test-case id="0-1625" name="AreaDistributorTest_OneTest" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OneTest" methodname="AreaDistributorTest_OneTest" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1323220420" result="Passed" start-time="2024-01-03T15:50:15.0254240Z" end-time="2024-01-03T15:50:15.0643560Z" duration="0.039000" asserts="2">
+                <test-case id="0-1625" name="AreaDistributorTest_OneTest" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OneTest" methodname="AreaDistributorTest_OneTest" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1941528631" result="Passed" start-time="2024-01-04T04:53:59.3665730Z" end-time="2024-01-04T04:53:59.4025070Z" duration="0.035997" asserts="2">
                   <properties />
                 </test-case>
-                <test-suite type="ParameterizedMethod" id="0-1638" name="AreaDistributorTest_OverlapTwo" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" testcasecount="10" result="Passed" start-time="2024-01-03T15:50:15.0657050Z" end-time="2024-01-03T15:50:15.0843660Z" duration="0.018661" total="10" passed="10" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="20">
+                <test-suite type="ParameterizedMethod" id="0-1638" name="AreaDistributorTest_OverlapTwo" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" testcasecount="10" result="Passed" start-time="2024-01-04T04:53:59.4037410Z" end-time="2024-01-04T04:53:59.4218660Z" duration="0.018125" total="10" passed="10" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="20">
                   <properties />
-                  <test-case id="0-1628" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P2x2;S4x4 P5x5;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P2x2;S4x4 P5x5;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1904470752" result="Passed" start-time="2024-01-03T15:50:15.0657920Z" end-time="2024-01-03T15:50:15.0716020Z" duration="0.005810" asserts="2">
+                  <test-case id="0-1628" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P2x2;S4x4 P5x5;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P2x2;S4x4 P5x5;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="604314091" result="Passed" start-time="2024-01-04T04:53:59.4038170Z" end-time="2024-01-04T04:53:59.4094250Z" duration="0.005608" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1629" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P5x2;S4x4 P2x5;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P5x2;S4x4 P2x5;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1600415712" result="Passed" start-time="2024-01-03T15:50:15.0716100Z" end-time="2024-01-03T15:50:15.0727260Z" duration="0.001116" asserts="2">
+                  <test-case id="0-1629" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P5x2;S4x4 P2x5;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P5x2;S4x4 P2x5;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="2052363622" result="Passed" start-time="2024-01-04T04:53:59.4094330Z" end-time="2024-01-04T04:53:59.4104460Z" duration="0.001014" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1630" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P2x5;S4x4 P5x2;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P2x5;S4x4 P5x2;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="280829892" result="Passed" start-time="2024-01-03T15:50:15.0727320Z" end-time="2024-01-03T15:50:15.0738300Z" duration="0.001098" asserts="2">
+                  <test-case id="0-1630" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P2x5;S4x4 P5x2;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P2x5;S4x4 P5x2;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="527021140" result="Passed" start-time="2024-01-04T04:53:59.4104530Z" end-time="2024-01-04T04:53:59.4114730Z" duration="0.001021" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1631" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P5x5;S4x4 P2x2;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P5x5;S4x4 P2x2;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1211499093" result="Passed" start-time="2024-01-03T15:50:15.0738360Z" end-time="2024-01-03T15:50:15.0757780Z" duration="0.001942" asserts="2">
+                  <test-case id="0-1631" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P5x5;S4x4 P2x2;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P5x5;S4x4 P2x2;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1787664780" result="Passed" start-time="2024-01-04T04:53:59.4114800Z" end-time="2024-01-04T04:53:59.4136230Z" duration="0.002144" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1632" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P4x4;S4x4 P3x3;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P4x4;S4x4 P3x3;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1854971835" result="Passed" start-time="2024-01-03T15:50:15.0757860Z" end-time="2024-01-03T15:50:15.0768830Z" duration="0.001097" asserts="2">
+                  <test-case id="0-1632" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P4x4;S4x4 P3x3;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P4x4;S4x4 P3x3;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="116491715" result="Passed" start-time="2024-01-04T04:53:59.4136300Z" end-time="2024-01-04T04:53:59.4146510Z" duration="0.001021" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1633" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P4x3;S4x4 P3x4;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P4x3;S4x4 P3x4;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="732570382" result="Passed" start-time="2024-01-03T15:50:15.0768890Z" end-time="2024-01-03T15:50:15.0779640Z" duration="0.001075" asserts="2">
+                  <test-case id="0-1633" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P4x3;S4x4 P3x4;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P4x3;S4x4 P3x4;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1270223233" result="Passed" start-time="2024-01-04T04:53:59.4146580Z" end-time="2024-01-04T04:53:59.4156570Z" duration="0.001000" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1634" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P3.5x3.5;S4x4 P3.5x3.5;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P3.5x3.5;S4x4 P3.5x3.5;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1300551979" result="Passed" start-time="2024-01-03T15:50:15.0779700Z" end-time="2024-01-03T15:50:15.0801030Z" duration="0.002133" asserts="2">
+                  <test-case id="0-1634" name="AreaDistributorTest_OverlapTwo(&quot;11x11: P3.5x3.5;S4x4 P3.5x3.5;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;11x11: P3.5x3.5;S4x4 P3.5x3.5;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="2007457242" result="Passed" start-time="2024-01-04T04:53:59.4156630Z" end-time="2024-01-04T04:53:59.4177090Z" duration="0.002046" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1635" name="AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x9;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x9;S2x2&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="767327635" result="Passed" start-time="2024-01-03T15:50:15.0801130Z" end-time="2024-01-03T15:50:15.0812340Z" duration="0.001121" asserts="2">
+                  <test-case id="0-1635" name="AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x9;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x9;S2x2&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="688796515" result="Passed" start-time="2024-01-04T04:53:59.4177160Z" end-time="2024-01-04T04:53:59.4188300Z" duration="0.001114" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1636" name="AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x7;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x7;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1260250778" result="Passed" start-time="2024-01-03T15:50:15.0812430Z" end-time="2024-01-03T15:50:15.0823490Z" duration="0.001106" asserts="2">
+                  <test-case id="0-1636" name="AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x7;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;16x16: P4x4;S8x8 P5x7;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1305294311" result="Passed" start-time="2024-01-04T04:53:59.4188370Z" end-time="2024-01-04T04:53:59.4199260Z" duration="0.001090" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1637" name="AreaDistributorTest_OverlapTwo(&quot;16x16: P5x5;S6x6 P6x6;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;16x16: P5x5;S6x6 P6x6;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1583852192" result="Passed" start-time="2024-01-03T15:50:15.0823580Z" end-time="2024-01-03T15:50:15.0834330Z" duration="0.001076" asserts="2">
+                  <test-case id="0-1637" name="AreaDistributorTest_OverlapTwo(&quot;16x16: P5x5;S6x6 P6x6;S4x4&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_OverlapTwo(&quot;16x16: P5x5;S6x6 P6x6;S4x4&quot;)" methodname="AreaDistributorTest_OverlapTwo" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="351448531" result="Passed" start-time="2024-01-04T04:53:59.4199330Z" end-time="2024-01-04T04:53:59.4209920Z" duration="0.001060" asserts="2">
                     <properties />
                   </test-case>
                 </test-suite>
-                <test-case id="0-1626" name="AreaDistributorTest_SidePressure" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SidePressure" methodname="AreaDistributorTest_SidePressure" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1657552479" result="Passed" start-time="2024-01-03T15:50:15.0851560Z" end-time="2024-01-03T15:50:15.0905750Z" duration="0.005419" asserts="2">
+                <test-case id="0-1626" name="AreaDistributorTest_SidePressure" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SidePressure" methodname="AreaDistributorTest_SidePressure" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1381615938" result="Passed" start-time="2024-01-04T04:53:59.4226000Z" end-time="2024-01-04T04:53:59.4278510Z" duration="0.005251" asserts="2">
                   <properties />
                 </test-case>
-                <test-suite type="ParameterizedMethod" id="0-1649" name="AreaDistributorTest_SingleMapForce" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" testcasecount="10" result="Passed" start-time="2024-01-03T15:50:15.0905860Z" end-time="2024-01-03T15:50:15.0949600Z" duration="0.004375" total="10" passed="10" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="20">
+                <test-suite type="ParameterizedMethod" id="0-1649" name="AreaDistributorTest_SingleMapForce" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" testcasecount="10" result="Passed" start-time="2024-01-04T04:53:59.4278620Z" end-time="2024-01-04T04:53:59.4322340Z" duration="0.004372" total="10" passed="10" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="20">
                   <properties />
-                  <test-case id="0-1639" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P1x2;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P1x2;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1386489615" result="Passed" start-time="2024-01-03T15:50:15.0906000Z" end-time="2024-01-03T15:50:15.0911910Z" duration="0.000591" asserts="2">
+                  <test-case id="0-1639" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P1x2;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P1x2;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1405373281" result="Passed" start-time="2024-01-04T04:53:59.4278760Z" end-time="2024-01-04T04:53:59.4284540Z" duration="0.000578" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1640" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P2x2;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P2x2;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1795115898" result="Passed" start-time="2024-01-03T15:50:15.0911980Z" end-time="2024-01-03T15:50:15.0916030Z" duration="0.000405" asserts="2">
+                  <test-case id="0-1640" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P2x2;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P2x2;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1700881663" result="Passed" start-time="2024-01-04T04:53:59.4284610Z" end-time="2024-01-04T04:53:59.4288630Z" duration="0.000403" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1641" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P3x2;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P3x2;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="665143078" result="Passed" start-time="2024-01-03T15:50:15.0916090Z" end-time="2024-01-03T15:50:15.0920200Z" duration="0.000411" asserts="2">
+                  <test-case id="0-1641" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P3x2;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P3x2;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1959974669" result="Passed" start-time="2024-01-04T04:53:59.4288690Z" end-time="2024-01-04T04:53:59.4292770Z" duration="0.000408" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1642" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P1x5;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P1x5;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1520457468" result="Passed" start-time="2024-01-03T15:50:15.0920260Z" end-time="2024-01-03T15:50:15.0924180Z" duration="0.000393" asserts="2">
+                  <test-case id="0-1642" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P1x5;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P1x5;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1041424626" result="Passed" start-time="2024-01-04T04:53:59.4292830Z" end-time="2024-01-04T04:53:59.4296680Z" duration="0.000385" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1643" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P2x5;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P2x5;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1550133416" result="Passed" start-time="2024-01-03T15:50:15.0924250Z" end-time="2024-01-03T15:50:15.0927980Z" duration="0.000373" asserts="2">
+                  <test-case id="0-1643" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P2x5;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P2x5;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1538711454" result="Passed" start-time="2024-01-04T04:53:59.4296740Z" end-time="2024-01-04T04:53:59.4300490Z" duration="0.000376" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1644" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P3x5;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P3x5;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1197062827" result="Passed" start-time="2024-01-03T15:50:15.0928030Z" end-time="2024-01-03T15:50:15.0931870Z" duration="0.000384" asserts="2">
+                  <test-case id="0-1644" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P3x5;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P3x5;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1579870788" result="Passed" start-time="2024-01-04T04:53:59.4300550Z" end-time="2024-01-04T04:53:59.4304440Z" duration="0.000389" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1645" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P1x8;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P1x8;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="145798162" result="Passed" start-time="2024-01-03T15:50:15.0931930Z" end-time="2024-01-03T15:50:15.0935980Z" duration="0.000405" asserts="2">
+                  <test-case id="0-1645" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P1x8;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P1x8;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1894024996" result="Passed" start-time="2024-01-04T04:53:59.4304490Z" end-time="2024-01-04T04:53:59.4308570Z" duration="0.000408" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1646" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P2x8;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P2x8;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1845651172" result="Passed" start-time="2024-01-03T15:50:15.0936040Z" end-time="2024-01-03T15:50:15.0940000Z" duration="0.000397" asserts="2">
+                  <test-case id="0-1646" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P2x8;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P2x8;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="745447911" result="Passed" start-time="2024-01-04T04:53:59.4308620Z" end-time="2024-01-04T04:53:59.4312660Z" duration="0.000404" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1647" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P3x8;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P3x8;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1930885478" result="Passed" start-time="2024-01-03T15:50:15.0940060Z" end-time="2024-01-03T15:50:15.0944110Z" duration="0.000404" asserts="2">
+                  <test-case id="0-1647" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P3x8;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P3x8;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="254885408" result="Passed" start-time="2024-01-04T04:53:59.4312720Z" end-time="2024-01-04T04:53:59.4316820Z" duration="0.000410" asserts="2">
                     <properties />
                   </test-case>
-                  <test-case id="0-1648" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P-1x-4;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P-1x-4;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="1406122080" result="Passed" start-time="2024-01-03T15:50:15.0944160Z" end-time="2024-01-03T15:50:15.0949520Z" duration="0.000536" asserts="2">
+                  <test-case id="0-1648" name="AreaDistributorTest_SingleMapForce(&quot;6x12: P-1x-4;S2x2&quot;)" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_SingleMapForce(&quot;6x12: P-1x-4;S2x2&quot;)" methodname="AreaDistributorTest_SingleMapForce" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="185820674" result="Passed" start-time="2024-01-04T04:53:59.4316870Z" end-time="2024-01-04T04:53:59.4322250Z" duration="0.000539" asserts="2">
                     <properties />
                   </test-case>
                 </test-suite>
-                <test-case id="0-1627" name="AreaDistributorTest_TwoTest" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_TwoTest" methodname="AreaDistributorTest_TwoTest" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="643476701" result="Passed" start-time="2024-01-03T15:50:15.0949670Z" end-time="2024-01-03T15:50:15.0963950Z" duration="0.001429" asserts="2">
+                <test-case id="0-1627" name="AreaDistributorTest_TwoTest" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest.AreaDistributorTest_TwoTest" methodname="AreaDistributorTest_TwoTest" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorTest" runstate="Runnable" seed="529501939" result="Passed" start-time="2024-01-04T04:53:59.4322400Z" end-time="2024-01-04T04:53:59.4339800Z" duration="0.001741" asserts="2">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-suite type="TestFixture" id="0-1701" name="EvolvingSimulatorTest" fullname="PlayersWorlds.Maps.Areas.Evolving.EvolvingSimulatorTest" classname="PlayersWorlds.Maps.Areas.Evolving.EvolvingSimulatorTest" runstate="Runnable" testcasecount="2" result="Passed" start-time="2024-01-03T15:50:15.0968350Z" end-time="2024-01-03T15:50:15.1967860Z" duration="0.099951" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="2">
+              <test-suite type="TestFixture" id="0-1701" name="EvolvingSimulatorTest" fullname="PlayersWorlds.Maps.Areas.Evolving.EvolvingSimulatorTest" classname="PlayersWorlds.Maps.Areas.Evolving.EvolvingSimulatorTest" runstate="Runnable" testcasecount="2" result="Passed" start-time="2024-01-04T04:53:59.4343940Z" end-time="2024-01-04T04:53:59.5261320Z" duration="0.091739" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="2">
                 <properties />
-                <test-case id="0-1703" name="EvolvingSimulator_ReturnsEpochsIfEvolitionIsNotComplete" fullname="PlayersWorlds.Maps.Areas.Evolving.EvolvingSimulatorTest.EvolvingSimulator_ReturnsEpochsIfEvolitionIsNotComplete" methodname="EvolvingSimulator_ReturnsEpochsIfEvolitionIsNotComplete" classname="PlayersWorlds.Maps.Areas.Evolving.EvolvingSimulatorTest" runstate="Runnable" seed="835985186" result="Passed" start-time="2024-01-03T15:50:15.0968840Z" end-time="2024-01-03T15:50:15.1944250Z" duration="0.097542" asserts="1">
+                <test-case id="0-1703" name="EvolvingSimulator_ReturnsEpochsIfEvolitionIsNotComplete" fullname="PlayersWorlds.Maps.Areas.Evolving.EvolvingSimulatorTest.EvolvingSimulator_ReturnsEpochsIfEvolitionIsNotComplete" methodname="EvolvingSimulator_ReturnsEpochsIfEvolitionIsNotComplete" classname="PlayersWorlds.Maps.Areas.Evolving.EvolvingSimulatorTest" runstate="Runnable" seed="1295830798" result="Passed" start-time="2024-01-04T04:53:59.4344390Z" end-time="2024-01-04T04:53:59.5239720Z" duration="0.089533" asserts="1">
                   <properties />
                 </test-case>
-                <test-case id="0-1702" name="EvolvingSimulator_ThrowsIfMaxEpochsIsZero" fullname="PlayersWorlds.Maps.Areas.Evolving.EvolvingSimulatorTest.EvolvingSimulator_ThrowsIfMaxEpochsIsZero" methodname="EvolvingSimulator_ThrowsIfMaxEpochsIsZero" classname="PlayersWorlds.Maps.Areas.Evolving.EvolvingSimulatorTest" runstate="Runnable" seed="801528995" result="Passed" start-time="2024-01-03T15:50:15.1944390Z" end-time="2024-01-03T15:50:15.1967690Z" duration="0.002331" asserts="1">
+                <test-case id="0-1702" name="EvolvingSimulator_ThrowsIfMaxEpochsIsZero" fullname="PlayersWorlds.Maps.Areas.Evolving.EvolvingSimulatorTest.EvolvingSimulator_ThrowsIfMaxEpochsIsZero" methodname="EvolvingSimulator_ThrowsIfMaxEpochsIsZero" classname="PlayersWorlds.Maps.Areas.Evolving.EvolvingSimulatorTest" runstate="Runnable" seed="308732624" result="Passed" start-time="2024-01-04T04:53:59.5239820Z" end-time="2024-01-04T04:53:59.5261170Z" duration="0.002135" asserts="1">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-suite type="TestFixture" id="0-1704" name="FloatingAreaTest" fullname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest" classname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest" runstate="Runnable" testcasecount="3" result="Passed" start-time="2024-01-03T15:50:15.1968000Z" end-time="2024-01-03T15:50:15.2004460Z" duration="0.003646" total="3" passed="3" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="6">
+              <test-suite type="TestFixture" id="0-1704" name="FloatingAreaTest" fullname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest" classname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest" runstate="Runnable" testcasecount="3" result="Passed" start-time="2024-01-04T04:53:59.5261440Z" end-time="2024-01-04T04:53:59.5295010Z" duration="0.003357" total="3" passed="3" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="6">
                 <properties />
-                <test-case id="0-1707" name="Contains" fullname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest.Contains" methodname="Contains" classname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest" runstate="Runnable" seed="1663757859" result="Passed" start-time="2024-01-03T15:50:15.1968480Z" end-time="2024-01-03T15:50:15.1972770Z" duration="0.000429" asserts="2">
+                <test-case id="0-1707" name="Contains" fullname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest.Contains" methodname="Contains" classname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest" runstate="Runnable" seed="1071169210" result="Passed" start-time="2024-01-04T04:53:59.5261860Z" end-time="2024-01-04T04:53:59.5265850Z" duration="0.000400" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1706" name="Overlaps" fullname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest.Overlaps" methodname="Overlaps" classname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest" runstate="Runnable" seed="680814517" result="Passed" start-time="2024-01-03T15:50:15.1972850Z" end-time="2024-01-03T15:50:15.1974890Z" duration="0.000205" asserts="2">
+                <test-case id="0-1706" name="Overlaps" fullname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest.Overlaps" methodname="Overlaps" classname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest" runstate="Runnable" seed="758164369" result="Passed" start-time="2024-01-04T04:53:59.5265920Z" end-time="2024-01-04T04:53:59.5267820Z" duration="0.000189" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1705" name="Parse" fullname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest.Parse" methodname="Parse" classname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest" runstate="Runnable" seed="543642134" result="Passed" start-time="2024-01-03T15:50:15.1974960Z" end-time="2024-01-03T15:50:15.2004310Z" duration="0.002935" asserts="2">
+                <test-case id="0-1705" name="Parse" fullname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest.Parse" methodname="Parse" classname="PlayersWorlds.Maps.Areas.Evolving.FloatingAreaTest" runstate="Runnable" seed="1387249398" result="Passed" start-time="2024-01-04T04:53:59.5267880Z" end-time="2024-01-04T04:53:59.5294890Z" duration="0.002701" asserts="2">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-suite type="TestFixture" id="0-1708" name="ForceFormulaTestTest" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" testcasecount="8" result="Passed" start-time="2024-01-03T15:50:15.2004570Z" end-time="2024-01-03T15:50:15.2029390Z" duration="0.002482" total="8" passed="8" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="42">
+              <test-suite type="TestFixture" id="0-1708" name="ForceFormulaTestTest" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" testcasecount="8" result="Passed" start-time="2024-01-04T04:53:59.5295120Z" end-time="2024-01-04T04:53:59.5318260Z" duration="0.002314" total="8" passed="8" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="42">
                 <properties />
-                <test-case id="0-1714" name="CollideForce_Negative" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.CollideForce_Negative" methodname="CollideForce_Negative" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="727947189" result="Passed" start-time="2024-01-03T15:50:15.2005020Z" end-time="2024-01-03T15:50:15.2013160Z" duration="0.000815" asserts="9">
+                <test-case id="0-1714" name="CollideForce_Negative" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.CollideForce_Negative" methodname="CollideForce_Negative" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1350194138" result="Passed" start-time="2024-01-04T04:53:59.5295530Z" end-time="2024-01-04T04:53:59.5303010Z" duration="0.000748" asserts="9">
                   <properties />
                 </test-case>
-                <test-case id="0-1713" name="CollideForce_Positive" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.CollideForce_Positive" methodname="CollideForce_Positive" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1389908877" result="Passed" start-time="2024-01-03T15:50:15.2013240Z" end-time="2024-01-03T15:50:15.2016390Z" duration="0.000315" asserts="9">
+                <test-case id="0-1713" name="CollideForce_Positive" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.CollideForce_Positive" methodname="CollideForce_Positive" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1554567506" result="Passed" start-time="2024-01-04T04:53:59.5303080Z" end-time="2024-01-04T04:53:59.5306040Z" duration="0.000296" asserts="9">
                   <properties />
                 </test-case>
-                <test-case id="0-1710" name="NormalForce_Negative" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.NormalForce_Negative" methodname="NormalForce_Negative" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1434659729" result="Passed" start-time="2024-01-03T15:50:15.2016460Z" end-time="2024-01-03T15:50:15.2020040Z" duration="0.000359" asserts="3">
+                <test-case id="0-1710" name="NormalForce_Negative" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.NormalForce_Negative" methodname="NormalForce_Negative" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="339101355" result="Passed" start-time="2024-01-04T04:53:59.5306110Z" end-time="2024-01-04T04:53:59.5309410Z" duration="0.000331" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1712" name="NormalForce_NegativeCapped" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.NormalForce_NegativeCapped" methodname="NormalForce_NegativeCapped" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1347060600" result="Passed" start-time="2024-01-03T15:50:15.2020120Z" end-time="2024-01-03T15:50:15.2021700Z" duration="0.000159" asserts="5">
+                <test-case id="0-1712" name="NormalForce_NegativeCapped" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.NormalForce_NegativeCapped" methodname="NormalForce_NegativeCapped" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="584520077" result="Passed" start-time="2024-01-04T04:53:59.5309480Z" end-time="2024-01-04T04:53:59.5310990Z" duration="0.000151" asserts="5">
                   <properties />
                 </test-case>
-                <test-case id="0-1709" name="NormalForce_Positive" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.NormalForce_Positive" methodname="NormalForce_Positive" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="654243238" result="Passed" start-time="2024-01-03T15:50:15.2021760Z" end-time="2024-01-03T15:50:15.2022910Z" duration="0.000114" asserts="3">
+                <test-case id="0-1709" name="NormalForce_Positive" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.NormalForce_Positive" methodname="NormalForce_Positive" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1428481556" result="Passed" start-time="2024-01-04T04:53:59.5311050Z" end-time="2024-01-04T04:53:59.5312160Z" duration="0.000111" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1711" name="NormalForce_PositiveCapped" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.NormalForce_PositiveCapped" methodname="NormalForce_PositiveCapped" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1797183499" result="Passed" start-time="2024-01-03T15:50:15.2022970Z" end-time="2024-01-03T15:50:15.2024400Z" duration="0.000144" asserts="5">
+                <test-case id="0-1711" name="NormalForce_PositiveCapped" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.NormalForce_PositiveCapped" methodname="NormalForce_PositiveCapped" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="935082793" result="Passed" start-time="2024-01-04T04:53:59.5312210Z" end-time="2024-01-04T04:53:59.5313580Z" duration="0.000136" asserts="5">
                   <properties />
                 </test-case>
-                <test-case id="0-1716" name="OverlapForce_Negative" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.OverlapForce_Negative" methodname="OverlapForce_Negative" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="829132643" result="Passed" start-time="2024-01-03T15:50:15.2024470Z" end-time="2024-01-03T15:50:15.2026900Z" duration="0.000243" asserts="4">
+                <test-case id="0-1716" name="OverlapForce_Negative" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.OverlapForce_Negative" methodname="OverlapForce_Negative" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="553636814" result="Passed" start-time="2024-01-04T04:53:59.5313640Z" end-time="2024-01-04T04:53:59.5315930Z" duration="0.000229" asserts="4">
                   <properties />
                 </test-case>
-                <test-case id="0-1715" name="OverlapForce_Positive" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.OverlapForce_Positive" methodname="OverlapForce_Positive" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="1421853217" result="Passed" start-time="2024-01-03T15:50:15.2026960Z" end-time="2024-01-03T15:50:15.2029280Z" duration="0.000232" asserts="4">
+                <test-case id="0-1715" name="OverlapForce_Positive" fullname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest.OverlapForce_Positive" methodname="OverlapForce_Positive" classname="PlayersWorlds.Maps.Areas.Evolving.ForceFormulaTestTest" runstate="Runnable" seed="2099709810" result="Passed" start-time="2024-01-04T04:53:59.5315990Z" end-time="2024-01-04T04:53:59.5318160Z" duration="0.000217" asserts="4">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-suite type="TestFixture" id="0-1717" name="SideToSideForceProducerTest" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" testcasecount="22" result="Passed" start-time="2024-01-03T15:50:15.2029500Z" end-time="2024-01-03T15:50:15.2085650Z" duration="0.005615" total="22" passed="22" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="79">
+              <test-suite type="TestFixture" id="0-1717" name="SideToSideForceProducerTest" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" testcasecount="22" result="Passed" start-time="2024-01-04T04:53:59.5318360Z" end-time="2024-01-04T04:53:59.5372040Z" duration="0.005368" total="22" passed="22" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="79">
                 <properties />
-                <test-case id="0-1735" name="GetAxisDistance_Collide" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Collide" methodname="GetAxisDistance_Collide" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1117123976" result="Passed" start-time="2024-01-03T15:50:15.2029970Z" end-time="2024-01-03T15:50:15.2039670Z" duration="0.000969" asserts="6">
+                <test-case id="0-1735" name="GetAxisDistance_Collide" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Collide" methodname="GetAxisDistance_Collide" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="48942279" result="Passed" start-time="2024-01-04T04:53:59.5318800Z" end-time="2024-01-04T04:53:59.5327710Z" duration="0.000891" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1738" name="GetAxisDistance_Contain1" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Contain1" methodname="GetAxisDistance_Contain1" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="152591656" result="Passed" start-time="2024-01-03T15:50:15.2039750Z" end-time="2024-01-03T15:50:15.2043020Z" duration="0.000327" asserts="6">
+                <test-case id="0-1738" name="GetAxisDistance_Contain1" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Contain1" methodname="GetAxisDistance_Contain1" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1069078064" result="Passed" start-time="2024-01-04T04:53:59.5327780Z" end-time="2024-01-04T04:53:59.5330820Z" duration="0.000303" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1739" name="GetAxisDistance_Contain2" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Contain2" methodname="GetAxisDistance_Contain2" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1441407376" result="Passed" start-time="2024-01-03T15:50:15.2043090Z" end-time="2024-01-03T15:50:15.2046030Z" duration="0.000295" asserts="6">
+                <test-case id="0-1739" name="GetAxisDistance_Contain2" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Contain2" methodname="GetAxisDistance_Contain2" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="34179822" result="Passed" start-time="2024-01-04T04:53:59.5330890Z" end-time="2024-01-04T04:53:59.5333600Z" duration="0.000272" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1733" name="GetAxisDistance_Normal1" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Normal1" methodname="GetAxisDistance_Normal1" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="771825740" result="Passed" start-time="2024-01-03T15:50:15.2046100Z" end-time="2024-01-03T15:50:15.2048940Z" duration="0.000284" asserts="6">
+                <test-case id="0-1733" name="GetAxisDistance_Normal1" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Normal1" methodname="GetAxisDistance_Normal1" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="2144796077" result="Passed" start-time="2024-01-04T04:53:59.5333660Z" end-time="2024-01-04T04:53:59.5336300Z" duration="0.000264" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1734" name="GetAxisDistance_Normal2" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Normal2" methodname="GetAxisDistance_Normal2" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="761473584" result="Passed" start-time="2024-01-03T15:50:15.2049000Z" end-time="2024-01-03T15:50:15.2051790Z" duration="0.000279" asserts="6">
+                <test-case id="0-1734" name="GetAxisDistance_Normal2" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Normal2" methodname="GetAxisDistance_Normal2" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1317545329" result="Passed" start-time="2024-01-04T04:53:59.5336370Z" end-time="2024-01-04T04:53:59.5339000Z" duration="0.000264" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1736" name="GetAxisDistance_Overlap1" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Overlap1" methodname="GetAxisDistance_Overlap1" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1424130241" result="Passed" start-time="2024-01-03T15:50:15.2051860Z" end-time="2024-01-03T15:50:15.2054670Z" duration="0.000281" asserts="6">
+                <test-case id="0-1736" name="GetAxisDistance_Overlap1" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Overlap1" methodname="GetAxisDistance_Overlap1" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1804606812" result="Passed" start-time="2024-01-04T04:53:59.5339060Z" end-time="2024-01-04T04:53:59.5341700Z" duration="0.000264" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1737" name="GetAxisDistance_Overlap2" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Overlap2" methodname="GetAxisDistance_Overlap2" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1031527598" result="Passed" start-time="2024-01-03T15:50:15.2054730Z" end-time="2024-01-03T15:50:15.2057600Z" duration="0.000287" asserts="6">
+                <test-case id="0-1737" name="GetAxisDistance_Overlap2" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetAxisDistance_Overlap2" methodname="GetAxisDistance_Overlap2" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="618922303" result="Passed" start-time="2024-01-04T04:53:59.5341770Z" end-time="2024-01-04T04:53:59.5344320Z" duration="0.000255" asserts="6">
                   <properties />
                 </test-case>
-                <test-case id="0-1727" name="GetOpposingForce_CentersInside_NoOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersInside_NoOpposingForce" methodname="GetOpposingForce_CentersInside_NoOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="769599742" result="Passed" start-time="2024-01-03T15:50:15.2057670Z" end-time="2024-01-03T15:50:15.2059870Z" duration="0.000220" asserts="2">
+                <test-case id="0-1727" name="GetOpposingForce_CentersInside_NoOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersInside_NoOpposingForce" methodname="GetOpposingForce_CentersInside_NoOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="610383021" result="Passed" start-time="2024-01-04T04:53:59.5344380Z" end-time="2024-01-04T04:53:59.5346470Z" duration="0.000210" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1728" name="GetOpposingForce_CentersInside_WithOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersInside_WithOpposingForce" methodname="GetOpposingForce_CentersInside_WithOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1384706141" result="Passed" start-time="2024-01-03T15:50:15.2059930Z" end-time="2024-01-03T15:50:15.2061800Z" duration="0.000187" asserts="2">
+                <test-case id="0-1728" name="GetOpposingForce_CentersInside_WithOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersInside_WithOpposingForce" methodname="GetOpposingForce_CentersInside_WithOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="286956641" result="Passed" start-time="2024-01-04T04:53:59.5346540Z" end-time="2024-01-04T04:53:59.5348260Z" duration="0.000173" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1729" name="GetOpposingForce_CentersOutside_NoOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersOutside_NoOpposingForce" methodname="GetOpposingForce_CentersOutside_NoOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1821051000" result="Passed" start-time="2024-01-03T15:50:15.2061860Z" end-time="2024-01-03T15:50:15.2063600Z" duration="0.000174" asserts="2">
+                <test-case id="0-1729" name="GetOpposingForce_CentersOutside_NoOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersOutside_NoOpposingForce" methodname="GetOpposingForce_CentersOutside_NoOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="814884747" result="Passed" start-time="2024-01-04T04:53:59.5348320Z" end-time="2024-01-04T04:53:59.5349940Z" duration="0.000162" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1730" name="GetOpposingForce_CentersOutside_WithOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersOutside_WithOpposingForce" methodname="GetOpposingForce_CentersOutside_WithOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1143416573" result="Passed" start-time="2024-01-03T15:50:15.2063650Z" end-time="2024-01-03T15:50:15.2065380Z" duration="0.000173" asserts="2">
+                <test-case id="0-1730" name="GetOpposingForce_CentersOutside_WithOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_CentersOutside_WithOpposingForce" methodname="GetOpposingForce_CentersOutside_WithOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1668198502" result="Passed" start-time="2024-01-04T04:53:59.5349990Z" end-time="2024-01-04T04:53:59.5351610Z" duration="0.000162" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1731" name="GetOpposingForce_NoIntersection_NoOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_NoIntersection_NoOpposingForce" methodname="GetOpposingForce_NoIntersection_NoOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="204647203" result="Passed" start-time="2024-01-03T15:50:15.2065440Z" end-time="2024-01-03T15:50:15.2067140Z" duration="0.000170" asserts="2">
+                <test-case id="0-1731" name="GetOpposingForce_NoIntersection_NoOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_NoIntersection_NoOpposingForce" methodname="GetOpposingForce_NoIntersection_NoOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="569524026" result="Passed" start-time="2024-01-04T04:53:59.5351670Z" end-time="2024-01-04T04:53:59.5353270Z" duration="0.000160" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1732" name="GetOpposingForce_NoIntersection_WithOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_NoIntersection_WithOpposingForce" methodname="GetOpposingForce_NoIntersection_WithOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1206981534" result="Passed" start-time="2024-01-03T15:50:15.2067190Z" end-time="2024-01-03T15:50:15.2068870Z" duration="0.000168" asserts="2">
+                <test-case id="0-1732" name="GetOpposingForce_NoIntersection_WithOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_NoIntersection_WithOpposingForce" methodname="GetOpposingForce_NoIntersection_WithOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="598444023" result="Passed" start-time="2024-01-04T04:53:59.5353320Z" end-time="2024-01-04T04:53:59.5354920Z" duration="0.000160" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1725" name="GetOpposingForce_WhenCenterMatches_NoOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_WhenCenterMatches_NoOpposingForce" methodname="GetOpposingForce_WhenCenterMatches_NoOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1153424378" result="Passed" start-time="2024-01-03T15:50:15.2068920Z" end-time="2024-01-03T15:50:15.2070600Z" duration="0.000168" asserts="2">
+                <test-case id="0-1725" name="GetOpposingForce_WhenCenterMatches_NoOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_WhenCenterMatches_NoOpposingForce" methodname="GetOpposingForce_WhenCenterMatches_NoOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="579297562" result="Passed" start-time="2024-01-04T04:53:59.5356010Z" end-time="2024-01-04T04:53:59.5357750Z" duration="0.000174" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1726" name="GetOpposingForce_WhenCenterMatches_WithOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_WhenCenterMatches_WithOpposingForce" methodname="GetOpposingForce_WhenCenterMatches_WithOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1591321210" result="Passed" start-time="2024-01-03T15:50:15.2070660Z" end-time="2024-01-03T15:50:15.2072350Z" duration="0.000169" asserts="2">
+                <test-case id="0-1726" name="GetOpposingForce_WhenCenterMatches_WithOpposingForce" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.GetOpposingForce_WhenCenterMatches_WithOpposingForce" methodname="GetOpposingForce_WhenCenterMatches_WithOpposingForce" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1938855469" result="Passed" start-time="2024-01-04T04:53:59.5357810Z" end-time="2024-01-04T04:53:59.5359450Z" duration="0.000164" asserts="2">
                   <properties />
                 </test-case>
-                <test-case id="0-1721" name="MapAreaSystemTest_DistanceCentersMatch" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceCentersMatch" methodname="MapAreaSystemTest_DistanceCentersMatch" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="53605072" result="Passed" start-time="2024-01-03T15:50:15.2072400Z" end-time="2024-01-03T15:50:15.2074440Z" duration="0.000204" asserts="3">
+                <test-case id="0-1721" name="MapAreaSystemTest_DistanceCentersMatch" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceCentersMatch" methodname="MapAreaSystemTest_DistanceCentersMatch" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="285411981" result="Passed" start-time="2024-01-04T04:53:59.5359510Z" end-time="2024-01-04T04:53:59.5361430Z" duration="0.000193" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1724" name="MapAreaSystemTest_DistanceNegativeCollide" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceNegativeCollide" methodname="MapAreaSystemTest_DistanceNegativeCollide" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1724608915" result="Passed" start-time="2024-01-03T15:50:15.2074500Z" end-time="2024-01-03T15:50:15.2076490Z" duration="0.000199" asserts="3">
+                <test-case id="0-1724" name="MapAreaSystemTest_DistanceNegativeCollide" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceNegativeCollide" methodname="MapAreaSystemTest_DistanceNegativeCollide" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1976193809" result="Passed" start-time="2024-01-04T04:53:59.5361500Z" end-time="2024-01-04T04:53:59.5363360Z" duration="0.000186" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1722" name="MapAreaSystemTest_DistanceNegativeNormal" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceNegativeNormal" methodname="MapAreaSystemTest_DistanceNegativeNormal" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="159068252" result="Passed" start-time="2024-01-03T15:50:15.2076550Z" end-time="2024-01-03T15:50:15.2078340Z" duration="0.000179" asserts="3">
+                <test-case id="0-1722" name="MapAreaSystemTest_DistanceNegativeNormal" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceNegativeNormal" methodname="MapAreaSystemTest_DistanceNegativeNormal" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="611114014" result="Passed" start-time="2024-01-04T04:53:59.5363410Z" end-time="2024-01-04T04:53:59.5365140Z" duration="0.000173" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1723" name="MapAreaSystemTest_DistanceNegativeOverlap" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceNegativeOverlap" methodname="MapAreaSystemTest_DistanceNegativeOverlap" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="822920732" result="Passed" start-time="2024-01-03T15:50:15.2078400Z" end-time="2024-01-03T15:50:15.2080170Z" duration="0.000177" asserts="3">
+                <test-case id="0-1723" name="MapAreaSystemTest_DistanceNegativeOverlap" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistanceNegativeOverlap" methodname="MapAreaSystemTest_DistanceNegativeOverlap" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1891358693" result="Passed" start-time="2024-01-04T04:53:59.5365200Z" end-time="2024-01-04T04:53:59.5366830Z" duration="0.000164" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1720" name="MapAreaSystemTest_DistancePositiveCollide" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistancePositiveCollide" methodname="MapAreaSystemTest_DistancePositiveCollide" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="166744101" result="Passed" start-time="2024-01-03T15:50:15.2080220Z" end-time="2024-01-03T15:50:15.2081950Z" duration="0.000173" asserts="3">
+                <test-case id="0-1720" name="MapAreaSystemTest_DistancePositiveCollide" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistancePositiveCollide" methodname="MapAreaSystemTest_DistancePositiveCollide" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1814471542" result="Passed" start-time="2024-01-04T04:53:59.5366890Z" end-time="2024-01-04T04:53:59.5368530Z" duration="0.000165" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1718" name="MapAreaSystemTest_DistancePositiveNormal" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistancePositiveNormal" methodname="MapAreaSystemTest_DistancePositiveNormal" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1219334538" result="Passed" start-time="2024-01-03T15:50:15.2082010Z" end-time="2024-01-03T15:50:15.2083780Z" duration="0.000177" asserts="3">
+                <test-case id="0-1718" name="MapAreaSystemTest_DistancePositiveNormal" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistancePositiveNormal" methodname="MapAreaSystemTest_DistancePositiveNormal" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="1514827963" result="Passed" start-time="2024-01-04T04:53:59.5368590Z" end-time="2024-01-04T04:53:59.5370250Z" duration="0.000166" asserts="3">
                   <properties />
                 </test-case>
-                <test-case id="0-1719" name="MapAreaSystemTest_DistancePositiveOverlap" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistancePositiveOverlap" methodname="MapAreaSystemTest_DistancePositiveOverlap" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="556909798" result="Passed" start-time="2024-01-03T15:50:15.2083830Z" end-time="2024-01-03T15:50:15.2085550Z" duration="0.000172" asserts="3">
+                <test-case id="0-1719" name="MapAreaSystemTest_DistancePositiveOverlap" fullname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest.MapAreaSystemTest_DistancePositiveOverlap" methodname="MapAreaSystemTest_DistancePositiveOverlap" classname="PlayersWorlds.Maps.Areas.Evolving.SideToSideForceProducerTest" runstate="Runnable" seed="434455576" result="Passed" start-time="2024-01-04T04:53:59.5370310Z" end-time="2024-01-04T04:53:59.5371930Z" duration="0.000163" asserts="3">
                   <properties />
                 </test-case>
               </test-suite>
             </test-suite>
-            <test-suite type="TestFixture" id="0-1617" name="MapAreaTest" fullname="PlayersWorlds.Maps.Areas.MapAreaTest" classname="PlayersWorlds.Maps.Areas.MapAreaTest" runstate="Runnable" testcasecount="4" result="Passed" start-time="2024-01-03T15:50:15.2085850Z" end-time="2024-01-03T15:50:15.2102840Z" duration="0.001700" total="4" passed="4" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="18">
+            <test-suite type="TestFixture" id="0-1617" name="MapAreaTest" fullname="PlayersWorlds.Maps.Areas.MapAreaTest" classname="PlayersWorlds.Maps.Areas.MapAreaTest" runstate="Runnable" testcasecount="4" result="Passed" start-time="2024-01-04T04:53:59.5372250Z" end-time="2024-01-04T04:53:59.5383390Z" duration="0.001114" total="4" passed="4" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="18">
               <properties />
-              <test-case id="0-1620" name="Overlaps_ReturnsFalseIfDoesNotOverlap" fullname="PlayersWorlds.Maps.Areas.MapAreaTest.Overlaps_ReturnsFalseIfDoesNotOverlap" methodname="Overlaps_ReturnsFalseIfDoesNotOverlap" classname="PlayersWorlds.Maps.Areas.MapAreaTest" runstate="Runnable" seed="2104986163" result="Passed" start-time="2024-01-03T15:50:15.2086280Z" end-time="2024-01-03T15:50:15.2087630Z" duration="0.000134" asserts="7">
+              <test-case id="0-1620" name="Overlaps_ReturnsFalseIfDoesNotOverlap" fullname="PlayersWorlds.Maps.Areas.MapAreaTest.Overlaps_ReturnsFalseIfDoesNotOverlap" methodname="Overlaps_ReturnsFalseIfDoesNotOverlap" classname="PlayersWorlds.Maps.Areas.MapAreaTest" runstate="Runnable" seed="430681765" result="Passed" start-time="2024-01-04T04:53:59.5372650Z" end-time="2024-01-04T04:53:59.5373900Z" duration="0.000126" asserts="7">
                 <properties />
               </test-case>
-              <test-case id="0-1619" name="Overlaps_ReturnsTrueIfOverlaps" fullname="PlayersWorlds.Maps.Areas.MapAreaTest.Overlaps_ReturnsTrueIfOverlaps" methodname="Overlaps_ReturnsTrueIfOverlaps" classname="PlayersWorlds.Maps.Areas.MapAreaTest" runstate="Runnable" seed="703464831" result="Passed" start-time="2024-01-03T15:50:15.2087690Z" end-time="2024-01-03T15:50:15.2088530Z" duration="0.000083" asserts="7">
+              <test-case id="0-1619" name="Overlaps_ReturnsTrueIfOverlaps" fullname="PlayersWorlds.Maps.Areas.MapAreaTest.Overlaps_ReturnsTrueIfOverlaps" methodname="Overlaps_ReturnsTrueIfOverlaps" classname="PlayersWorlds.Maps.Areas.MapAreaTest" runstate="Runnable" seed="1201066558" result="Passed" start-time="2024-01-04T04:53:59.5373960Z" end-time="2024-01-04T04:53:59.5374740Z" duration="0.000078" asserts="7">
                 <properties />
               </test-case>
-              <test-case id="0-1618" name="Overlaps_ThrowsIfSame" fullname="PlayersWorlds.Maps.Areas.MapAreaTest.Overlaps_ThrowsIfSame" methodname="Overlaps_ThrowsIfSame" classname="PlayersWorlds.Maps.Areas.MapAreaTest" runstate="Runnable" seed="80141434" result="Passed" start-time="2024-01-03T15:50:15.2088580Z" end-time="2024-01-03T15:50:15.2100330Z" duration="0.001176" asserts="2">
+              <test-case id="0-1618" name="Overlaps_ThrowsIfSame" fullname="PlayersWorlds.Maps.Areas.MapAreaTest.Overlaps_ThrowsIfSame" methodname="Overlaps_ThrowsIfSame" classname="PlayersWorlds.Maps.Areas.MapAreaTest" runstate="Runnable" seed="1297732299" result="Passed" start-time="2024-01-04T04:53:59.5374790Z" end-time="2024-01-04T04:53:59.5381140Z" duration="0.000635" asserts="2">
                 <properties />
               </test-case>
-              <test-case id="0-1621" name="Position_ThrowsIfNotInitialized" fullname="PlayersWorlds.Maps.Areas.MapAreaTest.Position_ThrowsIfNotInitialized" methodname="Position_ThrowsIfNotInitialized" classname="PlayersWorlds.Maps.Areas.MapAreaTest" runstate="Runnable" seed="1720613090" result="Passed" start-time="2024-01-03T15:50:15.2100400Z" end-time="2024-01-03T15:50:15.2102740Z" duration="0.000234" asserts="2">
+              <test-case id="0-1621" name="Position_ThrowsIfNotInitialized" fullname="PlayersWorlds.Maps.Areas.MapAreaTest.Position_ThrowsIfNotInitialized" methodname="Position_ThrowsIfNotInitialized" classname="PlayersWorlds.Maps.Areas.MapAreaTest" runstate="Runnable" seed="839508833" result="Passed" start-time="2024-01-04T04:53:59.5381210Z" end-time="2024-01-04T04:53:59.5383290Z" duration="0.000208" asserts="2">
                 <properties />
               </test-case>
             </test-suite>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1028" name="CellTest" fullname="PlayersWorlds.Maps.CellTest" classname="PlayersWorlds.Maps.CellTest" runstate="Runnable" testcasecount="4" result="Passed" start-time="2024-01-03T15:50:15.2104200Z" end-time="2024-01-03T15:50:15.2154140Z" duration="0.004994" total="4" passed="4" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="21">
+          <test-suite type="TestFixture" id="0-1028" name="CellTest" fullname="PlayersWorlds.Maps.CellTest" classname="PlayersWorlds.Maps.CellTest" runstate="Runnable" testcasecount="4" result="Passed" start-time="2024-01-04T04:53:59.5383550Z" end-time="2024-01-04T04:53:59.5428830Z" duration="0.004528" total="4" passed="4" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="21">
             <properties />
-            <test-case id="0-1030" name="Map2D_CanAssignMapAreaOnce" fullname="PlayersWorlds.Maps.CellTest.Map2D_CanAssignMapAreaOnce" methodname="Map2D_CanAssignMapAreaOnce" classname="PlayersWorlds.Maps.CellTest" runstate="Runnable" seed="441038919" result="Passed" start-time="2024-01-03T15:50:15.2104660Z" end-time="2024-01-03T15:50:15.2128720Z" duration="0.002406" asserts="3">
+            <test-case id="0-1030" name="Map2D_CanAssignMapAreaOnce" fullname="PlayersWorlds.Maps.CellTest.Map2D_CanAssignMapAreaOnce" methodname="Map2D_CanAssignMapAreaOnce" classname="PlayersWorlds.Maps.CellTest" runstate="Runnable" seed="856568568" result="Passed" start-time="2024-01-04T04:53:59.5383940Z" end-time="2024-01-04T04:53:59.5405610Z" duration="0.002168" asserts="3">
               <properties />
             </test-case>
-            <test-case id="0-1032" name="Map2D_DoubleLinkingThrowsError" fullname="PlayersWorlds.Maps.CellTest.Map2D_DoubleLinkingThrowsError" methodname="Map2D_DoubleLinkingThrowsError" classname="PlayersWorlds.Maps.CellTest" runstate="Runnable" seed="2051095911" result="Passed" start-time="2024-01-03T15:50:15.2128800Z" end-time="2024-01-03T15:50:15.2132620Z" duration="0.000382" asserts="1">
+            <test-case id="0-1032" name="Map2D_DoubleLinkingThrowsError" fullname="PlayersWorlds.Maps.CellTest.Map2D_DoubleLinkingThrowsError" methodname="Map2D_DoubleLinkingThrowsError" classname="PlayersWorlds.Maps.CellTest" runstate="Runnable" seed="833342569" result="Passed" start-time="2024-01-04T04:53:59.5405690Z" end-time="2024-01-04T04:53:59.5409120Z" duration="0.000343" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1029" name="Map2D_LinksAreMutual" fullname="PlayersWorlds.Maps.CellTest.Map2D_LinksAreMutual" methodname="Map2D_LinksAreMutual" classname="PlayersWorlds.Maps.CellTest" runstate="Runnable" seed="1165131065" result="Passed" start-time="2024-01-03T15:50:15.2132690Z" end-time="2024-01-03T15:50:15.2150260Z" duration="0.001757" asserts="10">
+            <test-case id="0-1029" name="Map2D_LinksAreMutual" fullname="PlayersWorlds.Maps.CellTest.Map2D_LinksAreMutual" methodname="Map2D_LinksAreMutual" classname="PlayersWorlds.Maps.CellTest" runstate="Runnable" seed="2036575267" result="Passed" start-time="2024-01-04T04:53:59.5409190Z" end-time="2024-01-04T04:53:59.5425190Z" duration="0.001600" asserts="10">
               <properties />
             </test-case>
-            <test-case id="0-1031" name="Map2D_ToString" fullname="PlayersWorlds.Maps.CellTest.Map2D_ToString" methodname="Map2D_ToString" classname="PlayersWorlds.Maps.CellTest" runstate="Runnable" seed="535717275" result="Passed" start-time="2024-01-03T15:50:15.2150350Z" end-time="2024-01-03T15:50:15.2154030Z" duration="0.000369" asserts="7">
+            <test-case id="0-1031" name="Map2D_ToString" fullname="PlayersWorlds.Maps.CellTest.Map2D_ToString" methodname="Map2D_ToString" classname="PlayersWorlds.Maps.CellTest" runstate="Runnable" seed="274635658" result="Passed" start-time="2024-01-04T04:53:59.5425270Z" end-time="2024-01-04T04:53:59.5428730Z" duration="0.000346" asserts="7">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1562" name="DeadEndTest" fullname="PlayersWorlds.Maps.DeadEndTest" classname="PlayersWorlds.Maps.DeadEndTest" runstate="Runnable" testcasecount="1" result="Passed" start-time="2024-01-03T15:50:15.2154250Z" end-time="2024-01-03T15:50:15.2183510Z" duration="0.002926" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="7">
+          <test-suite type="TestFixture" id="0-1562" name="DeadEndTest" fullname="PlayersWorlds.Maps.DeadEndTest" classname="PlayersWorlds.Maps.DeadEndTest" runstate="Runnable" testcasecount="1" result="Passed" start-time="2024-01-04T04:53:59.5428940Z" end-time="2024-01-04T04:53:59.5464860Z" duration="0.003592" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="7">
             <properties />
-            <test-case id="0-1563" name="DeadEnd_CanFindDeadEnds" fullname="PlayersWorlds.Maps.DeadEndTest.DeadEnd_CanFindDeadEnds" methodname="DeadEnd_CanFindDeadEnds" classname="PlayersWorlds.Maps.DeadEndTest" runstate="Runnable" seed="1800723576" result="Passed" start-time="2024-01-03T15:50:15.2154700Z" end-time="2024-01-03T15:50:15.2183390Z" duration="0.002869" asserts="7">
+            <test-case id="0-1563" name="DeadEnd_CanFindDeadEnds" fullname="PlayersWorlds.Maps.DeadEndTest.DeadEnd_CanFindDeadEnds" methodname="DeadEnd_CanFindDeadEnds" classname="PlayersWorlds.Maps.DeadEndTest" runstate="Runnable" seed="1629052406" result="Passed" start-time="2024-01-04T04:53:59.5429350Z" end-time="2024-01-04T04:53:59.5464720Z" duration="0.003537" asserts="7">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1564" name="DijkstraDistanceTest" fullname="PlayersWorlds.Maps.DijkstraDistanceTest" classname="PlayersWorlds.Maps.DijkstraDistanceTest" runstate="Runnable" testcasecount="4" result="Passed" start-time="2024-01-03T15:50:15.2183630Z" end-time="2024-01-03T15:50:15.2912910Z" duration="0.072928" total="4" passed="4" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="11">
+          <test-suite type="TestFixture" id="0-1564" name="DijkstraDistanceTest" fullname="PlayersWorlds.Maps.DijkstraDistanceTest" classname="PlayersWorlds.Maps.DijkstraDistanceTest" runstate="Runnable" testcasecount="4" result="Passed" start-time="2024-01-04T04:53:59.5464990Z" end-time="2024-01-04T04:53:59.5948570Z" duration="0.048358" total="4" passed="4" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="11">
             <properties />
-            <test-case id="0-1568" name="DijkstraDistance_CanFindLongestTrail" fullname="PlayersWorlds.Maps.DijkstraDistanceTest.DijkstraDistance_CanFindLongestTrail" methodname="DijkstraDistance_CanFindLongestTrail" classname="PlayersWorlds.Maps.DijkstraDistanceTest" runstate="Runnable" seed="686411744" result="Passed" start-time="2024-01-03T15:50:15.2184080Z" end-time="2024-01-03T15:50:15.2218410Z" duration="0.003434" asserts="4">
+            <test-case id="0-1568" name="DijkstraDistance_CanFindLongestTrail" fullname="PlayersWorlds.Maps.DijkstraDistanceTest.DijkstraDistance_CanFindLongestTrail" methodname="DijkstraDistance_CanFindLongestTrail" classname="PlayersWorlds.Maps.DijkstraDistanceTest" runstate="Runnable" seed="929264345" result="Passed" start-time="2024-01-04T04:53:59.5465410Z" end-time="2024-01-04T04:53:59.5496540Z" duration="0.003113" asserts="4">
               <properties />
             </test-case>
-            <test-case id="0-1566" name="DijkstraDistance_CanSolveAMaze" fullname="PlayersWorlds.Maps.DijkstraDistanceTest.DijkstraDistance_CanSolveAMaze" methodname="DijkstraDistance_CanSolveAMaze" classname="PlayersWorlds.Maps.DijkstraDistanceTest" runstate="Runnable" seed="432041555" result="Passed" start-time="2024-01-03T15:50:15.2218500Z" end-time="2024-01-03T15:50:15.2221940Z" duration="0.000344" asserts="4">
+            <test-case id="0-1566" name="DijkstraDistance_CanSolveAMaze" fullname="PlayersWorlds.Maps.DijkstraDistanceTest.DijkstraDistance_CanSolveAMaze" methodname="DijkstraDistance_CanSolveAMaze" classname="PlayersWorlds.Maps.DijkstraDistanceTest" runstate="Runnable" seed="921756217" result="Passed" start-time="2024-01-04T04:53:59.5496620Z" end-time="2024-01-04T04:53:59.5499810Z" duration="0.000319" asserts="4">
               <properties />
             </test-case>
-            <test-case id="0-1565" name="DijkstraDistance_FindsAllDistances" fullname="PlayersWorlds.Maps.DijkstraDistanceTest.DijkstraDistance_FindsAllDistances" methodname="DijkstraDistance_FindsAllDistances" classname="PlayersWorlds.Maps.DijkstraDistanceTest" runstate="Runnable" seed="987165404" result="Passed" start-time="2024-01-03T15:50:15.2222010Z" end-time="2024-01-03T15:50:15.2910250Z" duration="0.068824" asserts="2">
+            <test-case id="0-1565" name="DijkstraDistance_FindsAllDistances" fullname="PlayersWorlds.Maps.DijkstraDistanceTest.DijkstraDistance_FindsAllDistances" methodname="DijkstraDistance_FindsAllDistances" classname="PlayersWorlds.Maps.DijkstraDistanceTest" runstate="Runnable" seed="416284832" result="Passed" start-time="2024-01-04T04:53:59.5499880Z" end-time="2024-01-04T04:53:59.5946510Z" duration="0.044663" asserts="2">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1567" name="DijkstraDistance_ReturnsEmptyIfNoSolutionFound" fullname="PlayersWorlds.Maps.DijkstraDistanceTest.DijkstraDistance_ReturnsEmptyIfNoSolutionFound" methodname="DijkstraDistance_ReturnsEmptyIfNoSolutionFound" classname="PlayersWorlds.Maps.DijkstraDistanceTest" runstate="Runnable" seed="1092774554" result="Passed" start-time="2024-01-03T15:50:15.2910480Z" end-time="2024-01-03T15:50:15.2912730Z" duration="0.000226" asserts="1">
+            <test-case id="0-1567" name="DijkstraDistance_ReturnsEmptyIfNoSolutionFound" fullname="PlayersWorlds.Maps.DijkstraDistanceTest.DijkstraDistance_ReturnsEmptyIfNoSolutionFound" methodname="DijkstraDistance_ReturnsEmptyIfNoSolutionFound" classname="PlayersWorlds.Maps.DijkstraDistanceTest" runstate="Runnable" seed="231661027" result="Passed" start-time="2024-01-04T04:53:59.5946630Z" end-time="2024-01-04T04:53:59.5948420Z" duration="0.000179" asserts="1">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1005" name="ExtensionsTest" fullname="PlayersWorlds.Maps.ExtensionsTest" classname="PlayersWorlds.Maps.ExtensionsTest" runstate="Runnable" testcasecount="2" result="Passed" start-time="2024-01-03T15:50:15.2913120Z" end-time="2024-01-03T15:50:15.2919390Z" duration="0.000628" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="3">
+          <test-suite type="TestFixture" id="0-1005" name="ExtensionsTest" fullname="PlayersWorlds.Maps.ExtensionsTest" classname="PlayersWorlds.Maps.ExtensionsTest" runstate="Runnable" testcasecount="2" result="Passed" start-time="2024-01-04T04:53:59.5948700Z" end-time="2024-01-04T04:53:59.5954180Z" duration="0.000548" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="3">
             <properties />
-            <test-case id="0-1007" name="TryDequeue_Dequeues" fullname="PlayersWorlds.Maps.ExtensionsTest.TryDequeue_Dequeues" methodname="TryDequeue_Dequeues" classname="PlayersWorlds.Maps.ExtensionsTest" runstate="Runnable" seed="1946034982" result="Passed" start-time="2024-01-03T15:50:15.2914030Z" end-time="2024-01-03T15:50:15.2918430Z" duration="0.000440" asserts="2">
+            <test-case id="0-1007" name="TryDequeue_Dequeues" fullname="PlayersWorlds.Maps.ExtensionsTest.TryDequeue_Dequeues" methodname="TryDequeue_Dequeues" classname="PlayersWorlds.Maps.ExtensionsTest" runstate="Runnable" seed="975896249" result="Passed" start-time="2024-01-04T04:53:59.5949330Z" end-time="2024-01-04T04:53:59.5953310Z" duration="0.000398" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1006" name="TryDequeue_DoesNotThrow" fullname="PlayersWorlds.Maps.ExtensionsTest.TryDequeue_DoesNotThrow" methodname="TryDequeue_DoesNotThrow" classname="PlayersWorlds.Maps.ExtensionsTest" runstate="Runnable" seed="367018062" result="Passed" start-time="2024-01-03T15:50:15.2918500Z" end-time="2024-01-03T15:50:15.2919290Z" duration="0.000079" asserts="1">
+            <test-case id="0-1006" name="TryDequeue_DoesNotThrow" fullname="PlayersWorlds.Maps.ExtensionsTest.TryDequeue_DoesNotThrow" methodname="TryDequeue_DoesNotThrow" classname="PlayersWorlds.Maps.ExtensionsTest" runstate="Runnable" seed="2068820501" result="Passed" start-time="2024-01-04T04:53:59.5953380Z" end-time="2024-01-04T04:53:59.5954060Z" duration="0.000068" asserts="1">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1008" name="Map2DTest" fullname="PlayersWorlds.Maps.Map2DTest" classname="PlayersWorlds.Maps.Map2DTest" runstate="Runnable" testcasecount="5" result="Passed" start-time="2024-01-03T15:50:15.2919520Z" end-time="2024-01-03T15:50:15.2954940Z" duration="0.003542" total="5" passed="5" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="21">
+          <test-suite type="TestFixture" id="0-1008" name="Map2DTest" fullname="PlayersWorlds.Maps.Map2DTest" classname="PlayersWorlds.Maps.Map2DTest" runstate="Runnable" testcasecount="5" result="Passed" start-time="2024-01-04T04:53:59.5954320Z" end-time="2024-01-04T04:53:59.5985910Z" duration="0.003159" total="5" passed="5" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="21">
             <properties />
-            <test-case id="0-1012" name="CellsAt_FourCellsFar" fullname="PlayersWorlds.Maps.Map2DTest.CellsAt_FourCellsFar" methodname="CellsAt_FourCellsFar" classname="PlayersWorlds.Maps.Map2DTest" runstate="Runnable" seed="81492732" result="Passed" start-time="2024-01-03T15:50:15.2919910Z" end-time="2024-01-03T15:50:15.2939700Z" duration="0.001979" asserts="5">
+            <test-case id="0-1012" name="CellsAt_FourCellsFar" fullname="PlayersWorlds.Maps.Map2DTest.CellsAt_FourCellsFar" methodname="CellsAt_FourCellsFar" classname="PlayersWorlds.Maps.Map2DTest" runstate="Runnable" seed="1888469212" result="Passed" start-time="2024-01-04T04:53:59.5954710Z" end-time="2024-01-04T04:53:59.5971940Z" duration="0.001724" asserts="5">
               <properties />
             </test-case>
-            <test-case id="0-1009" name="CellsAt_OneCell" fullname="PlayersWorlds.Maps.Map2DTest.CellsAt_OneCell" methodname="CellsAt_OneCell" classname="PlayersWorlds.Maps.Map2DTest" runstate="Runnable" seed="1293549381" result="Passed" start-time="2024-01-03T15:50:15.2939790Z" end-time="2024-01-03T15:50:15.2942300Z" duration="0.000252" asserts="2">
+            <test-case id="0-1009" name="CellsAt_OneCell" fullname="PlayersWorlds.Maps.Map2DTest.CellsAt_OneCell" methodname="CellsAt_OneCell" classname="PlayersWorlds.Maps.Map2DTest" runstate="Runnable" seed="1816986087" result="Passed" start-time="2024-01-04T04:53:59.5972030Z" end-time="2024-01-04T04:53:59.5974290Z" duration="0.000227" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1013" name="CellsAt_OutOfBounds" fullname="PlayersWorlds.Maps.Map2DTest.CellsAt_OutOfBounds" methodname="CellsAt_OutOfBounds" classname="PlayersWorlds.Maps.Map2DTest" runstate="Runnable" seed="1030361807" result="Passed" start-time="2024-01-03T15:50:15.2942370Z" end-time="2024-01-03T15:50:15.2946990Z" duration="0.000462" asserts="4">
+            <test-case id="0-1013" name="CellsAt_OutOfBounds" fullname="PlayersWorlds.Maps.Map2DTest.CellsAt_OutOfBounds" methodname="CellsAt_OutOfBounds" classname="PlayersWorlds.Maps.Map2DTest" runstate="Runnable" seed="1908256149" result="Passed" start-time="2024-01-04T04:53:59.5974370Z" end-time="2024-01-04T04:53:59.5978610Z" duration="0.000425" asserts="4">
               <properties />
             </test-case>
-            <test-case id="0-1011" name="CellsAt_TreeByTwo" fullname="PlayersWorlds.Maps.Map2DTest.CellsAt_TreeByTwo" methodname="CellsAt_TreeByTwo" classname="PlayersWorlds.Maps.Map2DTest" runstate="Runnable" seed="2019004774" result="Passed" start-time="2024-01-03T15:50:15.2947060Z" end-time="2024-01-03T15:50:15.2951820Z" duration="0.000476" asserts="7">
+            <test-case id="0-1011" name="CellsAt_TreeByTwo" fullname="PlayersWorlds.Maps.Map2DTest.CellsAt_TreeByTwo" methodname="CellsAt_TreeByTwo" classname="PlayersWorlds.Maps.Map2DTest" runstate="Runnable" seed="1347446639" result="Passed" start-time="2024-01-04T04:53:59.5978680Z" end-time="2024-01-04T04:53:59.5983030Z" duration="0.000435" asserts="7">
               <properties />
             </test-case>
-            <test-case id="0-1010" name="CellsAt_TwoCells" fullname="PlayersWorlds.Maps.Map2DTest.CellsAt_TwoCells" methodname="CellsAt_TwoCells" classname="PlayersWorlds.Maps.Map2DTest" runstate="Runnable" seed="1915034353" result="Passed" start-time="2024-01-03T15:50:15.2951910Z" end-time="2024-01-03T15:50:15.2954800Z" duration="0.000289" asserts="3">
+            <test-case id="0-1010" name="CellsAt_TwoCells" fullname="PlayersWorlds.Maps.Map2DTest.CellsAt_TwoCells" methodname="CellsAt_TwoCells" classname="PlayersWorlds.Maps.Map2DTest" runstate="Runnable" seed="844529529" result="Passed" start-time="2024-01-04T04:53:59.5983110Z" end-time="2024-01-04T04:53:59.5985800Z" duration="0.000270" asserts="3">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1577" name="Maze2DRendererTest" fullname="PlayersWorlds.Maps.Maze2DRendererTest" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" testcasecount="8" result="Passed" start-time="2024-01-03T15:50:15.2955070Z" end-time="2024-01-03T15:50:15.3159730Z" duration="0.020466" total="8" passed="8" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="57">
+          <test-suite type="TestFixture" id="0-1577" name="Maze2DRendererTest" fullname="PlayersWorlds.Maps.Maze2DRendererTest" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" testcasecount="8" result="Passed" start-time="2024-01-04T04:53:59.5986030Z" end-time="2024-01-04T04:53:59.6179970Z" duration="0.019394" total="8" passed="8" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="57">
             <properties />
-            <test-case id="0-1578" name="CanRenderAMapWithAntiAliasing" fullname="PlayersWorlds.Maps.Maze2DRendererTest.CanRenderAMapWithAntiAliasing" methodname="CanRenderAMapWithAntiAliasing" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="736967886" result="Passed" start-time="2024-01-03T15:50:15.2955520Z" end-time="2024-01-03T15:50:15.3012850Z" duration="0.005732" asserts="1">
+            <test-case id="0-1578" name="CanRenderAMapWithAntiAliasing" fullname="PlayersWorlds.Maps.Maze2DRendererTest.CanRenderAMapWithAntiAliasing" methodname="CanRenderAMapWithAntiAliasing" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="511283475" result="Passed" start-time="2024-01-04T04:53:59.5986420Z" end-time="2024-01-04T04:53:59.6037740Z" duration="0.005132" asserts="1">
               <properties />
               <output><![CDATA[0000000000000
 ▓▓▓▓▓▓▓▓▓0000
@@ -328,7 +328,7 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1580" name="CanRenderAMapWithFilledAreas" fullname="PlayersWorlds.Maps.Maze2DRendererTest.CanRenderAMapWithFilledAreas" methodname="CanRenderAMapWithFilledAreas" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="2098233240" result="Passed" start-time="2024-01-03T15:50:15.3012960Z" end-time="2024-01-03T15:50:15.3030210Z" duration="0.001725" asserts="1">
+            <test-case id="0-1580" name="CanRenderAMapWithFilledAreas" fullname="PlayersWorlds.Maps.Maze2DRendererTest.CanRenderAMapWithFilledAreas" methodname="CanRenderAMapWithFilledAreas" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="1306539181" result="Passed" start-time="2024-01-04T04:53:59.6037850Z" end-time="2024-01-04T04:53:59.6053640Z" duration="0.001579" asserts="1">
               <properties />
               <output><![CDATA[0▓▓▓▓▓▓▓▓▓▓▓▓▓▓00000
 0▓░░░░░░░░░░░░▓00000
@@ -358,7 +358,7 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1581" name="CanRenderAMapWithHallAreas" fullname="PlayersWorlds.Maps.Maze2DRendererTest.CanRenderAMapWithHallAreas" methodname="CanRenderAMapWithHallAreas" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="364449132" result="Passed" start-time="2024-01-03T15:50:15.3030310Z" end-time="2024-01-03T15:50:15.3041130Z" duration="0.001082" asserts="1">
+            <test-case id="0-1581" name="CanRenderAMapWithHallAreas" fullname="PlayersWorlds.Maps.Maze2DRendererTest.CanRenderAMapWithHallAreas" methodname="CanRenderAMapWithHallAreas" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="1018268949" result="Passed" start-time="2024-01-04T04:53:59.6053760Z" end-time="2024-01-04T04:53:59.6064030Z" duration="0.001027" asserts="1">
               <properties />
               <output><![CDATA[0▓▓▓▓▓▓▓▓▓▓▓▓▓▓00000
 0▓░░░░░░░░░░░░▓00000
@@ -388,7 +388,7 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1579" name="CanRenderAMapWithVoids" fullname="PlayersWorlds.Maps.Maze2DRendererTest.CanRenderAMapWithVoids" methodname="CanRenderAMapWithVoids" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="279512216" result="Passed" start-time="2024-01-03T15:50:15.3041220Z" end-time="2024-01-03T15:50:15.3051600Z" duration="0.001037" asserts="1">
+            <test-case id="0-1579" name="CanRenderAMapWithVoids" fullname="PlayersWorlds.Maps.Maze2DRendererTest.CanRenderAMapWithVoids" methodname="CanRenderAMapWithVoids" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="1012475504" result="Passed" start-time="2024-01-04T04:53:59.6065530Z" end-time="2024-01-04T04:53:59.6075170Z" duration="0.000964" asserts="1">
               <properties />
               <output><![CDATA[0▓▓▓▓▓▓▓▓▓▓▓▓▓▓00000
 0▓░░░░░░░░░░░░▓00000
@@ -418,10 +418,10 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1585" name="CellsMapping_ValidMapping" fullname="PlayersWorlds.Maps.Maze2DRendererTest.CellsMapping_ValidMapping" methodname="CellsMapping_ValidMapping" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="1481176979" result="Passed" start-time="2024-01-03T15:50:15.3051700Z" end-time="2024-01-03T15:50:15.3094560Z" duration="0.004286" asserts="45">
+            <test-case id="0-1585" name="CellsMapping_ValidMapping" fullname="PlayersWorlds.Maps.Maze2DRendererTest.CellsMapping_ValidMapping" methodname="CellsMapping_ValidMapping" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="1776326907" result="Passed" start-time="2024-01-04T04:53:59.6075270Z" end-time="2024-01-04T04:53:59.6115580Z" duration="0.004031" asserts="45">
               <properties />
             </test-case>
-            <test-case id="0-1582" name="Maze2DAsciiBoxRenderer_CanConvertToAscii" fullname="PlayersWorlds.Maps.Maze2DRendererTest.Maze2DAsciiBoxRenderer_CanConvertToAscii" methodname="Maze2DAsciiBoxRenderer_CanConvertToAscii" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="2030240445" result="Passed" start-time="2024-01-03T15:50:15.3094670Z" end-time="2024-01-03T15:50:15.3134580Z" duration="0.003991" asserts="1">
+            <test-case id="0-1582" name="Maze2DAsciiBoxRenderer_CanConvertToAscii" fullname="PlayersWorlds.Maps.Maze2DRendererTest.Maze2DAsciiBoxRenderer_CanConvertToAscii" methodname="Maze2DAsciiBoxRenderer_CanConvertToAscii" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="996866002" result="Passed" start-time="2024-01-04T04:53:59.6115710Z" end-time="2024-01-04T04:53:59.6162230Z" duration="0.004652" asserts="1">
               <properties />
               <output><![CDATA[┌───────────┐    
 │           │    
@@ -435,7 +435,7 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1583" name="Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData" fullname="PlayersWorlds.Maps.Maze2DRendererTest.Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData" methodname="Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="1677138785" result="Passed" start-time="2024-01-03T15:50:15.3139830Z" end-time="2024-01-03T15:50:15.3151830Z" duration="0.001198" asserts="1">
+            <test-case id="0-1583" name="Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData" fullname="PlayersWorlds.Maps.Maze2DRendererTest.Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData" methodname="Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="1986408312" result="Passed" start-time="2024-01-04T04:53:59.6162360Z" end-time="2024-01-04T04:53:59.6173500Z" duration="0.001113" asserts="1">
               <properties />
               <output><![CDATA[┌───────────┐    
 │ 4   3   2 │    
@@ -449,38 +449,38 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1584" name="Maze2DToMap2DConverter_ThrowsIfInvalidOptions" fullname="PlayersWorlds.Maps.Maze2DRendererTest.Maze2DToMap2DConverter_ThrowsIfInvalidOptions" methodname="Maze2DToMap2DConverter_ThrowsIfInvalidOptions" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="144602430" result="Passed" start-time="2024-01-03T15:50:15.3151940Z" end-time="2024-01-03T15:50:15.3159580Z" duration="0.000764" asserts="6">
+            <test-case id="0-1584" name="Maze2DToMap2DConverter_ThrowsIfInvalidOptions" fullname="PlayersWorlds.Maps.Maze2DRendererTest.Maze2DToMap2DConverter_ThrowsIfInvalidOptions" methodname="Maze2DToMap2DConverter_ThrowsIfInvalidOptions" classname="PlayersWorlds.Maps.Maze2DRendererTest" runstate="Runnable" seed="138694475" result="Passed" start-time="2024-01-04T04:53:59.6173600Z" end-time="2024-01-04T04:53:59.6179830Z" duration="0.000623" asserts="6">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1014" name="Maze2DTest" fullname="PlayersWorlds.Maps.Maze2DTest" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" testcasecount="13" result="Passed" start-time="2024-01-03T15:50:15.3159860Z" end-time="2024-01-03T15:50:15.3704770Z" duration="0.054491" total="13" passed="13" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="177">
+          <test-suite type="TestFixture" id="0-1014" name="Maze2DTest" fullname="PlayersWorlds.Maps.Maze2DTest" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" testcasecount="13" result="Passed" start-time="2024-01-04T04:53:59.6180130Z" end-time="2024-01-04T04:53:59.6707630Z" duration="0.052751" total="13" passed="13" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="177">
             <properties />
-            <test-case id="0-1021" name="Maze2D_AddsNoRoomsToASmallMaze" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_AddsNoRoomsToASmallMaze" methodname="Maze2D_AddsNoRoomsToASmallMaze" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="1118349601" result="Passed" start-time="2024-01-03T15:50:15.3160310Z" end-time="2024-01-03T15:50:15.3191470Z" duration="0.003116" asserts="1">
+            <test-case id="0-1021" name="Maze2D_AddsNoRoomsToASmallMaze" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_AddsNoRoomsToASmallMaze" methodname="Maze2D_AddsNoRoomsToASmallMaze" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="622345850" result="Passed" start-time="2024-01-04T04:53:59.6180550Z" end-time="2024-01-04T04:53:59.6217380Z" duration="0.003684" asserts="1">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x3 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, Auto, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1020" name="Maze2D_AddsNoRoomsWhenNoneRequested" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_AddsNoRoomsWhenNoneRequested" methodname="Maze2D_AddsNoRoomsWhenNoneRequested" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="511676058" result="Passed" start-time="2024-01-03T15:50:15.3191580Z" end-time="2024-01-03T15:50:15.3518860Z" duration="0.032728" asserts="1">
+            <test-case id="0-1020" name="Maze2D_AddsNoRoomsWhenNoneRequested" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_AddsNoRoomsWhenNoneRequested" methodname="Maze2D_AddsNoRoomsWhenNoneRequested" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="177417889" result="Passed" start-time="2024-01-04T04:53:59.6217490Z" end-time="2024-01-04T04:53:59.6423650Z" duration="0.020616" asserts="1">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, Manual, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1024" name="Maze2D_AddsOneFill" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_AddsOneFill" methodname="Maze2D_AddsOneFill" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="1960724162" result="Passed" start-time="2024-01-03T15:50:15.3518980Z" end-time="2024-01-03T15:50:15.3559430Z" duration="0.004045" asserts="1">
+            <test-case id="0-1024" name="Maze2D_AddsOneFill" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_AddsOneFill" methodname="Maze2D_AddsOneFill" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="1211674655" result="Passed" start-time="2024-01-04T04:53:59.6423820Z" end-time="2024-01-04T04:53:59.6488150Z" duration="0.006434" asserts="1">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 5x5 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, Manual, List`1<MapArea>(P2x1;S2x2;Fill), PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1023" name="Maze2D_AddsOneHall" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_AddsOneHall" methodname="Maze2D_AddsOneHall" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="400528587" result="Passed" start-time="2024-01-03T15:50:15.3559540Z" end-time="2024-01-03T15:50:15.3594770Z" duration="0.003523" asserts="1">
+            <test-case id="0-1023" name="Maze2D_AddsOneHall" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_AddsOneHall" methodname="Maze2D_AddsOneHall" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="426065004" result="Passed" start-time="2024-01-04T04:53:59.6488250Z" end-time="2024-01-04T04:53:59.6525660Z" duration="0.003741" asserts="1">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 5x5 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, Manual, List`1<MapArea>(P2x1;S2x2;Hall), PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1022" name="Maze2D_AddsRooms" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_AddsRooms" methodname="Maze2D_AddsRooms" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="54797629" result="Passed" start-time="2024-01-03T15:50:15.3594970Z" end-time="2024-01-03T15:50:15.3641190Z" duration="0.004623" asserts="1">
+            <test-case id="0-1022" name="Maze2D_AddsRooms" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_AddsRooms" methodname="Maze2D_AddsRooms" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="1068126453" result="Passed" start-time="2024-01-04T04:53:59.6525790Z" end-time="2024-01-04T04:53:59.6631960Z" duration="0.010617" asserts="1">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 5x5 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, Auto, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1026" name="Maze2D_CanParse" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_CanParse" methodname="Maze2D_CanParse" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="375566933" result="Passed" start-time="2024-01-03T15:50:15.3641310Z" end-time="2024-01-03T15:50:15.3646730Z" duration="0.000543" asserts="16">
+            <test-case id="0-1026" name="Maze2D_CanParse" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_CanParse" methodname="Maze2D_CanParse" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="1998985625" result="Passed" start-time="2024-01-04T04:53:59.6632090Z" end-time="2024-01-04T04:53:59.6638130Z" duration="0.000603" asserts="16">
               <properties />
               <output><![CDATA[┌───────────┐
 │           │
@@ -492,241 +492,241 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1027" name="Maze2D_CanParse2" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_CanParse2" methodname="Maze2D_CanParse2" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="628342865" result="Passed" start-time="2024-01-03T15:50:15.3646810Z" end-time="2024-01-03T15:50:15.3647690Z" duration="0.000088" asserts="1">
+            <test-case id="0-1027" name="Maze2D_CanParse2" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_CanParse2" methodname="Maze2D_CanParse2" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="674204883" result="Passed" start-time="2024-01-04T04:53:59.6638200Z" end-time="2024-01-04T04:53:59.6639020Z" duration="0.000082" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1019" name="Maze2D_CanRenderMap" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_CanRenderMap" methodname="Maze2D_CanRenderMap" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="517543227" result="Passed" start-time="2024-01-03T15:50:15.3647760Z" end-time="2024-01-03T15:50:15.3663830Z" duration="0.001608" asserts="1">
-              <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x3 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
-]]></output>
-            </test-case>
-            <test-case id="0-1018" name="Maze2D_CellsNeighborsAreValid" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_CellsNeighborsAreValid" methodname="Maze2D_CellsNeighborsAreValid" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="828595727" result="Passed" start-time="2024-01-03T15:50:15.3663940Z" end-time="2024-01-03T15:50:15.3677560Z" duration="0.001362" asserts="136">
-              <properties />
-            </test-case>
-            <test-case id="0-1025" name="Maze2D_HasAttributesSet" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_HasAttributesSet" methodname="Maze2D_HasAttributesSet" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="470182435" result="Passed" start-time="2024-01-03T15:50:15.3677750Z" end-time="2024-01-03T15:50:15.3685800Z" duration="0.000805" asserts="2">
+            <test-case id="0-1019" name="Maze2D_CanRenderMap" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_CanRenderMap" methodname="Maze2D_CanRenderMap" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="2017620916" result="Passed" start-time="2024-01-04T04:53:59.6639090Z" end-time="2024-01-04T04:53:59.6653990Z" duration="0.001491" asserts="1">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x3 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1015" name="Maze2D_IsInitialized" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_IsInitialized" methodname="Maze2D_IsInitialized" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="2072946552" result="Passed" start-time="2024-01-03T15:50:15.3685890Z" end-time="2024-01-03T15:50:15.3687350Z" duration="0.000146" asserts="4">
+            <test-case id="0-1018" name="Maze2D_CellsNeighborsAreValid" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_CellsNeighborsAreValid" methodname="Maze2D_CellsNeighborsAreValid" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="211984571" result="Passed" start-time="2024-01-04T04:53:59.6654100Z" end-time="2024-01-04T04:53:59.6669040Z" duration="0.001494" asserts="136">
               <properties />
             </test-case>
-            <test-case id="0-1017" name="Maze2D_ToMapWrongOptions" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_ToMapWrongOptions" methodname="Maze2D_ToMapWrongOptions" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="469629776" result="Passed" start-time="2024-01-03T15:50:15.3687410Z" end-time="2024-01-03T15:50:15.3701840Z" duration="0.001443" asserts="7">
+            <test-case id="0-1025" name="Maze2D_HasAttributesSet" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_HasAttributesSet" methodname="Maze2D_HasAttributesSet" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="1081402558" result="Passed" start-time="2024-01-04T04:53:59.6669140Z" end-time="2024-01-04T04:53:59.6682200Z" duration="0.001306" asserts="2">
+              <properties />
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x3 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
+]]></output>
+            </test-case>
+            <test-case id="0-1015" name="Maze2D_IsInitialized" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_IsInitialized" methodname="Maze2D_IsInitialized" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="1388328341" result="Passed" start-time="2024-01-04T04:53:59.6682360Z" end-time="2024-01-04T04:53:59.6683890Z" duration="0.000153" asserts="4">
               <properties />
             </test-case>
-            <test-case id="0-1016" name="Maze2D_WrongSize" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_WrongSize" methodname="Maze2D_WrongSize" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="760878502" result="Passed" start-time="2024-01-03T15:50:15.3701940Z" end-time="2024-01-03T15:50:15.3704650Z" duration="0.000271" asserts="5">
+            <test-case id="0-1017" name="Maze2D_ToMapWrongOptions" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_ToMapWrongOptions" methodname="Maze2D_ToMapWrongOptions" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="1314391970" result="Passed" start-time="2024-01-04T04:53:59.6683960Z" end-time="2024-01-04T04:53:59.6704230Z" duration="0.002027" asserts="7">
+              <properties />
+            </test-case>
+            <test-case id="0-1016" name="Maze2D_WrongSize" fullname="PlayersWorlds.Maps.Maze2DTest.Maze2D_WrongSize" methodname="Maze2D_WrongSize" classname="PlayersWorlds.Maps.Maze2DTest" runstate="Runnable" seed="1723621851" result="Passed" start-time="2024-01-04T04:53:59.6704330Z" end-time="2024-01-04T04:53:59.6707480Z" duration="0.000315" asserts="5">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1033" name="MazeGeneratorTest" fullname="PlayersWorlds.Maps.MazeGeneratorTest" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" testcasecount="525" result="Passed" start-time="2024-01-03T15:50:15.3704910Z" end-time="2024-01-03T15:50:15.4996690Z" duration="0.129179" total="21" passed="21" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="37">
+          <test-suite type="TestFixture" id="0-1033" name="MazeGeneratorTest" fullname="PlayersWorlds.Maps.MazeGeneratorTest" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" testcasecount="525" result="Passed" start-time="2024-01-04T04:53:59.6707820Z" end-time="2024-01-04T04:53:59.7599340Z" duration="0.089152" total="21" passed="21" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="37">
             <properties />
-            <test-suite type="ParameterizedMethod" id="0-1561" name="CanFindPaths" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" testcasecount="6" result="Passed" start-time="2024-01-03T15:50:15.3705280Z" end-time="2024-01-03T15:50:15.3812770Z" duration="0.010749" total="6" passed="6" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="12">
+            <test-suite type="ParameterizedMethod" id="0-1561" name="CanFindPaths" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" testcasecount="6" result="Passed" start-time="2024-01-04T04:53:59.6708270Z" end-time="2024-01-04T04:53:59.6807190Z" duration="0.009893" total="6" passed="6" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="12">
               <properties />
-              <test-case id="0-1555" name="CanFindPaths(PlayersWorlds.Maps.Maze.AldousBroderMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths(PlayersWorlds.Maps.Maze.AldousBroderMazeGenerator)" methodname="CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1704974908" result="Passed" start-time="2024-01-03T15:50:15.3705430Z" end-time="2024-01-03T15:50:15.3719540Z" duration="0.001411" asserts="2">
+              <test-case id="0-1555" name="CanFindPaths(PlayersWorlds.Maps.Maze.AldousBroderMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths(PlayersWorlds.Maps.Maze.AldousBroderMazeGenerator)" methodname="CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1616658879" result="Passed" start-time="2024-01-04T04:53:59.6708420Z" end-time="2024-01-04T04:53:59.6719920Z" duration="0.001150" asserts="2">
                 <properties />
               </test-case>
-              <test-case id="0-1556" name="CanFindPaths(PlayersWorlds.Maps.Maze.BinaryTreeMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths(PlayersWorlds.Maps.Maze.BinaryTreeMazeGenerator)" methodname="CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="430328482" result="Passed" start-time="2024-01-03T15:50:15.3719620Z" end-time="2024-01-03T15:50:15.3774310Z" duration="0.005469" asserts="2">
+              <test-case id="0-1556" name="CanFindPaths(PlayersWorlds.Maps.Maze.BinaryTreeMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths(PlayersWorlds.Maps.Maze.BinaryTreeMazeGenerator)" methodname="CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="38320657" result="Passed" start-time="2024-01-04T04:53:59.6720010Z" end-time="2024-01-04T04:53:59.6773650Z" duration="0.005365" asserts="2">
                 <properties />
               </test-case>
-              <test-case id="0-1557" name="CanFindPaths(PlayersWorlds.Maps.Maze.HuntAndKillMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths(PlayersWorlds.Maps.Maze.HuntAndKillMazeGenerator)" methodname="CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="359788179" result="Passed" start-time="2024-01-03T15:50:15.3774410Z" end-time="2024-01-03T15:50:15.3782720Z" duration="0.000831" asserts="2">
+              <test-case id="0-1557" name="CanFindPaths(PlayersWorlds.Maps.Maze.HuntAndKillMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths(PlayersWorlds.Maps.Maze.HuntAndKillMazeGenerator)" methodname="CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="656698522" result="Passed" start-time="2024-01-04T04:53:59.6773760Z" end-time="2024-01-04T04:53:59.6781760Z" duration="0.000800" asserts="2">
                 <properties />
               </test-case>
-              <test-case id="0-1558" name="CanFindPaths(PlayersWorlds.Maps.Maze.RecursiveBacktrackerMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths(PlayersWorlds.Maps.Maze.RecursiveBacktrackerMazeGenerator)" methodname="CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1048580101" result="Passed" start-time="2024-01-03T15:50:15.3782880Z" end-time="2024-01-03T15:50:15.3793630Z" duration="0.001074" asserts="2">
+              <test-case id="0-1558" name="CanFindPaths(PlayersWorlds.Maps.Maze.RecursiveBacktrackerMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths(PlayersWorlds.Maps.Maze.RecursiveBacktrackerMazeGenerator)" methodname="CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="2051303263" result="Passed" start-time="2024-01-04T04:53:59.6781860Z" end-time="2024-01-04T04:53:59.6791550Z" duration="0.000969" asserts="2">
                 <properties />
               </test-case>
-              <test-case id="0-1559" name="CanFindPaths(PlayersWorlds.Maps.Maze.SidewinderMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths(PlayersWorlds.Maps.Maze.SidewinderMazeGenerator)" methodname="CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="578026818" result="Passed" start-time="2024-01-03T15:50:15.3793720Z" end-time="2024-01-03T15:50:15.3798330Z" duration="0.000461" asserts="2">
+              <test-case id="0-1559" name="CanFindPaths(PlayersWorlds.Maps.Maze.SidewinderMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths(PlayersWorlds.Maps.Maze.SidewinderMazeGenerator)" methodname="CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1670333178" result="Passed" start-time="2024-01-04T04:53:59.6791640Z" end-time="2024-01-04T04:53:59.6796140Z" duration="0.000450" asserts="2">
                 <properties />
               </test-case>
-              <test-case id="0-1560" name="CanFindPaths(PlayersWorlds.Maps.Maze.WilsonsMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths(PlayersWorlds.Maps.Maze.WilsonsMazeGenerator)" methodname="CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1999184720" result="Passed" start-time="2024-01-03T15:50:15.3798400Z" end-time="2024-01-03T15:50:15.3812650Z" duration="0.001425" asserts="2">
+              <test-case id="0-1560" name="CanFindPaths(PlayersWorlds.Maps.Maze.WilsonsMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanFindPaths(PlayersWorlds.Maps.Maze.WilsonsMazeGenerator)" methodname="CanFindPaths" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="510180677" result="Passed" start-time="2024-01-04T04:53:59.6796210Z" end-time="2024-01-04T04:53:59.6807070Z" duration="0.001086" asserts="2">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="ParameterizedMethod" id="0-1040" name="CanGenerateMazes" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" testcasecount="6" result="Passed" start-time="2024-01-03T15:50:15.3812850Z" end-time="2024-01-03T15:50:15.3863090Z" duration="0.005024" total="6" passed="6" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="12">
+            <test-suite type="ParameterizedMethod" id="0-1040" name="CanGenerateMazes" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" testcasecount="6" result="Passed" start-time="2024-01-04T04:53:59.6807280Z" end-time="2024-01-04T04:53:59.6842980Z" duration="0.003570" total="6" passed="6" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="12">
               <properties />
-              <test-case id="0-1034" name="CanGenerateMazes(PlayersWorlds.Maps.Maze.AldousBroderMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes(PlayersWorlds.Maps.Maze.AldousBroderMazeGenerator)" methodname="CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="157635258" result="Passed" start-time="2024-01-03T15:50:15.3812980Z" end-time="2024-01-03T15:50:15.3835050Z" duration="0.002207" asserts="2">
+              <test-case id="0-1034" name="CanGenerateMazes(PlayersWorlds.Maps.Maze.AldousBroderMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes(PlayersWorlds.Maps.Maze.AldousBroderMazeGenerator)" methodname="CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1709582545" result="Passed" start-time="2024-01-04T04:53:59.6807400Z" end-time="2024-01-04T04:53:59.6824280Z" duration="0.001688" asserts="2">
                 <properties />
                 <output><![CDATA[AldousBroderMazeGenerator: Generating maze 3x4 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
               </test-case>
-              <test-case id="0-1035" name="CanGenerateMazes(PlayersWorlds.Maps.Maze.BinaryTreeMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes(PlayersWorlds.Maps.Maze.BinaryTreeMazeGenerator)" methodname="CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1583511788" result="Passed" start-time="2024-01-03T15:50:15.3835150Z" end-time="2024-01-03T15:50:15.3836440Z" duration="0.000130" asserts="2">
+              <test-case id="0-1035" name="CanGenerateMazes(PlayersWorlds.Maps.Maze.BinaryTreeMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes(PlayersWorlds.Maps.Maze.BinaryTreeMazeGenerator)" methodname="CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1180402632" result="Passed" start-time="2024-01-04T04:53:59.6824390Z" end-time="2024-01-04T04:53:59.6825730Z" duration="0.000134" asserts="2">
                 <properties />
                 <output><![CDATA[BinaryTreeMazeGenerator: Generating maze 3x4 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
               </test-case>
-              <test-case id="0-1036" name="CanGenerateMazes(PlayersWorlds.Maps.Maze.HuntAndKillMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes(PlayersWorlds.Maps.Maze.HuntAndKillMazeGenerator)" methodname="CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="560635798" result="Passed" start-time="2024-01-03T15:50:15.3836510Z" end-time="2024-01-03T15:50:15.3841180Z" duration="0.000467" asserts="2">
+              <test-case id="0-1036" name="CanGenerateMazes(PlayersWorlds.Maps.Maze.HuntAndKillMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes(PlayersWorlds.Maps.Maze.HuntAndKillMazeGenerator)" methodname="CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="2104182710" result="Passed" start-time="2024-01-04T04:53:59.6825790Z" end-time="2024-01-04T04:53:59.6830110Z" duration="0.000432" asserts="2">
                 <properties />
                 <output><![CDATA[HuntAndKillMazeGenerator: Generating maze 3x4 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
               </test-case>
-              <test-case id="0-1037" name="CanGenerateMazes(PlayersWorlds.Maps.Maze.RecursiveBacktrackerMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes(PlayersWorlds.Maps.Maze.RecursiveBacktrackerMazeGenerator)" methodname="CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1807428889" result="Passed" start-time="2024-01-03T15:50:15.3841260Z" end-time="2024-01-03T15:50:15.3847150Z" duration="0.000589" asserts="2">
+              <test-case id="0-1037" name="CanGenerateMazes(PlayersWorlds.Maps.Maze.RecursiveBacktrackerMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes(PlayersWorlds.Maps.Maze.RecursiveBacktrackerMazeGenerator)" methodname="CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="72354115" result="Passed" start-time="2024-01-04T04:53:59.6830180Z" end-time="2024-01-04T04:53:59.6835340Z" duration="0.000516" asserts="2">
                 <properties />
                 <output><![CDATA[RecursiveBacktrackerMazeGenerator: Generating maze 3x4 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
               </test-case>
-              <test-case id="0-1038" name="CanGenerateMazes(PlayersWorlds.Maps.Maze.SidewinderMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes(PlayersWorlds.Maps.Maze.SidewinderMazeGenerator)" methodname="CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="389499892" result="Passed" start-time="2024-01-03T15:50:15.3847220Z" end-time="2024-01-03T15:50:15.3848430Z" duration="0.000121" asserts="2">
+              <test-case id="0-1038" name="CanGenerateMazes(PlayersWorlds.Maps.Maze.SidewinderMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes(PlayersWorlds.Maps.Maze.SidewinderMazeGenerator)" methodname="CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="355477557" result="Passed" start-time="2024-01-04T04:53:59.6835410Z" end-time="2024-01-04T04:53:59.6836690Z" duration="0.000128" asserts="2">
                 <properties />
                 <output><![CDATA[SidewinderMazeGenerator: Generating maze 3x4 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
               </test-case>
-              <test-case id="0-1039" name="CanGenerateMazes(PlayersWorlds.Maps.Maze.WilsonsMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes(PlayersWorlds.Maps.Maze.WilsonsMazeGenerator)" methodname="CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1375071601" result="Passed" start-time="2024-01-03T15:50:15.3848490Z" end-time="2024-01-03T15:50:15.3862990Z" duration="0.001450" asserts="2">
+              <test-case id="0-1039" name="CanGenerateMazes(PlayersWorlds.Maps.Maze.WilsonsMazeGenerator)" fullname="PlayersWorlds.Maps.MazeGeneratorTest.CanGenerateMazes(PlayersWorlds.Maps.Maze.WilsonsMazeGenerator)" methodname="CanGenerateMazes" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1314143411" result="Passed" start-time="2024-01-04T04:53:59.6836760Z" end-time="2024-01-04T04:53:59.6842890Z" duration="0.000613" asserts="2">
                 <properties />
                 <output><![CDATA[WilsonsMazeGenerator: Generating maze 3x4 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
               </test-case>
             </test-suite>
-            <test-case id="0-1043" name="IsFillComplete_Full" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_Full" methodname="IsFillComplete_Full" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="2092929986" result="Passed" start-time="2024-01-03T15:50:15.3863160Z" end-time="2024-01-03T15:50:15.4445010Z" duration="0.058185" asserts="1">
+            <test-case id="0-1043" name="IsFillComplete_Full" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_Full" methodname="IsFillComplete_Full" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="27779184" result="Passed" start-time="2024-01-04T04:53:59.6843050Z" end-time="2024-01-04T04:53:59.7129910Z" duration="0.028686" asserts="1">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
-┌───────────────────────┬───────────┬───┐
-│                       │ 7   6   5 │   │
-│   ╶───────┬───────┐   │   ╶───┐   ╵   │
-│           │       │   │ 8   9 │ 4   3 │
-├───┐   ╶───┼───╴   └───┴───╴   │   ╷   │
-│   │       │         c   b   a │   │ 2 │
-│   ╵   ╷   ├───────┐   ╶───┬───┘   │   │
-│       │   │       │ d   e │       │ 1 │
-├───╴   └───┤   ╷   └───╴   └───┬───┤   │
-│     16  15│   │ 11  10  f     │   │ 0 │
-├───╴   ╷   └───┘   ┌───╴   ╷   │   ├───┤
-│     17│ 14  13  12│       │   │   │   │
-│   ╷   └───┬───────┼───────┴───┤   ╵   │
-│   │ 18  19│       │           │       │
-├───┼───╴   │   ╶───┤   ╶───────┴───╴   │
-│   │     1a│       │ 1f  20  21  22  23│
-│   └───╴   ╵   ╶───┘   ╷   ┌───┬───╴   │
-│         1b  1c  1d  1e│   │   │ 25  24│
-│   ╶───┬───╴   ╷   ╶───┤   ╵   │   ╶───┤
-│       │       │       │       │ 26  27│
-└───────┴───────┴───────┴───────┴───────┘
+┌───┬───────┬───────┬───────────────────┐
+│ 0 │       │ 7   8 │     c   d   e     │
+│   └───┐   ╵   ╷   └───╴   ╶───┐   ╷   │
+│ 1   2 │ 5   6 │ 9   a   b     │ f │   │
+│   ╷   ╵   ┌───┼───╴   ┌───────┘   └───┤
+│   │ 3   4 │   │       │ 12  11  10    │
+├───┴───────┘   │   ┌───┘   ╷   ╷   ┌───┤
+│               │   │ 14  13│   │   │   │
+├───────╴   ╶───┼───┤   ╷   │   ├───┘   │
+│     1b  1a    │   │ 15│   │   │ 32  31│
+├───╴   ╷   ╶───┘   ╵   │   ├───┘   ╷   │
+│ 1d  1c│ 19  18  17  16│   │ 34  33│ 30│
+│   ┌───┴───┐   ╷   ┌───┴───┴───────┤   │
+│ 1e│       │   │   │ 29  2a  2b  2c│ 2f│
+│   ├───╴   │   ├───┤   ┌───────┐   ╵   │
+│ 1f│       │   │   │ 28│       │ 2d  2e│
+│   ╵   ╶───┼───┘   ╵   ├───╴   ╵   ╶───┤
+│ 20        │ 25  26  27│               │
+│   ╶───────┘   ╷   ┌───┘   ┌───╴   ╶───┤
+│ 21  22  23  24│   │       │           │
+└───────────────┴───┴───────┴───────────┘
 
 ]]></output>
             </test-case>
-            <test-case id="0-1048" name="IsFillComplete_FullHeight" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_FullHeight" methodname="IsFillComplete_FullHeight" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="950025944" result="Passed" start-time="2024-01-03T15:50:15.4445130Z" end-time="2024-01-03T15:50:15.4484010Z" duration="0.003889" asserts="1">
+            <test-case id="0-1048" name="IsFillComplete_FullHeight" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_FullHeight" methodname="IsFillComplete_FullHeight" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1178866513" result="Passed" start-time="2024-01-04T04:53:59.7130120Z" end-time="2024-01-04T04:53:59.7181090Z" duration="0.005098" asserts="1">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.GeneratorOptions(FullHeight, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
-┌───────┐                   ┌───┐        
-│       │                   │   │        
-│   ╷   └───────────────────┘   └───────┐
-│   │ a   9   8   7   6   5   4         │
-├───┘   ╶───────┬───╴   ┌───┐   ┌───────┘
-│     b   c     │       │ 0 │ 3 │        
-└───┬───╴   ╷   ├───────┤   ╵   │        
-    │     d │   │       │ 1   2 │        
-    └───┐   └───┤       └───────┘        
-        │ e   f │                        
-        └───┐   │                        
-            │ 10│                        
-            │   └───┐                    
-            │ 11  12│                    
-            └───────┘                    
-                                         
-                                         
-                                         
-                                         
-                                         
-                                         
+┌───────────┐                            
+│ 0   1   2 │                            
+└───────┐   └───┐   ┌───────┐            
+        │ 3   4 │   │       │            
+        └───┐   └───┤   ╷   │            
+            │ 5   6 │   │   │            
+            ├───╴   ╵   ├───┘            
+            │ 8   7     │                
+            │   ╶───────┤       ┌───────┐
+            │ 9   a   b │       │ 18  17│
+            └───┬───┐   │       └───┐   │
+                │   │ c │           │ 16│
+                │   ╵   ├───────┬───┘   │
+                │ e   d │       │ 14  15│
+                │   ╶───┴───╴   ╵   ╶───┤
+                │ f   10  11  12  13    │
+                └───┐   ╷   ╷   ╷   ╷   │
+                    │   │   │   │   │   │
+                    └───┤   └───┤   │   │
+                        │       │   │   │
+                        └───────┴───┴───┘
 
 ]]></output>
             </test-case>
-            <test-case id="0-1047" name="IsFillComplete_FullWidth" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_FullWidth" methodname="IsFillComplete_FullWidth" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1833597791" result="Passed" start-time="2024-01-03T15:50:15.4484120Z" end-time="2024-01-03T15:50:15.4616920Z" duration="0.013280" asserts="1">
+            <test-case id="0-1047" name="IsFillComplete_FullWidth" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_FullWidth" methodname="IsFillComplete_FullWidth" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="885545881" result="Passed" start-time="2024-01-04T04:53:59.7181190Z" end-time="2024-01-04T04:53:59.7219290Z" duration="0.003810" asserts="1">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.GeneratorOptions(FullWidth, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
-                                ┌───┐    
+        ┌───┐       ┌───┬───────────┐    
+        │   │       │   │           │    
+        │   └───────┘   │   ╶───┬───┘    
+        │ 6   7   8   9 │       │        
+┌───────┤   ┌───┬───┐   ╵   ╷   └───┐    
+│ 1   2 │ 5 │   │   │ a   b │       │    
+│   ╷   ╵   │   │   ╵   ╷   ├───┐   │    
+│ 0 │ 3   4 │   │       │ c │   │   │    
+└───┴───────┘   └───┬───┘   ╵   │   │    
+                    │     d   e │   │    
+                    └───────┐   └───┤    
+                            │ f   10│    
+                            └───┐   │    
+                                │ 11│    
                                 │   │    
-                        ┌───┬───┘   │    
-                        │   │       │    
-            ┌───────┬───┘   ╵   ┌───┘    
-            │ 1   0 │           │        
-┌───────────┘   ╶───┤   ╷   ╷   │        
-│         3   2     │   │   │   │        
-└───┐   ╷   ╶───────┴───┴───┤   └───────┐
-    │   │ 4   5   6   7   8 │           │
-┌───┴───┴───────────┬───┐   └───╴   ╶───┤
-│                   │   │ 9   a   b     │
-├───────╴   ┌───┬───┤   ├───┐   ╷   ╶───┤
-│ 1a  19  18│   │   │   │   │   │ c   d │
-│   ╶───┐   ╵   ╵   │   ╵   │   ├───╴   │
-│ 1b  1c│ 17  16  15│       │   │     e │
-└───────┴───────┐   ╵   ╶───┴───┴───╴   │
-                │ 14  13  12  11  10  f │
-                │   ╶───┬───────┐   ┌───┘
-                │       │       │   │    
-                └───────┘       └───┘    
-
-]]></output>
-            </test-case>
-            <test-case id="0-1042" name="IsFillComplete_Half" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_Half" methodname="IsFillComplete_Half" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="60324169" result="Passed" start-time="2024-01-03T15:50:15.4617020Z" end-time="2024-01-03T15:50:15.4678630Z" duration="0.006161" asserts="1">
-              <properties />
-              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.GeneratorOptions(Half, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
-                            ┌───────┬───┐
-                            │ 15  16│   │
-                            │   ╶───┤   │
-                            │ 14  13│   │
-                ┌───────┬───┤   ╷   ╵   │
-                │       │   │   │ 12  11│
-                │   ╶───┘   ├───┴───╴   │
-                │           │     f   10│
-                └───┐   ╷   └───┐   ┌───┤
-                    │   │ a   b │ e │   │
-        ┌───────┬───┤   │   ╷   ╵   ╵   │
-        │       │   │   │ 9 │ c   d     │
-        └───┐   ╵   └───┘   ├───┐   ╷   │
-            │ 5   6   7   8 │   │   │   │
-            │   ╶───────────┤   │   ├───┘
-            │ 4   3   2     │   │   │    
-            │   ┌───╴   ┌───┤   ╵   │    
-            │   │ 0   1 │   │       │    
-            └───┴───────┘   └───┐   │    
+                                │ 12│    
                                 │   │    
+                                │ 13│    
+                                │   │    
+                                │ 14│    
                                 └───┘    
 
 ]]></output>
             </test-case>
-            <test-case id="0-1046" name="IsFillComplete_NinetyPercent" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_NinetyPercent" methodname="IsFillComplete_NinetyPercent" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="2093947881" result="Passed" start-time="2024-01-03T15:50:15.4678740Z" end-time="2024-01-03T15:50:15.4827190Z" duration="0.014845" asserts="1">
+            <test-case id="0-1042" name="IsFillComplete_Half" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_Half" methodname="IsFillComplete_Half" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="744013083" result="Passed" start-time="2024-01-04T04:53:59.7219400Z" end-time="2024-01-04T04:53:59.7267870Z" duration="0.004847" asserts="1">
+              <properties />
+              <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.GeneratorOptions(Half, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
+                        ┌───┬───────────┐
+                        │   │           │
+                ┌───────┤   ╵   ┌───────┘
+                │       │       │        
+                ├───╴   │   ╶───┤        
+                │       │       │        
+    ┌───┬───────┘   ╶───┘   ╶───┴───┐    
+    │   │ f   e   d   c   b         │    
+┌───┘   ╵   ╶───┬───┬───╴   ╶───┬───┘    
+│         10    │   │ 9   a     │        
+├───────╴   ┌───┼───┘   ╶───────┴───┐    
+│ 13  12  11│   │     8   7   6   5 │    
+│   ╶───┬───┘   └───────────┬───╴   └───┐
+│ 14    │                   │     4     │
+│   ╶───┤                   ├───╴   ╶───┤
+│ 15  16│                   │     3   2 │
+├───╴   │                   └───┬───╴   │
+│ 18  17│                       │ 0   1 │
+│   ┌───┘                       └───────┘
+│ 19│                                    
+└───┘                                    
+
+]]></output>
+            </test-case>
+            <test-case id="0-1046" name="IsFillComplete_NinetyPercent" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_NinetyPercent" methodname="IsFillComplete_NinetyPercent" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1020344230" result="Passed" start-time="2024-01-04T04:53:59.7268000Z" end-time="2024-01-04T04:53:59.7434930Z" duration="0.016692" asserts="1">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.GeneratorOptions(NinetyPercent, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
-┌───────────┬───┬───────────────────────┐
-│     19  18│   │                       │
-├───╴   ╷   ╵   └───┬───╴   ╶───────────┤
-│     1a│ 17  16    │ 10  f   e   d   c │
-│   ╷   │   ╷   ╶───┤   ╶───┬───────┐   │
-│   │ 1b│   │ 15  14│ 11    │       │ b │
-├───┘   └───┴───┐   ╵   ┌───┘   ╷   ╵   │
-│     1c  1d  1e│ 13  12│       │     a │
-│   ╷   ┌───╴   ├───┬───┘   ┌───┼───╴   │
-│   │   │ 20  1f│   │       │   │ 8   9 │
-│   │   │   ╶───┘   ├───┐   │   │   ╶───┤
-│   │   │ 21  22  23│   │   │   │ 7     │
-│   └───┴───┬───╴   └───┴───┴───┤   ┌───┤
-│           │ 25  24            │ 6 │   │
-│   ┌───┬───┘   ┌───────────────┤   ╵   │
-│   │   │     26│ 29  2a  2b    │ 5     │
-└───┼───┤   ╷   ╵   ┌───┐   ┌───┤   ╶───┤
-    │   │   │ 27  28│   │ 2c│   │ 4   3 │
-    │   ╵   └───┐   │   └───┼───┴───╴   │
-    │           │   │       │ 0   1   2 │
-    └───────────┴───┘       └───────────┘
+┌───┬───┬───────────────┬───────────────┐
+│   │   │ 10  f   e   d │ 0   1   2   3 │
+│   ╵   ╵   ┌───┬───╴   └───┬───────┐   │
+│         11│   │     c     │       │ 4 │
+│   ╷   ╷   ╵   └───┐   ╶───┼───┐   │   │
+│   │   │ 12        │ b   a │   │   │ 5 │
+│   ├───┘   ╶───────┼───╴   ╵   └───┘   │
+│   │     13        │     9   8   7   6 │
+├───┴───╴   ╶───┬───┴───┐   ╷   ┌───────┘
+│         14  15│ 18  19│   │   │        
+│   ┌───┬───╴   ╵   ╷   ├───┼───┤   ┌───┐
+│   │   │     16  17│ 1a│   │   │   │   │
+├───┘   └───╴   ╷   │   └───┘   └───┘   │
+│               │   │ 1b  1c  1d        │
+│   ╷   ┌───────┼───┤   ┌───╴   ╶───────┤
+│   │   │       │ 25│   │     1e        │
+└───┤   └───┐   │   │   ├───╴   ╶───────┤
+    │       │   │ 24│   │ 20  1f        │
+    └───┐   ╵   │   └───┘   ┌───────╴   │
+        │       │ 23  22  21│           │
+        └───────┴───────────┴───────────┘
 
 ]]></output>
             </test-case>
-            <test-case id="0-1044" name="IsFillComplete_Quarter" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_Quarter" methodname="IsFillComplete_Quarter" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="55694125" result="Passed" start-time="2024-01-03T15:50:15.4827290Z" end-time="2024-01-03T15:50:15.4848320Z" duration="0.002103" asserts="1">
+            <test-case id="0-1044" name="IsFillComplete_Quarter" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_Quarter" methodname="IsFillComplete_Quarter" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1751690383" result="Passed" start-time="2024-01-04T04:53:59.7435080Z" end-time="2024-01-04T04:53:59.7463400Z" duration="0.002832" asserts="1">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.GeneratorOptions(Quarter, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
-┌───┬───────────────┐                    
-│   │     7   6   5 │                    
-│   ╵   ╷   ┌───╴   │                    
-│       │ 8 │ 3   4 │                    
-│   ┌───┘   │   ┌───┘                    
-│   │ a   9 │ 2 │                        
-├───┘   ╷   │   │                        
-│ c   b │   │ 1 │                        
-│   ╷   ├───┤   │                        
-│ d │   │   │ 0 │                        
-│   ├───┤   └───┘                        
-│ e │ 11│                                
-│   ╵   │                                
-│ f   10│                                
-└───────┘                                
+                    ┌───┐   ┌───────┬───┐
+                    │ 0 │   │ c   d │   │
+                    │   ├───┘   ╶───┘   │
+                    │ 1 │     b   a     │
+                    │   │   ╷   ╷   ╶───┤
+                    │ 2 │   │   │ 9     │
+                ┌───┘   └───┼───┘   ╶───┤
+                │     3   4 │     8     │
+                └───────┐   └───╴   ┌───┘
+                        │ 5   6   7 │    
+                        └───┬───╴   │    
+                            │       │    
+                            └───────┘    
+                                         
+                                         
                                          
                                          
                                          
@@ -736,74 +736,74 @@
 
 ]]></output>
             </test-case>
-            <test-case id="0-1045" name="IsFillComplete_ThreeQuarters" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_ThreeQuarters" methodname="IsFillComplete_ThreeQuarters" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="283326875" result="Passed" start-time="2024-01-03T15:50:15.4848410Z" end-time="2024-01-03T15:50:15.4975350Z" duration="0.012694" asserts="1">
+            <test-case id="0-1045" name="IsFillComplete_ThreeQuarters" fullname="PlayersWorlds.Maps.MazeGeneratorTest.IsFillComplete_ThreeQuarters" methodname="IsFillComplete_ThreeQuarters" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1165751684" result="Passed" start-time="2024-01-04T04:53:59.7463500Z" end-time="2024-01-04T04:53:59.7579090Z" duration="0.011559" asserts="1">
               <properties />
               <output><![CDATA[AldousBroderMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.GeneratorOptions(ThreeQuarters, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
-┌───────┬───┬───────────────────┐        
-│ 23  24│   │         4   3   2 │        
-│   ╶───┘   ├───┬───╴   ┌───╴   │        
-│ 22  21  20│   │     5 │ 0   1 │        
-├───╴   ╷   └───┼───┐   ├───────┘        
-│       │ 1f    │   │ 6 │                
-├───────┘   ╷   │   ╵   │                
-│ 1c  1d  1e│   │     7 │                
-│   ╷   ┌───┼───┤   ╷   │                
-│ 1b│   │   │   │   │ 8 │                
-│   └───┤   └───┴───┤   └───┐            
-│ 1a  19│           │ 9   a │            
-│   ╷   └───────╴   ├───┐   └───┐        
-│   │ 18  17        │   │ b   c │        
-│   ├───┐   ┌───────┼───┼───╴   │   ┌───┐
-│   │   │ 16│       │   │ e   d │   │   │
-│   ╵   │   │   ╶───┘   ╵   ╶───┼───┤   │
-│       │ 15│ 12  11  10  f     │   │   │
-├───────┘   ╵   ╷   ╷   ╶───────┘   ╵   │
-│         14  13│   │                   │
-└───────────────┴───┴───────────────────┘
+┌───┬───────┬───────────────┐            
+│   │       │ 1c  1b  1a  19│            
+│   ╵   ╶───┼───┬───┬───┐   ├───────┬───┐
+│           │   │   │   │ 18│       │   │
+├───────╴   ╵   │   ╵   │   ╵   ╶───┘   │
+│         9   a │       │ 17  16        │
+├───┬───┐   ╷   │   ╷   ├───┐   ╶───┬───┤
+│ 0 │   │ 8 │ b │   │   │   │ 15    │   │
+│   │   │   │   │   ├───┤   ╵   ╷   ╵   │
+│ 1 │   │ 7 │ c │   │   │     14│       │
+│   │   ╵   │   ╵   └───┴───┐   └───────┤
+│ 2 │ 5   6 │ d             │ 13        │
+│   ╵   ┌───┘   ╶───────────┘   ╷   ╶───┤
+│ 3   4 │     e   f   10  11  12│       │
+└───────┤   ╶───┐   ╶───────┬───┴───────┘
+        │       │           │            
+        └───────┼───╴   ╶───┤            
+                │           │            
+                └───────┐   │            
+                        │   │            
+                        └───┘            
 
 ]]></output>
             </test-case>
-            <test-case id="0-1041" name="OnlyFullGenerators" fullname="PlayersWorlds.Maps.MazeGeneratorTest.OnlyFullGenerators" methodname="OnlyFullGenerators" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1422572540" result="Passed" start-time="2024-01-03T15:50:15.4975450Z" end-time="2024-01-03T15:50:15.4981490Z" duration="0.000605" asserts="2">
+            <test-case id="0-1041" name="OnlyFullGenerators" fullname="PlayersWorlds.Maps.MazeGeneratorTest.OnlyFullGenerators" methodname="OnlyFullGenerators" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="1774895473" result="Passed" start-time="2024-01-04T04:53:59.7579220Z" end-time="2024-01-04T04:53:59.7583090Z" duration="0.000387" asserts="2">
               <properties />
               <output><![CDATA[BinaryTreeMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.GeneratorOptions(Half, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 SidewinderMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.GeneratorOptions(Half, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, <null>)
 ]]></output>
             </test-case>
-            <test-case id="0-1554" name="WrongGeneratorOptions" fullname="PlayersWorlds.Maps.MazeGeneratorTest.WrongGeneratorOptions" methodname="WrongGeneratorOptions" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="972616304" result="Passed" start-time="2024-01-03T15:50:15.4981570Z" end-time="2024-01-03T15:50:15.4996540Z" duration="0.001497" asserts="4">
+            <test-case id="0-1554" name="WrongGeneratorOptions" fullname="PlayersWorlds.Maps.MazeGeneratorTest.WrongGeneratorOptions" methodname="WrongGeneratorOptions" classname="PlayersWorlds.Maps.MazeGeneratorTest" runstate="Runnable" seed="788802966" result="Passed" start-time="2024-01-04T04:53:59.7583160Z" end-time="2024-01-04T04:53:59.7599150Z" duration="0.001599" asserts="4">
               <properties />
               <output><![CDATA[TestGeneratorB: Generating maze 3x4 with PlayersWorlds.Maps.Maze.GeneratorOptions(Full, None, <null>, PlayersWorlds.Maps.Areas.RandomAreaGenerator+GeneratorSettings, PlayersWorlds.Maps.MazeGeneratorTest+TestGeneratorB)
 ]]></output>
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1569" name="OptionalTest" fullname="PlayersWorlds.Maps.OptionalTest" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" testcasecount="7" result="Passed" start-time="2024-01-03T15:50:15.4996830Z" end-time="2024-01-03T15:50:15.5010820Z" duration="0.001399" total="7" passed="7" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="24">
+          <test-suite type="TestFixture" id="0-1569" name="OptionalTest" fullname="PlayersWorlds.Maps.OptionalTest" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" testcasecount="7" result="Passed" start-time="2024-01-04T04:53:59.7599530Z" end-time="2024-01-04T04:53:59.7614510Z" duration="0.001498" total="7" passed="7" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="24">
             <properties />
-            <test-case id="0-1575" name="Optional_CanBeCastToT" fullname="PlayersWorlds.Maps.OptionalTest.Optional_CanBeCastToT" methodname="Optional_CanBeCastToT" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="1078407745" result="Passed" start-time="2024-01-03T15:50:15.4997300Z" end-time="2024-01-03T15:50:15.4998500Z" duration="0.000121" asserts="1">
+            <test-case id="0-1575" name="Optional_CanBeCastToT" fullname="PlayersWorlds.Maps.OptionalTest.Optional_CanBeCastToT" methodname="Optional_CanBeCastToT" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="1807507776" result="Passed" start-time="2024-01-04T04:53:59.7600030Z" end-time="2024-01-04T04:53:59.7601320Z" duration="0.000128" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1570" name="Optional_Equality" fullname="PlayersWorlds.Maps.OptionalTest.Optional_Equality" methodname="Optional_Equality" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="1234330009" result="Passed" start-time="2024-01-03T15:50:15.4998570Z" end-time="2024-01-03T15:50:15.4999960Z" duration="0.000139" asserts="2">
+            <test-case id="0-1570" name="Optional_Equality" fullname="PlayersWorlds.Maps.OptionalTest.Optional_Equality" methodname="Optional_Equality" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="31904776" result="Passed" start-time="2024-01-04T04:53:59.7601390Z" end-time="2024-01-04T04:53:59.7602830Z" duration="0.000144" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1572" name="Optional_Equals" fullname="PlayersWorlds.Maps.OptionalTest.Optional_Equals" methodname="Optional_Equals" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="762900371" result="Passed" start-time="2024-01-03T15:50:15.5000030Z" end-time="2024-01-03T15:50:15.5002360Z" duration="0.000233" asserts="5">
+            <test-case id="0-1572" name="Optional_Equals" fullname="PlayersWorlds.Maps.OptionalTest.Optional_Equals" methodname="Optional_Equals" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="795003625" result="Passed" start-time="2024-01-04T04:53:59.7602900Z" end-time="2024-01-04T04:53:59.7605470Z" duration="0.000258" asserts="5">
               <properties />
             </test-case>
-            <test-case id="0-1574" name="Optional_GetHashCode" fullname="PlayersWorlds.Maps.OptionalTest.Optional_GetHashCode" methodname="Optional_GetHashCode" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="1873115200" result="Passed" start-time="2024-01-03T15:50:15.5002430Z" end-time="2024-01-03T15:50:15.5004450Z" duration="0.000202" asserts="3">
+            <test-case id="0-1574" name="Optional_GetHashCode" fullname="PlayersWorlds.Maps.OptionalTest.Optional_GetHashCode" methodname="Optional_GetHashCode" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="1011404112" result="Passed" start-time="2024-01-04T04:53:59.7605540Z" end-time="2024-01-04T04:53:59.7607750Z" duration="0.000221" asserts="3">
               <properties />
             </test-case>
-            <test-case id="0-1573" name="Optional_Null" fullname="PlayersWorlds.Maps.OptionalTest.Optional_Null" methodname="Optional_Null" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="587160371" result="Passed" start-time="2024-01-03T15:50:15.5004520Z" end-time="2024-01-03T15:50:15.5007700Z" duration="0.000319" asserts="9">
+            <test-case id="0-1573" name="Optional_Null" fullname="PlayersWorlds.Maps.OptionalTest.Optional_Null" methodname="Optional_Null" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="1717126591" result="Passed" start-time="2024-01-04T04:53:59.7607830Z" end-time="2024-01-04T04:53:59.7611260Z" duration="0.000343" asserts="9">
               <properties />
             </test-case>
-            <test-case id="0-1571" name="Optional_ThrowsIfNoValue" fullname="PlayersWorlds.Maps.OptionalTest.Optional_ThrowsIfNoValue" methodname="Optional_ThrowsIfNoValue" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="1303472357" result="Passed" start-time="2024-01-03T15:50:15.5007780Z" end-time="2024-01-03T15:50:15.5009140Z" duration="0.000137" asserts="2">
+            <test-case id="0-1571" name="Optional_ThrowsIfNoValue" fullname="PlayersWorlds.Maps.OptionalTest.Optional_ThrowsIfNoValue" methodname="Optional_ThrowsIfNoValue" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="98789977" result="Passed" start-time="2024-01-04T04:53:59.7611320Z" end-time="2024-01-04T04:53:59.7612820Z" duration="0.000150" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1576" name="Optional_ToStringShowsValue" fullname="PlayersWorlds.Maps.OptionalTest.Optional_ToStringShowsValue" methodname="Optional_ToStringShowsValue" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="396882747" result="Passed" start-time="2024-01-03T15:50:15.5009210Z" end-time="2024-01-03T15:50:15.5010710Z" duration="0.000151" asserts="2">
+            <test-case id="0-1576" name="Optional_ToStringShowsValue" fullname="PlayersWorlds.Maps.OptionalTest.Optional_ToStringShowsValue" methodname="Optional_ToStringShowsValue" classname="PlayersWorlds.Maps.OptionalTest" runstate="Runnable" seed="1511258288" result="Passed" start-time="2024-01-04T04:53:59.7612910Z" end-time="2024-01-04T04:53:59.7614390Z" duration="0.000149" asserts="2">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestSuite" id="0-1743" name="Renderers" fullname="PlayersWorlds.Maps.Renderers" runstate="Runnable" testcasecount="1" result="Passed" start-time="2024-01-03T15:50:15.0253540Z" end-time="2024-01-03T15:50:15.5017440Z" duration="0.476390" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="1">
+          <test-suite type="TestSuite" id="0-1743" name="Renderers" fullname="PlayersWorlds.Maps.Renderers" runstate="Runnable" testcasecount="1" result="Passed" start-time="2024-01-04T04:53:59.3665070Z" end-time="2024-01-04T04:53:59.7620780Z" duration="0.395571" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="1">
             <properties />
-            <test-suite type="TestFixture" id="0-1615" name="Map2DAsciiRendererTest" fullname="PlayersWorlds.Maps.Renderers.Map2DAsciiRendererTest" classname="PlayersWorlds.Maps.Renderers.Map2DAsciiRendererTest" runstate="Runnable" testcasecount="1" result="Passed" start-time="2024-01-03T15:50:15.5010930Z" end-time="2024-01-03T15:50:15.5017360Z" duration="0.000644" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="1">
+            <test-suite type="TestFixture" id="0-1615" name="Map2DAsciiRendererTest" fullname="PlayersWorlds.Maps.Renderers.Map2DAsciiRendererTest" classname="PlayersWorlds.Maps.Renderers.Map2DAsciiRendererTest" runstate="Runnable" testcasecount="1" result="Passed" start-time="2024-01-04T04:53:59.7614640Z" end-time="2024-01-04T04:53:59.7620720Z" duration="0.000609" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="1">
               <properties />
-              <test-case id="0-1616" name="TestRender" fullname="PlayersWorlds.Maps.Renderers.Map2DAsciiRendererTest.TestRender" methodname="TestRender" classname="PlayersWorlds.Maps.Renderers.Map2DAsciiRendererTest" runstate="Runnable" seed="1794259858" result="Passed" start-time="2024-01-03T15:50:15.5011320Z" end-time="2024-01-03T15:50:15.5017230Z" duration="0.000592" asserts="1">
+              <test-case id="0-1616" name="TestRender" fullname="PlayersWorlds.Maps.Renderers.Map2DAsciiRendererTest.TestRender" methodname="TestRender" classname="PlayersWorlds.Maps.Renderers.Map2DAsciiRendererTest" runstate="Runnable" seed="253344246" result="Passed" start-time="2024-01-04T04:53:59.7615020Z" end-time="2024-01-04T04:53:59.7620610Z" duration="0.000559" asserts="1">
                 <properties />
                 <output><![CDATA[▓▓▓▓▓
 ▓░░░▓
@@ -815,101 +815,101 @@ SidewinderMazeGenerator: Generating maze 10x10 with PlayersWorlds.Maps.Maze.Gene
               </test-case>
             </test-suite>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1586" name="VectorDTest" fullname="PlayersWorlds.Maps.VectorDTest" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" testcasecount="11" result="Passed" start-time="2024-01-03T15:50:15.5017540Z" end-time="2024-01-03T15:50:15.5048880Z" duration="0.003134" total="11" passed="11" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="33">
+          <test-suite type="TestFixture" id="0-1586" name="VectorDTest" fullname="PlayersWorlds.Maps.VectorDTest" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" testcasecount="11" result="Passed" start-time="2024-01-04T04:53:59.7620870Z" end-time="2024-01-04T04:53:59.7651480Z" duration="0.003061" total="11" passed="11" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="33">
             <properties />
-            <test-case id="0-1594" name="CanAddAndSubtract" fullname="PlayersWorlds.Maps.VectorDTest.CanAddAndSubtract" methodname="CanAddAndSubtract" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="1587153511" result="Passed" start-time="2024-01-03T15:50:15.5017940Z" end-time="2024-01-03T15:50:15.5022600Z" duration="0.000466" asserts="5">
+            <test-case id="0-1594" name="CanAddAndSubtract" fullname="PlayersWorlds.Maps.VectorDTest.CanAddAndSubtract" methodname="CanAddAndSubtract" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="109872947" result="Passed" start-time="2024-01-04T04:53:59.7621290Z" end-time="2024-01-04T04:53:59.7625790Z" duration="0.000449" asserts="5">
               <properties />
             </test-case>
-            <test-case id="0-1595" name="ConstructorChecksArguments" fullname="PlayersWorlds.Maps.VectorDTest.ConstructorChecksArguments" methodname="ConstructorChecksArguments" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="304363586" result="Passed" start-time="2024-01-03T15:50:15.5022670Z" end-time="2024-01-03T15:50:15.5023740Z" duration="0.000108" asserts="1">
+            <test-case id="0-1595" name="ConstructorChecksArguments" fullname="PlayersWorlds.Maps.VectorDTest.ConstructorChecksArguments" methodname="ConstructorChecksArguments" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="1772931721" result="Passed" start-time="2024-01-04T04:53:59.7625850Z" end-time="2024-01-04T04:53:59.7626860Z" duration="0.000101" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1588" name="EqualityIsCheckedByValue" fullname="PlayersWorlds.Maps.VectorDTest.EqualityIsCheckedByValue" methodname="EqualityIsCheckedByValue" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="2060965242" result="Passed" start-time="2024-01-03T15:50:15.5023820Z" end-time="2024-01-03T15:50:15.5025660Z" duration="0.000184" asserts="4">
+            <test-case id="0-1588" name="EqualityIsCheckedByValue" fullname="PlayersWorlds.Maps.VectorDTest.EqualityIsCheckedByValue" methodname="EqualityIsCheckedByValue" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="1019488614" result="Passed" start-time="2024-01-04T04:53:59.7626920Z" end-time="2024-01-04T04:53:59.7628600Z" duration="0.000168" asserts="4">
               <properties />
             </test-case>
-            <test-case id="0-1589" name="GetHashCodeIsDerivedFromValue" fullname="PlayersWorlds.Maps.VectorDTest.GetHashCodeIsDerivedFromValue" methodname="GetHashCodeIsDerivedFromValue" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="113054370" result="Passed" start-time="2024-01-03T15:50:15.5025750Z" end-time="2024-01-03T15:50:15.5028280Z" duration="0.000254" asserts="1">
+            <test-case id="0-1589" name="GetHashCodeIsDerivedFromValue" fullname="PlayersWorlds.Maps.VectorDTest.GetHashCodeIsDerivedFromValue" methodname="GetHashCodeIsDerivedFromValue" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="510917344" result="Passed" start-time="2024-01-04T04:53:59.7628660Z" end-time="2024-01-04T04:53:59.7631080Z" duration="0.000242" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1592" name="InitializedAsNull" fullname="PlayersWorlds.Maps.VectorDTest.InitializedAsNull" methodname="InitializedAsNull" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="148903346" result="Passed" start-time="2024-01-03T15:50:15.5028350Z" end-time="2024-01-03T15:50:15.5029490Z" duration="0.000113" asserts="1">
+            <test-case id="0-1592" name="InitializedAsNull" fullname="PlayersWorlds.Maps.VectorDTest.InitializedAsNull" methodname="InitializedAsNull" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="406237345" result="Passed" start-time="2024-01-04T04:53:59.7631150Z" end-time="2024-01-04T04:53:59.7632190Z" duration="0.000104" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1591" name="InitializedEmpty" fullname="PlayersWorlds.Maps.VectorDTest.InitializedEmpty" methodname="InitializedEmpty" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="1164741825" result="Passed" start-time="2024-01-03T15:50:15.5029560Z" end-time="2024-01-03T15:50:15.5032500Z" duration="0.000294" asserts="4">
+            <test-case id="0-1591" name="InitializedEmpty" fullname="PlayersWorlds.Maps.VectorDTest.InitializedEmpty" methodname="InitializedEmpty" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="555260901" result="Passed" start-time="2024-01-04T04:53:59.7632260Z" end-time="2024-01-04T04:53:59.7635120Z" duration="0.000286" asserts="4">
               <properties />
             </test-case>
-            <test-case id="0-1587" name="IsInitialized" fullname="PlayersWorlds.Maps.VectorDTest.IsInitialized" methodname="IsInitialized" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="1680654288" result="Passed" start-time="2024-01-03T15:50:15.5032590Z" end-time="2024-01-03T15:50:15.5035610Z" duration="0.000302" asserts="2">
+            <test-case id="0-1587" name="IsInitialized" fullname="PlayersWorlds.Maps.VectorDTest.IsInitialized" methodname="IsInitialized" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="1936544467" result="Passed" start-time="2024-01-04T04:53:59.7635210Z" end-time="2024-01-04T04:53:59.7638130Z" duration="0.000292" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1593" name="IsZero" fullname="PlayersWorlds.Maps.VectorDTest.IsZero" methodname="IsZero" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="1727571995" result="Passed" start-time="2024-01-03T15:50:15.5035680Z" end-time="2024-01-03T15:50:15.5038140Z" duration="0.000246" asserts="3">
+            <test-case id="0-1593" name="IsZero" fullname="PlayersWorlds.Maps.VectorDTest.IsZero" methodname="IsZero" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="1339898361" result="Passed" start-time="2024-01-04T04:53:59.7638200Z" end-time="2024-01-04T04:53:59.7640460Z" duration="0.000226" asserts="3">
               <properties />
             </test-case>
-            <test-case id="0-1596" name="SnappedForce" fullname="PlayersWorlds.Maps.VectorDTest.SnappedForce" methodname="SnappedForce" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="1425661994" result="Passed" start-time="2024-01-03T15:50:15.5038210Z" end-time="2024-01-03T15:50:15.5043560Z" duration="0.000535" asserts="9">
+            <test-case id="0-1596" name="SnappedForce" fullname="PlayersWorlds.Maps.VectorDTest.SnappedForce" methodname="SnappedForce" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="331770999" result="Passed" start-time="2024-01-04T04:53:59.7640530Z" end-time="2024-01-04T04:53:59.7645900Z" duration="0.000537" asserts="9">
               <properties />
             </test-case>
-            <test-case id="0-1590" name="ToStringFormat" fullname="PlayersWorlds.Maps.VectorDTest.ToStringFormat" methodname="ToStringFormat" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="706260673" result="Passed" start-time="2024-01-03T15:50:15.5043630Z" end-time="2024-01-03T15:50:15.5044320Z" duration="0.000069" asserts="1">
+            <test-case id="0-1590" name="ToStringFormat" fullname="PlayersWorlds.Maps.VectorDTest.ToStringFormat" methodname="ToStringFormat" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="1284460634" result="Passed" start-time="2024-01-04T04:53:59.7645980Z" end-time="2024-01-04T04:53:59.7646800Z" duration="0.000083" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1597" name="VectorD_Parse" fullname="PlayersWorlds.Maps.VectorDTest.VectorD_Parse" methodname="VectorD_Parse" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="815386453" result="Passed" start-time="2024-01-03T15:50:15.5044380Z" end-time="2024-01-03T15:50:15.5048760Z" duration="0.000438" asserts="2">
+            <test-case id="0-1597" name="VectorD_Parse" fullname="PlayersWorlds.Maps.VectorDTest.VectorD_Parse" methodname="VectorD_Parse" classname="PlayersWorlds.Maps.VectorDTest" runstate="Runnable" seed="294552114" result="Passed" start-time="2024-01-04T04:53:59.7646860Z" end-time="2024-01-04T04:53:59.7651350Z" duration="0.000448" asserts="2">
               <properties />
             </test-case>
           </test-suite>
-          <test-suite type="TestFixture" id="0-1598" name="VectorTest" fullname="PlayersWorlds.Maps.VectorTest" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" testcasecount="16" result="Passed" start-time="2024-01-03T15:50:15.5048990Z" end-time="2024-01-03T15:50:15.5077360Z" duration="0.002837" total="16" passed="16" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="44">
+          <test-suite type="TestFixture" id="0-1598" name="VectorTest" fullname="PlayersWorlds.Maps.VectorTest" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" testcasecount="16" result="Passed" start-time="2024-01-04T04:53:59.7651600Z" end-time="2024-01-04T04:53:59.7678720Z" duration="0.002712" total="16" passed="16" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="44">
             <properties />
-            <test-case id="0-1600" name="Size_NotInitialized" fullname="PlayersWorlds.Maps.VectorTest.Size_NotInitialized" methodname="Size_NotInitialized" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1097827331" result="Passed" start-time="2024-01-03T15:50:15.5049410Z" end-time="2024-01-03T15:50:15.5052090Z" duration="0.000268" asserts="2">
+            <test-case id="0-1600" name="Size_NotInitialized" fullname="PlayersWorlds.Maps.VectorTest.Size_NotInitialized" methodname="Size_NotInitialized" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1189940444" result="Passed" start-time="2024-01-04T04:53:59.7652000Z" end-time="2024-01-04T04:53:59.7654680Z" duration="0.000269" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1608" name="Vector_CanAddAndSubtract" fullname="PlayersWorlds.Maps.VectorTest.Vector_CanAddAndSubtract" methodname="Vector_CanAddAndSubtract" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="246987922" result="Passed" start-time="2024-01-03T15:50:15.5052170Z" end-time="2024-01-03T15:50:15.5056130Z" duration="0.000397" asserts="6">
+            <test-case id="0-1608" name="Vector_CanAddAndSubtract" fullname="PlayersWorlds.Maps.VectorTest.Vector_CanAddAndSubtract" methodname="Vector_CanAddAndSubtract" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1738741891" result="Passed" start-time="2024-01-04T04:53:59.7654750Z" end-time="2024-01-04T04:53:59.7658520Z" duration="0.000376" asserts="6">
               <properties />
             </test-case>
-            <test-case id="0-1609" name="Vector_ConstructorChecksArguments" fullname="PlayersWorlds.Maps.VectorTest.Vector_ConstructorChecksArguments" methodname="Vector_ConstructorChecksArguments" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1450469766" result="Passed" start-time="2024-01-03T15:50:15.5056200Z" end-time="2024-01-03T15:50:15.5057170Z" duration="0.000097" asserts="1">
+            <test-case id="0-1609" name="Vector_ConstructorChecksArguments" fullname="PlayersWorlds.Maps.VectorTest.Vector_ConstructorChecksArguments" methodname="Vector_ConstructorChecksArguments" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="402020419" result="Passed" start-time="2024-01-04T04:53:59.7658580Z" end-time="2024-01-04T04:53:59.7659580Z" duration="0.000100" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1606" name="Vector_EmptyIsEmpty" fullname="PlayersWorlds.Maps.VectorTest.Vector_EmptyIsEmpty" methodname="Vector_EmptyIsEmpty" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1653096323" result="Passed" start-time="2024-01-03T15:50:15.5057240Z" end-time="2024-01-03T15:50:15.5057900Z" duration="0.000066" asserts="1">
+            <test-case id="0-1606" name="Vector_EmptyIsEmpty" fullname="PlayersWorlds.Maps.VectorTest.Vector_EmptyIsEmpty" methodname="Vector_EmptyIsEmpty" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1238783419" result="Passed" start-time="2024-01-04T04:53:59.7659640Z" end-time="2024-01-04T04:53:59.7660220Z" duration="0.000057" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1605" name="Vector_EmptyVectorIsEmpty" fullname="PlayersWorlds.Maps.VectorTest.Vector_EmptyVectorIsEmpty" methodname="Vector_EmptyVectorIsEmpty" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="496588019" result="Passed" start-time="2024-01-03T15:50:15.5057970Z" end-time="2024-01-03T15:50:15.5058520Z" duration="0.000055" asserts="1">
+            <test-case id="0-1605" name="Vector_EmptyVectorIsEmpty" fullname="PlayersWorlds.Maps.VectorTest.Vector_EmptyVectorIsEmpty" methodname="Vector_EmptyVectorIsEmpty" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1522116625" result="Passed" start-time="2024-01-04T04:53:59.7660280Z" end-time="2024-01-04T04:53:59.7660870Z" duration="0.000059" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1601" name="Vector_EqualityIsCheckedByValue" fullname="PlayersWorlds.Maps.VectorTest.Vector_EqualityIsCheckedByValue" methodname="Vector_EqualityIsCheckedByValue" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="216359420" result="Passed" start-time="2024-01-03T15:50:15.5058590Z" end-time="2024-01-03T15:50:15.5060210Z" duration="0.000163" asserts="5">
+            <test-case id="0-1601" name="Vector_EqualityIsCheckedByValue" fullname="PlayersWorlds.Maps.VectorTest.Vector_EqualityIsCheckedByValue" methodname="Vector_EqualityIsCheckedByValue" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="849478576" result="Passed" start-time="2024-01-04T04:53:59.7660930Z" end-time="2024-01-04T04:53:59.7662490Z" duration="0.000156" asserts="5">
               <properties />
             </test-case>
-            <test-case id="0-1613" name="Vector_FromIndex" fullname="PlayersWorlds.Maps.VectorTest.Vector_FromIndex" methodname="Vector_FromIndex" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="421731521" result="Passed" start-time="2024-01-03T15:50:15.5060280Z" end-time="2024-01-03T15:50:15.5061640Z" duration="0.000136" asserts="2">
+            <test-case id="0-1613" name="Vector_FromIndex" fullname="PlayersWorlds.Maps.VectorTest.Vector_FromIndex" methodname="Vector_FromIndex" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="121393379" result="Passed" start-time="2024-01-04T04:53:59.7662550Z" end-time="2024-01-04T04:53:59.7663850Z" duration="0.000129" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1602" name="Vector_GetHashCodeIsDerivedFromValue" fullname="PlayersWorlds.Maps.VectorTest.Vector_GetHashCodeIsDerivedFromValue" methodname="Vector_GetHashCodeIsDerivedFromValue" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1525730986" result="Passed" start-time="2024-01-03T15:50:15.5061710Z" end-time="2024-01-03T15:50:15.5064080Z" duration="0.000237" asserts="2">
+            <test-case id="0-1602" name="Vector_GetHashCodeIsDerivedFromValue" fullname="PlayersWorlds.Maps.VectorTest.Vector_GetHashCodeIsDerivedFromValue" methodname="Vector_GetHashCodeIsDerivedFromValue" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1417014695" result="Passed" start-time="2024-01-04T04:53:59.7663910Z" end-time="2024-01-04T04:53:59.7666270Z" duration="0.000236" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1599" name="Vector_IsInitialized" fullname="PlayersWorlds.Maps.VectorTest.Vector_IsInitialized" methodname="Vector_IsInitialized" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1599688849" result="Passed" start-time="2024-01-03T15:50:15.5064150Z" end-time="2024-01-03T15:50:15.5064800Z" duration="0.000065" asserts="2">
+            <test-case id="0-1599" name="Vector_IsInitialized" fullname="PlayersWorlds.Maps.VectorTest.Vector_IsInitialized" methodname="Vector_IsInitialized" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1903274358" result="Passed" start-time="2024-01-04T04:53:59.7666330Z" end-time="2024-01-04T04:53:59.7666970Z" duration="0.000064" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1607" name="Vector_NotEqualToNull" fullname="PlayersWorlds.Maps.VectorTest.Vector_NotEqualToNull" methodname="Vector_NotEqualToNull" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1168713555" result="Passed" start-time="2024-01-03T15:50:15.5064860Z" end-time="2024-01-03T15:50:15.5066150Z" duration="0.000128" asserts="3">
+            <test-case id="0-1607" name="Vector_NotEqualToNull" fullname="PlayersWorlds.Maps.VectorTest.Vector_NotEqualToNull" methodname="Vector_NotEqualToNull" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="806152439" result="Passed" start-time="2024-01-04T04:53:59.7667020Z" end-time="2024-01-04T04:53:59.7668440Z" duration="0.000141" asserts="3">
               <properties />
             </test-case>
-            <test-case id="0-1611" name="Vector_SnappedForce" fullname="PlayersWorlds.Maps.VectorTest.Vector_SnappedForce" methodname="Vector_SnappedForce" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1073082535" result="Passed" start-time="2024-01-03T15:50:15.5066210Z" end-time="2024-01-03T15:50:15.5070130Z" duration="0.000392" asserts="9">
+            <test-case id="0-1611" name="Vector_SnappedForce" fullname="PlayersWorlds.Maps.VectorTest.Vector_SnappedForce" methodname="Vector_SnappedForce" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1255269948" result="Passed" start-time="2024-01-04T04:53:59.7668500Z" end-time="2024-01-04T04:53:59.7672080Z" duration="0.000358" asserts="9">
               <properties />
             </test-case>
-            <test-case id="0-1610" name="Vector_ThrowsIfNotAValidSize" fullname="PlayersWorlds.Maps.VectorTest.Vector_ThrowsIfNotAValidSize" methodname="Vector_ThrowsIfNotAValidSize" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="654335582" result="Passed" start-time="2024-01-03T15:50:15.5070200Z" end-time="2024-01-03T15:50:15.5072890Z" duration="0.000270" asserts="3">
+            <test-case id="0-1610" name="Vector_ThrowsIfNotAValidSize" fullname="PlayersWorlds.Maps.VectorTest.Vector_ThrowsIfNotAValidSize" methodname="Vector_ThrowsIfNotAValidSize" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1816963386" result="Passed" start-time="2024-01-04T04:53:59.7672150Z" end-time="2024-01-04T04:53:59.7674510Z" duration="0.000236" asserts="3">
               <properties />
             </test-case>
-            <test-case id="0-1612" name="Vector_ToIndex" fullname="PlayersWorlds.Maps.VectorTest.Vector_ToIndex" methodname="Vector_ToIndex" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="398631086" result="Passed" start-time="2024-01-03T15:50:15.5072960Z" end-time="2024-01-03T15:50:15.5074780Z" duration="0.000182" asserts="3">
+            <test-case id="0-1612" name="Vector_ToIndex" fullname="PlayersWorlds.Maps.VectorTest.Vector_ToIndex" methodname="Vector_ToIndex" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1700096233" result="Passed" start-time="2024-01-04T04:53:59.7674600Z" end-time="2024-01-04T04:53:59.7676350Z" duration="0.000175" asserts="3">
               <properties />
             </test-case>
-            <test-case id="0-1603" name="Vector_ToStringFormat" fullname="PlayersWorlds.Maps.VectorTest.Vector_ToStringFormat" methodname="Vector_ToStringFormat" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1723030701" result="Passed" start-time="2024-01-03T15:50:15.5074860Z" end-time="2024-01-03T15:50:15.5075740Z" duration="0.000089" asserts="2">
+            <test-case id="0-1603" name="Vector_ToStringFormat" fullname="PlayersWorlds.Maps.VectorTest.Vector_ToStringFormat" methodname="Vector_ToStringFormat" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="2037358091" result="Passed" start-time="2024-01-04T04:53:59.7676420Z" end-time="2024-01-04T04:53:59.7677100Z" duration="0.000068" asserts="2">
               <properties />
             </test-case>
-            <test-case id="0-1604" name="Vector_ZeroVectorIsNotEmpty" fullname="PlayersWorlds.Maps.VectorTest.Vector_ZeroVectorIsNotEmpty" methodname="Vector_ZeroVectorIsNotEmpty" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="836707409" result="Passed" start-time="2024-01-03T15:50:15.5075810Z" end-time="2024-01-03T15:50:15.5076490Z" duration="0.000068" asserts="1">
+            <test-case id="0-1604" name="Vector_ZeroVectorIsNotEmpty" fullname="PlayersWorlds.Maps.VectorTest.Vector_ZeroVectorIsNotEmpty" methodname="Vector_ZeroVectorIsNotEmpty" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1637203033" result="Passed" start-time="2024-01-04T04:53:59.7677160Z" end-time="2024-01-04T04:53:59.7677810Z" duration="0.000066" asserts="1">
               <properties />
             </test-case>
-            <test-case id="0-1614" name="VectorD_Parse" fullname="PlayersWorlds.Maps.VectorTest.VectorD_Parse" methodname="VectorD_Parse" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="823838349" result="Passed" start-time="2024-01-03T15:50:15.5076540Z" end-time="2024-01-03T15:50:15.5077250Z" duration="0.000070" asserts="1">
+            <test-case id="0-1614" name="VectorD_Parse" fullname="PlayersWorlds.Maps.VectorTest.VectorD_Parse" methodname="VectorD_Parse" classname="PlayersWorlds.Maps.VectorTest" runstate="Runnable" seed="1761433894" result="Passed" start-time="2024-01-04T04:53:59.7677870Z" end-time="2024-01-04T04:53:59.7678610Z" duration="0.000074" asserts="1">
               <properties />
             </test-case>
           </test-suite>
         </test-suite>
       </test-suite>
-      <test-suite type="TestFixture" id="0-1000" name="RandomAreaGeneratorTest" fullname="RandomAreaGeneratorTest" classname="RandomAreaGeneratorTest" runstate="Runnable" testcasecount="2" result="Passed" start-time="2024-01-03T15:50:15.5077570Z" end-time="2024-01-03T15:50:15.5182380Z" duration="0.010481" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="4052">
+      <test-suite type="TestFixture" id="0-1000" name="RandomAreaGeneratorTest" fullname="RandomAreaGeneratorTest" classname="RandomAreaGeneratorTest" runstate="Runnable" testcasecount="2" result="Passed" start-time="2024-01-04T04:53:59.7678960Z" end-time="2024-01-04T04:53:59.7784750Z" duration="0.010580" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="4052">
         <properties />
-        <test-case id="0-1001" name="ZoneGenerator_CanGenerateZones" fullname="RandomAreaGeneratorTest.ZoneGenerator_CanGenerateZones" methodname="ZoneGenerator_CanGenerateZones" classname="RandomAreaGeneratorTest" runstate="Runnable" seed="859937815" result="Passed" start-time="2024-01-03T15:50:15.5077950Z" end-time="2024-01-03T15:50:15.5176690Z" duration="0.009874" asserts="4006">
+        <test-case id="0-1001" name="ZoneGenerator_CanGenerateZones" fullname="RandomAreaGeneratorTest.ZoneGenerator_CanGenerateZones" methodname="ZoneGenerator_CanGenerateZones" classname="RandomAreaGeneratorTest" runstate="Runnable" seed="213916097" result="Passed" start-time="2024-01-04T04:53:59.7679350Z" end-time="2024-01-04T04:53:59.7779370Z" duration="0.010002" asserts="4006">
           <properties />
         </test-case>
-        <test-case id="0-1002" name="ZoneGenerator_CustomSettings" fullname="RandomAreaGeneratorTest.ZoneGenerator_CustomSettings" methodname="ZoneGenerator_CustomSettings" classname="RandomAreaGeneratorTest" runstate="Runnable" seed="482621348" result="Passed" start-time="2024-01-03T15:50:15.5176770Z" end-time="2024-01-03T15:50:15.5182250Z" duration="0.000548" asserts="46">
+        <test-case id="0-1002" name="ZoneGenerator_CustomSettings" fullname="RandomAreaGeneratorTest.ZoneGenerator_CustomSettings" methodname="ZoneGenerator_CustomSettings" classname="RandomAreaGeneratorTest" runstate="Runnable" seed="1540548321" result="Passed" start-time="2024-01-04T04:53:59.7779460Z" end-time="2024-01-04T04:53:59.7784630Z" duration="0.000518" asserts="46">
           <properties />
         </test-case>
       </test-suite>

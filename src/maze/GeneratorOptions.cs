@@ -7,7 +7,9 @@ namespace PlayersWorlds.Maps.Maze {
     public class GeneratorOptions {
         /// <summary>
         /// How much to fill the maze. <see
-        /// cref="PW.Maze.MazeGenerator.IsFillComplete()"/> implementation for
+        /// cref="MazeGenerator.IsFillComplete(
+        ///     GeneratorOptions, ICollection&lt;MazeCell&gt;,
+        ///     ICollection&lt;MazeCell&gt;, Vector) "/> implementation for
         /// details.
         /// </summary>
         public FillFactorOption FillFactor { get; set; }
@@ -33,13 +35,16 @@ namespace PlayersWorlds.Maps.Maze {
 
         // TODO: Allow to specify the algorithm instance pre-created by the user.
         /// <summary>
-        /// Algorithm to use when generating the maze.
+        /// Algorithm to use when generating the maze. Has to be a type derived
+        /// from <see cref="MazeGenerator"/>.
         /// </summary>
         public Type Algorithm { get; set; }
 
         /// <summary>
         /// How much to fill the maze. <see
-        /// cref="PW.Maze.MazeGenerator.IsFillComplete()"/> implementation for
+        /// cref="MazeGenerator.IsFillComplete(
+        ///     GeneratorOptions, ICollection&lt;MazeCell&gt;,
+        ///     ICollection&lt;MazeCell&gt;, Vector) "/> implementation for
         /// details.
         /// </summary>
         public enum FillFactorOption {
@@ -67,7 +72,7 @@ namespace PlayersWorlds.Maps.Maze {
             Manual,
             /// <summary>
             /// Use a generator to generate the areas. The generator can be
-            /// specified in <see cref="GeneratorOptions.AreaGenerator" />. If a
+            /// specified in <see cref="GeneratorOptions.Algorithm" />. If a
             /// generator is not specified, a default generator is used (<see
             /// cref="RandomAreaGenerator.GeneratorSettings.Default" />).
             /// </summary>

@@ -6,6 +6,7 @@ namespace PlayersWorlds.Maps.Maze {
         public static void Main() {
             var size = new Vector(20, 20);
             // As a user, how can I generate a maze?
+            // TODO: DocFx generates links to net8.0 docs
             // TODO: Create a readme with examples
             // TODO: Check public symbols
             // TODO: Check if all classes have tests

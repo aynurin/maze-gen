@@ -70,3 +70,17 @@ rm -rf ~/.local/share/NuGet/v3-cache
 rm -rf ~/.nuget/packages
 rm -rf packages
 ```
+
+## DocFx
+
+Build and serve the docs:
+
+```bash
+docfx docfx/docfx.json --serve
+```
+
+Requires globally installed docfx:
+
+```bash
+dotnet tool install -g docfx
+```

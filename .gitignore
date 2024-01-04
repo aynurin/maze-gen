@@ -7,3 +7,8 @@ packages
 # Visual Studio 2015 / MonoDevelop
 .vs/
 *.log
+
+# docfx
+.cache
+/docfx/_site
+/docfx/api
