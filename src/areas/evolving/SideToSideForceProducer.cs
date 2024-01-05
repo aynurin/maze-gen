@@ -159,7 +159,6 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             }
             double force;
             string caseName;
-            // todo: implement test for the failing scenario
             if (distanceHigh >= -VectorD.MIN && distanceLow <= VectorD.MIN) {
                 // the area is larger than env, won't do anything.
                 caseName = "OVERSIZE";
@@ -170,7 +169,6 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 caseName = "OVERLAP";
                 force = _forceFormula.OverlapForce(-distance, _overlapFactor);
             } else if (Math.Abs(distance) <= VectorD.MIN) {
-                // TODO: test area size = env size, centers shifted less than Epsilon, VectorD.MIN, 0.1
                 caseName = "COLLIDE";
                 distance = 0;
                 force = Math.Abs(distanceHigh) < Math.Abs(distanceLow) ?

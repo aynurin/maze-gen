@@ -82,15 +82,11 @@ namespace PlayersWorlds.Maps.Maze {
             cell._links.Remove(this);
         }
 
-        // TODO (MapArea): if the cell belongs to an area, use Area neighbors
-        // TODO (MapArea): Choose only visitable areas.
         public List<MazeCell> Neighbors() => _neighbors;
 
         public Optional<MazeCell> Neighbors(Vector unitVector) =>
             new Optional<MazeCell>(_neighbors.Find(cell => cell.Coordinates == this.Coordinates + unitVector));
 
-        // TODO (MapArea): if the cell belongs to an area, use Area links
-        // TODO (MapArea): Choose only visitable areas.
         public List<MazeCell> Links() => _links;
 
         public Optional<MazeCell> Links(Vector unitVector) =>

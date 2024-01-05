@@ -33,7 +33,6 @@ namespace PlayersWorlds.Maps.Maze {
             AreaGeneratorSettings { get; set; } =
                 RandomAreaGenerator.GeneratorSettings.Default;
 
-        // TODO: Allow to specify the algorithm instance pre-created by the user.
         /// <summary>
         /// Algorithm to use when generating the maze. Has to be a type derived
         /// from <see cref="MazeGenerator"/>.

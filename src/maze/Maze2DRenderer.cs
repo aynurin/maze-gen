@@ -176,7 +176,6 @@ namespace PlayersWorlds.Maps.Maze {
                     TrailHeights.Length == 1 ?
                         TrailHeights[0] : TrailHeights[mazeCellPosition.Y]);
 
-            // TODO: Unit test
             public Vector SWPosition(Vector mazeCellPosition) {
                 var trailPart = new Vector(
                     TrailWidths.Length == 1 ?
@@ -203,7 +202,6 @@ namespace PlayersWorlds.Maps.Maze {
                 return trailPart + wallPart;
             }
 
-            // TODO: Unit test
             public Vector RenderedSize(Vector mazeSize) {
                 ThrowIfWrong(mazeSize);
                 return SWPosition(mazeSize) +

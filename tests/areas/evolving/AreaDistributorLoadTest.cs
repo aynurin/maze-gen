@@ -25,7 +25,6 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 var roomsCount = (int)Math.Sqrt(maze.Area) / 3;
                 var rooms = new List<MapArea>();
                 for (var j = 0; j < roomsCount; j++) {
-                    // TODO: make random of three types (horizontal, vertical, square)
                     var size = new Vector(
                         GlobalRandom.Next(1, maze.Size.X / 3),
                         GlobalRandom.Next(1, maze.Size.Y / 3));

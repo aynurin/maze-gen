@@ -34,8 +34,6 @@ namespace PlayersWorlds.Maps.Maze {
                 .Invoke(null, new object[] { size, options });
         }
 
-        // TODO: Remove the generic method as it's not used as generic anywhere.
-        // https://github.com/spouliot/gendarme/wiki/Gendarme.Rules.Design.Generic.AvoidMethodWithUnusedGenericTypeRule(2.10)
         public static Maze2D Generate<T>(Vector size, GeneratorOptions options)
             where T : MazeGenerator, new() {
             var maze = new Maze2D(size);
@@ -120,7 +118,6 @@ namespace PlayersWorlds.Maps.Maze {
         protected bool IsFillComplete(GeneratorOptions options, Maze2D maze) =>
             IsFillComplete(options, maze.VisitedCells.ToList(), maze.VisitableCells, maze.Size);
 
-        // TODO (MapArea): if the cell belongs to an area, use Area space
         //                 instead of one cell space.
         protected bool IsFillComplete(GeneratorOptions options, ICollection<MazeCell> visitedCells, ICollection<MazeCell> visitableCells, Vector mazeSize) {
             var l = new Log("Maze2D", new Log.ImmediateFileLogWriter());

@@ -118,7 +118,6 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         /// <param name="box">The box to use to crop the vector</param>
         /// <returns></returns>
         public VectorD CropWithBox2D(VectorD vector, VectorD box) {
-            // TODO: I still have X and Y all messed up.
             double x, y;
             var rt = box / 2;
             var rb = new VectorD(-box.X / 2, box.Y / 2);

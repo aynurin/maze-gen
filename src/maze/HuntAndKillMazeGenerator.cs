@@ -5,8 +5,6 @@ using System.Linq;
 namespace PlayersWorlds.Maps.Maze {
     public class HuntAndKillMazeGenerator : MazeGenerator {
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
-            // TODO (MapArea): If there are unvisited visitable areas, start at one of them.
-            // TODO (MapArea): Choose only visitable areas.
             var currentCell = layout.VisitableCells.GetRandom();
             while (!IsFillComplete(options, layout)) {
                 var potentiallyNext = currentCell.Neighbors().Where(cell => !cell.IsVisited).ToList();

@@ -20,7 +20,6 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         /// epoch</param>
         public EvolvingSimulator(int maxEpochs, int generationsPerEpoch) {
             if (maxEpochs < 1) {
-                // TODO: Create a test for this
                 throw new ArgumentException($"Number of epochs must be greater than 0 (provided {maxEpochs})", "maxEpochs");
             }
             _epochs = maxEpochs;

@@ -8,7 +8,6 @@ namespace PlayersWorlds.Maps.Renderers {
         public MapAreaLogRenderer(Log log) {
             _log = log;
         }
-        // TODO: Create a separate class for drawing.
         public void Draw(Vector envSize, IEnumerable<MapArea> areas) {
             var bufferSize = new Vector(envSize.X * 2, envSize.Y * 2 * 2);
             var buffer = new AsciiBuffer(bufferSize.X, bufferSize.Y, true);

@@ -7,7 +7,6 @@ namespace PlayersWorlds.Maps.Maze {
             var currentCell = layout.VisitableCells.GetRandom();
             var visitedCells = new HashSet<MazeCell>() { currentCell };
             while (!IsFillComplete(options, layout)) {
-                // TODO (MapArea): If there are unvisited areas, start at one of them.
                 var next = currentCell.Neighbors().GetRandom();
                 if (!visitedCells.Contains(next)) {
                     currentCell.Link(next);

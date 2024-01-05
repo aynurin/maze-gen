@@ -10,9 +10,6 @@ namespace PlayersWorlds.Maps.Areas {
     // different sizes, we can't easily predefine areas counts and sizes, so we
     // might want to calculate areas based on some kind of heuristics. E.g., see
     // RandomZoneGenerator.
-    // TODO: Create an area generator
-    // TODO: Update generators to honor areas
-    // TODO: Update Dijkstra to use hall sizes
     public class MapArea {
         private Vector _position;
 

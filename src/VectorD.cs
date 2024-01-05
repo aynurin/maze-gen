@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace PlayersWorlds.Maps {
     // ? Maybe find a better name
-    // TODO: change VectorD to Single
     public struct VectorD : IEquatable<VectorD> {
         public const double MIN = 1E-10;
 
