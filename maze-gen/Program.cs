@@ -4,8 +4,11 @@ using PlayersWorlds.Maps.Renderers;
 namespace PlayersWorlds.Maps.Maze {
     class MainClass {
         public static void Main() {
-            var size = new Vector(20, 20);
+            var size = new Vector(10, 10);
             // As a user, how can I generate a maze?
+            // TODO: Add getting started.
+            // TODO: Once generated empty?..
+            // TODO: Deal with unconnected rooms.
             // TODO: DocFx generates links to net8.0 docs
             // TODO: Create a readme with examples
             // TODO: Check public symbols
@@ -22,7 +25,7 @@ namespace PlayersWorlds.Maps.Maze {
                     Algorithm = GeneratorOptions.Algorithms.RecursiveBacktracker,
                     FillFactor = GeneratorOptions.FillFactorOption.ThreeQuarters,
                     MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto,
-                }).ToMap(Maze.Maze2DRenderer.MazeToMapOptions.SquareCells(1, 1));
+                }).ToMap(Maze.Maze2DRenderer.MazeToMapOptions.RectCells(new Vector(2, 1), new Vector(2, 1)));
             Console.WriteLine(map);
         }
     }
