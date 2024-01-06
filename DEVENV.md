@@ -19,11 +19,9 @@ msbuild && nunit3-console build/Debug/tests/tests.dll --test="PlayersWorlds.Maps
 
 ### Add a package
 
-```bash
-nuget install PKG_NAME [-Version PKG_VERSION] -o packages
-```
-
-Then add reference to the .csproj with a HintPath manually.
+1. Add package to `packages.config`
+2. Run `nuget restore` or `nuget install PKG_NAME [-Version PKG_VERSION] -o packages`
+3. Add reference to .csproj and specify the HintPath pointing to the .dll.
 
 ### Restore
 

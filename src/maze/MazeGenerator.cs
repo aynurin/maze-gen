@@ -120,8 +120,6 @@ namespace PlayersWorlds.Maps.Maze {
 
         //                 instead of one cell space.
         protected bool IsFillComplete(GeneratorOptions options, ICollection<MazeCell> visitedCells, ICollection<MazeCell> visitableCells, Vector mazeSize) {
-            var l = new Log("Maze2D", new Log.ImmediateFileLogWriter());
-            l.I("IsFillComplete: " + options.FillFactor + ", visitedCells: " + visitedCells.Count + " visitableCells: " + visitableCells.Count + " mazeSize: " + mazeSize.Area);
             if (visitedCells.Count == 0) {
                 return false;
             }

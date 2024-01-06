@@ -13,5 +13,17 @@
     "nunit",
     "stddev",
     "Wilsons"
-  ]
+  ],
+
+  // Run background code analysis for: (Previously `omnisharp.enableRoslynAnalyzers`)
+  //  - openFiles: Open documents
+  //  - fullSolution: Entire solution
+  //  - none: None
+  "dotnet.backgroundAnalysis.analyzerDiagnosticsScope": "fullSolution",
+
+  // Show compiler errors and warnings for:
+  //  - openFiles: Open documents
+  //  - fullSolution: Entire solution
+  //  - none: None
+  "dotnet.backgroundAnalysis.compilerDiagnosticsScope": "fullSolution"
 }
