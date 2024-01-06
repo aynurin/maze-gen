@@ -9,7 +9,7 @@ namespace PlayersWorlds.Maps.Renderers {
         public AsciiBuffer(int rows, int cols, bool hideOverflow) {
             _hideOverflow = hideOverflow;
             _buffer = new char[rows][];
-            for (int i = 0; i < rows; i++) {
+            for (var i = 0; i < rows; i++) {
                 _buffer[i] = new string(' ', cols).ToCharArray();
             }
         }

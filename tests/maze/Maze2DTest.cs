@@ -13,7 +13,7 @@ namespace PlayersWorlds.Maps {
     public class Maze2DTest {
         [Test]
         public void Maze2D_IsInitialized() {
-            Maze2D map = new Maze2D(2, 3);
+            var map = new Maze2D(2, 3);
             Assert.AreEqual(6, map.Area);
             Assert.AreEqual(6, map.AllCells.Count);
             Assert.AreEqual(2, map.XWidthColumns);

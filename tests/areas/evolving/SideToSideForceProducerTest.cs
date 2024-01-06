@@ -16,64 +16,64 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         [Test]
         public void MapAreaSystemTest_DistancePositiveNormal() {
-            var d = ForceProducer(Log.CreateForThisTest(), 1)
+            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
                 .GetAxisDistance(0, 1, 2, 3);
-            Assert.IsFalse(d.overlap);
-            Assert.AreEqual(1D, d.distance);
-            Assert.AreEqual(-1D, d.sign);
+            Assert.IsFalse(overlap);
+            Assert.AreEqual(1D, distance);
+            Assert.AreEqual(-1D, sign);
         }
         [Test]
         public void MapAreaSystemTest_DistancePositiveOverlap() {
-            var d = ForceProducer(Log.CreateForThisTest(), 1)
+            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
                 .GetAxisDistance(0, 2, 1, 3);
-            Assert.IsTrue(d.overlap);
-            Assert.AreEqual(1D, d.distance);
-            Assert.AreEqual(-1D, d.sign);
+            Assert.IsTrue(overlap);
+            Assert.AreEqual(1D, distance);
+            Assert.AreEqual(-1D, sign);
         }
 
         [Test]
         public void MapAreaSystemTest_DistancePositiveCollide() {
-            var d = ForceProducer(Log.CreateForThisTest(), 1)
+            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
                 .GetAxisDistance(0, 2, 2, 4);
-            Assert.IsFalse(d.overlap);
-            Assert.AreEqual(0D, d.distance);
-            Assert.AreEqual(-1D, d.sign);
+            Assert.IsFalse(overlap);
+            Assert.AreEqual(0D, distance);
+            Assert.AreEqual(-1D, sign);
         }
 
         [Test]
         public void MapAreaSystemTest_DistanceCentersMatch() {
-            var d = ForceProducer(Log.CreateForThisTest(), 1)
+            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
                 .GetAxisDistance(0, 2, -1, 4);
-            Assert.IsTrue(d.overlap);
-            Assert.AreEqual(3D, d.distance);
-            Assert.AreEqual(1D, d.sign);
+            Assert.IsTrue(overlap);
+            Assert.AreEqual(3D, distance);
+            Assert.AreEqual(1D, sign);
         }
 
         [Test]
         public void MapAreaSystemTest_DistanceNegativeNormal() {
-            var d = ForceProducer(Log.CreateForThisTest(), 1)
+            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
                 .GetAxisDistance(0, 1, -3, 2);
-            Assert.IsFalse(d.overlap);
-            Assert.AreEqual(1D, d.distance);
-            Assert.AreEqual(1D, d.sign);
+            Assert.IsFalse(overlap);
+            Assert.AreEqual(1D, distance);
+            Assert.AreEqual(1D, sign);
         }
 
         [Test]
         public void MapAreaSystemTest_DistanceNegativeOverlap() {
-            var d = ForceProducer(Log.CreateForThisTest(), 1)
+            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
                 .GetAxisDistance(0, 2, -2, 3);
-            Assert.IsTrue(d.overlap);
-            Assert.AreEqual(1D, d.distance);
-            Assert.AreEqual(1D, d.sign);
+            Assert.IsTrue(overlap);
+            Assert.AreEqual(1D, distance);
+            Assert.AreEqual(1D, sign);
         }
 
         [Test]
         public void MapAreaSystemTest_DistanceNegativeCollide() {
-            var d = ForceProducer(Log.CreateForThisTest(), 1)
+            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
                 .GetAxisDistance(0, 2, -4, 4);
-            Assert.IsFalse(d.overlap);
-            Assert.AreEqual(0D, d.distance);
-            Assert.AreEqual(1D, d.sign);
+            Assert.IsFalse(overlap);
+            Assert.AreEqual(0D, distance);
+            Assert.AreEqual(1D, sign);
         }
 
         [Test]
@@ -270,107 +270,93 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         [Test]
         public void GetAxisDistance_Normal1() {
-            var fp = ForceProducer(Log.CreateForThisTest(), 0.1);
+            var (distance1, sign1, overlap1) = FNormal;
+            Assert.IsFalse(overlap1, "f1 overlap");
+            Assert.AreEqual(1D, distance1, "f1 distance");
+            Assert.AreEqual(-1D, sign1, "f1 sign");
 
-            var f1 = FNormal;
-            Assert.IsFalse(f1.overlap, "f1 overlap");
-            Assert.AreEqual(1D, f1.distance, "f1 distance");
-            Assert.AreEqual(-1D, f1.sign, "f1 sign");
-
-            var f2 = FNormalR;
-            Assert.IsFalse(f2.overlap, "f2 overlap");
-            Assert.AreEqual(1D, f2.distance, "f2 distance");
-            Assert.AreEqual(1D, f2.sign, "f2 sign");
+            var (distance2, sign2, overlap2) = FNormalR;
+            Assert.IsFalse(overlap2, "f2 overlap");
+            Assert.AreEqual(1D, distance2, "f2 distance");
+            Assert.AreEqual(1D, sign2, "f2 sign");
         }
 
         [Test]
         public void GetAxisDistance_Normal2() {
-            var fp = ForceProducer(Log.CreateForThisTest(), 0.1);
+            var (distance1, sign1, overlap1) = FNormalFar;
+            Assert.IsFalse(overlap1, "f1 overlap");
+            Assert.AreEqual(4D, distance1, "f1 distance");
+            Assert.AreEqual(-1D, sign1, "f1 sign");
 
-            var f1 = FNormalFar;
-            Assert.IsFalse(f1.overlap, "f1 overlap");
-            Assert.AreEqual(4D, f1.distance, "f1 distance");
-            Assert.AreEqual(-1D, f1.sign, "f1 sign");
-
-            var f2 = FNormalFarR;
-            Assert.IsFalse(f2.overlap, "f2 overlap");
-            Assert.AreEqual(4D, f2.distance, "f2 distance");
-            Assert.AreEqual(1D, f2.sign, "f2 sign");
+            var (distance2, sign2, overlap2) = FNormalFarR;
+            Assert.IsFalse(overlap2, "f2 overlap");
+            Assert.AreEqual(4D, distance2, "f2 distance");
+            Assert.AreEqual(1D, sign2, "f2 sign");
         }
 
         [Test]
         public void GetAxisDistance_Collide() {
-            var fp = ForceProducer(Log.CreateForThisTest(), 0.1);
+            var (distance1, sign1, overlap1) = Collide;
+            Assert.IsFalse(overlap1, "f1 overlap");
+            Assert.AreEqual(0D, distance1, "f1 distance");
+            Assert.AreEqual(-1D, sign1, "f1 sign");
 
-            var f1 = Collide;
-            Assert.IsFalse(f1.overlap, "f1 overlap");
-            Assert.AreEqual(0D, f1.distance, "f1 distance");
-            Assert.AreEqual(-1D, f1.sign, "f1 sign");
-
-            var f2 = CollideR;
-            Assert.IsFalse(f2.overlap, "f2 overlap");
-            Assert.AreEqual(0D, f2.distance, "f2 distance");
-            Assert.AreEqual(1D, f2.sign, "f2 sign");
+            var (distance2, sign2, overlap2) = CollideR;
+            Assert.IsFalse(overlap2, "f2 overlap");
+            Assert.AreEqual(0D, distance2, "f2 distance");
+            Assert.AreEqual(1D, sign2, "f2 sign");
         }
 
         [Test]
         public void GetAxisDistance_Overlap1() {
-            var fp = ForceProducer(Log.CreateForThisTest(), 0.1);
+            var (distance1, sign1, overlap1) = OverlapShallow;
+            Assert.IsTrue(overlap1, "f1 overlap");
+            Assert.AreEqual(1D, distance1, "f1 distance");
+            Assert.AreEqual(-1D, sign1, "f1 sign");
 
-            var f1 = OverlapShallow;
-            Assert.IsTrue(f1.overlap, "f1 overlap");
-            Assert.AreEqual(1D, f1.distance, "f1 distance");
-            Assert.AreEqual(-1D, f1.sign, "f1 sign");
-
-            var f2 = OverlapShallowR;
-            Assert.IsTrue(f2.overlap, "f2 overlap");
-            Assert.AreEqual(1D, f2.distance, "f2 distance");
-            Assert.AreEqual(1D, f2.sign, "f2 sign");
+            var (distance2, sign2, overlap2) = OverlapShallowR;
+            Assert.IsTrue(overlap2, "f2 overlap");
+            Assert.AreEqual(1D, distance2, "f2 distance");
+            Assert.AreEqual(1D, sign2, "f2 sign");
         }
 
         [Test]
         public void GetAxisDistance_Overlap2() {
-            var fp = ForceProducer(Log.CreateForThisTest(), 0.1);
+            var (distance1, sign1, overlap1) = OverlapDeep;
+            Assert.IsTrue(overlap1, "f1 overlap");
+            Assert.AreEqual(2D, distance1, "f1 distance");
+            Assert.AreEqual(-1D, sign1, "f1 sign");
 
-            var f1 = OverlapDeep;
-            Assert.IsTrue(f1.overlap, "f1 overlap");
-            Assert.AreEqual(2D, f1.distance, "f1 distance");
-            Assert.AreEqual(-1D, f1.sign, "f1 sign");
-
-            var f2 = OverlapDeepR;
-            Assert.IsTrue(f2.overlap, "f2 overlap");
-            Assert.AreEqual(2D, f2.distance, "f2 distance");
-            Assert.AreEqual(1D, f2.sign, "f2 sign");
+            var (distance2, sign2, overlap2) = OverlapDeepR;
+            Assert.IsTrue(overlap2, "f2 overlap");
+            Assert.AreEqual(2D, distance2, "f2 distance");
+            Assert.AreEqual(1D, sign2, "f2 sign");
         }
 
         [Test]
         public void GetAxisDistance_Contain1() {
-            var fp = ForceProducer(Log.CreateForThisTest(), 0.1);
+            var (distance1, sign1, overlap1) = ContainTouch;
+            Assert.IsTrue(overlap1, "f1 overlap");
+            Assert.AreEqual(2D, distance1, "f1 distance");
+            Assert.AreEqual(-1D, sign1, "f1 sign");
 
-            var f1 = ContainTouch;
-            Assert.IsTrue(f1.overlap, "f1 overlap");
-            Assert.AreEqual(2D, f1.distance, "f1 distance");
-            Assert.AreEqual(-1D, f1.sign, "f1 sign");
-
-            var f2 = ContainTouchR;
-            Assert.IsTrue(f2.overlap, "f2 overlap");
-            Assert.AreEqual(2D, f2.distance, "f2 distance");
-            Assert.AreEqual(1D, f2.sign, "f2 sign");
+            var (distance2, sign2, overlap2) = ContainTouchR;
+            Assert.IsTrue(overlap2, "f2 overlap");
+            Assert.AreEqual(2D, distance2, "f2 distance");
+            Assert.AreEqual(1D, sign2, "f2 sign");
         }
 
         [Test]
         public void GetAxisDistance_Contain2() {
-            var fp = ForceProducer(Log.CreateForThisTest(), 0.1);
+            var (distance1, sign1, overlap1) = ContainMatchCenter;
+            Assert.IsTrue(overlap1, "f1 overlap");
+            Assert.AreEqual(4D, distance1, "f1 distance");
+            Assert.AreEqual(1D, sign1, "f1 sign");
 
-            var f1 = ContainMatchCenter;
-            Assert.IsTrue(f1.overlap, "f1 overlap");
-            Assert.AreEqual(4D, f1.distance, "f1 distance");
-            Assert.AreEqual(1D, f1.sign, "f1 sign");
-
-            var f2 = ContainMatchCenterR;
-            Assert.IsTrue(f2.overlap, "f2 overlap");
-            Assert.AreEqual(4D, f2.distance, "f2 distance");
-            Assert.AreEqual(1D, f2.sign, "f2 sign");
+            var (distance2, sign2, overlap2) = ContainMatchCenterR;
+            Assert.IsTrue(overlap2, "f2 overlap");
+            Assert.AreEqual(4D, distance2, "f2 distance");
+            Assert.AreEqual(1D, sign2, "f2 sign");
         }
     }
 }

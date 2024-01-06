@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PlayersWorlds.Maps {
     // ? Maybe find a better name
-    public struct Vector : IEquatable<Vector> {
+    public readonly struct Vector : IEquatable<Vector> {
         public static readonly Vector Empty = new Vector();
         public static readonly Vector Zero2D = new Vector(0, 0);
         public static readonly Vector NorthWest2D = new Vector(-1, 1);
@@ -82,7 +82,7 @@ namespace PlayersWorlds.Maps {
 
         internal int ToIndex(int maxX) {
             if (X > maxX) {
-                throw new IndexOutOfRangeException($"Can't get index of vector {this} in a space that's limited by Xmax = {maxX}");
+                throw new IndexOutOfRangeException($"Can't get index of vector {this} in a space that's limited by X(max) = {maxX}");
             }
             return Y * maxX + X;
         }

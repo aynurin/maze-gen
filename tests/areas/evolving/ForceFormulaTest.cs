@@ -29,7 +29,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         public void NormalForce_PositiveCapped() {
             // Test normal force calculation for positive and negative distances
             TestNormalForce(new List<Tuple<double, double>> {
-                new Tuple<double, double>(Double.Epsilon, 3D),
+                new Tuple<double, double>(double.Epsilon, 3D),
                 new Tuple<double, double>(VectorD.MIN, 3D),
                 new Tuple<double, double>(0.01, 2.97D),
                 new Tuple<double, double>(10.0, 0),
@@ -41,7 +41,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         public void NormalForce_NegativeCapped() {
             // Test normal force calculation for positive and negative distances
             TestNormalForce(new List<Tuple<double, double>> {
-                new Tuple<double, double>(-Double.Epsilon, -3D),
+                new Tuple<double, double>(-double.Epsilon, -3D),
                 new Tuple<double, double>(-VectorD.MIN, -3D),
                 new Tuple<double, double>(-0.01, -2.97D),
                 new Tuple<double, double>(-10.0, 0),
@@ -63,7 +63,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             // Test collide force calculation for positive and negative
             // distances
             var testCases = new List<double> {
-                Double.Epsilon,
+                double.Epsilon,
                 VectorD.MIN,
                 0.001,
                 0.01,
@@ -86,7 +86,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             // Test collide force calculation for positive and negative
             // distances
             var testCases = new List<double> {
-                -Double.Epsilon,
+                -double.Epsilon,
                 -VectorD.MIN,
                 -0.001,
                 -0.01,

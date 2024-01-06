@@ -102,7 +102,7 @@ namespace PlayersWorlds.Maps {
             [ValueSource("GetGeneratorOptionsMapAreas")]
             List<MapArea> mapAreas
         ) {
-            if (!IsSupported(generatorType, fillFactor, mapAreaOptions, mapAreas)) {
+            if (!IsSupported(generatorType, fillFactor)) {
                 Assert.Ignore();
             }
             var size = new Vector(10, 10);
@@ -213,9 +213,7 @@ namespace PlayersWorlds.Maps {
 
         private static bool IsSupported(
             Type generatorType,
-            GeneratorOptions.FillFactorOption fillFactor,
-            GeneratorOptions.MapAreaOptions mapAreaOptions,
-            List<MapArea> mapAreas) {
+            GeneratorOptions.FillFactorOption fillFactor) {
             if ((generatorType == typeof(SidewinderMazeGenerator)
                  || generatorType == typeof(BinaryTreeMazeGenerator))
                 && fillFactor != GeneratorOptions.FillFactorOption.Full) {

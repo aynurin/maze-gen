@@ -18,7 +18,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void Optional_ThrowsIfNoValue() {
-            var opt = Optional<Object>.Empty;
+            var opt = Optional<object>.Empty;
             Assert.IsFalse(opt.HasValue);
             Assert.Throws<InvalidOperationException>(() => { var shouldFail = opt.Value; });
         }

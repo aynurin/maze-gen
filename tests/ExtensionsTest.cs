@@ -9,8 +9,7 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void TryDequeue_DoesNotThrow() {
             var queue = new Queue<string>();
-            string element;
-            Assert.IsFalse(queue.TryDequeue(out element));
+            Assert.IsFalse(queue.TryDequeue(out _));
         }
 
         [Test]
@@ -18,8 +17,7 @@ namespace PlayersWorlds.Maps {
             var queue = new Queue<string>();
             var a = "a";
             queue.Enqueue(a);
-            string element;
-            Assert.IsTrue(queue.TryDequeue(out element));
+            Assert.IsTrue(queue.TryDequeue(out var element));
             Assert.AreEqual(a, element);
         }
     }
