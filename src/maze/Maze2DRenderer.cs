@@ -9,6 +9,7 @@ namespace PlayersWorlds.Maps.Maze {
     public class Maze2DRenderer {
         private readonly Maze2D _maze;
         private readonly MazeToMapOptions _options;
+        private readonly List<Map2DFilter> _filters = new List<Map2DFilter>();
 
         internal static Map2D CreateMapForMaze(
             Maze2D maze, MazeToMapOptions options) =>
@@ -21,6 +22,11 @@ namespace PlayersWorlds.Maps.Maze {
 
             _maze = maze;
             _options = options;
+        }
+
+        public Maze2DRenderer With(Map2DFilter filter) {
+            _filters.Add(filter);
+            return this;
         }
 
         public void Render(Map2D map) {
@@ -45,11 +51,9 @@ namespace PlayersWorlds.Maps.Maze {
                     mapping.WCells.ForEach(c => c.Tags.Add(MapCellType.Trail));
                 }
             }
-            new Map2DOutline(new[] { MapCellType.Trail }, MapCellType.Wall, 1, 1).Render(map);
-            new Map2DAntialias(MapCellType.Trail, MapCellType.Edge, 1, 1).Render(map);
-            new Map2DOutline(new[] { MapCellType.Trail, MapCellType.Edge }, MapCellType.Wall, 1, 1).Render(map);
-            new Map2DFillGaps(new[] { MapCellType.Void }, true, MapCellType.Wall, 5, 5).Render(map);
-            new Map2DFillGaps(new[] { MapCellType.Wall, MapCellType.Edge }, false, MapCellType.Trail, 3, 3).Render(map);
+            foreach (var filter in _filters) {
+                filter.Render(map);
+            }
         }
 
         public bool Fits(Map2D map, MazeToMapOptions options) {

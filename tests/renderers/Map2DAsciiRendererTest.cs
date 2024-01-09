@@ -7,7 +7,7 @@ using PlayersWorlds.Maps.Maze;
 namespace PlayersWorlds.Maps.Renderers {
 
     [TestFixture]
-    internal class Map2DAsciiRendererTest {
+    internal class Map2DStringRendererTest {
         [Test]
         public void TestRender() {
             var map = new Map2D(new Vector(5, 5));

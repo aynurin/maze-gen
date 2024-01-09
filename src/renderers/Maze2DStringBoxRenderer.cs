@@ -6,7 +6,7 @@ using PlayersWorlds.Maps.Maze;
 using PlayersWorlds.Maps.Maze.PostProcessing;
 
 namespace PlayersWorlds.Maps.Renderers {
-    public class Maze2DAsciiBoxRenderer {
+    public class Maze2DStringBoxRenderer {
 
         private readonly Maze2D _maze;
         private readonly int _cellInnerHeight;
@@ -17,7 +17,7 @@ namespace PlayersWorlds.Maps.Renderers {
         private readonly Dictionary<int, string> _data =
             new Dictionary<int, string>();
 
-        public Maze2DAsciiBoxRenderer(Maze2D maze,
+        public Maze2DStringBoxRenderer(Maze2D maze,
                                       int cellInnerHeight = 1,
                                       int cellInnerWidth = 3) {
             _maze = maze; // 4x4

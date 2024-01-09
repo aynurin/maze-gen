@@ -2,12 +2,28 @@ using System.Linq;
 
 namespace PlayersWorlds.Maps.MapFilters {
 
-    public class Map2DOutline {
+    /// <summary>
+    /// A <see cref="Map2D" /> filter that detects area edges and places another
+    /// cell type around the edges.
+    /// </summary>
+    /// <remarks>
+    /// Use this filter to create outlines around edges of specific cell type.
+    /// E.g., to draw walls around trails.
+    /// </remarks>
+    public class Map2DOutline : Map2DFilter {
         private readonly string[] _cellType;
         private readonly string _outlineType;
         private readonly int _outlineWidth;
         private readonly int _outlineHeight;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Map2DOutline" /> class.
+        /// </summary>
+        /// <param name="cellType">Type of cells around which to draw outline.
+        /// </param>
+        /// <param name="outlineType">Outline cell type</param>
+        /// <param name="outlineWidth">Minimal width of the outline.</param>
+        /// <param name="outlineHeight">Minimal height of the outline.</param>
         public Map2DOutline(string[] cellType,
                             string outlineType,
                             int outlineWidth,
@@ -18,7 +34,11 @@ namespace PlayersWorlds.Maps.MapFilters {
             _outlineHeight = outlineHeight;
         }
 
-        public void Render(Map2D map) {
+        /// <summary>
+        /// Apply the filter to the specified <see cref="Map2D" />.
+        /// </summary>
+        /// <param name="map">The map to apply the filter to.</param>
+        override public void Render(Map2D map) {
             for (var y = 0; y < map.Size.Y; y++) {
                 for (var x = 0; x < map.Size.X; x++) {
                     var cell = map.CellAt(new Vector(x, y));

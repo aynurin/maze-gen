@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 
 namespace PlayersWorlds.Maps {
-    public static class Extensions {
+    internal static class Extensions {
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
             source.ThrowIfNull("source");
             action.ThrowIfNull("action");
@@ -95,7 +95,7 @@ namespace PlayersWorlds.Maps {
         public static bool IsZero(this double value) => Math.Abs(value) < VectorD.MIN;
     }
 
-    public class BaseStats {
+    internal class BaseStats {
         public double Min { get; private set; }
         public double Max { get; private set; }
         public double Mean { get; private set; }

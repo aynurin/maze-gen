@@ -25,5 +25,4 @@ using System.Runtime.CompilerServices;
 //[assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("")]
 
-[assembly: InternalsVisibleTo("tests")]
 [assembly: InternalsVisibleTo("PlayersWorlds.Maps.Tests")]

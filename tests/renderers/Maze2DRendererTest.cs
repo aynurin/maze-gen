@@ -17,8 +17,9 @@ namespace PlayersWorlds.Maps {
         public void SetUp() {
             _maze = Maze2D.Parse("4x4;0:1,4;1:2,5;2:3;3:7;4:5,8;8:12;12:13;13:14;14:10;10:11");
         }
+
         [Test]
-        public void CanRenderAMapWithAntiAliasing() {
+        public void CanRenderAMapWithSmoothCorners() {
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 1, 2, 1, 2 },
                 trailHeights: new int[] { 2, 1, 2, 1 },
@@ -26,8 +27,13 @@ namespace PlayersWorlds.Maps {
                 wallHeights: new int[] { 2, 1, 2, 1, 2 });
             var map = CreateMapForMaze(_maze, mazeRenderingOptions);
 
-            var mazeRenderer = new Maze2DRenderer(_maze, mazeRenderingOptions);
-            mazeRenderer.Render(map);
+            new Maze2DRenderer(_maze, mazeRenderingOptions)
+                .With(new Map2DOutline(new[] { MapCellType.Trail }, MapCellType.Wall, 1, 1))
+                .With(new Map2DSmoothCorners(MapCellType.Trail, MapCellType.Edge, 1, 1))
+                .With(new Map2DOutline(new[] { MapCellType.Trail, MapCellType.Edge }, MapCellType.Wall, 1, 1))
+                .With(new Map2DFillGaps(new[] { MapCellType.Void }, true, MapCellType.Wall, 5, 5))
+                .With(new Map2DFillGaps(new[] { MapCellType.Wall, MapCellType.Edge }, false, MapCellType.Trail, 3, 3))
+                .Render(map);
             var expected =
                 "0000000000000\n" +
                 "▓▓▓▓▓▓▓▓▓0000\n" +
@@ -57,8 +63,13 @@ namespace PlayersWorlds.Maps {
                 wallHeights: new int[] { 1, 2, 1, 2, 1 });
             var map = CreateMapForMaze(_maze, mazeRenderingOptions);
 
-            var mazeRenderer = new Maze2DRenderer(_maze, mazeRenderingOptions);
-            mazeRenderer.Render(map);
+            new Maze2DRenderer(_maze, mazeRenderingOptions)
+                .With(new Map2DOutline(new[] { MapCellType.Trail }, MapCellType.Wall, 1, 1))
+                .With(new Map2DSmoothCorners(MapCellType.Trail, MapCellType.Edge, 1, 1))
+                .With(new Map2DOutline(new[] { MapCellType.Trail, MapCellType.Edge }, MapCellType.Wall, 1, 1))
+                .With(new Map2DFillGaps(new[] { MapCellType.Void }, true, MapCellType.Wall, 5, 5))
+                .With(new Map2DFillGaps(new[] { MapCellType.Wall, MapCellType.Edge }, false, MapCellType.Trail, 3, 3))
+                .Render(map);
             Console.WriteLine(map.ToString());
 
             var expected =
@@ -89,8 +100,13 @@ namespace PlayersWorlds.Maps {
                 wallHeights: new int[] { 1, 2, 1, 2, 1 });
             var map = CreateMapForMaze(_maze, mazeRenderingOptions);
 
-            var mazeRenderer = new Maze2DRenderer(_maze, mazeRenderingOptions);
-            mazeRenderer.Render(map);
+            new Maze2DRenderer(_maze, mazeRenderingOptions)
+                .With(new Map2DOutline(new[] { MapCellType.Trail }, MapCellType.Wall, 1, 1))
+                .With(new Map2DSmoothCorners(MapCellType.Trail, MapCellType.Edge, 1, 1))
+                .With(new Map2DOutline(new[] { MapCellType.Trail, MapCellType.Edge }, MapCellType.Wall, 1, 1))
+                .With(new Map2DFillGaps(new[] { MapCellType.Void }, true, MapCellType.Wall, 5, 5))
+                .With(new Map2DFillGaps(new[] { MapCellType.Wall, MapCellType.Edge }, false, MapCellType.Trail, 3, 3))
+                .Render(map);
             Console.WriteLine(map.ToString());
 
             var expected =
@@ -121,8 +137,13 @@ namespace PlayersWorlds.Maps {
                 wallHeights: new int[] { 1, 2, 1, 2, 1 });
             var map = CreateMapForMaze(_maze, mazeRenderingOptions);
 
-            var mazeRenderer = new Maze2DRenderer(_maze, mazeRenderingOptions);
-            mazeRenderer.Render(map);
+            new Maze2DRenderer(_maze, mazeRenderingOptions)
+                .With(new Map2DOutline(new[] { MapCellType.Trail }, MapCellType.Wall, 1, 1))
+                .With(new Map2DSmoothCorners(MapCellType.Trail, MapCellType.Edge, 1, 1))
+                .With(new Map2DOutline(new[] { MapCellType.Trail, MapCellType.Edge }, MapCellType.Wall, 1, 1))
+                .With(new Map2DFillGaps(new[] { MapCellType.Void }, true, MapCellType.Wall, 5, 5))
+                .With(new Map2DFillGaps(new[] { MapCellType.Wall, MapCellType.Edge }, false, MapCellType.Trail, 3, 3))
+                .Render(map);
             Console.WriteLine(map.ToString());
 
             var expected =
@@ -144,7 +165,7 @@ namespace PlayersWorlds.Maps {
         }
 
         [Test]
-        public void Maze2DAsciiBoxRenderer_CanConvertToAscii() {
+        public void Maze2DStringBoxRenderer_CanConvertToAscii() {
             var expected =
                 "┌───────────┐    \n" +
                 "│           │    \n" +
@@ -160,7 +181,7 @@ namespace PlayersWorlds.Maps {
         }
 
         [Test]
-        public void Maze2DAsciiBoxRenderer_CanConvertToAsciiWithData() {
+        public void Maze2DStringBoxRenderer_CanConvertToAsciiWithData() {
             var expected =
                 "┌───────────┐    \n" +
                 "│ 4   3   2 │    \n" +

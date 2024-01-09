@@ -1,6 +1,6 @@
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
-    public interface IAreaForceProducer {
+    internal interface IAreaForceProducer {
         VectorD GetAreaForce(
             FloatingArea area, FloatingArea other);
     }

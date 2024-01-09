@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
-    public class MapAreasSystem : SimulatedSystem {
+    internal class MapAreasSystem : SimulatedSystem {
         private static readonly string[] s_nicknames = new[] {
             "BEAR", "LION", "WOLF", "FOXY", "DEER", "MOOS", "ELKK", "HARE", "RABB", "OTTR", "PUMA", "HYNA", "PNDA", "CHTA", "RINO", "BSON", "ZEBR", "ORCA", "PENG"
         };
@@ -15,12 +15,10 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             new Dictionary<FloatingArea, string>();
         private readonly Vector _envSize;
         private readonly IList<FloatingArea> _areas;
-        private readonly Log _log;
         private readonly Action<GenerationImpact> _onGeneration;
         private readonly Action<EpochResult> _onEpoch;
 
         public MapAreasSystem(
-            Log log,
             Vector envSize,
             IEnumerable<MapArea> areas,
             Action<GenerationImpact> onGeneration,
@@ -31,13 +29,12 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             foreach (var area in _areas) {
                 _nicknames.Add(area, s_nicknames[_nicknames.Count]);
             }
-            _log = log;
             _onGeneration = impact => onGeneration?.Invoke(impact);
             _onEpoch = epoch => onEpoch?.Invoke(epoch);
         }
 
         public override GenerationImpact Evolve(double fragment) {
-            var areaForceProducer = new SideToSideForceProducer(_log, new ForceFormula(), fragment);
+            var areaForceProducer = new SideToSideForceProducer(new ForceFormula(), fragment);
             var envForceProducer = areaForceProducer;
             var areasForces = new List<VectorD>();
             // get epoch forces
@@ -50,7 +47,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 force += envForceProducer.GetEnvironmentForce(area, _envSize);
                 // compensate opposing force
                 areasForces.Add(force);
-                _log?.Buffered.D(5, $"OverallForce({area}): {force}");
+                // TODO: Trace: _log?.Buffered.D(5, $"OverallForce({area}): {force}");
             }
             // apply epoch force in this generation
             for (var i = 0; i < _areas.Count; i++) {
@@ -106,7 +103,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             epochResult.CompleteEvolution =
                 epochResult.Stats.Mode == 0 && epochResult.Stats.Variance <= 0.1;
 
-            _log?.Buffered.D(4, $"CompleteEpoch(): {epochResult.DebugString()}, {epochResult.Stats.DebugString()}");
+            // TODO: Trace: _log?.Buffered.D(4, $"CompleteEpoch(): {epochResult.DebugString()}, {epochResult.Stats.DebugString()}");
 
             _onEpoch(epochResult);
 

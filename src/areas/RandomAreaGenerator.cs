@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace PlayersWorlds.Maps.Areas {
+    // TODO: Make this an extensible class that can be provided by the user
+    //       allowing to generate areas for specific use cases.
     public class RandomAreaGenerator : IEnumerable<MapArea>, IEnumerator<MapArea> {
         private MapArea _current;
 

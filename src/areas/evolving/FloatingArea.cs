@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
-    public class FloatingArea {
+    internal class FloatingArea {
         private readonly MapArea _linkedArea;
         public VectorD Position { get; private set; }
         public VectorD Size { get; }

@@ -2,7 +2,7 @@ using System;
 using System.Text;
 
 namespace PlayersWorlds.Maps.Renderers {
-    public class AsciiBuffer {
+    internal class AsciiBuffer {
         private readonly bool _hideOverflow;
         private readonly char[][] _buffer;
 

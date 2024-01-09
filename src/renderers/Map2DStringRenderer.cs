@@ -2,7 +2,7 @@ using System.Text;
 using PlayersWorlds.Maps.Maze;
 
 namespace PlayersWorlds.Maps.Renderers {
-    public class Map2DAsciiRenderer {
+    public class Map2DStringRenderer {
 
         public string Render(Map2D map) {
             var buffer = new StringBuilder();

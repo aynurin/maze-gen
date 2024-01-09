@@ -42,9 +42,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             };
 
             new AreaDistributor(
-                log,
                 debugLevel >= 4 ?
-                    new MapAreaLogRenderer(log) :
+                    new MapAreaStringRenderer() :
                     null,
                 debugLevel >= 5)
                 .Distribute(mapSize, managedAreas, maxEpochs);

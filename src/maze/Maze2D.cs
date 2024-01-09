@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.MapFilters;
 using PlayersWorlds.Maps.Maze.PostProcessing;
 using PlayersWorlds.Maps.Renderers;
+using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
 namespace PlayersWorlds.Maps.Maze {
     public class Maze2D {
@@ -93,12 +95,18 @@ namespace PlayersWorlds.Maps.Maze {
         public Map2D ToMap(Maze2DRenderer.MazeToMapOptions options) {
             options.ThrowIfWrong(this.Size);
             var map = Maze2DRenderer.CreateMapForMaze(this, options);
-            new Maze2DRenderer(this, options).Render(map);
+            new Maze2DRenderer(this, options)
+                .With(new Map2DOutline(new[] { MapCellType.Trail }, MapCellType.Wall, 1, 1))
+                .With(new Map2DSmoothCorners(MapCellType.Trail, MapCellType.Edge, 1, 1))
+                .With(new Map2DOutline(new[] { MapCellType.Trail, MapCellType.Edge }, MapCellType.Wall, 1, 1))
+                .With(new Map2DFillGaps(new[] { MapCellType.Void }, true, MapCellType.Wall, 5, 5))
+                .With(new Map2DFillGaps(new[] { MapCellType.Wall, MapCellType.Edge }, false, MapCellType.Trail, 3, 3))
+                .Render(map);
             return map;
         }
 
         public override string ToString() {
-            return new Maze2DAsciiBoxRenderer(this).WithTrail();
+            return new Maze2DStringBoxRenderer(this).WithTrail();
         }
 
         public static Maze2D Parse(string serialized) {

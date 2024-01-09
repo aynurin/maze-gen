@@ -3,14 +3,12 @@ using System;
 using System.Linq;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
-    public class VectorDistanceForceProducer : IAreaForceProducer {
-        private readonly Log _log;
+    internal class VectorDistanceForceProducer : IAreaForceProducer {
         private readonly IForceFormula _forceFormula;
         private readonly double _overlapFactor;
 
         public VectorDistanceForceProducer(
-            Log log, IForceFormula forceFormula, double overlapFactor) {
-            _log = log;
+            IForceFormula forceFormula, double overlapFactor) {
             _forceFormula = forceFormula;
             _overlapFactor = overlapFactor;
         }
@@ -68,14 +66,14 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var thisV = CropWithBox2D(direction, area.Size);
             var otherV = VectorD.Zero2D - CropWithBox2D((VectorD.Zero2D - direction), other.Size);
 
-            var caseName = "NONE";
+            // TODO: Trace: var caseName = "NONE";
             VectorD force, distance;
             if (VectorD.MIN > Math.Abs((thisV + otherV).MagnitudeSq - direction.MagnitudeSq)) {
                 // the rooms are touching each other, force = 1/0.1
                 distance = new VectorD(direction.Value.Select(v => v > 0.1 ? 0.1 : v < -0.1 ? -0.1 : v));
                 force = distance.WithMagnitude(
                     _forceFormula.CollideForce(distance.Magnitude, _overlapFactor));
-                caseName = "COLLIDE";
+                // TODO: Trace: caseName = "COLLIDE";
             } else if ((thisV + otherV).MagnitudeSq < direction.MagnitudeSq) {
                 // TODO: measuring distance using vectors is not optimal, e.g.:
                 // !! ║     ┌─────────────────────────┐───┐         ║                                         
@@ -97,7 +95,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 distance = direction - thisV - otherV;
                 force = distance.WithMagnitude(
                     _forceFormula.NormalForce(distance.Magnitude));
-                caseName = "NORMAL";
+                // TODO: Trace: caseName = "NORMAL";
             } else {
                 // rooms overlap
                 distance = thisV - direction + otherV;
@@ -105,9 +103,9 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 var forceX = _forceFormula.OverlapForce(distance.X, _overlapFactor);
                 var forceY = _forceFormula.OverlapForce(distance.Y, _overlapFactor);
                 force = new VectorD(forceX, forceY);
-                caseName = "OVERLAP";
+                // TODO: Trace: caseName = "OVERLAP";
             }
-            _log?.Buffered.D(5, $"GetRoomForce({area}, {other}): {caseName},thisV={thisV},otherV={otherV},direction={direction},distance={distance},distance.Magnitude={distance.Magnitude},force={force}");
+            // TODO: Trace: _log?.Buffered.D(5, $"GetRoomForce({area}, {other}): {caseName},thisV={thisV},otherV={otherV},direction={direction},distance={distance},distance.Magnitude={distance.Magnitude},force={force}");
             return force;
         }
 

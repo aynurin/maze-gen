@@ -23,7 +23,6 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             // the force is capped between 0 and 3
             var force = (3.3 / (distance + 1)) - 0.3;
             return force * sign;
-            throw new System.NotImplementedException();
         }
 
         /// <summary>

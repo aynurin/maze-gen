@@ -35,7 +35,7 @@
     {
       "label": "test",
       "type": "shell",
-      "command": "cd build/Debug/tests && nunit3-console tests.dll --where=\"Category!=Load\"",
+      "command": "nunit3-console build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category!=Load\"",
       "problemMatcher": [],
       "dependsOn": ["build"],
       "group": {
@@ -46,7 +46,7 @@
     {
       "label": "load-test",
       "type": "shell",
-      "command": "cd build/Debug/tests && nunit3-console tests.dll --where=\"Category=Load\"",
+      "command": "nunit3-console build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category=Load\"",
       "problemMatcher": [],
       "dependsOn": ["build"],
       "group": {

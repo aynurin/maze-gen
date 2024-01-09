@@ -7,25 +7,25 @@ using NUnit.Framework;
 namespace PlayersWorlds.Maps.Areas.Evolving {
     [TestFixture]
     public class SideToSideForceProducerTest {
-        private SideToSideForceProducer ForceProducer
-            (Log log, double overlapFactor) =>
-            new SideToSideForceProducer(
-                log,
-                new ForceFormula(),
-                overlapFactor);
+        private SideToSideForceProducer _forceProducer;
+
+        [SetUp]
+        public void SetUp() {
+            _forceProducer = new SideToSideForceProducer(new ForceFormula(), 1);
+        }
 
         [Test]
         public void MapAreaSystemTest_DistancePositiveNormal() {
-            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
-                .GetAxisDistance(0, 1, 2, 3);
+            var (distance, sign, overlap) =
+                _forceProducer.GetAxisDistance(0, 1, 2, 3);
             Assert.IsFalse(overlap);
             Assert.AreEqual(1D, distance);
             Assert.AreEqual(-1D, sign);
         }
         [Test]
         public void MapAreaSystemTest_DistancePositiveOverlap() {
-            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
-                .GetAxisDistance(0, 2, 1, 3);
+            var (distance, sign, overlap) =
+                _forceProducer.GetAxisDistance(0, 2, 1, 3);
             Assert.IsTrue(overlap);
             Assert.AreEqual(1D, distance);
             Assert.AreEqual(-1D, sign);
@@ -33,8 +33,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         [Test]
         public void MapAreaSystemTest_DistancePositiveCollide() {
-            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
-                .GetAxisDistance(0, 2, 2, 4);
+            var (distance, sign, overlap) =
+                _forceProducer.GetAxisDistance(0, 2, 2, 4);
             Assert.IsFalse(overlap);
             Assert.AreEqual(0D, distance);
             Assert.AreEqual(-1D, sign);
@@ -42,8 +42,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         [Test]
         public void MapAreaSystemTest_DistanceCentersMatch() {
-            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
-                .GetAxisDistance(0, 2, -1, 4);
+            var (distance, sign, overlap) =
+                _forceProducer.GetAxisDistance(0, 2, -1, 4);
             Assert.IsTrue(overlap);
             Assert.AreEqual(3D, distance);
             Assert.AreEqual(1D, sign);
@@ -51,8 +51,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         [Test]
         public void MapAreaSystemTest_DistanceNegativeNormal() {
-            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
-                .GetAxisDistance(0, 1, -3, 2);
+            var (distance, sign, overlap) =
+                _forceProducer.GetAxisDistance(0, 1, -3, 2);
             Assert.IsFalse(overlap);
             Assert.AreEqual(1D, distance);
             Assert.AreEqual(1D, sign);
@@ -60,8 +60,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         [Test]
         public void MapAreaSystemTest_DistanceNegativeOverlap() {
-            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
-                .GetAxisDistance(0, 2, -2, 3);
+            var (distance, sign, overlap) =
+                _forceProducer.GetAxisDistance(0, 2, -2, 3);
             Assert.IsTrue(overlap);
             Assert.AreEqual(1D, distance);
             Assert.AreEqual(1D, sign);
@@ -69,8 +69,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         [Test]
         public void MapAreaSystemTest_DistanceNegativeCollide() {
-            var (distance, sign, overlap) = ForceProducer(Log.CreateForThisTest(), 1)
-                .GetAxisDistance(0, 2, -4, 4);
+            var (distance, sign, overlap) =
+                _forceProducer.GetAxisDistance(0, 2, -4, 4);
             Assert.IsFalse(overlap);
             Assert.AreEqual(0D, distance);
             Assert.AreEqual(1D, sign);
@@ -83,7 +83,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var thisOpposingForce = 0.0;
 
             // Act
-            var result = ForceProducer(Log.CreateForThisTest(), 1)
+            var result = _forceProducer
                 .GetOpposingForce(
                     1.0, 1.0, thisOpposingForce,
                     0.0, 3.0, thisForce);
@@ -100,7 +100,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var thisOpposingForce = 2.5;
 
             // Act
-            var result = ForceProducer(Log.CreateForThisTest(), 1)
+            var result = _forceProducer
                 .GetOpposingForce(
                     1.0, 1.0, thisOpposingForce,
                     0.0, 3.0, thisForce);
@@ -117,7 +117,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var thisOpposingForce = 0.0;
 
             // Act
-            var result = ForceProducer(Log.CreateForThisTest(), 1)
+            var result = _forceProducer
                 .GetOpposingForce(
                     1.0, 1.0, thisOpposingForce,
                     1.0, 1.5, thisForce);
@@ -134,7 +134,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var thisOpposingForce = 2.0;
 
             // Act
-            var result = ForceProducer(Log.CreateForThisTest(), 1)
+            var result = _forceProducer
                 .GetOpposingForce(
                     1.0, 1.0, thisOpposingForce,
                     1.0, 1.5, thisForce);
@@ -151,7 +151,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var thisOpposingForce = 0.0;
 
             // Act
-            var result = ForceProducer(Log.CreateForThisTest(), 1)
+            var result = _forceProducer
                 .GetOpposingForce(
                     1.0, 1.0, thisOpposingForce,
                     1.6, 3.0, thisForce);
@@ -168,7 +168,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var thisOpposingForce = 2.0;
 
             // Act
-            var result = ForceProducer(Log.CreateForThisTest(), 1)
+            var result = _forceProducer
                 .GetOpposingForce(
                     1.0, 1.0, thisOpposingForce,
                     1.6, 3.0, thisForce);
@@ -185,7 +185,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var thisOpposingForce = 0.0;
 
             // Act
-            var result = ForceProducer(Log.CreateForThisTest(), 1)
+            var result = _forceProducer
                 .GetOpposingForce(
                     1.0, 1.0, thisOpposingForce,
                     2.0, 3.0, thisForce);
@@ -202,7 +202,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var thisOpposingForce = 2.0;
 
             // Act
-            var result = ForceProducer(Log.CreateForThisTest(), 1)
+            var result = _forceProducer
                 .GetOpposingForce(
                     1.0, 1.0, thisOpposingForce,
                     2.0, 3.0, thisForce);
@@ -210,16 +210,6 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             // Assert
             Assert.AreEqual(thisForce, result.thisForce);
             Assert.AreEqual(0, result.opposingForce);
-        }
-
-        private SideToSideForceProducer _forceProducer;
-
-        [SetUp]
-        public void SetUp() {
-            _forceProducer = new SideToSideForceProducer(
-                Log.Create(TestContext.CurrentContext.Test.Name.Split('_').Last()),
-                new ForceFormula(),
-                1);
         }
 
         // https://docs.google.com/spreadsheets/d/1qvLtWNySSYW7v10g28d1CcepfDeN-g649f2Hsff5yDs/edit#gid=684476059

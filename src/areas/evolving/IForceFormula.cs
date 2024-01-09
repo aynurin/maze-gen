@@ -1,6 +1,6 @@
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
-    public interface IForceFormula {
+    internal interface IForceFormula {
         double NormalForce(double distance);
 
         /// <summary>

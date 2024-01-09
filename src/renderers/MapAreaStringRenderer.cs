@@ -1,14 +1,11 @@
 
 using System.Collections.Generic;
+using System.IO;
 using PlayersWorlds.Maps.Areas;
 
 namespace PlayersWorlds.Maps.Renderers {
-    public class MapAreaLogRenderer {
-        private readonly Log _log;
-        public MapAreaLogRenderer(Log log) {
-            _log = log;
-        }
-        public void Draw(Vector envSize, IEnumerable<MapArea> areas) {
+    public class MapAreaStringRenderer {
+        public string Render(Vector envSize, IEnumerable<MapArea> areas) {
             var bufferSize = new Vector(envSize.X * 2, envSize.Y * 2 * 2);
             var buffer = new AsciiBuffer(bufferSize.X, bufferSize.Y, true);
             var offset = new Vector(envSize.X / 2, envSize.Y / 2);
@@ -19,7 +16,7 @@ namespace PlayersWorlds.Maps.Renderers {
                            area.Position.Y + offset.Y),
                            area.Size,
                            s_roomChars));
-            _log?.Buffered.D(4, buffer.ToString());
+            return buffer.ToString();
         }
 
         private void DrawRect(AsciiBuffer buffer, Vector pos, Vector size, char[] wallChars) {

@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 
+// TODO: Refactor this to use Trace
 public class Log {
     private readonly string _name;
     private readonly BufferedLog _buffered;
@@ -66,9 +68,13 @@ public class Log {
         }
     }
 
-    public class BufferedLog {
+    // TODO: TextWriter is not used properly here, need to refactor when working
+    //       on Trace migration.
+    public class BufferedLog : TextWriter {
         private readonly List<LogMessage> _buffer = new List<LogMessage>();
         private readonly Log _parentLog;
+
+        public override Encoding Encoding => throw new NotImplementedException();
 
         public BufferedLog(Log parentLog) {
             _parentLog = parentLog;
@@ -76,6 +82,14 @@ public class Log {
 
         public void Reset() {
             _buffer.Clear();
+        }
+
+        override public void Write(string value) {
+            _buffer.Add(LogMessage.I(value));
+        }
+
+        override public void WriteLine(string value) {
+            _buffer.Add(LogMessage.I(value));
         }
 
         public void D(int debugLevel, string message) {
@@ -92,7 +106,7 @@ public class Log {
 
         public void E(string message) => _buffer.Add(LogMessage.E(message));
 
-        public void Flush() {
+        override public void Flush() {
             foreach (var message in _buffer) {
                 _parentLog.Write(message);
             }

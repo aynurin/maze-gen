@@ -39,7 +39,7 @@ namespace PlayersWorlds.Maps {
         }
 
         public override string ToString() {
-            return new Map2DAsciiRenderer().Render(this);
+            return new Map2DStringRenderer().Render(this);
         }
     }
 }

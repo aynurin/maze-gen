@@ -29,23 +29,27 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         /// <summary>
         /// Evolves the given system over time.
         /// </summary>
-        /// <param name="system"></param>
+        /// <remarks>
+        /// <p>
+        /// The evolution happens in epochs, and each epoch can produce a total
+        /// of epoch_impact.
+        /// Epochs consist of generations, and each generation produces
+        /// epoch_impact / _generationsPerEpoch impact.
+        /// We evaluate epoch_impact to see if it's significant. If not, we
+        /// conclude the evolution because we don't expect any more significant
+        /// impact in the same system.
+        /// </p><p>
+        /// The point of this type of simulation is that we can't apply a full
+        /// analogue impact in a discreet system immediately, because analogue
+        /// impact changes along with the system changes. I.e., if we take all
+        /// forces that apply to all objects and apply them at the same time,
+        /// the overall impact will not account for forces changes that would
+        /// have happened if the objects would naturally move under the impact.
+        /// </p>
+        /// </remarks>
+        /// <param name="system">The system to evolve.</param>
         /// <returns></returns>
         public int Evolve(SimulatedSystem system) {
-            // The evolution happens in epochs, and each epoch can produce a total
-            // of epoch_impact.
-            // Epochs consist of generations, and each generation produces
-            // epoch_impact / _generationsPerEpoch impact.
-            // We evaluate epoch_impact to see if it's significant. If not, we
-            // conclude the evolution because we don't expect any more significant
-            // impact in the same system.
-
-            // The point of this simulation is that we can't apply a full analogue
-            // impact in a discreet system immediately, because analogue impact
-            // changes along with system changes. E.g., if we apply 1/10th of full
-            // impact, the overall impact will change, and the following impact is different
-            // from the original impact.
-
             var epochResults = new List<EpochResult>();
             for (var e = 0; e < _epochs; e++) {
                 var impact = Enumerable.Range(0, _generationsPerEpoch)

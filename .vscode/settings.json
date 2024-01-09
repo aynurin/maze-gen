@@ -6,13 +6,23 @@
     "Appender",
     "Backtracker",
     "Broder",
+    "BSON",
+    "CHTA",
     "docfx",
+    "ELKK",
+    "HYNA",
     "mazegen",
     "Memberwise",
     "msbuild",
     "nunit",
+    "OTTR",
+    "PNDA",
+    "RABB",
+    "RINO",
     "stddev",
-    "Wilsons"
+    "unpositioned",
+    "Wilsons",
+    "ZEBR"
   ],
 
   // Run background code analysis for: (Previously `omnisharp.enableRoslynAnalyzers`)

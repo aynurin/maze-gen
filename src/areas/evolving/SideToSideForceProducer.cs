@@ -2,17 +2,15 @@ using System;
 using System.Collections.Generic;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
-    public class SideToSideForceProducer :
+    internal class SideToSideForceProducer :
         IAreaForceProducer, IEnvironmentForceProducer {
-        private readonly Log _log;
         private readonly IForceFormula _forceFormula;
         private readonly double _overlapFactor;
         private readonly Dictionary<(FloatingArea, FloatingArea), VectorD>
             _opposingForces = new Dictionary<(FloatingArea, FloatingArea), VectorD>();
 
         public SideToSideForceProducer(
-            Log log, IForceFormula forceFormula, double overlapFactor) {
-            _log = log;
+            IForceFormula forceFormula, double overlapFactor) {
             _forceFormula = forceFormula;
             _overlapFactor = overlapFactor;
         }
@@ -87,9 +85,6 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     fY.force = _forceFormula.NormalForce(dY.distance * dY.sign);
                 }
             }
-            var fXo = fX.force;
-            var fYo = fY.force;
-
             var opposingForce = VectorD.Zero2D;
             if (_opposingForces.ContainsKey((area, other))) {
                 opposingForce = _opposingForces[(area, other)];
@@ -121,7 +116,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             }
             var force = new VectorD(fX.force, fY.force);
 
-            _log?.Buffered.D(5, $"GetRoomForce (({area}), ({other})): {fX.caseName},{fY.caseName},f={fXo:F2}x{fYo:F2},thisForce={thisForceX:F2}x{thisForceY:F2},distance={distance},opposingForce={opposingForceX:F2}x{opposingForceY:F2},force={force}");
+            // TODO: Trace: _log?.Buffered.D(5, $"GetRoomForce (({area}), ({other})): {fX.caseName},{fY.caseName},thisForce={thisForceX:F2}x{thisForceY:F2},distance={distance},opposingForce={opposingForceX:F2}x{opposingForceY:F2},force={force}");
             return force;
         }
 
@@ -132,15 +127,14 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             // the area is outside of the env (crosses it's edge), force = (distance + 1) / timeBoost
             var env = FloatingArea.Unlinked(VectorD.Zero2D,
                 new VectorD(environmentSize));
-
-            var (forceX, distanceX, caseX) =
+            var forceX =
                 GetEnvAxisForce(area.HighX - env.HighX, area.LowX - env.LowX);
-            var (forceY, distanceY, caseY) =
+            var forceY =
                 GetEnvAxisForce(area.HighY - env.HighY, area.LowY - env.LowY);
 
-            var distance = new VectorD(distanceX, distanceY);
+            // TODO: Trace: var distance = new VectorD(distanceX, distanceY);
             var force = new VectorD(forceX, forceY);
-            _log?.Buffered.D(5, $"GetMapForce (({area}), {env.Size}): {caseX},{caseY},distance={distance},force={force}");
+            // TODO: Trace: _log?.Buffered.D(5, $"GetMapForce (({area}), {env.Size}): {caseX},{caseY},distance={distance},force={force}");
             return force;
         }
 
@@ -150,35 +144,35 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         /// </summary>
         /// <param name="distanceHigh">Distance between high edges of the area and env</param>
         /// <param name="distanceLow">Distance between low edges of the area and env</param>
-        public (double force, double distance, string caseName)
+        public double
         GetEnvAxisForce(double distanceHigh, double distanceLow) {
             var distance = Math.Abs(distanceHigh) < Math.Abs(distanceLow) ?
                 distanceHigh : distanceLow;
             if (Math.Abs(distanceLow + distanceHigh) < 0.1) {
-                return (0D, 0D, "CENTER");
+                // TODO: Trace: caseName = "CENTER";
+                return 0D;
             }
             double force;
-            string caseName;
             if (distanceHigh >= -VectorD.MIN && distanceLow <= VectorD.MIN) {
                 // the area is larger than env, won't do anything.
-                caseName = "OVERSIZE";
-                distance = 0;
+                // TODO: Trace: caseName = "OVERSIZE";
+                // TODO: Trace: distance = 0;
                 force = 0;
             } else if (distanceHigh >= VectorD.MIN || distanceLow <= -VectorD.MIN) {
                 // the area is outside of the env (crosses it's edge), force = (distance + 1) / timeBoost
-                caseName = "OVERLAP";
+                // TODO: Trace: caseName = "OVERLAP";
                 force = _forceFormula.OverlapForce(-distance, _overlapFactor);
             } else if (Math.Abs(distance) <= VectorD.MIN) {
-                caseName = "COLLIDE";
-                distance = 0;
+                // TODO: Trace: caseName = "COLLIDE";
+                // TODO: Trace: distance = 0;
                 force = Math.Abs(distanceHigh) < Math.Abs(distanceLow) ?
                     _forceFormula.CollideForce(-1, _overlapFactor) :
                     _forceFormula.CollideForce(1, _overlapFactor);
             } else {
-                caseName = "NORMAL";
+                // TODO: Trace: caseName = "NORMAL";
                 force = _forceFormula.NormalForce(distance);
             }
-            return (force, distance, caseName);
+            return force;
         }
 
         /// <summary>
