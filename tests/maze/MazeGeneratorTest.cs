@@ -13,6 +13,33 @@ namespace PlayersWorlds.Maps {
     [TestFixture]
     public class MazeGeneratorTest {
 
+        private class CustomAreaGenerator : AreaGenerator {
+            public override IEnumerable<MapArea> Generate(Vector size) {
+                if (size.X <= 10 || size.Y <= 10) {
+                    return Enumerable.Empty<MapArea>();
+                }
+                return new[] {
+                    new MapArea(AreaType.Hall, new Vector(2, 3), new Vector(0, 0))
+                };
+            }
+        }
+
+        [Test]
+        public void CanUseCustomAreaGenerator() {
+            var maze = MazeGenerator.Generate(
+                new Vector(15, 15),
+                new GeneratorOptions() {
+                    AreaGenerator = new CustomAreaGenerator(),
+                    FillFactor = GeneratorOptions.FillFactorOption.Full,
+                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto
+                });
+            Console.WriteLine(maze.ToString());
+            Assert.That(maze.Areas, Has.Count.EqualTo(1));
+            Assert.That(maze.Areas.First().Size, Is.EqualTo(new Vector(2, 3)));
+            Assert.That(maze.Areas.First().Type, Is.EqualTo(AreaType.Hall));
+        }
+
         [Test]
         public void CanGenerateMazes(
             [ValueSource("GetAllGenerators")] Type generatorType

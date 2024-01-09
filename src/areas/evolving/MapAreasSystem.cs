@@ -96,7 +96,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var epochResult = new MasEpochResult(
                 previousEpochsResults.Length,
                 roomPositions,
-                roomsShifts.Aggregate((acc, a) => acc + a),
+                roomsShifts.Count == 0 ? Vector.Zero2D :
+                    roomsShifts.Aggregate((acc, a) => acc + a),
                 roomsShifts.Select(shift => shift.MagnitudeSq).Stats(),
                 IsLayoutValid());
             // complete evolution when there room shifts are minimal

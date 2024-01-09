@@ -1,41 +1,62 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PlayersWorlds.Maps.Areas {
-    // TODO: Make this an extensible class that can be provided by the user
-    //       allowing to generate areas for specific use cases.
-    public class RandomAreaGenerator : IEnumerable<MapArea>, IEnumerator<MapArea> {
-        private MapArea _current;
+    /// <summary>
+    /// Generate areas randomly for a map of the provided size.
+    /// </summary>
+    public class RandomAreaGenerator : AreaGenerator {
+        private readonly RandomAreaGeneratorSettings _settings;
 
-        public GeneratorSettings Settings { get; set; }
-        public MapArea Current => _current;
-        object IEnumerator.Current => _current;
-
-        public RandomAreaGenerator(GeneratorSettings settings) {
-            Settings = settings;
-        }
-        public IEnumerator<MapArea> GetEnumerator() {
-            return this;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return GetEnumerator();
+        /// <summary>
+        /// Creates a new random area generator with the specified settings.
+        /// </summary>
+        /// <param name="settings">Settings to control the generator behavior.
+        /// </param>
+        public RandomAreaGenerator(RandomAreaGeneratorSettings settings) {
+            _settings = settings;
         }
 
-        public void Dispose() { } // noop
-
-        public bool MoveNext() {
-            _current = GetRandomZone();
-            return true;
+        /// <summary>
+        /// Randomly generates areas for a map of the specified size.
+        /// </summary>
+        /// <param name="size">The size of the map.</param>
+        /// <returns>Areas to be added to the map.</returns>
+        public override IEnumerable<MapArea> Generate(Vector size) {
+            var areas = new List<MapArea>();
+            var addedArea = 0;
+            if (_settings.DimensionProbabilities.Keys.All(areaSize =>
+                !areaSize.Fits(size - new Vector(2, 2)))) {
+                // none of the areas fit the map
+                return areas;
+            }
+            do {
+                var area = GetRandomZone();
+                if (!area.Size.Fits(size - new Vector(2, 2)))
+                    continue;
+                if (addedArea + area.Size.Area >
+                    size.Area * Math.Min(1, _settings.MinFillFactor * 2))
+                    continue;
+                areas.Add(area);
+                addedArea += area.Size.Area;
+            } while (addedArea < size.Area * _settings.MinFillFactor);
+            return areas;
         }
 
-        public void Reset() { } // noop
+        // for testing
+        internal IEnumerable<MapArea> Generate(int count) {
+            for (var i = 0; i < count; i++) {
+                yield return GetRandomZone();
+            }
+        }
 
         private MapArea GetRandomZone() => RandomRotate(new MapArea(
-                PickRandom(Settings.AreaTypeProbabilities),
-                PickRandom(Settings.DimensionProbabilities),
-                PickRandom(Settings.TagProbabilities)
+                PickRandom(_settings.AreaTypeProbabilities),
+                PickRandom(_settings.DimensionProbabilities),
+                new Vector(0, 0),
+                PickRandom(_settings.TagProbabilities)
             ));
 
         private static T PickRandom<T>(IDictionary<T, float> distribution) {
@@ -52,41 +73,44 @@ namespace PlayersWorlds.Maps.Areas {
             return lastItem;
         }
 
-        public static MapArea RandomRotate(MapArea area) {
+        private static MapArea RandomRotate(MapArea area) {
             if (GlobalRandom.Next() % 2 == 0)
                 return area;
-            return new MapArea(area.Type, area.Size, area.Tags);
+            return new MapArea(area.Type, area.Size, area.Position, area.Tags);
         }
 
-        public class GeneratorSettings {
-            public Dictionary<Vector, float> DimensionProbabilities { get; set; } = s_default_dimensions;
-            public Dictionary<AreaType, float> AreaTypeProbabilities { get; set; } = s_default_area_types;
-            public Dictionary<string, float> TagProbabilities { get; set; } = s_default_tags;
+        /// <summary />
+        public class RandomAreaGeneratorSettings {
+            internal float MinFillFactor { get; }
 
-            public GeneratorSettings(
-                Dictionary<Vector, float> dimensionProbabilities,
-                Dictionary<AreaType, float> areaTypeProbabilities,
-                Dictionary<string, float> tagProbabilities) {
-                if (dimensionProbabilities != null) {
-                    DimensionProbabilities = dimensionProbabilities;
-                }
-                if (areaTypeProbabilities != null) {
-                    AreaTypeProbabilities = areaTypeProbabilities;
-                }
-                if (tagProbabilities != null) {
-                    TagProbabilities = tagProbabilities;
-                }
+            internal Dictionary<Vector, float> DimensionProbabilities { get; }
+
+            internal Dictionary<AreaType, float> AreaTypeProbabilities { get; }
+
+            internal Dictionary<string, float> TagProbabilities { get; }
+
+            /// <summary>
+            /// Creates an instance of RandomAreaGeneratorSettings. Default
+            /// values provide some basic settings.
+            /// </summary>
+            /// <param name="minFillFactor"></param>
+            /// <param name="dimensionProbabilities"></param>
+            /// <param name="areaTypeProbabilities"></param>
+            /// <param name="tagProbabilities"></param>
+            public RandomAreaGeneratorSettings(
+                float minFillFactor = 0.3f,
+                Dictionary<Vector, float> dimensionProbabilities = null,
+                Dictionary<AreaType, float> areaTypeProbabilities = null,
+                Dictionary<string, float> tagProbabilities = null) {
+                MinFillFactor = minFillFactor;
+                DimensionProbabilities = dimensionProbabilities ?? s_default_dimensions;
+                AreaTypeProbabilities = areaTypeProbabilities ?? s_default_area_types;
+                TagProbabilities = tagProbabilities ?? s_default_tags;
             }
 
-            public static GeneratorSettings Default => new GeneratorSettings(null, null, null);
-            // areas will be added based on probability, e.g.:
-            // 2x2 : 60% (means 60% of mazes will have a area of 2 rows x 2 columns)
-            // 2x3 : 60%
-            // 3x4 : 40%
-            // 3x6 : 40%
-            // 4x8 : 20%
-            // 5x6 : 20%
-            // 7x7 : 5%
+            public static RandomAreaGeneratorSettings Default =>
+                new RandomAreaGeneratorSettings();
+
             private static readonly Dictionary<Vector, float> s_default_dimensions = new Dictionary<Vector, float>() {
                 { new Vector(2, 2), 0.25f },
                 { new Vector(2, 3), 0.25f },
@@ -102,7 +126,6 @@ namespace PlayersWorlds.Maps.Areas {
                 { AreaType.Hall, 0.3f }
             };
 
-
             private static readonly Dictionary<string, float> s_default_tags = new Dictionary<string, float>() {
                 { "room", 0.5f },
                 { "lake", 0.15f },
@@ -113,4 +136,3 @@ namespace PlayersWorlds.Maps.Areas {
         }
     }
 }
-// MazeZone.GetRandomZone()

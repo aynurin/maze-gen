@@ -26,12 +26,12 @@ namespace PlayersWorlds.Maps.Maze {
         public List<MapArea> MapAreas { get; set; }
         /// <summary>
         /// When <see cref="MapAreasOptions"/> is set to
-        /// <see cref="MapAreaOptions.Auto"/>, this settings will be used to
+        /// <see cref="MapAreaOptions.Auto"/>, this generator will be used to
         /// generate areas.
         /// </summary>
-        public RandomAreaGenerator.GeneratorSettings
-            AreaGeneratorSettings { get; set; } =
-                RandomAreaGenerator.GeneratorSettings.Default;
+        public AreaGenerator AreaGenerator { get; set; } =
+                new RandomAreaGenerator(
+                    RandomAreaGenerator.RandomAreaGeneratorSettings.Default);
 
         /// <summary>
         /// Algorithm to use when generating the maze. Has to be a type derived

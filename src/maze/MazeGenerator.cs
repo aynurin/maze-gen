@@ -66,32 +66,12 @@ namespace PlayersWorlds.Maps.Maze {
         private static void GenerateMazeAreas(Vector mazeSize,
                                               GeneratorOptions options,
                                               Maze2D maze) {
+            // there is a 5% chance that we can't auto-distribute the areas
+            // (see SideToSideForceProducer.cs) so we make several attempts.
             var attempts = 3;
             while (true) {
                 attempts--;
-                var areaGenerator = new RandomAreaGenerator(
-                    options.AreaGeneratorSettings ??
-                    RandomAreaGenerator.GeneratorSettings.Default);
-                // we might have different strategies of identifying the number of
-                // rooms. For now we'll just use 30% of maze area.
-                var addedArea = 0;
-                var roomGenerateAttempts = 10;
-                var areas = new List<MapArea>();
-                foreach (var area in areaGenerator) {
-                    if (addedArea + area.Size.Area > maze.Size.Area * 0.3) {
-                        if (roomGenerateAttempts-- <= 0) break;
-                        continue;
-                    }
-                    area.Position = new Vector(
-                        GlobalRandom.Next(0, maze.Size.X - area.Size.X),
-                        GlobalRandom.Next(0, maze.Size.Y - area.Size.Y));
-                    areas.Add(area);
-                    addedArea += area.Size.Area;
-                }
-
-                if (areas.Count == 0) {
-                    break;
-                }
+                var areas = options.AreaGenerator.Generate(mazeSize);
                 new AreaDistributor()
                     .Distribute(mazeSize, areas, 100);
                 var errors =

@@ -10,12 +10,13 @@ public class RandomAreaGeneratorTest {
 
     [Test]
     public void ZoneGenerator_CanGenerateZones() {
-        var zonesGenerator = new RandomAreaGenerator(RandomAreaGenerator.GeneratorSettings.Default);
+        var zonesGenerator = new RandomAreaGenerator(
+            RandomAreaGenerator.RandomAreaGeneratorSettings.Default);
         var sizes = new Dictionary<Vector, int>();
         var tags = new Dictionary<string, int>();
         var types = new Dictionary<AreaType, int>();
         var count = 1000;
-        foreach (var area in zonesGenerator) {
+        foreach (var area in zonesGenerator.Generate(count)) {
             if (--count < 0) break;
             //Assert.Greater(area.Cells.Count, 0);
             Assert.Greater(area.Tags.Length, 0);
@@ -54,16 +55,18 @@ public class RandomAreaGeneratorTest {
 
     [Test]
     public void ZoneGenerator_CustomSettings() {
-        var zonesGenerator = new RandomAreaGenerator(new RandomAreaGenerator.GeneratorSettings(
-            new Dictionary<Vector, float>() { { new Vector(1, 2), 1 } },
-            new Dictionary<AreaType, float>() { { AreaType.Hall, 1 } },
-            new Dictionary<string, float>() { { "some_tag", 1 } }
+        var zonesGenerator = new RandomAreaGenerator(
+            new RandomAreaGenerator.RandomAreaGeneratorSettings(
+                0.3f,
+                new Dictionary<Vector, float>() { { new Vector(1, 2), 1 } },
+                new Dictionary<AreaType, float>() { { AreaType.Hall, 1 } },
+                new Dictionary<string, float>() { { "some_tag", 1 } }
         ));
         var sizes = new Dictionary<Vector, int>();
         var tags = new Dictionary<string, int>();
         var types = new Dictionary<AreaType, int>();
         var count = 10;
-        foreach (var area in zonesGenerator) {
+        foreach (var area in zonesGenerator.Generate(count)) {
             if (--count < 0) break;
             //Assert.Greater(area.Cells.Count, 0);
             Assert.Greater(area.Tags.Length, 0);
