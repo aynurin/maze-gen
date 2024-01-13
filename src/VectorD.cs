@@ -63,7 +63,7 @@ namespace PlayersWorlds.Maps {
             throw new InvalidOperationException(
                 "X and Y are only supported in two- or three-dimensional space");
         /// <summary>
-        /// Calculates the magnitude squared of a vector.
+        /// Squared magnitude of this vector.
         /// </summary>
         /// <returns>The magnitude squared.</returns>
         public double MagnitudeSq => _value.Sum(a => a * a);

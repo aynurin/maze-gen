@@ -11,8 +11,8 @@ namespace PlayersWorlds.Maps.MapFilters {
     /// map to allow easier automated placement of map objects in corners.
     /// </remarks>
     public class Map2DSmoothCorners : Map2DFilter {
-        private readonly string _cellType;
-        private readonly string _cornerType;
+        private readonly Cell.CellTag _cellType;
+        private readonly Cell.CellTag _cornerType;
         private readonly int _cornerWidth;
         private readonly int _cornerHeight;
 
@@ -28,8 +28,8 @@ namespace PlayersWorlds.Maps.MapFilters {
         /// </param>
         /// <param name="cornerHeight">Minimal height of the corner cells block.
         /// </param>
-        public Map2DSmoothCorners(string cellType,
-                              string cornerType,
+        public Map2DSmoothCorners(Cell.CellTag cellType,
+                              Cell.CellTag cornerType,
                               int cornerWidth = 2,
                               int cornerHeight = 1) {
             _cellType = cellType;

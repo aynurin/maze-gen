@@ -9,25 +9,44 @@ using PlayersWorlds.Maps.Renderers;
 using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
 namespace PlayersWorlds.Maps.Maze {
+    /// <summary>
+    /// A 2D maze map that can be used by <see cref="MazeGenerator"/> to
+    /// generate mazes.
+    /// </summary>
     public class Maze2D {
         private readonly Vector _size;
         private readonly List<MazeCell> _cells;
         private readonly List<MazeCell> _visitableCells;
+        /// <summary>
+        /// Post-processing attributes assigned to this maze. See
+        /// <see cref="PostProcessing"/>.
+        /// </summary>
         public Dictionary<string, List<MazeCell>> Attributes { get; } =
             new Dictionary<string, List<MazeCell>>();
+        /// <summary>
+        /// A read-only access to the cells in this maze.
+        /// </summary>
         public IList<MazeCell> AllCells => _cells.AsReadOnly();
+        /// <summary>
+        /// A read-only access to the visitable cells in this maze.
+        /// </summary>
         public IList<MazeCell> VisitableCells => _visitableCells.AsReadOnly();
+        /// <summary />
         public IEnumerable<MazeCell> VisitedCells =>
             _cells.Where(cell => cell.IsVisited);
 
-        public int XWidthColumns { get => _size.X; }
-
-        public int YHeightRows { get => _size.Y; }
-
+        /// <summary />
         public Vector Size { get => _size; }
 
+        /// <summary>
+        /// Number of cells in this maze.
+        /// </summary>
         public int Area { get => _size.Area; }
 
+        /// <summary>
+        /// If the longest path was set, returns the longest path. See
+        /// <see cref="PostProcessing.DijkstraDistance"/>.
+        /// </summary>
         public Optional<List<MazeCell>> LongestPath {
             get =>
                 Attributes.ContainsKey(DijkstraDistance.LongestTrailAttribute) ?
@@ -72,6 +91,9 @@ namespace PlayersWorlds.Maps.Maze {
             _visitableCells = new List<MazeCell>(cells);
         }
 
+        /// <summary>
+        /// Areas assigned to this maze. See <see cref="Maps.Areas"/>.
+        /// </summary>
         public List<MapArea> Areas { get; private set; } = new List<MapArea>();
 
         internal void AddArea(MapArea area) {
@@ -92,23 +114,43 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
-        public Map2D ToMap(Maze2DRenderer.MazeToMapOptions options) {
+        /// <summary>
+        /// Renders this maze to a <see cref="Map2D" /> with the given options.
+        /// </summary>
+        /// <param name="options"><see cref="MazeToMapOptions" /></param>
+        /// <returns></returns>
+        public Map2D ToMap(MazeToMapOptions options) {
             options.ThrowIfWrong(this.Size);
             var map = Maze2DRenderer.CreateMapForMaze(this, options);
             new Maze2DRenderer(this, options)
-                .With(new Map2DOutline(new[] { MapCellType.Trail }, MapCellType.Wall, 1, 1))
-                .With(new Map2DSmoothCorners(MapCellType.Trail, MapCellType.Edge, 1, 1))
-                .With(new Map2DOutline(new[] { MapCellType.Trail, MapCellType.Edge }, MapCellType.Wall, 1, 1))
-                .With(new Map2DFillGaps(new[] { MapCellType.Void }, true, MapCellType.Wall, 5, 5))
-                .With(new Map2DFillGaps(new[] { MapCellType.Wall, MapCellType.Edge }, false, MapCellType.Trail, 3, 3))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, 1, 1))
+                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, 1, 1))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, 1, 1))
+                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
+                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);
             return map;
         }
 
+        /// <summary>
+        /// Renders this maze to a string using
+        /// <see cref="Maze2DStringBoxRenderer" />.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString() {
             return new Maze2DStringBoxRenderer(this).WithTrail();
         }
 
+        /// <summary>
+        /// Parses a string into a <see cref="Maze2D" />.
+        /// </summary>
+        /// <param name="serialized">A string of the form
+        /// <c>Vector; cell:link,link,...; cell:link,link,...; ...</c>, where
+        /// <c>Vector</c> is a string representation of a 2D
+        /// <see cref="Vector" /> defining the size of the maze, <c>cell</c> is
+        /// the index of the cell in the maze, and <c>link</c> is the index of 
+        /// a cell linked to this cell.</param>
+        /// <returns></returns>
         public static Maze2D Parse(string serialized) {
             var parts = serialized.Split(';', '\n');
             var maze = new Maze2D(new Vector(parts[0].Split('x').Select(int.Parse)));

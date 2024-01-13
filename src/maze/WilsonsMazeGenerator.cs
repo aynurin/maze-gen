@@ -2,7 +2,16 @@ using System;
 using System.Collections.Generic;
 
 namespace PlayersWorlds.Maps.Maze {
+    /// <summary>
+    /// Wilson's algorithm implementation.
+    /// </summary>
     public class WilsonsMazeGenerator : MazeGenerator {
+        /// <summary>
+        /// Generates a maze using Wilson's algorithm in the
+        /// specified layout.
+        /// </summary>
+        /// <param name="layout">The layout to generate the maze in.</param>
+        /// <param name="options">The generator options to use.</param>
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
             var currentCell = layout.VisitableCells.GetRandom();
             var visitedCells = new HashSet<MazeCell>() { currentCell };

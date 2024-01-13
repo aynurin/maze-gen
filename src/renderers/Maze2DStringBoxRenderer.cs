@@ -6,6 +6,9 @@ using PlayersWorlds.Maps.Maze;
 using PlayersWorlds.Maps.Maze.PostProcessing;
 
 namespace PlayersWorlds.Maps.Renderers {
+    /// <summary>
+    /// Renders a <see cref="Maze2D" /> to a string.
+    /// </summary>
     public class Maze2DStringBoxRenderer {
 
         private readonly Maze2D _maze;
@@ -17,26 +20,32 @@ namespace PlayersWorlds.Maps.Renderers {
         private readonly Dictionary<int, string> _data =
             new Dictionary<int, string>();
 
+        /// <summary />
         public Maze2DStringBoxRenderer(Maze2D maze,
                                       int cellInnerHeight = 1,
                                       int cellInnerWidth = 3) {
             _maze = maze; // 4x4
             _cellInnerWidth = cellInnerWidth;
             _cellInnerHeight = cellInnerHeight;
-            _asciiMazeWidth = _maze.XWidthColumns * (_cellInnerWidth + 1) + 1; // 17
-            _asciiMazeHeight = _maze.YHeightRows * (_cellInnerHeight + 1) + 1; // 9
+            _asciiMazeWidth = _maze.Size.X * (_cellInnerWidth + 1) + 1; // 17
+            _asciiMazeHeight = _maze.Size.Y * (_cellInnerHeight + 1) + 1; // 9
             _buffer = new Border.Type[_asciiMazeWidth * _asciiMazeHeight]; // 17x9
         }
 
+        /// <summary>
+        /// Also render the trail if it's defined in the maze
+        /// <see cref="Maze2D.LongestPath" />.
+        /// </summary>
+        /// <returns></returns>
         public string WithTrail() {
             var trail = _maze.LongestPath.HasValue ?
                 _maze.LongestPath.Value :
                 new List<MazeCell>();
             var solutionCells = new HashSet<MazeCell>(trail);
             // print cells from top to bottom
-            for (var y = _maze.YHeightRows - 1; y >= 0; y--) {
-                for (var x = 0; x < _maze.XWidthColumns; x++) {
-                    var mazeIndex = new Vector(x, y).ToIndex(_maze.XWidthColumns);
+            for (var y = _maze.Size.Y - 1; y >= 0; y--) {
+                for (var x = 0; x < _maze.Size.X; x++) {
+                    var mazeIndex = new Vector(x, y).ToIndex(_maze.Size.X);
                     var mazeCell = _maze.AllCells[mazeIndex];
                     var cellData = solutionCells.Contains(mazeCell) ?
                         Convert.ToString(trail.IndexOf(mazeCell), 16) :

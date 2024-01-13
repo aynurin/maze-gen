@@ -28,11 +28,11 @@ namespace PlayersWorlds.Maps {
             var map = CreateMapForMaze(_maze, mazeRenderingOptions);
 
             new Maze2DRenderer(_maze, mazeRenderingOptions)
-                .With(new Map2DOutline(new[] { MapCellType.Trail }, MapCellType.Wall, 1, 1))
-                .With(new Map2DSmoothCorners(MapCellType.Trail, MapCellType.Edge, 1, 1))
-                .With(new Map2DOutline(new[] { MapCellType.Trail, MapCellType.Edge }, MapCellType.Wall, 1, 1))
-                .With(new Map2DFillGaps(new[] { MapCellType.Void }, true, MapCellType.Wall, 5, 5))
-                .With(new Map2DFillGaps(new[] { MapCellType.Wall, MapCellType.Edge }, false, MapCellType.Trail, 3, 3))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, 1, 1))
+                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, 1, 1))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, 1, 1))
+                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
+                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);
             var expected =
                 "0000000000000\n" +
@@ -64,11 +64,11 @@ namespace PlayersWorlds.Maps {
             var map = CreateMapForMaze(_maze, mazeRenderingOptions);
 
             new Maze2DRenderer(_maze, mazeRenderingOptions)
-                .With(new Map2DOutline(new[] { MapCellType.Trail }, MapCellType.Wall, 1, 1))
-                .With(new Map2DSmoothCorners(MapCellType.Trail, MapCellType.Edge, 1, 1))
-                .With(new Map2DOutline(new[] { MapCellType.Trail, MapCellType.Edge }, MapCellType.Wall, 1, 1))
-                .With(new Map2DFillGaps(new[] { MapCellType.Void }, true, MapCellType.Wall, 5, 5))
-                .With(new Map2DFillGaps(new[] { MapCellType.Wall, MapCellType.Edge }, false, MapCellType.Trail, 3, 3))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, 1, 1))
+                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, 1, 1))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, 1, 1))
+                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
+                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);
             Console.WriteLine(map.ToString());
 
@@ -101,11 +101,11 @@ namespace PlayersWorlds.Maps {
             var map = CreateMapForMaze(_maze, mazeRenderingOptions);
 
             new Maze2DRenderer(_maze, mazeRenderingOptions)
-                .With(new Map2DOutline(new[] { MapCellType.Trail }, MapCellType.Wall, 1, 1))
-                .With(new Map2DSmoothCorners(MapCellType.Trail, MapCellType.Edge, 1, 1))
-                .With(new Map2DOutline(new[] { MapCellType.Trail, MapCellType.Edge }, MapCellType.Wall, 1, 1))
-                .With(new Map2DFillGaps(new[] { MapCellType.Void }, true, MapCellType.Wall, 5, 5))
-                .With(new Map2DFillGaps(new[] { MapCellType.Wall, MapCellType.Edge }, false, MapCellType.Trail, 3, 3))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, 1, 1))
+                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, 1, 1))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, 1, 1))
+                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
+                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);
             Console.WriteLine(map.ToString());
 
@@ -138,11 +138,11 @@ namespace PlayersWorlds.Maps {
             var map = CreateMapForMaze(_maze, mazeRenderingOptions);
 
             new Maze2DRenderer(_maze, mazeRenderingOptions)
-                .With(new Map2DOutline(new[] { MapCellType.Trail }, MapCellType.Wall, 1, 1))
-                .With(new Map2DSmoothCorners(MapCellType.Trail, MapCellType.Edge, 1, 1))
-                .With(new Map2DOutline(new[] { MapCellType.Trail, MapCellType.Edge }, MapCellType.Wall, 1, 1))
-                .With(new Map2DFillGaps(new[] { MapCellType.Void }, true, MapCellType.Wall, 5, 5))
-                .With(new Map2DFillGaps(new[] { MapCellType.Wall, MapCellType.Edge }, false, MapCellType.Trail, 3, 3))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, 1, 1))
+                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, 1, 1))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, 1, 1))
+                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
+                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);
             Console.WriteLine(map.ToString());
 
@@ -205,7 +205,7 @@ namespace PlayersWorlds.Maps {
             Assert.Throws<ArgumentException>(() => MazeToMapOptions.RectCells(new Vector(1, -2), new Vector(3, 4)));
             Assert.Throws<ArgumentException>(() => MazeToMapOptions.SquareCells(1, -2));
             Assert.Throws<ArgumentException>(() => MazeToMapOptions.SquareCells(0, 2));
-            var mazeRenderingOptions = MazeToMapOptions.Custom(
+            var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 1, 2, 1, 1 },
                 trailHeights: new int[] { 2, 2, 3, 2 },
                 wallWidths: new int[] { 1, 2, 1, 2, 1 },

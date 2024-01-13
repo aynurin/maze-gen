@@ -4,13 +4,14 @@ using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Maze;
 
 namespace PlayersWorlds.Maps.Maze {
+    /// <summary>
+    /// <see cref="MazeGenerator"/> options.
+    /// </summary>
     public class GeneratorOptions {
         /// <summary>
         /// How much to fill the maze. <see
-        /// cref="MazeGenerator.IsFillComplete(
-        ///     GeneratorOptions, ICollection&lt;MazeCell&gt;,
-        ///     ICollection&lt;MazeCell&gt;, Vector) "/> implementation for
-        /// details.
+        /// cref="MazeGenerator.IsFillComplete(GeneratorOptions, Maze2D) "/>
+        /// implementation for details.
         /// </summary>
         public FillFactorOption FillFactor { get; set; }
         /// <summary>
@@ -41,18 +42,43 @@ namespace PlayersWorlds.Maps.Maze {
 
         /// <summary>
         /// How much to fill the maze. <see
-        /// cref="MazeGenerator.IsFillComplete(
-        ///     GeneratorOptions, ICollection&lt;MazeCell&gt;,
-        ///     ICollection&lt;MazeCell&gt;, Vector) "/> implementation for
-        /// details.
+        /// cref="MazeGenerator.IsFillComplete(GeneratorOptions, Maze2D) "/>
+        /// implementation for details.
         /// </summary>
         public enum FillFactorOption {
+            /// <summary>
+            /// All cells of the maze will be visited.
+            /// </summary>
             Full,
+            /// <summary>
+            /// The algorithm stops as soon as it visits <c>x = 0</c> and
+            /// <c>x = maze.Size.X - 1</c>.
+            /// </summary>
             FullWidth,
+            /// <summary>
+            /// The algorithm stops as soon as it visits <c>y = 0</c> and
+            /// <c>x = maze.Size.Y - 1</c>.
+            /// </summary>
             FullHeight,
+            /// <summary>
+            /// The algorithm stops as soon as it visits at least 25% of maze
+            /// cells.
+            /// </summary>
             Quarter,
+            /// <summary>
+            /// The algorithm stops as soon as it visits at least 50% of maze
+            /// cells.
+            /// </summary>
             Half,
+            /// <summary>
+            /// The algorithm stops as soon as it visits at least 75% of maze
+            /// cells.
+            /// </summary>
             ThreeQuarters,
+            /// <summary>
+            /// The algorithm stops as soon as it visits at least 90% of maze
+            /// cells.
+            /// </summary>
             NinetyPercent
         }
 
@@ -73,22 +99,43 @@ namespace PlayersWorlds.Maps.Maze {
             /// Use a generator to generate the areas. The generator can be
             /// specified in <see cref="GeneratorOptions.Algorithm" />. If a
             /// generator is not specified, a default generator is used (<see
-            /// cref="RandomAreaGenerator.GeneratorSettings.Default" />).
+            /// cref="RandomAreaGenerator.RandomAreaGeneratorSettings.Default" />).
             /// </summary>
             Auto
         }
 
+        /// <summary>
+        /// Maze generation algorithms implemented in this library.
+        /// </summary>
         public static class Algorithms {
+            /// <summary>
+            /// <see cref="RecursiveBacktrackerMazeGenerator" />.
+            /// </summary>
             public static readonly Type Default =
                 typeof(RecursiveBacktrackerMazeGenerator);
+            /// <summary>
+            /// <see cref="AldousBroderMazeGenerator" />.
+            /// </summary>
             public static readonly Type AldousBroder =
                 typeof(AldousBroderMazeGenerator);
+            /// <summary>
+            /// <see cref="HuntAndKillMazeGenerator" />.
+            /// </summary>
             public static readonly Type HuntAndKill =
                 typeof(HuntAndKillMazeGenerator);
+            /// <summary>
+            /// <see cref="RecursiveBacktrackerMazeGenerator" />.
+            /// </summary>
             public static readonly Type RecursiveBacktracker =
                 typeof(RecursiveBacktrackerMazeGenerator);
+            /// <summary>
+            /// <see cref="SidewinderMazeGenerator" />.
+            /// </summary>
             public static readonly Type Sidewinder =
                 typeof(SidewinderMazeGenerator);
+            /// <summary>
+            /// <see cref="WilsonsMazeGenerator" />.
+            /// </summary>
             public static readonly Type Wilsons =
                 typeof(WilsonsMazeGenerator);
         }

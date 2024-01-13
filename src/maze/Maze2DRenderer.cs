@@ -6,6 +6,9 @@ using PlayersWorlds.Maps.MapFilters;
 
 namespace PlayersWorlds.Maps.Maze {
 
+    /// <summary>
+    /// Renders a <see cref="Maze2D" /> to a string.
+    /// </summary>
     public class Maze2DRenderer {
         private readonly Maze2D _maze;
         private readonly MazeToMapOptions _options;
@@ -15,6 +18,7 @@ namespace PlayersWorlds.Maps.Maze {
             Maze2D maze, MazeToMapOptions options) =>
                 new Map2D(options.RenderedSize(maze.Size));
 
+        /// <summary />
         public Maze2DRenderer(Maze2D maze, MazeToMapOptions options) {
             maze.ThrowIfNull("maze");
             options.ThrowIfNull("options");
@@ -24,11 +28,19 @@ namespace PlayersWorlds.Maps.Maze {
             _options = options;
         }
 
+        /// <summary>
+        /// Applies the specified <see cref="Map2DFilter" />s while rendering.
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public Maze2DRenderer With(Map2DFilter filter) {
             _filters.Add(filter);
             return this;
         }
 
+        /// <summary>
+        /// Renders a <see cref="Maze2D" /> to a string.
+        /// </summary>
         public void Render(Map2D map) {
             if (!Fits(map, _options)) {
                 throw new ArgumentException("Map does not fit the maze.");
@@ -36,19 +48,19 @@ namespace PlayersWorlds.Maps.Maze {
             foreach (var cell in _maze.AllCells) {
                 var mapping = new CellsMapping(map, cell, _options);
                 if (cell.IsVisited) {
-                    mapping.CenterCells.ForEach(c => c.Tags.Add(MapCellType.Trail));
+                    mapping.CenterCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
                 if (cell.Links(Vector.North2D).HasValue) {
-                    mapping.NCells.ForEach(c => c.Tags.Add(MapCellType.Trail));
+                    mapping.NCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
                 if (cell.Links(Vector.East2D).HasValue) {
-                    mapping.ECells.ForEach(c => c.Tags.Add(MapCellType.Trail));
+                    mapping.ECells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
                 if (cell.Links(Vector.South2D).HasValue) {
-                    mapping.SCells.ForEach(c => c.Tags.Add(MapCellType.Trail));
+                    mapping.SCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
                 if (cell.Links(Vector.West2D).HasValue) {
-                    mapping.WCells.ForEach(c => c.Tags.Add(MapCellType.Trail));
+                    mapping.WCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
             }
             foreach (var filter in _filters) {
@@ -56,21 +68,14 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
-        public bool Fits(Map2D map, MazeToMapOptions options) {
+        internal bool Fits(Map2D map, MazeToMapOptions options) {
             return map.Size.Fits(options.RenderedSize(_maze.Size));
         }
 
-        public CellsMapping CreateCellsMapping(Map2D map, MazeCell mazeCell)
+        internal CellsMapping CreateCellsMapping(Map2D map, MazeCell mazeCell)
             => new CellsMapping(map, mazeCell, _options);
 
-        public static class MapCellType {
-            public const string Wall = "MAZE2D_WALL";
-            public const string Trail = "MAZE2D_TRAIL";
-            public const string Edge = "MAZE2D_EDGE";
-            public const string Void = "MAZE2D_VOID";
-        }
-
-        public class CellsMapping {
+        internal class CellsMapping {
             private readonly Map2D _map;
             private readonly MazeCell _mazeCell;
             private readonly MazeToMapOptions _options;
@@ -160,27 +165,30 @@ namespace PlayersWorlds.Maps.Maze {
 
         }
 
+        /// <summary>
+        /// Maze rendering options.
+        /// </summary>
         public class MazeToMapOptions {
-            public int[] TrailWidths { get; }
-            public int[] TrailHeights { get; }
-            public int[] WallWidths { get; }
-            public int[] WallHeights { get; }
+            internal int[] TrailWidths { get; }
+            internal int[] TrailHeights { get; }
+            internal int[] WallWidths { get; }
+            internal int[] WallHeights { get; }
 
-            public Vector WallSize(Vector mazeCellPosition) =>
+            internal Vector WallSize(Vector mazeCellPosition) =>
                 new Vector(
                     WallWidths.Length == 1 ?
                         WallWidths[0] : WallWidths[mazeCellPosition.X],
                     WallHeights.Length == 1 ?
                         WallHeights[0] : WallHeights[mazeCellPosition.Y]);
 
-            public Vector TrailSize(Vector mazeCellPosition) =>
+            internal Vector TrailSize(Vector mazeCellPosition) =>
                 new Vector(
                     TrailWidths.Length == 1 ?
                         TrailWidths[0] : TrailWidths[mazeCellPosition.X],
                     TrailHeights.Length == 1 ?
                         TrailHeights[0] : TrailHeights[mazeCellPosition.Y]);
 
-            public Vector SWPosition(Vector mazeCellPosition) {
+            internal Vector SWPosition(Vector mazeCellPosition) {
                 var trailPart = new Vector(
                     TrailWidths.Length == 1 ?
                         TrailWidths[0] * mazeCellPosition.X :
@@ -206,7 +214,7 @@ namespace PlayersWorlds.Maps.Maze {
                 return trailPart + wallPart;
             }
 
-            public Vector RenderedSize(Vector mazeSize) {
+            internal Vector RenderedSize(Vector mazeSize) {
                 ThrowIfWrong(mazeSize);
                 return SWPosition(mazeSize) +
                     new Vector(
@@ -216,6 +224,15 @@ namespace PlayersWorlds.Maps.Maze {
                             WallHeights[0] : WallHeights[mazeSize.Y]);
             }
 
+            /// <summary>
+            /// Creates new maze rendering options with the specified walls and
+            /// trails sizes.
+            /// </summary>
+            /// <param name="trailWidths">Widths of all trail cells.</param>
+            /// <param name="trailHeights">Heights of all trail cells.</param>
+            /// <param name="wallWidths">Widths of all wall cells.</param>
+            /// <param name="wallHeights">Heights of all wall cells.</param>
+            /// <exception cref="ArgumentException"></exception>
             public MazeToMapOptions(
                 int[] trailWidths,
                 int[] trailHeights,
@@ -238,6 +255,10 @@ namespace PlayersWorlds.Maps.Maze {
                 WallHeights = wallHeights;
             }
 
+            /// <summary>
+            /// Creates an instance of <see cref="MazeToMapOptions" /> with
+            /// square wall and trail cell sizes.
+            /// </summary>
             public static MazeToMapOptions SquareCells(
                 int trailCellSize,
                 int wallCellSize)
@@ -248,6 +269,10 @@ namespace PlayersWorlds.Maps.Maze {
                     new int[] { wallCellSize }
                 );
 
+            /// <summary>
+            /// Creates an instance of <see cref="MazeToMapOptions" /> with
+            /// rectangular wall and trail cell sizes.
+            /// </summary>
             public static MazeToMapOptions RectCells(
                 Vector trailCellSize,
                 Vector wallCellSize)
@@ -258,14 +283,7 @@ namespace PlayersWorlds.Maps.Maze {
                     new int[] { wallCellSize.Y }
                 );
 
-            public static MazeToMapOptions Custom(
-                int[] trailWidths,
-                int[] trailHeights,
-                int[] wallWidths,
-                int[] wallHeights)
-                => new MazeToMapOptions(trailWidths, trailHeights, wallWidths, wallHeights);
-
-            public void ThrowIfWrong(Vector mazeSize) {
+            internal void ThrowIfWrong(Vector mazeSize) {
                 var msg = "Please provide {0} for all {1}. The provided maze " +
                           "({2}) should have {3} {1} {0} (or only one, same " +
                           "for all {1}), and the provided {0} are ({4})";

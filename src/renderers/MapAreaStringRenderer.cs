@@ -4,7 +4,12 @@ using System.IO;
 using PlayersWorlds.Maps.Areas;
 
 namespace PlayersWorlds.Maps.Renderers {
+    /// <summary>
+    /// Renders a set of <see cref="MapArea" /> in a 2D space to a string.
+    /// </summary>
     public class MapAreaStringRenderer {
+
+        /// <summary />
         public string Render(Vector envSize, IEnumerable<MapArea> areas) {
             var bufferSize = new Vector(envSize.X * 2, envSize.Y * 2 * 2);
             var buffer = new AsciiBuffer(bufferSize.X, bufferSize.Y, true);

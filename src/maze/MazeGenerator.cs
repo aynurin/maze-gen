@@ -1,14 +1,33 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Areas.Evolving;
 using PlayersWorlds.Maps.Maze.PostProcessing;
 
 namespace PlayersWorlds.Maps.Maze {
+    /// <summary>
+    /// Base class for all maze generator algorithms. Also contains helper
+    /// methods for maze generation.
+    /// </summary>
     public abstract class MazeGenerator {
+        /// <summary>
+        /// When implemented in a derived class, generates a new maze.
+        /// </summary>
+        /// <param name="maze">The maze layout to generate the maze in.</param>
+        /// <param name="options">Maze generator options.</param>
         public abstract void GenerateMaze(Maze2D maze, GeneratorOptions options);
 
+        /// <summary>
+        /// A helper method to generate a new maze.
+        /// </summary>
+        /// <param name="size">Size of the maze to generate.</param>
+        /// <param name="options">Maze generator options.</param>
+        /// <returns>A generated maze</returns>
+        /// <exception cref="ArgumentNullException">Maze generation algorithm
+        /// is not specified. See <see cref="GeneratorOptions.Algorithms" />.</exception>
+        /// <exception cref="ArgumentException">The provided maze generator type
+        /// is not inherited from <see cref="MazeGenerator" /> or does not
+        /// provide a default constructor.</exception>
         public static Maze2D Generate(Vector size, GeneratorOptions options) {
             if (options.Algorithm == null) {
                 throw new ArgumentNullException(
@@ -34,6 +53,13 @@ namespace PlayersWorlds.Maps.Maze {
                 .Invoke(null, new object[] { size, options });
         }
 
+        /// <summary>
+        /// A helper method to generate a new maze.
+        /// </summary>
+        /// <typeparam name="T">The maze generator implementation.</typeparam>
+        /// <param name="size">Size of the maze to generate.</param>
+        /// <param name="options">Maze generator options.</param>
+        /// <returns></returns>
         public static Maze2D Generate<T>(Vector size, GeneratorOptions options)
             where T : MazeGenerator, new() {
             var maze = new Maze2D(size);
@@ -95,31 +121,32 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
-        protected bool IsFillComplete(GeneratorOptions options, Maze2D maze) =>
-            IsFillComplete(options, maze.VisitedCells.ToList(), maze.VisitableCells, maze.Size);
-
-        //                 instead of one cell space.
-        protected bool IsFillComplete(GeneratorOptions options, ICollection<MazeCell> visitedCells, ICollection<MazeCell> visitableCells, Vector mazeSize) {
+        /// <summary>
+        /// Checks if the maze generation is complete given the
+        /// <paramref name="options" />.
+        /// </summary>
+        protected bool IsFillComplete(GeneratorOptions options, Maze2D maze) {
+            var visitedCells = maze.VisitedCells.ToList();
             if (visitedCells.Count == 0) {
                 return false;
             }
             if (options.FillFactor == GeneratorOptions.FillFactorOption.FullHeight) {
                 var minX = visitedCells.Min(c => c.X);
                 var maxX = visitedCells.Max(c => c.X);
-                return minX == 0 && maxX == mazeSize.X - 1;
+                return minX == 0 && maxX == maze.Size.X - 1;
             } else if (options.FillFactor == GeneratorOptions.FillFactorOption.FullWidth) {
                 var minY = visitedCells.Min(c => c.Y);
                 var maxY = visitedCells.Max(c => c.Y);
-                return minY == 0 && maxY == mazeSize.Y - 1;
+                return minY == 0 && maxY == maze.Size.Y - 1;
             } else if (options.FillFactor == GeneratorOptions.FillFactorOption.Full) {
-                return visitedCells.Count == visitableCells.Count;
+                return visitedCells.Count == maze.VisitableCells.Count;
             } else {
                 var fillFactor =
                     options.FillFactor == GeneratorOptions.FillFactorOption.Quarter ? 0.25 :
                     options.FillFactor == GeneratorOptions.FillFactorOption.Half ? 0.5 :
                     options.FillFactor == GeneratorOptions.FillFactorOption.ThreeQuarters ? 0.75 :
                     0.9;
-                return visitedCells.Count >= visitableCells.Count * fillFactor;
+                return visitedCells.Count >= maze.VisitableCells.Count * fillFactor;
             }
         }
     }

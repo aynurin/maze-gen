@@ -11,8 +11,8 @@ namespace PlayersWorlds.Maps.MapFilters {
     /// E.g., to draw walls around trails.
     /// </remarks>
     public class Map2DOutline : Map2DFilter {
-        private readonly string[] _cellType;
-        private readonly string _outlineType;
+        private readonly Cell.CellTag[] _cellType;
+        private readonly Cell.CellTag _outlineType;
         private readonly int _outlineWidth;
         private readonly int _outlineHeight;
 
@@ -24,8 +24,8 @@ namespace PlayersWorlds.Maps.MapFilters {
         /// <param name="outlineType">Outline cell type</param>
         /// <param name="outlineWidth">Minimal width of the outline.</param>
         /// <param name="outlineHeight">Minimal height of the outline.</param>
-        public Map2DOutline(string[] cellType,
-                            string outlineType,
+        public Map2DOutline(Cell.CellTag[] cellType,
+                            Cell.CellTag outlineType,
                             int outlineWidth,
                             int outlineHeight) {
             _cellType = cellType;

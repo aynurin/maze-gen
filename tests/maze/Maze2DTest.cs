@@ -16,8 +16,8 @@ namespace PlayersWorlds.Maps {
             var map = new Maze2D(2, 3);
             Assert.AreEqual(6, map.Area);
             Assert.AreEqual(6, map.AllCells.Count);
-            Assert.AreEqual(2, map.XWidthColumns);
-            Assert.AreEqual(3, map.YHeightRows);
+            Assert.AreEqual(2, map.Size.X);
+            Assert.AreEqual(3, map.Size.Y);
         }
 
         [Test]

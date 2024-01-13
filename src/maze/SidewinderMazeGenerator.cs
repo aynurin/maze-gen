@@ -2,7 +2,16 @@ using System;
 using System.Collections.Generic;
 
 namespace PlayersWorlds.Maps.Maze {
+    /// <summary>
+    /// Sidewinder algorithm implementation.
+    /// </summary>
     public class SidewinderMazeGenerator : MazeGenerator {
+        /// <summary>
+        /// Generates a maze using Sidewinder algorithm in the
+        /// specified layout.
+        /// </summary>
+        /// <param name="layout">The layout to generate the maze in.</param>
+        /// <param name="options">The generator options to use.</param>
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
             if (options.FillFactor != GeneratorOptions.FillFactorOption.Full) {
                 throw new ArgumentException(this.GetType().Name + " doesn't currently " +

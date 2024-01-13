@@ -12,17 +12,17 @@ namespace PlayersWorlds.Maps.Renderers {
         public void TestRender() {
             var map = new Map2D(new Vector(5, 5));
             map.CellsAt(new Vector(0, 0), new Vector(5, 5))
-                .ForEach(c => c.Tags.Add(Maze2DRenderer.MapCellType.Trail));
+                .ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
             map.CellsAt(new Vector(0, 0), new Vector(5, 1))
-                .ForEach(c => c.Tags.Add(Maze2DRenderer.MapCellType.Wall));
+                .ForEach(c => c.Tags.Add(Cell.CellTag.MazeWall));
             map.CellsAt(new Vector(0, 0), new Vector(1, 5))
-                .ForEach(c => c.Tags.Add(Maze2DRenderer.MapCellType.Wall));
+                .ForEach(c => c.Tags.Add(Cell.CellTag.MazeWall));
             map.CellsAt(new Vector(4, 0), new Vector(1, 5))
-                .ForEach(c => c.Tags.Add(Maze2DRenderer.MapCellType.Wall));
+                .ForEach(c => c.Tags.Add(Cell.CellTag.MazeWall));
             map.CellsAt(new Vector(0, 4), new Vector(5, 1))
-                .ForEach(c => c.Tags.Add(Maze2DRenderer.MapCellType.Wall));
+                .ForEach(c => c.Tags.Add(Cell.CellTag.MazeWall));
             map.CellsAt(new Vector(2, 2), new Vector(1, 1))
-                .ForEach(c => c.Tags.Add(Maze2DRenderer.MapCellType.Edge));
+                .ForEach(c => c.Tags.Add(Cell.CellTag.MazeWallCorner));
             var expected =
                 "▓▓▓▓▓\n" +
                 "▓░░░▓\n" +

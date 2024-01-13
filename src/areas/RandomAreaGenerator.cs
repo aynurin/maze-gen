@@ -108,6 +108,7 @@ namespace PlayersWorlds.Maps.Areas {
                 TagProbabilities = tagProbabilities ?? s_default_tags;
             }
 
+            /// <summary />
             public static RandomAreaGeneratorSettings Default =>
                 new RandomAreaGeneratorSettings();
 

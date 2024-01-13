@@ -3,13 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace PlayersWorlds.Maps.Maze.PostProcessing {
+    /// <summary>
+    /// Dijkstra's algorithm to find the paths between cells. Used in many
+    /// cases, for example to find the longest path in the maze, or the best
+    /// start and end points.
+    /// </summary>
     public static class DijkstraDistance {
+        /// <summary>
+        /// Name of the attribute that marks the starting cell of the longest
+        /// path in the maze.
+        /// </summary>
         public const string LongestTrailStartAttribute =
             "PlayersWorlds.Maps.Maze.PostProcessing.DijkstraDistance.LongestTrailStartAttribute";
+        /// <summary>
+        /// Name of the attribute that marks the end cell of the longest
+        /// path in the maze.
+        /// </summary>
         public const string LongestTrailEndAttribute =
             "PlayersWorlds.Maps.Maze.PostProcessing.DijkstraDistance.LongestTrailEndAttribute";
+        /// <summary>
+        /// Name of the attribute that contains the longest path in the maze.
+        /// </summary>
         public const string LongestTrailAttribute =
             "PlayersWorlds.Maps.Maze.PostProcessing.DijkstraDistance.LongestTrailAttribute";
+        /// <summary>
+        /// Name of the attribute that contains the distance from the start of
+        /// the longest path in the maze.
+        /// </summary>
         public const string DistanceAttribute =
             "PlayersWorlds.Maps.Maze.PostProcessing.DijkstraDistance.DistanceAttribute";
 
@@ -48,7 +68,6 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         /// <summary>
         /// Finds the shortest path from the startingCell to the targetCell.
         /// </summary>
-        /// <param name="targetCell"></param>
         /// <returns><c>List&lt;MazeCell&gt;</c> containing the solution from
         /// <paramref name="startingCell" /> to <paramref name="targetCell" />
         /// or <c>Optional&lt;List&lt;MazeCell&gt;&gt;.Empty</c> if the solution
@@ -68,6 +87,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             return solution;
         }
 
+        /// <summary />
         public static List<MazeCell> FindLongestTrail(Maze2D maze) {
             maze.VisitedCells.ThrowIfNullOrEmpty("maze.VisitedCells");
             var distances = Find(maze.VisitedCells.First());

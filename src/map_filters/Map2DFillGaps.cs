@@ -8,9 +8,9 @@ namespace PlayersWorlds.Maps.MapFilters {
     /// cell type.
     /// </summary>
     internal class Map2DFillGaps : Map2DFilter {
-        private readonly string[] _gapsType;
+        private readonly Cell.CellTag[] _gapsType;
         private readonly bool _includeVoids;
-        private readonly string _fillType;
+        private readonly Cell.CellTag _fillType;
         private readonly int _maxGapWidth;
         private readonly int _maxGapHeight;
 
@@ -25,9 +25,9 @@ namespace PlayersWorlds.Maps.MapFilters {
         /// </param>
         /// <param name="maxGapHeight">Maximum block height to treat as a gap.
         /// </param>
-        public Map2DFillGaps(string[] gapsType,
+        public Map2DFillGaps(Cell.CellTag[] gapsType,
                              bool includeVoids,
-                             string fillType,
+                             Cell.CellTag fillType,
                              int maxGapWidth,
                              int maxGapHeight) {
             _gapsType = gapsType;

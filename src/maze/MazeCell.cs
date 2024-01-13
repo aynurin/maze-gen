@@ -6,24 +6,44 @@ using System.Linq;
 using PlayersWorlds.Maps.Areas;
 
 namespace PlayersWorlds.Maps.Maze {
+    /// <summary>
+    /// Represents a maze cell.
+    /// </summary>
     public class MazeCell {
         private readonly List<MazeCell> _links = new List<MazeCell>();
         private readonly List<MazeCell> _neighbors = new List<MazeCell>();
         private ReadOnlyCollection<MazeCell> _mapAreaCells;
         private MapArea _mapArea;
 
+        /// <summary>
+        /// <see cref="PostProcessing" /> attributes of this cell.
+        /// </summary>
         public Dictionary<string, string> Attributes { get; }
             = new Dictionary<string, string>();
 
+        /// <summary />
         public Vector Coordinates { get; private set; }
 
+        /// <summary>
+        /// <c>true</c> if this cell has been visited by the maze generation
+        /// algorithm.
+        /// </summary>
         public bool IsVisited { get; private set; }
 
+        /// <summary />
         public int X => Coordinates.X;
+        /// <summary />
         public int Y => Coordinates.Y;
 
+        /// <summary>
+        /// If this cell is part of a <see cref="MapArea" />, this property
+        /// returns the associated <see cref="MapArea" />.
+        /// </summary>
         public MapArea MapArea => _mapArea;
 
+        /// <summary>
+        /// Assign this cell to a <see cref="MapArea" />.
+        /// </summary>
         // If the map area is not visitable, then we can't visit this cell, thus
         // it can't have neighbors and links.
         // This method will not propagate the MapArea to the neighbors.
@@ -53,13 +73,25 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
+        internal MazeCell(int x, int y) : this(new Vector(x, y)) { }
 
-        public MazeCell(int x, int y) : this(new Vector(x, y)) { }
-
+        /// <summary>
+        /// Creates a new instance of the <see cref="MazeCell" /> class using 
+        /// a vector as cell coordinates.
+        /// </summary>
         public MazeCell(Vector coordinates) {
             Coordinates = coordinates;
         }
 
+        /// <summary>
+        /// Creates a link between this cell and the specified cell making a
+        /// path that can be used by the player to travel between the two cells.
+        /// </summary>
+        /// <exception cref="NotImplementedException">The cells are not adjacent
+        /// and traveling between non-adjacent cells is not yet implemented.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">The link already exists.
+        /// </exception>
         public void Link(MazeCell cell) {
             // skip the cells in the same map area as they are already linked.
             if (_mapAreaCells?.Contains(cell) == true) return;
@@ -77,29 +109,62 @@ namespace PlayersWorlds.Maps.Maze {
             cell._links.Add(this);
         }
 
+        /// <summary>
+        /// Breaks a link between the cells.
+        /// </summary>
+        /// <param name="cell"></param>
         public void Unlink(MazeCell cell) {
             _links.Remove(cell);
             cell._links.Remove(this);
         }
 
-        public List<MazeCell> Neighbors() => _neighbors;
+        /// <summary>
+        /// The neighbors of this cell.
+        /// </summary>
+        // TODO: this should be read-only.
+        public IList<MazeCell> Neighbors() => _neighbors;
 
+        /// <summary>
+        /// Get a neighbor of this cell in the specified direction.
+        /// </summary>
+        /// <param name="unitVector">A vector that points to the neighbor. See
+        /// the directional vectors predefined in the <see cref="Vector" />
+        /// class.</param>
         public Optional<MazeCell> Neighbors(Vector unitVector) =>
             new Optional<MazeCell>(_neighbors.Find(cell => cell.Coordinates == this.Coordinates + unitVector));
 
+        /// <summary>
+        /// The links between this cell and other cells.
+        /// </summary>
         public List<MazeCell> Links() => _links;
 
+        /// <summary>
+        /// Get a linked cell in the specified direction.
+        /// </summary>
+        /// <param name="unitVector">A vector that points to the neighbor. See
+        /// the directional vectors predefined in the <see cref="Vector" />
+        /// class.</param>
         public Optional<MazeCell> Links(Vector unitVector) =>
             new Optional<MazeCell>(_links.Find(cell => cell.Coordinates == this.Coordinates + unitVector));
 
-        public string GatesString() => string.Concat(
+        /// <summary>
+        /// A debug string describing this cell.
+        /// </summary>
+        /// <returns></returns>
+        public string ToLongString() => $"{ToString()}({GatesString()})";
+
+        /// <summary>
+        /// A string representation of this cell in the form of
+        /// <c>Coordinates[V]</c>. Where V, if specified, denotes that this cell
+        /// has been visited by a maze generator algorithm.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => $"{Coordinates}{(IsVisited ? "V" : "")}";
+
+        private string GatesString() => string.Concat(
             Links(Vector.North2D).HasValue ? "N" : "-",
             Links(Vector.East2D).HasValue ? "E" : "-",
             Links(Vector.South2D).HasValue ? "S" : "-",
             Links(Vector.West2D).HasValue ? "W" : "-");
-
-        public string ToLongString() => $"{ToString()}({GatesString()})";
-
-        public override string ToString() => $"{Coordinates}{(IsVisited ? "V" : "")}";
     }
 }
