@@ -36,7 +36,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 OriginalOutOfBounds =
                     originalCopy
                         .Where(
-                            area => !area.Fits(Vector.Zero2D, mapSize))
+                            area => !area.FitsInto(Vector.Zero2D, mapSize))
                         .ToList(),
                 PlacedAreas = managedAreas
             };
@@ -55,7 +55,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     .ToList();
             result.PlacedOutOfBounds =
                 result.PlacedAreas
-                    .Where(block => !block.Fits(Vector.Zero2D, mapSize))
+                    .Where(block => !block.FitsInto(Vector.Zero2D, mapSize))
                     .ToList();
 
             result.TestString = $"yield return \"{mapSize}: " +

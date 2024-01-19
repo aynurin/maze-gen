@@ -28,13 +28,13 @@ namespace PlayersWorlds.Maps.Areas {
             var areas = new List<MapArea>();
             var addedArea = 0;
             if (_settings.DimensionProbabilities.Keys.All(areaSize =>
-                !areaSize.Fits(size - new Vector(2, 2)))) {
+                !areaSize.FitsInto(size - new Vector(2, 2)))) {
                 // none of the areas fit the map
                 return areas;
             }
             do {
                 var area = GetRandomZone();
-                if (!area.Size.Fits(size - new Vector(2, 2)))
+                if (!area.Size.FitsInto(size - new Vector(2, 2)))
                     continue;
                 if (addedArea + area.Size.Area >
                     size.Area * Math.Min(1, _settings.MinFillFactor * 2))

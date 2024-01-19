@@ -126,5 +126,12 @@ namespace PlayersWorlds.Maps {
         public void VectorD_Parse() {
             Assert.AreEqual(new VectorD(0.3, -1), VectorD.Parse("S0.3x-1"));
         }
+
+        [Test]
+        public void FitsInto() {
+            Assert.That(new Vector(1, 2).FitsInto(new Vector(2, 2)), Is.True);
+            Assert.That(new Vector(10, 10).FitsInto(new Vector(20, 20)), Is.True);
+            Assert.That(new Vector(10, 10).FitsInto(new Vector(2, 2)), Is.False);
+        }
     }
 }

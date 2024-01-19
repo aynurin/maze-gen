@@ -103,7 +103,7 @@ namespace PlayersWorlds.Maps.Maze {
                 var errors =
                     areas.Count(
                         a => areas.Any(b => a != b && a.Overlaps(b))) +
-                    areas.Count(block => !block.Fits(Vector.Zero2D, mazeSize));
+                    areas.Count(block => !block.FitsInto(Vector.Zero2D, mazeSize));
                 if (errors == 0) {
                     foreach (var area in areas) {
                         maze.AddArea(area);

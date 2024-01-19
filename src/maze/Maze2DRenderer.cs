@@ -42,7 +42,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// Renders a <see cref="Maze2D" /> to a string.
         /// </summary>
         public void Render(Map2D map) {
-            if (!Fits(map, _options)) {
+            if (!_options.RenderedSize(_maze.Size).FitsInto(map.Size)) {
                 throw new ArgumentException("Map does not fit the maze.");
             }
             foreach (var cell in _maze.AllCells) {
@@ -66,10 +66,6 @@ namespace PlayersWorlds.Maps.Maze {
             foreach (var filter in _filters) {
                 filter.Render(map);
             }
-        }
-
-        internal bool Fits(Map2D map, MazeToMapOptions options) {
-            return map.Size.Fits(options.RenderedSize(_maze.Size));
         }
 
         internal CellsMapping CreateCellsMapping(Map2D map, MazeCell mazeCell)

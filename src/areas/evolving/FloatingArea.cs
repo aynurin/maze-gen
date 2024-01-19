@@ -72,7 +72,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 point.Y >= Position.Y && point.Y <= Size.Y + Position.Y;
         }
 
-        public bool Fits(FloatingArea other) {
+        public bool FitsInto(FloatingArea other) {
             // Check if the inner rectangle is completely within the outer rectangle.
             return LowX >= other.LowX &&
                 HighX <= other.HighX &&

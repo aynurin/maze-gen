@@ -159,10 +159,10 @@ namespace PlayersWorlds.Maps {
             ThrowIfEmptyOrApply(one, another, (a, b) => new Vector(one._value.Zip(another._value, (x1, x2) => x1 - x2)));
 
         /// <summary>
-        /// Checks if a region of size <paramref name="greater"/> fits a region
+        /// Checks if a region of size <paramref name="container"/> fits a region
         /// of the size of this vector.
         /// </summary>
-        public bool Fits(Vector greater) => _value.Zip(greater._value, (a, b) => a <= b).All(b => b);
+        public bool FitsInto(Vector container) => _value.Zip(container._value, (a, b) => a <= b).All(b => b);
 
         /// <summary>
         /// <see cref="Equals(Vector)"/>.

@@ -6,10 +6,10 @@ using PlayersWorlds.Maps.Maze;
 
 namespace PlayersWorlds.Maps {
     [TestFixture]
-    public class CellTest {
+    public class MazeCellTest {
 
         [Test]
-        public void Map2D_LinksAreMutual() {
+        public void LinksAreMutual() {
             var a = new MazeCell(2, 1);
             var b = new MazeCell(2, 2);
             a.Neighbors().Add(b);
@@ -31,7 +31,7 @@ namespace PlayersWorlds.Maps {
         }
 
         [Test]
-        public void Map2D_CanAssignMapAreaOnce() {
+        public void CanAssignMapAreaOnce() {
             var a = new MazeCell(2, 1);
             var mapArea = new MapArea(AreaType.Fill, new Vector(2, 2), new Vector(2, 2));
 
@@ -41,7 +41,7 @@ namespace PlayersWorlds.Maps {
         }
 
         [Test]
-        public void Map2D_ToString() {
+        public void ToStringTest() {
             var a = new MazeCell(2, 1);
             var b = new MazeCell(2, 2);
             a.Neighbors().Add(b);
@@ -67,7 +67,7 @@ namespace PlayersWorlds.Maps {
         }
 
         [Test]
-        public void Map2D_DoubleLinkingThrowsError() {
+        public void DoubleLinkingThrowsError() {
             var a = new MazeCell(1, 2);
             var b = new MazeCell(2, 2);
             a.Neighbors().Add(b);

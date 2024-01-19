@@ -114,7 +114,7 @@ namespace PlayersWorlds.Maps.Areas {
         /// <param name="size">The size of the outer rectangle.</param>
         /// <returns><c>true</c> if the inner rectangle is completely within the
         /// outer area, <c>false</c> otherwise.</returns>
-        internal bool Fits(Vector position, Vector size) {
+        internal bool FitsInto(Vector position, Vector size) {
             return this.LowX >= position.X &&
                 this.HighX <= position.X + size.X &&
                 this.LowY >= position.Y &&

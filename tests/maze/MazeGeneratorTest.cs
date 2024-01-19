@@ -50,9 +50,9 @@ namespace PlayersWorlds.Maps {
             var map = (Maze2D)typeof(MazeGenerator).GetMethods(BindingFlags.Public | BindingFlags.Static)
                 .First(m => m.Name == "Generate" && m.IsGenericMethod)
                 .MakeGenericMethod(generatorType)
-                .Invoke(null, new object[] { new Vector(3, 4), new GeneratorOptions() { FillFactor = GeneratorOptions.FillFactorOption.Full } });
+                .Invoke(null, new object[] { new Vector(20, 20), new GeneratorOptions() { FillFactor = GeneratorOptions.FillFactorOption.Full } });
             // generator.GenerateMaze(map);
-            Assert.IsTrue(map.VisitableCells.Count == 12);
+            Assert.IsTrue(map.VisitableCells.Count == 400);
             Assert.IsTrue(map.VisitableCells.Any(cell => cell.Links().Count > 0));
         }
 

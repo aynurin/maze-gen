@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PlayersWorlds.Maps {
@@ -41,7 +42,9 @@ namespace PlayersWorlds.Maps {
             /// name="obj"/>; otherwise, <c>false</c>.
             /// </returns>
             public override bool Equals(object obj) {
-                return _tag.Equals((obj as CellTag)._tag);
+                if (obj is string v) return _tag.Equals(v);
+                else if (obj is CellTag t) return _tag.Equals(t._tag);
+                return Object.ReferenceEquals(this, obj);
             }
 
             /// <summary>
