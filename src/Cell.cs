@@ -15,7 +15,7 @@ namespace PlayersWorlds.Maps {
 
         /// <summary>
         /// Cell tags can be used in the game engine to choose objects, visual
-        /// style, or behaviors associated with the cell, etc. See
+        /// style, or behaviors associated with the generated cell. See
         /// <see cref="Cell.Tags"/>.
         /// </summary>
         /// <remarks>
