@@ -138,6 +138,11 @@ namespace PlayersWorlds.Maps.Maze {
             /// </summary>
             public static readonly Type Wilsons =
                 typeof(WilsonsMazeGenerator);
+            /// <summary>
+            /// <see cref="BinaryTreeMazeGenerator" />.
+            /// </summary>
+            public static readonly Type BinaryTree =
+                typeof(BinaryTreeMazeGenerator);
         }
     }
 }

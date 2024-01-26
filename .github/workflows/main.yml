@@ -17,12 +17,10 @@ jobs:
       - name: Restore dependencies
         run: |
           nuget restore
-          nuget install NUnit.ConsoleRunner -Version 3.13.0 -DirectDownload -OutputDirectory packages
 
       - name: Build
         run: |
           msbuild maze-gen.sln
-          ls -laR
 
       - name: Test
-        run: packages/NUnit.ConsoleRunner.3.13.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --framework=mono-4.0 --where='cat!=Load' # Replace with your test assembly path
+        run: mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --framework=mono-4.0 --where='cat!=Load' # Replace with your test assembly path

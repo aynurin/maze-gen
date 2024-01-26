@@ -20,8 +20,8 @@ namespace PlayersWorlds.Maps.Maze {
             var cellStates = GlobalRandom.NextBytes(layout.Area);
             var currentX = 0;
             var run = new List<MazeCell>();
-            for (var i = 0; i < layout.VisitableCells.Count; i++) {
-                var cell = layout.VisitableCells[i];
+            for (var i = 0; i < layout.UnlinkedCells.Count; i++) {
+                var cell = layout.UnlinkedCells[i];
                 var linkNorth = cellStates[i] % 2 == 0;
                 if (cell.X != currentX) {
                     run.Clear();

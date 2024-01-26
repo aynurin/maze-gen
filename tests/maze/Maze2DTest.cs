@@ -1,23 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using PlayersWorlds.Maps.Areas;
-using PlayersWorlds.Maps.Maze;
 using PlayersWorlds.Maps.Maze.PostProcessing;
 
-namespace PlayersWorlds.Maps {
+namespace PlayersWorlds.Maps.Maze {
     [TestFixture]
     public class Maze2DTest {
         [Test]
         public void Maze2D_IsInitialized() {
             var map = new Maze2D(2, 3);
-            Assert.AreEqual(6, map.Area);
-            Assert.AreEqual(6, map.AllCells.Count);
-            Assert.AreEqual(2, map.Size.X);
-            Assert.AreEqual(3, map.Size.Y);
+            Assert.That(6, Is.EqualTo(map.Area));
+            Assert.That(6, Is.EqualTo(map.AllCells.Count));
+            Assert.That(2, Is.EqualTo(map.Size.X));
+            Assert.That(3, Is.EqualTo(map.Size.Y));
         }
 
         [Test]
@@ -46,7 +44,7 @@ namespace PlayersWorlds.Maps {
             var cols = 5;
             var map = new Maze2D(cols, rows);
 
-            Assert.AreEqual(map.AllCells.Count, rows * cols, "Wrong number of cells.");
+            Assert.That(map.AllCells.Count, Is.EqualTo(rows * cols), "Wrong number of cells.");
             for (var x = 0; x < cols; x++) {
                 for (var y = 0; y < rows; y++) {
                     var cell = map.AllCells.ElementAt(new Vector(x, y), map.Size);
@@ -57,93 +55,112 @@ namespace PlayersWorlds.Maps {
                     var nonNeighbors = map.AllCells
                         .Where(c => c != cell && !neighbors.Contains(c))
                         .ToList();
-                    Assert.AreEqual(neighbors.Count, cell.Neighbors().Count);
-                    Assert.IsTrue(neighbors.All(c => cell.Neighbors().Contains(c)));
-                    Assert.IsFalse(nonNeighbors.Any(c => cell.Neighbors().Contains(c)));
+                    Assert.That(neighbors.Count, Is.EqualTo(cell.Neighbors().Count));
+                    Assert.That(neighbors.All(c => cell.Neighbors().Contains(c)), Is.True);
+                    Assert.That(nonNeighbors.Any(c => cell.Neighbors().Contains(c)), Is.False);
 
-                    if (x > 0) Assert.AreEqual(cell.Neighbors(Vector.West2D), map.AllCells.ElementAt(new Vector(x - 1, y), map.Size), "Neighbors(West2D)");
-                    if (x + 1 < cols) Assert.AreEqual(cell.Neighbors(Vector.East2D), map.AllCells.ElementAt(new Vector(x + 1, y), map.Size), "Neighbors(East2D)");
-                    if (y > 0) Assert.AreEqual(cell.Neighbors(Vector.South2D), map.AllCells.ElementAt(new Vector(x, y - 1), map.Size), "Neighbors(South2D)");
-                    if (y + 1 > rows) Assert.AreEqual(cell.Neighbors(Vector.North2D), map.AllCells.ElementAt(new Vector(x, y + 1), map.Size), "Neighbors(North2D)");
+                    if (x > 0) Assert.That(
+                        cell.Neighbors(Vector.West2D).Value,
+                        Is.EqualTo(map.AllCells.ElementAt(
+                            new Vector(x - 1, y), map.Size)));
+                    if (x + 1 < cols) Assert.That(
+                        cell.Neighbors(Vector.East2D).Value,
+                        Is.EqualTo(map.AllCells.ElementAt(
+                            new Vector(x + 1, y), map.Size)));
+                    if (y > 0) Assert.That(
+                        cell.Neighbors(Vector.South2D).Value,
+                        Is.EqualTo(map.AllCells.ElementAt(
+                            new Vector(x, y - 1), map.Size)));
+                    if (y + 1 > rows) Assert.That(
+                        cell.Neighbors(Vector.North2D).Value,
+                        Is.EqualTo(map.AllCells.ElementAt(
+                            new Vector(x, y + 1), map.Size)));
                 }
             }
         }
 
         [Test]
         public void Maze2D_CanRenderMap() {
-            var map = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(3, 3),
+            var map = MazeGenerator.Generate(new Vector(3, 3),
                 new GeneratorOptions() {
+                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full
                 });
             var scaledMap = map.ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 2, 3, 2 }, new int[] { 2, 3, 2 }, new int[] { 1, 2, 1, 2 }, new int[] { 1, 3, 1, 3 }));
 
             var expectedSize = new Vector(13, 15);
 
-            Assert.AreEqual(expectedSize.Area, scaledMap.Cells.Count);
+            Assert.That(expectedSize.Area, Is.EqualTo(scaledMap.Cells.Count));
         }
 
         [Test]
         public void Maze2D_AddsNoRoomsWhenNoneRequested() {
-            var maze = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(10, 10),
+            var maze = MazeGenerator.Generate(new Vector(10, 10),
                 new GeneratorOptions() {
+                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full,
                     MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
                 });
-            Assert.That(maze.Areas.Count, Is.EqualTo(0));
+            Assert.That(maze.MapAreas.Count, Is.EqualTo(0));
         }
 
         [Test]
         public void Maze2D_AddsNoRoomsToASmallMaze() {
-            var maze = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(3, 3),
+            var maze = MazeGenerator.Generate(new Vector(3, 3),
                 new GeneratorOptions() {
+                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full,
                     MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto,
                 });
-            Assert.That(maze.Areas.Count, Is.EqualTo(0));
+            Assert.That(maze.MapAreas.Count, Is.EqualTo(0));
         }
 
         [Test]
         public void Maze2D_AddsRooms() {
-            var maze = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(5, 5),
+            var maze = MazeGenerator.Generate(new Vector(5, 5),
                 new GeneratorOptions() {
+                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full,
                     MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto,
                 });
-            Assert.That(maze.Areas.Count, Is.GreaterThan(0));
+            Assert.That(maze.MapAreas.Count, Is.GreaterThan(0));
         }
 
         [Test]
         public void Maze2D_AddsOneHall() {
             var options = new GeneratorOptions() {
+                Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                 FillFactor = GeneratorOptions.FillFactorOption.Full,
                 MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
                 MapAreas = new List<MapArea> { MapArea.Parse("P2x1;S2x2;Hall") }
             };
-            var maze = MazeGenerator.Generate<AldousBroderMazeGenerator>(
+            var maze = MazeGenerator.Generate(
                 new Vector(5, 5), options);
-            Assert.That(maze.Areas.Count, Is.EqualTo(1));
+            Assert.That(maze.MapAreas.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void Maze2D_AddsOneFill() {
             var options = new GeneratorOptions() {
+                Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                 FillFactor = GeneratorOptions.FillFactorOption.Full,
                 MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
                 MapAreas = new List<MapArea> { MapArea.Parse("P2x1;S2x2;Fill") }
             };
-            var maze = MazeGenerator.Generate<AldousBroderMazeGenerator>(
+            var maze = MazeGenerator.Generate(
                 new Vector(5, 5), options);
-            Assert.That(maze.Areas.Count, Is.EqualTo(1));
+            Assert.That(maze.MapAreas.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void Maze2D_HasAttributesSet() {
-            var map = MazeGenerator.Generate<AldousBroderMazeGenerator>(new Vector(3, 3),
+            var map = MazeGenerator.Generate(new Vector(3, 3),
                 new GeneratorOptions() {
+                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full
                 });
-            Assert.IsNotEmpty(map.Attributes[DeadEnd.DeadEndAttribute]);
-            Assert.IsNotEmpty(map.Attributes[DijkstraDistance.LongestTrailAttribute]);
+            Assert.That(map.Attributes[DeadEnd.DeadEndAttribute], Is.Not.Empty);
+            Assert.That(map.Attributes[DijkstraDistance.LongestTrailAttribute], Is.Not.Empty);
         }
 
         [Test]
@@ -157,28 +174,28 @@ namespace PlayersWorlds.Maps {
             // ╟───╴   └───╢
             // ║ 6   7   8 ║
             // ╚═══════════╝
-            Assert.IsTrue(!maze.AllCells[0].Links(Vector.East2D).HasValue);
-            Assert.IsTrue(!maze.AllCells[4].Links(Vector.East2D).HasValue);
-            Assert.IsTrue(maze.AllCells[4].Links(Vector.South2D).HasValue);
-            Assert.IsTrue(maze.AllCells[4].Links(Vector.North2D).HasValue);
-            Assert.IsTrue(maze.AllCells[7].Links(Vector.East2D).HasValue);
-            Assert.IsTrue(maze.AllCells[7].Links(Vector.West2D).HasValue);
-            Assert.IsTrue(maze.AllCells[7].Links(Vector.South2D).HasValue);
-            Assert.IsTrue(!maze.AllCells[7].Links(Vector.North2D).HasValue);
-            Assert.IsTrue(maze.AllCells[6].Links(Vector.East2D).HasValue);
-            Assert.IsTrue(!maze.AllCells[6].Links(Vector.West2D).HasValue);
-            Assert.IsTrue(!maze.AllCells[6].Links(Vector.South2D).HasValue);
-            Assert.IsTrue(!maze.AllCells[6].Links(Vector.North2D).HasValue);
-            Assert.IsTrue(maze.AllCells[6].Neighbors(Vector.East2D).HasValue);
-            Assert.IsTrue(!maze.AllCells[6].Neighbors(Vector.West2D).HasValue);
-            Assert.IsTrue(maze.AllCells[6].Neighbors(Vector.South2D).HasValue);
-            Assert.IsTrue(!maze.AllCells[6].Neighbors(Vector.North2D).HasValue);
+            Assert.That(!maze.AllCells[0].Links(Vector.East2D).HasValue, Is.True);
+            Assert.That(!maze.AllCells[4].Links(Vector.East2D).HasValue, Is.True);
+            Assert.That(maze.AllCells[4].Links(Vector.South2D).HasValue, Is.True);
+            Assert.That(maze.AllCells[4].Links(Vector.North2D).HasValue, Is.True);
+            Assert.That(maze.AllCells[7].Links(Vector.East2D).HasValue, Is.True);
+            Assert.That(maze.AllCells[7].Links(Vector.West2D).HasValue, Is.True);
+            Assert.That(maze.AllCells[7].Links(Vector.South2D).HasValue, Is.True);
+            Assert.That(!maze.AllCells[7].Links(Vector.North2D).HasValue, Is.True);
+            Assert.That(maze.AllCells[6].Links(Vector.East2D).HasValue, Is.True);
+            Assert.That(!maze.AllCells[6].Links(Vector.West2D).HasValue, Is.True);
+            Assert.That(!maze.AllCells[6].Links(Vector.South2D).HasValue, Is.True);
+            Assert.That(!maze.AllCells[6].Links(Vector.North2D).HasValue, Is.True);
+            Assert.That(maze.AllCells[6].Neighbors(Vector.East2D).HasValue, Is.True);
+            Assert.That(!maze.AllCells[6].Neighbors(Vector.West2D).HasValue, Is.True);
+            Assert.That(maze.AllCells[6].Neighbors(Vector.South2D).HasValue, Is.True);
+            Assert.That(!maze.AllCells[6].Neighbors(Vector.North2D).HasValue, Is.True);
         }
 
         [Test]
         public void Maze2D_CanParse2() {
             var maze = Maze2D.Parse("3x4");
-            Assert.IsTrue(maze.Size.X == 3 && maze.Size.Y == 4);
+            Assert.That(maze.Size.X == 3 && maze.Size.Y == 4, Is.True);
         }
     }
 }

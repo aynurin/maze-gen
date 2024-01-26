@@ -132,31 +132,40 @@ namespace PlayersWorlds.Maps.Maze {
             public Vector SESize => _size[SE];
 
             public IEnumerable<Cell> CenterCells =>
-                _map.CellsAt(_position[CENTER], _size[CENTER]);
+                _map.IterateArea(_position[CENTER], _size[CENTER])
+                    .Select(c => c.cell);
 
             public IEnumerable<Cell> NWCells =>
-                _map.CellsAt(_position[NW], _size[NW]);
+                _map.IterateArea(_position[NW], _size[NW])
+                    .Select(c => c.cell);
 
             public IEnumerable<Cell> NCells =>
-                _map.CellsAt(_position[N], _size[N]);
+                _map.IterateArea(_position[N], _size[N])
+                    .Select(c => c.cell);
 
             public IEnumerable<Cell> NECells =>
-                _map.CellsAt(_position[NE], _size[NE]);
+                _map.IterateArea(_position[NE], _size[NE])
+                    .Select(c => c.cell);
 
             public IEnumerable<Cell> WCells =>
-                _map.CellsAt(_position[W], _size[W]);
+                _map.IterateArea(_position[W], _size[W])
+                    .Select(c => c.cell);
 
             public IEnumerable<Cell> ECells =>
-                _map.CellsAt(_position[E], _size[E]);
+                _map.IterateArea(_position[E], _size[E])
+                    .Select(c => c.cell);
 
             public IEnumerable<Cell> SWCells =>
-                _map.CellsAt(_position[SW], _size[SW]);
+                _map.IterateArea(_position[SW], _size[SW])
+                    .Select(c => c.cell);
 
             public IEnumerable<Cell> SCells =>
-                _map.CellsAt(_position[S], _size[S]);
+                _map.IterateArea(_position[S], _size[S])
+                    .Select(c => c.cell);
 
             public IEnumerable<Cell> SECells =>
-                _map.CellsAt(_position[SE], _size[SE]);
+                _map.IterateArea(_position[SE], _size[SE])
+                    .Select(c => c.cell);
 
 
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Areas.Evolving;
 using PlayersWorlds.Maps.Maze.PostProcessing;
 
@@ -46,43 +47,14 @@ namespace PlayersWorlds.Maps.Maze {
                     $"({options.Algorithm.FullName}) does not have a default " +
                     "constructor.");
             }
-            return (Maze2D)typeof(MazeGenerator)
-                .GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
-                .First(m => m.Name == "Generate" && m.IsGenericMethodDefinition)
-                .MakeGenericMethod(options.Algorithm)
-                .Invoke(null, new object[] { size, options });
-        }
 
-        /// <summary>
-        /// A helper method to generate a new maze.
-        /// </summary>
-        /// <typeparam name="T">The maze generator implementation.</typeparam>
-        /// <param name="size">Size of the maze to generate.</param>
-        /// <param name="options">Maze generator options.</param>
-        /// <returns></returns>
-        public static Maze2D Generate<T>(Vector size, GeneratorOptions options)
-            where T : MazeGenerator, new() {
             var maze = new Maze2D(size);
-            // Maze generation process:
-            //  1. The user chooses the maze size and various options, such as
-            //      the size of walls and corridors, maze fill factor, rooms
-            //      density, how the rooms are connected (maze vs. straight vs
-            //      elbow), maze generation algorithm. All options have defaults
-            //      so the user can choose to set any of the options.
-            //  2. Generate rooms
-            //  3. Initialize maze graph with the rooms
-            //  4. Generate the maze
-            Console.WriteLine($"{typeof(T).Name}: Generating maze {maze.Size} with {options.ShortDebugString()}");  /*  */
-            if (options.MapAreasOptions == GeneratorOptions.MapAreaOptions.Auto) {
-                GenerateMazeAreas(size, options, maze);
-            } else if (options.MapAreasOptions ==
-                            GeneratorOptions.MapAreaOptions.Manual
-                       && options.MapAreas != null) {
-                foreach (var area in options.MapAreas) {
-                    maze.AddArea(area);
-                }
-            }
-            new T().GenerateMaze(maze, options);
+            Console.WriteLine($"{options.Algorithm.Name}: Generating maze " +
+                $"{maze.Size} with {options.ShortDebugString()}");  /*  */
+            GenerateMazeAreas(size, options, maze);
+            (Activator.CreateInstance(options.Algorithm) as MazeGenerator)
+                .GenerateMaze(maze, options);
+            maze.ApplyAreas();
             maze.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(maze));
             maze.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
                 DijkstraDistance.FindLongestTrail(maze));
@@ -92,19 +64,35 @@ namespace PlayersWorlds.Maps.Maze {
         private static void GenerateMazeAreas(Vector mazeSize,
                                               GeneratorOptions options,
                                               Maze2D maze) {
-            // there is a 5% chance that we can't auto-distribute the areas
-            // (see SideToSideForceProducer.cs) so we make several attempts.
-            var attempts = 3;
+            // when we auto-generate the areas, there is a 5% chance that we
+            // can't auto-distribute (see SideToSideForceProducer.cs) so we make
+            // several attempts.
+            var attempts = options.MapAreasOptions ==
+                    GeneratorOptions.MapAreaOptions.Auto ? 3 : 1;
+            // count existing (desired) placement errors we can ignore when
+            // checking auto-generated areas.
+            var existingErrors = options.MapAreas == null ? 0 :
+                options.MapAreas.Count(
+                    a => a.IsPositionFixed &&
+                         options.MapAreas.Any(b => a != b && a.Overlaps(b))) +
+                options.MapAreas.Count(
+                    block => !block.FitsInto(Vector.Zero2D, mazeSize));
             while (true) {
                 attempts--;
-                var areas = options.AreaGenerator.Generate(mazeSize);
+                var areas = new List<MapArea>(
+                    options.MapAreas ?? new List<MapArea>());
+                if (options.MapAreasOptions ==
+                    GeneratorOptions.MapAreaOptions.Auto) {
+                    areas.AddRange(
+                        options.AreaGenerator.Generate(mazeSize, areas));
+                }
                 new AreaDistributor()
                     .Distribute(mazeSize, areas, 100);
-                var errors =
+                var errors = -existingErrors +
                     areas.Count(
                         a => areas.Any(b => a != b && a.Overlaps(b))) +
                     areas.Count(block => !block.FitsInto(Vector.Zero2D, mazeSize));
-                if (errors == 0) {
+                if (errors <= 0) {
                     foreach (var area in areas) {
                         maze.AddArea(area);
                     }
@@ -139,14 +127,14 @@ namespace PlayersWorlds.Maps.Maze {
                 var maxY = visitedCells.Max(c => c.Y);
                 return minY == 0 && maxY == maze.Size.Y - 1;
             } else if (options.FillFactor == GeneratorOptions.FillFactorOption.Full) {
-                return visitedCells.Count == maze.VisitableCells.Count;
+                return visitedCells.Count == maze.UnlinkedCells.Count;
             } else {
                 var fillFactor =
                     options.FillFactor == GeneratorOptions.FillFactorOption.Quarter ? 0.25 :
                     options.FillFactor == GeneratorOptions.FillFactorOption.Half ? 0.5 :
                     options.FillFactor == GeneratorOptions.FillFactorOption.ThreeQuarters ? 0.75 :
                     0.9;
-                return visitedCells.Count >= maze.VisitableCells.Count * fillFactor;
+                return visitedCells.Count >= maze.UnlinkedCells.Count * fillFactor;
             }
         }
     }

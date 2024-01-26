@@ -15,14 +15,17 @@ namespace PlayersWorlds.Maps.Areas {
         /// </summary>
         Maze = 0,
         /// <summary>
-        /// E.g., a hall with walls around it or a valley with a lake and a
-        /// shore around the lake, the player can enter and walk the hall or
-        /// the shores.
+        /// A hall with walls around it and one or two entrances.
         /// </summary>
         Hall = 1,
         /// <summary>
+        /// Cave is similar to <see cref="Hall" /> but with no entrance
+        /// placement rules, making any number of entrances.
+        /// </summary>
+        Cave = 2,
+        /// <summary>
         /// An area the player cannot enter, e.g., a lake or a rock.
         /// </summary>
-        Fill = 2
+        Fill = 3
     }
 }

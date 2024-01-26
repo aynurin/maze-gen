@@ -17,8 +17,8 @@ namespace PlayersWorlds.Maps.Maze {
                     "support fill factors other than Full");
             }
             var states = GlobalRandom.NextBytes(layout.Area);
-            for (var i = 0; i < layout.VisitableCells.Count; i++) {
-                var cell = layout.VisitableCells[i];
+            for (var i = 0; i < layout.UnlinkedCells.Count; i++) {
+                var cell = layout.UnlinkedCells[i];
                 var linkNorth = states[i] % 2 == 0;
                 // link north
                 if ((linkNorth || !cell.Neighbors(Vector.East2D).HasValue) && cell.Neighbors(Vector.North2D).HasValue) {

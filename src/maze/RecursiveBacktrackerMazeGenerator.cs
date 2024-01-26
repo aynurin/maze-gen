@@ -15,7 +15,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// <param name="options">The generator options to use.</param>
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
             var stack = new Stack<MazeCell>();
-            stack.Push(layout.VisitableCells.GetRandom());
+            stack.Push(layout.UnlinkedCells.GetRandom());
             while (!IsFillComplete(options, layout) && stack.Count > 0) {
                 var potentiallyNext = stack.First().Neighbors().Where(cell => !cell.IsVisited).ToList();
                 if (potentiallyNext.Count > 0) {

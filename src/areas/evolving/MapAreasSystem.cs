@@ -47,6 +47,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             }
             // apply epoch force in this generation
             for (var i = 0; i < _areas.Count; i++) {
+                if (_areas[i].IsPositionFixed) continue;
                 _areas[i].AdjustPosition(areasForces[i] * fragment);
             }
             var impact = new MasGenerationImpact(

@@ -11,18 +11,18 @@ namespace PlayersWorlds.Maps.Renderers {
         [Test]
         public void TestRender() {
             var map = new Map2D(new Vector(5, 5));
-            map.CellsAt(new Vector(0, 0), new Vector(5, 5))
-                .ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
-            map.CellsAt(new Vector(0, 0), new Vector(5, 1))
-                .ForEach(c => c.Tags.Add(Cell.CellTag.MazeWall));
-            map.CellsAt(new Vector(0, 0), new Vector(1, 5))
-                .ForEach(c => c.Tags.Add(Cell.CellTag.MazeWall));
-            map.CellsAt(new Vector(4, 0), new Vector(1, 5))
-                .ForEach(c => c.Tags.Add(Cell.CellTag.MazeWall));
-            map.CellsAt(new Vector(0, 4), new Vector(5, 1))
-                .ForEach(c => c.Tags.Add(Cell.CellTag.MazeWall));
-            map.CellsAt(new Vector(2, 2), new Vector(1, 1))
-                .ForEach(c => c.Tags.Add(Cell.CellTag.MazeWallCorner));
+            map.IterateArea(new Vector(0, 0), new Vector(5, 5))
+                .ForEach(c => c.cell.Tags.Add(Cell.CellTag.MazeTrail));
+            map.IterateArea(new Vector(0, 0), new Vector(5, 1))
+                .ForEach(c => c.cell.Tags.Add(Cell.CellTag.MazeWall));
+            map.IterateArea(new Vector(0, 0), new Vector(1, 5))
+                .ForEach(c => c.cell.Tags.Add(Cell.CellTag.MazeWall));
+            map.IterateArea(new Vector(4, 0), new Vector(1, 5))
+                .ForEach(c => c.cell.Tags.Add(Cell.CellTag.MazeWall));
+            map.IterateArea(new Vector(0, 4), new Vector(5, 1))
+                .ForEach(c => c.cell.Tags.Add(Cell.CellTag.MazeWall));
+            map.IterateArea(new Vector(2, 2), new Vector(1, 1))
+                .ForEach(c => c.cell.Tags.Add(Cell.CellTag.MazeWallCorner));
             var expected =
                 "▓▓▓▓▓\n" +
                 "▓░░░▓\n" +
@@ -31,7 +31,7 @@ namespace PlayersWorlds.Maps.Renderers {
                 "▓▓▓▓▓\n";
             var actual = map.ToString();
             Console.WriteLine(actual);
-            Assert.AreEqual(expected, actual);
+            Assert.That(expected, Is.EqualTo(actual));
         }
     }
 }

@@ -12,8 +12,11 @@ namespace PlayersWorlds.Maps.Maze {
     public class MazeCell {
         private readonly List<MazeCell> _links = new List<MazeCell>();
         private readonly List<MazeCell> _neighbors = new List<MazeCell>();
-        private ReadOnlyCollection<MazeCell> _mapAreaCells;
-        private MapArea _mapArea;
+        private readonly Dictionary<MapArea, ReadOnlyCollection<MazeCell>>
+            _mapAreas = new Dictionary<MapArea, ReadOnlyCollection<MazeCell>>();
+
+        internal ReadOnlyDictionary<MapArea, ReadOnlyCollection<MazeCell>> MapAreas =>
+            new ReadOnlyDictionary<MapArea, ReadOnlyCollection<MazeCell>>(_mapAreas);
 
         /// <summary>
         /// <see cref="PostProcessing" /> attributes of this cell.
@@ -36,41 +39,13 @@ namespace PlayersWorlds.Maps.Maze {
         public int Y => Coordinates.Y;
 
         /// <summary>
-        /// If this cell is part of a <see cref="MapArea" />, this property
-        /// returns the associated <see cref="MapArea" />.
-        /// </summary>
-        public MapArea MapArea => _mapArea;
-
-        /// <summary>
         /// Assign this cell to a <see cref="MapArea" />.
         /// </summary>
         // If the map area is not visitable, then we can't visit this cell, thus
         // it can't have neighbors and links.
         // This method will not propagate the MapArea to the neighbors.
-        public void AssignMapArea(MapArea area, IList<MazeCell> mapAreaCells) {
-            if (_mapArea != null) {
-                throw new InvalidOperationException(
-                    $"Map area already assigned to this cell {this}");
-            }
-            _mapArea = area;
-            _mapAreaCells = new ReadOnlyCollection<MazeCell>(mapAreaCells);
-            if (_mapArea.Type == AreaType.Fill) {
-                foreach (var neighbor in _neighbors) {
-                    neighbor._neighbors.Remove(this);
-                    neighbor._links.Remove(this);
-                    if (neighbor._links.Count == 0) {
-                        neighbor.IsVisited = false;
-                    }
-                }
-                _neighbors.Clear();
-                _links.Clear();
-                this.IsVisited = false;
-            } else if (_mapArea.Type == AreaType.Hall) {
-                // We don't add back references because they will be added by
-                // upstream.
-                _links.AddRange(_neighbors.Where(n => _mapAreaCells.Contains(n)));
-                IsVisited = true;
-            }
+        public void AddMapArea(MapArea area, IList<MazeCell> mapAreaCells) {
+            _mapAreas.Add(area, new ReadOnlyCollection<MazeCell>(mapAreaCells));
         }
 
         internal MazeCell(int x, int y) : this(new Vector(x, y)) { }
@@ -93,8 +68,6 @@ namespace PlayersWorlds.Maps.Maze {
         /// <exception cref="InvalidOperationException">The link already exists.
         /// </exception>
         public void Link(MazeCell cell) {
-            // skip the cells in the same map area as they are already linked.
-            if (_mapAreaCells?.Contains(cell) == true) return;
             // check if the cell is a neighbor.
             if (!_neighbors.Contains(cell))
                 throw new NotImplementedException(
@@ -109,13 +82,29 @@ namespace PlayersWorlds.Maps.Maze {
             cell._links.Add(this);
         }
 
+        // !! smellz?
+        internal void LinkAllNeighborsInArea(MapArea area) {
+            var areaCells = _mapAreas[area];
+            foreach (var neighbor in _neighbors) {
+                if (areaCells.Contains(neighbor) && !_links.Contains(neighbor)) {
+                    Link(neighbor);
+                }
+            }
+        }
+
         /// <summary>
         /// Breaks a link between the cells.
         /// </summary>
         /// <param name="cell"></param>
         public void Unlink(MazeCell cell) {
             _links.Remove(cell);
+            if (this._links.Count == 0) {
+                this.IsVisited = false;
+            }
             cell._links.Remove(this);
+            if (cell._links.Count == 0) {
+                this.IsVisited = false;
+            }
         }
 
         /// <summary>

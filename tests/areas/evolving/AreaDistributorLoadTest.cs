@@ -31,7 +31,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     var position = new Vector(
                         GlobalRandom.Next(0, (maze.Size - size).X),
                         GlobalRandom.Next(0, (maze.Size - size).Y));
-                    rooms.Add(new MapArea(AreaType.None, size, position));
+                    rooms.Add(MapArea.CreateAutoPositioned(
+                        AreaType.None, size, position));
                 }
                 var result = AreaDistributorHelper.Distribute(log, maze.Size, rooms, 100);
                 lock (results) {
@@ -44,8 +45,9 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     log.Buffered.Reset();
                 }
             });
-            Assert.IsTrue(results.All(r =>
+            Assert.That(results.All(r =>
                 r.PlacedOutOfBounds.Count + r.PlacedOverlapping.Count == 0),
+                Is.True,
                 "Passed: " + numPassed + ", Failed: " + (numTotal - numPassed));
         }
     }

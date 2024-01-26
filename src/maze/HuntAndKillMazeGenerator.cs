@@ -14,7 +14,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// <param name="layout">The layout to generate the maze in.</param>
         /// <param name="options">The generator options to use.</param>
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
-            var currentCell = layout.VisitableCells.GetRandom();
+            var currentCell = layout.UnlinkedCells.GetRandom();
             while (!IsFillComplete(options, layout)) {
                 var potentiallyNext = currentCell.Neighbors().Where(cell => !cell.IsVisited).ToList();
                 if (potentiallyNext.Count > 0) {
@@ -22,7 +22,7 @@ namespace PlayersWorlds.Maps.Maze {
                     currentCell.Link(nextCell);
                     currentCell = nextCell;
                 } else {
-                    foreach (var hunt in layout.VisitableCells) {
+                    foreach (var hunt in layout.UnlinkedCells) {
                         if (!hunt.IsVisited && hunt.Neighbors().Any(cell => cell.IsVisited)) {
                             currentCell = hunt;
                             currentCell.Link(hunt.Neighbors().Where(cell => cell.IsVisited).First());

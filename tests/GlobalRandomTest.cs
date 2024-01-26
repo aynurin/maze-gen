@@ -11,7 +11,7 @@ namespace PlayersWorlds.Maps {
         public void RandomCollectionItem() {
             var items = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             var item = GlobalRandom.GetRandom(items);
-            Assert.IsTrue(items.Contains(item));
+            Assert.That(items.Contains(item), Is.True);
         }
         [Test]
         public void ThrowsIfEmptyCollection() {

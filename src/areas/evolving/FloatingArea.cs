@@ -7,6 +7,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         private readonly MapArea _linkedArea;
         public VectorD Position { get; private set; }
         public VectorD Size { get; }
+        public bool IsPositionFixed { get; }
 
         public VectorD Center => Position + (Size / 2D);
         public VectorD OpposingForce { get; set; } = VectorD.Zero2D;
@@ -16,27 +17,31 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         public double LowY => Position.Y;
         public double HighY => Position.Y + Size.Y;
 
-        private FloatingArea(MapArea area, VectorD position, VectorD size) {
+        private FloatingArea(MapArea area, VectorD position, bool isPositionFixed, VectorD size) {
             _linkedArea = area;
             Position = position;
+            IsPositionFixed = isPositionFixed;
             Size = size;
         }
 
         public static FloatingArea FromMapArea(MapArea area) {
             return new FloatingArea(
                 area,
-                new VectorD(area.Position),
+                area.IsPositionFixed ?
+                    new VectorD(area.Position) :
+                    VectorD.Zero2D,
+                area.IsPositionFixed,
                 new VectorD(area.Size));
         }
 
         public static FloatingArea Unlinked(VectorD position, VectorD size) {
-            return new FloatingArea(null, position, size);
+            return new FloatingArea(null, position, false, size);
         }
 
         public static FloatingArea Parse(string s) {
             var parameters = s.Trim(' ').Split(';').Select(x =>
                 VectorD.Parse(x.Trim('P', 'S'))).ToArray();
-            return new FloatingArea(null, parameters[0], parameters[1]);
+            return new FloatingArea(null, parameters[0], false, parameters[1]);
         }
 
         public void AdjustPosition(VectorD d) {

@@ -21,7 +21,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
             var managedAreas = areas.ToList();
             var originalCopy = managedAreas
-                .Select(x => new MapArea(x.Type, x.Size, x.Position, x.Tags))
+                .Select(x => x.ShallowCopy())
                 .ToList();
 
             var result = new DistributeResult {
@@ -84,10 +84,10 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 if (PlacedOutOfBounds.Count > 0 || PlacedOverlapping.Count > 0) {
                     Log?.Buffered.Flush();
                 }
-                Assert.IsEmpty(PlacedOutOfBounds,
+                Assert.That(PlacedOutOfBounds, Is.Empty,
                     "Out Of Bounds: " + string.Join(", ",
                         PlacedOutOfBounds.Select(area => $"P{area.Position};S{area.Size}")));
-                Assert.IsEmpty(PlacedOverlapping,
+                Assert.That(PlacedOverlapping, Is.Empty,
                     "Overlapping: " + string.Join(", ",
                         PlacedOverlapping.Select(area => $"P{area.Position};S{area.Size}")));
             }

@@ -23,16 +23,19 @@ namespace PlayersWorlds.Maps.Areas {
         /// Randomly generates areas for a map of the specified size.
         /// </summary>
         /// <param name="size">The size of the map.</param>
+        /// <param name="existingAreas">Pre-existing areas.</param>
         /// <returns>Areas to be added to the map.</returns>
-        public override IEnumerable<MapArea> Generate(Vector size) {
-            var areas = new List<MapArea>();
-            var addedArea = 0;
+        public override IEnumerable<MapArea> Generate(
+            Vector size,
+            List<MapArea> existingAreas) {
             if (_settings.DimensionProbabilities.Keys.All(areaSize =>
                 !areaSize.FitsInto(size - new Vector(2, 2)))) {
                 // none of the areas fit the map
-                return areas;
+                return new List<MapArea>();
             }
-            do {
+            var addedArea = existingAreas?.Sum(area => area.Size.Area) ?? 0;
+            var areas = new List<MapArea>();
+            while (addedArea < size.Area * _settings.MinFillFactor) {
                 var area = GetRandomZone();
                 if (!area.Size.FitsInto(size - new Vector(2, 2)))
                     continue;
@@ -41,7 +44,7 @@ namespace PlayersWorlds.Maps.Areas {
                     continue;
                 areas.Add(area);
                 addedArea += area.Size.Area;
-            } while (addedArea < size.Area * _settings.MinFillFactor);
+            }
             return areas;
         }
 
@@ -52,12 +55,12 @@ namespace PlayersWorlds.Maps.Areas {
             }
         }
 
-        private MapArea GetRandomZone() => RandomRotate(new MapArea(
-                PickRandom(_settings.AreaTypeProbabilities),
-                PickRandom(_settings.DimensionProbabilities),
-                new Vector(0, 0),
-                PickRandom(_settings.TagProbabilities)
-            ));
+        private MapArea GetRandomZone() {
+            var type = PickRandom(_settings.AreaTypeProbabilities);
+            var size = RandomRotate(PickRandom(_settings.DimensionProbabilities));
+            var tags = PickRandom(_settings.TagProbabilities[type]);
+            return MapArea.CreateAutoPositioned(type, size, tags);
+        }
 
         private static T PickRandom<T>(IDictionary<T, float> distribution) {
             var random = GlobalRandom.RandomSingle();
@@ -73,10 +76,10 @@ namespace PlayersWorlds.Maps.Areas {
             return lastItem;
         }
 
-        private static MapArea RandomRotate(MapArea area) {
+        private static Vector RandomRotate(Vector size) {
             if (GlobalRandom.Next() % 2 == 0)
-                return area;
-            return new MapArea(area.Type, area.Size, area.Position, area.Tags);
+                return size;
+            return new Vector(size.Y, size.X);
         }
 
         /// <summary />
@@ -87,7 +90,7 @@ namespace PlayersWorlds.Maps.Areas {
 
             internal Dictionary<AreaType, float> AreaTypeProbabilities { get; }
 
-            internal Dictionary<string, float> TagProbabilities { get; }
+            internal Dictionary<AreaType, Dictionary<string, float>> TagProbabilities { get; }
 
             /// <summary>
             /// Creates an instance of RandomAreaGeneratorSettings. Default
@@ -101,7 +104,7 @@ namespace PlayersWorlds.Maps.Areas {
                 float minFillFactor = 0.3f,
                 Dictionary<Vector, float> dimensionProbabilities = null,
                 Dictionary<AreaType, float> areaTypeProbabilities = null,
-                Dictionary<string, float> tagProbabilities = null) {
+                Dictionary<AreaType, Dictionary<string, float>> tagProbabilities = null) {
                 MinFillFactor = minFillFactor;
                 DimensionProbabilities = dimensionProbabilities ?? s_default_dimensions;
                 AreaTypeProbabilities = areaTypeProbabilities ?? s_default_area_types;
@@ -123,16 +126,35 @@ namespace PlayersWorlds.Maps.Areas {
             };
 
             private static readonly Dictionary<AreaType, float> s_default_area_types = new Dictionary<AreaType, float>() {
-                { AreaType.Fill, 0.7f },
-                { AreaType.Hall, 0.3f }
+                { AreaType.Fill, 0.2f },
+                { AreaType.Cave, 0.4f },
+                { AreaType.Hall, 0.4f }
             };
 
-            private static readonly Dictionary<string, float> s_default_tags = new Dictionary<string, float>() {
-                { "room", 0.5f },
-                { "lake", 0.15f },
-                { "dirt", 0.15f },
-                { "swamp", 0.15f },
-                { "void", 0.05f },
+            // TODO: Make tags dependent on the area type
+            private static readonly Dictionary<AreaType, Dictionary<string, float>> s_default_tags = new Dictionary<AreaType, Dictionary<string, float>>() {
+                { AreaType.Fill,
+                    new Dictionary<string, float> {
+                        { "ruins", 0.2f },
+                        { "lake", 0.2f },
+                        { "dirt", 0.2f },
+                        { "swamp", 0.2f },
+                        { "void", 0.2f },
+                    }
+                },
+                { AreaType.Cave,
+                    new Dictionary<string, float> {
+                        { "ruins", 0.3f },
+                        { "den", 0.2f },
+                        { "cave", 0.5f },
+                    }
+                },
+                { AreaType.Hall,
+                    new Dictionary<string, float> {
+                        { "room", 0.5f },
+                        { "loot", 0.5f },
+                    }
+                },
             };
         }
     }

@@ -13,10 +13,10 @@ namespace PlayersWorlds.Maps.Renderers {
             for (var y = map.Size.Y - 1; y >= 0; y--) {
                 for (var x = 0; x < map.Size.X; x++) {
                     buffer.Append(
-                        map.CellAt(new Vector(x, y)).Tags.Contains(Cell.CellTag.MazeVoid) ? " " :
-                        map.CellAt(new Vector(x, y)).Tags.Contains(Cell.CellTag.MazeWallCorner) ? "▒" :
-                        map.CellAt(new Vector(x, y)).Tags.Contains(Cell.CellTag.MazeWall) ? "▓" :
-                        map.CellAt(new Vector(x, y)).Tags.Contains(Cell.CellTag.MazeTrail) ? "░" :
+                        map[new Vector(x, y)].Tags.Contains(Cell.CellTag.MazeVoid) ? " " :
+                        map[new Vector(x, y)].Tags.Contains(Cell.CellTag.MazeWallCorner) ? "▒" :
+                        map[new Vector(x, y)].Tags.Contains(Cell.CellTag.MazeWall) ? "▓" :
+                        map[new Vector(x, y)].Tags.Contains(Cell.CellTag.MazeTrail) ? "░" :
                         "0");
                 }
                 buffer.Append("\n");

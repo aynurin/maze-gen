@@ -6,42 +6,58 @@ namespace PlayersWorlds.Maps.Areas {
     [TestFixture]
     internal class MapAreaTest {
         private static MapArea NewArea(int x, int y, int width, int height) {
-            return new MapArea(AreaType.None, new Vector(width, height), new Vector(x, y));
+            return MapArea.Create(
+                AreaType.None, new Vector(width, height), new Vector(x, y));
         }
 
         [Test]
         public void Overlaps_ThrowsIfSame() {
             var area1 = NewArea(1, 1, 10, 10);
             var area2 = NewArea(1, 1, 10, 10);
-            Assert.Throws<InvalidOperationException>(() => area1.Overlaps(area1));
+            Assert.Throws<InvalidOperationException>(
+                () => area1.Overlaps(area1));
             Assert.DoesNotThrow(() => area1.Overlaps(area2));
         }
 
         [Test]
         public void Overlaps_ReturnsTrueIfOverlaps() {
-            Assert.IsTrue(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 4, 4, 4)));
-            Assert.IsTrue(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 1, 4, 4)));
-            Assert.IsTrue(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 1, 4, 4)));
-            Assert.IsTrue(NewArea(4, 4, 4, 4).Overlaps(NewArea(7, 1, 4, 4)));
-            Assert.IsTrue(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 7, 4, 4)));
-            Assert.IsTrue(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 7, 4, 4)));
-            Assert.IsTrue(NewArea(4, 4, 4, 4).Overlaps(NewArea(7, 7, 4, 4)));
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 4, 4, 4)), Is.True);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 1, 4, 4)), Is.True);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 1, 4, 4)), Is.True);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(7, 1, 4, 4)), Is.True);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 7, 4, 4)), Is.True);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 7, 4, 4)), Is.True);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(7, 7, 4, 4)), Is.True);
+
         }
 
         [Test]
         public void Overlaps_ReturnsFalseIfDoesNotOverlap() {
-            Assert.IsFalse(NewArea(4, 4, 4, 4).Overlaps(NewArea(0, 0, 4, 4)));
-            Assert.IsFalse(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 0, 4, 4)));
-            Assert.IsFalse(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 0, 4, 4)));
-            Assert.IsFalse(NewArea(4, 4, 4, 4).Overlaps(NewArea(7, 0, 4, 4)));
-            Assert.IsFalse(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 8, 4, 4)));
-            Assert.IsFalse(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 8, 4, 4)));
-            Assert.IsFalse(NewArea(4, 4, 4, 4).Overlaps(NewArea(7, 8, 4, 4)));
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(0, 0, 4, 4)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 0, 4, 4)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 0, 4, 4)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(7, 0, 4, 4)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 8, 4, 4)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 8, 4, 4)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(7, 8, 4, 4)), Is.False);
+
+            // Touches:
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 4, 3, 3)), Is.False, "Map areas touch (case 1)");
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(5, 3, 2, 1)), Is.False, "Map areas touch (case 2)");
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(8, 5, 3, 2)), Is.False, "Map areas touch (case 3)");
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(5, 8, 1, 4)), Is.False, "Map areas touch (case 4)");
+
+            // Does not touch:
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(0, 4, 3, 3)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(5, 2, 2, 1)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(9, 5, 3, 2)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(5, 9, 1, 4)), Is.False);
         }
 
         [Test]
         public void Position_ThrowsIfNotInitialized() {
-            var area1 = new MapArea(AreaType.None, new Vector(10, 10));
+            var area1 = MapArea.CreateAutoPositioned(
+                AreaType.None, new Vector(10, 10));
             Assert.Throws<InvalidOperationException>(
                 () => { var pos = area1.Position; });
             area1.Position = new Vector(1, 1);

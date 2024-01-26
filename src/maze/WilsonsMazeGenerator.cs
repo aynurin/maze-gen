@@ -13,13 +13,13 @@ namespace PlayersWorlds.Maps.Maze {
         /// <param name="layout">The layout to generate the maze in.</param>
         /// <param name="options">The generator options to use.</param>
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
-            var currentCell = layout.VisitableCells.GetRandom();
+            var currentCell = layout.UnlinkedCells.GetRandom();
             var visitedCells = new HashSet<MazeCell>() { currentCell };
 
             while (!IsFillComplete(options, layout)) {
                 var walkPath = new List<MazeCell>();
 
-                var nextCell = layout.VisitableCells.GetRandom();
+                var nextCell = layout.UnlinkedCells.GetRandom();
 
                 if (visitedCells.Contains(nextCell))
                     continue;

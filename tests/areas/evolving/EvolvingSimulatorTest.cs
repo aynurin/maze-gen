@@ -23,7 +23,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     It.IsAny<GenerationImpact[]>()))
                 .Returns(new EpochResult() { CompleteEvolution = false });
             var epochs = simulator.Evolve(moq.Object);
-            Assert.AreEqual(10, epochs);
+            Assert.That(10, Is.EqualTo(epochs));
         }
     }
 }

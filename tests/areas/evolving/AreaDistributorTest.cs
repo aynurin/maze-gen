@@ -7,7 +7,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
     [TestFixture]
     public class AreaDistributorTest {
         private static MapArea TestArea(int x, int y, int width, int height) =>
-            new MapArea(AreaType.None, new Vector(width, height), new Vector(x, y));
+            MapArea.CreateAutoPositioned(
+                AreaType.None, new Vector(width, height), new Vector(x, y));
 
         [Test]
         public void AreaDistributorTest_OneTest() =>
@@ -49,7 +50,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             AreaDistributorHelper.Distribute(
                 Log.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => s.ToArea()),
+                        .Select(s => MapArea.Parse(s, isPositionFixed: false)),
                 maxEpochs: 10)
                 .AssertAllFit();
         }
@@ -62,7 +63,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             AreaDistributorHelper.Distribute(
                 Log.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => s.ToArea()),
+                        .Select(s => MapArea.Parse(s, isPositionFixed: false)),
                 maxEpochs: 10)
                 .AssertAllFit();
         }

@@ -31,8 +31,8 @@ namespace PlayersWorlds.Maps {
                 .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, 1, 1))
                 .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, 1, 1))
                 .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, 1, 1))
-                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
-                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
+                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 4, 4))
+                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);
             var expected =
                 "0000000000000\n" +
@@ -50,8 +50,9 @@ namespace PlayersWorlds.Maps {
                 "▓▓▓▓▓▓▓▓▓▓▓▓▓\n" +
                 "0000000000000\n";
             var actual = map.ToString();
+            Console.WriteLine(expected);
             Console.WriteLine(actual);
-            Assert.AreEqual(expected, actual);
+            Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
@@ -67,10 +68,9 @@ namespace PlayersWorlds.Maps {
                 .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, 1, 1))
                 .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, 1, 1))
                 .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, 1, 1))
-                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
-                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
+                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 4, 4))
+                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);
-            Console.WriteLine(map.ToString());
 
             var expected =
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓00000\n" +
@@ -81,18 +81,21 @@ namespace PlayersWorlds.Maps {
                 "0▓░░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n" +
                 "0▓░░░░░░░▓00000▓░░▓0\n" +
                 "0▓░░░░░░░▓00000▓░░▓0\n" +
-                "0▓░░░░░░░▓▓▓▓▓▓▓░░▓0\n" +
+                "0▓░░░░░░░▓▓000▓▓░░▓0\n" +
                 "0▓░░░░░░░▒▓▓▓▓▓▒░░▓0\n" +
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
             var actual = map.ToString();
+            Console.WriteLine(expected);
             Console.WriteLine(actual);
-            Assert.AreEqual(expected, actual);
+            Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
         public void CanRenderAMapWithFilledAreas() {
-            _maze.AddArea(new MapArea(AreaType.Fill, new Vector(1, 1), new Vector(1, 1)));
+            _maze.AddArea(MapArea.Create(
+                AreaType.Fill, new Vector(1, 1), new Vector(1, 1)));
+            _maze.ApplyAreas();
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 2, 3, 3, 2 },
                 trailHeights: new int[] { 1, 2, 1, 1 },
@@ -104,16 +107,15 @@ namespace PlayersWorlds.Maps {
                 .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, 1, 1))
                 .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, 1, 1))
                 .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, 1, 1))
-                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
-                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
+                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
+                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);
-            Console.WriteLine(map.ToString());
 
             var expected =
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓00000\n" +
                 "0▓░░░░░░░░░░░░▓00000\n" +
                 "0▓░░▒▓▓▓▓▓▒░░░▓▓0000\n" +
-                "0▓░░▓▓000░▓░░░▒▓▓▓▓0\n" +
+                "0▓░░▓▓000▓▓░░░▒▓▓▓▓0\n" +
                 "0▓░░▓00000▓░░░░░░░▓0\n" +
                 "0▓░░▓00000▓▓▓▓▓▓▓▓▓0\n" +
                 "0▓░░▓0000000000▓░░▓0\n" +
@@ -123,13 +125,16 @@ namespace PlayersWorlds.Maps {
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
             var actual = map.ToString();
+            Console.WriteLine(expected);
             Console.WriteLine(actual);
-            Assert.AreEqual(expected, actual);
+            Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
         public void CanRenderAMapWithHallAreas() {
-            _maze.AddArea(new MapArea(AreaType.Hall, new Vector(4, 2), new Vector(0, 0)));
+            _maze.AddArea(MapArea.Create(
+                AreaType.Hall, new Vector(4, 2), new Vector(0, 0)));
+            _maze.ApplyAreas();
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 2, 3, 3, 2 },
                 trailHeights: new int[] { 1, 2, 1, 1 },
@@ -141,10 +146,9 @@ namespace PlayersWorlds.Maps {
                 .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, 1, 1))
                 .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, 1, 1))
                 .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, 1, 1))
-                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
-                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
+                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
+                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);
-            Console.WriteLine(map.ToString());
 
             var expected =
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓00000\n" +
@@ -159,9 +163,10 @@ namespace PlayersWorlds.Maps {
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
+            Console.WriteLine(expected);
             var actual = map.ToString();
             Console.WriteLine(actual);
-            Assert.AreEqual(expected, actual);
+            Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
@@ -177,7 +182,7 @@ namespace PlayersWorlds.Maps {
                 "│               │\n" +
                 "└───────────────┘\n";
             Console.WriteLine(_maze.ToString());
-            Assert.AreEqual(expected, _maze.ToString());
+            Assert.That(expected, Is.EqualTo(_maze.ToString()));
         }
 
         [Test]
@@ -196,7 +201,7 @@ namespace PlayersWorlds.Maps {
             _maze.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
                 DijkstraDistance.FindLongestTrail(_maze));
             Console.WriteLine(_maze.ToString());
-            Assert.AreEqual(expected, _maze.ToString());
+            Assert.That(expected, Is.EqualTo(_maze.ToString()));
         }
 
         [Test]

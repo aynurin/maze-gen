@@ -1,5 +1,6 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
+using PlayersWorlds.Maps.Areas.Evolving;
 
 namespace PlayersWorlds.Maps.Areas {
     /// <summary>
@@ -10,9 +11,16 @@ namespace PlayersWorlds.Maps.Areas {
     /// also generating algorithms and play-time events. For example, a hall can
     /// be entered, a lake cannot, a desert can have a different style, etc.
     /// </summary>
+    /// <remarks>
+    /// <li>Use one of the
+    /// <see cref="CreateAutoPositioned(AreaType, Vector, string[])" /> and
+    /// overloads to create an area that will be positioned automatically by
+    /// <see cref="AreaDistributor" />.</li> 
+    /// <li>Use <see cref="Create" /> to create an area at a given position.
+    /// </li>
+    /// </remarks>
     public class MapArea {
         private Vector _position;
-
         /// <summary>
         /// Used by other algorithms to identify if the area can be entered
         /// by the player or not.
@@ -49,51 +57,78 @@ namespace PlayersWorlds.Maps.Areas {
             get {
                 if (_position.IsEmpty) {
                     throw new InvalidOperationException(
-                        "Position is not initialized");
+                        "Position is not initialized. " +
+                        "Check if IsPositionFixed == true.");
                 }
                 return _position;
             }
             set => _position = value;
         }
-        /// <summary>
-        /// All cells of this area. Each cell can have its own tags that will be
-        /// propagated to the target map.
-        /// </summary>
-        public List<Cell> Cells { get; private set; }
+        internal bool IsPositionFixed { get; }
 
         internal double LowX => Position.X;
         internal double HighX => Position.X + Size.X;
         internal double LowY => Position.Y;
         internal double HighY => Position.Y + Size.Y;
 
+        private MapArea(
+            AreaType type,
+            Vector position,
+            Vector size,
+            bool isPositionFixed,
+            params string[] tags) {
+            Type = type;
+            Position = position;
+            Size = size;
+            IsPositionFixed = isPositionFixed;
+            Tags = tags;
+        }
+
         /// <summary>
         /// Creates an unpositioned <see cref="MapArea"/> instance. This
-        /// instance has to be positioned before being applied to a map.
+        /// area will be positioned by <see cref="AreaDistributor" /> before
+        /// being placed to a map.
         /// </summary>
         /// <param name="type">The type of area.</param>
         /// <param name="size">The size of the area.</param>
         /// <param name="tags">The tags for the area.</param>
-        public MapArea(AreaType type, Vector size, params string[] tags)
-            : this(type, size, Vector.Empty, tags) { }
+        public static MapArea CreateAutoPositioned(
+            AreaType type, Vector size, params string[] tags) {
+            return new MapArea(type, Vector.Empty, size, false, tags);
+        }
 
         /// <summary>
-        /// Creates a positioned <see cref="MapArea"/> instance.
+        /// Creates a <see cref="MapArea"/> instance at a given position. This
+        /// area can be re-positioned by <see cref="AreaDistributor" /> before
+        /// being placed to a map.
+        /// </summary>
+        /// <param name="type">The type of area.</param>
+        /// <param name="size">The size of the area.</param>
+        /// <param name="position">The initial position of the area.</param>
+        /// <param name="tags">The tags for the area.</param>
+        public static MapArea CreateAutoPositioned(
+            AreaType type, Vector size, Vector position, params string[] tags) {
+            return new MapArea(type, position, size, false, tags);
+        }
+
+        /// <summary>
+        /// Creates <see cref="MapArea"/> at a given position.
+        /// <see cref="AreaDistributor" /> will not move this area.
         /// </summary>
         /// <param name="type">The type of area.</param>
         /// <param name="size">The size of the area.</param>
         /// <param name="position">The position of the area.</param>
         /// <param name="tags">The tags for the area.</param>
-        public MapArea(AreaType type, Vector size, Vector position, params string[] tags) {
-            Cells = new List<Cell>(size.Area);
-            Type = type;
-            Tags = tags;
-            Size = size;
-            _position = position;
+        public static MapArea Create(
+            AreaType type, Vector size, Vector position, params string[] tags) {
+            if (position.IsEmpty) {
+                throw new ArgumentException("Position cannot be empty.");
+            }
+            return new MapArea(type, position, size, true, tags);
         }
 
         /// <summary>
-        /// Checks if this MapArea overlaps with another MapArea or touches
-        /// another MapArea.
+        /// Checks if this MapArea overlaps with another MapArea.
         /// </summary>
         /// <param name="other">The other MapArea to check</param>
         /// <returns><c>true</c> if the two MapAreas overlap; otherwise, <c>
@@ -101,8 +136,8 @@ namespace PlayersWorlds.Maps.Areas {
         public bool Overlaps(MapArea other) {
             if (this == other)
                 throw new InvalidOperationException("Can't compare with self");
-            var noOverlap = this.HighX <= other.LowX || this.LowX >= other.HighX;
-            noOverlap |= this.HighY <= other.LowY || this.LowY >= other.HighY;
+            var noOverlap = HighX <= other.LowX || LowX >= other.HighX;
+            noOverlap |= HighY <= other.LowY || LowY >= other.HighY;
             return !noOverlap;
         }
 
@@ -115,11 +150,18 @@ namespace PlayersWorlds.Maps.Areas {
         /// <returns><c>true</c> if the inner rectangle is completely within the
         /// outer area, <c>false</c> otherwise.</returns>
         internal bool FitsInto(Vector position, Vector size) {
-            return this.LowX >= position.X &&
-                this.HighX <= position.X + size.X &&
-                this.LowY >= position.Y &&
-                this.HighY <= position.Y + size.Y;
+            return LowX >= position.X &&
+                HighX <= position.X + size.X &&
+                LowY >= position.Y &&
+                HighY <= position.Y + size.Y;
         }
+
+        /// <summary>
+        /// A shortcut to <see cref="object.MemberwiseClone()" />.
+        /// </summary>
+        /// <returns>A shallow copy of the current <see cref="MapArea" />.
+        /// </returns>
+        public MapArea ShallowCopy() => this.MemberwiseClone() as MapArea;
 
         /// <summary>
         /// Parses a string representation of a MapArea, similar to one produced
@@ -129,14 +171,20 @@ namespace PlayersWorlds.Maps.Areas {
         /// Note the rounding that occurs in <see cref="VectorD.ToString()" />.
         /// </remarks>
         /// <param name="v">A <see cref="string" /> of the form
-        /// "P{Position};S{Size};{Type}".</param>
+        /// "P{Position};S{Size};{Type}[;tags]".</param>
+        /// <param name="isPositionFixed"><c>true</c> to indicate that this area
+        /// shouldn't be repositioned by <see cref="AreaDistributor" />,
+        /// otherwise <c>false</c> (default)</param>
         /// <returns></returns>
-        internal static MapArea Parse(string v) {
+        internal static MapArea Parse(string v, bool isPositionFixed = false) {
             var parts = v.Split(';');
-            var type = (AreaType)Enum.Parse(typeof(AreaType), parts[2]);
+            var type = parts.Length > 2 ?
+                (AreaType)Enum.Parse(typeof(AreaType), parts[2]) :
+                AreaType.None;
             var size = VectorD.Parse(parts[1]).RoundToInt();
             var position = VectorD.Parse(parts[0]).RoundToInt();
-            return new MapArea(type, size, position);
+            return new MapArea(
+                type, size, position, isPositionFixed, parts.Skip(3).ToArray());
         }
 
         /// <summary>
@@ -145,7 +193,7 @@ namespace PlayersWorlds.Maps.Areas {
         /// <returns>A <see cref="string" /> of the form
         /// "P{Position};S{Size};{Type}".</returns>
         public override string ToString() {
-            return $"P{Position};S{Size};{Type}";
+            return $"P{Position};S{Size};{Type};" + string.Join(";", Tags);
         }
     }
 }

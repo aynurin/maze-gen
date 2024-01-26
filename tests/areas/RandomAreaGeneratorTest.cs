@@ -18,8 +18,8 @@ public class RandomAreaGeneratorTest {
         var count = 1000;
         foreach (var area in zonesGenerator.Generate(count)) {
             if (--count < 0) break;
-            //Assert.Greater(area.Cells.Count, 0);
-            Assert.Greater(area.Tags.Length, 0);
+            //Assert.That(area.Cells.Count, Is.GreaterThan(0));
+            Assert.That(area.Tags.Length, Is.GreaterThan(0));
 
             if (sizes.ContainsKey(area.Size)) {
                 sizes[area.Size] += +1;
@@ -28,8 +28,7 @@ public class RandomAreaGeneratorTest {
             }
 
             foreach (var tag in area.Tags) {
-                Assert.IsNotNull(tag);
-                Assert.IsNotEmpty(tag);
+                Assert.That(tag, Is.Not.Null.Or.Empty);
                 if (tags.ContainsKey(tag)) {
                     tags[tag] += +1;
                 } else {
@@ -37,7 +36,7 @@ public class RandomAreaGeneratorTest {
                 }
             }
 
-            Assert.AreNotEqual(area.Type, AreaType.None);
+            Assert.That(area.Type, Is.Not.EqualTo(AreaType.None));
             if (types.ContainsKey(area.Type)) {
                 types[area.Type] += 1;
             } else {
@@ -45,12 +44,14 @@ public class RandomAreaGeneratorTest {
             }
         }
 
-        Assert.AreEqual(1000, sizes.Values.Sum());
-        Assert.AreEqual(7, sizes.Count);
-        Assert.AreEqual(1000, types.Values.Sum());
-        Assert.AreEqual(2, types.Count);
-        Assert.AreEqual(1000, tags.Values.Sum());
-        Assert.AreEqual(5, tags.Count);
+        Assert.That(sizes.Values.Sum(), Is.EqualTo(1000));
+        // Given 5 non-square and 2 square sizes, it can yield 12 area sizes
+        // (one given and one rotated for each non-square size).
+        Assert.That(sizes, Has.Exactly(12).Items);
+        Assert.That(tags.Values.Sum(), Is.EqualTo(1000));
+        Assert.That(tags, Has.Exactly(9).Items);
+        Assert.That(types.Values.Sum(), Is.EqualTo(1000));
+        Assert.That(types, Has.Exactly(3).Items);
     }
 
     [Test]
@@ -60,7 +61,11 @@ public class RandomAreaGeneratorTest {
                 0.3f,
                 new Dictionary<Vector, float>() { { new Vector(1, 2), 1 } },
                 new Dictionary<AreaType, float>() { { AreaType.Hall, 1 } },
-                new Dictionary<string, float>() { { "some_tag", 1 } }
+                new Dictionary<AreaType, Dictionary<string, float>>() {
+                    { AreaType.Hall,
+                        new Dictionary<string, float>() { { "some_tag", 1 } }
+                    }
+                }
         ));
         var sizes = new Dictionary<Vector, int>();
         var tags = new Dictionary<string, int>();
@@ -68,8 +73,7 @@ public class RandomAreaGeneratorTest {
         var count = 10;
         foreach (var area in zonesGenerator.Generate(count)) {
             if (--count < 0) break;
-            //Assert.Greater(area.Cells.Count, 0);
-            Assert.Greater(area.Tags.Length, 0);
+            Assert.That(area.Tags.Length, Is.GreaterThan(0));
 
             if (sizes.ContainsKey(area.Size)) {
                 sizes[area.Size] += +1;
@@ -78,8 +82,7 @@ public class RandomAreaGeneratorTest {
             }
 
             foreach (var tag in area.Tags) {
-                Assert.IsNotNull(tag);
-                Assert.IsNotEmpty(tag);
+                Assert.That(tag, Is.Not.Null.Or.Empty);
                 if (tags.ContainsKey(tag)) {
                     tags[tag] += +1;
                 } else {
@@ -87,7 +90,7 @@ public class RandomAreaGeneratorTest {
                 }
             }
 
-            Assert.AreNotEqual(area.Type, AreaType.None);
+            Assert.That(area.Type, Is.Not.EqualTo(AreaType.None));
             if (types.ContainsKey(area.Type)) {
                 types[area.Type] += 1;
             } else {
@@ -95,11 +98,13 @@ public class RandomAreaGeneratorTest {
             }
         }
 
-        Assert.AreEqual(10, sizes.Values.Sum());
-        Assert.AreEqual(1, sizes.Count);
-        Assert.AreEqual(10, types.Values.Sum());
-        Assert.AreEqual(1, types.Count);
-        Assert.AreEqual(10, tags.Values.Sum());
-        Assert.AreEqual(1, tags.Count);
+        Assert.That(sizes.Values.Sum(), Is.EqualTo(10));
+        // Given 1 non-square size, it can yield 2 area sizes
+        // (one given and one rotated).
+        Assert.That(sizes, Has.Exactly(2).Items);
+        Assert.That(types.Values.Sum(), Is.EqualTo(10));
+        Assert.That(types, Has.Exactly(1).Items);
+        Assert.That(tags.Values.Sum(), Is.EqualTo(10));
+        Assert.That(tags, Has.Exactly(1).Items);
     }
 }

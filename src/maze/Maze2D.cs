@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using PlayersWorlds.Maps.Areas;
@@ -13,10 +14,25 @@ namespace PlayersWorlds.Maps.Maze {
     /// A 2D maze map that can be used by <see cref="MazeGenerator"/> to
     /// generate mazes.
     /// </summary>
+    /// <remarks>
+    /// <p><see cref="AllCells" /> are all the cells in the field. Each cell has
+    /// neighbors on four of its sides. When the maze is generated, cells are 
+    /// linked to each other to constitute passages.</p>
+    /// <p>When choosing the next cell to move to, a maze generator picks 
+    /// cells from the ones that haven't been linked yet.</p>
+    /// <p>When the linkage happens, all cells belonging to <see
+    /// cref="AreaType.Hall" /> <see cref="Areas" /> assigned to this cell are
+    /// considered linked because the whole hall is now linked to some external
+    /// cell. Which means that the maze generator cannot pick the cells of that
+    /// hall in the further iterations. Which is not a valid behavior.</p>
+    /// <p>To resolve this, we will use the following approach. There is a pool
+    /// of cells to pick from when picking a random cell in the field. And
+    /// another approach to pick a random neighbor.</p>
+    /// </remarks>
     public class Maze2D {
         private readonly Vector _size;
         private readonly List<MazeCell> _cells;
-        private readonly List<MazeCell> _visitableCells;
+        private readonly List<MazeCell> _unlinkedCells;
         /// <summary>
         /// Post-processing attributes assigned to this maze. See
         /// <see cref="PostProcessing"/>.
@@ -30,7 +46,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// <summary>
         /// A read-only access to the visitable cells in this maze.
         /// </summary>
-        public IList<MazeCell> VisitableCells => _visitableCells.AsReadOnly();
+        public IList<MazeCell> UnlinkedCells => _unlinkedCells.AsReadOnly();
         /// <summary />
         public IEnumerable<MazeCell> VisitedCells =>
             _cells.Where(cell => cell.IsVisited);
@@ -88,28 +104,57 @@ namespace PlayersWorlds.Maps.Maze {
                 cells[i] = cell;
             }
             _cells = new List<MazeCell>(cells);
-            _visitableCells = new List<MazeCell>(cells);
+            _unlinkedCells = new List<MazeCell>(cells);
         }
+
+        private readonly Dictionary<MapArea, ICollection<MazeCell>>
+            _mapAreas = new Dictionary<MapArea, ICollection<MazeCell>>();
 
         /// <summary>
         /// Areas assigned to this maze. See <see cref="Maps.Areas"/>.
         /// </summary>
-        public List<MapArea> Areas { get; private set; } = new List<MapArea>();
+        public Dictionary<MapArea, ICollection<MazeCell>> MapAreas => _mapAreas;
 
         internal void AddArea(MapArea area) {
-            Areas.Add(area);
             var areaCells = new List<MazeCell>();
             for (var x = 0; x < area.Size.X; x++) {
                 for (var y = 0; y < area.Size.Y; y++) {
-                    areaCells.Add(
-                        _cells[(new Vector(x, y) + area.Position)
-                            .ToIndex(this.Size.X)]);
+                    var cell = _cells[(new Vector(x, y) + area.Position)
+                            .ToIndex(this.Size.X)];
+                    areaCells.Add(cell);
                 }
             }
+            _mapAreas.Add(area, areaCells);
             foreach (var cell in areaCells) {
-                cell.AssignMapArea(area, areaCells);
-                if (area.Type == AreaType.Fill) {
-                    _visitableCells.Remove(cell);
+                cell.AddMapArea(area, areaCells);
+            }
+        }
+
+        /// <summary>
+        /// Links all cells in <see cref="AreaType.Hall" /> and
+        /// <see cref="AreaType.Cave" /> areas, and removes
+        /// <see cref="AreaType.Fill" /> area cells from the neighbors and
+        /// links.
+        /// </summary>
+        public void ApplyAreas() {
+            foreach (var area in _mapAreas) {
+                if (area.Key.Type == AreaType.Fill) {
+                    // if it's a filled area it cannot be visited, so we remove
+                    // all mentions of its cells:
+                    // 1. remove all of its cells from their neighbors
+                    // 2. remove all neighbors of its cells
+                    // 3. remove all links that involve its cells
+                    foreach (var cell in area.Value) {
+                        cell.Neighbors().ForEach(
+                            neighbor => neighbor.Neighbors().Remove(cell));
+                        cell.Neighbors().Clear();
+                        var links = cell.Links().ToArray();
+                        links.ForEach(link => cell.Unlink(link));
+                        _unlinkedCells.Remove(cell);
+                    }
+                } else if (area.Key.Type == AreaType.Hall || area.Key.Type == AreaType.Cave) {
+                    // if it's a hall, we need to link all its cells together
+                    area.Value.ForEach(cell => cell.LinkAllNeighborsInArea(area.Key));
                 }
             }
         }
@@ -126,8 +171,8 @@ namespace PlayersWorlds.Maps.Maze {
                 .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, 1, 1))
                 .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, 1, 1))
                 .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, 1, 1))
-                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
-                .With(new Map2DFillGaps(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
+                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
+                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);
             return map;
         }

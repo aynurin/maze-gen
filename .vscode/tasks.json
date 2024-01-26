@@ -13,7 +13,7 @@
     },
     {
       "label": "rebuild",
-      "command": "rm -rf build && msbuild",
+      "command": "rm -rf build && rm -rf packages && nuget restore && msbuild",
       "type": "shell",
       "problemMatcher": "$msCompile",
       "group": {
@@ -35,7 +35,7 @@
     {
       "label": "test",
       "type": "shell",
-      "command": "nunit3-console build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category!=Load\"",
+      "command": "mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category!=Load\" --framework=mono-4.0",
       "problemMatcher": [],
       "dependsOn": ["build"],
       "group": {
@@ -46,7 +46,7 @@
     {
       "label": "load-test",
       "type": "shell",
-      "command": "nunit3-console build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category=Load\"",
+      "command": "mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category=Load\" --framework=mono-4.0",
       "problemMatcher": [],
       "dependsOn": ["build"],
       "group": {

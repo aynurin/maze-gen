@@ -54,12 +54,16 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
                 }
                 var distance = distances[nextCell];
                 foreach (var neighbor in nextCell.Links()) {
+                    // if a maze has loops, we have to check if we are building
+                    // a shorter path or a longer one.
                     if (!distances.ContainsKey(neighbor)) {
                         distances.Add(neighbor, distance + 1);
-                        neighbor.Attributes.Set(DistanceAttribute,
-                            (distance + 1).ToString());
-                        stack.Push(neighbor);
-                    }
+                    } else if (distance + 1 < distances[neighbor]) {
+                        distances[neighbor] = distance + 1;
+                    } else continue;
+                    neighbor.Attributes.Set(DistanceAttribute,
+                        distances[neighbor].ToString());
+                    stack.Push(neighbor);
                 }
             }
             return distances;

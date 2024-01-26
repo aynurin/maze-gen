@@ -45,17 +45,17 @@ namespace PlayersWorlds.Maps.MapFilters {
         override public void Render(Map2D map) {
             for (var y = 0; y < map.Size.Y; y++) {
                 for (var x = 0; x < map.Size.X; x++) {
-                    var cell = map.CellAt(new Vector(x, y));
+                    var cell = map[new Vector(x, y)];
                     if (cell.Tags.Contains(_cellType) ||
                         cell.Tags.Contains(_cornerType)) continue;
-                    var a = map.AnyCellsAt(
+                    var a = map.IterateIntersection(
                                 new Vector(x - _cornerWidth, y),
                                 new Vector(_cornerWidth * 2 + 1, 1))
-                               .Count(c => c.Tags.Contains(_cellType));
-                    var b = map.AnyCellsAt(
+                               .Count(c => c.cell.Tags.Contains(_cellType));
+                    var b = map.IterateIntersection(
                                 new Vector(x, y - _cornerHeight),
                                 new Vector(1, _cornerHeight * 2 + 1))
-                               .Count(c => c.Tags.Contains(_cellType));
+                               .Count(c => c.cell.Tags.Contains(_cellType));
                     var setOutline = a > 0 && b > 0;
                     if (setOutline) {
                         if (cell.Tags.Contains(_cellType))

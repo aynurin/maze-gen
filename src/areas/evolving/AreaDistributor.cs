@@ -35,18 +35,14 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         public void Distribute(Vector mapSize,
                                IEnumerable<MapArea> areas,
                                int maxEpochs) {
-            var beforeDistribute = _renderer?.Render(mapSize, areas);
-            if (!string.IsNullOrEmpty(beforeDistribute)) {
-                Console.WriteLine(beforeDistribute);
+            if (_renderer != null) {
+                Console.WriteLine(_renderer.Render(mapSize, areas));
             }
             var simulator = new EvolvingSimulator(maxEpochs, 10);
             var system = new MapAreasSystem(mapSize, areas, r => { },
                 r => {
-                    if (_verboseOutput) {
-                        var afterDistribute = _renderer?.Render(mapSize, areas);
-                        if (!string.IsNullOrEmpty(afterDistribute)) {
-                            Console.WriteLine(afterDistribute);
-                        }
+                    if (_verboseOutput && _renderer != null) {
+                        Console.WriteLine(_renderer.Render(mapSize, areas));
                     }
                 });
             simulator.Evolve(system);

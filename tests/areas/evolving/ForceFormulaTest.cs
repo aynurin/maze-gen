@@ -54,7 +54,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 var distance = testCase.Item1;
                 var expectedForce = testCase.Item2;
                 var actualForce = new ForceFormula().NormalForce(distance);
-                Assert.AreEqual(expectedForce, Math.Round(actualForce, 2));
+                Assert.That(expectedForce, Is.EqualTo(Math.Round(actualForce, 2)));
             }
         }
 
@@ -77,7 +77,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             foreach (var distance in testCases) {
                 var actualForce = new ForceFormula()
                     .CollideForce(distance, 0.1);
-                Assert.AreEqual(10.00, Math.Round(actualForce, 2));
+                Assert.That(10.00, Is.EqualTo(Math.Round(actualForce, 2)));
             }
         }
 
@@ -100,7 +100,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             foreach (var distance in testCases) {
                 var actualForce = new ForceFormula()
                     .CollideForce(distance, 0.1);
-                Assert.AreEqual(-10.00, Math.Round(actualForce, 2));
+                Assert.That(-10.00, Is.EqualTo(Math.Round(actualForce, 2)));
             }
         }
 
@@ -121,7 +121,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 var expectedForce = testCase.Item2;
                 var actualForce = new ForceFormula()
                     .OverlapForce(distance, fragment);
-                Assert.AreEqual(expectedForce, Math.Round(actualForce, 2));
+                Assert.That(expectedForce, Is.EqualTo(Math.Round(actualForce, 2)));
             }
         }
 
@@ -142,7 +142,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 var expectedForce = testCase.Item2;
                 var actualForce = new ForceFormula()
                     .OverlapForce(distance, fragment);
-                Assert.AreEqual(expectedForce, Math.Round(actualForce, 2));
+                Assert.That(expectedForce, Is.EqualTo(Math.Round(actualForce, 2)));
             }
         }
     }
