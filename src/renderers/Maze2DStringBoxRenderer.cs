@@ -14,8 +14,7 @@ namespace PlayersWorlds.Maps.Renderers {
         private readonly Maze2D _maze;
         private readonly int _cellInnerHeight;
         private readonly int _cellInnerWidth;
-        private readonly int _asciiMazeHeight;
-        private readonly int _asciiMazeWidth;
+        private readonly Vector _asciiMazeSize;
         private readonly Border.Type[] _buffer;
         private readonly Dictionary<int, string> _data =
             new Dictionary<int, string>();
@@ -27,9 +26,10 @@ namespace PlayersWorlds.Maps.Renderers {
             _maze = maze; // 4x4
             _cellInnerWidth = cellInnerWidth;
             _cellInnerHeight = cellInnerHeight;
-            _asciiMazeWidth = _maze.Size.X * (_cellInnerWidth + 1) + 1; // 17
-            _asciiMazeHeight = _maze.Size.Y * (_cellInnerHeight + 1) + 1; // 9
-            _buffer = new Border.Type[_asciiMazeWidth * _asciiMazeHeight]; // 17x9
+            _asciiMazeSize = new Vector(
+                _maze.Size.X * (_cellInnerWidth + 1) + 1,
+                _maze.Size.Y * (_cellInnerHeight + 1) + 1); // 9
+            _buffer = new Border.Type[_asciiMazeSize.Area]; // 17x9
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace PlayersWorlds.Maps.Renderers {
             // print cells from top to bottom
             for (var y = _maze.Size.Y - 1; y >= 0; y--) {
                 for (var x = 0; x < _maze.Size.X; x++) {
-                    var mazeIndex = new Vector(x, y).ToIndex(_maze.Size.X);
+                    var mazeIndex = new Vector(x, y).ToIndex(_maze.Size);
                     var mazeCell = _maze.AllCells[mazeIndex];
                     var cellData = solutionCells.Contains(mazeCell) ?
                         Convert.ToString(trail.IndexOf(mazeCell), 16) :
@@ -56,9 +56,9 @@ namespace PlayersWorlds.Maps.Renderers {
 
             // render cells in a string buffer
             var strBuffer = new StringBuilder();
-            for (var y = 0; y < _asciiMazeHeight; y++) {
-                for (var x = 0; x < _asciiMazeWidth; x++) {
-                    var index = new Vector(x, y).ToIndex(_asciiMazeWidth);
+            for (var y = 0; y < _asciiMazeSize.Y; y++) {
+                for (var x = 0; x < _asciiMazeSize.X; x++) {
+                    var index = new Vector(x, y).ToIndex(_asciiMazeSize);
                     if (_data.ContainsKey(index)) {
                         strBuffer.Append(_data[index]);
                         x += _data[index].Length - 1;
@@ -106,7 +106,7 @@ namespace PlayersWorlds.Maps.Renderers {
             }
         }
 
-        private int I(Vector v) => v.ToIndex(_asciiMazeWidth);
+        private int I(Vector v) => v.ToIndex(_asciiMazeSize);
 
         class CellCoords {
             public Vector Northwest { get; private set; }

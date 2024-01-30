@@ -30,6 +30,6 @@ public static class TestExtensions {
     }
 
     public static Vector Position(this Cell cell, Map2D area) {
-        return Vector.FromIndex(area.Cells.IndexOf(cell), area.Size.X);
+        return Vector.FromIndex(area.Cells.IndexOf(cell), area.Size);
     }
 }

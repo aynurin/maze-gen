@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using NUnit.Framework;
 
 namespace PlayersWorlds.Maps {
@@ -111,15 +112,15 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void Vector_ToIndex() {
-            Assert.That(new Vector(1, 2).ToIndex(3), Is.EqualTo(7));
-            Assert.That(new Vector(2, 3).ToIndex(3), Is.EqualTo(11));
-            Assert.Throws<IndexOutOfRangeException>(() => new Vector(5, 2).ToIndex(4));
+            Assert.That(new Vector(1, 2).ToIndex(new Vector(3, 4)), Is.EqualTo(7));
+            Assert.That(new Vector(2, 3).ToIndex(new Vector(3, 4)), Is.EqualTo(11));
+            Assert.Throws<IndexOutOfRangeException>(() => new Vector(5, 2).ToIndex(new Vector(4, 3)));
         }
 
         [Test]
         public void Vector_FromIndex() {
-            Assert.That(Vector.FromIndex(2, 3), Is.EqualTo(new Vector(2, 0)));
-            Assert.That(Vector.FromIndex(5, 3), Is.EqualTo(new Vector(2, 1)));
+            Assert.That(Vector.FromIndex(2, new Vector(3, 3)), Is.EqualTo(new Vector(2, 0)));
+            Assert.That(Vector.FromIndex(5, new Vector(3, 3)), Is.EqualTo(new Vector(2, 1)));
         }
 
         [Test]
@@ -132,6 +133,100 @@ namespace PlayersWorlds.Maps {
             Assert.That(new Vector(1, 2).FitsInto(new Vector(2, 2)), Is.True);
             Assert.That(new Vector(10, 10).FitsInto(new Vector(20, 20)), Is.True);
             Assert.That(new Vector(10, 10).FitsInto(new Vector(2, 2)), Is.False);
+        }
+
+        [Test]
+        public void ToIndex_Matches_ToIndex() {
+            var vector = new Vector(new int[] { 2, 0 });
+            var one = vector.ToIndex(new Vector(10, 10));
+            var another = vector.ToIndex(new Vector(new int[] { 10, 10 }));
+            Assert.That(one, Is.EqualTo(another));
+        }
+
+        [Test]
+        public void FromIndex_Matches_FromIndex() {
+            var index = 75;
+            var one = Vector.FromIndex(index, new Vector(10, 10));
+            var another = Vector.FromIndex(index, new Vector(new int[] { 10, 10 }));
+            Assert.That(one, Is.EqualTo(another));
+        }
+
+        [Test]
+        public void ToIndex_ShouldCalculateCorrectIndex_1D() {
+            var vector = new Vector(new int[] { 3 });
+            Assert.That(vector.ToIndex(new Vector(new int[] { 10 })), Is.EqualTo(3));
+            Assert.That(vector.ToIndex(new Vector(new int[] { 5 })), Is.EqualTo(3));
+        }
+
+        [Test]
+        public void ToIndex_ShouldCalculateCorrectIndex_2D() {
+            var vector = new Vector(2, 3);
+            Assert.That(vector.ToIndex(new Vector(new int[] { 10, 5 })), Is.EqualTo(32));
+            Assert.That(vector.ToIndex(new Vector(new int[] { 5, 6 })), Is.EqualTo(17));
+        }
+
+        [Test]
+        public void ToIndex_ShouldCalculateCorrectIndex_3D() {
+            var vector = new Vector(new int[] { 1, 4, 2 });
+            Assert.That(vector.ToIndex(new Vector(new int[] { 10, 5, 3 })), Is.EqualTo(141));
+            Assert.That(vector.ToIndex(new Vector(new int[] { 6, 7, 3 })), Is.EqualTo(109));
+        }
+
+        [Test]
+        public void ToIndex_FromIndex_RoundTripConversion() {
+            var dimensions = new int[] { 10, 5, 3 };
+            for (var x = 0; x < dimensions[0]; x++) {
+                for (var y = 0; y < dimensions[1]; y++) {
+                    for (var z = 0; z < dimensions[2]; z++) {
+                        var vector = new Vector(new int[] { x, y, z });
+                        var index = vector.ToIndex(new Vector(dimensions));
+                        var convertedVector = Vector.FromIndex(index, new Vector(dimensions));
+                        Assert.That(convertedVector, Is.EqualTo(vector));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public void ToIndex_FromIndex_Valid5D() {
+            var dimensions = new int[] { 1, 2, 3, 2, 1 };
+            var space = new Vector(dimensions);
+            var array = new Vector[space.Area];
+            var counter = 0;
+            for (var x = 0; x < dimensions[0]; x++) {
+                for (var y = 0; y < dimensions[1]; y++) {
+                    for (var z = 0; z < dimensions[2]; z++) {
+                        for (var a = 0; a < dimensions[3]; a++) {
+                            for (var b = 0; b < dimensions[4]; b++) {
+                                var vector = new Vector(new int[] { x, y, z, a, b });
+                                var index = vector.ToIndex(new Vector(dimensions));
+                                array[index] = vector;
+                                counter++;
+                                var convertedVector = Vector.FromIndex(index, new Vector(dimensions));
+                                Assert.That(convertedVector, Is.EqualTo(vector));
+                            }
+                        }
+                    }
+                }
+            }
+            Assert.That(array.Distinct().Count(), Is.EqualTo(array.Count()));
+        }
+
+        [Test]
+        public void ToIndex_ShouldThrowException_DimensionOverflow() {
+            var vector = new Vector(3, 5);
+            Assert.That(() => vector.ToIndex(new Vector(new int[] { 5, 3 })), Throws.InstanceOf<IndexOutOfRangeException>());
+        }
+
+        [Test]
+        public void ToIndex_ShouldThrowException_DimensionMismatch() {
+            var vector = new Vector(1, 2);
+            Assert.That(() => vector.ToIndex(new Vector(new int[] { 10 })), Throws.ArgumentException);
+        }
+
+        [Test]
+        public void FromIndex_ShouldThrowException_DimensionMismatch() {
+            Assert.That(() => Vector.FromIndex(28, new Vector(new int[] { 10 })), Throws.ArgumentException);
         }
     }
 }

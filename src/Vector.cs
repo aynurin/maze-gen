@@ -110,6 +110,17 @@ namespace PlayersWorlds.Maps {
         }
 
         /// <summary>
+        /// Creates an zero vector with the number of dimensions specified in
+        /// <paramref ref="dimensionsNumber" /> parameter.
+        /// </summary>
+        /// <param name="dimensionsNumber">Number of dimensions.</param>
+        /// <returns>A zero vector with the specified number of dimensions.
+        /// </returns>
+        public static Vector Zero(int dimensionsNumber) {
+            return new Vector(Enumerable.Repeat(0, dimensionsNumber));
+        }
+
+        /// <summary>
         /// Checks if this vector can be used as a size, i.e. it has components,
         /// and all components are greater than zero.
         /// </summary>
@@ -193,6 +204,7 @@ namespace PlayersWorlds.Maps {
             (this.IsEmpty && another.IsEmpty)
             || (!this.IsEmpty && !another.IsEmpty && this._value.SequenceEqual(another._value));
 
+        [Obsolete("Use ToIndex(Vector) instead")]
         internal int ToIndex(int maxX) {
             if (X > maxX) {
                 throw new IndexOutOfRangeException($"Can't get index of vector {this} in a space that's limited by X(max) = {maxX}");
@@ -200,10 +212,67 @@ namespace PlayersWorlds.Maps {
             return Y * maxX + X;
         }
 
+        /// <summary>
+        /// Calculates the linear index of a <see cref="Vector"/> position
+        /// within a space with the specified dimensions.
+        /// </summary>
+        /// <param name="spaceDimensions">A <see cref="Vector"/>
+        /// representing the size of the space in (e.g., [width, height]).
+        /// </param>
+        /// <returns>The linear index of the <see cref="Vector"/> position
+        /// within the space.</returns>
+        /// <exception cref="ArgumentException">Throws if the
+        /// <see cref="Vector"/> dimension does not match the provided
+        /// dimensions array, or any of the coordinates exceed the space
+        /// size.</exception>
+        public int ToIndex(Vector spaceDimensions) {
+            if (_value.Length != spaceDimensions._value.Length) {
+                throw new ArgumentException("Vector dimensions do not match array dimensions");
+            }
+
+            var index = 0;
+            var multiplier = 1;
+            for (var i = 0; i < _value.Length; i++) {
+                if (_value[i] >= spaceDimensions._value[i]) {
+                    throw new IndexOutOfRangeException(
+                        $"Vector dimension {1} ({_value[i]}) is larger than" +
+                        $" space dimension {i}({spaceDimensions._value[i]})");
+                }
+                index += _value[i] * multiplier;
+                multiplier *= spaceDimensions._value[i];
+            }
+            return index;
+        }
+
+        [Obsolete("Use FromIndex(int, Vector) instead")]
         internal static Vector FromIndex(int i, int maxX) {
             var x = i % maxX;
             var y = i / maxX;
             return new Vector(x, y);
+        }
+
+        /// <summary>
+        /// Converts a linear index within a space with the specified dimensions
+        /// to a corresponding <see cref="Vector"/> position.
+        /// </summary>
+        /// <param name="index">The linear index within the space.</param>
+        /// <param name="spaceDimensions">A <see cref="Vector"/> representing
+        /// the size of the space (e.g., [width, height]).</param>
+        /// <returns>The corresponding <see cref="Vector"/> position within the
+        /// space.</returns>
+        /// <exception cref="ArgumentException">Throws if the provided index is
+        /// out of the bounds for the specified space.</exception>
+        public static Vector FromIndex(int index, Vector spaceDimensions) {
+            var coordinates = new int[spaceDimensions._value.Length];
+            var remaining = index;
+            for (var i = 0; i < spaceDimensions._value.Length; i++) {
+                coordinates[i] = remaining % spaceDimensions._value[i];
+                remaining /= spaceDimensions._value[i];
+            }
+            if (remaining > 0) {
+                throw new ArgumentException("Index does not fit into space dimensions");
+            }
+            return new Vector(coordinates);
         }
     }
 }

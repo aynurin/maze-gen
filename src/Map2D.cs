@@ -44,7 +44,7 @@ namespace PlayersWorlds.Maps {
         /// <exception cref="IndexOutOfRangeException">The position is outside
         /// the map bounds.</exception>
         public Cell this[Vector xy] {
-            get => _cells[xy.ToIndex(Size.X)];
+            get => _cells[xy.ToIndex(Size)];
         }
 
         /// <summary>

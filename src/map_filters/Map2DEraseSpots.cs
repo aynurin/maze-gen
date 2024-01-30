@@ -47,7 +47,7 @@ namespace PlayersWorlds.Maps.MapFilters {
         override public void Render(Map2D map) {
             var visited = new bool[map.Size.X * map.Size.Y];
             foreach (var (xy, cell) in map.Iterate()) {
-                if (visited[xy.ToIndex(map.Size.X)]) continue;
+                if (visited[xy.ToIndex(map.Size)]) continue;
 
                 // look for all spots of the given type
                 // if a cell matches a spot type, dfs to find the
@@ -58,7 +58,7 @@ namespace PlayersWorlds.Maps.MapFilters {
                 // mark all spot cells as visited
 
                 if (!CellIsASpot(cell)) {
-                    visited[xy.ToIndex(map.Size.X)] = true;
+                    visited[xy.ToIndex(map.Size)] = true;
                     continue;
                 }
 
@@ -80,8 +80,8 @@ namespace PlayersWorlds.Maps.MapFilters {
 
                     foreach (var (nextXy, nextCell) in map.IterateAdjacentCells(current)) {
                         if (!CellIsASpot(nextCell)) continue;
-                        if (visited[nextXy.ToIndex(map.Size.X)] == false) {
-                            visited[nextXy.ToIndex(map.Size.X)] = true;
+                        if (visited[nextXy.ToIndex(map.Size)] == false) {
+                            visited[nextXy.ToIndex(map.Size)] = true;
                             spotCells.Add(nextCell);
                             dfsStack.Push(nextXy);
                         }

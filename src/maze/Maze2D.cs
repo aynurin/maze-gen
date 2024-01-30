@@ -89,7 +89,7 @@ namespace PlayersWorlds.Maps.Maze {
             var cells = new MazeCell[_size.Area];
             // ? P'haps the direction is a property of the gate, not it's identity.
             for (var i = 0; i < cells.Length; i++) {
-                var xy = Vector.FromIndex(i, _size.X);
+                var xy = Vector.FromIndex(i, _size);
                 var northI = i - _size.X;
                 var westI = xy.X > 0 ? (i - 1) : -1;
                 var cell = new MazeCell(xy);
@@ -120,7 +120,7 @@ namespace PlayersWorlds.Maps.Maze {
             for (var x = 0; x < area.Size.X; x++) {
                 for (var y = 0; y < area.Size.Y; y++) {
                     var cell = _cells[(new Vector(x, y) + area.Position)
-                            .ToIndex(this.Size.X)];
+                            .ToIndex(this.Size)];
                     areaCells.Add(cell);
                 }
             }

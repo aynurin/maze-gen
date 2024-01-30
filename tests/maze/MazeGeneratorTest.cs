@@ -338,6 +338,7 @@ namespace PlayersWorlds.Maps.Maze {
                 .Where(p => typeof(MazeGenerator) != p &&
                             typeof(MazeGenerator).IsAssignableFrom(p));
         }
+
         public static IEnumerable<GeneratorOptions.FillFactorOption>
             GetGeneratorOptionsFillFactors() {
             yield return GeneratorOptions.FillFactorOption.Full;
