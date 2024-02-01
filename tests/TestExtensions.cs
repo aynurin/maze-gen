@@ -28,8 +28,4 @@ public static class TestExtensions {
         var size = VectorD.Parse(parts[1]).RoundToInt();
         return MapArea.Create(AreaType.None, size, position);
     }
-
-    public static Vector Position(this Cell cell, Map2D area) {
-        return Vector.FromIndex(area.Cells.IndexOf(cell), area.Size);
-    }
 }

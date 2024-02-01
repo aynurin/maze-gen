@@ -9,7 +9,7 @@ namespace PlayersWorlds.Maps {
     /// Represents a 2D map with cells that map 1-1 to game engine cells.
     /// </summary>
     public class Map2D {
-        private readonly Cell[] _cells;
+        private readonly NArray<Cell> _cells;
 
         /// <summary>
         /// Size of the map in cells.
@@ -19,7 +19,7 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// A readonly access to the map cells.
         /// </summary>
-        public IList<Cell> Cells => Array.AsReadOnly(_cells);
+        public NArray<Cell> Cells => _cells;
 
         /// <summary>
         /// Creates a new 2D map with the specified size.
@@ -28,10 +28,7 @@ namespace PlayersWorlds.Maps {
         /// dimensions.</param>
         public Map2D(Vector size) {
             Size = size;
-            _cells = new Cell[size.Area];
-            for (var i = 0; i < size.Area; i++) {
-                _cells[i] = new Cell();
-            }
+            _cells = new NArray<Cell>(size, () => new Cell());
         }
 
         /// <summary>
@@ -44,46 +41,7 @@ namespace PlayersWorlds.Maps {
         /// <exception cref="IndexOutOfRangeException">The position is outside
         /// the map bounds.</exception>
         public Cell this[Vector xy] {
-            get => _cells[xy.ToIndex(Size)];
-        }
-
-        /// <summary>
-        /// Iterates over all cells in the map in row-major order, returning
-        /// each cell's position and value as a tuple.
-        /// </summary>
-        /// <returns>An enumerable collection of tuples containing the cell
-        /// position as a <see cref="Vector"/> and its value.</returns>
-        public IEnumerable<(Vector xy, Cell cell)> Iterate() {
-            for (var y = 0; y < Size.Y; y++) {
-                for (var x = 0; x < Size.X; x++) {
-                    var xy = new Vector(x, y);
-                    yield return (xy, this[xy]);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Retrieve all cells of a rectangular region on the map.
-        /// </summary>
-        /// <param name="xy">Lowest XY position of the region.</param>
-        /// <param name="areaSize">Size of the region.</param>
-        /// <returns>An enumerable collection of tuples of the specified region
-        /// containing the cell position as a <see cref="Vector"/> and its
-        /// value.</returns>
-        /// <exception cref="IndexOutOfRangeException">The coordinates are out
-        /// of the bounds of the map.
-        /// <see cref="IterateIntersection(Vector,Vector)" /> is an alternative
-        /// that doesn't throw.</exception>
-        public IEnumerable<(Vector xy, Cell cell)>
-        IterateArea(Vector xy, Vector areaSize) {
-            areaSize.ThrowIfNotAValidSize();
-            if (xy.X < 0 ||
-                xy.X + areaSize.X > Size.X ||
-                xy.Y < 0 ||
-                xy.Y + areaSize.Y > Size.Y) {
-                throw new IndexOutOfRangeException($"Can't retrieve area of size {areaSize} at {xy} in map of size {Size}");
-            }
-            return IterateIntersection(xy, areaSize);
+            get => _cells[xy];
         }
 
         /// <summary>
@@ -95,15 +53,8 @@ namespace PlayersWorlds.Maps {
         /// <param name="areaSize">Size of the region.</param>
         /// <returns><see cref="Cell" />s of the specified region.</returns>
         public IEnumerable<(Vector xy, Cell cell)>
-        IterateIntersection(Vector xy, Vector areaSize) {
-            areaSize.ThrowIfNotAValidSize();
-            for (var x = Math.Max(0, xy.X); x < Math.Min(xy.X + areaSize.X, Size.X); x++) {
-                for (var y = Math.Max(0, xy.Y); y < Math.Min(xy.Y + areaSize.Y, Size.Y); y++) {
-                    var position = new Vector(x, y);
-                    yield return (position, this[position]);
-                }
-            }
-        }
+        IterateIntersection(Vector xy, Vector areaSize) =>
+            _cells.IterateIntersection(xy, areaSize);
 
         /// <summary>
         /// Gets a list of <see cref="Vector"/> positions of all adjacent cells

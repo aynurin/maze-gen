@@ -45,7 +45,7 @@ namespace PlayersWorlds.Maps.MapFilters {
                     if (cell.Tags.Any(t => _cellType.Contains(t)) ||
                         cell.Tags.Contains(_outlineType)) continue;
                     var setOutline =
-                        map.IterateIntersection(
+                        map.Cells.IterateIntersection(
                             new Vector(x - _outlineWidth, y - _outlineHeight),
                             new Vector(_outlineWidth * 2 + 1, _outlineHeight * 2 + 1))
                            .Any(c => c.cell != cell &&

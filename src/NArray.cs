@@ -63,6 +63,15 @@ namespace PlayersWorlds.Maps {
         }
 
         /// <summary>
+        /// Returns the position of the first occurrence of a value in the map.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public Vector IndexOf(T value) =>
+            Vector.FromIndex(
+                    Array.FindIndex(_cells, x => x.Equals(value)), Size);
+
+        /// <summary>
         /// Iterates over all cells in the map in row-major order, returning
         /// each cell's position and value as a tuple.
         /// </summary>
@@ -112,6 +121,7 @@ namespace PlayersWorlds.Maps {
         public IEnumerable<(Vector xy, T cell)>
         IterateIntersection(Vector xy, Vector size) {
             // Validate dimensions
+            size.ThrowIfNotAValidSize();
             if (size.Value.Length != Size.Value.Length ||
                 xy.Value.Length != Size.Value.Length) {
                 throw new ArgumentException(

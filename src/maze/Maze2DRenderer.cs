@@ -132,39 +132,39 @@ namespace PlayersWorlds.Maps.Maze {
             public Vector SESize => _size[SE];
 
             public IEnumerable<Cell> CenterCells =>
-                _map.IterateArea(_position[CENTER], _size[CENTER])
+                _map.Cells.Iterate(_position[CENTER], _size[CENTER])
                     .Select(c => c.cell);
 
             public IEnumerable<Cell> NWCells =>
-                _map.IterateArea(_position[NW], _size[NW])
+                _map.Cells.Iterate(_position[NW], _size[NW])
                     .Select(c => c.cell);
 
             public IEnumerable<Cell> NCells =>
-                _map.IterateArea(_position[N], _size[N])
+                _map.Cells.Iterate(_position[N], _size[N])
                     .Select(c => c.cell);
 
             public IEnumerable<Cell> NECells =>
-                _map.IterateArea(_position[NE], _size[NE])
+                _map.Cells.Iterate(_position[NE], _size[NE])
                     .Select(c => c.cell);
 
             public IEnumerable<Cell> WCells =>
-                _map.IterateArea(_position[W], _size[W])
+                _map.Cells.Iterate(_position[W], _size[W])
                     .Select(c => c.cell);
 
             public IEnumerable<Cell> ECells =>
-                _map.IterateArea(_position[E], _size[E])
+                _map.Cells.Iterate(_position[E], _size[E])
                     .Select(c => c.cell);
 
             public IEnumerable<Cell> SWCells =>
-                _map.IterateArea(_position[SW], _size[SW])
+                _map.Cells.Iterate(_position[SW], _size[SW])
                     .Select(c => c.cell);
 
             public IEnumerable<Cell> SCells =>
-                _map.IterateArea(_position[S], _size[S])
+                _map.Cells.Iterate(_position[S], _size[S])
                     .Select(c => c.cell);
 
             public IEnumerable<Cell> SECells =>
-                _map.IterateArea(_position[SE], _size[SE])
+                _map.Cells.Iterate(_position[SE], _size[SE])
                     .Select(c => c.cell);
 
 

@@ -259,40 +259,40 @@ namespace PlayersWorlds.Maps {
             Assert.That(cellMapping.SESize, Is.EqualTo(new Vector(2, 2)), "SESize");
 
             Assert.That(cellMapping.CenterCells.ToList(), Has.Count.EqualTo(2), "CenterCells Count");
-            Assert.That(cellMapping.CenterCells.Select(cell => cell.Position(map).X), Has.All.AnyOf(1), "CenterCells.X");
-            Assert.That(cellMapping.CenterCells.Select(cell => cell.Position(map).Y), Has.All.AnyOf(2, 3), "CenterCells.Y");
+            Assert.That(cellMapping.CenterCells.Select(cell => map.Cells.IndexOf(cell).X), Has.All.AnyOf(1), "CenterCells.X");
+            Assert.That(cellMapping.CenterCells.Select(cell => map.Cells.IndexOf(cell).Y), Has.All.AnyOf(2, 3), "CenterCells.Y");
 
             Assert.That(cellMapping.NWCells.ToList(), Has.Count.EqualTo(1), "NWCells Count");
-            Assert.That(cellMapping.NWCells.Select(cell => cell.Position(map).X), Has.All.AnyOf(0), "NWCells.X");
-            Assert.That(cellMapping.NWCells.Select(cell => cell.Position(map).Y), Has.All.AnyOf(4), "NWCells.Y");
+            Assert.That(cellMapping.NWCells.Select(cell => map.Cells.IndexOf(cell).X), Has.All.AnyOf(0), "NWCells.X");
+            Assert.That(cellMapping.NWCells.Select(cell => map.Cells.IndexOf(cell).Y), Has.All.AnyOf(4), "NWCells.Y");
 
             Assert.That(cellMapping.NCells.ToList(), Has.Count.EqualTo(1), "NCells Count");
-            Assert.That(cellMapping.NCells.Select(cell => cell.Position(map).X), Has.All.AnyOf(1), "NCells.X");
-            Assert.That(cellMapping.NCells.Select(cell => cell.Position(map).Y), Has.All.AnyOf(4), "NCells.Y");
+            Assert.That(cellMapping.NCells.Select(cell => map.Cells.IndexOf(cell).X), Has.All.AnyOf(1), "NCells.X");
+            Assert.That(cellMapping.NCells.Select(cell => map.Cells.IndexOf(cell).Y), Has.All.AnyOf(4), "NCells.Y");
 
             Assert.That(cellMapping.NECells.ToList(), Has.Count.EqualTo(2), "NECells Count");
-            Assert.That(cellMapping.NECells.Select(cell => cell.Position(map).X), Has.All.AnyOf(2, 3), "NECells.X");
-            Assert.That(cellMapping.NECells.Select(cell => cell.Position(map).Y), Has.All.AnyOf(4), "NECells.Y");
+            Assert.That(cellMapping.NECells.Select(cell => map.Cells.IndexOf(cell).X), Has.All.AnyOf(2, 3), "NECells.X");
+            Assert.That(cellMapping.NECells.Select(cell => map.Cells.IndexOf(cell).Y), Has.All.AnyOf(4), "NECells.Y");
 
             Assert.That(cellMapping.WCells.ToList(), Has.Count.EqualTo(2), "WCells Count");
-            Assert.That(cellMapping.WCells.Select(cell => cell.Position(map).X), Has.All.AnyOf(0), "WCells.X");
-            Assert.That(cellMapping.WCells.Select(cell => cell.Position(map).Y), Has.All.AnyOf(2, 3), "WCells.Y");
+            Assert.That(cellMapping.WCells.Select(cell => map.Cells.IndexOf(cell).X), Has.All.AnyOf(0), "WCells.X");
+            Assert.That(cellMapping.WCells.Select(cell => map.Cells.IndexOf(cell).Y), Has.All.AnyOf(2, 3), "WCells.Y");
 
             Assert.That(cellMapping.ECells.ToList(), Has.Count.EqualTo(4), "ECells Count");
-            Assert.That(cellMapping.ECells.Select(cell => cell.Position(map).X), Has.All.AnyOf(2, 3), "ECells.X");
-            Assert.That(cellMapping.ECells.Select(cell => cell.Position(map).Y), Has.All.AnyOf(2, 3), "ECells.Y");
+            Assert.That(cellMapping.ECells.Select(cell => map.Cells.IndexOf(cell).X), Has.All.AnyOf(2, 3), "ECells.X");
+            Assert.That(cellMapping.ECells.Select(cell => map.Cells.IndexOf(cell).Y), Has.All.AnyOf(2, 3), "ECells.Y");
 
             Assert.That(cellMapping.SWCells.ToList(), Has.Count.EqualTo(2), "SWCells Count");
-            Assert.That(cellMapping.SWCells.Select(cell => cell.Position(map).X), Has.All.AnyOf(0), "SWCells.X");
-            Assert.That(cellMapping.SWCells.Select(cell => cell.Position(map).Y), Has.All.AnyOf(0, 1), "SWCells.Y");
+            Assert.That(cellMapping.SWCells.Select(cell => map.Cells.IndexOf(cell).X), Has.All.AnyOf(0), "SWCells.X");
+            Assert.That(cellMapping.SWCells.Select(cell => map.Cells.IndexOf(cell).Y), Has.All.AnyOf(0, 1), "SWCells.Y");
 
             Assert.That(cellMapping.SCells.ToList(), Has.Count.EqualTo(2), "SCells Count");
-            Assert.That(cellMapping.SCells.Select(cell => cell.Position(map).X), Has.All.AnyOf(1), "SCells.X");
-            Assert.That(cellMapping.SCells.Select(cell => cell.Position(map).Y), Has.All.AnyOf(0, 1), "SCells.Y");
+            Assert.That(cellMapping.SCells.Select(cell => map.Cells.IndexOf(cell).X), Has.All.AnyOf(1), "SCells.X");
+            Assert.That(cellMapping.SCells.Select(cell => map.Cells.IndexOf(cell).Y), Has.All.AnyOf(0, 1), "SCells.Y");
 
             Assert.That(cellMapping.SECells.ToList(), Has.Count.EqualTo(4), "SECells Count");
-            Assert.That(cellMapping.SECells.Select(cell => cell.Position(map).X), Has.All.AnyOf(2, 3), "SECells.X");
-            Assert.That(cellMapping.SECells.Select(cell => cell.Position(map).Y), Has.All.AnyOf(0, 1), "SECells.Y");
+            Assert.That(cellMapping.SECells.Select(cell => map.Cells.IndexOf(cell).X), Has.All.AnyOf(2, 3), "SECells.X");
+            Assert.That(cellMapping.SECells.Select(cell => map.Cells.IndexOf(cell).Y), Has.All.AnyOf(0, 1), "SECells.Y");
         }
     }
 }
