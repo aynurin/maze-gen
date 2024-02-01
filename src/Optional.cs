@@ -64,10 +64,7 @@ namespace PlayersWorlds.Maps {
             if (obj is T) {
                 return this.Value.Equals(obj);
             }
-            if (obj is Optional<T> optional) {
-                return this.Value.Equals(optional.Value);
-            }
-            return base.Equals(obj);
+            return this.Value.Equals((obj as Optional<T>).Value);
         }
 
         /// <summary>
@@ -126,7 +123,7 @@ namespace PlayersWorlds.Maps {
         public static bool operator !=(Optional<T> left, Optional<T> right) {
             if (left is null) {
                 if (right is null) {
-                    return !Object.ReferenceEquals(left, right);
+                    return false;
                 } else {
                     return !right.Equals(left);
                 }

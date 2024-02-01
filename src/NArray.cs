@@ -50,7 +50,7 @@ namespace PlayersWorlds.Maps {
         /// <param name="size">The size of the map as a <see cref="Vector"/> of
         /// dimensions (rows, columns).</param>
         /// <param name="initialValue">The initial value for each cell.</param>
-        public NArray(Vector size, Func<T> initialValue = null) {
+        public NArray(Vector size, Func<Vector, T> initialValue = null) {
             size.ThrowIfNotAValidSize();
 
             Size = size;
@@ -58,7 +58,8 @@ namespace PlayersWorlds.Maps {
             _cells = new T[size.Area];
 
             for (var i = 0; i < _cells.Length; i++) {
-                _cells[i] = initialValue == null ? default : initialValue();
+                _cells[i] = initialValue == null ? default :
+                    initialValue(Vector.FromIndex(i, size));
             }
         }
 

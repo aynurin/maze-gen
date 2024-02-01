@@ -12,7 +12,9 @@ namespace PlayersWorlds.Maps {
         public void Optional_Equality() {
             var a = new A() { Value = 1 };
             var oa = new Optional<A>(a);
+            var oa2 = new Optional<A>(a);
             Assert.That(oa.Equals(a));
+            Assert.That(oa.Equals(oa2));
             Assert.That(!a.Equals(oa));
         }
 

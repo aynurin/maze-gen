@@ -204,14 +204,6 @@ namespace PlayersWorlds.Maps {
             (this.IsEmpty && another.IsEmpty)
             || (!this.IsEmpty && !another.IsEmpty && this._value.SequenceEqual(another._value));
 
-        [Obsolete("Use ToIndex(Vector) instead")]
-        internal int ToIndex(int maxX) {
-            if (X > maxX) {
-                throw new IndexOutOfRangeException($"Can't get index of vector {this} in a space that's limited by X(max) = {maxX}");
-            }
-            return Y * maxX + X;
-        }
-
         /// <summary>
         /// Calculates the linear index of a <see cref="Vector"/> position
         /// within a space with the specified dimensions.
@@ -242,13 +234,6 @@ namespace PlayersWorlds.Maps {
                 multiplier *= spaceDimensions._value[i];
             }
             return index;
-        }
-
-        [Obsolete("Use FromIndex(int, Vector) instead")]
-        internal static Vector FromIndex(int i, int maxX) {
-            var x = i % maxX;
-            var y = i / maxX;
-            return new Vector(x, y);
         }
 
         /// <summary>

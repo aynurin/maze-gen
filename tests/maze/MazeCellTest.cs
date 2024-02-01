@@ -31,6 +31,19 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         [Test]
+        public void LinksOnlyWithNeighbors() {
+            var a = new MazeCell(2, 1);
+            var b = new MazeCell(2, 2);
+            var c = new MazeCell(2, 3);
+            a.Neighbors().Add(b);
+            b.Neighbors().Add(a);
+            b.Neighbors().Add(c);
+            c.Neighbors().Add(b);
+
+            Assert.That(() => a.Link(c), Throws.InstanceOf<NotImplementedException>());
+        }
+
+        [Test]
         public void CanAssignMapAreaOnce() {
             var a = new MazeCell(2, 1);
             var mapArea = MapArea.Create(

@@ -36,5 +36,21 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             Assert.That(area1.Contains(new VectorD(0.5D, 0.5D)), Is.True);
             Assert.That(area2.Contains(new VectorD(1.5D, 1.5D)), Is.False);
         }
+
+        [Test]
+        public void CenterIsValid() {
+            Assert.That(
+                FloatingArea.Unlinked(new VectorD(0, 0), new VectorD(4, 4))
+                .Center, Is.EqualTo(new VectorD(2, 2)));
+            Assert.That(
+                FloatingArea.Unlinked(new VectorD(3, 3), new VectorD(4, 4))
+                .Center, Is.EqualTo(new VectorD(5, 5)));
+            Assert.That(
+                FloatingArea.Unlinked(new VectorD(0, 0), new VectorD(5, 5))
+                .Center, Is.EqualTo(new VectorD(2.5, 2.5)));
+            Assert.That(
+                FloatingArea.Unlinked(new VectorD(3, 3), new VectorD(5, 5))
+                .Center, Is.EqualTo(new VectorD(5.5, 5.5)));
+        }
     }
 }

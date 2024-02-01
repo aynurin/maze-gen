@@ -31,7 +31,7 @@ namespace PlayersWorlds.Maps.Maze {
     /// </remarks>
     public class Maze2D {
         private readonly Vector _size;
-        private readonly List<MazeCell> _cells;
+        private readonly NArray<MazeCell> _cells;
         private readonly List<MazeCell> _unlinkedCells;
         /// <summary>
         /// Post-processing attributes assigned to this maze. See
@@ -42,7 +42,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// <summary>
         /// A read-only access to the cells in this maze.
         /// </summary>
-        public IList<MazeCell> AllCells => _cells.AsReadOnly();
+        public NArray<MazeCell> AllCells => _cells;
         /// <summary>
         /// A read-only access to the visitable cells in this maze.
         /// </summary>
@@ -52,7 +52,7 @@ namespace PlayersWorlds.Maps.Maze {
             _cells.Where(cell => cell.IsVisited);
 
         /// <summary />
-        public Vector Size { get => _size; }
+        public Vector Size { get => _cells.Size; }
 
         /// <summary>
         /// Number of cells in this maze.
@@ -80,31 +80,31 @@ namespace PlayersWorlds.Maps.Maze {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="size">Map two-dimensional size,
-        ///     where X - width, number of columns,
-        ///     and Y - height, number of rows</param>
+        /// <param name="size">Map2D size,
+        ///     where X is the width, number of columns,
+        ///     and Y is the height, number of rows</param>
         public Maze2D(Vector size) {
             size.ThrowIfNotAValidSize();
-            _size = size;
-            var cells = new MazeCell[_size.Area];
-            // ? P'haps the direction is a property of the gate, not it's identity.
-            for (var i = 0; i < cells.Length; i++) {
-                var xy = Vector.FromIndex(i, _size);
-                var northI = i - _size.X;
-                var westI = xy.X > 0 ? (i - 1) : -1;
-                var cell = new MazeCell(xy);
-                if (northI >= 0) {
-                    cell.Neighbors().Add(cells[northI]);
-                    cells[northI].Neighbors().Add(cell);
-                }
-                if (westI >= 0) {
-                    cell.Neighbors().Add(cells[westI]);
-                    cells[westI].Neighbors().Add(cell);
-                }
-                cells[i] = cell;
+            if (size.Value.Length != 2) {
+                throw new NotImplementedException(
+                    "At the moment, only 2D mazes are supported.");
             }
-            _cells = new List<MazeCell>(cells);
-            _unlinkedCells = new List<MazeCell>(cells);
+            _size = size;
+            _cells = new NArray<MazeCell>(_size, xy => new MazeCell(xy));
+            foreach (var cell in _cells.Iterate()) {
+                var north = cell.xy + Vector.North2D;
+                if (north.Y < size.Y) {
+                    cell.cell.Neighbors().Add(_cells[north]);
+                    _cells[north].Neighbors().Add(cell.cell);
+                }
+
+                var west = cell.xy + Vector.West2D;
+                if (west.X >= 0) {
+                    cell.cell.Neighbors().Add(_cells[west]);
+                    _cells[west].Neighbors().Add(cell.cell);
+                }
+            }
+            _unlinkedCells = new List<MazeCell>(_cells);
         }
 
         private readonly Dictionary<MapArea, ICollection<MazeCell>>
@@ -116,14 +116,9 @@ namespace PlayersWorlds.Maps.Maze {
         public Dictionary<MapArea, ICollection<MazeCell>> MapAreas => _mapAreas;
 
         internal void AddArea(MapArea area) {
-            var areaCells = new List<MazeCell>();
-            for (var x = 0; x < area.Size.X; x++) {
-                for (var y = 0; y < area.Size.Y; y++) {
-                    var cell = _cells[(new Vector(x, y) + area.Position)
-                            .ToIndex(this.Size)];
-                    areaCells.Add(cell);
-                }
-            }
+            var areaCells = _cells.Iterate(area.Position, area.Size)
+                .Select(cell => cell.cell)
+                .ToList();
             _mapAreas.Add(area, areaCells);
             foreach (var cell in areaCells) {
                 cell.AddMapArea(area, areaCells);

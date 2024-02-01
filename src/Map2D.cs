@@ -28,7 +28,7 @@ namespace PlayersWorlds.Maps {
         /// dimensions.</param>
         public Map2D(Vector size) {
             Size = size;
-            _cells = new NArray<Cell>(size, () => new Cell());
+            _cells = new NArray<Cell>(size, xy => new Cell());
         }
 
         /// <summary>
@@ -42,33 +42,6 @@ namespace PlayersWorlds.Maps {
         /// the map bounds.</exception>
         public Cell this[Vector xy] {
             get => _cells[xy];
-        }
-
-        /// <summary>
-        /// Retrieve all cells of a rectangular region on the map.
-        /// </summary>
-        /// <remarks>Retrieves any cells on the map that belong to the requested
-        /// region.</remarks>
-        /// <param name="xy">Lowest XY position of the region.</param>
-        /// <param name="areaSize">Size of the region.</param>
-        /// <returns><see cref="Cell" />s of the specified region.</returns>
-        public IEnumerable<(Vector xy, Cell cell)>
-        IterateIntersection(Vector xy, Vector areaSize) =>
-            _cells.IterateIntersection(xy, areaSize);
-
-        /// <summary>
-        /// Gets a list of <see cref="Vector"/> positions of all adjacent cells
-        /// to the specified position, excluding cells outside the map bounds.
-        /// </summary>
-        /// <param name="xy">The position of the cell to get adjacent
-        /// cells for as a <see cref="Vector"/>.</param>
-        /// <returns>An enumerable collection of <see cref="Vector"/> positions
-        /// of adjacent cells.</returns>
-        public IEnumerable<(Vector xy, Cell cell)>
-        IterateAdjacentCells(Vector xy) {
-            return IterateIntersection(
-                xy + Vector.SouthWest2D,
-                new Vector(3, 3)).Where(cell => cell.xy != xy);
         }
 
         /// <summary>

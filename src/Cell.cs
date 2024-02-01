@@ -43,8 +43,7 @@ namespace PlayersWorlds.Maps {
             /// </returns>
             public override bool Equals(object obj) {
                 if (obj is string v) return _tag.Equals(v);
-                else if (obj is CellTag t) return _tag.Equals(t._tag);
-                return Object.ReferenceEquals(this, obj);
+                return _tag.Equals((obj as CellTag)._tag);
             }
 
             /// <summary>

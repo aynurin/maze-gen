@@ -58,11 +58,21 @@ namespace PlayersWorlds.Maps.Areas {
         public void Position_ThrowsIfNotInitialized() {
             var area1 = MapArea.CreateAutoPositioned(
                 AreaType.None, new Vector(10, 10));
-            Assert.Throws<InvalidOperationException>(
-                () => { var pos = area1.Position; });
+            Assert.That(() => { var pos = area1.Position; },
+                Throws.TypeOf<InvalidOperationException>());
             area1.Position = new Vector(1, 1);
-            Assert.DoesNotThrow(
-                () => { var pos = area1.Position; });
+            Assert.That(
+                () => { var pos = area1.Position; }, Throws.Nothing);
+        }
+
+        [Test]
+        public void ThrowsIfWrongParameters() {
+            Assert.That(() =>
+                MapArea.Create(
+                    AreaType.None,
+                    new Vector(10, 10),
+                    Vector.Empty),
+                Throws.TypeOf<ArgumentException>());
         }
     }
 }

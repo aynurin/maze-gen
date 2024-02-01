@@ -28,6 +28,12 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         [Test]
+        public void Maze2D_AllowsOnly2D() {
+            Assert.Throws<NotImplementedException>(() => new Maze2D(
+                new Vector(new int[] { 1, 2, 3 })));
+        }
+
+        [Test]
         public void Maze2D_ToMapWrongOptions() {
             Assert.DoesNotThrow(() => new Maze2D(2, 3).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3, 4 })));
             Assert.Throws<ArgumentException>(() => new Maze2D(2, 3).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
@@ -47,7 +53,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(map.AllCells.Count, Is.EqualTo(rows * cols), "Wrong number of cells.");
             for (var x = 0; x < cols; x++) {
                 for (var y = 0; y < rows; y++) {
-                    var cell = map.AllCells.ElementAt(new Vector(x, y), map.Size);
+                    var cell = map.AllCells[new Vector(x, y)];
                     var neighbors = map.AllCells.Where(c =>
                         (c.X == cell.X && Math.Abs(c.Y - cell.Y) == 1) ||
                         (c.Y == cell.Y && Math.Abs(c.X - cell.X) == 1))
@@ -55,26 +61,25 @@ namespace PlayersWorlds.Maps.Maze {
                     var nonNeighbors = map.AllCells
                         .Where(c => c != cell && !neighbors.Contains(c))
                         .ToList();
+                    if (neighbors.Count != cell.Neighbors().Count) {
+                        Console.WriteLine($"Cell {cell.X},{cell.Y} has {neighbors.Count} neighbors. It should have {cell.Neighbors().Count} neighbors.");
+                    }
                     Assert.That(neighbors.Count, Is.EqualTo(cell.Neighbors().Count));
                     Assert.That(neighbors.All(c => cell.Neighbors().Contains(c)), Is.True);
                     Assert.That(nonNeighbors.Any(c => cell.Neighbors().Contains(c)), Is.False);
 
                     if (x > 0) Assert.That(
                         cell.Neighbors(Vector.West2D).Value,
-                        Is.EqualTo(map.AllCells.ElementAt(
-                            new Vector(x - 1, y), map.Size)));
+                        Is.EqualTo(map.AllCells[new Vector(x - 1, y)]));
                     if (x + 1 < cols) Assert.That(
                         cell.Neighbors(Vector.East2D).Value,
-                        Is.EqualTo(map.AllCells.ElementAt(
-                            new Vector(x + 1, y), map.Size)));
+                        Is.EqualTo(map.AllCells[new Vector(x + 1, y)]));
                     if (y > 0) Assert.That(
                         cell.Neighbors(Vector.South2D).Value,
-                        Is.EqualTo(map.AllCells.ElementAt(
-                            new Vector(x, y - 1), map.Size)));
+                        Is.EqualTo(map.AllCells[new Vector(x, y - 1)]));
                     if (y + 1 > rows) Assert.That(
                         cell.Neighbors(Vector.North2D).Value,
-                        Is.EqualTo(map.AllCells.ElementAt(
-                            new Vector(x, y + 1), map.Size)));
+                        Is.EqualTo(map.AllCells[new Vector(x, y + 1)]));
                 }
             }
         }
