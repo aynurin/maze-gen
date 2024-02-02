@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "ms-dotnettools.csdevkit",
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+        "github.remotehub",
+        "github.vscode-github-actions",
+        "bierner.markdown-preview-github-styles",
+        "tabnine.tabnine-vscode"
+    ]
+}
