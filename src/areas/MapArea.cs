@@ -120,7 +120,7 @@ namespace PlayersWorlds.Maps.Areas {
         /// <param name="position">The position of the area.</param>
         /// <param name="tags">The tags for the area.</param>
         public static MapArea Create(
-            AreaType type, Vector size, Vector position, params string[] tags) {
+            AreaType type, Vector position, Vector size, params string[] tags) {
             if (position.IsEmpty) {
                 throw new ArgumentException("Position cannot be empty.");
             }

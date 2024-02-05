@@ -133,7 +133,7 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void CanRenderAMapWithHallAreas() {
             _maze.AddArea(MapArea.Create(
-                AreaType.Hall, new Vector(4, 2), new Vector(0, 0)));
+                AreaType.Hall, new Vector(0, 0), new Vector(4, 2)));
             _maze.ApplyAreas();
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 2, 3, 3, 2 },

@@ -6,6 +6,9 @@
         "github.remotehub",
         "github.vscode-github-actions",
         "bierner.markdown-preview-github-styles",
-        "tabnine.tabnine-vscode"
+        "tabnine.tabnine-vscode",
+        "aaron-bond.better-comments",
+        "bierner.github-markdown-preview",
+        "ryanluker.vscode-coverage-gutters"
     ]
 }

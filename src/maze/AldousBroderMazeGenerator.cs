@@ -13,16 +13,24 @@ namespace PlayersWorlds.Maps.Maze {
         /// <param name="layout">The layout to generate the maze in.</param>
         /// <param name="options">The generator options to use.</param>
         override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
-            var currentCell = layout.UnlinkedCells.GetRandom();
-            var visitedCells = new HashSet<MazeCell>() { currentCell };
-            while (!IsFillComplete(options, layout)) {
-                var next = currentCell.Neighbors().GetRandom();
-                if (!visitedCells.Contains(next)) {
-                    currentCell.Link(next);
-                    visitedCells.Add(next);
+            var builder = new Maze2DBuilder(layout, options);
+            var currentCell = builder.PickRandomCellToLink();
+            builder.MarkConnected(currentCell);
+            while (!builder.IsFillComplete()) {
+                var next = builder.PickRandomNeighborToLink(currentCell);
+                if (!next.HasValue) {
+                    throw new NotImplementedException(
+                        $"Investigate PickRandomNeighborToLink returning " +
+                        $"empty for neighbors of {currentCell} in maze:\n" +
+                        layout.ToString());
                 }
-                currentCell = next;
+                if (!builder.IsVisited(next.Value)) {
+                    currentCell.Link(next.Value);
+                    builder.MarkConnected(next.Value);
+                }
+                currentCell = next.Value;
             }
+            builder.ConnectHalls();
         }
     }
 }

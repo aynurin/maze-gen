@@ -144,28 +144,23 @@ namespace PlayersWorlds.Maps {
 
             var current = xyValue.Clone() as int[];
 
-            while (true) {
+            var dimension = 0;
+            while (dimension < current.Length) {
                 var position = new Vector(current);
                 yield return (position, this[position]);
 
                 // Increment coordinates, wrapping back to 0 when reaching the
                 // end of a dimension
-                var i = current.Length - 1;
-                while (i >= 0) {
-                    current[i]++;
-                    if (current[i] < (xyValue[i] + sizeValue[i])) {
+                for (dimension = 0; dimension < current.Length; dimension++) {
+                    current[dimension]++;
+                    if (current[dimension] <
+                        (xyValue[dimension] + sizeValue[dimension])) {
                         // Complete if we haven't exceeded the end of the
                         // dimension
                         break;
                     }
                     // Move to the next dimension if we haven't reached the end
-                    current[i] = xyValue[i]; // Wrap back to 0
-                    i--;
-                }
-
-                // Iteration complete when all coordinates are back to 0
-                if (i < 0) {
-                    break;
+                    current[dimension] = xyValue[dimension]; // Wrap back to 0
                 }
             }
         }

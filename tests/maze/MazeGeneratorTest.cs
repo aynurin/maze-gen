@@ -22,7 +22,7 @@ namespace PlayersWorlds.Maps.Maze {
                 }
                 return new[] {
                     MapArea.Create(
-                        AreaType.Hall, new Vector(2, 3), new Vector(0, 0))
+                        AreaType.Hall, new Vector(0, 0), new Vector(2, 3))
                 };
             }
         }
@@ -250,10 +250,10 @@ namespace PlayersWorlds.Maps.Maze {
                     Algorithm = generatorType,
                     MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
                     MapAreas = new List<MapArea>() {
-                            MapArea.Create(AreaType.Fill, new Vector(2, 3), new Vector(2, 1)),
-                            MapArea.Create(AreaType.Fill, new Vector(3, 4), new Vector(1, 5)),
-                            MapArea.Create(AreaType.Hall, new Vector(3, 2), new Vector(5, 6)),
-                            MapArea.Create(AreaType.Hall, new Vector(4, 3), new Vector(5, 1))
+                            MapArea.Create(AreaType.Fill, new Vector(2, 1), new Vector(2, 3)),
+                            MapArea.Create(AreaType.Fill, new Vector(1, 5), new Vector(3, 4)),
+                            MapArea.Create(AreaType.Hall, new Vector(5, 6), new Vector(3, 2)),
+                            MapArea.Create(AreaType.Hall, new Vector(5, 1), new Vector(4, 3))
                     }
                 });
             var log = Log.CreateForThisTest();
@@ -361,15 +361,15 @@ namespace PlayersWorlds.Maps.Maze {
             yield return null;
             yield return new List<MapArea>();
             yield return new List<MapArea>() {
-                MapArea.Create(AreaType.Fill, new Vector(2, 3), new Vector(3, 2)) };
+                MapArea.Create(AreaType.Fill, new Vector(3, 2), new Vector(2, 3)) };
             yield return new List<MapArea>() {
                 MapArea.Create(AreaType.Hall, new Vector(3, 2), new Vector(3, 2)) };
             yield return new List<MapArea>() {
-                MapArea.Create(AreaType.Fill, new Vector(2, 3), new Vector(3, 2)),
-                MapArea.Create(AreaType.Hall, new Vector(3, 2), new Vector(6, 5)) };
+                MapArea.Create(AreaType.Fill, new Vector(3, 2), new Vector(2, 3)),
+                MapArea.Create(AreaType.Hall, new Vector(6, 5), new Vector(3, 2)) };
             yield return new List<MapArea>() {
-                MapArea.Create(AreaType.Hall, new Vector(2, 3), new Vector(3, 2)),
-                MapArea.Create(AreaType.Fill, new Vector(3, 2), new Vector(6, 5)) };
+                MapArea.Create(AreaType.Hall, new Vector(3, 2), new Vector(2, 3)),
+                MapArea.Create(AreaType.Fill, new Vector(6, 5), new Vector(3, 2)) };
         }
 
         private static bool IsSupported(

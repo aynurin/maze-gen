@@ -1,6 +1,7 @@
 {
   "dotnet.server.useOmnisharp": true,
   "omnisharp.useModernNet": false,
+  "omnisharp.enableEditorConfigSupport": true,
   "cSpell.words": [
     "Aldous",
     "Appender",
@@ -26,16 +27,21 @@
     "Yennefer",
     "ZEBR"
   ],
-
   // Run background code analysis for: (Previously `omnisharp.enableRoslynAnalyzers`)
   //  - openFiles: Open documents
   //  - fullSolution: Entire solution
   //  - none: None
   "dotnet.backgroundAnalysis.analyzerDiagnosticsScope": "fullSolution",
-
   // Show compiler errors and warnings for:
   //  - openFiles: Open documents
   //  - fullSolution: Entire solution
   //  - none: None
-  "dotnet.backgroundAnalysis.compilerDiagnosticsScope": "fullSolution"
+  "dotnet.backgroundAnalysis.compilerDiagnosticsScope": "fullSolution",
+  "dotnet.preferCSharpExtension": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.renderFinalNewline": "on",
+  "editor.rulers": [
+    80,
+  ],
 }

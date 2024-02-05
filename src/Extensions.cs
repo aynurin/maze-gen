@@ -82,6 +82,35 @@ namespace PlayersWorlds.Maps {
                 dictionary.Add(key, value);
             }
         }
+
+        public static void Set<K, V>(this Dictionary<K, List<V>> dictionary,
+            K key, V value) {
+            if (dictionary.ContainsKey(key)) {
+                dictionary[key].Add(value);
+            } else {
+                dictionary.Add(key, new List<V>() { value });
+            }
+        }
+
+        public static IEnumerable<(K, V)> GetAll<K, V>(
+            this Dictionary<K, V> dictionary,
+            IEnumerable<K> keys) {
+            foreach (var k in keys) {
+                if (dictionary.ContainsKey(k)) {
+                    yield return (k, dictionary[k]);
+                }
+            }
+        }
+
+        public static IEnumerable<K> GetAll<K>(this HashSet<K> hashSet,
+            IEnumerable<K> keys) {
+            foreach (var k in keys) {
+                if (hashSet.Contains(k)) {
+                    yield return k;
+                }
+            }
+        }
+
         public static bool TryDequeue<T>(this Queue<T> queue, out T result) {
             try {
                 result = queue.Dequeue();

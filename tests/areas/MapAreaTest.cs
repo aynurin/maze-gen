@@ -7,7 +7,7 @@ namespace PlayersWorlds.Maps.Areas {
     internal class MapAreaTest {
         private static MapArea NewArea(int x, int y, int width, int height) {
             return MapArea.Create(
-                AreaType.None, new Vector(width, height), new Vector(x, y));
+                AreaType.None, new Vector(x, y), new Vector(width, height));
         }
 
         [Test]
@@ -70,8 +70,8 @@ namespace PlayersWorlds.Maps.Areas {
             Assert.That(() =>
                 MapArea.Create(
                     AreaType.None,
-                    new Vector(10, 10),
-                    Vector.Empty),
+                    Vector.Empty,
+                    new Vector(10, 10)),
                 Throws.TypeOf<ArgumentException>());
         }
     }

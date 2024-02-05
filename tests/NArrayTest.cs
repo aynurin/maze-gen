@@ -227,10 +227,10 @@ namespace PlayersWorlds.Maps {
             var debugString = string.Join(",", cells.Select(c => map.IndexOf(c.cell)));
             Assert.That(6, Is.EqualTo(cells.Count()));
             Assert.That(new Vector(0, 0), Is.EqualTo(map.IndexOf(cells[0].cell)), "0,0: " + debugString);
-            Assert.That(new Vector(0, 1), Is.EqualTo(map.IndexOf(cells[1].cell)), "0,1: " + debugString);
-            Assert.That(new Vector(1, 0), Is.EqualTo(map.IndexOf(cells[2].cell)), "1,0: " + debugString);
-            Assert.That(new Vector(1, 1), Is.EqualTo(map.IndexOf(cells[3].cell)), "1,1: " + debugString);
-            Assert.That(new Vector(2, 0), Is.EqualTo(map.IndexOf(cells[4].cell)), "2,0: " + debugString);
+            Assert.That(new Vector(1, 0), Is.EqualTo(map.IndexOf(cells[1].cell)), "1,0: " + debugString);
+            Assert.That(new Vector(2, 0), Is.EqualTo(map.IndexOf(cells[2].cell)), "2,0: " + debugString);
+            Assert.That(new Vector(0, 1), Is.EqualTo(map.IndexOf(cells[3].cell)), "0,1: " + debugString);
+            Assert.That(new Vector(1, 1), Is.EqualTo(map.IndexOf(cells[4].cell)), "1,1: " + debugString);
             Assert.That(new Vector(2, 1), Is.EqualTo(map.IndexOf(cells[5].cell)), "2,1: " + debugString);
         }
 
@@ -241,8 +241,8 @@ namespace PlayersWorlds.Maps {
             var debugString = string.Join(",", cells.Select(c => map.IndexOf(c.cell)));
             Assert.That(4, Is.EqualTo(cells.Count()));
             Assert.That(new Vector(3, 3), Is.EqualTo(map.IndexOf(cells[0].cell)), "3,3: " + debugString);
-            Assert.That(new Vector(3, 4), Is.EqualTo(map.IndexOf(cells[1].cell)), "3,4: " + debugString);
-            Assert.That(new Vector(4, 3), Is.EqualTo(map.IndexOf(cells[2].cell)), "4,3: " + debugString);
+            Assert.That(new Vector(4, 3), Is.EqualTo(map.IndexOf(cells[1].cell)), "4,3: " + debugString);
+            Assert.That(new Vector(3, 4), Is.EqualTo(map.IndexOf(cells[2].cell)), "3,4: " + debugString);
             Assert.That(new Vector(4, 4), Is.EqualTo(map.IndexOf(cells[3].cell)), "4,4: " + debugString);
         }
 

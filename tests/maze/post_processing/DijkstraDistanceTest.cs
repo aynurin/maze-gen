@@ -22,7 +22,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         public void DijkstraDistance_CanSolveAMaze() {
             var maze = Maze2D.Parse("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance
-                .Solve(maze.UnlinkedCells.First(), maze.UnlinkedCells.Last());
+                .Solve(maze.AllCells.First(), maze.AllCells.Last());
             Assert.That(solution.HasValue, Is.True);
             Assert.That(5, Is.EqualTo(solution.Value.Count));
             Assert.That(new Vector(0, 0), Is.EqualTo(

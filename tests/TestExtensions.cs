@@ -26,6 +26,10 @@ public static class TestExtensions {
         }
         var position = VectorD.Parse(parts[0]).RoundToInt();
         var size = VectorD.Parse(parts[1]).RoundToInt();
-        return MapArea.Create(AreaType.None, size, position);
+        return MapArea.Create(AreaType.None, position, size);
+    }
+
+    public static HashSet<T> ToHashSet<T>(this IEnumerable<T> collection) {
+        return new HashSet<T>(collection);
     }
 }

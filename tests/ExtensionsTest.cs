@@ -32,6 +32,47 @@ namespace PlayersWorlds.Maps {
             Assert.That(o.ShortDebugString(), Is.EqualTo(expectedShort));
         }
 
+        [Test]
+        public void Set() {
+            var dict = new Dictionary<int, int>();
+            dict.Set(1, 2);
+            dict.Set(2, 3);
+            dict.Set(1, 4);
+            Assert.That(dict.Count, Is.EqualTo(2));
+            Assert.That(dict[1], Is.EqualTo(4));
+            Assert.That(dict[2], Is.EqualTo(3));
+        }
+
+        [Test]
+        public void SetList() {
+            var dict = new Dictionary<int, List<int>>();
+            dict.Set(1, 2);
+            dict.Set(2, 3);
+            dict.Set(1, 4);
+            Assert.That(dict.Count, Is.EqualTo(2));
+            Assert.That(dict[1], Is.EqualTo(new List<int>() { 2, 4 }));
+            Assert.That(dict[2], Is.EqualTo(new List<int>() { 3 }));
+        }
+
+        [Test]
+        public void GetAllDictionaryItems() {
+            var dict = new Dictionary<int, string>() {
+                {1, "a"},
+                {2, "b"},
+                {3, "c"}
+            };
+            var items = dict.GetAll(new int[] { 1, 3 });
+            Assert.That(items,
+                Is.EqualTo(new (int, string)[] { (1, "a"), (3, "c") }));
+        }
+
+        [Test]
+        public void GetAllHashSetKeys() {
+            var dict = new HashSet<int>() { { 1 }, { 2 }, { 3 } };
+            var items = dict.GetAll(new int[] { 1, 3 });
+            Assert.That(items, Is.EqualTo(new int[] { 1, 3 }));
+        }
+
         private class X {
             public int A { get; set; }
             public string B { get; set; }

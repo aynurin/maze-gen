@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
@@ -136,6 +137,17 @@ namespace PlayersWorlds.Maps {
         }
 
         [Test]
+        public void IsIn() {
+            Assert.That(new Vector(-1, 2).IsIn(new Vector(-2, -2), new Vector(5, 5)), Is.True);
+            Assert.That(new Vector(2, 2).IsIn(new Vector(2, 2), new Vector(2, 2)), Is.True);
+            Assert.That(new Vector(3, 2).IsIn(new Vector(2, 2), new Vector(2, 2)), Is.True);
+            Assert.That(new Vector(2, 3).IsIn(new Vector(2, 2), new Vector(2, 2)), Is.True);
+            Assert.That(new Vector(3, 3).IsIn(new Vector(2, 2), new Vector(2, 2)), Is.True);
+            Assert.That(new Vector(4, 4).IsIn(new Vector(2, 2), new Vector(2, 2)), Is.False);
+            Assert.That(new Vector(1, 1).IsIn(new Vector(2, 2), new Vector(2, 2)), Is.False);
+        }
+
+        [Test]
         public void ToIndex_Matches_ToIndex() {
             var vector = new Vector(new int[] { 2, 0 });
             var one = vector.ToIndex(new Vector(10, 10));
@@ -227,6 +239,14 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void FromIndex_ShouldThrowException_DimensionMismatch() {
             Assert.That(() => Vector.FromIndex(28, new Vector(new int[] { 10 })), Throws.ArgumentException);
+        }
+
+        [Test]
+        public void NorthEastComparer_ComparesCorrectly() {
+            var actual = new List<Vector> { new Vector(1, 2), new Vector(3, 4) };
+            actual.Sort(new Vector.NorthEastComparer());
+            var expected = new List<Vector> { new Vector(1, 2), new Vector(3, 4) };
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }

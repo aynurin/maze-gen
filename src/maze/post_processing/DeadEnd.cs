@@ -16,7 +16,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         /// Find dead ends in the maze.
         /// </summary>
         public static List<MazeCell> Find(Maze2D maze) {
-            var deadEnds = maze.UnlinkedCells.Where(cell => cell.Links().Count == 1)
+            var deadEnds = maze.AllCells.Where(cell => cell.Links().Count == 1)
                 .ToList();
             foreach (var cell in deadEnds) {
                 cell.Attributes.Set(DeadEndAttribute,

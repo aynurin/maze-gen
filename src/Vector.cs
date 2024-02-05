@@ -157,7 +157,8 @@ namespace PlayersWorlds.Maps {
         /// </returns>
         public static Vector operator +(Vector one, Vector another) =>
             ThrowIfEmptyOrApply(one, another,
-                (a, b) => new Vector(one._value.Zip(another._value, (x1, x2) => x1 + x2)));
+                (a, b) => new Vector(
+                    one._value.Zip(another._value, (x1, x2) => x1 + x2)));
 
         /// <summary>
         /// Subtracts one vector from another by subtracting each component of
@@ -167,13 +168,30 @@ namespace PlayersWorlds.Maps {
         /// <param name="another">The vector to subtract</param>
         /// <returns>A new vector with the difference</returns>
         public static Vector operator -(Vector one, Vector another) =>
-            ThrowIfEmptyOrApply(one, another, (a, b) => new Vector(one._value.Zip(another._value, (x1, x2) => x1 - x2)));
+            ThrowIfEmptyOrApply(one, another,
+                (a, b) => new Vector(
+                    one._value.Zip(another._value, (x1, x2) => x1 - x2)));
 
         /// <summary>
-        /// Checks if a region of size <paramref name="container"/> fits a region
-        /// of the size of this vector.
+        /// Checks if a region of size <paramref name="container"/> fits a
+        /// region of the size of this vector.
         /// </summary>
-        public bool FitsInto(Vector container) => _value.Zip(container._value, (a, b) => a <= b).All(b => b);
+        // TODO: Rename to AllComponentsAreLessOrEqual? Or something like that?
+        public bool FitsInto(Vector container) =>
+            _value.Zip(container._value, (a, b) => a <= b).All(b => b);
+
+        /// <summary>
+        /// Checks if this point is inside a region positioned at
+        /// <paramref name="position"/> of size <paramref name="size"/>.
+        /// </summary>
+        /// <param name="position">Position of the container</param>
+        /// <param name="size">Size of the container</param>
+        /// <returns><c>true</c> if the point fits in the container, otherwise
+        /// <c>false</c></returns>
+        public bool IsIn(Vector position, Vector size) =>
+            position._value.Zip(size._value, (p, s) => new int[] { p, p + s })
+                           .Zip(_value, (ps, v) => v >= ps[0] && v < ps[1])
+                           .All(isIn => isIn);
 
         /// <summary>
         /// <see cref="Equals(Vector)"/>.
@@ -258,6 +276,21 @@ namespace PlayersWorlds.Maps {
                 throw new ArgumentException("Index does not fit into space dimensions");
             }
             return new Vector(coordinates);
+        }
+
+        /// <summary>
+        /// Compares two <see cref="Vector"/>s based on their components so that
+        /// components with lower coordinates come first.
+        /// </summary>
+        public class NorthEastComparer : IComparer<Vector> {
+            /// <inheritdoc />
+            public int Compare(Vector a, Vector b) {
+                var cmp = a.Y - b.Y;
+                if (cmp == 0) {
+                    cmp = a.X - b.X;
+                }
+                return cmp;
+            }
         }
     }
 }

@@ -129,7 +129,8 @@ namespace PlayersWorlds.Maps.Maze {
         /// Links all cells in <see cref="AreaType.Hall" /> and
         /// <see cref="AreaType.Cave" /> areas, and removes
         /// <see cref="AreaType.Fill" /> area cells from the neighbors and
-        /// links.
+        /// links. This should be called in MazeGenerator.Generate() after the
+        /// generator algorithm completes.
         /// </summary>
         public void ApplyAreas() {
             foreach (var area in _mapAreas) {
@@ -196,8 +197,13 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = new Maze2D(new Vector(parts[0].Split('x').Select(int.Parse)));
             for (var i = 1; i < parts.Length; i++) {
                 var part = parts[i].Split(':', ',').Select(int.Parse).ToArray();
-                for (var j = 1; j < part.Length; j++)
+                if (part.Length > 1) {
+                    maze._unlinkedCells.Remove(maze.AllCells[part[0]]);
+                }
+                for (var j = 1; j < part.Length; j++) {
                     maze.AllCells[part[0]].Link(maze.AllCells[part[j]]);
+                    maze._unlinkedCells.Remove(maze.AllCells[part[0]]);
+                }
             }
             return maze;
         }
