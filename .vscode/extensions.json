@@ -9,6 +9,7 @@
         "tabnine.tabnine-vscode",
         "aaron-bond.better-comments",
         "bierner.github-markdown-preview",
-        "ryanluker.vscode-coverage-gutters"
+        "ryanluker.vscode-coverage-gutters",
+        "ms-vscode.mono-debug"
     ]
 }

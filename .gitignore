@@ -4,7 +4,7 @@ bin
 obj
 packages
 
-# Visual Studio 2015 / MonoDevelop
+# Visual Studio 2015 / MonoDevelop / other tools
 .vs/
 *.log
 
@@ -12,3 +12,6 @@ packages
 .cache
 /docfx/_site
 /docfx/api
+
+# mono
+*.mlpd

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using PlayersWorlds.Maps.Areas;
 
 namespace PlayersWorlds.Maps.Maze {
     /// <summary>
@@ -10,27 +12,31 @@ namespace PlayersWorlds.Maps.Maze {
         /// Generates a maze using Aldous-Broder algorithm in the specified
         /// layout.
         /// </summary>
-        /// <param name="layout">The layout to generate the maze in.</param>
-        /// <param name="options">The generator options to use.</param>
-        override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
-            var builder = new Maze2DBuilder(layout, options);
-            var currentCell = builder.PickRandomCellToLink();
-            builder.MarkConnected(currentCell);
+        /// <remarks>
+        /// Aldous-Broder's algorithm walks the maze via random neighbors. It
+        /// does not stretch far by picking random maze cells. Some of the side
+        /// effects is that if there are scattered areas, it has a high chance
+        /// of not connecting all areas with sparce maze fill factors.
+        /// </remarks>
+        /// <param name="builder"><see cref="Maze2DBuilder" /> instance for
+        /// the maze to be generated.</param>
+        override public void GenerateMaze(Maze2DBuilder builder) {
+            var currentCell = builder.PickNextCellToLink();
+            var walkPath = new List<MazeCell>();
             while (!builder.IsFillComplete()) {
-                var next = builder.PickRandomNeighborToLink(currentCell);
-                if (!next.HasValue) {
+                walkPath.Add(currentCell);
+                if (builder.TryPickRandomNeighbor(currentCell, out var next)) {
+                    if (!builder.IsConnected(next)) {
+                        builder.Connect(currentCell, next);
+                    }
+                    currentCell = next;
+                } else {
                     throw new NotImplementedException(
-                        $"Investigate PickRandomNeighborToLink returning " +
-                        $"empty for neighbors of {currentCell} in maze:\n" +
-                        layout.ToString());
+                        $"Investigate TryPickRandomNeighbor returning " +
+                        $"empty for neighbors of {currentCell} (walk path: {string.Join(",", walkPath)}) in maze:\n" +
+                        builder.ToString());
                 }
-                if (!builder.IsVisited(next.Value)) {
-                    currentCell.Link(next.Value);
-                    builder.MarkConnected(next.Value);
-                }
-                currentCell = next.Value;
             }
-            builder.ConnectHalls();
         }
     }
 }

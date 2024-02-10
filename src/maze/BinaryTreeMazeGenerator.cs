@@ -1,4 +1,7 @@
 using System;
+using System.Diagnostics;
+using System.Linq;
+using static PlayersWorlds.Maps.Maze.GeneratorOptions;
 
 namespace PlayersWorlds.Maps.Maze {
     /// <summary>
@@ -9,25 +12,41 @@ namespace PlayersWorlds.Maps.Maze {
         /// Generates a maze using Binary Tree algorithm in the specified
         /// layout.
         /// </summary>
-        /// <param name="layout">The layout to generate the maze in.</param>
-        /// <param name="options">The generator options to use.</param>
-        override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
-            if (options.FillFactor != GeneratorOptions.FillFactorOption.Full) {
-                throw new ArgumentException(this.GetType().Name + " doesn't currently " +
-                    "support fill factors other than Full");
-            }
-            var states = GlobalRandom.NextBytes(layout.Area);
-            for (var i = 0; i < layout.UnlinkedCells.Count; i++) {
-                var cell = layout.UnlinkedCells[i];
-                var linkNorth = states[i] % 2 == 0;
-                // link north
-                if ((linkNorth || !cell.Neighbors(Vector.East2D).HasValue) && cell.Neighbors(Vector.North2D).HasValue) {
-                    cell.Link(cell.Neighbors(Vector.North2D).Value);
+        /// <param name="builder"><see cref="Maze2DBuilder" /> instance for
+        /// the maze to be generated.</param>
+        override public void GenerateMaze(Maze2DBuilder builder) {
+            builder.ThrowIfIncompatibleOptions(new GeneratorOptions() {
+                FillFactor = FillFactorOption.Full,
+            });
+            var states = GlobalRandom.NextBytes(builder.AllMazeCells().Count);
+            var i = 0;
+            foreach (var currentCell in builder.AllMazeCells()) {
+                var linkNorth = states[i++] % 2 == 0;
+                var canConnectEast = builder.CanConnect(currentCell, Vector.East2D);
+                var canConnectNorth = builder.CanConnect(currentCell, Vector.North2D);
+                MazeCell cellToLink = null;
+                if ((linkNorth || !canConnectEast) && canConnectNorth) {
+                    cellToLink = currentCell.Neighbors(Vector.North2D).Value;
+                } else if (canConnectEast) {
+                    cellToLink = currentCell.Neighbors(Vector.East2D).Value;
                 }
 
-                // link east
-                if ((!linkNorth || !cell.Neighbors(Vector.North2D).HasValue) && cell.Neighbors(Vector.East2D).HasValue) {
-                    cell.Link(cell.Neighbors(Vector.East2D).Value);
+                if (cellToLink == null && currentCell.Links().Count == 0) {
+                    // This link is not connected, and won't be connected
+                    // because of this maze geometry. Let's connect it to
+                    // any other cell so that it's not left out.
+                    if (!builder.TryPickRandomNeighbor(
+                            currentCell, out cellToLink)) {
+                        // this cell doesn't have any neighbors we can
+                        // connect. Perhaps it is surrounded by walls,
+                        // filled areas, or halls.
+                        Trace.TraceWarning(
+                            $"BinaryTreeMazeGenerator could not find any " +
+                            $"neighbors to connect {currentCell} to.");
+                    }
+                }
+                if (cellToLink != null) {
+                    builder.Connect(currentCell, cellToLink);
                 }
             }
         }

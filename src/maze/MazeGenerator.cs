@@ -14,9 +14,9 @@ namespace PlayersWorlds.Maps.Maze {
         /// <summary>
         /// When implemented in a derived class, generates a new maze.
         /// </summary>
-        /// <param name="maze">The maze layout to generate the maze in.</param>
-        /// <param name="options">Maze generator options.</param>
-        public abstract void GenerateMaze(Maze2D maze, GeneratorOptions options);
+        /// <param name="builder"><see cref="Maze2DBuilder" /> instance for
+        /// the maze to be generated.</param>
+        public abstract void GenerateMaze(Maze2DBuilder builder);
 
         /// <summary>
         /// A helper method to generate a new maze.
@@ -29,7 +29,11 @@ namespace PlayersWorlds.Maps.Maze {
         /// <exception cref="ArgumentException">The provided maze generator type
         /// is not inherited from <see cref="MazeGenerator" /> or does not
         /// provide a default constructor.</exception>
-        public static Maze2D Generate(Vector size, GeneratorOptions options) {
+        public static Maze2D Generate(Vector size, GeneratorOptions options) =>
+            Generate(size, options, out var _);
+
+        internal static Maze2D Generate(Vector size, GeneratorOptions options,
+            out Maze2DBuilder builder) {
             if (options.Algorithm == null) {
                 throw new ArgumentNullException(
                     "Please specify maze generation algorithm using " +
@@ -49,16 +53,22 @@ namespace PlayersWorlds.Maps.Maze {
             }
 
             var maze = new Maze2D(size);
-            Console.WriteLine($"{options.Algorithm.Name}: Generating maze " +
-                $"{maze.Size} with {options.ShortDebugString()}");  /*  */
-            GenerateMazeAreas(size, options, maze);
-            (Activator.CreateInstance(options.Algorithm) as MazeGenerator)
-                .GenerateMaze(maze, options);
-            maze.ApplyAreas();
-            maze.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(maze));
-            maze.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
-                DijkstraDistance.FindLongestTrail(maze));
-            return maze;
+            try {
+                Console.WriteLine($"{options.Algorithm.Name}: Generating maze " +
+                    $"{maze.Size} with {options.ShortDebugString()}");  /*  */
+                GenerateMazeAreas(size, options, maze);
+                builder = new Maze2DBuilder(maze, options);
+                (Activator.CreateInstance(options.Algorithm) as MazeGenerator)
+                    .GenerateMaze(builder);
+                builder.ConnectHalls();
+                maze.ApplyAreas();
+                maze.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(maze));
+                maze.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
+                    DijkstraDistance.FindLongestTrail(maze));
+                return maze;
+            } catch (Exception ex) {
+                throw new MazeGenerationException(maze, ex);
+            }
         }
 
         private static void GenerateMazeAreas(Vector mazeSize,
@@ -101,7 +111,7 @@ namespace PlayersWorlds.Maps.Maze {
                 if (attempts == 0) {
                     var roomsDebugStr =
                         areas.Select(a => $"P{a.Position};S{a.Size}");
-                    throw new MazeGenerationException(
+                    throw new InvalidOperationException(
                         $"Could not generate rooms for maze of size {mazeSize}. " +
                         $"Last set of rooms had {errors} errors " +
                         $"({string.Join(" ", roomsDebugStr)}).");

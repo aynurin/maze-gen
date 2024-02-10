@@ -11,21 +11,30 @@ namespace PlayersWorlds.Maps.Maze {
         /// Generates a maze using Hunt-and-kill algorithm in the specified
         /// layout.
         /// </summary>
-        /// <param name="layout">The layout to generate the maze in.</param>
-        /// <param name="options">The generator options to use.</param>
-        override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
-            var currentCell = layout.UnlinkedCells.GetRandom();
-            while (!IsFillComplete(options, layout)) {
-                var potentiallyNext = currentCell.Neighbors().Where(cell => !cell.IsVisited).ToList();
-                if (potentiallyNext.Count > 0) {
-                    var nextCell = potentiallyNext.GetRandom();
-                    currentCell.Link(nextCell);
+        /// <remarks>
+        /// Just like Aldous-Broder's algorithm, this algorithm walks the maze
+        /// in a modest way without trying to reach far. So in the same way it
+        /// has a high chance of not connecting all areas with sparce maze fill 
+        /// factors.
+        /// </remarks>
+        /// <param name="builder"><see cref="Maze2DBuilder" /> instance for
+        /// the maze to be generated.</param>
+        override public void GenerateMaze(Maze2DBuilder builder) {
+            var currentCell = builder.PickNextCellToLink();
+            while (!builder.IsFillComplete()) {
+                if (builder.TryPickRandomNeighbor(
+                        currentCell, out var nextCell, true)) {
+                    builder.Connect(currentCell, nextCell);
                     currentCell = nextCell;
                 } else {
-                    foreach (var hunt in layout.UnlinkedCells) {
-                        if (!hunt.IsVisited && hunt.Neighbors().Any(cell => cell.IsVisited)) {
+                    foreach (var hunt in builder.AvailableCells()) {
+                        var firstVisitedNeighbor =
+                            hunt.Neighbors()
+                                .Where(builder.IsConnected)
+                                .FirstOrDefault();
+                        if (firstVisitedNeighbor != null) {
                             currentCell = hunt;
-                            currentCell.Link(hunt.Neighbors().Where(cell => cell.IsVisited).First());
+                            builder.Connect(currentCell, firstVisitedNeighbor);
                             break;
                         }
                     }

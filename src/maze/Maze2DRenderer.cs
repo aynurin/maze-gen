@@ -288,6 +288,20 @@ namespace PlayersWorlds.Maps.Maze {
                     new int[] { wallCellSize.Y }
                 );
 
+            /// <summary>
+            /// Creates an instance of <see cref="MazeToMapOptions" /> with
+            /// rectangular wall and trail cell sizes.
+            /// </summary>
+            public static MazeToMapOptions RectCells(
+                int cellWidth,
+                int cellHeight)
+                => new MazeToMapOptions(
+                    new int[] { cellWidth },
+                    new int[] { cellHeight },
+                    new int[] { cellWidth },
+                    new int[] { cellHeight }
+                );
+
             internal void ThrowIfWrong(Vector mazeSize) {
                 var msg = "Please provide {0} for all {1}. The provided maze " +
                           "({2}) should have {3} {1} {0} (or only one, same " +

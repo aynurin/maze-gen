@@ -5,6 +5,8 @@ namespace PlayersWorlds.Maps {
     /// Represents a container object which may or may not contain a non-null value.
     /// </summary>
     /// <typeparam name="T">The type of the value contained in the Optional.</typeparam>
+    // TODO: See if we can get rid of this class by leveraging the conventional
+    //       TryGetValue pattern.
     public class Optional<T>
     where T : class {
 

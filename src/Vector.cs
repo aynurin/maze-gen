@@ -279,6 +279,16 @@ namespace PlayersWorlds.Maps {
         }
 
         /// <summary>
+        /// Parses a string of a form <c>1x2</c> into a <see cref="Vector"/>.
+        /// </summary>
+        /// <param name="serialized">Serialized representation of a vector
+        /// </param>
+        /// <returns>A new instance of <see cref="Vector"/></returns>
+        public static Vector Parse(string serialized) {
+            return new Vector(serialized.Split('x').Select(int.Parse));
+        }
+
+        /// <summary>
         /// Compares two <see cref="Vector"/>s based on their components so that
         /// components with lower coordinates come first.
         /// </summary>

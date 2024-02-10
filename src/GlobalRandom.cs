@@ -19,17 +19,46 @@ namespace PlayersWorlds.Maps {
             return rndBytes;
         }
 
-        public static T GetRandom<T>(this IList<T> items) =>
+        [Obsolete("Use Random() instead.")]
+        public static T GetRandom<T>(this IList<T> items) => items.Random();
+
+        public static T Random<T>(this IList<T> items) =>
             items.Count == 0 ?
                 throw new InvalidOperationException(
                     "Cannot get a random item from an empty list") :
                 items[s_random.Next(items.Count)];
 
+        [Obsolete("Use Random(int) instead.")]
         public static T GetRandom<T>(this IEnumerable<T> items, int count) =>
-            items.ElementAt(s_random.Next(count));
+            items.Random(count);
 
+        public static T Random<T>(this IEnumerable<T> items, int count) =>
+            count == 0 ?
+                throw new InvalidOperationException(
+                    "Cannot get a random item from an empty list") :
+                items.ElementAt(s_random.Next(count));
+
+        [Obsolete("Use Random() instead.")]
         public static T GetRandom<T>(this IEnumerable<T> items) =>
-            new List<T>(items).GetRandom();
+            items.Random();
+
+        public static T Random<T>(this IEnumerable<T> items) {
+            var list = new List<T>(items);
+            if (list.Count == 0) {
+                throw new InvalidOperationException(
+                    "Cannot get a random item from an empty list");
+            }
+            return list.Random();
+        }
+
+        public static T RandomOrDefault<T>(this IEnumerable<T> items) {
+            var list = new List<T>(items);
+            if (list.Count == 0) {
+                throw new InvalidOperationException(
+                    "Cannot get a random item from an empty list");
+            }
+            return list.Random();
+        }
 
         public static float RandomSingle() => s_random.Next(99999) / 100000f;
     }

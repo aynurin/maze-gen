@@ -51,25 +51,24 @@ namespace PlayersWorlds.Maps.Maze {
         public void CanGenerateMazes(
             [ValueSource("GetAllGenerators")] Type generatorType
         ) {
-            var generator = (MazeGenerator)Activator.CreateInstance(generatorType);
             var maze = MazeGenerator.Generate(
                 new Vector(20, 20), new GeneratorOptions() {
                     FillFactor = GeneratorOptions.FillFactorOption.Full,
                     Algorithm = generatorType
                 });
-            Assert.That(maze.UnlinkedCells.Count == 400, Is.True);
-            Assert.That(maze.UnlinkedCells.Any(cell => cell.Links().Count > 0), Is.True);
+            Log.CreateForThisTest().D(5, maze.ToString());
+            Assert.That(maze.AllCells.Count(cell => cell.Links().Count == 0), Is.EqualTo(0));
         }
 
         [Test]
         public void OnlyFullGenerators() {
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<MazeGenerationException>(() =>
                 MazeGenerator.Generate(new Vector(10, 10),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.BinaryTree,
                     FillFactor = GeneratorOptions.FillFactorOption.Half
                 }));
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<MazeGenerationException>(() =>
                 MazeGenerator.Generate(new Vector(10, 10),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.Sidewinder,
@@ -172,7 +171,7 @@ namespace PlayersWorlds.Maps.Maze {
             [ValueSource("GetGeneratorOptionsMapAreas")]
             List<MapArea> mapAreas
         ) {
-            if (!IsSupported(generatorType, fillFactor)) {
+            if (!MazeTestHelper.IsSupported(generatorType, fillFactor)) {
                 Assert.Ignore();
             }
             var size = new Vector(10, 10);
@@ -210,18 +209,18 @@ namespace PlayersWorlds.Maps.Maze {
 
         class TestGeneratorA : MazeGenerator {
             public TestGeneratorA(string _) : base() { }
-            public override void GenerateMaze(Maze2D map,
-                                              GeneratorOptions options) { }
+            public override void GenerateMaze(Maze2DBuilder builder) { }
         }
 
         class TestGeneratorB : MazeGenerator {
-            public override void GenerateMaze(Maze2D map,
-                                              GeneratorOptions options) {
-                map.AllCells.ForEach(cell => {
-                    if (cell.Neighbors(Vector.East2D).HasValue)
-                        cell.Link(cell.Neighbors(Vector.East2D).Value);
-                    if (cell.Neighbors(Vector.North2D).HasValue)
-                        cell.Link(cell.Neighbors(Vector.North2D).Value);
+            public override void GenerateMaze(Maze2DBuilder builder) {
+                builder.AllMazeCells().ForEach(cell => {
+                    try {
+                        builder.Connect(cell, Vector.East2D);
+                    } catch (InvalidOperationException) { }
+                    try {
+                        builder.Connect(cell, Vector.North2D);
+                    } catch (InvalidOperationException) { }
                 });
             }
         }
@@ -232,10 +231,11 @@ namespace PlayersWorlds.Maps.Maze {
         ) {
             var generator = (MazeGenerator)Activator.CreateInstance(generatorType);
             var map = new Maze2D(3, 4);
-            generator.GenerateMaze(map,
+            var builder = new Maze2DBuilder(map,
                 new GeneratorOptions() {
                     FillFactor = GeneratorOptions.FillFactorOption.Full
                 });
+            generator.GenerateMaze(builder);
             var solution = new List<MazeCell>();
             Assert.DoesNotThrow(() => solution = DijkstraDistance.FindLongestTrail(map));
             Assert.That(solution, Is.Not.Null.Or.Empty);
@@ -370,17 +370,6 @@ namespace PlayersWorlds.Maps.Maze {
             yield return new List<MapArea>() {
                 MapArea.Create(AreaType.Hall, new Vector(3, 2), new Vector(2, 3)),
                 MapArea.Create(AreaType.Fill, new Vector(6, 5), new Vector(3, 2)) };
-        }
-
-        private static bool IsSupported(
-            Type generatorType,
-            GeneratorOptions.FillFactorOption fillFactor) {
-            if ((generatorType == typeof(SidewinderMazeGenerator)
-                 || generatorType == typeof(BinaryTreeMazeGenerator))
-                && fillFactor != GeneratorOptions.FillFactorOption.Full) {
-                return false;
-            }
-            return true;
         }
     }
 }

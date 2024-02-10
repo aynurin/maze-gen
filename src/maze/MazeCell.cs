@@ -25,6 +25,7 @@ namespace PlayersWorlds.Maps.Maze {
             = new Dictionary<string, string>();
 
         /// <summary />
+        // TODO: Rename to Position
         public Vector Coordinates { get; private set; }
 
         /// <summary>
@@ -125,7 +126,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// <summary>
         /// The links between this cell and other cells.
         /// </summary>
-        public List<MazeCell> Links() => _links;
+        public ReadOnlyCollection<MazeCell> Links() => _links.AsReadOnly();
 
         /// <summary>
         /// Get a linked cell in the specified direction.

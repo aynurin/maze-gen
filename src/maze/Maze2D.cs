@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.MapFilters;
 using PlayersWorlds.Maps.Maze.PostProcessing;
@@ -132,6 +133,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// links. This should be called in MazeGenerator.Generate() after the
         /// generator algorithm completes.
         /// </summary>
+        // TODO: Move to MazeBuilder
         public void ApplyAreas() {
             foreach (var area in _mapAreas) {
                 if (area.Key.Type == AreaType.Fill) {
@@ -164,9 +166,9 @@ namespace PlayersWorlds.Maps.Maze {
             options.ThrowIfWrong(this.Size);
             var map = Maze2DRenderer.CreateMapForMaze(this, options);
             new Maze2DRenderer(this, options)
-                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, 1, 1))
-                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, 1, 1))
-                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, 1, 1))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, options.WallWidths.Min(), options.WallHeights.Min()))
+                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, options.WallWidths.Min(), options.WallHeights.Min()))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, options.WallWidths.Min(), options.WallHeights.Min()))
                 .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
                 .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);
@@ -174,10 +176,35 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         /// <summary>
+        /// Returns a serialized representation of this maze.
+        /// </summary>
+        // !! BUG: Currently the serialized representation is not the same as 
+        //  the one used by Parse.
+        // TODO: Create a common serialization approach.
+        public string Serialize() {
+            var linksAdded = new HashSet<int[]>();
+            var size = Size.ToString();
+            var areas = string.Join(",", _mapAreas.Select(area => area.Key.ToString()));
+            var cells = string.Join(",", _cells.Select((cell, index) => {
+                if (_cells[index].Links().Count > 0) {
+                    var links = _cells[index].Links()
+                        .Select(link => link.Coordinates.ToIndex(_size))
+                        .Where(link => !linksAdded.Contains(new int[] { index, link }));
+
+                    linksAdded.UnionWith(links.Select(link => new int[] { link, index }));
+
+                    return $"{index}:{string.Join(" ", links)}";
+                } else {
+                    return null;
+                }
+            }).Where(s => s != null));
+            return $"{size}|{areas}|{cells}";
+        }
+
+        /// <summary>
         /// Renders this maze to a string using
         /// <see cref="Maze2DStringBoxRenderer" />.
         /// </summary>
-        /// <returns></returns>
         public override string ToString() {
             return new Maze2DStringBoxRenderer(this).WithTrail();
         }
@@ -192,20 +219,42 @@ namespace PlayersWorlds.Maps.Maze {
         /// the index of the cell in the maze, and <c>link</c> is the index of 
         /// a cell linked to this cell.</param>
         /// <returns></returns>
+        // TODO: Add Areas
         public static Maze2D Parse(string serialized) {
-            var parts = serialized.Split(';', '\n');
-            var maze = new Maze2D(new Vector(parts[0].Split('x').Select(int.Parse)));
-            for (var i = 1; i < parts.Length; i++) {
-                var part = parts[i].Split(':', ',').Select(int.Parse).ToArray();
-                if (part.Length > 1) {
-                    maze._unlinkedCells.Remove(maze.AllCells[part[0]]);
+            if (serialized.IndexOf('|') == -1) {
+                // TODO: Migrate all serialization to the other format.
+                var parts = serialized.Split(';', '\n');
+                var maze = new Maze2D(new Vector(parts[0].Split('x').Select(int.Parse)));
+                for (var i = 1; i < parts.Length; i++) {
+                    var part = parts[i].Split(':', ',').Select(int.Parse).ToArray();
+                    if (part.Length > 1) {
+                        maze._unlinkedCells.Remove(maze.AllCells[part[0]]);
+                    }
+                    for (var j = 1; j < part.Length; j++) {
+                        maze.AllCells[part[0]].Link(maze.AllCells[part[j]]);
+                    }
                 }
-                for (var j = 1; j < part.Length; j++) {
-                    maze.AllCells[part[0]].Link(maze.AllCells[part[j]]);
-                    maze._unlinkedCells.Remove(maze.AllCells[part[0]]);
-                }
+                return maze;
+            } else {
+                var linksAdded = new HashSet<string>();
+                var parts = serialized.Split('|');
+                var maze = new Maze2D(Vector.Parse(parts[0]));
+                parts[1].Split(',')
+                    .ForEach(areaStr => maze.AddArea(MapArea.Parse(areaStr)));
+                parts[2].Split(',').ForEach(cellStr => {
+                    var part = cellStr.Split(':', ' ').Select(int.Parse).ToArray();
+                    if (part.Length > 1) {
+                        maze._unlinkedCells.Remove(maze.AllCells[part[0]]);
+                    }
+                    for (var j = 1; j < part.Length; j++) {
+                        if (linksAdded.Contains($"{part[0]}|{part[j]}")) continue;
+                        maze.AllCells[part[0]].Link(maze.AllCells[part[j]]);
+                        linksAdded.Add($"{part[0]}|{part[j]}");
+                        linksAdded.Add($"{part[j]}|{part[0]}");
+                    }
+                });
+                return maze;
             }
-            return maze;
         }
     }
 }

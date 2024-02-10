@@ -83,6 +83,15 @@ namespace PlayersWorlds.Maps {
             }
         }
 
+        public static void SetF<K, V>(this Dictionary<K, V> dictionary,
+            K key, Func<V, V> setter) {
+            if (dictionary.ContainsKey(key)) {
+                dictionary[key] = setter(dictionary[key]);
+            } else {
+                dictionary.Add(key, setter(default));
+            }
+        }
+
         public static void Set<K, V>(this Dictionary<K, List<V>> dictionary,
             K key, V value) {
             if (dictionary.ContainsKey(key)) {
@@ -102,10 +111,10 @@ namespace PlayersWorlds.Maps {
             }
         }
 
-        public static IEnumerable<K> GetAll<K>(this HashSet<K> hashSet,
+        public static IEnumerable<K> GetAll<K>(this ICollection<K> collection,
             IEnumerable<K> keys) {
             foreach (var k in keys) {
-                if (hashSet.Contains(k)) {
+                if (collection.Contains(k)) {
                     yield return k;
                 }
             }

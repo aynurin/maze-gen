@@ -11,16 +11,22 @@ namespace PlayersWorlds.Maps.Maze {
         /// Generates a maze using Recursive Backtracker algorithm in the
         /// specified layout.
         /// </summary>
-        /// <param name="layout">The layout to generate the maze in.</param>
-        /// <param name="options">The generator options to use.</param>
-        override public void GenerateMaze(Maze2D layout, GeneratorOptions options) {
+        /// <remarks>
+        /// Just like Aldous-Broder's algorithm, this algorithm walks the maze
+        /// in a modest way without trying to reach far. So in the same way it
+        /// has a high chance of not connecting all areas with sparce maze fill 
+        /// factors.
+        /// </remarks>
+        /// <param name="builder"><see cref="Maze2DBuilder" /> instance for
+        /// the maze to be generated.</param>
+        override public void GenerateMaze(Maze2DBuilder builder) {
             var stack = new Stack<MazeCell>();
-            stack.Push(layout.UnlinkedCells.GetRandom());
-            while (!IsFillComplete(options, layout) && stack.Count > 0) {
-                var potentiallyNext = stack.First().Neighbors().Where(cell => !cell.IsVisited).ToList();
-                if (potentiallyNext.Count > 0) {
-                    var nextCell = potentiallyNext.GetRandom();
-                    stack.First().Link(nextCell);
+            stack.Push(builder.PickNextCellToLink());
+            while (!builder.IsFillComplete() && stack.Count > 0) {
+                var currentCell = stack.Peek();
+                if (builder.TryPickRandomNeighbor(
+                        currentCell, out var nextCell, true)) {
+                    builder.Connect(currentCell, nextCell);
                     stack.Push(nextCell);
                 } else {
                     stack.Pop();
