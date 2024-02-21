@@ -83,10 +83,14 @@ namespace PlayersWorlds.Maps.Maze {
             // checking auto-generated areas.
             var existingErrors = options.MapAreas == null ? 0 :
                 options.MapAreas.Count(
-                    a => a.IsPositionFixed &&
-                         options.MapAreas.Any(b => a != b && a.Overlaps(b))) +
+                    area => area.IsPositionFixed &&
+                            options.MapAreas.Any(other =>
+                                area != other &&
+                                other.IsPositionFixed &&
+                                area.Overlaps(other))) +
                 options.MapAreas.Count(
-                    block => !block.FitsInto(Vector.Zero2D, mazeSize));
+                    area => area.IsPositionFixed &&
+                            !area.FitsInto(Vector.Zero2D, mazeSize));
             while (true) {
                 attempts--;
                 var areas = new List<MapArea>(
@@ -100,8 +104,11 @@ namespace PlayersWorlds.Maps.Maze {
                     .Distribute(mazeSize, areas, 100);
                 var errors = -existingErrors +
                     areas.Count(
-                        a => areas.Any(b => a != b && a.Overlaps(b))) +
-                    areas.Count(block => !block.FitsInto(Vector.Zero2D, mazeSize));
+                        area => areas.Any(other =>
+                                    area != other &&
+                                    area.Overlaps(other))) +
+                    areas.Count(
+                        area => !area.FitsInto(Vector.Zero2D, mazeSize));
                 if (errors <= 0) {
                     foreach (var area in areas) {
                         maze.AddArea(area);

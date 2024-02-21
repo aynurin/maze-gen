@@ -31,6 +31,7 @@ namespace PlayersWorlds.Maps.Maze {
         private readonly Maze2D _maze;
         private readonly GeneratorOptions _options;
         private int _isFillCompleteAttempts;
+        private int _isFillCompleteAttemptsMade;
         /// <summary>
         /// Cells that can be connected and are not connected yet.
         /// </summary>
@@ -108,7 +109,7 @@ namespace PlayersWorlds.Maps.Maze {
                        .All(cellArea => cellArea.Key.Type != AreaType.Fill &&
                                         cellArea.Key.Type != AreaType.Hall)));
 
-            _isFillCompleteAttempts = (int)Math.Pow(maze.Size.Area, 3);
+            _isFillCompleteAttempts = (int)Math.Pow(maze.Size.Area, 2);
         }
 
         private IEnumerable<MazeCell> WalkInCells(MapArea area) {
@@ -347,13 +348,17 @@ namespace PlayersWorlds.Maps.Maze {
         /// the version of this library, the serialized maze, and options.
         /// </exception>
         public virtual bool IsFillComplete() {
-            if (_isFillCompleteAttempts <= 0) {
+            if (_isFillCompleteAttemptsMade >= _isFillCompleteAttempts) {
                 throw new InvalidOperationException(
-                    $"An algorithm didn't complete in " +
+                    new StackTrace().GetFrame(1).GetType().FullName +
+                    $" didn't complete in " +
                     $"{_isFillCompleteAttempts} loops. Please report a bug at" +
-                    $" https://github.com/aynurin/maze-gen/issues.");
+                    $" https://github.com/aynurin/maze-gen/issues.\n" +
+                    $"Cells connected: {_connectedCells.Count} of " +
+                    $"{_allConnectableCells.Count}.\n" +
+                    $"Options: {_options}");
             }
-            _isFillCompleteAttempts--;
+            _isFillCompleteAttemptsMade--;
             if (_cellsToConnect.Count == 0) {
                 return true;
             }

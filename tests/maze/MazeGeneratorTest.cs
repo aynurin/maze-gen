@@ -1,14 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using PlayersWorlds.Maps.Areas;
-using PlayersWorlds.Maps.Maze;
 using PlayersWorlds.Maps.Maze.PostProcessing;
-using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
 namespace PlayersWorlds.Maps.Maze {
     [TestFixture]

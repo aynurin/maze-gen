@@ -25,7 +25,7 @@
     },
     {
       "label": "rebuild",
-      "command": "rm -rf build && rm -rf packages && nuget restore && msbuild",
+      "command": "rm -rf build && rm -rf packages && rm *.log && nuget restore && msbuild",
       "type": "shell",
       "problemMatcher": "$msCompile",
       "group": {

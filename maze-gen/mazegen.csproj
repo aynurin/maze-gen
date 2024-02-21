@@ -38,6 +38,10 @@
       <Project>{1475F129-1D8B-4631-92ED-30972E539CF2}</Project>
       <Name>PlayersWorlds.Maps</Name>
     </ProjectReference>
+    <ProjectReference Include="..\tests\PlayersWorlds.Maps.Tests.csproj">
+      <Project>{C0FBCEBB-2BFA-49B2-92E0-D1F64D4D82E2}</Project>
+      <Name>PlayersWorlds.Maps.Tests</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

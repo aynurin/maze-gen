@@ -184,7 +184,7 @@ namespace PlayersWorlds.Maps.Areas {
             var size = VectorD.Parse(parts[1]).RoundToInt();
             var position = VectorD.Parse(parts[0]).RoundToInt();
             return new MapArea(
-                type, size, position, isPositionFixed, parts.Skip(3).ToArray());
+                type, position, size, isPositionFixed, parts.Skip(3).ToArray());
         }
 
         /// <summary>
@@ -192,8 +192,8 @@ namespace PlayersWorlds.Maps.Areas {
         /// </summary>
         /// <returns>A <see cref="string" /> of the form
         /// "P{Position};S{Size};{Type}".</returns>
-        public override string ToString() {
-            return $"P{Position};S{Size};{Type};" + string.Join(";", Tags);
-        }
+        public override string ToString() =>
+            $"P{(_position.IsEmpty ? "<empty>" : _position.ToString())};" +
+            $"S{Size};{Type};" + string.Join(";", Tags);
     }
 }

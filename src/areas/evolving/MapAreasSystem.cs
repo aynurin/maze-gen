@@ -43,7 +43,6 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 force += envForceProducer.GetEnvironmentForce(area, _envSize);
                 // compensate opposing force
                 areasForces.Add(force);
-                // TODO: Trace: _log?.Buffered.D(5, $"OverallForce({area}): {force}");
             }
             // apply epoch force in this generation
             for (var i = 0; i < _areas.Count; i++) {

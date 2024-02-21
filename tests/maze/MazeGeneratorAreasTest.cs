@@ -313,6 +313,24 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(paths.ContainsKey(maze.AllCells[area2.Position]));
         }
 
+        [Test]
+        [Repeat(100)]
+        public void ManualAndAutoAreasGeneration() {
+            var options = new GeneratorOptions() {
+                Algorithm = GeneratorOptions.Algorithms.AldousBroder,
+                MapAreas = new List<MapArea>() {
+                    MapArea.Create(AreaType.Hall,
+                                   new Vector(2, 3),
+                                   new Vector(4, 7), "fixed"),
+                    MapArea.CreateAutoPositioned(AreaType.Hall, new Vector(2, 5), "auto")
+                },
+                MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto
+            };
+            var maze = MazeTestHelper.GenerateMaze(new Vector(20, 20), options,
+                                                   out var builder);
+            Assert.That(maze.MapAreas.Count, Is.GreaterThan(2));
+        }
+
         public static IEnumerable<Type> GetAllGenerators() =>
             MazeTestHelper.GetAllGenerators();
 
