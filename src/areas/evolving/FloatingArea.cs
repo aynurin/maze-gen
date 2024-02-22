@@ -24,12 +24,12 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             Size = size;
         }
 
-        public static FloatingArea FromMapArea(MapArea area) {
+        public static FloatingArea FromMapArea(MapArea area, Vector envSize) {
             return new FloatingArea(
                 area,
                 area.IsPositionFixed ?
                     new VectorD(area.Position) :
-                    VectorD.Zero2D,
+                    new VectorD(envSize) / 2D - new VectorD(area.Size) / 2D,
                 area.IsPositionFixed,
                 new VectorD(area.Size));
         }

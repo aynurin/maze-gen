@@ -13,8 +13,8 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
                     FillFactor = GeneratorOptions.FillFactorOption.Full
                 });
             var visitedCells = maze.VisitedCells.ToList();
-            var distances = DijkstraDistance.Find(visitedCells.GetRandom());
-            Assert.That(visitedCells.Count, Is.EqualTo(distances.Count));
+            var distances = DijkstraDistance.Find(visitedCells.Random());
+            Assert.That(distances.Count, Is.EqualTo(visitedCells.Count));
             Assert.That(distances.Values.Average(), Is.GreaterThan(1));
         }
 

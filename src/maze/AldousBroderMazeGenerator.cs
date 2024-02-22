@@ -22,21 +22,22 @@ namespace PlayersWorlds.Maps.Maze {
         /// the maze to be generated.</param>
         override public void GenerateMaze(Maze2DBuilder builder) {
             var currentCell = builder.PickNextCellToLink();
-            var ineffectiveLoops = 0;
+            var idleLoops = 0;
+            var maxIdleLoops = builder.CellsToConnect.Count * 100;
             while (!builder.IsFillComplete()) {
-                if (ineffectiveLoops > builder.CellsToConnect.Count * 10) {
+                if (idleLoops >= maxIdleLoops) {
+                    // A maze can have isolated maze areas do to MapAreas
+                    // layout, so if we are stuck, we need to try picking a new
+                    // starting point.
                     currentCell = builder.PickNextCellToLink();
                 }
                 if (builder.TryPickRandomNeighbor(currentCell, out var next)) {
-                    // if we found an unconnected neighbor, or if currentCell
-                    // itself is not connected (which means we just called 
-                    // PickNextCellToLink) 
                     if (!builder.IsConnected(next) ||
                         !builder.IsConnected(currentCell)) {
                         builder.Connect(currentCell, next);
-                        ineffectiveLoops = 0;
+                        idleLoops = 0;
                     } else {
-                        ineffectiveLoops++;
+                        idleLoops++;
                     }
                     currentCell = next;
                 } else {

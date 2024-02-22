@@ -20,7 +20,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             Action<GenerationImpact> onGeneration,
             Action<EpochResult> onEpoch) {
             _envSize = envSize;
-            _areas = areas.Select(area => FloatingArea.FromMapArea(area))
+            _areas = areas.Select(area =>
+                                    FloatingArea.FromMapArea(area, envSize))
                           .ToList();
             foreach (var area in _areas) {
                 _nicknames.Add(area, s_nicknames[_nicknames.Count]);

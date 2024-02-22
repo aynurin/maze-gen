@@ -133,12 +133,39 @@ namespace PlayersWorlds.Maps.Areas {
         /// <param name="other">The other MapArea to check</param>
         /// <returns><c>true</c> if the two MapAreas overlap; otherwise, <c>
         /// false</c>.</returns>
+        [Obsolete("Use Overlaps(MapArea other) instead.")]
         public bool Overlaps(MapArea other) {
             if (this == other)
                 throw new InvalidOperationException("Can't compare with self");
             var noOverlap = HighX <= other.LowX || LowX >= other.HighX;
             noOverlap |= HighY <= other.LowY || LowY >= other.HighY;
             return !noOverlap;
+        }
+
+        /// <summary>
+        /// Calculates the size of the overlap area between this MapArea and 
+        /// another MapArea.
+        /// </summary>
+        /// <param name="other">The other MapArea to check</param>
+        /// <returns><see cref="Vector" /> of the size of the overlap, or 
+        /// <see cref="Vector.Zero2D" /> if there is no overlap.</returns>
+        public Vector Overlap(MapArea other) {
+            if (this == other)
+                throw new InvalidOperationException("Can't compare with self");
+
+            // Calculate the overlap rectangle coordinates
+            var lowX = (int)Math.Max(this.LowX, other.LowX);
+            var highX = (int)Math.Min(this.HighX, other.HighX);
+            var lowY = (int)Math.Max(this.LowY, other.LowY);
+            var highY = (int)Math.Min(this.HighY, other.HighY);
+
+            // Check if there is no overlap
+            if (lowX >= highX || lowY >= highY) {
+                return Vector.Zero2D;
+            }
+
+            // Calculate the size of the overlap area
+            return new Vector(highX - lowX, highY - lowY);
         }
 
         /// <summary>

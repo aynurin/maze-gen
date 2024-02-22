@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Areas.Evolving;
@@ -74,11 +75,6 @@ namespace PlayersWorlds.Maps.Maze {
         private static void GenerateMazeAreas(Vector mazeSize,
                                               GeneratorOptions options,
                                               Maze2D maze) {
-            // when we auto-generate the areas, there is a 5% chance that we
-            // can't auto-distribute (see SideToSideForceProducer.cs) so we make
-            // several attempts.
-            var attempts = options.MapAreasOptions ==
-                    GeneratorOptions.MapAreaOptions.Auto ? 3 : 1;
             // count existing (desired) placement errors we can ignore when
             // checking auto-generated areas.
             var existingErrors = options.MapAreas == null ? 0 :
@@ -91,8 +87,12 @@ namespace PlayersWorlds.Maps.Maze {
                 options.MapAreas.Count(
                     area => area.IsPositionFixed &&
                             !area.FitsInto(Vector.Zero2D, mazeSize));
+            // when we auto-generate the areas, there is a 5% chance that we
+            // can't auto-distribute (see SideToSideForceProducer.cs) so we make
+            // several attempts.
+            var attempts = options.MapAreasOptions ==
+                    GeneratorOptions.MapAreaOptions.Auto ? 3 : 1;
             while (true) {
-                attempts--;
                 var areas = new List<MapArea>(
                     options.MapAreas ?? new List<MapArea>());
                 if (options.MapAreasOptions ==
@@ -106,7 +106,7 @@ namespace PlayersWorlds.Maps.Maze {
                     areas.Count(
                         area => areas.Any(other =>
                                     area != other &&
-                                    area.Overlaps(other))) +
+                                    area.Overlap(other).Area > 0)) +
                     areas.Count(
                         area => !area.FitsInto(Vector.Zero2D, mazeSize));
                 if (errors <= 0) {
@@ -115,13 +115,23 @@ namespace PlayersWorlds.Maps.Maze {
                     }
                     break;
                 }
-                if (attempts == 0) {
+                if (--attempts == 0) {
                     var roomsDebugStr =
                         areas.Select(a => $"P{a.Position};S{a.Size}");
-                    throw new InvalidOperationException(
+                    var message =
                         $"Could not generate rooms for maze of size {mazeSize}. " +
                         $"Last set of rooms had {errors} errors " +
-                        $"({string.Join(" ", roomsDebugStr)}).");
+                        $"({string.Join(" ", roomsDebugStr)}).";
+                    var impact = areas.Select(area =>
+                                        areas.Where(other => area != other)
+                                             .Sum(other =>
+                                                area.Overlap(other).Area))
+                                      .Sum() / 2;
+                    if (impact > mazeSize.Area / 10) {
+                        throw new InvalidOperationException(message);
+                    } else {
+                        Trace.TraceWarning(message);
+                    }
                 }
             }
         }

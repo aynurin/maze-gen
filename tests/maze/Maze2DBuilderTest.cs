@@ -111,7 +111,12 @@ namespace PlayersWorlds.Maps.Maze {
             }
 
             foreach (var cell in priorityCells) {
-                builder.MarkConnected(cell);
+                try {
+                    builder.Connect(cell, Vector.East2D);
+                } catch (InvalidOperationException) { }
+                try {
+                    builder.Connect(cell, Vector.North2D);
+                } catch (InvalidOperationException) { }
             }
 
             Assert.That(builder.ConnectedCells, Is.EqualTo(priorityCells));
@@ -156,15 +161,18 @@ namespace PlayersWorlds.Maps.Maze {
 
             var connectedCells = new List<MazeCell>() {
                 maze.AllCells[new Vector(0, 0)],
+                maze.AllCells[new Vector(1, 0)],
                 maze.AllCells[new Vector(1, 1)],
-                maze.AllCells[new Vector(2, 2)]
+                maze.AllCells[new Vector(1, 2)]
             };
 
-            connectedCells.ForEach(builder.MarkConnected);
+            for (var i = 0; i < connectedCells.Count - 1; i++) {
+                builder.Connect(connectedCells[i], connectedCells[i + 1]);
+            }
 
-            Assert.That(builder.CellsToConnect, Has.Exactly(6).Items);
+            Assert.That(builder.CellsToConnect, Has.Exactly(5).Items);
             Assert.That(builder.PriorityCells, Has.Exactly(0).Items);
-            Assert.That(builder.ConnectedCells, Has.Exactly(3).Items);
+            Assert.That(builder.ConnectedCells, Has.Exactly(4).Items);
 
             connectedCells.ForEach(c =>
                 Assert.That(builder.IsConnected(c)));

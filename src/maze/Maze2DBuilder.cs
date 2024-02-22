@@ -30,7 +30,7 @@ namespace PlayersWorlds.Maps.Maze {
     public class Maze2DBuilder {
         private readonly Maze2D _maze;
         private readonly GeneratorOptions _options;
-        private int _isFillCompleteAttempts;
+        private readonly int _isFillCompleteAttempts;
         private int _isFillCompleteAttemptsMade;
         /// <summary>
         /// Cells that can be connected and are not connected yet.
@@ -167,7 +167,8 @@ namespace PlayersWorlds.Maps.Maze {
         /// </returns>
         public bool TryPickRandomNeighbor(MazeCell cell,
                                           out MazeCell neighbor) =>
-            TryPickRandomNeighbor(cell, out neighbor, false);
+            TryPickRandomNeighbor(cell, out neighbor,
+                onlyUnconnected: false, honorPriority: true);
 
         /// <summary>
         /// Retrieves a random neighbor of the given cell.
@@ -204,19 +205,6 @@ namespace PlayersWorlds.Maps.Maze {
                 return true;
             } else {
                 neighbor = null;
-                return false;
-            }
-        }
-
-        public bool TryConnect(MazeCell cell,
-                               Vector neighbor,
-                               out MazeCell connectedCell) {
-            if (CanConnect(cell, neighbor)) {
-                connectedCell = cell.Neighbors(neighbor).Value;
-                Connect(cell, cell.Neighbors(neighbor).Value);
-                return true;
-            } else {
-                connectedCell = null;
                 return false;
             }
         }
