@@ -12,8 +12,8 @@ namespace PlayersWorlds.Maps.Maze {
             var builderMock = new Mock<Maze2DBuilder>(
                 maze, new GeneratorOptions()
             );
-            var firstCell = maze.AllCells[new Vector(4, 3)];
-            var randomNeighbor = maze.AllCells[new Vector(3, 3)];
+            var firstCell = maze.Cells[new Vector(4, 3)];
+            var randomNeighbor = maze.Cells[new Vector(3, 3)];
 
             builderMock.SetupSequence(b => b.PickNextCellToLink())
                 .Returns(firstCell)

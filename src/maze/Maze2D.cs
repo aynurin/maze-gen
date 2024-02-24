@@ -16,7 +16,7 @@ namespace PlayersWorlds.Maps.Maze {
     /// generate mazes.
     /// </summary>
     /// <remarks>
-    /// <p><see cref="AllCells" /> are all the cells in the field. Each cell has
+    /// <p><see cref="Cells" /> are all the cells in the field. Each cell has
     /// neighbors on four of its sides. When the maze is generated, cells are 
     /// linked to each other to constitute passages.</p>
     /// <p>When choosing the next cell to move to, a maze generator picks 
@@ -33,7 +33,6 @@ namespace PlayersWorlds.Maps.Maze {
     public class Maze2D {
         private readonly Vector _size;
         private readonly NArray<MazeCell> _cells;
-        private readonly List<MazeCell> _unlinkedCells;
         /// <summary>
         /// Post-processing attributes assigned to this maze. See
         /// <see cref="PostProcessing"/>.
@@ -41,24 +40,22 @@ namespace PlayersWorlds.Maps.Maze {
         public Dictionary<string, List<MazeCell>> Attributes { get; } =
             new Dictionary<string, List<MazeCell>>();
         /// <summary>
-        /// A read-only access to the cells in this maze.
+        /// A read-only access to all cells in this maze field.
         /// </summary>
-        public NArray<MazeCell> AllCells => _cells;
+        /// <remarks>
+        /// Contains the full field of cells even if the cells are not a part
+        /// of the maze.
+        /// </remarks>
+        public NArray<MazeCell> Cells => _cells;
         /// <summary>
-        /// A read-only access to the visitable cells in this maze.
+        /// Maze cells, i.e. cells that belong to the maze and have links to 
+        /// other maze cells.
         /// </summary>
-        public IList<MazeCell> UnlinkedCells => _unlinkedCells.AsReadOnly();
-        /// <summary />
-        public IEnumerable<MazeCell> VisitedCells =>
-            _cells.Where(cell => cell.IsVisited);
+        public IEnumerable<MazeCell> MazeCells =>
+            _cells.Where(cell => cell.IsConnected);
 
         /// <summary />
         public Vector Size { get => _cells.Size; }
-
-        /// <summary>
-        /// Number of cells in this maze.
-        /// </summary>
-        public int Area { get => _size.Area; }
 
         /// <summary>
         /// If the longest path was set, returns the longest path. See
@@ -105,7 +102,6 @@ namespace PlayersWorlds.Maps.Maze {
                     _cells[west].Neighbors().Add(cell.cell);
                 }
             }
-            _unlinkedCells = new List<MazeCell>(_cells);
         }
 
         private readonly Dictionary<MapArea, ICollection<MazeCell>>
@@ -123,37 +119,6 @@ namespace PlayersWorlds.Maps.Maze {
             _mapAreas.Add(area, areaCells);
             foreach (var cell in areaCells) {
                 cell.AddMapArea(area, areaCells);
-            }
-        }
-
-        /// <summary>
-        /// Links all cells in <see cref="AreaType.Hall" /> and
-        /// <see cref="AreaType.Cave" /> areas, and removes
-        /// <see cref="AreaType.Fill" /> area cells from the neighbors and
-        /// links. This should be called in MazeGenerator.Generate() after the
-        /// generator algorithm completes.
-        /// </summary>
-        // TODO: Move to MazeBuilder
-        public void ApplyAreas() {
-            foreach (var area in _mapAreas) {
-                if (area.Key.Type == AreaType.Fill) {
-                    // if it's a filled area it cannot be visited, so we remove
-                    // all mentions of its cells:
-                    // 1. remove all of its cells from their neighbors
-                    // 2. remove all neighbors of its cells
-                    // 3. remove all links that involve its cells
-                    foreach (var cell in area.Value) {
-                        cell.Neighbors().ForEach(
-                            neighbor => neighbor.Neighbors().Remove(cell));
-                        cell.Neighbors().Clear();
-                        var links = cell.Links().ToArray();
-                        links.ForEach(link => cell.Unlink(link));
-                        _unlinkedCells.Remove(cell);
-                    }
-                } else if (area.Key.Type == AreaType.Hall || area.Key.Type == AreaType.Cave) {
-                    // if it's a hall, we need to link all its cells together
-                    area.Value.ForEach(cell => cell.LinkAllNeighborsInArea(area.Key));
-                }
             }
         }
 
@@ -227,11 +192,8 @@ namespace PlayersWorlds.Maps.Maze {
                 var maze = new Maze2D(new Vector(parts[0].Split('x').Select(int.Parse)));
                 for (var i = 1; i < parts.Length; i++) {
                     var part = parts[i].Split(':', ',').Select(int.Parse).ToArray();
-                    if (part.Length > 1) {
-                        maze._unlinkedCells.Remove(maze.AllCells[part[0]]);
-                    }
                     for (var j = 1; j < part.Length; j++) {
-                        maze.AllCells[part[0]].Link(maze.AllCells[part[j]]);
+                        maze._cells[part[0]].Link(maze._cells[part[j]]);
                     }
                 }
                 return maze;
@@ -243,12 +205,9 @@ namespace PlayersWorlds.Maps.Maze {
                     .ForEach(areaStr => maze.AddArea(MapArea.Parse(areaStr)));
                 parts[2].Split(',').ForEach(cellStr => {
                     var part = cellStr.Split(':', ' ').Select(int.Parse).ToArray();
-                    if (part.Length > 1) {
-                        maze._unlinkedCells.Remove(maze.AllCells[part[0]]);
-                    }
                     for (var j = 1; j < part.Length; j++) {
                         if (linksAdded.Contains($"{part[0]}|{part[j]}")) continue;
-                        maze.AllCells[part[0]].Link(maze.AllCells[part[j]]);
+                        maze._cells[part[0]].Link(maze._cells[part[j]]);
                         linksAdded.Add($"{part[0]}|{part[j]}");
                         linksAdded.Add($"{part[j]}|{part[0]}");
                     }

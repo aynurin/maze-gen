@@ -22,7 +22,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             _ = Parallel.For(0, numTotal, ops, (i, state) => {
                 var log = Log.CreateForThisTest();
                 var maze = new Maze2D(GlobalRandom.Next(5, 50), GlobalRandom.Next(5, 50));
-                var roomsCount = (int)Math.Sqrt(maze.Area) / 3;
+                var roomsCount = (int)Math.Sqrt(maze.Size.Area) / 3;
                 var rooms = new List<MapArea>();
                 for (var j = 0; j < roomsCount; j++) {
                     var size = new Vector(

@@ -8,8 +8,9 @@ namespace PlayersWorlds.Maps.MapFilters {
 
         [Test]
         public void BackslashEraseSpots() {
+            var log = Log.CreateForThisTest();
             var map = Map2DTest.Parse(Map2DTest.Backslash, Map2DTest.Tags);
-            Console.WriteLine(map.ToString());
+            log.D(5, map.ToString());
 
             new Map2DEraseSpots(new[] {
                 Cell.CellTag.MazeWall,
@@ -23,13 +24,14 @@ namespace PlayersWorlds.Maps.MapFilters {
                 "░░▓▓░\n" +
                 "░░░▓▓\n" +
                 "░░░░▓\n";
-            Console.WriteLine(expected);
-            Console.WriteLine(map.ToString());
+            log.D(5, expected);
+            log.D(5, map.ToString());
             Assert.That(map.ToString(), Is.EqualTo(expected));
         }
 
         [Test]
         public void VariousSpotsEraseSpots() {
+            var log = Log.CreateForThisTest();
             var emptyMap =
                 "░░░░░\n" +
                 "░░░░░\n" +
@@ -42,7 +44,7 @@ namespace PlayersWorlds.Maps.MapFilters {
             };
             foreach (var spot in spots) {
                 var map = Map2DTest.Parse(spot, Map2DTest.Tags);
-                Console.WriteLine(map.ToString());
+                log.D(5, map.ToString());
 
                 new Map2DEraseSpots(new[] {
                     Cell.CellTag.MazeWall,
@@ -51,16 +53,17 @@ namespace PlayersWorlds.Maps.MapFilters {
                     .Render(map);
 
                 var expected = emptyMap;
-                Console.WriteLine(expected);
-                Console.WriteLine(map.ToString());
+                log.D(5, expected);
+                log.D(5, map.ToString());
                 Assert.That(map.ToString(), Is.EqualTo(expected));
             }
         }
 
         [Test]
         public void Spot1x3SpotsEraseSpots() {
+            var log = Log.CreateForThisTest();
             var map = Map2DTest.Parse(Map2DTest.Spot1x3, Map2DTest.Tags);
-            Console.WriteLine(map.ToString());
+            log.D(5, map.ToString());
 
             new Map2DEraseSpots(new[] {
                 Cell.CellTag.MazeWall,
@@ -69,15 +72,16 @@ namespace PlayersWorlds.Maps.MapFilters {
                 .Render(map);
 
             var expected = Map2DTest.Spot1x3;
-            Console.WriteLine(expected);
-            Console.WriteLine(map.ToString());
+            log.D(5, expected);
+            log.D(5, map.ToString());
             Assert.That(map.ToString(), Is.EqualTo(expected));
         }
 
         [Test]
         public void SmoothBoxVoidBgEraseSpots() {
+            var log = Log.CreateForThisTest();
             var map = Map2DTest.Parse(Map2DTest.SmoothBoxVoidBg, Map2DTest.Tags);
-            Console.WriteLine(map.ToString());
+            log.D(5, map.ToString());
 
             new Map2DEraseSpots(new[] {
                 Cell.CellTag.MazeVoid
@@ -89,14 +93,15 @@ namespace PlayersWorlds.Maps.MapFilters {
                 "▓▓▓▓▓\n" +
                 "▓▓▓▓▓\n" +
                 "▒▓▓▓▓\n";
-            Console.WriteLine(expected);
-            Console.WriteLine(map.ToString());
+            log.D(5, expected);
+            log.D(5, map.ToString());
             Assert.That(map.ToString(), Is.EqualTo(expected));
         }
         [Test]
         public void SmoothBoxEraseSpots() {
+            var log = Log.CreateForThisTest();
             var map = Map2DTest.Parse(Map2DTest.SmoothBox, Map2DTest.Tags);
-            Console.WriteLine(map.ToString());
+            log.D(5, map.ToString());
 
             new Map2DEraseSpots(new[] {
                 Cell.CellTag.MazeTrail
@@ -108,8 +113,8 @@ namespace PlayersWorlds.Maps.MapFilters {
                 "▓▓▓▓▓\n" +
                 "▓▓▓▓▓\n" +
                 "▒▓▓▓▓\n";
-            Console.WriteLine(expected);
-            Console.WriteLine(map.ToString());
+            log.D(5, expected);
+            log.D(5, map.ToString());
             Assert.That(map.ToString(), Is.EqualTo(expected));
         }
     }

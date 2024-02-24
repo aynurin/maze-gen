@@ -45,9 +45,9 @@ namespace PlayersWorlds.Maps.Maze {
             if (!_options.RenderedSize(_maze.Size).FitsInto(map.Size)) {
                 throw new ArgumentException("Map does not fit the maze.");
             }
-            foreach (var cell in _maze.AllCells) {
+            foreach (var cell in _maze.Cells) {
                 var mapping = new CellsMapping(map, cell, _options);
-                if (cell.IsVisited) {
+                if (cell.IsConnected) {
                     mapping.CenterCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
                 if (cell.Links(Vector.North2D).HasValue) {

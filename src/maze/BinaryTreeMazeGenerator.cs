@@ -18,9 +18,9 @@ namespace PlayersWorlds.Maps.Maze {
             builder.ThrowIfIncompatibleOptions(new GeneratorOptions() {
                 FillFactor = FillFactorOption.Full,
             });
-            var states = GlobalRandom.NextBytes(builder.AllMazeCells().Count);
+            var states = GlobalRandom.NextBytes(builder.AllCells.Count);
             var i = 0;
-            foreach (var currentCell in builder.AllMazeCells()) {
+            foreach (var currentCell in builder.AllCells) {
                 var linkNorth = states[i++] % 2 == 0;
                 var canConnectEast = builder.CanConnect(currentCell, Vector.East2D);
                 var canConnectNorth = builder.CanConnect(currentCell, Vector.North2D);

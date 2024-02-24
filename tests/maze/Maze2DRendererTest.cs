@@ -8,7 +8,6 @@ namespace PlayersWorlds.Maps.Maze {
     internal class Maze2DRendererTest {
         [Test]
         public void ThrowsIfCantFit() {
-            Console.WriteLine(MazeToMapOptions.SquareCells(2, 2).RenderedSize(new Vector(10, 10)));
             void Act() =>
                 new Maze2DRenderer(
                     new Maze2D(10, 10),

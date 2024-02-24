@@ -12,8 +12,8 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void Maze2D_IsInitialized() {
             var map = new Maze2D(2, 3);
-            Assert.That(6, Is.EqualTo(map.Area));
-            Assert.That(6, Is.EqualTo(map.AllCells.Count));
+            Assert.That(6, Is.EqualTo(map.Size.Area));
+            Assert.That(6, Is.EqualTo(map.Cells.Count));
             Assert.That(2, Is.EqualTo(map.Size.X));
             Assert.That(3, Is.EqualTo(map.Size.Y));
         }
@@ -50,19 +50,19 @@ namespace PlayersWorlds.Maps.Maze {
             var cols = 5;
             var map = new Maze2D(cols, rows);
 
-            Assert.That(map.AllCells.Count, Is.EqualTo(rows * cols), "Wrong number of cells.");
+            Assert.That(map.Cells.Count, Is.EqualTo(rows * cols), "Wrong number of cells.");
             for (var x = 0; x < cols; x++) {
                 for (var y = 0; y < rows; y++) {
-                    var cell = map.AllCells[new Vector(x, y)];
-                    var neighbors = map.AllCells.Where(c =>
+                    var cell = map.Cells[new Vector(x, y)];
+                    var neighbors = map.Cells.Where(c =>
                         (c.X == cell.X && Math.Abs(c.Y - cell.Y) == 1) ||
                         (c.Y == cell.Y && Math.Abs(c.X - cell.X) == 1))
                             .ToList();
-                    var nonNeighbors = map.AllCells
+                    var nonNeighbors = map.Cells
                         .Where(c => c != cell && !neighbors.Contains(c))
                         .ToList();
                     if (neighbors.Count != cell.Neighbors().Count) {
-                        Console.WriteLine($"Cell {cell.X},{cell.Y} has {neighbors.Count} neighbors. It should have {cell.Neighbors().Count} neighbors.");
+                        Log.CreateForThisTest().D(5, $"Cell {cell.X},{cell.Y} has {neighbors.Count} neighbors. It should have {cell.Neighbors().Count} neighbors.");
                     }
                     Assert.That(neighbors.Count, Is.EqualTo(cell.Neighbors().Count));
                     Assert.That(neighbors.All(c => cell.Neighbors().Contains(c)), Is.True);
@@ -70,16 +70,16 @@ namespace PlayersWorlds.Maps.Maze {
 
                     if (x > 0) Assert.That(
                         cell.Neighbors(Vector.West2D).Value,
-                        Is.EqualTo(map.AllCells[new Vector(x - 1, y)]));
+                        Is.EqualTo(map.Cells[new Vector(x - 1, y)]));
                     if (x + 1 < cols) Assert.That(
                         cell.Neighbors(Vector.East2D).Value,
-                        Is.EqualTo(map.AllCells[new Vector(x + 1, y)]));
+                        Is.EqualTo(map.Cells[new Vector(x + 1, y)]));
                     if (y > 0) Assert.That(
                         cell.Neighbors(Vector.South2D).Value,
-                        Is.EqualTo(map.AllCells[new Vector(x, y - 1)]));
+                        Is.EqualTo(map.Cells[new Vector(x, y - 1)]));
                     if (y + 1 > rows) Assert.That(
                         cell.Neighbors(Vector.North2D).Value,
-                        Is.EqualTo(map.AllCells[new Vector(x, y + 1)]));
+                        Is.EqualTo(map.Cells[new Vector(x, y + 1)]));
                 }
             }
         }
@@ -171,7 +171,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void Maze2D_CanParse() {
             var maze = Maze2D.Parse("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
-            Console.WriteLine(maze.ToString());
+            Log.CreateForThisTest().D(5, maze.ToString());
             // ╔═══╤═══════╗
             // ║ 0 │ 1   2 ║
             // ║   ╵   ╷   ║
@@ -179,22 +179,22 @@ namespace PlayersWorlds.Maps.Maze {
             // ╟───╴   └───╢
             // ║ 6   7   8 ║
             // ╚═══════════╝
-            Assert.That(!maze.AllCells[0].Links(Vector.East2D).HasValue, Is.True);
-            Assert.That(!maze.AllCells[4].Links(Vector.East2D).HasValue, Is.True);
-            Assert.That(maze.AllCells[4].Links(Vector.South2D).HasValue, Is.True);
-            Assert.That(maze.AllCells[4].Links(Vector.North2D).HasValue, Is.True);
-            Assert.That(maze.AllCells[7].Links(Vector.East2D).HasValue, Is.True);
-            Assert.That(maze.AllCells[7].Links(Vector.West2D).HasValue, Is.True);
-            Assert.That(maze.AllCells[7].Links(Vector.South2D).HasValue, Is.True);
-            Assert.That(!maze.AllCells[7].Links(Vector.North2D).HasValue, Is.True);
-            Assert.That(maze.AllCells[6].Links(Vector.East2D).HasValue, Is.True);
-            Assert.That(!maze.AllCells[6].Links(Vector.West2D).HasValue, Is.True);
-            Assert.That(!maze.AllCells[6].Links(Vector.South2D).HasValue, Is.True);
-            Assert.That(!maze.AllCells[6].Links(Vector.North2D).HasValue, Is.True);
-            Assert.That(maze.AllCells[6].Neighbors(Vector.East2D).HasValue, Is.True);
-            Assert.That(!maze.AllCells[6].Neighbors(Vector.West2D).HasValue, Is.True);
-            Assert.That(maze.AllCells[6].Neighbors(Vector.South2D).HasValue, Is.True);
-            Assert.That(!maze.AllCells[6].Neighbors(Vector.North2D).HasValue, Is.True);
+            Assert.That(!maze.Cells[0].Links(Vector.East2D).HasValue, Is.True);
+            Assert.That(!maze.Cells[4].Links(Vector.East2D).HasValue, Is.True);
+            Assert.That(maze.Cells[4].Links(Vector.South2D).HasValue, Is.True);
+            Assert.That(maze.Cells[4].Links(Vector.North2D).HasValue, Is.True);
+            Assert.That(maze.Cells[7].Links(Vector.East2D).HasValue, Is.True);
+            Assert.That(maze.Cells[7].Links(Vector.West2D).HasValue, Is.True);
+            Assert.That(maze.Cells[7].Links(Vector.South2D).HasValue, Is.True);
+            Assert.That(!maze.Cells[7].Links(Vector.North2D).HasValue, Is.True);
+            Assert.That(maze.Cells[6].Links(Vector.East2D).HasValue, Is.True);
+            Assert.That(!maze.Cells[6].Links(Vector.West2D).HasValue, Is.True);
+            Assert.That(!maze.Cells[6].Links(Vector.South2D).HasValue, Is.True);
+            Assert.That(!maze.Cells[6].Links(Vector.North2D).HasValue, Is.True);
+            Assert.That(maze.Cells[6].Neighbors(Vector.East2D).HasValue, Is.True);
+            Assert.That(!maze.Cells[6].Neighbors(Vector.West2D).HasValue, Is.True);
+            Assert.That(maze.Cells[6].Neighbors(Vector.South2D).HasValue, Is.True);
+            Assert.That(!maze.Cells[6].Neighbors(Vector.North2D).HasValue, Is.True);
         }
 
         [Test]

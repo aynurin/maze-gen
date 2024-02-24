@@ -29,9 +29,7 @@ namespace PlayersWorlds.Maps.Maze {
                         Console.WriteLine(maze.Serialize());
                         Console.WriteLine(maze.ToString());
                         Console.WriteLine($"Visited: " +
-                            maze.VisitedCells.Count());
-                        Console.WriteLine($"Total Cells: " +
-                            maze.AllCells.Count());
+                            maze.MazeCells.Count());
                         Console.WriteLine($"Area Cells: ");
                         Console.WriteLine("  Fill ({0}): ({1})",
                             maze.MapAreas.Count(
@@ -53,9 +51,9 @@ namespace PlayersWorlds.Maps.Maze {
                                          .Select(a => a.Value.Count).Sum());
                         Console.WriteLine("Unvisited cells: " +
                             string.Join(",",
-                                maze.AllCells
+                                maze.Cells
                                     .Where(c =>
-                                        !c.IsVisited &&
+                                        !c.IsConnected &&
                                         !maze.MapAreas.Any(
                                             area => area.Value.Contains(c)))));
                         break;

@@ -11,9 +11,9 @@ The scenarios of using VisitedCells:
 - IsFillComplete (all cases)
 - FindLongestTrail
 
-VisitedCells is implemented by filtering all cells on IsVisited == true.
+VisitedCells is implemented by filtering all cells on IsConnected == true.
 
-IsVisited is set by MazeCell.Link/Unlink, and the only Unlink scenario is
+IsConnected is set by MazeCell.Link/Unlink, and the only Unlink scenario is
 ApplyAreas.
 
 ### UnlinkedCells

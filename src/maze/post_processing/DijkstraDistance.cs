@@ -93,8 +93,8 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
 
         /// <summary />
         public static List<MazeCell> FindLongestTrail(Maze2D maze) {
-            maze.VisitedCells.ThrowIfNullOrEmpty("maze.VisitedCells");
-            var distances = Find(maze.VisitedCells.First());
+            maze.MazeCells.ThrowIfNullOrEmpty("maze.MazeCells");
+            var distances = Find(maze.MazeCells.First());
             var startingPoint = distances.OrderByDescending(kvp => kvp.Value)
                                          .Select(kvp => kvp.Key).First();
             startingPoint.Attributes.Set(LongestTrailStartAttribute, null);

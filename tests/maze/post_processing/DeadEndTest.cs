@@ -11,11 +11,11 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             var deadEnds = DeadEnd.Find(maze);
             Assert.That(deadEnds, Is.Not.Empty);
             Assert.That(4, Is.EqualTo(deadEnds.Count));
-            Assert.That(deadEnds.Contains(maze.AllCells[new Vector(0, 0)]), Is.True, "0,0");
-            Assert.That(deadEnds.Contains(maze.AllCells[new Vector(2, 1)]), Is.True, "2,1");
-            Assert.That(deadEnds.Contains(maze.AllCells[new Vector(0, 2)]), Is.True, "0,2");
-            Assert.That(deadEnds.Contains(maze.AllCells[new Vector(2, 2)]), Is.True, "2,2");
-            Assert.That(5, Is.EqualTo(maze.AllCells.Count(
+            Assert.That(deadEnds.Contains(maze.Cells[new Vector(0, 0)]), Is.True, "0,0");
+            Assert.That(deadEnds.Contains(maze.Cells[new Vector(2, 1)]), Is.True, "2,1");
+            Assert.That(deadEnds.Contains(maze.Cells[new Vector(0, 2)]), Is.True, "0,2");
+            Assert.That(deadEnds.Contains(maze.Cells[new Vector(2, 2)]), Is.True, "2,2");
+            Assert.That(5, Is.EqualTo(maze.Cells.Count(
                 cell => !cell.Attributes.ContainsKey(
                     DeadEnd.DeadEndAttribute))));
         }

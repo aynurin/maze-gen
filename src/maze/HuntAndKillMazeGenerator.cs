@@ -27,7 +27,7 @@ namespace PlayersWorlds.Maps.Maze {
                     builder.Connect(currentCell, nextCell);
                     currentCell = nextCell;
                 } else {
-                    foreach (var hunt in builder.AvailableCells()) {
+                    foreach (var hunt in builder.PrioritizedCellsToConnect) {
                         var firstVisitedNeighbor =
                             hunt.Neighbors()
                                 .Where(builder.IsConnected)

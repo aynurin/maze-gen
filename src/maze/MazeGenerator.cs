@@ -55,14 +55,11 @@ namespace PlayersWorlds.Maps.Maze {
 
             var maze = new Maze2D(size);
             try {
-                Console.WriteLine($"{options.Algorithm.Name}: Generating maze " +
-                    $"{maze.Size} with {options.ShortDebugString()}");  /*  */
                 GenerateMazeAreas(size, options, maze);
                 builder = new Maze2DBuilder(maze, options);
                 (Activator.CreateInstance(options.Algorithm) as MazeGenerator)
                     .GenerateMaze(builder);
-                builder.ConnectHalls();
-                maze.ApplyAreas();
+                builder.ApplyAreas();
                 maze.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(maze));
                 maze.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
                     DijkstraDistance.FindLongestTrail(maze));
@@ -83,7 +80,7 @@ namespace PlayersWorlds.Maps.Maze {
                             options.MapAreas.Any(other =>
                                 area != other &&
                                 other.IsPositionFixed &&
-                                area.Overlaps(other))) +
+                                area.Overlap(other).Area > 0)) +
                 options.MapAreas.Count(
                     area => area.IsPositionFixed &&
                             !area.FitsInto(Vector.Zero2D, mazeSize));
@@ -133,35 +130,6 @@ namespace PlayersWorlds.Maps.Maze {
                         Trace.TraceWarning(message);
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Checks if the maze generation is complete given the
-        /// <paramref name="options" />.
-        /// </summary>
-        protected bool IsFillComplete(GeneratorOptions options, Maze2D maze) {
-            var visitedCells = maze.VisitedCells.ToList();
-            if (visitedCells.Count == 0) {
-                return false;
-            }
-            if (options.FillFactor == GeneratorOptions.FillFactorOption.FullHeight) {
-                var minX = visitedCells.Min(c => c.X);
-                var maxX = visitedCells.Max(c => c.X);
-                return minX == 0 && maxX == maze.Size.X - 1;
-            } else if (options.FillFactor == GeneratorOptions.FillFactorOption.FullWidth) {
-                var minY = visitedCells.Min(c => c.Y);
-                var maxY = visitedCells.Max(c => c.Y);
-                return minY == 0 && maxY == maze.Size.Y - 1;
-            } else if (options.FillFactor == GeneratorOptions.FillFactorOption.Full) {
-                return visitedCells.Count == maze.UnlinkedCells.Count;
-            } else {
-                var fillFactor =
-                    options.FillFactor == GeneratorOptions.FillFactorOption.Quarter ? 0.25 :
-                    options.FillFactor == GeneratorOptions.FillFactorOption.Half ? 0.5 :
-                    options.FillFactor == GeneratorOptions.FillFactorOption.ThreeQuarters ? 0.75 :
-                    0.9;
-                return visitedCells.Count >= maze.UnlinkedCells.Count * fillFactor;
             }
         }
     }

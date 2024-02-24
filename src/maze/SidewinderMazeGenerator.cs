@@ -19,11 +19,11 @@ namespace PlayersWorlds.Maps.Maze {
             builder.ThrowIfIncompatibleOptions(new GeneratorOptions() {
                 FillFactor = FillFactorOption.Full,
             });
-            var cellStates = GlobalRandom.NextBytes(builder.AllMazeCells().Count);
+            var cellStates = GlobalRandom.NextBytes(builder.AllCells.Count);
             var currentY = 0;
             var run = new List<MazeCell>();
             var i = 0;
-            foreach (var currentCell in builder.AllMazeCells()) {
+            foreach (var currentCell in builder.AllCells) {
                 if (currentCell.Y != currentY) {
                     run.Clear();
                     currentY = currentCell.Y;

@@ -25,6 +25,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void CanUseCustomAreaGenerator() {
+            var log = Log.CreateForThisTest();
             var maze = MazeGenerator.Generate(
                 new Vector(15, 15),
                 new GeneratorOptions() {
@@ -33,7 +34,7 @@ namespace PlayersWorlds.Maps.Maze {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto
                 });
-            Console.WriteLine(maze.ToString());
+            log.D(5, maze.ToString());
             Assert.That(maze.MapAreas, Has.Count.EqualTo(1));
             Assert.That(maze.MapAreas.First().Key.Size,
                 Is.EqualTo(new Vector(2, 3)));
@@ -47,113 +48,106 @@ namespace PlayersWorlds.Maps.Maze {
         public void CanGenerateMazes(
             [ValueSource("GetAllGenerators")] Type generatorType
         ) {
-            var maze = MazeGenerator.Generate(
+            var maze = MazeTestHelper.GenerateMaze(
                 new Vector(20, 20), new GeneratorOptions() {
                     FillFactor = GeneratorOptions.FillFactorOption.Full,
                     Algorithm = generatorType
-                });
+                }, out var _);
             Log.CreateForThisTest().D(5, maze.ToString());
-            Assert.That(maze.AllCells.Count(cell => cell.Links().Count == 0), Is.EqualTo(0));
+            Assert.That(maze.Cells.Count(cell => cell.Links().Count == 0), Is.EqualTo(0));
         }
 
         [Test]
         public void OnlyFullGenerators() {
             Assert.Throws<MazeGenerationException>(() =>
-                MazeGenerator.Generate(new Vector(10, 10),
+                MazeTestHelper.GenerateMaze(new Vector(10, 10),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.BinaryTree,
                     FillFactor = GeneratorOptions.FillFactorOption.Half
-                }));
+                }, out var _));
             Assert.Throws<MazeGenerationException>(() =>
-                MazeGenerator.Generate(new Vector(10, 10),
+                MazeTestHelper.GenerateMaze(new Vector(10, 10),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.Sidewinder,
                     FillFactor = GeneratorOptions.FillFactorOption.Half
-                }));
+                }, out var _));
         }
 
         [Test]
         public void IsFillComplete_Half() {
             var size = new Vector(10, 10);
-            var maze = MazeGenerator.Generate(size,
+            var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Half
-                });
-            Console.WriteLine(maze.ToString());
-            Assert.That(maze.VisitedCells.Count(), Is.GreaterThanOrEqualTo(size.Area / 2), maze.ToString());
+                }, out var _);
+            Assert.That(maze.MazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area / 2), maze.ToString());
         }
 
         [Test]
         public void IsFillComplete_Full() {
             var size = new Vector(10, 10);
-            var maze = MazeGenerator.Generate(size,
+            var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full
-                });
-            Console.WriteLine(maze.ToString());
-            Assert.That(size.Area, Is.EqualTo(maze.VisitedCells.Count()));
+                }, out var _);
+            Assert.That(size.Area, Is.EqualTo(maze.MazeCells.Count()));
         }
 
         [Test]
         public void IsFillComplete_Quarter() {
             var size = new Vector(10, 10);
-            var maze = MazeGenerator.Generate(size,
+            var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Quarter
-                });
-            Console.WriteLine(maze.ToString());
-            Assert.That(maze.VisitedCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.25), maze.ToString());
+                }, out var _);
+            Assert.That(maze.MazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.25), maze.ToString());
         }
 
         [Test]
         public void IsFillComplete_ThreeQuarters() {
             var size = new Vector(10, 10);
-            var maze = MazeGenerator.Generate(size,
+            var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.ThreeQuarters
-                });
-            Console.WriteLine(maze.ToString());
-            Assert.That(maze.VisitedCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.75), maze.ToString());
+                }, out var _);
+            Assert.That(maze.MazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.75), maze.ToString());
         }
 
         [Test]
         public void IsFillComplete_NinetyPercent() {
             var size = new Vector(10, 10);
-            var maze = MazeGenerator.Generate(size,
+            var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.NinetyPercent
-                });
-            Console.WriteLine(maze.ToString());
-            Assert.That(maze.VisitedCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.9), maze.ToString());
+                }, out var _);
+            Assert.That(maze.MazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.9), maze.ToString());
         }
 
         [Test]
         public void IsFillComplete_FullWidth() {
             var size = new Vector(10, 10);
-            var maze = MazeGenerator.Generate(size,
+            var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.FullWidth
-                });
-            Console.WriteLine(maze.ToString());
-            Assert.That(maze.UnlinkedCells.Min(cell => cell.Y) == 0 && maze.UnlinkedCells.Max(cell => cell.Y) == 9, Is.True, maze.ToString());
+                }, out var _);
+            Assert.That(maze.MazeCells.Min(cell => cell.X) == 0 && maze.MazeCells.Max(cell => cell.X) == 9, Is.True, maze.ToString());
         }
 
         [Test]
         public void IsFillComplete_FullHeight() {
             var size = new Vector(10, 10);
-            var maze = MazeGenerator.Generate(size,
+            var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.FullHeight
-                });
-            Console.WriteLine(maze.ToString());
-            Assert.That(maze.UnlinkedCells.Min(cell => cell.X) == 0 && maze.UnlinkedCells.Max(cell => cell.X) == 9, Is.True, maze.ToString());
+                }, out var _);
+            Assert.That(maze.MazeCells.Min(cell => cell.Y) == 0 && maze.MazeCells.Max(cell => cell.Y) == 9, Is.True, maze.ToString());
         }
 
         [Test, Property("Category", "Load")]
@@ -210,7 +204,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         class TestGeneratorB : MazeGenerator {
             public override void GenerateMaze(Maze2DBuilder builder) {
-                builder.AllMazeCells().ForEach(cell => {
+                builder.AllCells.ForEach(cell => {
                     try {
                         builder.Connect(cell, Vector.East2D);
                     } catch (InvalidOperationException) { }
@@ -235,96 +229,6 @@ namespace PlayersWorlds.Maps.Maze {
             var solution = new List<MazeCell>();
             Assert.DoesNotThrow(() => solution = DijkstraDistance.FindLongestTrail(map));
             Assert.That(solution, Is.Not.Null.Or.Empty);
-        }
-
-        [Test]
-        public void AreasAreAppliedProperly(
-            [ValueSource("GetAllGenerators")] Type generatorType) {
-            var maze = MazeGenerator.Generate(new Vector(10, 10),
-                new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.Full,
-                    Algorithm = generatorType,
-                    MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
-                    MapAreas = new List<MapArea>() {
-                            MapArea.Create(AreaType.Fill, new Vector(2, 1), new Vector(2, 3)),
-                            MapArea.Create(AreaType.Fill, new Vector(1, 5), new Vector(3, 4)),
-                            MapArea.Create(AreaType.Hall, new Vector(5, 6), new Vector(3, 2)),
-                            MapArea.Create(AreaType.Hall, new Vector(5, 1), new Vector(4, 3))
-                    }
-                });
-            var log = Log.CreateForThisTest();
-            log.D(5, maze.ToString());
-            // 1. All cells of filled areas:
-            //      - have no neighbors 
-            //      - are not neighbors of any other cells
-            // 2. All cells of hall areas:
-            //      - are linked within the area
-            //      - are linked to at least one outside cell
-            // for mazes generated by any algorithm
-            var fillAreas = 0;
-            var hallAreas = 0;
-            foreach (var area in maze.MapAreas) {
-                if (area.Key.Type == AreaType.Fill) {
-                    Assert.That(
-                        area.Value.All(cell => cell.Neighbors().Count == 0),
-                        "filled area cells should have no neighbors");
-                    Assert.That(
-                        area.Value.All(cell => cell.Links().Count == 0),
-                        "filled area cells should have no links");
-                    Assert.That(
-                        !area.Value.Any(cell => maze.UnlinkedCells.Contains(cell)),
-                        "filled area cells should not be in the maze unlinked cells pool");
-                    Assert.That(
-                        maze.UnlinkedCells, Has.None.AnyOf(area.Value),
-                        "filled area cells should not be in the maze unlinked cells pool");
-                    Assert.That(
-                        maze.UnlinkedCells.SelectMany(cell => cell.Neighbors()),
-                        Has.None.AnyOf(area.Value),
-                        "filled area cells should not be neighbors of any other cells");
-                    fillAreas++;
-                } else if (area.Key.Type == AreaType.Hall) {
-                    var lowX = area.Value.Min(cell => cell.X);
-                    var highX = area.Value.Max(cell => cell.X);
-                    var lowY = area.Value.Min(cell => cell.Y);
-                    var highY = area.Value.Max(cell => cell.Y);
-                    var corderCells = area.Value.Where(cell =>
-                        (cell.X == lowX || cell.X == highX) &&
-                        (cell.Y == lowY || cell.Y == highY)).ToList();
-                    var edgeCells = area.Value.Where(cell =>
-                        !corderCells.Contains(cell) && (
-                        cell.X == lowX || cell.X == highX ||
-                        cell.Y == lowY || cell.Y == highY)).ToList();
-                    var innerCells = area.Value.Where(cell =>
-                        cell.X != lowX && cell.X != highX &&
-                        cell.Y != lowY && cell.Y != highY).ToList();
-                    var perimeter = -4 + 2 *
-                        (area.Key.Size.Value.Sum() - area.Key.Size.Value.Length);
-                    Assert.That(corderCells, Has.Exactly(4).Items,
-                        $"perimeter of S{area.Key.Size} should be exactly {perimeter} cells");
-                    Assert.That(edgeCells, Has.Exactly(perimeter).Items,
-                        $"perimeter of S{area.Key.Size} should be exactly {perimeter} cells");
-                    Assert.That(corderCells.Count +
-                                edgeCells.Count +
-                                innerCells.Count,
-                        Is.EqualTo(area.Key.Size.Area));
-                    Assert.That(corderCells.All(cell => cell.Links().Count >= 2),
-                        "hall area edge cells should have at least 3 links");
-                    Assert.That(edgeCells.All(cell => cell.Links().Count >= 3),
-                        "hall area edge cells should have at least 3 links");
-                    if (innerCells.Count > 0) {
-                        Assert.That(
-                            innerCells.All(cell => cell.Links().Count == 4),
-                            $"hall area cells should be interconnected");
-                    }
-                    // TODO: This is not implemented yet
-                    // Assert.That(edgeCells.Any(cell => cell.Links().Count == 4), "hall areas should have exits");
-                    hallAreas++;
-                } else {
-                    Assert.Fail($"Unknown area type: {area.Key.Type}");
-                }
-            }
-            Assert.That(fillAreas, Is.EqualTo(2), "Wrong number of filled areas");
-            Assert.That(hallAreas, Is.EqualTo(2), "Wrong number of hall areas");
         }
 
         public static IEnumerable<Type> GetAllGenerators() {

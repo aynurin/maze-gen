@@ -10,7 +10,7 @@ namespace PlayersWorlds.Maps.Maze {
     public class GeneratorOptions {
         /// <summary>
         /// How much to fill the maze. <see
-        /// cref="MazeGenerator.IsFillComplete(GeneratorOptions, Maze2D) "/>
+        /// cref="Maze2DBuilder.IsFillComplete() "/>
         /// implementation for details.
         /// </summary>
         public FillFactorOption FillFactor { get; set; }
@@ -42,7 +42,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         /// <summary>
         /// How much to fill the maze. <see
-        /// cref="MazeGenerator.IsFillComplete(GeneratorOptions, Maze2D) "/>
+        /// cref="Maze2DBuilder.IsFillComplete()"/>
         /// implementation for details.
         /// </summary>
         public enum FillFactorOption {

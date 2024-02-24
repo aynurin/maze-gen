@@ -30,7 +30,7 @@ namespace PlayersWorlds.Maps.Renderers {
                 "▓░░░▓\n" +
                 "▓▓▓▓▓\n";
             var actual = map.ToString();
-            Console.WriteLine(actual);
+            Log.CreateForThisTest().D(5, actual);
             Assert.That(expected, Is.EqualTo(actual));
         }
     }

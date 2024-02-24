@@ -39,7 +39,7 @@ namespace PlayersWorlds.Maps.Maze {
             var fillCells = maze.MapAreas[fill];
             Assert.That(fillCells, Has.Exactly(12).Items);
 
-            var otherCells = maze.AllCells
+            var otherCells = maze.Cells
                 .Except(fillCells)
                 .ToList();
 
@@ -61,12 +61,12 @@ namespace PlayersWorlds.Maps.Maze {
             var areaPerimeter = 14;
             var mazeArea = 225;
 
-            var hallCells = maze.AllCells
+            var hallCells = maze.Cells
                 .IterateIntersection(hall.Position, hall.Size)
                 .Select(cell => cell.cell).ToList();
             Assert.That(hallCells, Has.Exactly(areaArea).Items);
 
-            var otherCells = maze.AllCells
+            var otherCells = maze.Cells
                 .Except(hallCells)
                 .ToList();
 
@@ -75,7 +75,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(hallCells.SelectMany(cell => cell.Links()),
                 Has.Exactly(1).AnyOf(otherCells));
 
-            var hallInnerCells = maze.AllCells.IterateIntersection(
+            var hallInnerCells = maze.Cells.IterateIntersection(
                 hall.Position + Vector.NorthEast2D,
                 hall.Size + Vector.SouthWest2D + Vector.SouthWest2D)
                 .Select(cell => cell.cell).ToList();
@@ -115,7 +115,7 @@ namespace PlayersWorlds.Maps.Maze {
             var caveCells = maze.MapAreas[cave];
             Assert.That(caveCells, Has.Exactly(21).Items);
 
-            var otherCells = maze.AllCells
+            var otherCells = maze.Cells
                 .Except(caveCells)
                 .ToList();
 
@@ -125,7 +125,7 @@ namespace PlayersWorlds.Maps.Maze {
                                  .Intersect(otherCells).ToList(),
                         Has.Count.GreaterThanOrEqualTo(1));
 
-            var caveInnerCells = maze.AllCells.IterateIntersection(
+            var caveInnerCells = maze.Cells.IterateIntersection(
                 cave.Position + Vector.NorthEast2D,
                 cave.Size + Vector.SouthWest2D + Vector.SouthWest2D)
                 .Select(cell => cell.cell).ToList();
@@ -150,7 +150,6 @@ namespace PlayersWorlds.Maps.Maze {
         public void OverlappingAreasAreAppliedProperly(
             [ValueSource("GetAllGenerators")] Type generatorType,
             [ValueSource("GetAllAreaTypes")] AreaType areaType) {
-            Console.Write($"OAAAP({generatorType.Name}, {areaType})");
             var area1 = MapArea.Create(areaType, new Vector(2, 3), new Vector(4, 7));
             var area2 = MapArea.Create(areaType, new Vector(4, 8), new Vector(7, 3));
             var maze = GenerateMaze(generatorType, new List<MapArea>() { area1, area2 });
@@ -165,7 +164,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(maze.MapAreas[area2], Has.Exactly(21).Items);
             Assert.That(areaCells, Has.Exactly(areaArea).Items);
 
-            var otherCells = maze.AllCells
+            var otherCells = maze.Cells
                 .Except(maze.MapAreas[area1])
                 .Except(maze.MapAreas[area2])
                 .ToList();
@@ -177,11 +176,11 @@ namespace PlayersWorlds.Maps.Maze {
                 Assert.That(areaCells.SelectMany(cell => cell.Links()),
                     Has.None.AnyOf(otherCells));
             } else {
-                var innerCells = maze.AllCells.IterateIntersection(
+                var innerCells = maze.Cells.IterateIntersection(
                     area1.Position + Vector.NorthEast2D,
                     area1.Size + Vector.SouthWest2D + Vector.SouthWest2D)
                     .Concat(
-                        maze.AllCells.IterateIntersection(
+                        maze.Cells.IterateIntersection(
                             area2.Position + Vector.NorthEast2D,
                             area2.Size + Vector.SouthWest2D + Vector.SouthWest2D)
                     ).Select(cell => cell.cell).Distinct().ToList();
@@ -215,8 +214,11 @@ namespace PlayersWorlds.Maps.Maze {
 
             var areaArea = 4;
             var mazeArea = 36;
-            var expectConnected = areaType == AreaType.Cave ?
-                mazeArea : mazeArea - areaArea;
+            var expectConnected =
+                areaType == AreaType.Cave ? mazeArea : mazeArea - areaArea;
+            if (areaType == AreaType.Hall) {
+                expectConnected += 1; // entrance cell within the call.
+            }
 
             Assert.That(maze.MapAreas[area1], Has.Exactly(areaArea).Items);
             Assert.That(maze.MapAreas[area2], Has.Exactly(areaArea).Items);
@@ -248,8 +250,11 @@ namespace PlayersWorlds.Maps.Maze {
 
             var areaArea = areas.Sum(area => area.Size.Area);
             var mazeArea = maze.Size.Area;
-            var expectConnected = areaType == AreaType.Cave ?
-                mazeArea : mazeArea - areaArea;
+            var expectConnected =
+                areaType == AreaType.Cave ? mazeArea : mazeArea - areaArea;
+            if (areaType == AreaType.Hall) {
+                expectConnected += areas.Count; // entrance cell within the call.
+            }
 
             Assert.That(builder.CellsToConnect, Is.Empty);
             Assert.That(builder.ConnectedCells,
@@ -308,9 +313,9 @@ namespace PlayersWorlds.Maps.Maze {
                 fillFactor,
                 out var _);
 
-            var paths = DijkstraDistance.Find(maze.AllCells[area1.Position]);
+            var paths = DijkstraDistance.Find(maze.Cells[area1.Position]);
 
-            Assert.That(paths.ContainsKey(maze.AllCells[area2.Position]));
+            Assert.That(paths.ContainsKey(maze.Cells[area2.Position]));
         }
 
         [Test]

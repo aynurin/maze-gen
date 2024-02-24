@@ -20,6 +20,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void CanRenderAMapWithSmoothCorners() {
+            var log = Log.CreateForThisTest();
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 1, 2, 1, 2 },
                 trailHeights: new int[] { 2, 1, 2, 1 },
@@ -50,13 +51,14 @@ namespace PlayersWorlds.Maps {
                 "▓▓▓▓▓▓▓▓▓▓▓▓▓\n" +
                 "0000000000000\n";
             var actual = map.ToString();
-            Console.WriteLine(expected);
-            Console.WriteLine(actual);
+            log.D(5, expected);
+            log.D(5, actual);
             Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
         public void CanRenderAMapWithVoids() {
+            var log = Log.CreateForThisTest();
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 2, 3, 3, 2 },
                 trailHeights: new int[] { 1, 2, 1, 1 },
@@ -86,16 +88,19 @@ namespace PlayersWorlds.Maps {
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
             var actual = map.ToString();
-            Console.WriteLine(expected);
-            Console.WriteLine(actual);
+            log.D(5, expected);
+            log.D(5, actual);
             Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
         public void CanRenderAMapWithFilledAreas() {
-            _maze.AddArea(MapArea.Create(
-                AreaType.Fill, new Vector(1, 1), new Vector(1, 1)));
-            _maze.ApplyAreas();
+            var log = Log.CreateForThisTest();
+            _maze.AddArea(
+                MapArea.Create(
+                    AreaType.Fill, new Vector(1, 1), new Vector(1, 1)));
+            var builder = new Maze2DBuilder(_maze, new GeneratorOptions() { });
+            builder.ApplyAreas();
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 2, 3, 3, 2 },
                 trailHeights: new int[] { 1, 2, 1, 1 },
@@ -125,16 +130,19 @@ namespace PlayersWorlds.Maps {
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
             var actual = map.ToString();
-            Console.WriteLine(expected);
-            Console.WriteLine(actual);
+            log.D(5, expected);
+            log.D(5, actual);
             Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
         public void CanRenderAMapWithHallAreas() {
-            _maze.AddArea(MapArea.Create(
-                AreaType.Hall, new Vector(0, 0), new Vector(4, 2)));
-            _maze.ApplyAreas();
+            var log = Log.CreateForThisTest();
+            _maze.AddArea(
+                MapArea.Create(
+                    AreaType.Hall, new Vector(0, 0), new Vector(4, 2)));
+            var builder = new Maze2DBuilder(_maze, new GeneratorOptions() { });
+            builder.ApplyAreas();
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 2, 3, 3, 2 },
                 trailHeights: new int[] { 1, 2, 1, 1 },
@@ -163,14 +171,15 @@ namespace PlayersWorlds.Maps {
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
-            Console.WriteLine(expected);
+            log.D(5, expected);
             var actual = map.ToString();
-            Console.WriteLine(actual);
+            log.D(5, actual);
             Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
         public void Maze2DStringBoxRenderer_CanConvertToAscii() {
+            var log = Log.CreateForThisTest();
             var expected =
                 "┌───────────┐    \n" +
                 "│           │    \n" +
@@ -181,12 +190,13 @@ namespace PlayersWorlds.Maps {
                 "│   ┼   └───┘   │\n" +
                 "│               │\n" +
                 "└───────────────┘\n";
-            Console.WriteLine(_maze.ToString());
+            log.D(5, _maze.ToString());
             Assert.That(expected, Is.EqualTo(_maze.ToString()));
         }
 
         [Test]
         public void Maze2DStringBoxRenderer_CanConvertToAsciiWithData() {
+            var log = Log.CreateForThisTest();
             var expected =
                 "┌───────────┐    \n" +
                 "│ 4   3   2 │    \n" +
@@ -200,7 +210,7 @@ namespace PlayersWorlds.Maps {
             _maze.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(_maze));
             _maze.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
                 DijkstraDistance.FindLongestTrail(_maze));
-            Console.WriteLine(_maze.ToString());
+            log.D(5, _maze.ToString());
             Assert.That(expected, Is.EqualTo(_maze.ToString()));
         }
 
@@ -236,7 +246,7 @@ namespace PlayersWorlds.Maps {
                 wallHeights: new int[] { 2, 1, 2, 1, 2 });
             var map = CreateMapForMaze(_maze, mazeToMapOptions);
             var mazeToMap = new Maze2DRenderer(_maze, mazeToMapOptions);
-            var cellMapping = mazeToMap.CreateCellsMapping(map, _maze.AllCells[0]);
+            var cellMapping = mazeToMap.CreateCellsMapping(map, _maze.Cells[0]);
 
             Assert.That(cellMapping.SWPosition, Is.EqualTo(new Vector(0, 0)), "SWPosition");
             Assert.That(cellMapping.SWSize, Is.EqualTo(new Vector(1, 2)), "SWSize");

@@ -21,6 +21,8 @@ namespace PlayersWorlds.Maps.Maze {
                       MapAreasOptions = MapAreaOptions.Manual,
                       MapAreas = areas
                   }, out builder);
+            Log.Create(new StackTrace().GetFrame(1).GetMethod().Name
+                                .Split('_').Last()).D(5, maze.ToString());
             Assert.That(maze.MapAreas.Count, Is.EqualTo(areas.Count),
                 "Wrong number of areas");
             return maze;

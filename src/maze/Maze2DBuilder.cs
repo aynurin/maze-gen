@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Emit;
 using PlayersWorlds.Maps.Areas;
 using static PlayersWorlds.Maps.Maze.GeneratorOptions;
 
@@ -30,35 +31,64 @@ namespace PlayersWorlds.Maps.Maze {
     public class Maze2DBuilder {
         private readonly Maze2D _maze;
         private readonly GeneratorOptions _options;
+
         private readonly int _isFillCompleteAttempts;
         private int _isFillCompleteAttemptsMade;
+
+        private readonly HashSet<MazeCell> _cellsToConnect;
+        private readonly Dictionary<MazeCell, List<MazeCell>> _priorityCellsToConnect;
+        private readonly HashSet<MazeCell> _allConnectableCells;
+        private readonly HashSet<MazeCell> _connectedCells =
+            new HashSet<MazeCell>();
+
         /// <summary>
         /// Cells that can be connected and are not connected yet.
         /// </summary>
-        private readonly HashSet<MazeCell> _cellsToConnect;
+        /// <remarks>
+        /// Used only in <see cref="AldousBroderMazeGenerator"/>.
+        /// </remarks>
+        internal IReadOnlyCollection<MazeCell> CellsToConnect =>
+            _cellsToConnect;
         /// <summary>
-        /// Contains all cells that can be connected, including cells that are
-        /// already connected. Initially, this collection is similar to
-        /// _cellsToConnect.
+        /// Same as <see cref="CellsToConnect"/>, but in a priority order.
         /// </summary>
-        private readonly HashSet<MazeCell> _allConnectableCells;
+        /// <remarks>
+        /// Used only in <see cref="HuntAndKillMazeGenerator"/>.
+        /// </remarks>
+        internal IEnumerable<MazeCell> PrioritizedCellsToConnect =>
+            _priorityCellsToConnect.Keys
+                    .Concat(_cellsToConnect
+                            .Except(_priorityCellsToConnect.Keys));
         /// <summary>
-        /// Cells that are connected.
-        /// <p>_cellsToConnect + _connectedCells = _allConnectableCells</p>
+        /// All connectable cells (connected or unconnected) in the
+        /// lowest xy to highest xy order with row priority.
         /// </summary>
-        private readonly HashSet<MazeCell> _connectedCells =
-            new HashSet<MazeCell>();
+        /// <remarks>
+        /// Used only in <see cref="BinaryTreeMazeGenerator"/> and 
+        /// <see cref="SidewinderMazeGenerator"/>.
+        /// </remarks>
+        internal IReadOnlyCollection<MazeCell> AllCells => _allConnectableCells;
+        /// <summary>
+        /// Cells that are already have connections to other cells.
+        /// </summary>
+        /// <remarks>
+        /// Used only in tests.
+        /// </remarks>
+        /// <testonly />
+        internal IReadOnlyCollection<MazeCell> ConnectedCells =>
+            _connectedCells;
         /// <summary>
         /// Cells that are not yet connected, and we want to connect them first.
         /// <p>Each cell in the priority cells is associated with an area, and
         /// when any of that area cells is connected, all cells associated with
         /// that area lose their priority status.</p>
         /// </summary>
-        private readonly Dictionary<MazeCell, List<MazeCell>> _priorityCellsToConnect;
-
-        internal HashSet<MazeCell> CellsToConnect => _cellsToConnect;
-        internal HashSet<MazeCell> ConnectedCells => _connectedCells;
-        internal Dictionary<MazeCell, List<MazeCell>> PriorityCells => _priorityCellsToConnect;
+        /// <remarks>
+        /// Used only in tests.
+        /// </remarks>
+        /// <testonly />
+        internal Dictionary<MazeCell, List<MazeCell>> PriorityCells =>
+            _priorityCellsToConnect;
 
         /// <summary>
         /// Creates a new instance of the <see cref="Maze2DBuilder"/> class.
@@ -100,11 +130,11 @@ namespace PlayersWorlds.Maps.Maze {
             }
 
             // fill the unlinked cells skipping the halls and filled areas.
-            _cellsToConnect = new HashSet<MazeCell>(_maze.AllCells
+            _cellsToConnect = new HashSet<MazeCell>(_maze.Cells
                 .Where(c => c.MapAreas
                        .All(cellArea => cellArea.Key.Type != AreaType.Fill &&
                                         cellArea.Key.Type != AreaType.Hall)));
-            _allConnectableCells = new HashSet<MazeCell>(_maze.AllCells
+            _allConnectableCells = new HashSet<MazeCell>(_maze.Cells
                 .Where(c => c.MapAreas
                        .All(cellArea => cellArea.Key.Type != AreaType.Fill &&
                                         cellArea.Key.Type != AreaType.Hall)));
@@ -116,7 +146,7 @@ namespace PlayersWorlds.Maps.Maze {
             if (area.Type == AreaType.Hall) {
                 // find all cells next to this hall that can be linked to the
                 // hall.
-                return _maze.AllCells
+                return _maze.Cells
                     .IterateIntersection(
                         new Vector(area.Position.Value.Select(c => c - 1)),
                         new Vector(area.Size.Value.Select(c => c + 2)))
@@ -209,29 +239,26 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
-        public bool CanConnect(MazeCell cell, Vector neighbor) =>
-            _allConnectableCells.Contains(cell) &&
-            cell.Neighbors(neighbor).HasValue &&
-            _allConnectableCells.Contains(cell.Neighbors(neighbor).Value);
-
-        public void ConnectHalls() {
-            // calls were avoided during the maze generation.
+        /// <summary>
+        /// Links all cells in <see cref="AreaType.Hall" /> and
+        /// <see cref="AreaType.Cave" /> areas, and removes
+        /// <see cref="AreaType.Fill" /> area cells from the neighbors and
+        /// links. This should be called in MazeGenerator.Generate() after the
+        /// generator algorithm completes.
+        /// </summary>
+        public void ApplyAreas() {
+            // halls were avoided during the maze generation.
             // now is the time to see if there are maze corridors next
             // to any halls, and if there are, connect them.
             foreach (var areaInfo in _maze.MapAreas) {
-                if (areaInfo.Key.Type == AreaType.Hall) {
-                    if (areaInfo.Value.Any(cell => cell.Links().Count > 0)) {
-                        Trace.TraceWarning(
-                            "Hall {0} has links: {1}", areaInfo.Key,
-                            string.Join(",",
-                                areaInfo.Value.Where(
-                                    cell => cell.Links().Count > 0)));
-                    }
-                }
-            }
-            foreach (var areaInfo in _maze.MapAreas) {
                 var area = areaInfo.Key;
+                var areaCells = areaInfo.Value.ToList();
+                if (area.Type == AreaType.Hall || area.Type == AreaType.Cave) {
+                    // link all hall and cave inner cells together.
+                    areaCells.ForEach(cell => cell.LinkAllNeighborsInArea(area));
+                }
                 if (area.Type == AreaType.Hall) {
+                    // create hall entrances.
                     var walkInCells = WalkInCells(area).ToList();
                     var entranceExists =
                         walkInCells.SelectMany(cell => cell.Links())
@@ -251,25 +278,47 @@ namespace PlayersWorlds.Maps.Maze {
                     var walkway = visitedWalkInCells.Random();
                     var entrance = walkway.Neighbors()
                         .First(c => c.MapAreas.ContainsKey(areaInfo.Key));
-                    entrance.Link(walkway);
+                    Connect(walkway, entrance);
+                } else if (area.Type == AreaType.Fill) {
+                    // if it's a filled area it cannot be visited, so we remove
+                    // all mentions of its cells:
+                    // 1. remove all of its cells from their neighbors
+                    // 2. remove all neighbors of its cells
+                    // 3. remove all links that involve its cells
+                    foreach (var cell in areaCells) {
+                        cell.Neighbors().ForEach(
+                            neighbor => neighbor.Neighbors().Remove(cell));
+                        cell.Neighbors().Clear();
+                        var links = cell.Links().ToArray();
+                        links.ForEach(link => cell.Unlink(link));
+                    }
                 }
             }
         }
 
-        [Obsolete("Use Connect(MazeCell,MazeCell) instead.")]
-        public void MarkConnected(MazeCell cell) {
-            // mark the cell as visited so it's not picked again in the 
-            // PickNextRandomUnlinkedCell
-            if (_priorityCellsToConnect.ContainsKey(cell)) {
-                var cellsToRemove = _priorityCellsToConnect[cell];
-                cellsToRemove.ForEach(c => _priorityCellsToConnect.Remove(c));
-            }
-            // only the connected cell is removed from _cellsToConnect because
-            // we still might want to connect other cells of the related areas.
-            _cellsToConnect.Remove(cell);
-            _connectedCells.Add(cell);
+        /// <summary>
+        /// Checks if the given cell is connected to the maze cells.
+        /// </summary>
+        public bool CanConnect(MazeCell cell, Vector neighbor) =>
+            _allConnectableCells.Contains(cell) &&
+            cell.Neighbors(neighbor).HasValue &&
+            _allConnectableCells.Contains(cell.Neighbors(neighbor).Value);
+
+        /// <summary>
+        /// Check if the given cell is connected to the maze cells.
+        /// </summary>
+        public bool IsConnected(MazeCell cell) {
+            var connected = _connectedCells.Contains(cell);
+            // TODO: Prod-time assert library? I.e. Assert.That(cell.Links().Count > 0);
+            return connected;
         }
 
+        /// <summary>
+        /// Connects one cell with it's neighbor in the provided direction.
+        /// </summary>
+        /// <param name="cell">The first cell to connect.</param>
+        /// <param name="direction">The direction of the neighbor to connect.
+        /// </param>
         public MazeCell Connect(MazeCell cell, Vector direction) {
             if (CanConnect(cell, direction)) {
                 var another = cell.Neighbors(direction).Value;
@@ -281,6 +330,11 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
+        /// <summary>
+        /// Connects two cells together.
+        /// </summary>
+        /// <param name="one">The first cell to connect.</param>
+        /// <param name="another">The second cell to connect.</param>
         public void Connect(MazeCell one, MazeCell another) {
             Trace.WriteLine(string.Format("Connecting {0} to {1}.", one, another));
             // mark the cell as visited so it's not picked again in the 
@@ -296,33 +350,6 @@ namespace PlayersWorlds.Maps.Maze {
                 _connectedCells.Add(cell);
             }
             one.Link(another);
-        }
-
-        /// <summary>
-        /// Iterate the unlinked cells in the priority order skipping the halls
-        /// and filled areas.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<MazeCell> AvailableCells() {
-            return _priorityCellsToConnect.Keys
-                    .Concat(_cellsToConnect
-                            .Except(_priorityCellsToConnect.Keys));
-        }
-
-        /// <summary>
-        /// Iterate all connectable cells (connected or unconnected) in the
-        /// lowest xy to highest xy order with row priority.
-        /// </summary>
-        // TODO: Change all methods that don't do work to properties.
-        public IReadOnlyCollection<MazeCell> AllMazeCells() {
-            return _allConnectableCells;
-        }
-
-        /// <summary>
-        /// Check if the given cell is connected.
-        /// </summary>
-        public bool IsConnected(MazeCell cell) {
-            return _connectedCells.Contains(cell);
         }
 
         /// <summary>

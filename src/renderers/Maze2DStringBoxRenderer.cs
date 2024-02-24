@@ -46,7 +46,7 @@ namespace PlayersWorlds.Maps.Renderers {
             for (var y = _maze.Size.Y - 1; y >= 0; y--) {
                 for (var x = 0; x < _maze.Size.X; x++) {
                     var mazeIndex = new Vector(x, y).ToIndex(_maze.Size);
-                    var mazeCell = _maze.AllCells[mazeIndex];
+                    var mazeCell = _maze.Cells[mazeIndex];
                     var cellData = solutionCells.Contains(mazeCell) ?
                         Convert.ToString(trail.IndexOf(mazeCell), 16) :
                         string.Empty;
@@ -79,7 +79,7 @@ namespace PlayersWorlds.Maps.Renderers {
             if (!string.IsNullOrEmpty(cellData)) {
                 _data.Add(I(asciiCoords.Center), cellData);
             }
-            if (!cell.IsVisited) return;
+            if (!cell.IsConnected) return;
             _buffer[I(asciiCoords.Northeast)] |= Border.Type.X;
             _buffer[I(asciiCoords.Northwest)] |= Border.Type.X;
             _buffer[I(asciiCoords.Southeast)] |= Border.Type.X;

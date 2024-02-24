@@ -32,7 +32,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// <c>true</c> if this cell has been visited by the maze generation
         /// algorithm.
         /// </summary>
-        public bool IsVisited { get; private set; }
+        public bool IsConnected => _links.Count > 0;
 
         /// <summary />
         public int X => Coordinates.X;
@@ -77,8 +77,6 @@ namespace PlayersWorlds.Maps.Maze {
             if (_links.Contains(cell))
                 throw new InvalidOperationException($"This link already exists ({this}->{cell})");
 
-            IsVisited = true;
-            cell.IsVisited = true;
             _links.Add(cell);
             cell._links.Add(this);
         }
@@ -99,13 +97,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// <param name="cell"></param>
         public void Unlink(MazeCell cell) {
             _links.Remove(cell);
-            if (this._links.Count == 0) {
-                this.IsVisited = false;
-            }
             cell._links.Remove(this);
-            if (cell._links.Count == 0) {
-                this.IsVisited = false;
-            }
         }
 
         /// <summary>
@@ -149,7 +141,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// has been visited by a maze generator algorithm.
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => $"{Coordinates}{(IsVisited ? "V" : "")}";
+        public override string ToString() => $"{Coordinates}{(IsConnected ? "V" : "")}";
 
         private string GatesString() => string.Concat(
             Links(Vector.North2D).HasValue ? "N" : "-",
