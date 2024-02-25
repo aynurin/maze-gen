@@ -28,9 +28,9 @@ namespace PlayersWorlds.Maps.Maze {
                 .Returns(false)
                 .Returns(true);
 
-            var generator = new WilsonsMazeGenerator();
             Assert.That(() =>
-                generator.GenerateMaze(builderMock.Object),
+                new WilsonsMazeGenerator()
+                    .GenerateMaze(builderMock.Object),
                 Throws.Nothing);
         }
     }

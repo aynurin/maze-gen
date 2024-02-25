@@ -11,22 +11,14 @@ namespace PlayersWorlds.Maps.Maze {
 
     [TestFixture]
     internal class MazeGeneratorAreasTest {
-        public Maze2D GenerateMaze(Type generatorType, List<MapArea> areas) {
-            var maze = MazeGenerator.Generate(new Vector(15, 15),
+        public Maze2D GenerateMaze(Type generatorType, List<MapArea> areas) =>
+            MazeTestHelper.GenerateMaze(new Vector(15, 15),
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.Full,
+                    FillFactor = FillFactorOption.Full,
                     Algorithm = generatorType,
-                    MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
+                    MapAreasOptions = MapAreaOptions.Manual,
                     MapAreas = areas
                 });
-            Log.Create(
-                new StackTrace().GetFrame(1).GetMethod().Name
-                    .Split('_').Last())
-                    .D(5, maze.ToString());
-            Assert.That(maze.MapAreas.Count, Is.EqualTo(areas.Count),
-                "Wrong number of areas");
-            return maze;
-        }
 
         [Test]
         [Repeat(10)]
@@ -207,10 +199,13 @@ namespace PlayersWorlds.Maps.Maze {
             var area1 = MapArea.Create(areaType, new Vector(2, 2), new Vector(2, 2));
             var area2 = MapArea.Create(areaType, new Vector(2, 2), new Vector(2, 2));
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(6, 6), generatorType,
-                new List<MapArea>() { area1, area2 },
-                GeneratorOptions.FillFactorOption.Full,
+                new Vector(6, 6), new GeneratorOptions() {
+                    Algorithm = generatorType,
+                    MapAreas = new List<MapArea>() { area1, area2 },
+                    FillFactor = FillFactorOption.Full,
+                },
                 out var builder);
+            Assert.That(MazeTestHelper.IsSolveable(maze));
 
             var areaArea = 4;
             var mazeArea = 36;
@@ -244,8 +239,11 @@ namespace PlayersWorlds.Maps.Maze {
                 MapArea.Create(areaType, new Vector(8, 6), new Vector(1, 1)),
             };
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(10, 8), generatorType, areas,
-                GeneratorOptions.FillFactorOption.Full,
+                new Vector(10, 8), new GeneratorOptions() {
+                    Algorithm = generatorType,
+                    MapAreas = areas,
+                    FillFactor = GeneratorOptions.FillFactorOption.Full,
+                },
                 out var builder);
 
             var areaArea = areas.Sum(area => area.Size.Area);
@@ -308,10 +306,12 @@ namespace PlayersWorlds.Maps.Maze {
             var area1 = MapArea.Create(areaType, new Vector(2, 2), new Vector(2, 2));
             var area2 = MapArea.Create(areaType, new Vector(24, 24), new Vector(2, 2));
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(30, 30), generatorType,
-                new List<MapArea>() { area1, area2 },
-                fillFactor,
-                out var _);
+                new Vector(30, 30),
+                new GeneratorOptions() {
+                    Algorithm = generatorType,
+                    MapAreas = new List<MapArea>() { area1, area2 }
+                },
+                out _);
 
             var paths = DijkstraDistance.Find(maze.Cells[area1.Position]);
 
@@ -332,7 +332,7 @@ namespace PlayersWorlds.Maps.Maze {
                 MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto
             };
             var maze = MazeTestHelper.GenerateMaze(new Vector(20, 20), options,
-                                                   out var builder);
+                                                   out _);
             Assert.That(maze.MapAreas.Count, Is.GreaterThan(2));
         }
 

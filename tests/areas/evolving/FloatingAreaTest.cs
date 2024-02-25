@@ -18,6 +18,13 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         }
 
         [Test]
+        public void ToStringIsValid() {
+            var data = "P0.53x7.50;S-3.01x0.01";
+            var floatingArea = FloatingArea.Parse(data);
+            Assert.That(floatingArea.ToString(), Is.EqualTo(data));
+        }
+
+        [Test]
         public void Overlaps() {
             var area1 = FloatingArea.FromMapArea(MapArea.Create(
                 AreaType.None, new Vector(0, 0), new Vector(10, 10)),

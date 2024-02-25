@@ -156,4 +156,7 @@ public class Log {
 
     public static Log CreateForThisTest() =>
         new Log(new StackTrace().GetFrame(1).GetMethod().Name.Split('_').Last());
+
+    internal static Log CreateForCallingTest() =>
+        new Log(new StackTrace().GetFrame(2).GetMethod().Name.Split('_').Last());
 }

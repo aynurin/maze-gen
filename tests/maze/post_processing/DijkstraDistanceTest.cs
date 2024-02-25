@@ -7,8 +7,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
     public class DijkstraDistanceTest {
         [Test]
         public void DijkstraDistance_FindsAllDistances() {
-            var maze = MazeGenerator
-                .Generate(new Vector(10, 10),
+            var maze = MazeTestHelper.GenerateMaze(new Vector(10, 10),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full

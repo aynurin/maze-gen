@@ -86,7 +86,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_CanRenderMap() {
-            var map = MazeGenerator.Generate(new Vector(3, 3),
+            var map = MazeTestHelper.GenerateMaze(new Vector(3, 3),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full
@@ -100,7 +100,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_AddsNoRoomsWhenNoneRequested() {
-            var maze = MazeGenerator.Generate(new Vector(10, 10),
+            var maze = MazeTestHelper.GenerateMaze(new Vector(10, 10),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full,
@@ -111,7 +111,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_AddsNoRoomsToASmallMaze() {
-            var maze = MazeGenerator.Generate(new Vector(3, 3),
+            var maze = MazeTestHelper.GenerateMaze(new Vector(3, 3),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full,
@@ -122,7 +122,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_AddsRooms() {
-            var maze = MazeGenerator.Generate(new Vector(5, 5),
+            var maze = MazeTestHelper.GenerateMaze(new Vector(5, 5),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full,
@@ -139,7 +139,7 @@ namespace PlayersWorlds.Maps.Maze {
                 MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
                 MapAreas = new List<MapArea> { MapArea.Parse("P2x1;S2x2;Hall") }
             };
-            var maze = MazeGenerator.Generate(
+            var maze = MazeTestHelper.GenerateMaze(
                 new Vector(5, 5), options);
             Assert.That(maze.MapAreas.Count, Is.EqualTo(1));
         }
@@ -152,14 +152,14 @@ namespace PlayersWorlds.Maps.Maze {
                 MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
                 MapAreas = new List<MapArea> { MapArea.Parse("P2x1;S2x2;Fill") }
             };
-            var maze = MazeGenerator.Generate(
+            var maze = MazeTestHelper.GenerateMaze(
                 new Vector(5, 5), options);
             Assert.That(maze.MapAreas.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void Maze2D_HasAttributesSet() {
-            var map = MazeGenerator.Generate(new Vector(3, 3),
+            var map = MazeTestHelper.GenerateMaze(new Vector(3, 3),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full
