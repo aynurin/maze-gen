@@ -63,5 +63,105 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 FloatingArea.Unlinked(new VectorD(3, 3), new VectorD(5, 5))
                 .Center, Is.EqualTo(new VectorD(5.5, 5.5)));
         }
+
+        [Test, Category("Integration")]
+        public void DistanceTo(
+            [ValueSource("AreaPairs")]
+            (FloatingArea[], VectorD, bool) parameters) {
+            var (d, overlap) =
+                parameters.Item1[0].DistanceTo(parameters.Item1[1]);
+            Assert.That(d, Is.EqualTo(parameters.Item2));
+            Assert.That(overlap, Is.EqualTo(parameters.Item3));
+        }
+
+        [Test]
+        public void DistanceToDebug() {
+            DistanceTo(AreaPairs().ElementAt(2));
+        }
+
+        public static IEnumerable<(FloatingArea[], VectorD, bool)> AreaPairs() {
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P4x1;S2x2") },
+                new VectorD(-1, 0), false);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P3x1;S2x2") },
+                new VectorD(0, 0), false);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P2x1;S2x2") },
+                new VectorD(1, 0), true);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P1x1;S2x2") },
+                new VectorD(0, 0), true);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P0x1;S2x2") },
+                new VectorD(-1, 0), true);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P-1x1;S2x2") },
+                new VectorD(0, 0), false);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P-2x1;S2x2") },
+                new VectorD(1, 0), false);
+
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P4x2;S2x2") },
+                new VectorD(-1, 1), false);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P3x2;S2x2") },
+                new VectorD(0, 1), false);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P2x2;S2x2") },
+                new VectorD(1, 1), true);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P1x2;S2x2") },
+                new VectorD(0, 1), true);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P0x2;S2x2") },
+                new VectorD(-1, 1), true);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P-1x2;S2x2") },
+                new VectorD(0, 1), false);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P1x1;S2x2"),
+                    FloatingArea.Parse("P-2x2;S2x2") },
+                new VectorD(1, 1), false);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P5x5;S4x4"),
+                    FloatingArea.Parse("P2x2;S4x4") },
+                new VectorD(-1, -1), true);
+            yield return (
+                new FloatingArea[] {
+                    FloatingArea.Parse("P6x6;S4x4"),
+                    FloatingArea.Parse("P1x1;S4x4") },
+                new VectorD(1, 1), false);
+        }
+
     }
 }

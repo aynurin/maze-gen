@@ -8,7 +8,7 @@ using PlayersWorlds.Maps.Areas;
 [TestFixture]
 public class RandomAreaGeneratorTest {
 
-    [Test]
+    [Test, Category("Integration")]
     public void ZoneGenerator_CanGenerateZones() {
         var zonesGenerator = new RandomAreaGenerator(
             RandomAreaGenerator.RandomAreaGeneratorSettings.Default);
@@ -54,7 +54,7 @@ public class RandomAreaGeneratorTest {
         Assert.That(types, Has.Exactly(3).Items);
     }
 
-    [Test]
+    [Test, Category("Integration")]
     public void ZoneGenerator_CustomSettings() {
         var zonesGenerator = new RandomAreaGenerator(
             new RandomAreaGenerator.RandomAreaGeneratorSettings(

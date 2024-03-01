@@ -49,7 +49,20 @@
     {
       "label": "test",
       "type": "shell",
-      "command": "mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category!=Load\" --framework=mono-4.0",
+      "command": "mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category!=Load AND Category!=Integration\" --framework=mono-4.0",
+      "problemMatcher": [],
+      "dependsOn": [
+        "build-trace"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "integration",
+      "type": "shell",
+      "command": "mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category=Integration\" --framework=mono-4.0",
       "problemMatcher": [],
       "dependsOn": [
         "build-trace"
@@ -62,7 +75,7 @@
     {
       "label": "performance",
       "type": "shell",
-      "command": "mono --profile=log packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category!=Load\" --framework=mono-4.0 && mprof-report output.mlpd",
+      "command": "mono --profile=log:calls,alloc,output=output.mlpd,maxframes=4,calldepth=5 packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category=Integration\" --framework=mono-4.0 && mprof-report output.mlpd",
       "problemMatcher": [],
       "dependsOn": [
         "build"

@@ -23,7 +23,7 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         [Test]
-        [Repeat(10)] // random factor
+        [Repeat(10), Category("Integration")] // random factor
         public void ArchShapedAreasLeftExit() {
             var area1 = MapArea.Create(AreaType.Hall, new Vector(2, 2), new Vector(3, 13));
             var area2 = MapArea.Create(AreaType.Hall, new Vector(10, 2), new Vector(3, 13));

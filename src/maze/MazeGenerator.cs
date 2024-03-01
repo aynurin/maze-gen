@@ -55,7 +55,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             var maze = new Maze2D(size);
             try {
-                GenerateMazeAreas(size, options, maze);
+                GenerateMazeAreas(size, options).ForEach(maze.AddArea);
                 builder = new Maze2DBuilder(maze, options);
                 (Activator.CreateInstance(options.Algorithm) as MazeGenerator)
                     .GenerateMaze(builder);
@@ -69,9 +69,9 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
-        private static void GenerateMazeAreas(Vector mazeSize,
-                                              GeneratorOptions options,
-                                              Maze2D maze) {
+        private static List<MapArea> GenerateMazeAreas(
+            Vector mazeSize,
+            GeneratorOptions options) {
             // count existing (desired) placement errors we can ignore when
             // checking auto-generated areas.
             var existingErrors = options.MapAreas == null ? 0 :
@@ -107,10 +107,7 @@ namespace PlayersWorlds.Maps.Maze {
                     areas.Count(
                         area => !area.FitsInto(Vector.Zero2D, mazeSize));
                 if (errors <= 0) {
-                    foreach (var area in areas) {
-                        maze.AddArea(area);
-                    }
-                    break;
+                    return areas;
                 }
                 if (--attempts == 0) {
                     var roomsDebugStr =
@@ -128,6 +125,7 @@ namespace PlayersWorlds.Maps.Maze {
                         throw new InvalidOperationException(message);
                     } else {
                         Trace.TraceWarning(message);
+                        return areas;
                     }
                 }
             }

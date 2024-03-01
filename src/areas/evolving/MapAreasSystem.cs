@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
@@ -7,12 +8,14 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         private static readonly string[] s_nicknames = new[] {
             "BEAR", "LION", "WOLF", "FOXY", "DEER", "MOOS", "ELKK", "HARE", "RABB", "OTTR", "PUMA", "HYNA", "PNDA", "CHTA", "RINO", "BSON", "ZEBR", "ORCA", "PENG"
         };
-        private readonly Dictionary<FloatingArea, string> _nicknames =
-            new Dictionary<FloatingArea, string>();
         private readonly Vector _envSize;
         private readonly IList<FloatingArea> _areas;
         private readonly Action<GenerationImpact> _onGeneration;
         private readonly Action<EpochResult> _onEpoch;
+
+        internal static IEnumerable<(MapArea area, string label)>
+            GetNicknames(IEnumerable<MapArea> areas) =>
+                areas.Select((a, i) => (area: a, label: s_nicknames[i]));
 
         public MapAreasSystem(
             Vector envSize,
@@ -20,30 +23,36 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             Action<GenerationImpact> onGeneration,
             Action<EpochResult> onEpoch) {
             _envSize = envSize;
-            _areas = areas.Select(area =>
-                                    FloatingArea.FromMapArea(area, envSize))
-                          .ToList();
-            foreach (var area in _areas) {
-                _nicknames.Add(area, s_nicknames[_nicknames.Count]);
-            }
+            _areas = areas.Select((area, i) => {
+                var fa = FloatingArea.FromMapArea(area, envSize);
+                fa.Nickname = s_nicknames[i];
+                return fa;
+            }).ToList();
+            // Console.WriteLine("Here we start.");
+            // areas.Select((a, i) => s_nicknames[i] + ": " + a.ToString()).ForEach(Console.WriteLine);
+            // Console.WriteLine("Now see how we converted...");
+            // _areas.ForEach(a => Console.WriteLine(a.Nickname + ": " + a.ToString()));
             _onGeneration = impact => onGeneration?.Invoke(impact);
             _onEpoch = epoch => onEpoch?.Invoke(epoch);
         }
 
         public override GenerationImpact Evolve(double fragment) {
-            var areaForceProducer = new SideToSideForceProducer(new ForceFormula(), fragment);
+            var areaForceProducer = new DirectedDistanceForceProducer(fragment);
             var envForceProducer = areaForceProducer;
             var areasForces = new List<VectorD>();
             // get epoch forces
             foreach (var area in _areas) {
-                var force = _areas.Where(other => other != area)
-                  .Select(other => areaForceProducer.GetAreaForce(area, other))
+                var areaForces = _areas.Where(other => other != area)
+                  .Select(other => areaForceProducer.GetAreaForce(area, other));
+                var overallForce = areaForces
                   .Aggregate(VectorD.Zero2D, (acc, f) => acc + f);
                 // opposing force
-                force /= 2;
-                force += envForceProducer.GetEnvironmentForce(area, _envSize);
+                // overallForce /= 2;
+                var envForce =
+                    envForceProducer.GetEnvironmentForce(area, _envSize);
                 // compensate opposing force
-                areasForces.Add(force);
+                areasForces.Add(overallForce + envForce);
+                // Console.WriteLine($"{area.Nickname}: {area}, {overallForce}, {envForce}");
             }
             // apply epoch force in this generation
             for (var i = 0; i < _areas.Count; i++) {
@@ -101,7 +110,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             epochResult.CompleteEvolution =
                 epochResult.Stats.Mode == 0 && epochResult.Stats.Variance <= 0.1;
 
-            // TODO: Trace: _log?.Buffered.D(4, $"CompleteEpoch(): {epochResult.DebugString()}, {epochResult.Stats.DebugString()}");
+            // TODO(#37): Trace: _log?.Buffered.D(4, $"CompleteEpoch(): {epochResult.DebugString()}, {epochResult.Stats.DebugString()}");
 
             _onEpoch(epochResult);
 

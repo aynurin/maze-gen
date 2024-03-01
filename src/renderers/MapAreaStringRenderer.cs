@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using PlayersWorlds.Maps.Areas;
@@ -10,35 +11,46 @@ namespace PlayersWorlds.Maps.Renderers {
     public class MapAreaStringRenderer {
 
         /// <summary />
-        public string Render(Vector envSize, IEnumerable<MapArea> areas) {
-            var bufferSize = new Vector(envSize.X * 2, envSize.Y * 2 * 2);
+        public string Render(Vector envSize,
+            IEnumerable<(MapArea area, string label)> areas) {
+            var bufferSize = new Vector(envSize.X * 2 * 2, envSize.Y * 2);
             var buffer = new AsciiBuffer(bufferSize.X, bufferSize.Y, true);
             var offset = new Vector(envSize.X / 2, envSize.Y / 2);
-            DrawRect(buffer, new Vector(offset.X, offset.Y), envSize, s_mazeChars);
+            DrawRect(buffer, new Vector(offset.X, offset.Y),
+                envSize, "", s_mazeChars);
             // transpile room positions to reflect reversed X in Terminal
             areas.ForEach(area => DrawRect(buffer,
-                new Vector(envSize.X - area.Position.X - area.Size.X + offset.X,
-                           area.Position.Y + offset.Y),
-                           area.Size,
+                new Vector(area.area.Position.X + offset.X,
+                           envSize.Y - area.area.Size.Y - area.area.Position.Y + offset.Y),
+                           area.area.Size,
+                           area.label,
                            s_roomChars));
             return buffer.ToString();
         }
 
-        private void DrawRect(AsciiBuffer buffer, Vector pos, Vector size, char[] wallChars) {
-            size = new Vector(size.X, size.Y * 2);
-            pos = new Vector(pos.X, pos.Y * 2);
-            buffer.PutC(pos.X, pos.Y, wallChars[2]);
-            buffer.PutC(pos.X, pos.Y + size.Y, wallChars[3]);
-            buffer.PutC(pos.X + size.X, pos.Y, wallChars[4]);
-            buffer.PutC(pos.X + size.X, pos.Y + size.Y, wallChars[5]);
-            for (var row = 1; row < size.X; row++) {
-                buffer.PutC(pos.X + row, pos.Y, wallChars[1]);
-                buffer.PutC(pos.X + row, pos.Y + size.Y, wallChars[1]);
+        private void DrawRect(AsciiBuffer buffer, Vector pos, Vector size,
+            string label, char[] wallChars) {
+            var ssize = new Vector(size.X * 2, size.Y);
+            var spos = new Vector(pos.X * 2, pos.Y);
+            buffer.PutC(spos.X, spos.Y, wallChars[2]);
+            buffer.PutC(spos.X + ssize.X, spos.Y, wallChars[3]);
+            buffer.PutC(spos.X, spos.Y + ssize.Y, wallChars[4]);
+            buffer.PutC(spos.X + ssize.X, spos.Y + ssize.Y, wallChars[5]);
+            for (var row = 1; row < ssize.Y; row++) {
+                buffer.PutC(spos.X, spos.Y + row, wallChars[1]);
+                buffer.PutC(spos.X + ssize.X, spos.Y + row, wallChars[1]);
             }
-            for (var col = 1; col < size.Y; col++) {
-                buffer.PutC(pos.X, pos.Y + col, wallChars[0]);
-                buffer.PutC(pos.X + size.X, pos.Y + col, wallChars[0]);
+            for (var col = 1; col < ssize.X; col++) {
+                buffer.PutC(spos.X + col, spos.Y, wallChars[0]);
+                buffer.PutC(spos.X + col, spos.Y + ssize.Y, wallChars[0]);
             }
+
+            if (label.Length > 0) {
+                for (var i = 0; i < Math.Min(label.Length, ssize.X - 1); i++) {
+                    buffer.PutC(spos.X + i, spos.Y + 1, label[i]);
+                }
+            }
+
         }
         private static readonly char[] s_mazeChars = new char[] { '═', '║', '╔', '╗', '╚', '╝' };
         private static readonly char[] s_roomChars = new char[] { '─', '│', '┌', '┐', '└', '┘' };

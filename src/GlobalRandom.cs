@@ -12,6 +12,13 @@ namespace PlayersWorlds.Maps {
 
         public static int Next(int min, int max) => s_random.Next(min, max);
 
+        public static double Next(double min, double max,
+                                  double precision = 100) =>
+            (double)(
+                Next((int)(min * precision), (int)(max * precision))
+                    / precision
+            );
+
         public static byte[] NextBytes(int count) {
             var rndBytes = new byte[count];
             var rnd = System.Security.Cryptography.RNGCryptoServiceProvider.Create();

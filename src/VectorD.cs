@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
+using static PlayersWorlds.Maps.Preconditions;
+
 namespace PlayersWorlds.Maps {
     /// <summary>
     /// A coordinate on a map, or a size of an object on the map.
@@ -27,7 +29,7 @@ namespace PlayersWorlds.Maps {
         public static readonly VectorD Zero2D = new VectorD(new double[] { 0, 0 });
 
         private readonly double[] _value;
-        private double _length;
+        private double _mag;
 
         /// <summary>
         /// Components of this vector
@@ -35,14 +37,10 @@ namespace PlayersWorlds.Maps {
         public ReadOnlyCollection<double> Value =>
             _value == null ? null : Array.AsReadOnly(_value);
         /// <summary>
-        /// <c>true</c> if this vector has no components; otherwise, <c>false</c>.
+        /// <c>true</c> if this vector has no components; otherwise,
+        /// <c>false</c>.
         /// </summary>
         public bool IsEmpty => _value == null || _value.Length == 0;
-        /// <summary>
-        /// Checks if the vector is two-dimensional.
-        /// </summary>
-        /// <returns><c>true</c> if the vector is two-dimensional; otherwise, <c>false</c>.</returns>
-        public bool IsTwoDimensional => !IsEmpty && _value.Length == 2;
         /// <summary>
         /// Gets the X coordinate of a two-dimensional vector.
         /// </summary>
@@ -50,28 +48,29 @@ namespace PlayersWorlds.Maps {
         /// <exception cref="InvalidOperationException">
         /// X and Y are only supported in two-dimensional space.
         /// </exception>
-        public double X => IsTwoDimensional ? _value[0] :
-            throw new InvalidOperationException(
-                "X and Y are only supported in two- or three-dimensional space");
+        public double X => _value[0];
         /// <summary>
         /// Gets the Y coordinate of a two-dimensional vector.
         /// </summary>
         /// <returns>The Y coordinate.</returns>
         /// <exception cref="InvalidOperationException">
         /// X and Y are only supported in two-dimensional space.</exception>
-        public double Y => IsTwoDimensional ? _value[1] :
-            throw new InvalidOperationException(
-                "X and Y are only supported in two- or three-dimensional space");
+        public double Y => _value[1];
+        /// <summary>
+        /// Number of components in this vector.
+        /// </summary>
+        public int Dimensions => _value.Length;
         /// <summary>
         /// Squared magnitude of this vector.
         /// </summary>
         /// <returns>The magnitude squared.</returns>
-        public double MagnitudeSq => _value.Sum(a => a * a);
+        public double MagnitudeSq => _value.Sum(a => Math.Abs(a) < MIN ? 0 : (a * a));
         /// <summary>
         /// Calculates the magnitude of a vector
         /// </summary>
         /// <returns>The magnitude of the vector</returns>
-        public double Magnitude => double.IsNaN(_length) ? _length = Math.Sqrt(MagnitudeSq) : _length;
+        public double Magnitude =>
+            double.IsNaN(_mag) ? _mag = Math.Sqrt(MagnitudeSq) : _mag;
 
         /// <summary>
         /// Creates a new instance of the <see cref="VectorD"/> class with the
@@ -83,12 +82,13 @@ namespace PlayersWorlds.Maps {
         public VectorD(IEnumerable<double> dimensions) {
             dimensions.ThrowIfNull("dimensions");
             _value = dimensions.ToArray();
-            _length = double.NaN;
+            _mag = double.NaN;
         }
 
         /// <summary>
         /// Creates a new two-dimensional instance of the <see cref="VectorD"/>
-        /// class with the given <paramref name="x" /> and <paramref name="y" />.
+        /// class with the given <paramref name="x" /> and
+        /// <paramref name="y" />.
         /// </summary>
         /// <param name="x">The X component.</param>
         /// <param name="y">The Y component.</param>
@@ -126,7 +126,9 @@ namespace PlayersWorlds.Maps {
         /// <param name="another">The vector to subtract</param>
         /// <returns>A new vector with the difference</returns>
         public static VectorD operator -(VectorD one, VectorD another) =>
-            ThrowIfEmptyOrApply(one, another, () => new VectorD(one._value.Zip(another._value, (a, b) => a - b)));
+            ThrowIfEmptyOrApply(one, another,
+                () => new VectorD(
+                    one._value.Zip(another._value, (a, b) => a - b)));
 
         /// <summary>
         /// Add two Vectors together.
@@ -137,7 +139,8 @@ namespace PlayersWorlds.Maps {
         /// </returns>
         public static VectorD operator +(VectorD one, VectorD another) =>
             ThrowIfEmptyOrApply(one, another,
-                () => new VectorD(one._value.Zip(another._value, (a, b) => a + b)));
+                () => new VectorD(
+                    one._value.Zip(another._value, (a, b) => a + b)));
 
         /// <summary>
         /// Divides a <see cref="VectorD"/> by a scalar.
@@ -150,22 +153,38 @@ namespace PlayersWorlds.Maps {
         public static VectorD operator /(VectorD dividend, double divisor) =>
             ThrowIfEmptyOrApply(dividend, VectorD.Zero2D,
             () => new VectorD(dividend._value.Select(e => divisor < MIN ?
-                throw new InvalidOperationException("Can't divide by zero") : e / divisor)));
+                throw new InvalidOperationException("Can't divide by zero") :
+                e / divisor)));
 
         /// <summary>Multiplies a <see cref="VectorD"/> by a scalar.</summary>
         /// <param name="one">The <see cref="VectorD"/> to multiply.</param>
         /// <param name="another">The scalar to multiply by.</param>
-        /// <returns>A new <see cref="VectorD"/> with each element multiplied by <paramref name="another"/>.</returns>
+        /// <returns>A new <see cref="VectorD"/> with each element multiplied
+        /// by <paramref name="another"/>.</returns>
         public static VectorD operator *(VectorD one, double another) =>
             ThrowIfEmptyOrApply(one, VectorD.Zero2D,
             () => new VectorD(one._value.Select(e => e * another)));
+
+        /// <summary>
+        /// Applies a Hadamard product to this and <paramref name="another"/>
+        /// vectors.
+        /// </summary>
+        /// <param name="another"></param>
+        public VectorD Hadamard(VectorD another) {
+            Check(Dimensions == another.Dimensions,
+                "Cannot apply Hadamard product to vectors of different " +
+                "dimensions");
+            return new VectorD(_value.Zip(another._value, (i1, i2) => i1 * i2));
+
+        }
 
         /// <summary>Checks if two Vectors are equal</summary>
         /// <param name="one">First Vector to check</param>
         /// <param name="another">Second Vector to check</param>
         /// <returns><c>true</c> if both Vectors are equal; otherwise,
         /// <c>false</c>.</returns>
-        public static bool operator ==(VectorD one, VectorD another) => one.Equals(another);
+        public static bool operator ==(VectorD one, VectorD another) =>
+            one.Equals(another);
 
         /// <summary>
         /// Determines whether two specified vectors are not equal.
@@ -204,7 +223,10 @@ namespace PlayersWorlds.Maps {
         /// </returns>
         public bool Equals(VectorD another) =>
             (this.IsEmpty && another.IsEmpty)
-            || (!this.IsEmpty && !another.IsEmpty && this._value.Zip(another._value, (a, b) => Math.Abs(a - b) < MIN).All(a => a));
+            || (!this.IsEmpty && !another.IsEmpty &&
+                    this._value.Zip(another._value,
+                                    (a, b) => Math.Abs(a - b) < MIN)
+                               .All(a => a));
 
         /// <summary>
         /// Gets the hash code for this vector by value of its components.
@@ -212,7 +234,9 @@ namespace PlayersWorlds.Maps {
         /// <returns>A 32-bit signed integer hash code.</returns>
         public override int GetHashCode() =>
             IsEmpty ? _value.GetHashCode() :
-            ((IStructuralEquatable)_value.Select(v => Math.Round(v, 9)).ToArray()).GetHashCode(EqualityComparer<double>.Default);
+            ((IStructuralEquatable)_value.Select(
+                    v => Math.Round(v, 9)).ToArray())
+                .GetHashCode(EqualityComparer<double>.Default);
 
         /// <summary>
         /// Returns a string of the form <c>1.23x-4.56</c> that represents the
@@ -227,31 +251,65 @@ namespace PlayersWorlds.Maps {
         /// <returns>
         /// A string that represents the current object.
         /// </returns>
-        public override string ToString() => IsEmpty ? "<empty>" : _value.Length == 0 ? "--" : string.Join("x", _value.Select(v => v.ToString("F2")));
+        public override string ToString() => IsEmpty ? "<empty>" :
+            _value.Length == 0 ? "--" :
+            string.Join("x", _value.Select(v => v.ToString("F2")));
 
         /// <summary>
         /// Creates a new vector with the specified magnitude maintaining the 
         /// direction of this vector.
         /// </summary>
         /// <param name="newMagnitude">The new magnitude for the vector</param>
-        /// <returns>A new vector with the same direction and the specified magnitude</returns>
+        /// <returns>A new vector with the same direction and the specified
+        /// magnitude</returns>
         public VectorD WithMagnitude(double newMagnitude) {
-            var mag = Magnitude;
-            return new VectorD(_value.Select(a => mag < MIN ? 0D : newMagnitude * a / mag));
+            if (IsEmpty || IsZero()) return this;
+            if (newMagnitude > -MIN && newMagnitude < MIN) return Zero2D;
+            var k = newMagnitude / Magnitude;
+            return new VectorD(_value.Select(a => k * a));
         }
 
-        private static T ThrowIfEmptyOrApply<T>(VectorD one, VectorD another, Func<T> apply) {
+        private static T ThrowIfEmptyOrApply<T>(VectorD one,
+                                                VectorD another,
+                                                Func<T> apply) {
             if (one.IsEmpty || another.IsEmpty)
-                throw new InvalidOperationException("Cannot operate on an empty vector");
+                throw new InvalidOperationException(
+                    "Cannot operate on an empty vector");
             return apply();
         }
 
         internal static VectorD Parse(string v) =>
             new VectorD(v.Trim().Split('x').Select(s => {
                 if (!double.TryParse(s.Trim('P', 'S'), out var val)) {
-                    throw new FormatException($"Input string was not in a correct format ({s}).");
+                    throw new FormatException(
+                        $"Input string was not in a correct format ({s}).");
                 }
                 return val;
             }));
+
+        internal VectorD Reverse() {
+            return new VectorD(_value.Select(a => -a));
+        }
+
+        internal static VectorD Random(double limit) {
+            return new VectorD(Enumerable.Range(0, 2)
+                .Select(i => GlobalRandom.Next(-limit, limit)));
+        }
+
+        // TODO: ensure it's not 0,0
+        internal static VectorD RandomUnit(int dimensions = 2) =>
+            new VectorD(GlobalRandom.NextBytes(dimensions)
+                                    .Select(a => (a % 3) - 1D));
+
+        /// <summary>
+        /// Checks if this vector can be used as a size, i.e. it has components,
+        /// and all components are greater than zero.
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        public void ThrowIfNotAValidSize() {
+            if (_value.Length == 0 || _value.Any(i => i <= 0))
+                throw new ArgumentException(
+                    $"This Vector is not a valid size: {this}");
+        }
     }
 }

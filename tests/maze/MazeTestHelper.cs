@@ -23,19 +23,6 @@ namespace PlayersWorlds.Maps.Maze {
             }
             return true;
         }
-        public static Maze2D GenerateMaze(Vector size,
-                                          Type generatorType,
-                                          List<MapArea> areas,
-                                          FillFactorOption fillFactor,
-                                          out Maze2DBuilder builder) =>
-            GenerateMaze(size,
-                new GeneratorOptions() {
-                    FillFactor = fillFactor,
-                    Algorithm = generatorType,
-                    MapAreasOptions = MapAreaOptions.Manual,
-                    MapAreas = areas
-                }, out builder);
-
         public static Maze2D GenerateMaze(
                                    Vector size,
                                    GeneratorOptions options,

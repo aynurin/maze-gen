@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using PlayersWorlds.Maps.Renderers;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
@@ -35,14 +36,15 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         public void Distribute(Vector mapSize,
                                IEnumerable<MapArea> areas,
                                int maxEpochs) {
+            var areasWithNicknames = MapAreasSystem.GetNicknames(areas);
             if (_renderer != null) {
-                Console.WriteLine(_renderer.Render(mapSize, areas));
+                Console.WriteLine(_renderer.Render(mapSize, areasWithNicknames));
             }
             var simulator = new EvolvingSimulator(maxEpochs, 10);
             var system = new MapAreasSystem(mapSize, areas, r => { },
                 r => {
                     if (_verboseOutput && _renderer != null) {
-                        Console.WriteLine(_renderer.Render(mapSize, areas));
+                        Console.WriteLine(_renderer.Render(mapSize, areasWithNicknames));
                     }
                 });
             simulator.Evolve(system);

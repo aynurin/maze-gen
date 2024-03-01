@@ -158,7 +158,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(maze.MazeCells.Min(cell => cell.Y) == 0 && maze.MazeCells.Max(cell => cell.Y) == 9, Is.True, maze.ToString());
         }
 
-        [Test, Property("Category", "Load")]
+        [Test, Category("Integration")]
         public void IsFillComplete(
             [ValueSource("GetAllGenerators")]
             Type generatorType,
@@ -173,20 +173,14 @@ namespace PlayersWorlds.Maps.Maze {
                 Assert.Ignore();
             }
             var size = new Vector(10, 10);
-            var generator = (MazeGenerator)Activator.CreateInstance(generatorType);
             var options = new GeneratorOptions() {
+                Algorithm = generatorType,
                 FillFactor = fillFactor,
                 MapAreasOptions = mapAreaOptions,
                 MapAreas = mapAreas
             };
 
-            Assert.That(generator, Is.Not.Null, "Could not create generator of type {0}", generatorType.Name);
-            var generate = typeof(MazeGenerator).GetMethods().First(m => m.Name == "Generate" && m.IsGenericMethod);
-            Assert.That(generate, Is.Not.Null, "Could not find Generate method on generator of type {0}", generatorType.Name);
-            Assert.That(generate.MakeGenericMethod(generatorType), Is.Not.Null, "Could not find generic Generate method on generator of type {0}", generatorType.Name);
-
-            var map = (Maze2D)generate.MakeGenericMethod(generatorType)
-                .Invoke(generator, new object[] { size, options });
+            var map = MazeGenerator.Generate(size, options);
 
             var solution = new List<MazeCell>();
             Assert.DoesNotThrow(() => solution = DijkstraDistance.FindLongestTrail(map));
@@ -223,7 +217,7 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
-        [Test]
+        [Test, Category("Integration")]
         public void CanFindPaths(
             [ValueSource("GetAllGenerators")] Type generatorType
         ) {
@@ -236,24 +230,12 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(solution, Is.Not.Null.Or.Empty);
         }
 
-        public static IEnumerable<Type> GetAllGenerators() {
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .Where(asm => asm.GetName().Name == "PlayersWorlds.Maps")
-                .SelectMany(s => s.GetTypes())
-                .Where(p => typeof(MazeGenerator) != p &&
-                            typeof(MazeGenerator).IsAssignableFrom(p));
-        }
+        public static IEnumerable<Type> GetAllGenerators() =>
+            MazeTestHelper.GetAllGenerators();
 
         public static IEnumerable<GeneratorOptions.FillFactorOption>
-            GetGeneratorOptionsFillFactors() {
-            yield return GeneratorOptions.FillFactorOption.Full;
-            yield return GeneratorOptions.FillFactorOption.NinetyPercent;
-            yield return GeneratorOptions.FillFactorOption.ThreeQuarters;
-            yield return GeneratorOptions.FillFactorOption.Half;
-            yield return GeneratorOptions.FillFactorOption.FullHeight;
-            yield return GeneratorOptions.FillFactorOption.FullWidth;
-            yield return GeneratorOptions.FillFactorOption.Quarter;
-        }
+            GetGeneratorOptionsFillFactors() =>
+            MazeTestHelper.GetAllFillFactors();
 
         public static IEnumerable<GeneratorOptions.MapAreaOptions>
             GetGeneratorOptionsMapAreaOptions() {
@@ -266,15 +248,15 @@ namespace PlayersWorlds.Maps.Maze {
             yield return null;
             yield return new List<MapArea>();
             yield return new List<MapArea>() {
-                MapArea.Create(AreaType.Fill, new Vector(3, 2), new Vector(2, 3)) };
+                MapArea.CreateAutoPositioned(AreaType.Fill, new Vector(3, 2), new Vector(2, 3)) };
             yield return new List<MapArea>() {
-                MapArea.Create(AreaType.Hall, new Vector(3, 2), new Vector(3, 2)) };
+                MapArea.CreateAutoPositioned(AreaType.Hall, new Vector(3, 2), new Vector(3, 2)) };
             yield return new List<MapArea>() {
-                MapArea.Create(AreaType.Fill, new Vector(3, 2), new Vector(2, 3)),
-                MapArea.Create(AreaType.Hall, new Vector(6, 5), new Vector(3, 2)) };
+                MapArea.CreateAutoPositioned(AreaType.Fill, new Vector(3, 2), new Vector(2, 3)),
+                MapArea.CreateAutoPositioned(AreaType.Hall, new Vector(6, 5), new Vector(3, 2)) };
             yield return new List<MapArea>() {
-                MapArea.Create(AreaType.Hall, new Vector(3, 2), new Vector(2, 3)),
-                MapArea.Create(AreaType.Fill, new Vector(6, 5), new Vector(3, 2)) };
+                MapArea.CreateAutoPositioned(AreaType.Hall, new Vector(3, 2), new Vector(2, 3)),
+                MapArea.CreateAutoPositioned(AreaType.Fill, new Vector(6, 5), new Vector(3, 2)) };
         }
     }
 }

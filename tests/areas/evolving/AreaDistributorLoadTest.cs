@@ -9,14 +9,13 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
     [TestFixture]
     public class AreaDistributorLoadTest {
 
-        [Test, Property("Category", "Load")]
+        [Test, Category("Load")]
         public void AreaDistributor_LoadTest() {
             var results = new List<AreaDistributorHelper.DistributeResult>();
             var ops = new ParallelOptions {
                 MaxDegreeOfParallelism = 24
             };
-            // !! Current fail rate is at ~5%. See
-            // !! SideToSideForceProducer.GetAreaForce for the reason.
+            // !! Current fail rate is at ~2%. Requires investigation.
             var numTotal = 1000;
             var numPassed = 0;
             _ = Parallel.For(0, numTotal, ops, (i, state) => {
@@ -32,7 +31,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                         GlobalRandom.Next(0, (maze.Size - size).X),
                         GlobalRandom.Next(0, (maze.Size - size).Y));
                     rooms.Add(MapArea.CreateAutoPositioned(
-                        AreaType.None, size, position));
+                        AreaType.None, position, size));
                 }
                 var result = AreaDistributorHelper.Distribute(log, maze.Size, rooms, 100);
                 lock (results) {

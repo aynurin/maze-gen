@@ -6,7 +6,7 @@ namespace PlayersWorlds.Maps.Renderers {
         private readonly bool _hideOverflow;
         private readonly char[][] _buffer;
 
-        public AsciiBuffer(int rows, int cols, bool hideOverflow) {
+        public AsciiBuffer(int cols, int rows, bool hideOverflow) {
             _hideOverflow = hideOverflow;
             _buffer = new char[rows][];
             for (var i = 0; i < rows; i++) {
@@ -14,7 +14,7 @@ namespace PlayersWorlds.Maps.Renderers {
             }
         }
 
-        internal void PutC(int row, int col, char v) {
+        internal void PutC(int col, int row, char v) {
             if (row < 0 || row >= _buffer.Length || col < 0 || col >= _buffer[row].Length) {
                 if (_hideOverflow) {
                     return;

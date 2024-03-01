@@ -65,6 +65,7 @@ namespace PlayersWorlds.Maps.Areas {
             set => _position = value;
         }
         internal bool IsPositionFixed { get; }
+        internal bool IsPositionEmpty => _position.IsEmpty;
 
         internal double LowX => Position.X;
         internal double HighX => Position.X + Size.X;
@@ -107,7 +108,7 @@ namespace PlayersWorlds.Maps.Areas {
         /// <param name="position">The initial position of the area.</param>
         /// <param name="tags">The tags for the area.</param>
         public static MapArea CreateAutoPositioned(
-            AreaType type, Vector size, Vector position, params string[] tags) {
+            AreaType type, Vector position, Vector size, params string[] tags) {
             return new MapArea(type, position, size, false, tags);
         }
 

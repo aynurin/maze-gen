@@ -21,7 +21,7 @@ namespace PlayersWorlds.Maps.Maze {
                 });
 
         [Test]
-        [Repeat(10)]
+        [Repeat(10), Category("Integration")]
         public void FillAreasAreAppliedProperly(
             [ValueSource("GetAllGenerators")] Type generatorType) {
             var fill = MapArea.Create(AreaType.Fill, new Vector(2, 4), new Vector(3, 4));
@@ -43,7 +43,7 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         [Test]
-        [Repeat(10)]
+        [Repeat(10), Category("Integration")]
         public void HallAreasAreAppliedProperly(
             [ValueSource("GetAllGenerators")] Type generatorType) {
             var hall = MapArea.Create(AreaType.Hall, new Vector(8, 2), new Vector(4, 5));
@@ -94,7 +94,7 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         [Test]
-        [Repeat(10)]
+        [Repeat(10), Category("Integration")]
         public void CaveAreasAreAppliedProperly(
             [ValueSource("GetAllGenerators")] Type generatorType) {
             var cave = MapArea.Create(AreaType.Cave, new Vector(5, 10), new Vector(7, 3));
@@ -138,7 +138,7 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         [Test]
-        [Repeat(10)]
+        [Repeat(10), Category("Integration")]
         public void OverlappingAreasAreAppliedProperly(
             [ValueSource("GetAllGenerators")] Type generatorType,
             [ValueSource("GetAllAreaTypes")] AreaType areaType) {
@@ -192,7 +192,7 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         [Test]
-        [Repeat(10)]
+        [Repeat(10), Category("Integration")]
         public void TwoMatchingAreas(
             [ValueSource("GetAllGenerators")] Type generatorType,
             [ValueSource("GetAllAreaTypes")] AreaType areaType) {
@@ -224,7 +224,7 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         [Test]
-        [Repeat(10)]
+        [Repeat(10), Category("Integration")]
         public void DenseWalkways(
             [ValueSource("GetAllGenerators")] Type generatorType,
             [ValueSource("GetAllAreaTypes")] AreaType areaType) {
@@ -260,7 +260,7 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         [Test]
-        [Repeat(10)]
+        [Repeat(10), Category("Integration")]
         public void WilsonsHalls() {
             GenerateMaze(GeneratorOptions.Algorithms.Wilsons,
                 new List<MapArea>() {
@@ -276,7 +276,7 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         [Test]
-        [Repeat(10)]
+        [Repeat(10), Category("Integration")]
         public void ScatteredAreas(
             [ValueSource("GetAllGenerators")] Type generatorType,
             [ValueSource("GetAllAreaTypes")] AreaType areaType,
@@ -319,7 +319,7 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         [Test]
-        [Repeat(100)]
+        [Repeat(100), Category("Integration")]
         public void ManualAndAutoAreasGeneration() {
             var options = new GeneratorOptions() {
                 Algorithm = GeneratorOptions.Algorithms.AldousBroder,

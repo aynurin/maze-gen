@@ -31,7 +31,9 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 OriginalOverlapping =
                     originalCopy
                         .Where(
-                            a => originalCopy.Any(b => a != b && a.Overlaps(b)))
+                            a => originalCopy.Any(
+                                    b => a != b &&
+                                         a.Overlap(b).Area > 0))
                         .ToList(),
                 OriginalOutOfBounds =
                     originalCopy
@@ -51,7 +53,9 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             result.PlacedOverlapping =
                 result.PlacedAreas
                     .Where(a =>
-                        result.PlacedAreas.Any(b => a != b && a.Overlaps(b)))
+                        result.PlacedAreas.Any(
+                            b => a != b &&
+                                 a.Overlap(b).Area > 0))
                     .ToList();
             result.PlacedOutOfBounds =
                 result.PlacedAreas
@@ -90,6 +94,17 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 Assert.That(PlacedOverlapping, Is.Empty,
                     "Overlapping: " + string.Join(", ",
                         PlacedOverlapping.Select(area => $"P{area.Position};S{area.Size}")));
+            }
+
+            internal void AssertDoesNotFit() {
+                if (PlacedOutOfBounds.Count > 0 || PlacedOverlapping.Count > 0) {
+                    Log?.Buffered.Flush();
+                }
+                Assert.That(PlacedOutOfBounds.Concat(PlacedOverlapping), Is.Not.Empty,
+                    "Out Of Bounds: " + string.Join(", ",
+                        PlacedOutOfBounds.Select(area => $"P{area.Position};S{area.Size}") +
+                    ". Overlapping: " + string.Join(", ",
+                        PlacedOverlapping.Select(area => $"P{area.Position};S{area.Size}"))));
             }
         }
     }
