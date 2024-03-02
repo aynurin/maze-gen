@@ -71,7 +71,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             if (overlap) {
                 // if the areas overlap and the distance is 0,
                 // it means that the area centers match.
-                if (distance.MagnitudeSq == 0) {
+                if (distance.MagnitudeSq < VectorD.MIN) {
                     // if there is a stored force in cache, it means we have 
                     // already calculated this force while processing the other
                     // area. So we just use it and cleanup the cache.

@@ -29,7 +29,9 @@ namespace PlayersWorlds.Maps {
         public static readonly VectorD Zero2D = new VectorD(new double[] { 0, 0 });
 
         private readonly double[] _value;
+        private readonly int _hashcode;
         private double _mag;
+
 
         /// <summary>
         /// Components of this vector
@@ -81,7 +83,11 @@ namespace PlayersWorlds.Maps {
         /// name="dimensions" /> is null.</exception>
         public VectorD(IEnumerable<double> dimensions) {
             dimensions.ThrowIfNull("dimensions");
-            _value = dimensions.ToArray();
+            _value = dimensions.Select(
+                    v => Math.Round(v, 9)).ToArray();
+            _hashcode = _value.Length == 0 ? _value.GetHashCode() :
+                ((IStructuralEquatable)_value)
+                    .GetHashCode(EqualityComparer<double>.Default);
             _mag = double.NaN;
         }
 
@@ -151,7 +157,7 @@ namespace PlayersWorlds.Maps {
         /// <exception cref="InvalidOperationException">Thrown when the divisor
         /// less than <see cref="MIN"/>.</exception>
         public static VectorD operator /(VectorD dividend, double divisor) =>
-            ThrowIfEmptyOrApply(dividend, VectorD.Zero2D,
+            ThrowIfEmptyOrApply(dividend, Zero2D,
             () => new VectorD(dividend._value.Select(e => divisor < MIN ?
                 throw new InvalidOperationException("Can't divide by zero") :
                 e / divisor)));
@@ -232,11 +238,8 @@ namespace PlayersWorlds.Maps {
         /// Gets the hash code for this vector by value of its components.
         /// </summary>
         /// <returns>A 32-bit signed integer hash code.</returns>
-        public override int GetHashCode() =>
-            IsEmpty ? _value.GetHashCode() :
-            ((IStructuralEquatable)_value.Select(
-                    v => Math.Round(v, 9)).ToArray())
-                .GetHashCode(EqualityComparer<double>.Default);
+        public override int GetHashCode() => _hashcode;
+
 
         /// <summary>
         /// Returns a string of the form <c>1.23x-4.56</c> that represents the

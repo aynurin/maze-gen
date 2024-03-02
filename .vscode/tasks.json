@@ -75,7 +75,7 @@
     {
       "label": "performance",
       "type": "shell",
-      "command": "mono --profile=log:calls,alloc,output=output.mlpd,maxframes=4,calldepth=5 packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category=Integration\" --framework=mono-4.0 && mprof-report output.mlpd",
+      "command": "mono --profile=log:calls,alloc,output=output.mlpd,maxframes=4,calldepth=5 build/Debug/mazegen/maze-gen.exe perfrun && mprof-report --out=build/perf.txt output.mlpd",
       "problemMatcher": [],
       "dependsOn": [
         "build"

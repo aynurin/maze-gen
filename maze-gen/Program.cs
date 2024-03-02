@@ -64,10 +64,16 @@ namespace PlayersWorlds.Maps.Maze {
                         break;
                     }
 
+                case Verb.PerfRun: {
+                        PerfRun();
+                        break;
+                    }
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
+
         public static void Run(string path, int times) {
             var parts = path.Split('.').ToArray();
             var methodName = parts.Last();
@@ -92,6 +98,45 @@ namespace PlayersWorlds.Maps.Maze {
                 .First();
         }
 
+        public static void PerfRun() {
+            var assy = "PlayersWorlds.Maps.Tests";
+            var ns = "PlayersWorlds.Maps.Maze";
+            var allTypes =
+                Assembly.Load(assy).GetTypes()
+                    .Where(t => !string.IsNullOrEmpty(t.Namespace) &&
+                                    t.Namespace.StartsWith(ns))
+                    .Where(t => t.GetCustomAttributes()
+                                .Any(a => a.GetType().Name ==
+                                                "TestFixtureAttribute"))
+                    .ToList();
+            foreach (var type in allTypes) {
+                Console.Write($"Creating " + type.FullName + "... ");
+                var testObj = Activator.CreateInstance(type);
+                Console.WriteLine(testObj != null ? "OK" : "FAILED");
+                if (testObj == null) {
+                    continue;
+                }
+                var allMethods =
+                    type.GetMethods()
+                        .Where(m => m.GetParameters().Length == 0)
+                        .Where(m => m.GetCustomAttributes()
+                                     .Any(a => a.GetType().Name == "TestAttribute"));
+                foreach (var method in allMethods) {
+                    Console.Write($"Calling {type.FullName}.{method.Name}()...");
+                    try {
+                        method.Invoke(testObj, null);
+                        Console.WriteLine("OK");
+                    } catch (Exception e) {
+                        if (e.ToString().IndexOf("SuccessException") >= 0) {
+                            Console.WriteLine("SuccessException");
+                        } else {
+                            Console.WriteLine(e.ToString());
+                        }
+                    }
+                }
+            }
+        }
+
         private enum Verb {
             /// <summary>
             /// Parse a maze from a string
@@ -104,7 +149,11 @@ namespace PlayersWorlds.Maps.Maze {
             /// <summary>
             /// Run a specific test N times
             /// </summary>
-            Run = 3
+            Run = 3,
+            /// <summary>
+            /// A set of tests run to get a performance baseline.
+            /// </summary>
+            PerfRun = 4
         }
     }
 }
