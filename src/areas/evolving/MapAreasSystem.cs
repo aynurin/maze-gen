@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
     internal class MapAreasSystem : SimulatedSystem {
+        private readonly Log _log = Log.ToConsole<MapAreasSystem>();
         private static readonly string[] s_nicknames = new[] {
             "BEAR", "LION", "WOLF", "FOXY", "DEER", "MOOS", "ELKK", "HARE", "RABB", "OTTR", "PUMA", "HYNA", "PNDA", "CHTA", "RINO", "BSON", "ZEBR", "ORCA", "PENG"
         };
@@ -28,10 +29,6 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 fa.Nickname = s_nicknames[i];
                 return fa;
             }).ToList();
-            // Console.WriteLine("Here we start.");
-            // areas.Select((a, i) => s_nicknames[i] + ": " + a.ToString()).ForEach(Console.WriteLine);
-            // Console.WriteLine("Now see how we converted...");
-            // _areas.ForEach(a => Console.WriteLine(a.Nickname + ": " + a.ToString()));
             _onGeneration = impact => onGeneration?.Invoke(impact);
             _onEpoch = epoch => onEpoch?.Invoke(epoch);
         }
@@ -44,15 +41,15 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             foreach (var area in _areas) {
                 var areaForces = _areas.Where(other => other != area)
                   .Select(other => areaForceProducer.GetAreaForce(area, other));
-                var overallForce = areaForces
+                var overallAreaForce = areaForces
                   .Aggregate(VectorD.Zero2D, (acc, f) => acc + f);
                 // opposing force
                 // overallForce /= 2;
                 var envForce =
                     envForceProducer.GetEnvironmentForce(area, _envSize);
                 // compensate opposing force
-                areasForces.Add(overallForce + envForce);
-                // Console.WriteLine($"{area.Nickname}: {area}, {overallForce}, {envForce}");
+                areasForces.Add(overallAreaForce + envForce);
+                _log.D(5, $"{area.Nickname}: {area}, {overallAreaForce}, {envForce}");
             }
             // apply epoch force in this generation
             for (var i = 0; i < _areas.Count; i++) {

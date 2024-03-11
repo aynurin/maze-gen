@@ -6,7 +6,7 @@ using PlayersWorlds.Maps;
 using PlayersWorlds.Maps.Areas;
 
 [TestFixture]
-public class RandomAreaGeneratorTest {
+public class RandomAreaGeneratorTest : Test {
 
     [Test, Category("Integration")]
     public void ZoneGenerator_CanGenerateZones() {

@@ -6,7 +6,7 @@ using PlayersWorlds.Maps.Areas;
 
 namespace PlayersWorlds.Maps.Maze {
     [TestFixture]
-    public class MazeCellTest {
+    public class MazeCellTest : Test {
 
         [Test]
         public void LinksAreMutual() {

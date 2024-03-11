@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace PlayersWorlds.Maps {
 
     [TestFixture]
-    internal class AssemblyInfoTest {
+    internal class AssemblyInfoTest : Test {
         [Test]
         public void TestAssemblyTitle() {
             var assembly = typeof(Map2D).Assembly;

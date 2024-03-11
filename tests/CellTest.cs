@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace PlayersWorlds.Maps {
 
     [TestFixture]
-    internal class CellTest {
+    internal class CellTest : Test {
         [Test]
         public void CellTagEqualityTest() {
             var tag = new Cell.CellTag("test");

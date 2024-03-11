@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace PlayersWorlds.Maps.Areas.Evolving {
 
     [TestFixture]
-    internal class FloatingAreaTest {
+    internal class FloatingAreaTest : Test {
         [Test]
         public void Parse() {
             var data = "P0.53x7.5;S-3.01x0.01";

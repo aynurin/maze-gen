@@ -13,6 +13,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
     /// Force-directed graph drawing</a>.
     /// </summary>
     public class AreaDistributor {
+        private readonly Log _log = Log.ToConsole<AreaDistributor>();
         private readonly MapAreaStringRenderer _renderer;
         private readonly bool _verboseOutput;
 
@@ -38,13 +39,13 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                                int maxEpochs) {
             var areasWithNicknames = MapAreasSystem.GetNicknames(areas);
             if (_renderer != null) {
-                Console.WriteLine(_renderer.Render(mapSize, areasWithNicknames));
+                _log.I(_renderer.Render(mapSize, areasWithNicknames));
             }
-            var simulator = new EvolvingSimulator(maxEpochs, 10);
+            var simulator = new EvolvingSimulator(maxEpochs, 20);
             var system = new MapAreasSystem(mapSize, areas, r => { },
                 r => {
                     if (_verboseOutput && _renderer != null) {
-                        Console.WriteLine(_renderer.Render(mapSize, areasWithNicknames));
+                        _log.I(_renderer.Render(mapSize, areasWithNicknames));
                     }
                 });
             simulator.Evolve(system);

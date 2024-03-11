@@ -2,6 +2,16 @@
 using System;
 
 namespace PlayersWorlds.Maps {
+    /// <summary>
+    /// Helper to check assumptions before relying on them. E.g. check arguments
+    /// are not null, etc.
+    /// </summary>
+    /// <remarks>
+    /// Best used with a static import:
+    /// using static PlayersWorlds.Maps.Preconditions;
+    /// ...
+    /// Check(...);
+    /// </remarks>
     public static class Preconditions {
         /// <summary>
         /// Checks a precondition and throws an ArgumentException if the check

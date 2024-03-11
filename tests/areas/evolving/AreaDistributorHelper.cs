@@ -6,7 +6,7 @@ using PlayersWorlds.Maps.Renderers;
 namespace PlayersWorlds.Maps.Areas.Evolving {
     internal class AreaDistributorHelper {
         internal static DistributeResult Distribute(
-            Log log,
+            TestLog log,
             Vector mapSize,
             IEnumerable<MapArea> areas,
             int maxEpochs = -1) {
@@ -74,7 +74,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         }
 
         internal class DistributeResult {
-            public Log Log { get; set; }
+            public TestLog Log { get; set; }
             public List<MapArea> OriginalOutOfBounds { get; set; }
             public List<MapArea> OriginalOverlapping { get; set; }
             public List<MapArea> OriginalAreas { get; set; }

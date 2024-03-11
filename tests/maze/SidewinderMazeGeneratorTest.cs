@@ -5,7 +5,7 @@ using PlayersWorlds.Maps.Areas;
 
 namespace PlayersWorlds.Maps.Maze {
     [TestFixture]
-    public class SidewinderMazeGeneratorTest {
+    public class SidewinderMazeGeneratorTest : Test {
         [Test]
         public void ArchShapedAreas() {
             var area1 = MapArea.Create(AreaType.Hall, new Vector(2, 2), new Vector(3, 13));
@@ -19,7 +19,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.FillFactorOption.Full
                 },
                 out var builder);
-            Assert.That(builder.CellsToConnect, Is.Empty);
+            Assert.That(builder.TestCellsToConnect, Is.Empty);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.FillFactorOption.Full
                 },
                 out var builder);
-            Assert.That(builder.CellsToConnect, Is.Empty);
+            Assert.That(builder.TestCellsToConnect, Is.Empty);
         }
     }
 }

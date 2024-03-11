@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace PlayersWorlds.Maps {
     [TestFixture]
-    public class VectorTest {
+    public class VectorTest : Test {
         [Test]
         public void Vector_IsInitialized() {
             var p = new Vector(2, 5);
@@ -67,7 +67,7 @@ namespace PlayersWorlds.Maps {
             var p0 = new Vector(3, 2);
             var p1 = new Vector();
 
-            Assert.That(p1.Value, Is.Null);
+            Assert.That(p1.Value, Is.Empty);
             Assert.That(p1 != p0, Is.True);
             Assert.That(p0 != p1, Is.True);
         }

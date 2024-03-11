@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace PlayersWorlds.Maps {
 
     [TestFixture]
-    internal class Map2DTest {
+    internal class Map2DTest : Test {
         internal const string Backslash =
                         "▓▓░░░\n" +
                         "░▓▓░░\n" +

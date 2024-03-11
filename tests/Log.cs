@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 
 // TODO: Refactor this to use Trace
-public class Log {
+public class TestLog {
     private readonly string _name;
     private readonly BufferedLog _buffered;
     private readonly ILogWriter _writer;
@@ -16,9 +16,9 @@ public class Log {
 
     public static int DebugLevel { get; set; } = 0;
 
-    public Log(string name) : this(name, new DefaultLogWriter()) { }
+    public TestLog(string name) : this(name, new DefaultLogWriter()) { }
 
-    public Log(string name, ILogWriter writer) {
+    public TestLog(string name, ILogWriter writer) {
         _name = name;
         _buffered = new BufferedLog(this);
         _writer = writer;
@@ -72,11 +72,11 @@ public class Log {
     //       on Trace migration.
     public class BufferedLog : TextWriter {
         private readonly List<LogMessage> _buffer = new List<LogMessage>();
-        private readonly Log _parentLog;
+        private readonly TestLog _parentLog;
 
         public override Encoding Encoding => throw new NotImplementedException();
 
-        public BufferedLog(Log parentLog) {
+        public BufferedLog(TestLog parentLog) {
             _parentLog = parentLog;
         }
 
@@ -94,7 +94,7 @@ public class Log {
 
         public void D(int debugLevel, string message) {
 #if DEBUG
-            if (debugLevel <= Log.DebugLevel) {
+            if (debugLevel <= DebugLevel) {
                 _buffer.Add(LogMessage.D(debugLevel, message));
             }
 #endif
@@ -151,12 +151,12 @@ public class Log {
         Error
     }
 
-    public static Log Create(string name) =>
-        new Log(name);
+    public static TestLog Create(string name) =>
+        new TestLog(name);
 
-    public static Log CreateForThisTest() =>
-        new Log(new StackTrace().GetFrame(1).GetMethod().Name.Split('_').Last());
+    public static TestLog CreateForThisTest() =>
+        new TestLog(new StackTrace().GetFrame(1).GetMethod().Name.Split('_').Last());
 
-    internal static Log CreateForCallingTest() =>
-        new Log(new StackTrace().GetFrame(2).GetMethod().Name.Split('_').Last());
+    internal static TestLog CreateForCallingTest() =>
+        new TestLog(new StackTrace().GetFrame(2).GetMethod().Name.Split('_').Last());
 }

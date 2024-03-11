@@ -37,10 +37,6 @@ namespace PlayersWorlds.Maps {
             return item.DebugString((member, value) => $"\t{member.Name} = {value}\n");
         }
 
-        public static string ShortDebugString(this object item) {
-            return item.DebugString((member, value) => value);
-        }
-
         public static string DebugString(this object item, Func<MemberInfo, string, string> memberFormatter) {
             var members = item.GetType().GetMembers(
                     System.Reflection.BindingFlags.Public |
@@ -80,15 +76,6 @@ namespace PlayersWorlds.Maps {
                 dictionary[key] = value;
             } else {
                 dictionary.Add(key, value);
-            }
-        }
-
-        public static void SetF<K, V>(this Dictionary<K, V> dictionary,
-            K key, Func<V, V> setter) {
-            if (dictionary.ContainsKey(key)) {
-                dictionary[key] = setter(dictionary[key]);
-            } else {
-                dictionary.Add(key, setter(default));
             }
         }
 

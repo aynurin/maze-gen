@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
@@ -8,7 +9,7 @@ using PlayersWorlds.Maps.Maze.PostProcessing;
 
 namespace PlayersWorlds.Maps.Maze {
     [TestFixture]
-    public class MazeGeneratorTest {
+    public class MazeGeneratorTest : Test {
 
         private class CustomAreaGenerator : AreaGenerator {
             public override IEnumerable<MapArea> Generate(
@@ -25,7 +26,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void CanUseCustomAreaGenerator() {
-            var log = Log.CreateForThisTest();
+            var log = Log.ToConsole("MazeGeneratorTest.CanUseCustomAreaGenerator");
             var maze = MazeGenerator.Generate(
                 new Vector(15, 15),
                 new GeneratorOptions() {
@@ -48,13 +49,14 @@ namespace PlayersWorlds.Maps.Maze {
         public void CanGenerateMazes(
             [ValueSource("GetAllGenerators")] Type generatorType
         ) {
+            var log = Log.ToConsole($"MazeGeneratorTest.CanGenerateMazes({generatorType.Name})");
             var maze = MazeTestHelper.GenerateMaze(
                 new Vector(20, 20), new GeneratorOptions() {
                     FillFactor = GeneratorOptions.FillFactorOption.Full,
                     Algorithm = generatorType
                 }, out var _);
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            Log.CreateForThisTest().D(5, maze.ToString());
+            log.D(5, maze.ToString());
             Assert.That(maze.Cells.Count(cell => cell.Links().Count == 0), Is.EqualTo(0));
         }
 
@@ -181,6 +183,7 @@ namespace PlayersWorlds.Maps.Maze {
             };
 
             var map = MazeGenerator.Generate(size, options);
+            Assert.That(map, Is.Not.Null);
 
             var solution = new List<MazeCell>();
             Assert.DoesNotThrow(() => solution = DijkstraDistance.FindLongestTrail(map));
@@ -189,6 +192,13 @@ namespace PlayersWorlds.Maps.Maze {
             map.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(map));
             map.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
                 solution);
+        }
+
+        [Test, Category("Integration")]
+        public void IsFillComplete_Debug() {
+            var log = Log.ToConsole($"MazeGeneratorTest.IsFillComplete_Debug");
+            log.I($"Running tests with seed {GlobalRandom.Seed}");
+            IsFillComplete(typeof(WilsonsMazeGenerator), GeneratorOptions.FillFactorOption.Full, GeneratorOptions.MapAreaOptions.Auto, null);
         }
 
         [Test]

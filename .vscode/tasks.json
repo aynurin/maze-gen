@@ -4,18 +4,16 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build",
-      "command": "msbuild",
-      "type": "process",
-      "problemMatcher": "$msCompile",
+      "label": "clean",
+      "command": "./tasks/clean.sh",
+      "type": "shell",
       "group": {
         "kind": "build",
-        "isDefault": true
       }
     },
     {
-      "label": "build-trace",
-      "command": "msbuild '/p:DefineConstants=TRACE'",
+      "label": "build",
+      "command": "./tasks/build.sh",
       "type": "shell",
       "problemMatcher": "$msCompile",
       "group": {
@@ -25,18 +23,21 @@
     },
     {
       "label": "rebuild",
-      "command": "rm -rf build && rm -rf packages && rm *.log && nuget restore && msbuild",
+      "command": ".",
       "type": "shell",
       "problemMatcher": "$msCompile",
+      "dependsOn": [
+        "clean",
+        "build"
+      ],
       "group": {
         "kind": "build",
-        "isDefault": true
       }
     },
     {
       "label": "coverage",
       "type": "shell",
-      "command": "./coverage.sh",
+      "command": "./tasks/coverage.sh",
       "problemMatcher": [],
       "dependsOn": [
         "build"
@@ -49,10 +50,23 @@
     {
       "label": "test",
       "type": "shell",
-      "command": "mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category!=Load AND Category!=Integration\" --framework=mono-4.0",
+      "command": "./tasks/test.sh --where=\"Category!=Load AND Category!=Integration\"",
       "problemMatcher": [],
       "dependsOn": [
-        "build-trace"
+        "build"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "all-tests",
+      "type": "shell",
+      "command": "mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --framework=mono-4.0 && ./coverage.sh",
+      "problemMatcher": [],
+      "dependsOn": [
+        "build"
       ],
       "group": {
         "kind": "test",
@@ -62,7 +76,7 @@
     {
       "label": "integration",
       "type": "shell",
-      "command": "mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category=Integration\" --framework=mono-4.0",
+      "command": "./tasks/test.sh --where=\"Category=Integration\"",
       "problemMatcher": [],
       "dependsOn": [
         "build-trace"
@@ -75,7 +89,7 @@
     {
       "label": "performance",
       "type": "shell",
-      "command": "mono --profile=log:calls,alloc,output=output.mlpd,maxframes=4,calldepth=5 build/Debug/mazegen/maze-gen.exe perfrun && mprof-report --out=build/perf.txt output.mlpd",
+      "command": "./tasks/perf.sh",
       "problemMatcher": [],
       "dependsOn": [
         "build"
@@ -88,7 +102,7 @@
     {
       "label": "load-test",
       "type": "shell",
-      "command": "mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=\"Category=Load\" --framework=mono-4.0",
+      "command": "./tasks/test.sh --where=\"Category=Load\"",
       "problemMatcher": [],
       "dependsOn": [
         "build"
@@ -102,6 +116,15 @@
       "label": "run",
       "type": "shell",
       "command": "mono --debug build/Debug/mazegen/maze-gen.exe ascii",
+      "problemMatcher": [],
+      "dependsOn": [
+        "build"
+      ]
+    },
+    {
+      "label": "debug",
+      "type": "shell",
+      "command": "mono --debug --debugger-agent=transport=dt_socket,server=y,address=127.0.0.1:55555 build/Debug/mazegen/maze-gen.exe generate",
       "problemMatcher": [],
       "dependsOn": [
         "build"

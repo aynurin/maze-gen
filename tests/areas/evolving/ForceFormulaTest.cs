@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
     [TestFixture]
-    public class ForceFormulaTestTest {
+    public class ForceFormulaTestTest : Test {
         [Test]
         public void NormalForce_Positive() =>
             // Test normal force calculation for positive and negative distances

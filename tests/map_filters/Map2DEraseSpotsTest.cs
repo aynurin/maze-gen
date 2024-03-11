@@ -4,11 +4,11 @@ using NUnit.Framework;
 namespace PlayersWorlds.Maps.MapFilters {
 
     [TestFixture]
-    internal class Map2DEraseSpotsTest {
+    internal class Map2DEraseSpotsTest : Test {
 
         [Test]
         public void BackslashEraseSpots() {
-            var log = Log.CreateForThisTest();
+            var log = TestLog.CreateForThisTest();
             var map = Map2DTest.Parse(Map2DTest.Backslash, Map2DTest.Tags);
             log.D(5, map.ToString());
 
@@ -31,7 +31,7 @@ namespace PlayersWorlds.Maps.MapFilters {
 
         [Test]
         public void VariousSpotsEraseSpots() {
-            var log = Log.CreateForThisTest();
+            var log = TestLog.CreateForThisTest();
             var emptyMap =
                 "░░░░░\n" +
                 "░░░░░\n" +
@@ -61,7 +61,7 @@ namespace PlayersWorlds.Maps.MapFilters {
 
         [Test]
         public void Spot1x3SpotsEraseSpots() {
-            var log = Log.CreateForThisTest();
+            var log = TestLog.CreateForThisTest();
             var map = Map2DTest.Parse(Map2DTest.Spot1x3, Map2DTest.Tags);
             log.D(5, map.ToString());
 
@@ -79,7 +79,7 @@ namespace PlayersWorlds.Maps.MapFilters {
 
         [Test]
         public void SmoothBoxVoidBgEraseSpots() {
-            var log = Log.CreateForThisTest();
+            var log = TestLog.CreateForThisTest();
             var map = Map2DTest.Parse(Map2DTest.SmoothBoxVoidBg, Map2DTest.Tags);
             log.D(5, map.ToString());
 
@@ -99,7 +99,7 @@ namespace PlayersWorlds.Maps.MapFilters {
         }
         [Test]
         public void SmoothBoxEraseSpots() {
-            var log = Log.CreateForThisTest();
+            var log = TestLog.CreateForThisTest();
             var map = Map2DTest.Parse(Map2DTest.SmoothBox, Map2DTest.Tags);
             log.D(5, map.ToString());
 

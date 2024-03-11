@@ -8,6 +8,7 @@ namespace PlayersWorlds.Maps.Areas {
     /// Generate areas randomly for a map of the provided size.
     /// </summary>
     public class RandomAreaGenerator : AreaGenerator {
+        private readonly Log _log = Log.ToConsole<RandomAreaGenerator>();
         private readonly RandomAreaGeneratorSettings _settings;
 
         /// <summary>
@@ -36,6 +37,7 @@ namespace PlayersWorlds.Maps.Areas {
             var addedArea = existingAreas?.Sum(area => area.Size.Area) ?? 0;
             var areas = new List<MapArea>();
             while (addedArea < size.Area * _settings.MinFillFactor) {
+                _log.D(3, 1000, "RandomAreaGenerator.Generate()");
                 var area = GetRandomZone();
                 if (!area.Size.FitsInto(size - new Vector(2, 2)))
                     continue;

@@ -83,7 +83,7 @@ namespace PlayersWorlds.Maps.Maze {
         ///     and Y is the height, number of rows</param>
         public Maze2D(Vector size) {
             size.ThrowIfNotAValidSize();
-            if (size.Value.Length != 2) {
+            if (size.Dimensions != 2) {
                 throw new NotImplementedException(
                     "At the moment, only 2D mazes are supported.");
             }
@@ -113,7 +113,7 @@ namespace PlayersWorlds.Maps.Maze {
         public Dictionary<MapArea, ICollection<MazeCell>> MapAreas => _mapAreas;
 
         internal void AddArea(MapArea area) {
-            var areaCells = _cells.Iterate(area.Position, area.Size)
+            var areaCells = _cells.IterateIntersection(area.Position, area.Size)
                 .Select(cell => cell.cell)
                 .ToList();
             _mapAreas.Add(area, areaCells);
@@ -203,7 +203,7 @@ namespace PlayersWorlds.Maps.Maze {
                 var maze = new Maze2D(Vector.Parse(parts[0]));
                 parts[1].Split(',')
                     .ForEach(areaStr => maze.AddArea(MapArea.Parse(areaStr)));
-                parts[2].Split(',').ForEach(cellStr => {
+                parts[2].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ForEach(cellStr => {
                     var part = cellStr.Split(':', ' ').Select(int.Parse).ToArray();
                     for (var j = 1; j < part.Length; j++) {
                         if (linksAdded.Contains($"{part[0]}|{part[j]}")) continue;

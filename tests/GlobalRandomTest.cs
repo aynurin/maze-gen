@@ -6,17 +6,17 @@ using NUnit.Framework;
 namespace PlayersWorlds.Maps {
 
     [TestFixture]
-    internal class GlobalRandomTest {
+    internal class GlobalRandomTest : Test {
         [Test]
         public void RandomCollectionItem() {
             var items = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            var item = GlobalRandom.GetRandom(items);
+            var item = GlobalRandom.Random(items);
             Assert.That(items.Contains(item), Is.True);
         }
         [Test]
         public void ThrowsIfEmptyCollection() {
             var items = new List<int>();
-            void Act() => GlobalRandom.GetRandom(items);
+            void Act() => GlobalRandom.Random(items);
             Assert.That(Act, Throws.TypeOf<InvalidOperationException>());
         }
         [Test]

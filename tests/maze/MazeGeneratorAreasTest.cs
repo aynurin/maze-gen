@@ -10,7 +10,7 @@ using static PlayersWorlds.Maps.Maze.GeneratorOptions;
 namespace PlayersWorlds.Maps.Maze {
 
     [TestFixture]
-    internal class MazeGeneratorAreasTest {
+    internal class MazeGeneratorAreasTest : Test {
         public Maze2D GenerateMaze(Type generatorType, List<MapArea> areas) =>
             MazeTestHelper.GenerateMaze(new Vector(15, 15),
                 new GeneratorOptions() {
@@ -218,8 +218,8 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(maze.MapAreas[area1], Has.Exactly(areaArea).Items);
             Assert.That(maze.MapAreas[area2], Has.Exactly(areaArea).Items);
             Assert.That(maze.MapAreas[area1], Is.EqualTo(maze.MapAreas[area2]));
-            Assert.That(builder.CellsToConnect, Is.Empty);
-            Assert.That(builder.ConnectedCells,
+            Assert.That(builder.TestCellsToConnect, Is.Empty);
+            Assert.That(builder.TestConnectedCells,
                 Has.Exactly(expectConnected).Items);
         }
 
@@ -254,8 +254,8 @@ namespace PlayersWorlds.Maps.Maze {
                 expectConnected += areas.Count; // entrance cell within the call.
             }
 
-            Assert.That(builder.CellsToConnect, Is.Empty);
-            Assert.That(builder.ConnectedCells,
+            Assert.That(builder.TestCellsToConnect, Is.Empty);
+            Assert.That(builder.TestConnectedCells,
                 Has.Exactly(expectConnected).Items);
         }
 
@@ -273,6 +273,10 @@ namespace PlayersWorlds.Maps.Maze {
             // priority cells while doing that, it will walk along one edge of
             // an area forever.
             Assert.Pass();
+        }
+
+        public void ScatteredAreasDebug() {
+            ScatteredAreas(GeneratorOptions.Algorithms.Wilsons, AreaType.Cave, FillFactorOption.Quarter);
         }
 
         [Test]

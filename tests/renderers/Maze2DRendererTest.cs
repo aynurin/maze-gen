@@ -10,7 +10,7 @@ using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
 namespace PlayersWorlds.Maps {
     [TestFixture]
-    public class Maze2DRendererTest {
+    public class Maze2DRendererTest : Test {
         private Maze2D _maze;
 
         [SetUp]
@@ -20,7 +20,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void CanRenderAMapWithSmoothCorners() {
-            var log = Log.CreateForThisTest();
+            var log = TestLog.CreateForThisTest();
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 1, 2, 1, 2 },
                 trailHeights: new int[] { 2, 1, 2, 1 },
@@ -58,7 +58,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void CanRenderAMapWithVoids() {
-            var log = Log.CreateForThisTest();
+            var log = TestLog.CreateForThisTest();
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 2, 3, 3, 2 },
                 trailHeights: new int[] { 1, 2, 1, 1 },
@@ -95,7 +95,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void CanRenderAMapWithFilledAreas() {
-            var log = Log.CreateForThisTest();
+            var log = TestLog.CreateForThisTest();
             _maze.AddArea(
                 MapArea.Create(
                     AreaType.Fill, new Vector(1, 1), new Vector(1, 1)));
@@ -137,7 +137,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void CanRenderAMapWithHallAreas() {
-            var log = Log.CreateForThisTest();
+            var log = TestLog.CreateForThisTest();
             _maze.AddArea(
                 MapArea.Create(
                     AreaType.Hall, new Vector(0, 0), new Vector(4, 2)));
@@ -179,7 +179,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void Maze2DStringBoxRenderer_CanConvertToAscii() {
-            var log = Log.CreateForThisTest();
+            var log = TestLog.CreateForThisTest();
             var expected =
                 "┌───────────┐    \n" +
                 "│           │    \n" +
@@ -196,7 +196,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void Maze2DStringBoxRenderer_CanConvertToAsciiWithData() {
-            var log = Log.CreateForThisTest();
+            var log = TestLog.CreateForThisTest();
             var expected =
                 "┌───────────┐    \n" +
                 "│ 4   3   2 │    \n" +
@@ -246,7 +246,7 @@ namespace PlayersWorlds.Maps {
                 wallHeights: new int[] { 2, 1, 2, 1, 2 });
             var map = CreateMapForMaze(_maze, mazeToMapOptions);
             var mazeToMap = new Maze2DRenderer(_maze, mazeToMapOptions);
-            var cellMapping = mazeToMap.CreateCellsMapping(map, _maze.Cells[0]);
+            var cellMapping = new CellsMapping(map, _maze.Cells[0], mazeToMapOptions);
 
             Assert.That(cellMapping.SWPosition, Is.EqualTo(new Vector(0, 0)), "SWPosition");
             Assert.That(cellMapping.SWSize, Is.EqualTo(new Vector(1, 2)), "SWSize");

@@ -5,6 +5,7 @@ using System.Linq;
 namespace PlayersWorlds.Maps.Areas.Evolving {
     internal class DirectedDistanceForceProducer :
         IAreaForceProducer, IEnvironmentForceProducer, IForceFormula {
+        private readonly Log _log = Log.ToConsole<DirectedDistanceForceProducer>();
         private readonly IForceFormula _forceFormula;
         private readonly double _overlapFactor;
         private readonly Dictionary<(FloatingArea, FloatingArea), VectorD>
@@ -101,7 +102,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             } else {
                 force = direction.WithMagnitude(_forceFormula.NormalForce(distance.Magnitude));
             }
-            // Console.WriteLine($"GetAreaForce ({area.Nickname} {area}) ({other.Nickname} {other}): direction={direction},distance={distance},overlap={overlap},force={force}");
+            _log.D(5, $"GetAreaForce ({area.Nickname} {area}) ({other.Nickname} {other}): direction={direction},distance={distance},overlap={overlap},force={force}");
             return force;
         }
 
@@ -125,15 +126,16 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var yBottom = OneForce(area.LowY, -1);
 
             var force = new VectorD(xTop + xBottom, yTop + yBottom);
-            // Console.WriteLine($"GetEnvironmentForce ({area.Nickname}, {area}, {environmentSize}): force={force}");
+            _log.D(5, $"GetEnvironmentForce ({area.Nickname}, {area}, {environmentSize}): xTop={xTop} xBottom={xBottom} yTop={yTop} yBottom={yBottom} area.LowX={area.LowX} sign={Math.Sign(area.LowX)} _forceFormula.NormalForce(0)={_forceFormula.NormalForce(0)} force={force}");
             return force;
         }
 
         public double NormalForce(double distance) {
             double F(double x) {
-                return x >= 3 ? 0 : x <= 0 ? 3 : 3 - x;
+                return x >= 3 ? 0 : x <= VectorD.MIN ? 3 : 3 - x;
             }
-            return F(Math.Abs(distance)) * Math.Sign(distance);
+            var absDistance = Math.Abs(distance);
+            return F(Math.Abs(distance)) * (absDistance < VectorD.MIN ? 1D : Math.Sign(distance));
         }
 
         public double CollideForce(double sign, double fragment) {
@@ -141,7 +143,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         }
 
         public double OverlapForce(double distance, double fragment) {
-            return distance / fragment + NormalForce(Math.Sign(distance));
+            // return (distance + NormalForce(Math.Sign(distance))) * 2;
+            return 3 * (distance + NormalForce(Math.Sign(distance)));
         }
     }
 }

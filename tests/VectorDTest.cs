@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace PlayersWorlds.Maps {
     [TestFixture]
-    public class VectorDTest {
+    public class VectorDTest : Test {
         [Test]
         public void IsInitialized() {
             var p = new VectorD(2.5, -5.1);

@@ -8,6 +8,7 @@ namespace PlayersWorlds.Maps.Maze {
     /// Aldous-Broder algorithm implementation.
     /// </summary>
     public class AldousBroderMazeGenerator : MazeGenerator {
+        private readonly Log _log = Log.ToConsole<AldousBroderMazeGenerator>();
         /// <summary>
         /// Generates a maze using Aldous-Broder algorithm in the specified
         /// layout.
@@ -23,8 +24,9 @@ namespace PlayersWorlds.Maps.Maze {
         override public void GenerateMaze(Maze2DBuilder builder) {
             var currentCell = builder.PickNextCellToLink();
             var idleLoops = 0;
-            var maxIdleLoops = builder.CellsToConnect.Count * 100;
+            var maxIdleLoops = builder.AllCells.Count * 100;
             while (!builder.IsFillComplete()) {
+                _log.D(3, 1000, "AldousBroderMazeGenerator.GenerateMaze()");
                 if (idleLoops >= maxIdleLoops) {
                     // A maze can have isolated maze areas do to MapAreas
                     // layout, so if we are stuck, we need to try picking a new

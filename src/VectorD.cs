@@ -110,6 +110,17 @@ namespace PlayersWorlds.Maps {
             this(intVector.Value.Select(v => (double)v)) { }
 
         /// <summary>
+        /// Creates an zero vector with the number of dimensions specified in
+        /// <paramref ref="dimensionsNumber" /> parameter.
+        /// </summary>
+        /// <param name="dimensionsNumber">Number of dimensions.</param>
+        /// <returns>A zero vector with the specified number of dimensions.
+        /// </returns>
+        public static VectorD Zero(int dimensionsNumber) {
+            return new VectorD(Enumerable.Repeat(0D, dimensionsNumber));
+        }
+
+        /// <summary>
         /// Rounds components of this vector to integer producing a new <see
         /// cref="Vector" /> instance.
         /// </summary>
@@ -294,15 +305,15 @@ namespace PlayersWorlds.Maps {
             return new VectorD(_value.Select(a => -a));
         }
 
-        internal static VectorD Random(double limit) {
-            return new VectorD(Enumerable.Range(0, 2)
-                .Select(i => GlobalRandom.Next(-limit, limit)));
+        internal static VectorD RandomUnit(int dimensions = 2) {
+            VectorD random;
+            do {
+                random = new VectorD(
+                    GlobalRandom.NextBytes(dimensions)
+                                .Select(a => (a % 3) - 1D));
+            } while (random._value.All(v => v == 0));
+            return random;
         }
-
-        // TODO: ensure it's not 0,0
-        internal static VectorD RandomUnit(int dimensions = 2) =>
-            new VectorD(GlobalRandom.NextBytes(dimensions)
-                                    .Select(a => (a % 3) - 1D));
 
         /// <summary>
         /// Checks if this vector can be used as a size, i.e. it has components,

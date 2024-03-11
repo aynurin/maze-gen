@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace PlayersWorlds.Maps {
 
     [TestFixture]
-    internal class NArrayTest {
+    internal class NArrayTest : Test {
         [Test]
         public void NArray_Constructor_CreatesCorrectSize() {
             var size = new Vector(5, 3);

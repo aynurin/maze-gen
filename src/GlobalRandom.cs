@@ -5,8 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace PlayersWorlds.Maps {
-    internal static class GlobalRandom {
-        private static readonly Random s_random = new Random();
+    public static class GlobalRandom {
+        private static Random s_random;
+        private static int s_seed;
+
+        public static int Seed { get => s_seed; }
+
+        static GlobalRandom() {
+            s_seed = DateTime.Now.Millisecond;
+            s_random = new Random(s_seed);
+        }
+
+        public static void Reseed(int seed) {
+            s_seed = seed;
+            s_random = new Random(s_seed);
+        }
 
         public static int Next() => s_random.Next();
 
@@ -26,18 +39,11 @@ namespace PlayersWorlds.Maps {
             return rndBytes;
         }
 
-        [Obsolete("Use Random() instead.")]
-        public static T GetRandom<T>(this IList<T> items) => items.Random();
-
         public static T Random<T>(this IList<T> items) =>
             items.Count == 0 ?
                 throw new InvalidOperationException(
                     "Cannot get a random item from an empty list") :
                 items[s_random.Next(items.Count)];
-
-        [Obsolete("Use Random(int) instead.")]
-        public static T GetRandom<T>(this IEnumerable<T> items, int count) =>
-            items.Random(count);
 
         public static T Random<T>(this IEnumerable<T> items, int count) =>
             count == 0 ?
@@ -45,17 +51,12 @@ namespace PlayersWorlds.Maps {
                     "Cannot get a random item from an empty list") :
                 items.ElementAt(s_random.Next(count));
 
-        [Obsolete("Use Random() instead.")]
-        public static T GetRandom<T>(this IEnumerable<T> items) =>
-            items.Random();
-
+        [Obsolete("See if you can use the Random<T>(this IEnumerable<T> " +
+                  "items, int count) overload.")]
         public static T Random<T>(this IEnumerable<T> items) {
-            var list = new List<T>(items);
-            if (list.Count == 0) {
-                throw new InvalidOperationException(
-                    "Cannot get a random item from an empty list");
-            }
-            return list.Random();
+            throw new InvalidOperationException(
+                "See if you can use the Random<T>(this IEnumerable<T> items, " +
+                "int count) overload.");
         }
 
         public static T RandomOrDefault<T>(this IEnumerable<T> items) {

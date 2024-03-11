@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace PlayersWorlds.Maps.Maze.PostProcessing {
     [TestFixture]
-    public class DijkstraDistanceTest {
+    public class DijkstraDistanceTest : Test {
         [Test]
         public void DijkstraDistance_FindsAllDistances() {
             var maze = MazeTestHelper.GenerateMaze(new Vector(10, 10),

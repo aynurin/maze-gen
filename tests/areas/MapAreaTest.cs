@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace PlayersWorlds.Maps.Areas {
 
     [TestFixture]
-    internal class MapAreaTest {
+    internal class MapAreaTest : Test {
         private static MapArea NewArea(int x, int y, int width, int height) {
             return MapArea.Create(
                 AreaType.None, new Vector(x, y), new Vector(width, height));

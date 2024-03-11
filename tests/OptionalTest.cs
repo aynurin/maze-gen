@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace PlayersWorlds.Maps {
     [TestFixture]
-    public class OptionalTest {
+    public class OptionalTest : Test {
         private class A {
             public int Value { get; set; }
         }

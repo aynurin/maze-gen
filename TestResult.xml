@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<test-run id="0" runstate="Runnable" testcasecount="1013" result="Failed" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1" engine-version="3.17.0.0" clr-version="4.0.30319.42000" start-time="2024-03-01 23:21:14Z" end-time="2024-03-01 23:21:25Z" duration="10.345674">
-  <command-line><![CDATA[/home/data/repos/github.com/aynurin/maze-gen/packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --where=Category=Load --framework=mono-4.0]]></command-line>
+<test-run id="0" runstate="Runnable" testcasecount="1015" result="Failed" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1" engine-version="3.17.0.0" clr-version="4.0.30319.42000" start-time="2024-03-11 13:53:10Z" end-time="2024-03-11 13:54:11Z" duration="61.356804">
+  <command-line><![CDATA[/home/data/repos/github.com/aynurin/maze-gen/packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --framework=mono-4.0 --where=Category=Load]]></command-line>
   <filter>
     <prop name="Category">Load</prop>
   </filter>
-  <test-suite type="Assembly" id="1-2060" name="PlayersWorlds.Maps.Tests.dll" fullname="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/PlayersWorlds.Maps.Tests.dll" runstate="Runnable" testcasecount="1013" result="Failed" site="Child" start-time="2024-03-01T23:21:15.1295970Z" end-time="2024-03-01T23:21:24.9952160Z" duration="9.865533" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
+  <test-suite type="Assembly" id="1-2062" name="PlayersWorlds.Maps.Tests.dll" fullname="/home/data/repos/github.com/aynurin/maze-gen/build/Debug/tests/PlayersWorlds.Maps.Tests.dll" runstate="Runnable" testcasecount="1015" result="Failed" site="Child" start-time="2024-03-11T13:53:10.5529170Z" end-time="2024-03-11T13:54:11.4646280Z" duration="60.911645" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
     <environment framework-version="4.0.1.0" clr-version="4.0.30319.42000" os-version="Unix 6.1.71.1" platform="Unix" cwd="/home/data/repos/github.com/aynurin/maze-gen" machine-name="lightview" user="shav" user-domain="lightview" culture="en-US" uiculture="en-US" os-architecture="x64" />
     <settings>
       <setting name="RequestedRuntimeFramework" value="mono-4.0" />
@@ -18,208 +18,70 @@
       <setting name="NumberOfTestWorkers" value="24" />
     </settings>
     <properties>
-      <property name="_PID" value="2334220" />
+      <property name="_PID" value="4139433" />
       <property name="_APPDOMAIN" value="domain-" />
     </properties>
     <failure>
       <message><![CDATA[One or more child tests had errors]]></message>
     </failure>
-    <test-suite type="SetUpFixture" id="1-1003" name="[default namespace]" fullname="SetUpTests" classname="SetUpTests" runstate="Runnable" testcasecount="1013" result="Failed" site="Child" start-time="2024-03-01T23:21:15.1344740Z" end-time="2024-03-01T23:21:24.9951980Z" duration="9.860724" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
+    <test-suite type="SetUpFixture" id="1-1003" name="[default namespace]" fullname="TestsSetup" classname="TestsSetup" runstate="Runnable" testcasecount="1015" result="Failed" site="Child" start-time="2024-03-11T13:53:10.5577170Z" end-time="2024-03-11T13:54:11.4646170Z" duration="60.906900" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
       <failure>
         <message><![CDATA[One or more child tests had errors]]></message>
       </failure>
-      <test-suite type="TestSuite" id="1-2061" name="PlayersWorlds" fullname="PlayersWorlds" runstate="Runnable" testcasecount="1011" result="Failed" site="Child" start-time="2024-03-01T23:21:15.1370800Z" end-time="2024-03-01T23:21:24.9941830Z" duration="9.857103" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
+      <output><![CDATA[[3/11/2024 6:53:10 AM] [TestsSetup-0] Running tests with seed 560
+]]></output>
+      <test-suite type="TestSuite" id="1-2063" name="PlayersWorlds" fullname="PlayersWorlds" runstate="Runnable" testcasecount="1013" result="Failed" site="Child" start-time="2024-03-11T13:53:10.5718340Z" end-time="2024-03-11T13:54:11.4640760Z" duration="60.892242" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
         <failure>
           <message><![CDATA[One or more child tests had errors]]></message>
         </failure>
-        <test-suite type="TestSuite" id="1-2062" name="Maps" fullname="PlayersWorlds.Maps" runstate="Runnable" testcasecount="1011" result="Failed" site="Child" start-time="2024-03-01T23:21:15.1371170Z" end-time="2024-03-01T23:21:24.9941760Z" duration="9.857059" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
+        <test-suite type="TestSuite" id="1-2064" name="Maps" fullname="PlayersWorlds.Maps" runstate="Runnable" testcasecount="1013" result="Failed" site="Child" start-time="2024-03-11T13:53:10.5719050Z" end-time="2024-03-11T13:54:11.4640720Z" duration="60.892167" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
           <failure>
             <message><![CDATA[One or more child tests had errors]]></message>
           </failure>
-          <test-suite type="TestSuite" id="1-2067" name="Areas" fullname="PlayersWorlds.Maps.Areas" runstate="Runnable" testcasecount="137" result="Failed" site="Child" start-time="2024-03-01T23:21:15.1371480Z" end-time="2024-03-01T23:21:24.9941690Z" duration="9.857021" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
+          <test-suite type="TestSuite" id="1-2069" name="Areas" fullname="PlayersWorlds.Maps.Areas" runstate="Runnable" testcasecount="138" result="Failed" site="Child" start-time="2024-03-11T13:53:10.5719130Z" end-time="2024-03-11T13:54:11.4640670Z" duration="60.892154" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
             <failure>
               <message><![CDATA[One or more child tests had errors]]></message>
             </failure>
-            <test-suite type="TestSuite" id="1-2068" name="Evolving" fullname="PlayersWorlds.Maps.Areas.Evolving" runstate="Runnable" testcasecount="132" result="Failed" site="Child" start-time="2024-03-01T23:21:15.1371530Z" end-time="2024-03-01T23:21:24.9941570Z" duration="9.857004" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
+            <test-suite type="TestSuite" id="1-2070" name="Evolving" fullname="PlayersWorlds.Maps.Areas.Evolving" runstate="Runnable" testcasecount="133" result="Failed" site="Child" start-time="2024-03-11T13:53:10.5719210Z" end-time="2024-03-11T13:54:11.4640590Z" duration="60.892138" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
               <failure>
                 <message><![CDATA[One or more child tests had errors]]></message>
               </failure>
-              <test-suite type="TestFixture" id="1-1916" name="AreaDistributorLoadTest" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorLoadTest" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorLoadTest" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2024-03-01T23:21:15.1371630Z" end-time="2024-03-01T23:21:24.9934020Z" duration="9.856240" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
+              <test-suite type="TestFixture" id="1-1917" name="AreaDistributorLoadTest" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorLoadTest" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorLoadTest" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2024-03-11T13:53:10.5719330Z" end-time="2024-03-11T13:54:11.4635230Z" duration="60.891590" total="1" passed="0" failed="1" warnings="0" inconclusive="0" skipped="0" asserts="1">
                 <failure>
                   <message><![CDATA[One or more child tests had errors]]></message>
                 </failure>
-                <test-case id="1-1917" name="AreaDistributor_LoadTest" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorLoadTest.AreaDistributor_LoadTest" methodname="AreaDistributor_LoadTest" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorLoadTest" runstate="Runnable" seed="1571227463" result="Failed" start-time="2024-03-01T23:21:15.1372270Z" end-time="2024-03-01T23:21:24.9898150Z" duration="9.852698" asserts="1">
+                <test-case id="1-1918" name="AreaDistributor_LoadTest" fullname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorLoadTest.AreaDistributor_LoadTest" methodname="AreaDistributor_LoadTest" classname="PlayersWorlds.Maps.Areas.Evolving.AreaDistributorLoadTest" runstate="Runnable" seed="430915579" result="Failed" start-time="2024-03-11T13:53:10.5720150Z" end-time="2024-03-11T13:54:11.4606190Z" duration="60.888720" asserts="1">
                   <properties>
                     <property name="Category" value="Load" />
                   </properties>
                   <failure>
-                    <message><![CDATA[  Passed: 985, Failed: 15
+                    <message><![CDATA[  Passed: 999, Failed: 1
 Assert.That(, )
   Expected: True
   But was:  False
 ]]></message>
-                    <stack-trace><![CDATA[  at PlayersWorlds.Maps.Areas.Evolving.AreaDistributorLoadTest.AreaDistributor_LoadTest () [0x00043] in /home/data/repos/github.com/aynurin/maze-gen/tests/areas/evolving/AreaDistributorLoadTest.cs:50 
+                    <stack-trace><![CDATA[  at PlayersWorlds.Maps.Areas.Evolving.AreaDistributorLoadTest.AreaDistributor_LoadTest () [0x00043] in /home/data/repos/github.com/aynurin/maze-gen/tests/areas/evolving/AreaDistributorLoadTest.cs:47 
 ]]></stack-trace>
                   </failure>
-                  <output><![CDATA[PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
+                  <output><![CDATA[PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = TestLog
 , 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P25x33;S11x8;None;, P25x28;S4x3;None;, P7x15;S13x14;None;, P19x11;S2x13;None;, P20x26;S11x14;None;...(12))
-, 	OriginalAreas = List`1<MapArea>(P25x33;S11x8;None;, P25x28;S4x3;None;, P35x24;S2x4;None;, P7x15;S13x14;None;, P19x11;S2x13;None;...(14))
-, 	PlacedOutOfBounds = List`1<MapArea>(P40x24;S13x14;None;, P20x-5;S2x9;None;)
-, 	PlacedOverlapping = List`1<MapArea>(P4x26;S11x8;None;, P7x33;S11x14;None;, P0x34;S10x13;None;)
-, 	PlacedAreas = List`1<MapArea>(P4x26;S11x8;None;, P30x11;S4x3;None;, P30x42;S2x4;None;, P40x24;S13x14;None;, P39x11;S2x13;None;...(14))
-, 	MaxEpochs = 100
-, 	TestString = yield return "43x47: P25x33;S11x8 P25x28;S4x3 P35x24;S2x4 P7x15;S13x14 P19x11;S2x13 P20x26;S11x14 P12x14;S11x9 P27x12;S10x9 P19x25;S10x13 P27x10;S2x9 P3x34;S12x11 P1x4;S11x1 P3x29;S7x9 P12x31;S9x12"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P21x18;S13x8;None;, P16x2;S12x1;None;, P13x20;S1x3;None;, P18x9;S13x10;None;, P22x24;S13x9;None;...(12))
-, 	OriginalAreas = List`1<MapArea>(P21x18;S13x8;None;, P16x2;S12x1;None;, P13x20;S1x3;None;, P18x9;S13x10;None;, P22x24;S13x9;None;...(13))
-, 	PlacedOutOfBounds = List`1<MapArea>(P2x-3;S13x8;None;)
-, 	PlacedOverlapping = List`1<MapArea>(P25x4;S13x9;None;, P18x11;S10x5;None;)
-, 	PlacedAreas = List`1<MapArea>(P2x-3;S13x8;None;, P19x35;S12x1;None;, P40x15;S1x3;None;, P31x28;S13x10;None;, P25x4;S13x9;None;...(13))
-, 	MaxEpochs = 100
-, 	TestString = yield return "44x38: P21x18;S13x8 P16x2;S12x1 P13x20;S1x3 P18x9;S13x10 P22x24;S13x9 P27x20;S10x5 P13x21;S13x8 P18x8;S9x10 P38x1;S1x8 P20x2;S4x3 P21x2;S5x3 P27x27;S13x1 P16x3;S12x11"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P0x21;S10x3;None;, P18x13;S10x14;None;, P14x22;S9x11;None;, P19x27;S1x7;None;, P25x16;S4x13;None;...(7))
-, 	OriginalAreas = List`1<MapArea>(P3x10;S4x2;None;, P0x21;S10x3;None;, P18x13;S10x14;None;, P20x34;S7x7;None;, P14x22;S9x11;None;...(13))
-, 	PlacedOutOfBounds = List`1<MapArea>(P29x42;S1x7;None;)
+, 	OriginalOverlapping = List`1<MapArea>(P2x4;S1x12;None;, P2x6;S1x2;None;)
+, 	OriginalAreas = List`1<MapArea>(P2x4;S1x12;None;, P0x13;S1x14;None;, P2x6;S1x2;None;, P2x32;S1x9;None;, P1x17;S1x12;None;)
+, 	PlacedOutOfBounds = List`1<MapArea>(P2x39;S1x9;None;)
 , 	PlacedOverlapping = List`1<MapArea>()
-, 	PlacedAreas = List`1<MapArea>(P25x39;S4x2;None;, P13x45;S10x3;None;, P22x1;S10x14;None;, P25x16;S7x7;None;, P13x16;S9x11;None;...(13))
+, 	PlacedAreas = List`1<MapArea>(P2x2;S1x12;None;, P1x13;S1x14;None;, P2x0;S1x2;None;, P2x39;S1x9;None;, P2x27;S1x12;None;)
 , 	MaxEpochs = 100
-, 	TestString = yield return "33x48: P3x10;S4x2 P0x21;S10x3 P18x13;S10x14 P20x34;S7x7 P14x22;S9x11 P3x34;S9x13 P19x27;S1x7 P25x16;S4x13 P18x2;S10x6 P16x13;S8x11 P29x6;S1x5 P8x23;S8x7 P1x12;S9x9"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P18x11;S14x5;None;, P22x18;S6x11;None;, P34x14;S10x4;None;, P33x24;S6x6;None;, P19x2;S12x8;None;...(12))
-, 	OriginalAreas = List`1<MapArea>(P18x11;S14x5;None;, P19x27;S1x7;None;, P22x18;S6x11;None;, P34x14;S10x4;None;, P33x24;S6x6;None;...(13))
-, 	PlacedOutOfBounds = List`1<MapArea>()
-, 	PlacedOverlapping = List`1<MapArea>(P12x27;S6x6;None;, P2x25;S14x8;None;)
-, 	PlacedAreas = List`1<MapArea>(P27x31;S14x5;None;, P24x19;S1x7;None;, P41x23;S6x11;None;, P21x10;S10x4;None;, P12x27;S6x6;None;...(13))
-, 	MaxEpochs = 100
-, 	TestString = yield return "47x36: P18x11;S14x5 P19x27;S1x7 P22x18;S6x11 P34x14;S10x4 P33x24;S6x6 P19x2;S12x8 P11x1;S6x10 P14x3;S11x7 P13x20;S13x5 P31x17;S9x8 P17x7;S12x11 P1x0;S14x8 P39x13;S1x6"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P2x28;S15x13;None;, P27x22;S13x9;None;, P11x24;S8x11;None;, P21x4;S11x12;None;, P36x16;S7x6;None;...(12))
-, 	OriginalAreas = List`1<MapArea>(P2x28;S15x13;None;, P27x22;S13x9;None;, P11x24;S8x11;None;, P21x4;S11x12;None;, P36x16;S7x6;None;...(15))
-, 	PlacedOutOfBounds = List`1<MapArea>(P36x33;S15x13;None;, P37x-6;S8x11;None;, P13x33;S11x13;None;, P49x-3;S6x12;None;, P11x-9;S4x4;None;)
-, 	PlacedOverlapping = List`1<MapArea>(P38x15;S11x12;None;, P28x14;S7x6;None;, P33x9;S5x6;None;, P0x18;S14x4;None;, P12x9;S15x14;None;...(8))
-, 	PlacedAreas = List`1<MapArea>(P36x33;S15x13;None;, P0x36;S13x9;None;, P37x-6;S8x11;None;, P38x15;S11x12;None;, P28x14;S7x6;None;...(15))
-, 	MaxEpochs = 100
-, 	TestString = yield return "49x45: P2x28;S15x13 P27x22;S13x9 P11x24;S8x11 P21x4;S11x12 P36x16;S7x6 P11x18;S11x13 P18x27;S6x12 P1x4;S5x6 P9x23;S1x12 P33x19;S14x4 P33x6;S15x14 P4x12;S4x4 P12x33;S10x11 P18x3;S1x7 P20x0;S9x8"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P15x24;S11x1;None;, P23x16;S8x9;None;, P32x28;S10x10;None;, P35x22;S4x13;None;, P2x12;S7x10;None;...(12))
-, 	OriginalAreas = List`1<MapArea>(P15x24;S11x1;None;, P23x16;S8x9;None;, P32x28;S10x10;None;, P35x22;S4x13;None;, P2x12;S7x10;None;...(14))
-, 	PlacedOutOfBounds = List`1<MapArea>()
-, 	PlacedOverlapping = List`1<MapArea>(P15x28;S9x11;None;, P6x38;S13x2;None;)
-, 	PlacedAreas = List`1<MapArea>(P19x1;S11x1;None;, P25x20;S8x9;None;, P1x2;S10x10;None;, P21x4;S4x13;None;, P34x19;S7x10;None;...(14))
-, 	MaxEpochs = 100
-, 	TestString = yield return "43x42: P15x24;S11x1 P23x16;S8x9 P32x28;S10x10 P35x22;S4x13 P2x12;S7x10 P16x4;S9x11 P2x22;S10x13 P38x25;S2x11 P10x33;S7x4 P4x19;S2x11 P1x7;S5x10 P29x1;S8x6 P9x14;S13x12 P6x39;S13x2"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P5x13;S2x11;None;, P1x19;S2x11;None;, P1x29;S2x15;None;, P6x18;S1x11;None;)
-, 	OriginalAreas = List`1<MapArea>(P3x26;S1x9;None;, P5x13;S2x11;None;, P1x19;S2x11;None;, P3x10;S2x10;None;, P0x6;S1x13;None;...(7))
-, 	PlacedOutOfBounds = List`1<MapArea>(P3x36;S2x15;None;)
-, 	PlacedOverlapping = List`1<MapArea>(P4x14;S1x9;None;, P3x22;S2x10;None;)
-, 	PlacedAreas = List`1<MapArea>(P4x14;S1x9;None;, P7x2;S2x11;None;, P6x22;S2x11;None;, P3x22;S2x10;None;, P3x0;S1x13;None;...(7))
-, 	MaxEpochs = 100
-, 	TestString = yield return "11x49: P3x26;S1x9 P5x13;S2x11 P1x19;S2x11 P3x10;S2x10 P0x6;S1x13 P1x29;S2x15 P6x18;S1x11"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P26x21;S7x8;None;, P14x7;S3x12;None;, P18x10;S12x14;None;, P12x17;S6x12;None;, P22x21;S11x11;None;...(12))
-, 	OriginalAreas = List`1<MapArea>(P26x21;S7x8;None;, P14x7;S3x12;None;, P18x10;S12x14;None;, P12x17;S6x12;None;, P22x38;S9x5;None;...(15))
-, 	PlacedOutOfBounds = List`1<MapArea>(P22x-2;S3x12;None;)
-, 	PlacedOverlapping = List`1<MapArea>(P13x27;S9x5;None;, P5x18;S14x10;None;, P33x37;S2x8;None;, P29x44;S13x2;None;)
-, 	PlacedAreas = List`1<MapArea>(P23x15;S7x8;None;, P22x-2;S3x12;None;, P32x1;S12x14;None;, P39x29;S6x12;None;, P13x27;S9x5;None;...(15))
-, 	MaxEpochs = 100
-, 	TestString = yield return "45x46: P26x21;S7x8 P14x7;S3x12 P18x10;S12x14 P12x17;S6x12 P22x38;S9x5 P22x21;S11x11 P33x36;S4x9 P20x26;S14x12 P7x25;S10x10 P2x26;S14x10 P11x1;S9x4 P1x21;S9x8 P0x30;S2x8 P15x23;S3x13 P10x24;S13x2"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P20x12;S11x9;None;, P21x29;S11x3;None;, P30x0;S8x9;None;, P28x5;S10x8;None;, P16x26;S9x4;None;...(12))
-, 	OriginalAreas = List`1<MapArea>(P20x12;S11x9;None;, P21x29;S11x3;None;, P30x0;S8x9;None;, P28x5;S10x8;None;, P16x26;S9x4;None;...(12))
-, 	PlacedOutOfBounds = List`1<MapArea>(P11x36;S10x7;None;)
-, 	PlacedOverlapping = List`1<MapArea>(P12x8;S10x8;None;, P17x9;S9x4;None;)
-, 	PlacedAreas = List`1<MapArea>(P0x13;S11x9;None;, P21x31;S11x3;None;, P31x9;S8x9;None;, P12x8;S10x8;None;, P17x9;S9x4;None;...(12))
-, 	MaxEpochs = 100
-, 	TestString = yield return "39x34: P20x12;S11x9 P21x29;S11x3 P30x0;S8x9 P28x5;S10x8 P16x26;S9x4 P23x21;S10x7 P13x26;S9x5 P6x12;S6x7 P8x20;S12x5 P22x14;S7x8 P2x14;S9x9 P26x29;S3x2"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>()
-, 	OriginalAreas = List`1<MapArea>(P5x13;S1x4;None;, P5x0;S1x4;None;, P1x14;S1x6;None;, P0x15;S1x5;None;)
-, 	PlacedOutOfBounds = List`1<MapArea>(P8x8;S1x4;None;, P-2x7;S1x5;None;)
-, 	PlacedOverlapping = List`1<MapArea>()
-, 	PlacedAreas = List`1<MapArea>(P8x8;S1x4;None;, P3x1;S1x4;None;, P3x14;S1x6;None;, P-2x7;S1x5;None;)
-, 	MaxEpochs = 100
-, 	TestString = yield return "7x21: P5x13;S1x4 P5x0;S1x4 P1x14;S1x6 P0x15;S1x5"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P5x3;S13x7;None;, P30x17;S7x2;None;, P28x17;S11x5;None;, P23x7;S14x3;None;, P16x20;S13x5;None;...(11))
-, 	OriginalAreas = List`1<MapArea>(P5x3;S13x7;None;, P30x17;S7x2;None;, P28x17;S11x5;None;, P23x7;S14x3;None;, P16x20;S13x5;None;...(11))
-, 	PlacedOutOfBounds = List`1<MapArea>(P24x27;S7x2;None;)
-, 	PlacedOverlapping = List`1<MapArea>(P26x11;S14x3;None;, P2x19;S13x5;None;, P38x12;S5x5;None;, P1x22;S5x1;None;)
-, 	PlacedAreas = List`1<MapArea>(P30x4;S13x7;None;, P24x27;S7x2;None;, P3x8;S11x5;None;, P26x11;S14x3;None;, P2x19;S13x5;None;...(11))
-, 	MaxEpochs = 100
-, 	TestString = yield return "45x26: P5x3;S13x7 P30x17;S7x2 P28x17;S11x5 P23x7;S14x3 P16x20;S13x5 P22x15;S11x4 P28x7;S5x5 P21x8;S5x1 P13x11;S8x7 P7x8;S11x5 P9x6;S14x5"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P35x20;S5x14;None;, P5x32;S8x10;None;, P23x34;S9x4;None;, P30x20;S11x12;None;, P14x15;S5x11;None;...(13))
-, 	OriginalAreas = List`1<MapArea>(P35x20;S5x14;None;, P5x32;S8x10;None;, P23x34;S9x4;None;, P30x20;S11x12;None;, P14x15;S5x11;None;...(15))
-, 	PlacedOutOfBounds = List`1<MapArea>(P3x-8;S8x10;None;, P8x35;S11x12;None;, P35x46;S11x4;None;, P-2x16;S12x12;None;, P29x-4;S11x13;None;)
-, 	PlacedOverlapping = List`1<MapArea>(P8x35;S11x12;None;, P12x44;S3x1;None;, P39x0;S8x10;None;, P29x-4;S11x13;None;)
-, 	PlacedAreas = List`1<MapArea>(P30x10;S5x14;None;, P3x-8;S8x10;None;, P35x41;S9x4;None;, P8x35;S11x12;None;, P0x34;S5x11;None;...(15))
-, 	MaxEpochs = 100
-, 	TestString = yield return "47x45: P35x20;S5x14 P5x32;S8x10 P23x34;S9x4 P30x20;S11x12 P14x15;S5x11 P11x31;S1x11 P17x32;S3x1 P30x0;S11x4 P26x25;S3x4 P0x2;S9x5 P38x12;S8x10 P7x9;S9x14 P19x30;S12x12 P26x21;S9x4 P18x15;S11x13"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P25x36;S10x11;None;, P30x41;S5x6;None;, P28x6;S4x14;None;, P15x0;S7x14;None;, P0x27;S8x10;None;...(15))
-, 	OriginalAreas = List`1<MapArea>(P25x36;S10x11;None;, P30x41;S5x6;None;, P28x6;S4x14;None;, P15x0;S7x14;None;, P0x27;S8x10;None;...(15))
-, 	PlacedOutOfBounds = List`1<MapArea>(P28x44;S4x6;None;)
-, 	PlacedOverlapping = List`1<MapArea>(P16x34;S10x11;None;, P30x4;S8x10;None;, P30x0;S13x15;None;, P8x41;S9x6;None;, P9x24;S8x13;None;)
-, 	PlacedAreas = List`1<MapArea>(P16x34;S10x11;None;, P24x24;S5x6;None;, P0x0;S4x14;None;, P7x6;S7x14;None;, P30x4;S8x10;None;...(15))
-, 	MaxEpochs = 100
-, 	TestString = yield return "43x48: P25x36;S10x11 P30x41;S5x6 P28x6;S4x14 P15x0;S7x14 P0x27;S8x10 P10x39;S11x1 P1x26;S4x6 P18x2;S13x15 P22x15;S3x8 P22x1;S9x6 P19x15;S11x14 P20x27;S8x13 P14x2;S4x1 P5x32;S6x3 P26x33;S6x14"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P4x22;S3x8;None;, P4x23;S6x12;None;, P6x13;S3x9;None;, P33x24;S5x10;None;, P0x4;S7x2;None;...(11))
-, 	OriginalAreas = List`1<MapArea>(P4x22;S3x8;None;, P4x23;S6x12;None;, P6x13;S3x9;None;, P33x24;S5x10;None;, P0x4;S7x2;None;...(13))
-, 	PlacedOutOfBounds = List`1<MapArea>(P-1x17;S6x12;None;, P2x35;S5x10;None;, P1x-4;S9x13;None;)
-, 	PlacedOverlapping = List`1<MapArea>(P18x19;S3x9;None;, P29x2;S7x2;None;, P12x27;S7x1;None;, P29x3;S8x12;None;)
-, 	PlacedAreas = List`1<MapArea>(P8x26;S3x8;None;, P-1x17;S6x12;None;, P18x19;S3x9;None;, P2x35;S5x10;None;, P29x2;S7x2;None;...(13))
-, 	MaxEpochs = 100
-, 	TestString = yield return "39x43: P4x22;S3x8 P4x23;S6x12 P6x13;S3x9 P33x24;S5x10 P0x4;S7x2 P29x24;S7x1 P22x28;S6x13 P1x5;S9x13 P22x3;S8x12 P18x16;S12x9 P8x29;S12x11 P27x18;S10x7 P6x8;S7x2"
-)
-PlayersWorlds.Maps.Areas.Evolving.AreaDistributorHelper+DistributeResult(	Log = Log
-, 	OriginalOutOfBounds = List`1<MapArea>()
-, 	OriginalOverlapping = List`1<MapArea>(P20x16;S2x3;None;, P20x5;S7x2;None;, P18x8;S13x9;None;, P3x3;S11x11;None;, P29x29;S8x4;None;...(13))
-, 	OriginalAreas = List`1<MapArea>(P20x16;S2x3;None;, P20x5;S7x2;None;, P18x8;S13x9;None;, P3x3;S11x11;None;, P29x29;S8x4;None;...(14))
-, 	PlacedOutOfBounds = List`1<MapArea>(P3x-2;S13x9;None;, P-1x12;S4x14;None;)
-, 	PlacedOverlapping = List`1<MapArea>(P24x39;S7x2;None;, P0x30;S11x11;None;, P25x41;S8x4;None;, P21x39;S12x6;None;, P18x1;S12x13;None;...(7))
-, 	PlacedAreas = List`1<MapArea>(P5x44;S2x3;None;, P24x39;S7x2;None;, P3x-2;S13x9;None;, P0x30;S11x11;None;, P25x41;S8x4;None;...(14))
-, 	MaxEpochs = 100
-, 	TestString = yield return "42x47: P20x16;S2x3 P20x5;S7x2 P18x8;S13x9 P3x3;S11x11 P29x29;S8x4 P12x25;S10x2 P24x31;S12x6 P16x15;S12x13 P9x30;S9x13 P10x25;S9x5 P9x15;S8x10 P12x16;S4x13 P13x3;S12x14 P34x32;S4x14"
+, 	TestString = yield return "5x47: P2x4;S1x12 P0x13;S1x14 P2x6;S1x2 P2x32;S1x9 P1x17;S1x12"
 )
 ]]></output>
                   <assertions>
                     <assertion result="Failed">
-                      <message><![CDATA[  Passed: 985, Failed: 15
+                      <message><![CDATA[  Passed: 999, Failed: 1
 Assert.That(, )
   Expected: True
   But was:  False
 ]]></message>
-                      <stack-trace><![CDATA[  at PlayersWorlds.Maps.Areas.Evolving.AreaDistributorLoadTest.AreaDistributor_LoadTest () [0x00043] in /home/data/repos/github.com/aynurin/maze-gen/tests/areas/evolving/AreaDistributorLoadTest.cs:50 
+                      <stack-trace><![CDATA[  at PlayersWorlds.Maps.Areas.Evolving.AreaDistributorLoadTest.AreaDistributor_LoadTest () [0x00043] in /home/data/repos/github.com/aynurin/maze-gen/tests/areas/evolving/AreaDistributorLoadTest.cs:47 
 ]]></stack-trace>
                     </assertion>
                   </assertions>

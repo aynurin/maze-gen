@@ -5,7 +5,7 @@ using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 namespace PlayersWorlds.Maps.Maze {
 
     [TestFixture]
-    internal class Maze2DRendererTest {
+    internal class Maze2DRendererTest : Test {
         [Test]
         public void ThrowsIfCantFit() {
             void Act() =>

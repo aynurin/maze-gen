@@ -23,4 +23,4 @@ jobs:
           msbuild maze-gen.sln
 
       - name: Test
-        run: mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --framework=mono-4.0 --where='cat!=Load' # Replace with your test assembly path
+        run: mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --framework=mono-4.0 --where='Category!=Load AND Category!=Integration' # Replace with your test assembly path

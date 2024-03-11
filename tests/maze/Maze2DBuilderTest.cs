@@ -7,15 +7,15 @@ using PlayersWorlds.Maps.Areas;
 namespace PlayersWorlds.Maps.Maze {
 
     [TestFixture]
-    public class Maze2DBuilderTest {
+    public class Maze2DBuilderTest : Test {
         [Test]
         public void BuildsCorrectCellsCollections() {
             var maze = new Maze2D(5, 5);
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() { });
 
-            Assert.That(builder.CellsToConnect, Has.Exactly(25).Items);
-            Assert.That(builder.PriorityCells, Has.Exactly(0).Items);
+            Assert.That(builder.TestCellsToConnect, Has.Exactly(25).Items);
+            Assert.That(builder.TestPriorityCells, Has.Exactly(0).Items);
         }
 
         [Test]
@@ -41,16 +41,16 @@ namespace PlayersWorlds.Maps.Maze {
                 maze.Cells[new Vector(4, 5)],
             };
 
-            Assert.That(builder.CellsToConnect, Has.Exactly(30).Items);
-            Assert.That(builder.PriorityCells, Has.Exactly(10).Items);
-            Assert.That(new List<MazeCell>(builder.PriorityCells.Keys),
+            Assert.That(builder.TestCellsToConnect, Has.Exactly(30).Items);
+            Assert.That(builder.TestPriorityCells, Has.Exactly(10).Items);
+            Assert.That(new List<MazeCell>(builder.TestPriorityCells.Keys),
                 Is.EqualTo(priorityCells));
-            Assert.That(builder.PriorityCells.First().Value,
+            Assert.That(builder.TestPriorityCells.First().Value,
                 Is.EqualTo(priorityCells));
 
             foreach (var areaInfo in maze.MapAreas) {
                 if (areaInfo.Key.Type == AreaType.Hall || areaInfo.Key.Type == AreaType.Fill) {
-                    var selectableCells = builder.CellsToConnect.Intersect(areaInfo.Value).ToList();
+                    var selectableCells = builder.TestCellsToConnect.Intersect(areaInfo.Value).ToList();
                     if (selectableCells.Count > 0 || areaInfo.Value.Any(cell => cell.Links().Count > 0)) {
                         Assert.Fail("Hall cells are in the cellsToConnect collection or have links.");
                     }
@@ -76,11 +76,11 @@ namespace PlayersWorlds.Maps.Maze {
                 maze.Cells[new Vector(2, 5)],
             };
 
-            Assert.That(builder.CellsToConnect, Has.Exactly(30).Items);
-            Assert.That(builder.PriorityCells, Has.Exactly(5).Items);
-            Assert.That(new List<MazeCell>(builder.PriorityCells.Keys),
+            Assert.That(builder.TestCellsToConnect, Has.Exactly(30).Items);
+            Assert.That(builder.TestPriorityCells, Has.Exactly(5).Items);
+            Assert.That(new List<MazeCell>(builder.TestPriorityCells.Keys),
                 Is.EqualTo(priorityCells));
-            Assert.That(builder.PriorityCells.First().Value,
+            Assert.That(builder.TestPriorityCells.First().Value,
                 Is.EqualTo(priorityCells));
         }
 
@@ -102,8 +102,8 @@ namespace PlayersWorlds.Maps.Maze {
                 maze.Cells[new Vector(2, 5)],
             };
 
-            Assert.That(builder.CellsToConnect, Has.Exactly(30).Items);
-            Assert.That(builder.PriorityCells, Has.Exactly(5).Items);
+            Assert.That(builder.TestCellsToConnect, Has.Exactly(30).Items);
+            Assert.That(builder.TestPriorityCells, Has.Exactly(5).Items);
 
             for (var i = 0; i < 1000; i++) {
                 Assert.That(builder.PickNextCellToLink(),
@@ -119,7 +119,7 @@ namespace PlayersWorlds.Maps.Maze {
                 } catch (InvalidOperationException) { }
             }
 
-            Assert.That(builder.ConnectedCells, Is.EqualTo(priorityCells));
+            Assert.That(builder.TestConnectedCells, Is.EqualTo(priorityCells));
 
             for (var i = 0; i < 1000; i++) {
                 Assert.That(builder.PickNextCellToLink(),
@@ -141,7 +141,7 @@ namespace PlayersWorlds.Maps.Maze {
             for (var i = 0; i < 1000; i++) {
                 builder.TryPickRandomNeighbor(maze.Cells[new Vector(1, 5)], out var randomNeighbor);
                 Assert.That(randomNeighbor, Is.Not.Null);
-                Assert.That(builder.PriorityCells.ContainsKey(randomNeighbor), Is.True);
+                Assert.That(builder.TestPriorityCells.ContainsKey(randomNeighbor), Is.True);
                 Assert.That(randomNeighbor.X, Is.AnyOf(0, 2));
             }
 
@@ -170,9 +170,9 @@ namespace PlayersWorlds.Maps.Maze {
                 builder.Connect(connectedCells[i], connectedCells[i + 1]);
             }
 
-            Assert.That(builder.CellsToConnect, Has.Exactly(5).Items);
-            Assert.That(builder.PriorityCells, Has.Exactly(0).Items);
-            Assert.That(builder.ConnectedCells, Has.Exactly(4).Items);
+            Assert.That(builder.TestCellsToConnect, Has.Exactly(5).Items);
+            Assert.That(builder.TestPriorityCells, Has.Exactly(0).Items);
+            Assert.That(builder.TestConnectedCells, Has.Exactly(4).Items);
 
             connectedCells.ForEach(c =>
                 Assert.That(builder.IsConnected(c)));
@@ -211,8 +211,8 @@ namespace PlayersWorlds.Maps.Maze {
             };
 
 
-            Assert.That(builder.CellsToConnect, Has.Exactly(24).Items);
-            Assert.That(builder.PriorityCells, Has.Exactly(5).Items);
+            Assert.That(builder.TestCellsToConnect, Has.Exactly(24).Items);
+            Assert.That(builder.TestPriorityCells, Has.Exactly(5).Items);
 
             var iterate = builder.AllCells.ToList();
             var cellsOrder = maze.Cells.ToList();
@@ -504,14 +504,14 @@ namespace PlayersWorlds.Maps.Maze {
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() { });
 
-            Assert.That(builder.PriorityCells.Keys.Intersect(maze.MapAreas[area1]), Is.Empty);
-            Assert.That(builder.CellsToConnect.Intersect(maze.MapAreas[area1]), Is.Empty);
-            Assert.That(builder.PriorityCells.Keys.Intersect(maze.MapAreas[area2]), Is.Empty);
-            Assert.That(builder.CellsToConnect.Intersect(maze.MapAreas[area2]), Is.Empty);
+            Assert.That(builder.TestPriorityCells.Keys.Intersect(maze.MapAreas[area1]), Is.Empty);
+            Assert.That(builder.TestCellsToConnect.Intersect(maze.MapAreas[area1]), Is.Empty);
+            Assert.That(builder.TestPriorityCells.Keys.Intersect(maze.MapAreas[area2]), Is.Empty);
+            Assert.That(builder.TestCellsToConnect.Intersect(maze.MapAreas[area2]), Is.Empty);
 
             foreach (var areaInfo in maze.MapAreas) {
                 if (areaInfo.Key.Type == AreaType.Hall || areaInfo.Key.Type == AreaType.Fill) {
-                    var selectableCells = builder.CellsToConnect.Intersect(areaInfo.Value).ToList();
+                    var selectableCells = builder.TestCellsToConnect.Intersect(areaInfo.Value).ToList();
                     if (selectableCells.Count > 0 || areaInfo.Value.Any(cell => cell.Links().Count > 0)) {
                         Assert.Fail("Hall cells are in the cellsToConnect collection or have links.");
                     }

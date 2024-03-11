@@ -79,7 +79,7 @@ namespace PlayersWorlds.Maps {
         /// <returns>An enumerable collection of tuples containing the item's
         /// position as a <see cref="Vector"/> and its value.</returns>
         public IEnumerable<(Vector xy, T cell)> Iterate() {
-            return IterateIntersection(Vector.Zero(Size.Value.Length), Size);
+            return IterateIntersection(Vector.Zero(Size.Dimensions), Size);
         }
 
         /// <summary>
@@ -123,16 +123,16 @@ namespace PlayersWorlds.Maps {
         IterateIntersection(Vector xy, Vector size) {
             // Validate dimensions
             size.ThrowIfNotAValidSize();
-            if (size.Value.Length != Size.Value.Length ||
-                xy.Value.Length != Size.Value.Length) {
+            if (size.Dimensions != Size.Dimensions ||
+                xy.Dimensions != Size.Dimensions) {
                 throw new ArgumentException(
                     "Vector dimensions must match map dimensions " +
                     $"(NArray({Size}).IterateIntersection({xy}, {size}))");
             }
 
-            var xyValue = xy.Value.Clone() as int[];
-            var sizeValue = size.Value.Clone() as int[];
-            for (var i = 0; i < Size.Value.Length; i++) {
+            var xyValue = new List<int>(xy.Value);
+            var sizeValue = new List<int>(size.Value);
+            for (var i = 0; i < Size.Dimensions; i++) {
                 if (xyValue[i] < 0) {
                     sizeValue[i] = sizeValue[i] + xyValue[i];
                     xyValue[i] = 0;
@@ -142,16 +142,16 @@ namespace PlayersWorlds.Maps {
                 }
             }
 
-            var current = xyValue.Clone() as int[];
+            var current = new List<int>(xyValue);
 
             var dimension = 0;
-            while (dimension < current.Length) {
+            while (dimension < current.Count) {
                 var position = new Vector(current);
                 yield return (position, this[position]);
 
                 // Increment coordinates, wrapping back to 0 when reaching the
                 // end of a dimension
-                for (dimension = 0; dimension < current.Length; dimension++) {
+                for (dimension = 0; dimension < current.Count; dimension++) {
                     current[dimension]++;
                     if (current[dimension] <
                         (xyValue[dimension] + sizeValue[dimension])) {
@@ -176,8 +176,8 @@ namespace PlayersWorlds.Maps {
         public IEnumerable<(Vector xy, T cell)>
         IterateAdjacentCells(Vector xy) {
             return IterateIntersection(
-                    xy + new Vector(Enumerable.Repeat(-1, Size.Value.Length)),
-                    new Vector(Enumerable.Repeat(3, Size.Value.Length)))
+                    xy + new Vector(Enumerable.Repeat(-1, Size.Dimensions)),
+                    new Vector(Enumerable.Repeat(3, Size.Dimensions)))
                 .Where(cell => cell.xy != xy);
         }
 

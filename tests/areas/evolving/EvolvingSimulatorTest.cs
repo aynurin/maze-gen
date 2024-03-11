@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace PlayersWorlds.Maps.Areas.Evolving {
 
     [TestFixture]
-    internal class EvolvingSimulatorTest {
+    internal class EvolvingSimulatorTest : Test {
         [Test]
         public void EvolvingSimulator_ThrowsIfMaxEpochsIsZero() {
             Assert.Throws<ArgumentException>(() => new EvolvingSimulator(0, 1));

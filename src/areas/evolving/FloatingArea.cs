@@ -66,29 +66,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             }
         }
 
-        [Obsolete("Use Overlap(FloatingArea other) instead.")]
-        public bool Overlaps(FloatingArea other) {
-            return this.Overlap(other).MagnitudeSq > VectorD.MIN;
-        }
-
-        public VectorD Overlap(FloatingArea other) {
-            if (this == other)
-                throw new InvalidOperationException("Can't compare with self");
-
-            // Calculate the overlap rectangle coordinates
-            var lowX = (double)Math.Max(this.LowX, other.LowX);
-            var highX = (double)Math.Min(this.HighX, other.HighX);
-            var lowY = (double)Math.Max(this.LowY, other.LowY);
-            var highY = (double)Math.Min(this.HighY, other.HighY);
-
-            // Check if there is no overlap
-            if (lowX >= highX || lowY >= highY) {
-                return VectorD.Zero2D;
-            }
-
-            // Calculate the size of the overlap area
-            return new VectorD(highX - lowX, highY - lowY);
-        }
+        public bool Overlaps(FloatingArea other) =>
+            this.Intersection(other).Size.MagnitudeSq > VectorD.MIN;
 
         public bool Contains(VectorD point) {
             return point.X >= Position.X && point.X <= Size.X + Position.X &&
@@ -125,21 +104,6 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         }
 
         public (VectorD d, bool overlap) DistanceTo(FloatingArea other) {
-            // areas can overlap, in which case the distance is reversed, and
-            // the overlap flag is set to true.
-
-            // case one, other high is higher than this low, but other low is MUCH lower than this high.
-            // distance = LowX - other.HighX (negative), overlap = true
-
-            // case two, other high is lower than this low
-            // distance = LowX - other.HighX (positive), overlap = false 
-
-            // case three, other low is lower than this high, but other high is MUCH higher than this low.
-            // distance = HighX - other.LowY (positive), overlap = true
-
-            // case four, other low is higher than this high
-            // distance = HighX - other.LowY (negative), overlap = false
-
             var (overlapX, dX) = Distance1D(LowX, HighX, other.LowX, other.HighX);
             var (overlapY, dY) = Distance1D(LowY, HighY, other.LowY, other.HighY);
 

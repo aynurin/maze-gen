@@ -68,9 +68,6 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
-        internal CellsMapping CreateCellsMapping(Map2D map, MazeCell mazeCell)
-            => new CellsMapping(map, mazeCell, _options);
-
         internal class CellsMapping {
             private readonly Map2D _map;
             private readonly MazeCell _mazeCell;

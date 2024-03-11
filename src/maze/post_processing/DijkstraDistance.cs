@@ -46,14 +46,47 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             var stack = new Stack<MazeCell>();
             stack.Push(startingCell);
             MazeCell nextCell;
-            while (true) {
-                try {
-                    nextCell = stack.Pop();
-                } catch (InvalidOperationException) {
-                    break;
-                }
+            while (stack.Count > 0) {
+                nextCell = stack.Pop();
                 var distance = distances[nextCell];
                 foreach (var neighbor in nextCell.Links()) {
+                    // if a maze has loops, we have to check if we are building
+                    // a shorter path or a longer one.
+                    if (!distances.ContainsKey(neighbor)) {
+                        distances.Add(neighbor, distance + 1);
+                    } else if (distance + 1 < distances[neighbor]) {
+                        distances[neighbor] = distance + 1;
+                    } else continue;
+                    neighbor.Attributes.Set(DistanceAttribute,
+                        distances[neighbor].ToString());
+                    stack.Push(neighbor);
+                }
+            }
+            return distances;
+        }
+
+        /// <summary>
+        /// Finds Dijkstra distances for the given cell using connectable
+        /// neighbors as opposed to actual maze links.
+        /// </summary>
+        /// <param name="builder">Maze builder that provides info on maze
+        /// structure.</param>
+        /// <param name="startingCell">The cell to start the BFS walk.</param>
+        /// <returns></returns>
+        public static Dictionary<MazeCell, int> FindRaw(Maze2DBuilder builder, MazeCell startingCell) {
+            var distances = new Dictionary<MazeCell, int> {
+                { startingCell, 0 }
+            };
+            startingCell.Attributes.Set(DistanceAttribute, "0");
+            var stack = new Stack<MazeCell>();
+            stack.Push(startingCell);
+            MazeCell nextCell;
+            while (stack.Count > 0) {
+                nextCell = stack.Pop();
+                var distance = distances[nextCell];
+                foreach (var neighbor in nextCell.Neighbors()) {
+                    if (!builder.CanConnect(nextCell, neighbor))
+                        continue;
                     // if a maze has loops, we have to check if we are building
                     // a shorter path or a longer one.
                     if (!distances.ContainsKey(neighbor)) {

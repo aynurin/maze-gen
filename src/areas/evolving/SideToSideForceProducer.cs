@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace PlayersWorlds.Maps.Areas.Evolving {
     internal class SideToSideForceProducer :
         IAreaForceProducer, IEnvironmentForceProducer {
+        private readonly Log _log = Log.ToConsole<SideToSideForceProducer>();
         private readonly IForceFormula _forceFormula;
         private readonly double _overlapFactor;
         private readonly Dictionary<(FloatingArea, FloatingArea), VectorD>
@@ -116,7 +117,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             }
             var force = new VectorD(fX.force, fY.force);
 
-            // Console.WriteLine($"GetRoomForce (({area.Nickname}), ({other.Nickname})): {fX.caseName},{fY.caseName},thisForce={thisForceX:F2}x{thisForceY:F2},distance={distance},opposingForce={opposingForceX:F2}x{opposingForceY:F2},force={force}");
+            _log.D(5, $"GetRoomForce (({area.Nickname}), ({other.Nickname})): {fX.caseName},{fY.caseName},thisForce={thisForceX:F2}x{thisForceY:F2},distance={distance},opposingForce={opposingForceX:F2}x{opposingForceY:F2},force={force}");
             return force;
         }
 
@@ -135,7 +136,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             // TODO: Trace: var distance = new VectorD(distanceX, distanceY);
             var force = new VectorD(forceX, forceY);
             // TODO: Trace: _log?.Buffered.D(5, $"GetMapForce (({area}), {env.Size}): {caseX},{caseY},distance={distance},force={force}");
-            // Console.WriteLine($"GetEnvironmentForce ({area.Nickname}, {area}, {environmentSize}): force={force}");
+            _log.D(5, $"GetEnvironmentForce ({area.Nickname}, {area}, {environmentSize}): force={force}");
             return force;
         }
 
@@ -230,7 +231,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     force = _forceFormula.NormalForce(thisAxisDistance.distance * thisAxisDistance.sign);
                 }
             }
-            // Console.WriteLine($"GetAxisForce(): ({force}, {caseName}_{thisAxisName})");
+            _log.D(5, $"GetAxisForce(): ({force}, {caseName}_{thisAxisName})");
             return (force, caseName + "_" + thisAxisName);
         }
 
@@ -258,7 +259,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 // the other area to move in the opposite direction.
                 sign = -1;
             }
-            // Console.WriteLine($"GetAxisDistance({onePosition}, {oneSize}, {otherPosition}, {otherSize}): ({dx}, {sign}, {overlap})");
+            _log.D(5, $"GetAxisDistance({onePosition}, {oneSize}, {otherPosition}, {otherSize}): ({dx}, {sign}, {overlap})");
             return (dx, sign, overlap);
         }
     }

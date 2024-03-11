@@ -8,7 +8,7 @@ using PlayersWorlds.Maps.Maze.PostProcessing;
 
 namespace PlayersWorlds.Maps.Maze {
     [TestFixture]
-    public class Maze2DTest {
+    public class Maze2DTest : Test {
         [Test]
         public void Maze2D_IsInitialized() {
             var map = new Maze2D(2, 3);
@@ -62,7 +62,7 @@ namespace PlayersWorlds.Maps.Maze {
                         .Where(c => c != cell && !neighbors.Contains(c))
                         .ToList();
                     if (neighbors.Count != cell.Neighbors().Count) {
-                        Log.CreateForThisTest().D(5, $"Cell {cell.X},{cell.Y} has {neighbors.Count} neighbors. It should have {cell.Neighbors().Count} neighbors.");
+                        TestLog.CreateForThisTest().D(5, $"Cell {cell.X},{cell.Y} has {neighbors.Count} neighbors. It should have {cell.Neighbors().Count} neighbors.");
                     }
                     Assert.That(neighbors.Count, Is.EqualTo(cell.Neighbors().Count));
                     Assert.That(neighbors.All(c => cell.Neighbors().Contains(c)), Is.True);
@@ -171,7 +171,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void Maze2D_CanParse() {
             var maze = Maze2D.Parse("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
-            Log.CreateForThisTest().D(5, maze.ToString());
+            TestLog.CreateForThisTest().D(5, maze.ToString());
             // ╔═══╤═══════╗
             // ║ 0 │ 1   2 ║
             // ║   ╵   ╷   ║

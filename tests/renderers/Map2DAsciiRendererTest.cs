@@ -7,7 +7,7 @@ using PlayersWorlds.Maps.Maze;
 namespace PlayersWorlds.Maps.Renderers {
 
     [TestFixture]
-    internal class Map2DStringRendererTest {
+    internal class Map2DStringRendererTest : Test {
         [Test]
         public void TestRender() {
             var map = new Map2D(new Vector(5, 5));
@@ -30,7 +30,7 @@ namespace PlayersWorlds.Maps.Renderers {
                 "▓░░░▓\n" +
                 "▓▓▓▓▓\n";
             var actual = map.ToString();
-            Log.CreateForThisTest().D(5, actual);
+            TestLog.CreateForThisTest().D(5, actual);
             Assert.That(expected, Is.EqualTo(actual));
         }
     }

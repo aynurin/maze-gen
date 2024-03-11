@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
     [TestFixture]
-    public class AreaDistributorTest {
+    public class AreaDistributorTest : Test {
         private static MapArea TestArea(int x, int y, int width, int height) =>
             MapArea.CreateAutoPositioned(
                 AreaType.None, new Vector(x, y), new Vector(width, height));
@@ -13,7 +13,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         [Test, Category("Integration")]
         public void AreaDistributorTest_OneTest() =>
             AreaDistributorHelper.Distribute(
-                Log.CreateForThisTest(), new Vector(10, 10),
+                TestLog.CreateForThisTest(), new Vector(10, 10),
                 new List<MapArea>() { TestArea(0, 0, 4, 4) },
                 maxEpochs: 10)
                 .AssertAllFit();
@@ -21,7 +21,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         [Test, Category("Integration")]
         public void AreaDistributorTest_SidePressure() =>
             AreaDistributorHelper.Distribute(
-                Log.CreateForThisTest(), new Vector(10, 10),
+                TestLog.CreateForThisTest(), new Vector(10, 10),
                 new List<MapArea>() {
                     TestArea(1, 4, 8, 2),
                     TestArea(1, 5, 2, 4),
@@ -33,7 +33,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         [Test, Category("Integration")]
         public void AreaDistributorTest_TwoTest() =>
-            AreaDistributorHelper.Distribute(Log.CreateForThisTest(),
+            AreaDistributorHelper.Distribute(TestLog.CreateForThisTest(),
                 new Vector(10, 10),
                 new List<MapArea>() {
                     TestArea(0, 0, 2, 2),
@@ -48,7 +48,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             ) {
             var parts = layout.Split(':');
             AreaDistributorHelper.Distribute(
-                Log.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
+                TestLog.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => MapArea.Parse(s, isPositionFixed: false)),
                 maxEpochs: 10)
@@ -74,7 +74,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             ) {
             var parts = layout.Split(':');
             AreaDistributorHelper.Distribute(
-                Log.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
+                TestLog.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => MapArea.Parse(s, isPositionFixed: false)),
                 maxEpochs: 10)
@@ -91,7 +91,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             ) {
             var parts = layout.Split(':');
             AreaDistributorHelper.Distribute(
-                Log.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
+                TestLog.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => MapArea.Parse(s, isPositionFixed: false)),
                 maxEpochs: 10)
@@ -104,7 +104,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             ) {
             var parts = layout.Split(':');
             AreaDistributorHelper.Distribute(
-                Log.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
+                TestLog.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => s.ToArea()),
                 maxEpochs: 10)
@@ -117,7 +117,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             ) {
             var parts = layout.Split(':');
             AreaDistributorHelper.Distribute(
-                Log.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
+                TestLog.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => s.ToArea()),
                 maxEpochs: 10)
@@ -195,6 +195,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             yield return "49x16: P2x7;S12x4 P7x-1;S11x3 P19x4;S13x4 P27x11;S15x4 P17x10;S3x4 P14x3;S13x4 P24x9;S6x4 P1x13;S14x2 P9x4;S4x3";
             yield return "49x42: P19x1;S11x2 P34x31;S6x8 P15x29;S13x12 P15x11;S5x12 P23x5;S12x6 P3x17;S9x2 P16x6;S15x4 P15x29;S9x11 P39x37;S6x4 P28x22;S12x9 P31x8;S6x3 P27x23;S9x5 P0x27;S13x9 P11x17;S5x11 P4x2;S1x1";
             yield return "24x46: P11x20;S3x9 P5x15;S6x10 P5x14;S7x13 P10x26;S5x11 P10x18;S1x4 P11x13;S1x5 P10x29;S6x9 P13x8;S2x10 P3x17;S7x13 P5x28;S5x5 P18x8;S5x12";
+            yield return "10x10: P7x9;S2x3 P7x2;S3x2 P3x9;S2x2 P0x5;S2x3 P7x1;S2x3 P0x0;S6x5";
         }
 
         public static IEnumerable<string> FailingLayouts() {

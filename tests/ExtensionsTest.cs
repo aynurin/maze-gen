@@ -4,7 +4,7 @@ using PlayersWorlds.Maps.Maze;
 
 namespace PlayersWorlds.Maps {
     [TestFixture]
-    public class ExtensionsTest {
+    public class ExtensionsTest : Test {
 
         [Test]
         public void TryDequeue_DoesNotThrow() {
@@ -29,7 +29,6 @@ namespace PlayersWorlds.Maps {
             var expectedShort =
                 "PlayersWorlds.Maps.ExtensionsTest+X(1, a)";
             Assert.That(o.DebugString(), Is.EqualTo(expectedLong));
-            Assert.That(o.ShortDebugString(), Is.EqualTo(expectedShort));
         }
 
         [Test]

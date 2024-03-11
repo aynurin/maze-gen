@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Emit;
 using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.Maze.PostProcessing;
 using static PlayersWorlds.Maps.Maze.GeneratorOptions;
 
 namespace PlayersWorlds.Maps.Maze {
-
     /// <summary>
     /// <p>This is a helper class that allows maze generators to manage maze
     /// cells during generation.</p>
@@ -40,6 +40,7 @@ namespace PlayersWorlds.Maps.Maze {
         private readonly HashSet<MazeCell> _allConnectableCells;
         private readonly HashSet<MazeCell> _connectedCells =
             new HashSet<MazeCell>();
+        private readonly List<HashSet<MazeCell>> _cellGroups;
 
         /// <summary>
         /// Cells that can be connected and are not connected yet.
@@ -47,18 +48,8 @@ namespace PlayersWorlds.Maps.Maze {
         /// <remarks>
         /// Used only in <see cref="AldousBroderMazeGenerator"/>.
         /// </remarks>
-        internal IReadOnlyCollection<MazeCell> CellsToConnect =>
+        internal IReadOnlyCollection<MazeCell> TestCellsToConnect =>
             _cellsToConnect;
-        /// <summary>
-        /// Same as <see cref="CellsToConnect"/>, but in a priority order.
-        /// </summary>
-        /// <remarks>
-        /// Used only in <see cref="HuntAndKillMazeGenerator"/>.
-        /// </remarks>
-        internal IEnumerable<MazeCell> PrioritizedCellsToConnect =>
-            _priorityCellsToConnect.Keys
-                    .Concat(_cellsToConnect
-                            .Except(_priorityCellsToConnect.Keys));
         /// <summary>
         /// All connectable cells (connected or unconnected) in the
         /// lowest xy to highest xy order with row priority.
@@ -75,7 +66,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// Used only in tests.
         /// </remarks>
         /// <testonly />
-        internal IReadOnlyCollection<MazeCell> ConnectedCells =>
+        internal IReadOnlyCollection<MazeCell> TestConnectedCells =>
             _connectedCells;
         /// <summary>
         /// Cells that are not yet connected, and we want to connect them first.
@@ -87,8 +78,15 @@ namespace PlayersWorlds.Maps.Maze {
         /// Used only in tests.
         /// </remarks>
         /// <testonly />
-        internal Dictionary<MazeCell, List<MazeCell>> PriorityCells =>
+        internal Dictionary<MazeCell, List<MazeCell>> TestPriorityCells =>
             _priorityCellsToConnect;
+
+        /// <summary>
+        /// Contains groups of connectable cells. In case the maze field has
+        /// isolated areas, some groups of cells can be isolated from others.
+        /// This is the list of groups of connectable cells.
+        /// </summary>
+        public virtual List<HashSet<MazeCell>> CellGroups => _cellGroups;
 
         /// <summary>
         /// Creates a new instance of the <see cref="Maze2DBuilder"/> class.
@@ -140,6 +138,20 @@ namespace PlayersWorlds.Maps.Maze {
                                         cellArea.Key.Type != AreaType.Hall)));
 
             _isFillCompleteAttempts = (int)Math.Pow(maze.Size.Area, 2);
+
+            var buffer = new HashSet<MazeCell>(_maze.Cells
+                .Where(c => c.MapAreas
+                       .All(cellArea => cellArea.Key.Type != AreaType.Fill &&
+                                        cellArea.Key.Type != AreaType.Hall)));
+            _cellGroups = new List<HashSet<MazeCell>>();
+            if (buffer.Count > 0) {
+                do {
+                    var distances = DijkstraDistance.FindRaw(
+                        this, buffer.First());
+                    _cellGroups.Add(new HashSet<MazeCell>(distances.Keys));
+                    buffer.ExceptWith(distances.Keys);
+                } while (buffer.Count > 0);
+            }
         }
 
         private IEnumerable<MazeCell> WalkInCells(MapArea area) {
@@ -159,6 +171,18 @@ namespace PlayersWorlds.Maps.Maze {
                 $"WalkInCells is applicable only to halls " +
                 $"({Enum.GetName(typeof(AreaType), area.Type)} requested).");
         }
+
+        /// <summary>
+        /// Cells that can be connected and are not connected yet, in a
+        /// priority order.
+        /// </summary>
+        /// <remarks>
+        /// Used only in <see cref="HuntAndKillMazeGenerator"/>.
+        /// </remarks>
+        public IEnumerable<MazeCell> GetPrioritizedCellsToConnect() =>
+            _priorityCellsToConnect.Keys
+                    .Concat(_cellsToConnect
+                            .Except(_priorityCellsToConnect.Keys));
 
         /// <summary>
         /// Randomly picks the next cell to be connected from a pool of
@@ -297,12 +321,20 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         /// <summary>
-        /// Checks if the given cell is connected to the maze cells.
+        /// Checks if the given cell can be connected in the given direction.
         /// </summary>
         public bool CanConnect(MazeCell cell, Vector neighbor) =>
             _allConnectableCells.Contains(cell) &&
             cell.Neighbors(neighbor).HasValue &&
             _allConnectableCells.Contains(cell.Neighbors(neighbor).Value);
+
+        /// <summary>
+        /// Checks if the given cells can be connected with each other.
+        /// </summary>
+        public bool CanConnect(MazeCell one, MazeCell another) =>
+            _allConnectableCells.Contains(one) &&
+            _allConnectableCells.Contains(another) &&
+            one.Neighbors().Contains(another);
 
         /// <summary>
         /// Check if the given cell is connected to the maze cells.

@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace PlayersWorlds.Maps.Maze.PostProcessing {
     [TestFixture]
-    public class DeadEndTest {
+    public class DeadEndTest : Test {
         [Test]
         public void DeadEnd_CanFindDeadEnds() {
             var maze = Maze2D.Parse("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace PlayersWorlds.Maps {
@@ -64,26 +65,33 @@ namespace PlayersWorlds.Maps {
         public static readonly Vector SouthEast2D = new Vector(1, -1);
 
         private readonly int[] _value;
-        private readonly bool _isInitialized; // false on initialization
+        private readonly int _hashcode;
 
         /// <summary>
         /// Components of this vector.
         /// </summary>
-        internal int[] Value => _value;
+        internal ReadOnlyCollection<int> Value =>
+            IsEmpty ? new List<int>().AsReadOnly() : Array.AsReadOnly(_value);
         /// <summary>
         /// The vector is not empty only if it was initialized with components.
         /// </summary>
-        public bool IsEmpty => !_isInitialized;
+        public bool IsEmpty => _value == null || _value.Length == 0;
         /// <summary>
         /// Returns a first component of a non-empty vector.
         /// </summary>
-        public int X => !IsEmpty && _value.Length > 0 ? _value[0] :
-            throw new InvalidOperationException("X is only supported in non-empty vectors");
+        public int X => !IsEmpty ? _value[0] :
+            throw new InvalidOperationException(
+                "X is only supported in non-empty vectors");
         /// <summary>
         /// Returns a second component of a non-empty vector.
         /// </summary>
-        public int Y => !IsEmpty && _value.Length > 1 ? _value[1] :
-            throw new InvalidOperationException("Y is only supported in two- or more dimensional space");
+        public int Y => !IsEmpty ? _value[1] :
+            throw new InvalidOperationException(
+                "Y is only supported in two- or more dimensional space");
+        /// <summary>
+        /// Number of components in this vector.
+        /// </summary>
+        public int Dimensions => _value.Length;
         /// <summary>
         /// A product of the components of this vector.
         /// </summary>
@@ -106,7 +114,9 @@ namespace PlayersWorlds.Maps {
         public Vector(IEnumerable<int> dimensions) {
             dimensions.ThrowIfNull(nameof(dimensions));
             _value = dimensions.ToArray();
-            _isInitialized = _value.Length > 0;
+            _hashcode = _value.Length == 0 ? _value.GetHashCode() :
+                ((IStructuralEquatable)_value)
+                    .GetHashCode(EqualityComparer<int>.Default);
         }
 
         /// <summary>
@@ -204,9 +214,7 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode() =>
-            _value == null ? base.GetHashCode() :
-            IsEmpty ? _value.GetHashCode() :
-            ((IStructuralEquatable)_value).GetHashCode(EqualityComparer<int>.Default);
+            _value == null ? base.GetHashCode() : _hashcode;
 
         /// <summary>
         /// Returns a string representation of this vector of the form
@@ -245,8 +253,8 @@ namespace PlayersWorlds.Maps {
             for (var i = 0; i < _value.Length; i++) {
                 if (_value[i] >= spaceDimensions._value[i]) {
                     throw new IndexOutOfRangeException(
-                        $"Vector dimension {1} ({_value[i]}) is larger than" +
-                        $" space dimension {i}({spaceDimensions._value[i]})");
+                        $"Vector dimension {i} ({string.Join("x", _value)}) is larger than" +
+                        $" space dimension {i} ({string.Join("x", spaceDimensions._value)})");
                 }
                 index += _value[i] * multiplier;
                 multiplier *= spaceDimensions._value[i];

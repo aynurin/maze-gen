@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Areas.Evolving;
 using PlayersWorlds.Maps.Maze.PostProcessing;
@@ -12,6 +14,7 @@ namespace PlayersWorlds.Maps.Maze {
     /// methods for maze generation.
     /// </summary>
     public abstract class MazeGenerator {
+        private static readonly Log s_log = Log.ToConsole<MazeGenerator>();
         /// <summary>
         /// When implemented in a derived class, generates a new maze.
         /// </summary>
@@ -90,6 +93,7 @@ namespace PlayersWorlds.Maps.Maze {
             var attempts = options.MapAreasOptions ==
                     GeneratorOptions.MapAreaOptions.Auto ? 3 : 1;
             while (true) {
+                s_log.D(5, 1000, "MazeGenerator.GenerateMazeAreas()");
                 var areas = new List<MapArea>(
                     options.MapAreas ?? new List<MapArea>());
                 if (options.MapAreasOptions ==
@@ -121,12 +125,7 @@ namespace PlayersWorlds.Maps.Maze {
                                              .Sum(other =>
                                                 area.Overlap(other).Area))
                                       .Sum() / 2;
-                    if (impact > mazeSize.Area / 10) {
-                        throw new InvalidOperationException(message);
-                    } else {
-                        Trace.TraceWarning(message);
-                        return areas;
-                    }
+                    throw new InvalidOperationException(message);
                 }
             }
         }

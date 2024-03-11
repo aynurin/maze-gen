@@ -10,13 +10,14 @@ using static PlayersWorlds.Maps.Maze.GeneratorOptions;
 
 namespace PlayersWorlds.Maps.Maze {
     internal static class MazeTestHelper {
+        private static readonly Log _log = Log.ToConsole("MazeTestHelper");
         public static bool IsSolveable(Maze2D maze) {
             var cells = new HashSet<MazeCell>(maze.MazeCells);
             var dijkstra = DijkstraDistance.Find(cells.First());
             cells.ExceptWith(dijkstra.Keys);
 
-            while (cells.Count > 0) {
-                Log.CreateForCallingTest().E(
+            if (cells.Count > 0) {
+                _log.I(
                     $"No solution for this maze between {cells.First()} and " +
                     $"{string.Join(",", cells)}:\n" + maze.ToString());
                 return false;
@@ -29,7 +30,7 @@ namespace PlayersWorlds.Maps.Maze {
                                    out Maze2DBuilder builder) {
             var maze = MazeGenerator.Generate(size,
                 options, out builder);
-            Log.CreateForCallingTest().D(5, maze.ToString());
+            _log.D(1, maze.ToString());
             if (options.MapAreas != null) {
                 Assert.That(maze.MapAreas.Count,
                     Is.GreaterThanOrEqualTo(options.MapAreas.Count),

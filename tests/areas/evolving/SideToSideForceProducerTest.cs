@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
     [TestFixture]
-    public class SideToSideForceProducerTest {
+    public class SideToSideForceProducerTest : Test {
         private SideToSideForceProducer _forceProducer;
 
         [SetUp]

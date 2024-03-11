@@ -7,6 +7,7 @@ namespace PlayersWorlds.Maps.Maze {
     /// Recursive Backtracker algorithm implementation.
     /// </summary>
     public class RecursiveBacktrackerMazeGenerator : MazeGenerator {
+        private readonly Log _log = Log.ToConsole<RecursiveBacktrackerMazeGenerator>();
         /// <summary>
         /// Generates a maze using Recursive Backtracker algorithm in the
         /// specified layout.
@@ -23,6 +24,7 @@ namespace PlayersWorlds.Maps.Maze {
             var stack = new Stack<MazeCell>();
             stack.Push(builder.PickNextCellToLink());
             while (!builder.IsFillComplete() && stack.Count > 0) {
+                _log.D(3, 1000, "RecursiveBacktrackerMazeGenerator.GenerateMaze()");
                 var currentCell = stack.Peek();
                 if (builder.TryPickRandomNeighbor(
                         currentCell, out var nextCell, true)) {

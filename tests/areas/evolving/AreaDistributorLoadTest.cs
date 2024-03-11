@@ -7,7 +7,7 @@ using PlayersWorlds.Maps.Maze;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
     [TestFixture]
-    public class AreaDistributorLoadTest {
+    public class AreaDistributorLoadTest : Test {
 
         [Test, Category("Load")]
         public void AreaDistributor_LoadTest() {
@@ -19,7 +19,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var numTotal = 1000;
             var numPassed = 0;
             _ = Parallel.For(0, numTotal, ops, (i, state) => {
-                var log = Log.CreateForThisTest();
+                var log = TestLog.CreateForThisTest();
                 var maze = new Maze2D(GlobalRandom.Next(5, 50), GlobalRandom.Next(5, 50));
                 var roomsCount = (int)Math.Sqrt(maze.Size.Area) / 3;
                 var rooms = new List<MapArea>();
