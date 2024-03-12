@@ -30,7 +30,7 @@ namespace PlayersWorlds.Maps.Maze {
                                    out Maze2DBuilder builder) {
             var maze = MazeGenerator.Generate(size,
                 options, out builder);
-            _log.D(1, maze.ToString());
+            _log.D(2, maze.ToString());
             if (options.MapAreas != null) {
                 Assert.That(maze.MapAreas.Count,
                     Is.GreaterThanOrEqualTo(options.MapAreas.Count),

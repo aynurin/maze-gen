@@ -44,11 +44,7 @@ namespace PlayersWorlds.Maps.Maze {
                     continue;
 
                 while (!visitedCells.Contains(nextCell)) {
-                    _log.D(3, 10000,
-                        "WilsonsMazeGenerator.GenerateMaze() 2:\n" +
-                        string.Join(",", walkPath) + "\n" +
-                        string.Join(",", visitedCells) + "\n" +
-                        builder.ToString());
+                    _log.D(3, 10000, "WilsonsMazeGenerator.GenerateMaze() 2");
                     var containsAt = walkPath.IndexOf(nextCell);
                     if (containsAt >= 0)
                         walkPath.RemoveRange(containsAt + 1, walkPath.Count - containsAt - 1);
