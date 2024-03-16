@@ -6,6 +6,7 @@ using PlayersWorlds.Maps.Renderers;
 namespace PlayersWorlds.Maps.Areas.Evolving {
     internal class AreaDistributorHelper {
         internal static DistributeResult Distribute(
+            RandomSource random,
             TestLog log,
             Vector mapSize,
             IEnumerable<MapArea> areas,
@@ -43,7 +44,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 PlacedAreas = managedAreas
             };
 
-            new AreaDistributor(
+            new AreaDistributor(random,
                 debugLevel >= 4 ?
                     new MapAreaStringRenderer() :
                     null,

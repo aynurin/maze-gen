@@ -37,7 +37,6 @@ namespace PlayersWorlds.Maps.Areas {
             var addedArea = existingAreas?.Sum(area => area.Size.Area) ?? 0;
             var areas = new List<MapArea>();
             while (addedArea < size.Area * _settings.MinFillFactor) {
-                _log.D(3, 1000, "RandomAreaGenerator.Generate()");
                 var area = GetRandomZone();
                 if (!area.Size.FitsInto(size - new Vector(2, 2)))
                     continue;
@@ -64,8 +63,8 @@ namespace PlayersWorlds.Maps.Areas {
             return MapArea.CreateAutoPositioned(type, size, tags);
         }
 
-        private static T PickRandom<T>(IDictionary<T, float> distribution) {
-            var random = GlobalRandom.RandomSingle();
+        private T PickRandom<T>(IDictionary<T, float> distribution) {
+            var random = _settings.RandomSource.RandomSingle();
             var cumulativeProb = 0f;
             T lastItem = default;
             foreach (var couple in distribution) {
@@ -78,8 +77,8 @@ namespace PlayersWorlds.Maps.Areas {
             return lastItem;
         }
 
-        private static Vector RandomRotate(Vector size) {
-            if (GlobalRandom.Next() % 2 == 0)
+        private Vector RandomRotate(Vector size) {
+            if (_settings.RandomSource.Next() % 2 == 0)
                 return size;
             return new Vector(size.Y, size.X);
         }
@@ -94,28 +93,29 @@ namespace PlayersWorlds.Maps.Areas {
 
             internal Dictionary<AreaType, Dictionary<string, float>> TagProbabilities { get; }
 
+            internal RandomSource RandomSource { get; set; }
+
             /// <summary>
             /// Creates an instance of RandomAreaGeneratorSettings. Default
             /// values provide some basic settings.
             /// </summary>
+            /// <param name="randomSource"></param>
             /// <param name="minFillFactor"></param>
             /// <param name="dimensionProbabilities"></param>
             /// <param name="areaTypeProbabilities"></param>
             /// <param name="tagProbabilities"></param>
             public RandomAreaGeneratorSettings(
+                RandomSource randomSource,
                 float minFillFactor = 0.3f,
                 Dictionary<Vector, float> dimensionProbabilities = null,
                 Dictionary<AreaType, float> areaTypeProbabilities = null,
                 Dictionary<AreaType, Dictionary<string, float>> tagProbabilities = null) {
+                RandomSource = randomSource;
                 MinFillFactor = minFillFactor;
                 DimensionProbabilities = dimensionProbabilities ?? s_default_dimensions;
                 AreaTypeProbabilities = areaTypeProbabilities ?? s_default_area_types;
                 TagProbabilities = tagProbabilities ?? s_default_tags;
             }
-
-            /// <summary />
-            public static RandomAreaGeneratorSettings Default =>
-                new RandomAreaGeneratorSettings();
 
             private static readonly Dictionary<Vector, float> s_default_dimensions = new Dictionary<Vector, float>() {
                 { new Vector(2, 2), 0.25f },

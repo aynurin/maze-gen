@@ -11,29 +11,30 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         [Test, Category("Load")]
         public void AreaDistributor_LoadTest() {
+            var testRandom = RandomSource.CreateFromEnv();
             var results = new List<AreaDistributorHelper.DistributeResult>();
             var ops = new ParallelOptions {
                 MaxDegreeOfParallelism = 24
             };
-            // !! Current fail rate is at ~2%. Requires investigation.
+            // !! Current fail rate is at <0.5%. Requires investigation.
             var numTotal = 1000;
             var numPassed = 0;
             _ = Parallel.For(0, numTotal, ops, (i, state) => {
                 var log = TestLog.CreateForThisTest();
-                var maze = new Maze2D(GlobalRandom.Next(5, 50), GlobalRandom.Next(5, 50));
+                var maze = new Maze2D(testRandom.Next(5, 50), testRandom.Next(5, 50));
                 var roomsCount = (int)Math.Sqrt(maze.Size.Area) / 3;
                 var rooms = new List<MapArea>();
                 for (var j = 0; j < roomsCount; j++) {
                     var size = new Vector(
-                        GlobalRandom.Next(1, maze.Size.X / 3),
-                        GlobalRandom.Next(1, maze.Size.Y / 3));
+                        testRandom.Next(1, maze.Size.X / 3),
+                        testRandom.Next(1, maze.Size.Y / 3));
                     var position = new Vector(
-                        GlobalRandom.Next(0, (maze.Size - size).X),
-                        GlobalRandom.Next(0, (maze.Size - size).Y));
+                        testRandom.Next(0, (maze.Size - size).X),
+                        testRandom.Next(0, (maze.Size - size).Y));
                     rooms.Add(MapArea.CreateAutoPositioned(
                         AreaType.None, position, size));
                 }
-                var result = AreaDistributorHelper.Distribute(log, maze.Size, rooms, 100);
+                var result = AreaDistributorHelper.Distribute(testRandom, log, maze.Size, rooms, 100);
                 lock (results) {
                     if (result.PlacedOutOfBounds.Count > 0 || result.PlacedOverlapping.Count > 0) {
                         log.D(0, result.DebugString());

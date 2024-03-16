@@ -1,5 +1,6 @@
 using System;
 using CommandLine;
+using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Maze;
 using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
@@ -15,12 +16,17 @@ namespace PlayersWorlds.Maps {
             override public int Run() {
                 base.Run();
                 var size = Vector.Parse(MazeSize);
+                var randomSource = RandomSource.CreateFromEnv();
                 var generatorOptions = new GeneratorOptions() {
                     Algorithm = Type.GetType(
                         "PlayersWorlds.Maps.Maze." + AlgorithmName +
                         "MazeGenerator, PlayersWorlds.Maps"),
                     FillFactor = GeneratorOptions.FillFactorOption.Full,
                     MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto,
+                    RandomSource = randomSource,
+                    AreaGenerator = new RandomAreaGenerator(
+                        new RandomAreaGenerator.RandomAreaGeneratorSettings(
+                            randomSource))
                 };
                 var maze = MazeGenerator.Generate(size, generatorOptions);
                 Console.WriteLine(maze.Serialize());

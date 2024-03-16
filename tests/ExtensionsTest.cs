@@ -26,8 +26,6 @@ namespace PlayersWorlds.Maps {
             var o = new X { A = 1, B = "a" };
             var expectedLong =
                 "PlayersWorlds.Maps.ExtensionsTest+X(\tA = 1\n, \tB = a\n)";
-            var expectedShort =
-                "PlayersWorlds.Maps.ExtensionsTest+X(1, a)";
             Assert.That(o.DebugString(), Is.EqualTo(expectedLong));
         }
 

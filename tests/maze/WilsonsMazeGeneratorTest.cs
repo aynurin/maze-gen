@@ -10,9 +10,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test, Timeout(1000)]
         public void DuplicateRandom() {
             var maze = new Maze2D(5, 5);
-            var builderMock = new Mock<Maze2DBuilder>(
-                maze, new GeneratorOptions()
-            );
+            var opts = new GeneratorOptions() {
+                RandomSource = RandomSource.CreateFromEnv()
+            };
+            var builderMock = new Mock<Maze2DBuilder>(maze, opts);
             var firstCell = maze.Cells[new Vector(4, 3)];
             var randomNeighbor = maze.Cells[new Vector(3, 3)];
 

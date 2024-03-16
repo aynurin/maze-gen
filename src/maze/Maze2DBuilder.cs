@@ -88,6 +88,8 @@ namespace PlayersWorlds.Maps.Maze {
         /// </summary>
         public virtual List<HashSet<MazeCell>> CellGroups => _cellGroups;
 
+        internal RandomSource Random { get => _options.RandomSource; }
+
         /// <summary>
         /// Creates a new instance of the <see cref="Maze2DBuilder"/> class.
         /// </summary>
@@ -197,9 +199,13 @@ namespace PlayersWorlds.Maps.Maze {
             // connected to the maze so we can connect them later.
             MazeCell nextCell;
             if (_priorityCellsToConnect.Count > 0) {
-                nextCell = _priorityCellsToConnect.Keys.Random(_priorityCellsToConnect.Count);
+                nextCell = _options.RandomSource.RandomOf(
+                    _priorityCellsToConnect.Keys,
+                    _priorityCellsToConnect.Count);
             } else {
-                nextCell = _cellsToConnect.Random(_cellsToConnect.Count);
+                nextCell = _options.RandomSource.RandomOf(
+                    _cellsToConnect,
+                    _cellsToConnect.Count);
             }
             return nextCell;
         }
@@ -255,7 +261,7 @@ namespace PlayersWorlds.Maps.Maze {
                     .GetAll(neighbors).ToList();
             }
             if (cellsToConnect.Count > 0) {
-                neighbor = cellsToConnect.Random();
+                neighbor = _options.RandomSource.RandomOf(cellsToConnect);
                 return true;
             } else {
                 neighbor = null;
@@ -299,7 +305,7 @@ namespace PlayersWorlds.Maps.Maze {
                         );
                         continue;
                     }
-                    var walkway = visitedWalkInCells.Random();
+                    var walkway = _options.RandomSource.RandomOf(visitedWalkInCells);
                     var entrance = walkway.Neighbors()
                         .First(c => c.MapAreas.ContainsKey(areaInfo.Key));
                     Connect(walkway, entrance);

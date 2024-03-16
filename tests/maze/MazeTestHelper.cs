@@ -1,7 +1,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 using PlayersWorlds.Maps.Areas;
@@ -10,27 +9,37 @@ using static PlayersWorlds.Maps.Maze.GeneratorOptions;
 
 namespace PlayersWorlds.Maps.Maze {
     internal static class MazeTestHelper {
-        private static readonly Log _log = Log.ToConsole("MazeTestHelper");
+        private static readonly Log s_log = Log.ToConsole("MazeTestHelper");
+
         public static bool IsSolveable(Maze2D maze) {
             var cells = new HashSet<MazeCell>(maze.MazeCells);
             var dijkstra = DijkstraDistance.Find(cells.First());
             cells.ExceptWith(dijkstra.Keys);
 
             if (cells.Count > 0) {
-                _log.I(
+                s_log.I(
                     $"No solution for this maze between {cells.First()} and " +
                     $"{string.Join(",", cells)}:\n" + maze.ToString());
                 return false;
             }
             return true;
         }
+
         public static Maze2D GenerateMaze(
                                    Vector size,
                                    GeneratorOptions options,
                                    out Maze2DBuilder builder) {
+            if (options.RandomSource == null) {
+                options.RandomSource = RandomSource.CreateFromEnv();
+            }
+            if (options.AreaGenerator == null) {
+                options.AreaGenerator = new RandomAreaGenerator(
+                    new RandomAreaGenerator.RandomAreaGeneratorSettings(
+                        options.RandomSource));
+            }
             var maze = MazeGenerator.Generate(size,
                 options, out builder);
-            _log.D(2, maze.ToString());
+            s_log.D(2, maze.ToString());
             if (options.MapAreas != null) {
                 Assert.That(maze.MapAreas.Count,
                     Is.GreaterThanOrEqualTo(options.MapAreas.Count),

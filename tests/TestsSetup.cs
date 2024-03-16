@@ -6,14 +6,11 @@ using PlayersWorlds.Maps;
 
 [SetUpFixture]
 public class TestsSetup {
-    private readonly Log _log = Log.ToConsole<TestsSetup>();
     [OneTimeSetUp]
     public void RunBeforeAnyTests() {
         if (TestContext.Parameters.Exists("SEED")) {
-            var seed = int.Parse(TestContext.Parameters["SEED"]);
-            GlobalRandom.Reseed(seed);
+            RandomSource.EnvRandomSeed = int.Parse(TestContext.Parameters["SEED"]);
         }
-        _log.I($"Running tests with seed {GlobalRandom.Seed}");
         if (TestContext.Parameters.Exists("DEBUG")) {
             Log.DebugLoggingLevel = TestLog.DebugLevel = int.Parse(TestContext.Parameters["DEBUG"]);
         }

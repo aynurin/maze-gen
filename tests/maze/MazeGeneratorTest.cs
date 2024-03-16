@@ -27,7 +27,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void CanUseCustomAreaGenerator() {
             var log = Log.ToConsole("MazeGeneratorTest.CanUseCustomAreaGenerator");
-            var maze = MazeGenerator.Generate(
+            var maze = MazeTestHelper.GenerateMaze(
                 new Vector(15, 15),
                 new GeneratorOptions() {
                     AreaGenerator = new CustomAreaGenerator(),
@@ -179,10 +179,10 @@ namespace PlayersWorlds.Maps.Maze {
                 Algorithm = generatorType,
                 FillFactor = fillFactor,
                 MapAreasOptions = mapAreaOptions,
-                MapAreas = mapAreas
+                MapAreas = mapAreas,
             };
 
-            var map = MazeGenerator.Generate(size, options);
+            var map = MazeTestHelper.GenerateMaze(size, options);
             Assert.That(map, Is.Not.Null);
 
             var solution = new List<MazeCell>();
@@ -196,17 +196,15 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test, Category("Integration")]
         public void IsFillComplete_Debug() {
-            var log = Log.ToConsole($"MazeGeneratorTest.IsFillComplete_Debug");
-            log.I($"Running tests with seed {GlobalRandom.Seed}");
             IsFillComplete(typeof(WilsonsMazeGenerator), GeneratorOptions.FillFactorOption.Full, GeneratorOptions.MapAreaOptions.Auto, null);
         }
 
         [Test]
         public void WrongGeneratorOptions() {
-            Assert.That(() => MazeGenerator.Generate(new Vector(3, 4), new GeneratorOptions()), Throws.TypeOf<ArgumentNullException>());
-            Assert.That(() => MazeGenerator.Generate(new Vector(3, 4), new GeneratorOptions { Algorithm = typeof(string) }), Throws.TypeOf<ArgumentException>());
-            Assert.That(() => MazeGenerator.Generate(new Vector(3, 4), new GeneratorOptions { Algorithm = typeof(TestGeneratorA) }), Throws.TypeOf<ArgumentException>());
-            Assert.That(() => MazeGenerator.Generate(new Vector(3, 4), new GeneratorOptions { Algorithm = typeof(TestGeneratorB) }), Throws.Nothing);
+            Assert.That(() => MazeTestHelper.GenerateMaze(new Vector(3, 4), new GeneratorOptions()), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => MazeTestHelper.GenerateMaze(new Vector(3, 4), new GeneratorOptions { Algorithm = typeof(string) }), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => MazeTestHelper.GenerateMaze(new Vector(3, 4), new GeneratorOptions { Algorithm = typeof(TestGeneratorA) }), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => MazeTestHelper.GenerateMaze(new Vector(3, 4), new GeneratorOptions { Algorithm = typeof(TestGeneratorB) }), Throws.Nothing);
         }
 
         class TestGeneratorA : MazeGenerator {

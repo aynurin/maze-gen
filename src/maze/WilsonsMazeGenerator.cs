@@ -32,7 +32,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             var visitedCells = new HashSet<MazeCell>();
             foreach (var cellGroup in builder.CellGroups) {
-                visitedCells.Add(cellGroup.Random(cellGroup.Count));
+                visitedCells.Add(builder.Random.RandomOf(cellGroup, cellGroup.Count));
             }
 
             while (!builder.IsFillComplete()) {

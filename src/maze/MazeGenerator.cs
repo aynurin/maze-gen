@@ -38,10 +38,23 @@ namespace PlayersWorlds.Maps.Maze {
 
         internal static Maze2D Generate(Vector size, GeneratorOptions options,
             out Maze2DBuilder builder) {
+            if (options.RandomSource == null) {
+                throw new ArgumentNullException(
+                    "Please specify a RandomSource to use for maze " +
+                    "generation using GeneratorOptions.RandomSource.");
+            }
+            s_log.D(1, $"{options.Algorithm.Name} Generating a {size} maze " +
+                        $"with seed {options.RandomSource.Seed}.");
+            if (options.MapAreasOptions == GeneratorOptions.MapAreaOptions.Auto
+                && options.AreaGenerator == null) {
+                throw new ArgumentNullException(
+                    "Please specify an AreaGenerator to use for maze " +
+                    "area generation using GeneratorOptions.AreaGenerator.");
+            }
             if (options.Algorithm == null) {
                 throw new ArgumentNullException(
                     "Please specify maze generation algorithm using " +
-                    "GeneratorOptions.Algorithm or a generic parameter.");
+                    "GeneratorOptions.Algorithm.");
             }
             if (!typeof(MazeGenerator).IsAssignableFrom(options.Algorithm)) {
                 throw new ArgumentException(
@@ -59,6 +72,10 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = new Maze2D(size);
             try {
                 GenerateMazeAreas(size, options).ForEach(maze.AddArea);
+                s_log.D(1, $"Generated {maze.MapAreas.Count} maze areas");
+                foreach (var area in maze.MapAreas) {
+                    s_log.D(1, "Area: " + area.ToString());
+                }
                 builder = new Maze2DBuilder(maze, options);
                 (Activator.CreateInstance(options.Algorithm) as MazeGenerator)
                     .GenerateMaze(builder);
@@ -96,13 +113,15 @@ namespace PlayersWorlds.Maps.Maze {
                 s_log.D(5, 1000, "MazeGenerator.GenerateMazeAreas()");
                 var areas = new List<MapArea>(
                     options.MapAreas ?? new List<MapArea>());
+                s_log.D(1, string.Join(", ",
+                    areas.Select(a => $"P{a.Position};S{a.Size}")));
                 if (options.MapAreasOptions ==
                     GeneratorOptions.MapAreaOptions.Auto) {
                     areas.AddRange(
                         options.AreaGenerator.Generate(mazeSize, areas));
                 }
-                new AreaDistributor()
-                    .Distribute(mazeSize, areas, 100);
+                new AreaDistributor(options.RandomSource)
+                    .Distribute(mazeSize, areas, 1);
                 var errors = -existingErrors +
                     areas.Count(
                         area => areas.Any(other =>
@@ -110,12 +129,14 @@ namespace PlayersWorlds.Maps.Maze {
                                     area.Overlap(other).Area > 0)) +
                     areas.Count(
                         area => !area.FitsInto(Vector.Zero2D, mazeSize));
+                s_log.D(1, string.Join(", ",
+                    areas.Select(a => $"P{a.Position};S{a.Size}")));
                 if (errors <= 0) {
                     return areas;
                 }
                 if (--attempts == 0) {
-                    var roomsDebugStr =
-                        areas.Select(a => $"P{a.Position};S{a.Size}");
+                    var roomsDebugStr = string.Join(", ",
+                        areas.Select(a => $"P{a.Position};S{a.Size}"));
                     var message =
                         $"Could not generate rooms for maze of size {mazeSize}. " +
                         $"Last set of rooms had {errors} errors " +

@@ -4,11 +4,14 @@ using System.Linq;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
     internal class VectorDistanceForceProducer : IAreaForceProducer {
+        private readonly RandomSource _random;
         private readonly IForceFormula _forceFormula;
         private readonly double _overlapFactor;
 
         public VectorDistanceForceProducer(
+            RandomSource random,
             IForceFormula forceFormula, double overlapFactor) {
+            _random = random;
             _forceFormula = forceFormula;
             _overlapFactor = overlapFactor;
         }
@@ -56,8 +59,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 } else {
                     while (direction.IsZero()) {
                         direction = new VectorD(
-                            GlobalRandom.Next(-1, 2) / 10D,
-                            GlobalRandom.Next(-1, 2) / 10D
+                            _random.Next(-1, 2) / 10D,
+                            _random.Next(-1, 2) / 10D
                         );
                     }
                     other.OpposingForce = direction;

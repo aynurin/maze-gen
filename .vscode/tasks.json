@@ -18,7 +18,6 @@
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "build",
-        "isDefault": true
       }
     },
     {
@@ -32,6 +31,7 @@
       ],
       "group": {
         "kind": "build",
+        "isDefault": true
       }
     },
     {
@@ -44,7 +44,6 @@
       ],
       "group": {
         "kind": "test",
-        "isDefault": true
       }
     },
     {
@@ -63,14 +62,13 @@
     {
       "label": "all-tests",
       "type": "shell",
-      "command": "mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --framework=mono-4.0 && ./coverage.sh",
+      "command": "mono packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe build/Debug/tests/PlayersWorlds.Maps.Tests.dll --framework=mono-4.0",
       "problemMatcher": [],
       "dependsOn": [
         "build"
       ],
       "group": {
         "kind": "test",
-        "isDefault": true
       }
     },
     {
@@ -79,11 +77,10 @@
       "command": "./tasks/test.sh --where=\"Category=Integration\"",
       "problemMatcher": [],
       "dependsOn": [
-        "build-trace"
+        "build"
       ],
       "group": {
         "kind": "test",
-        "isDefault": true
       }
     },
     {
@@ -96,7 +93,6 @@
       ],
       "group": {
         "kind": "test",
-        "isDefault": true
       }
     },
     {
@@ -108,8 +104,7 @@
         "build"
       ],
       "group": {
-        "kind": "test",
-        "isDefault": true
+        "kind": "test"
       }
     },
     {

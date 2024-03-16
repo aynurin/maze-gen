@@ -9,6 +9,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         private static readonly string[] s_nicknames = new[] {
             "BEAR", "LION", "WOLF", "FOXY", "DEER", "MOOS", "ELKK", "HARE", "RABB", "OTTR", "PUMA", "HYNA", "PNDA", "CHTA", "RINO", "BSON", "ZEBR", "ORCA", "PENG"
         };
+        private readonly RandomSource _random;
         private readonly Vector _envSize;
         private readonly IList<FloatingArea> _areas;
         private readonly Action<GenerationImpact> _onGeneration;
@@ -19,10 +20,12 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 areas.Select((a, i) => (area: a, label: s_nicknames[i]));
 
         public MapAreasSystem(
+            RandomSource random,
             Vector envSize,
             IEnumerable<MapArea> areas,
             Action<GenerationImpact> onGeneration,
             Action<EpochResult> onEpoch) {
+            _random = random;
             _envSize = envSize;
             _areas = areas.Select((area, i) => {
                 var fa = FloatingArea.FromMapArea(area, envSize);
@@ -34,7 +37,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         }
 
         public override GenerationImpact Evolve(double fragment) {
-            var areaForceProducer = new DirectedDistanceForceProducer(fragment);
+            var areaForceProducer = new DirectedDistanceForceProducer(
+                _random, fragment);
             var envForceProducer = areaForceProducer;
             var areasForces = new List<VectorD>();
             // get epoch forces
@@ -43,11 +47,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                   .Select(other => areaForceProducer.GetAreaForce(area, other));
                 var overallAreaForce = areaForces
                   .Aggregate(VectorD.Zero2D, (acc, f) => acc + f);
-                // opposing force
-                // overallForce /= 2;
                 var envForce =
                     envForceProducer.GetEnvironmentForce(area, _envSize);
-                // compensate opposing force
                 areasForces.Add(overallAreaForce + envForce);
                 _log.D(5, $"{area.Nickname}: {area}, {overallAreaForce}, {envForce}");
             }

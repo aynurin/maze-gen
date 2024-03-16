@@ -7,13 +7,14 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
     public class DijkstraDistanceTest : Test {
         [Test]
         public void DijkstraDistance_FindsAllDistances() {
+            var random = RandomSource.CreateFromEnv();
             var maze = MazeTestHelper.GenerateMaze(new Vector(10, 10),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full
                 });
             var visitedCells = maze.MazeCells.ToList();
-            var distances = DijkstraDistance.Find(visitedCells.Random());
+            var distances = DijkstraDistance.Find(random.RandomOf(visitedCells));
             Assert.That(distances.Count, Is.EqualTo(visitedCells.Count));
             Assert.That(distances.Values.Average(), Is.GreaterThan(1));
         }

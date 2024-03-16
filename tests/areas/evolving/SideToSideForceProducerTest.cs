@@ -10,7 +10,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         private SideToSideForceProducer _forceProducer;
 
         [SetUp]
-        public void SetUp() {
+        override public void SetUp() {
+            base.SetUp();
             _forceProducer = new SideToSideForceProducer(new ForceFormula(), 1);
         }
 

@@ -305,11 +305,11 @@ namespace PlayersWorlds.Maps {
             return new VectorD(_value.Select(a => -a));
         }
 
-        internal static VectorD RandomUnit(int dimensions = 2) {
+        internal static VectorD RandomUnit(RandomSource source, int dimensions = 2) {
             VectorD random;
             do {
                 random = new VectorD(
-                    GlobalRandom.NextBytes(dimensions)
+                    source.NextBytes(dimensions)
                                 .Select(a => (a % 3) - 1D));
             } while (random._value.All(v => v == 0));
             return random;

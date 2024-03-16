@@ -12,7 +12,9 @@ namespace PlayersWorlds.Maps.Maze {
         public void BuildsCorrectCellsCollections() {
             var maze = new Maze2D(5, 5);
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             Assert.That(builder.TestCellsToConnect, Has.Exactly(25).Items);
             Assert.That(builder.TestPriorityCells, Has.Exactly(0).Items);
@@ -26,7 +28,9 @@ namespace PlayersWorlds.Maps.Maze {
                                         new Vector(3, 2),
                                         "hall"));
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             var priorityCells = new List<MazeCell>() {
                 maze.Cells[new Vector(2, 2)],
@@ -66,7 +70,9 @@ namespace PlayersWorlds.Maps.Maze {
                                         new Vector(3, 2),
                                         "hall"));
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             var priorityCells = new List<MazeCell>() {
                 maze.Cells[new Vector(3, 3)],
@@ -92,7 +98,9 @@ namespace PlayersWorlds.Maps.Maze {
                                         new Vector(3, 2),
                                         "hall"));
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             var priorityCells = new List<MazeCell>() {
                 maze.Cells[new Vector(3, 3)],
@@ -135,7 +143,9 @@ namespace PlayersWorlds.Maps.Maze {
                                         new Vector(3, 2),
                                         "hall"));
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             // hall area neighbors are never chosen;
             for (var i = 0; i < 1000; i++) {
@@ -157,7 +167,9 @@ namespace PlayersWorlds.Maps.Maze {
         public void MarkConnected() {
             var maze = new Maze2D(3, 3);
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             var connectedCells = new List<MazeCell>() {
                 maze.Cells[new Vector(0, 0)],
@@ -191,7 +203,9 @@ namespace PlayersWorlds.Maps.Maze {
                                         new Vector(2, 3),
                                         "hall"));
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             var priorityCells = new List<MazeCell>() {
                 maze.Cells[new Vector(3, 3)],
@@ -240,7 +254,9 @@ namespace PlayersWorlds.Maps.Maze {
                                         new Vector(5, 5),
                                         "fill"));
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             Assert.That(builder.IsFillComplete(), Is.True);
         }
@@ -274,7 +290,9 @@ namespace PlayersWorlds.Maps.Maze {
                                         new Vector(3, 3),
                                         "hall"));
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             Assert.That(builder.IsFillComplete(), Is.False);
             var areaCells = maze.Cells
@@ -300,7 +318,9 @@ namespace PlayersWorlds.Maps.Maze {
                                         new Vector(3, 3),
                                         "hall"));
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             Assert.That(builder.IsFillComplete(), Is.False);
             var areaCells = maze.Cells
@@ -326,7 +346,9 @@ namespace PlayersWorlds.Maps.Maze {
                                         new Vector(3, 3),
                                         "hall"));
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             Assert.That(builder.IsFillComplete(), Is.False);
             var areaCells = maze.Cells
@@ -356,7 +378,8 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = new Maze2D(2, 2);
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.FullWidth
+                    FillFactor = GeneratorOptions.FillFactorOption.FullWidth,
+                    RandomSource = RandomSource.CreateFromEnv()
                 });
 
             Assert.That(builder.IsFillComplete(), Is.False);
@@ -375,7 +398,8 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = new Maze2D(2, 2);
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.FullHeight
+                    FillFactor = GeneratorOptions.FillFactorOption.FullHeight,
+                    RandomSource = RandomSource.CreateFromEnv()
                 });
 
             Assert.That(builder.IsFillComplete(), Is.False);
@@ -394,7 +418,8 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = new Maze2D(2, 2);
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.Quarter
+                    FillFactor = GeneratorOptions.FillFactorOption.Quarter,
+                    RandomSource = RandomSource.CreateFromEnv()
                 });
 
             Assert.That(builder.IsFillComplete(), Is.False);
@@ -409,7 +434,8 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = new Maze2D(2, 2);
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.Half
+                    FillFactor = GeneratorOptions.FillFactorOption.Half,
+                    RandomSource = RandomSource.CreateFromEnv()
                 });
 
             Assert.That(builder.IsFillComplete(), Is.False);
@@ -424,7 +450,8 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = new Maze2D(2, 2);
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.ThreeQuarters
+                    FillFactor = GeneratorOptions.FillFactorOption.ThreeQuarters,
+                    RandomSource = RandomSource.CreateFromEnv()
                 });
 
             Assert.That(builder.IsFillComplete(), Is.False);
@@ -443,7 +470,8 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = new Maze2D(2, 2);
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.NinetyPercent
+                    FillFactor = GeneratorOptions.FillFactorOption.NinetyPercent,
+                    RandomSource = RandomSource.CreateFromEnv()
                 });
 
             Assert.That(builder.IsFillComplete(), Is.False);
@@ -480,7 +508,9 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(maze.MazeCells, Has.No.Member(walkway[0]));
 
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
             builder.Connect(walkway[0], walkway[1]);
             // this should connect entrance to walkway[0]
             builder.ApplyAreas();
@@ -502,7 +532,9 @@ namespace PlayersWorlds.Maps.Maze {
             maze.AddArea(area1);
             maze.AddArea(area2);
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             Assert.That(builder.TestPriorityCells.Keys.Intersect(maze.MapAreas[area1]), Is.Empty);
             Assert.That(builder.TestCellsToConnect.Intersect(maze.MapAreas[area1]), Is.Empty);
@@ -535,7 +567,9 @@ namespace PlayersWorlds.Maps.Maze {
                                         new Vector(2, 2),
                                         "cave"));
             var builder = new Maze2DBuilder(maze,
-                new GeneratorOptions() { });
+                new GeneratorOptions() {
+                    RandomSource = RandomSource.CreateFromEnv()
+                });
 
             Assert.That(
                 builder.CanConnect(

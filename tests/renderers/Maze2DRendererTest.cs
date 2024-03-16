@@ -14,7 +14,8 @@ namespace PlayersWorlds.Maps {
         private Maze2D _maze;
 
         [SetUp]
-        public void SetUp() {
+        override public void SetUp() {
+            base.SetUp();
             _maze = Maze2D.Parse("4x4;0:1,4;1:2,5;2:3;3:7;4:5,8;8:12;12:13;13:14;14:10;10:11");
         }
 

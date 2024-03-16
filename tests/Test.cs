@@ -4,10 +4,11 @@ using NUnit.Framework;
 
 namespace PlayersWorlds.Maps {
     public class Test {
-        private Dictionary<string, Stopwatch> _runningTests =
+        private readonly Dictionary<string, Stopwatch> _runningTests =
             new Dictionary<string, Stopwatch>();
+
         [SetUp]
-        public void SetUp() {
+        public virtual void SetUp() {
             if (TestLog.DebugLevel > 1) {
                 TestContext.Progress.WriteLine("Running : " +
                     TestContext.CurrentContext.Test.FullName + "...");
@@ -17,7 +18,7 @@ namespace PlayersWorlds.Maps {
         }
 
         [TearDown]
-        public void TearDown() {
+        public virtual void TearDown() {
             var sw = _runningTests[TestContext.CurrentContext.Test.ID];
             _runningTests.Remove(TestContext.CurrentContext.Test.ID);
             sw.Stop();

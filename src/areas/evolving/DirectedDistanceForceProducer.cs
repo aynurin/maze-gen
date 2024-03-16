@@ -7,12 +7,14 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         IAreaForceProducer, IEnvironmentForceProducer, IForceFormula {
         private readonly Log _log = Log.ToConsole<DirectedDistanceForceProducer>();
         private readonly IForceFormula _forceFormula;
+        private readonly RandomSource _random;
         private readonly double _overlapFactor;
         private readonly Dictionary<(FloatingArea, FloatingArea), VectorD>
             _opposingForces = new Dictionary<(FloatingArea, FloatingArea), VectorD>();
 
-        public DirectedDistanceForceProducer(double overlapFactor) {
+        public DirectedDistanceForceProducer(RandomSource random, double overlapFactor) {
             _forceFormula = this;
+            _random = random;
             _overlapFactor = overlapFactor;
         }
 
@@ -87,7 +89,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                         distance = area.Intersection(other).Size;
                         // 2. direction is random, but it has to be exactly
                         //    opposite between these to areas.
-                        direction = VectorD.RandomUnit(
+                        direction = VectorD.RandomUnit(_random,
                             area.Position.Dimensions);
                         force = direction.WithMagnitude(
                             _forceFormula.OverlapForce(

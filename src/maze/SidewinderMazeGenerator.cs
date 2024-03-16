@@ -19,7 +19,7 @@ namespace PlayersWorlds.Maps.Maze {
             builder.ThrowIfIncompatibleOptions(new GeneratorOptions() {
                 FillFactor = FillFactorOption.Full,
             });
-            var cellStates = GlobalRandom.NextBytes(builder.AllCells.Count);
+            var cellStates = builder.Random.NextBytes(builder.AllCells.Count);
             var currentY = 0;
             var run = new List<MazeCell>();
             var i = 0;
@@ -45,10 +45,10 @@ namespace PlayersWorlds.Maps.Maze {
                     // in case the random run cell cannot be connected to its
                     // north neighbor, we can try picking any run cell that can:
                     if (!builder.CanConnect(runCandidate, Vector.North2D)) {
-                        runCandidate = run
+                        runCandidate = builder.Random.RandomOf(run
                             .Where(cell =>
                                 builder.CanConnect(cell, Vector.North2D))
-                            .RandomOrDefault();
+                            .ToList());
                         canConnectNorth = runCandidate != null;
                     }
                 }

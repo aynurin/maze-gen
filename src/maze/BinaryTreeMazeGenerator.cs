@@ -18,7 +18,7 @@ namespace PlayersWorlds.Maps.Maze {
             builder.ThrowIfIncompatibleOptions(new GeneratorOptions() {
                 FillFactor = FillFactorOption.Full,
             });
-            var states = GlobalRandom.NextBytes(builder.AllCells.Count);
+            var states = builder.Random.NextBytes(builder.AllCells.Count);
             var i = 0;
             foreach (var currentCell in builder.AllCells) {
                 var linkNorth = states[i++] % 2 == 0;

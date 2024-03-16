@@ -30,15 +30,16 @@ namespace PlayersWorlds.Maps.Maze {
         /// <see cref="MapAreaOptions.Auto"/>, this generator will be used to
         /// generate areas.
         /// </summary>
-        public AreaGenerator AreaGenerator { get; set; } =
-                new RandomAreaGenerator(
-                    RandomAreaGenerator.RandomAreaGeneratorSettings.Default);
-
+        public AreaGenerator AreaGenerator { get; set; }
         /// <summary>
         /// Algorithm to use when generating the maze. Has to be a type derived
         /// from <see cref="MazeGenerator"/>.
         /// </summary>
         public Type Algorithm { get; set; }
+        /// <summary>
+        /// A source of random numbers to use when generating the maze.
+        /// </summary>
+        public RandomSource RandomSource { get; set; }
 
         /// <summary>
         /// How much to fill the maze. <see
@@ -97,9 +98,7 @@ namespace PlayersWorlds.Maps.Maze {
             Manual,
             /// <summary>
             /// Use a generator to generate the areas. The generator can be
-            /// specified in <see cref="GeneratorOptions.Algorithm" />. If a
-            /// generator is not specified, a default generator is used (<see
-            /// cref="RandomAreaGenerator.RandomAreaGeneratorSettings.Default" />).
+            /// specified in <see cref="GeneratorOptions.Algorithm" />.
             /// </summary>
             Auto
         }
