@@ -43,8 +43,8 @@ namespace PlayersWorlds.Maps.Maze {
                     "Please specify a RandomSource to use for maze " +
                     "generation using GeneratorOptions.RandomSource.");
             }
-            s_log.D(1, $"{options.Algorithm.Name} Generating a {size} maze " +
-                        $"with seed {options.RandomSource.Seed}.");
+            s_log.D(1, $"{options.Algorithm?.Name} Generating a {size} maze " +
+                        $"with seed {options.RandomSource?.Seed}.");
             if (options.MapAreasOptions == GeneratorOptions.MapAreaOptions.Auto
                 && options.AreaGenerator == null) {
                 throw new ArgumentNullException(
