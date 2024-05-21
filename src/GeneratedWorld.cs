@@ -201,7 +201,7 @@
 //         /// <summary>
 //         /// Retrieves the map of the generated world.
 //         /// </summary>
-//         /// <returns>A <see cref="Map2D"/> instance representing the current
+//         /// <returns>A <see cref="Area"/> instance representing the current
 //         /// state of the top layer of the world. If no layers have been added,
 //         /// an <see cref="InvalidOperationException"/> is thrown.</returns>
 //         public Area Map() {

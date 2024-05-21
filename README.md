@@ -44,7 +44,7 @@ The basic workflow is:
                    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
    ```
 
-4. The resulting `map` is a [Map2D](https://aynurin.github.io/maze-gen/api/PlayersWorlds.Maps.Map2D.html)
+4. The resulting `map` is a [Area](https://aynurin.github.io/maze-gen/api/PlayersWorlds.Maps.Area.html)
    instance that contains cells that map to Unity cells. To render the map you
    iterate over the cells of the `map` and render whatever map objects you want
    based on the cell tags, e.g. walls or floor tiles.

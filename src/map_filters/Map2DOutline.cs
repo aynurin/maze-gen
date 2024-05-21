@@ -3,7 +3,7 @@ using System.Linq;
 namespace PlayersWorlds.Maps.MapFilters {
 
     /// <summary>
-    /// A <see cref="Map2D" /> filter that detects area edges and places another
+    /// A <see cref="Area" /> filter that detects area edges and places another
     /// cell type around the edges.
     /// </summary>
     /// <remarks>
@@ -35,10 +35,10 @@ namespace PlayersWorlds.Maps.MapFilters {
         }
 
         /// <summary>
-        /// Apply the filter to the specified <see cref="Map2D" />.
+        /// Apply the filter to the specified <see cref="Area" />.
         /// </summary>
         /// <param name="map">The map to apply the filter to.</param>
-        override public void Render(Map2D map) {
+        override public void Render(Area map) {
             for (var y = 0; y < map.Size.Y; y++) {
                 for (var x = 0; x < map.Size.X; x++) {
                     var cell = map[new Vector(x, y)];

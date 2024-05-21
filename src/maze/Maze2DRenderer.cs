@@ -14,9 +14,9 @@ namespace PlayersWorlds.Maps.Maze {
         private readonly MazeToMapOptions _options;
         private readonly List<Map2DFilter> _filters = new List<Map2DFilter>();
 
-        internal static Map2D CreateMapForMaze(
+        internal static Area CreateMapForMaze(
             Maze2D maze, MazeToMapOptions options) =>
-                new Map2D(options.RenderedSize(maze.Size));
+                Area.CreateEnvironment(options.RenderedSize(maze.Size));
 
         /// <summary />
         public Maze2DRenderer(Maze2D maze, MazeToMapOptions options) {
@@ -41,7 +41,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// <summary>
         /// Renders a <see cref="Maze2D" /> to a string.
         /// </summary>
-        public void Render(Map2D map) {
+        public void Render(Area map) {
             if (!_options.RenderedSize(_maze.Size).FitsInto(map.Size)) {
                 throw new ArgumentException("Map does not fit the maze.");
             }
@@ -69,14 +69,14 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         internal class CellsMapping {
-            private readonly Map2D _map;
+            private readonly Area _map;
             private readonly MazeCell _mazeCell;
             private readonly MazeToMapOptions _options;
             private readonly Vector[] _size = new Vector[9];
             private readonly Vector[] _position = new Vector[9];
             private const int NW = 0, N = 1, NE = 2, W = 3, CENTER = 4, E = 5, SW = 6, S = 7, SE = 8;
 
-            public CellsMapping(Map2D map, MazeCell mazeCell, MazeToMapOptions options) {
+            public CellsMapping(Area map, MazeCell mazeCell, MazeToMapOptions options) {
                 map.ThrowIfNull(nameof(map));
                 mazeCell.ThrowIfNull(nameof(mazeCell));
                 options.ThrowIfNull(nameof(options));

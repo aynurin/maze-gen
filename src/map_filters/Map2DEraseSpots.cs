@@ -5,7 +5,7 @@ using System.Linq;
 namespace PlayersWorlds.Maps.MapFilters {
 
     /// <summary>
-    /// A <see cref="Map2D" /> filter that detects blocks of specific type
+    /// A <see cref="Area" /> filter that detects blocks of specific type
     /// less then a certain width and height, and replaces them with another
     /// cell type.
     /// </summary>
@@ -41,10 +41,10 @@ namespace PlayersWorlds.Maps.MapFilters {
         }
 
         /// <summary>
-        /// Apply the filter to the specified <see cref="Map2D" />.
+        /// Apply the filter to the specified <see cref="Area" />.
         /// </summary>
         /// <param name="map">The map to apply the filter to.</param>
-        override public void Render(Map2D map) {
+        override public void Render(Area map) {
             var visited = new bool[map.Size.X * map.Size.Y];
             foreach (var (xy, cell) in map.Cells.Iterate()) {
                 if (visited[xy.ToIndex(map.Size)]) continue;

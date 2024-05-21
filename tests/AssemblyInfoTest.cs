@@ -10,7 +10,7 @@ namespace PlayersWorlds.Maps {
     internal class AssemblyInfoTest : Test {
         [Test]
         public void TestAssemblyTitle() {
-            var assembly = typeof(Map2D).Assembly;
+            var assembly = typeof(Area).Assembly;
             var attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
             Assert.That(attributes.Count(), Is.EqualTo(1));
             var attribute = (AssemblyTitleAttribute)attributes.First();
@@ -18,7 +18,7 @@ namespace PlayersWorlds.Maps {
         }
         [Test]
         public void TestAssemblyCompany() {
-            var assembly = typeof(Map2D).Assembly;
+            var assembly = typeof(Area).Assembly;
             var attributes = assembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
             Assert.That(attributes.Count(), Is.EqualTo(1));
             var attribute = (AssemblyCompanyAttribute)attributes.First();

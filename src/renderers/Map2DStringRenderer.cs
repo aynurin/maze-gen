@@ -6,9 +6,8 @@ namespace PlayersWorlds.Maps.Renderers {
     /// Renders a map to an ASCII string.
     /// </summary>
     public class Map2DStringRenderer {
-
         /// <summary />
-        public string Render(Map2D map) {
+        public string Render(Area map) {
             var buffer = new StringBuilder();
             for (var y = map.Size.Y - 1; y >= 0; y--) {
                 for (var x = 0; x < map.Size.X; x++) {

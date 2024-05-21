@@ -12,7 +12,7 @@ namespace PlayersWorlds.Maps.Maze {
                 new Maze2DRenderer(
                     new Maze2D(10, 10),
                     MazeToMapOptions.SquareCells(2, 2)
-                ).Render(new Map2D(new Vector(10, 10)));
+                ).Render(Area.CreateEnvironment(new Vector(10, 10)));
             Assert.That(Act, Throws.Exception.TypeOf<ArgumentException>());
         }
     }

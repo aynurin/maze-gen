@@ -93,10 +93,10 @@ namespace PlayersWorlds.Maps {
             { '0', Cell.CellTag.MazeVoid },
         };
 
-        internal static Map2D Parse(string buffer, Dictionary<char, Cell.CellTag> tagsMapping) {
+        internal static Area Parse(string buffer, Dictionary<char, Cell.CellTag> tagsMapping) {
             var lines = buffer.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
             var size = new Vector(lines.Length, lines[0].Length);
-            var map = new Map2D(size);
+            var map = Area.CreateEnvironment(size);
             var cellIndex = 0;
             for (var y = lines.Length - 1; y >= 0; y--) {
                 for (var x = 0; x < lines[y].Length; x++) {

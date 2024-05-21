@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.Renderers;
 
 namespace PlayersWorlds.Maps {
     /// <summary>
@@ -21,8 +22,15 @@ namespace PlayersWorlds.Maps {
 
         public IReadOnlyCollection<Area> ChildAreas => _childAreas.AsReadOnly();
 
+        /// <summary>
+        /// Size of the map in cells.
+        /// </summary>
+
         public Vector Size => _cells.Size;
 
+        /// <summary>
+        /// A readonly access to the map cells.
+        /// </summary>
         public NArray<Cell> Cells => _cells;
 
         internal double LowX => _position.X;
@@ -40,7 +48,10 @@ namespace PlayersWorlds.Maps {
             new Area(Vector.Empty, false, areaType,
                      new NArray<Cell>(size, xy => new Cell(xy)));
 
-        public static Area CreateEnvironment(Vector size, Func<Vector, Cell> initialValue = null) =>
+        public static Area CreateEnvironment(Vector size) =>
+            CreateEnvironment(size, xy => new Cell(xy));
+
+        public static Area CreateEnvironment(Vector size, Func<Vector, Cell> initialValue) =>
             new Area(Vector.Empty, false, AreaType.Environment,
                      new NArray<Cell>(size, initialValue));
 
@@ -50,6 +61,19 @@ namespace PlayersWorlds.Maps {
             _cells = mapdata;
             _areaType = areaType;
             _isPositionFixed = isPositionFixed;
+        }
+
+        /// <summary>
+        /// Gets the value of a cell at the specified <see cref="Vector"/>
+        /// position.
+        /// </summary>
+        /// <param name="xy">The position of the cell as a <see cref="Vector"/>.
+        /// </param>
+        /// <returns>The value of the cell at the specified position.</returns>
+        /// <exception cref="IndexOutOfRangeException">The position is outside
+        /// the map bounds.</exception>
+        public Cell this[Vector xy] {
+            get => _cells[xy];
         }
 
         internal void AddAreas(IEnumerable<Area> areas) {
@@ -138,21 +162,37 @@ namespace PlayersWorlds.Maps {
                 HighY <= other.HighY;
         }
 
-        public Area Scale(Vector vector) {
-            if (vector.Value.Zip(Size.Value,
+        /// <summary>
+        /// Scales current map to the specified size.
+        /// </summary>
+        /// <remarks>The size has to be a multiple of the current map size.
+        /// </remarks>
+        /// <param name="newSize">The size of the saled map.</param>
+        /// <returns>A new instance of <see cref="Area" /></returns>
+        public Area Scale(Vector newSize) {
+            if (newSize.Value.Zip(Size.Value,
                     (a, b) => a % b != 0 || a < b).Any()) {
                 throw new ArgumentException(
                     "The specified size must be a greater multiple of the " +
-                    $"current map size ({Size}). Provided {vector}",
-                    nameof(vector));
+                    $"current map size ({Size}). Provided {newSize}",
+                    nameof(newSize));
             }
 
             return new Area(_position, _isPositionFixed,
-                            _areaType, _cells.ScaleUp(vector));
+                            _areaType, _cells.ScaleUp(newSize));
         }
 
         public Area ShallowCopy() =>
             new Area(_position, _isPositionFixed,
                      _areaType, new NArray<Cell>(Cells));
+
+        /// <summary>
+        /// Renders the map to a string using a
+        /// <see cref="Map2DStringRenderer" />.
+        /// </summary>
+        /// <returns>A string containing a rendered map.</returns>
+        public override string ToString() {
+            return new Map2DStringRenderer().Render(this);
+        }
     }
 }

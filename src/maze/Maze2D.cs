@@ -115,11 +115,11 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         /// <summary>
-        /// Renders this maze to a <see cref="Map2D" /> with the given options.
+        /// Renders this maze to a <see cref="Area" /> with the given options.
         /// </summary>
         /// <param name="options"><see cref="MazeToMapOptions" /></param>
         /// <returns></returns>
-        public Map2D ToMap(MazeToMapOptions options) {
+        public Area ToMap(MazeToMapOptions options) {
             options.ThrowIfWrong(this.Size);
             var map = Maze2DRenderer.CreateMapForMaze(this, options);
             new Maze2DRenderer(this, options)
