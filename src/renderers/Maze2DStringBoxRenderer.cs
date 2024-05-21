@@ -40,8 +40,8 @@ namespace PlayersWorlds.Maps.Renderers {
         public string WithTrail() {
             var trail = _maze.LongestPath.HasValue ?
                 _maze.LongestPath.Value.LongestTrail :
-                new List<MazeCell>();
-            var solutionCells = new HashSet<MazeCell>(trail);
+                new List<Cell>();
+            var solutionCells = new HashSet<Cell>(trail);
             // print cells from top to bottom
             for (var y = _maze.Size.Y - 1; y >= 0; y--) {
                 for (var x = 0; x < _maze.Size.X; x++) {
@@ -71,7 +71,7 @@ namespace PlayersWorlds.Maps.Renderers {
             return strBuffer.ToString();
         }
 
-        private void PrintCell(MazeCell cell, string cellData) {
+        private void PrintCell(Cell cell, string cellData) {
             var asciiCoords = CellCoords.Create(_maze.Size,
                                                 cell.Position,
                                                 _cellInnerWidth,

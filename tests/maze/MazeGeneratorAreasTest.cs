@@ -76,7 +76,7 @@ namespace PlayersWorlds.Maps.Maze {
             // hall areas don't have walls inside the areas
             Assert.That(hallInnerCells.All(cell => cell.Links().Count == 4));
 
-            var hallEdgeCells = new HashSet<MazeCell>(hallCells);
+            var hallEdgeCells = new HashSet<Cell>(hallCells);
             hallEdgeCells.ExceptWith(hallInnerCells);
             Assert.That(hallEdgeCells.Count(), Is.EqualTo(areaPerimeter));
 
@@ -126,7 +126,7 @@ namespace PlayersWorlds.Maps.Maze {
             // cave areas don't have walls inside the areas
             Assert.That(caveInnerCells.All(cell => cell.Links().Count == 4));
 
-            var caveEdgeCells = new HashSet<MazeCell>(caveCells);
+            var caveEdgeCells = new HashSet<Cell>(caveCells);
             caveEdgeCells.ExceptWith(caveInnerCells);
             Assert.That(caveEdgeCells.Count(), Is.EqualTo(areaPerimeter));
             // only corners can have at least two links
@@ -179,7 +179,7 @@ namespace PlayersWorlds.Maps.Maze {
                 // cave areas don't have walls inside the areas
                 Assert.That(innerCells.All(cell => cell.Links().Count == 4), string.Join(",", innerCells.Where(cell => cell.Links().Count < 4)));
 
-                var edgeCells = new HashSet<MazeCell>(areaCells);
+                var edgeCells = new HashSet<Cell>(areaCells);
                 edgeCells.ExceptWith(innerCells);
                 // only corners can have at least two links
                 Assert.That(edgeCells.Count(cell => cell.Links().Count == 2),

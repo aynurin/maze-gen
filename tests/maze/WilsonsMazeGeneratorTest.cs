@@ -18,8 +18,8 @@ namespace PlayersWorlds.Maps.Maze {
             var randomNeighbor = maze.Cells[new Vector(3, 3)];
 
             builderMock.SetupGet(b => b.CellGroups)
-                .Returns(new List<HashSet<MazeCell>>() {
-                    new HashSet<MazeCell>() { firstCell }
+                .Returns(new List<HashSet<Cell>>() {
+                    new HashSet<Cell>() { firstCell }
                 });
 
             builderMock.SetupSequence(b => b.PickNextCellToLink())

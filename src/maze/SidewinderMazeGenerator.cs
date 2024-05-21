@@ -21,7 +21,7 @@ namespace PlayersWorlds.Maps.Maze {
             });
             var cellStates = builder.Random.NextBytes(builder.AllCells.Count);
             var currentY = 0;
-            var run = new List<MazeCell>();
+            var run = new List<Cell>();
             var i = 0;
             foreach (var currentCell in builder.AllCells) {
                 if (currentCell.Position.Y != currentY) {
@@ -38,7 +38,7 @@ namespace PlayersWorlds.Maps.Maze {
                     run.Add(currentCell);
 
                 var canConnectNorth = run.Count > 0;
-                MazeCell runCandidate = null;
+                Cell runCandidate = null;
                 if (canConnectNorth) {
                     runCandidate = run[cellStates[i] % run.Count];
                     // see SidewinderMazeGeneratorTest.ArchShapedAreasLeftExit
@@ -57,7 +57,7 @@ namespace PlayersWorlds.Maps.Maze {
                 var canConnectEast =
                     builder.CanConnect(currentCell, Vector.East2D);
 
-                var cellsToLink = new MazeCell[2];
+                var cellsToLink = new Cell[2];
 
                 // if the random was to connect east, we will try to connect
                 // east

@@ -32,7 +32,7 @@ namespace PlayersWorlds.Maps.Maze {
                     RandomSource = RandomSource.CreateFromEnv()
                 });
 
-            var priorityCells = new List<MazeCell>() {
+            var priorityCells = new List<Cell>() {
                 maze.Cells[new Vector(2, 2)],
                 maze.Cells[new Vector(3, 2)],
                 maze.Cells[new Vector(4, 2)],
@@ -47,7 +47,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             Assert.That(builder.TestCellsToConnect, Has.Exactly(30).Items);
             Assert.That(builder.TestPriorityCells, Has.Exactly(10).Items);
-            Assert.That(new List<MazeCell>(builder.TestPriorityCells.Keys),
+            Assert.That(new List<Cell>(builder.TestPriorityCells.Keys),
                 Is.EqualTo(priorityCells));
             Assert.That(builder.TestPriorityCells.First().Value,
                 Is.EqualTo(priorityCells));
@@ -74,7 +74,7 @@ namespace PlayersWorlds.Maps.Maze {
                     RandomSource = RandomSource.CreateFromEnv()
                 });
 
-            var priorityCells = new List<MazeCell>() {
+            var priorityCells = new List<Cell>() {
                 maze.Cells[new Vector(3, 3)],
                 maze.Cells[new Vector(4, 3)],
                 maze.Cells[new Vector(5, 3)],
@@ -84,7 +84,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             Assert.That(builder.TestCellsToConnect, Has.Exactly(30).Items);
             Assert.That(builder.TestPriorityCells, Has.Exactly(5).Items);
-            Assert.That(new List<MazeCell>(builder.TestPriorityCells.Keys),
+            Assert.That(new List<Cell>(builder.TestPriorityCells.Keys),
                 Is.EqualTo(priorityCells));
             Assert.That(builder.TestPriorityCells.First().Value,
                 Is.EqualTo(priorityCells));
@@ -102,7 +102,7 @@ namespace PlayersWorlds.Maps.Maze {
                     RandomSource = RandomSource.CreateFromEnv()
                 });
 
-            var priorityCells = new List<MazeCell>() {
+            var priorityCells = new List<Cell>() {
                 maze.Cells[new Vector(3, 3)],
                 maze.Cells[new Vector(4, 3)],
                 maze.Cells[new Vector(5, 3)],
@@ -171,7 +171,7 @@ namespace PlayersWorlds.Maps.Maze {
                     RandomSource = RandomSource.CreateFromEnv()
                 });
 
-            var connectedCells = new List<MazeCell>() {
+            var connectedCells = new List<Cell>() {
                 maze.Cells[new Vector(0, 0)],
                 maze.Cells[new Vector(1, 0)],
                 maze.Cells[new Vector(1, 1)],
@@ -207,7 +207,7 @@ namespace PlayersWorlds.Maps.Maze {
                     RandomSource = RandomSource.CreateFromEnv()
                 });
 
-            var priorityCells = new List<MazeCell>() {
+            var priorityCells = new List<Cell>() {
                 maze.Cells[new Vector(3, 3)],
                 maze.Cells[new Vector(4, 3)],
                 maze.Cells[new Vector(5, 3)],
@@ -215,7 +215,7 @@ namespace PlayersWorlds.Maps.Maze {
                 maze.Cells[new Vector(2, 5)],
             };
 
-            var unavailableCells = new List<MazeCell>() {
+            var unavailableCells = new List<Cell>() {
                 maze.Cells[new Vector(1, 1)],
                 maze.Cells[new Vector(2, 1)],
                 maze.Cells[new Vector(1, 2)],
@@ -496,7 +496,7 @@ namespace PlayersWorlds.Maps.Maze {
                                      new Vector(3, 3),
                                      AreaType.Hall,
                                      "hall"));
-            var walkway = new List<MazeCell>() {
+            var walkway = new List<Cell>() {
                 maze.Cells[new Vector(1, 0)],
                 maze.Cells[new Vector(0, 0)]
             };

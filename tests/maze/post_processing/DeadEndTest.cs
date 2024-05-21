@@ -16,7 +16,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             Assert.That(deadEnds.DeadEnds.Contains(maze.Cells[new Vector(0, 2)]), Is.True, "0,2");
             Assert.That(deadEnds.DeadEnds.Contains(maze.Cells[new Vector(2, 2)]), Is.True, "2,2");
             Assert.That(maze.Cells.Count(
-                cell => cell.BaseCell.X<DeadEnd.IsDeadEndExtension>() != null), Is.EqualTo(4));
+                cell => cell.X<DeadEnd.IsDeadEndExtension>() != null), Is.EqualTo(4));
         }
     }
 }

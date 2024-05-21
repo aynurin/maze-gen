@@ -10,8 +10,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void LinksAreMutual() {
-            var a = new MazeCell(new Cell(new Vector(2, 1)));
-            var b = new MazeCell(new Cell(new Vector(2, 2)));
+            var a = new Cell(new Vector(2, 1));
+            var b = new Cell(new Vector(2, 2));
             a.Neighbors().Add(b);
             b.Neighbors().Add(a);
 
@@ -32,9 +32,9 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void LinksOnlyWithNeighbors() {
-            var a = new MazeCell(new Cell(new Vector(2, 1)));
-            var b = new MazeCell(new Cell(new Vector(2, 2)));
-            var c = new MazeCell(new Cell(new Vector(2, 3)));
+            var a = new Cell(new Vector(2, 1));
+            var b = new Cell(new Vector(2, 2));
+            var c = new Cell(new Vector(2, 3));
             a.Neighbors().Add(b);
             b.Neighbors().Add(a);
             b.Neighbors().Add(c);
@@ -45,39 +45,39 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void CanAssignMapAreaOnce() {
-            var a = new MazeCell(new Cell(new Vector(2, 1)));
+            var a = new Cell(new Vector(2, 1));
             var mapArea = Area.Create(
                 new Vector(2, 2), new Vector(2, 2), AreaType.Fill);
 
-            Assert.That(() => a.AddMapArea(mapArea, new List<MazeCell> { a }),
+            Assert.That(() => a.AddMapArea(mapArea),
                 Throws.Nothing);
-            Assert.That(() => a.AddMapArea(mapArea, new List<MazeCell> { a }),
-                Throws.ArgumentException);
-            Assert.That(a.MapAreas, Has.Exactly(1).Items);
-            Assert.That(a.MapAreas.First().Key, Is.SameAs(mapArea));
+            Assert.That(() => a.AddMapArea(mapArea),
+                Throws.InvalidOperationException);
+            Assert.That(a.ChildAreas, Has.Exactly(1).Items);
+            Assert.That(a.ChildAreas.First(), Is.SameAs(mapArea));
         }
 
         [Test]
         public void ToStringTest() {
-            var a = new MazeCell(new Cell(new Vector(2, 1)));
-            var b = new MazeCell(new Cell(new Vector(2, 2)));
+            var a = new Cell(new Vector(2, 1));
+            var b = new Cell(new Vector(2, 2));
             a.Neighbors().Add(b);
             b.Neighbors().Add(a);
 
             a.Link(b);
-            Assert.That("2x1V", Is.EqualTo(a.ToString()));
-            Assert.That("2x1V(N---)", Is.EqualTo(a.ToLongString()));
-            Assert.That("2x2V", Is.EqualTo(b.ToString()));
-            Assert.That("2x2V(--S-)", Is.EqualTo(b.ToLongString()));
+            Assert.That(a.ToString(), Is.EqualTo("Cell(2x1V [])"));
+            Assert.That(a.ToLongString(), Is.EqualTo("Cell(2x1V(N---) [])"));
+            Assert.That(b.ToString(), Is.EqualTo("Cell(2x2V [])"));
+            Assert.That(b.ToLongString(), Is.EqualTo("Cell(2x2V(--S-) [])"));
 
-            var c = new MazeCell(new Cell(new Vector(1, 1)));
-            var d = new MazeCell(new Cell(new Vector(2, 1)));
+            var c = new Cell(new Vector(1, 1));
+            var d = new Cell(new Vector(2, 1));
             c.Neighbors().Add(d);
             d.Neighbors().Add(c);
 
             c.Link(d);
-            Assert.That("1x1V(-E--)", Is.EqualTo(c.ToLongString()));
-            Assert.That("2x1V(---W)", Is.EqualTo(d.ToLongString()));
+            Assert.That(c.ToLongString(), Is.EqualTo("Cell(1x1V(-E--) [])"));
+            Assert.That(d.ToLongString(), Is.EqualTo("Cell(2x1V(---W) [])"));
 
             b.Unlink(a);
             Assert.That(a.Links(Vector.South2D).HasValue, Is.False);
@@ -85,8 +85,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void DoubleLinkingThrowsError() {
-            var a = new MazeCell(new Cell(new Vector(1, 2)));
-            var b = new MazeCell(new Cell(new Vector(2, 2)));
+            var a = new Cell(new Vector(1, 2));
+            var b = new Cell(new Vector(2, 2));
             a.Neighbors().Add(b);
             b.Neighbors().Add(a);
             a.Link(b);

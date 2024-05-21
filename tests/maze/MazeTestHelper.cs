@@ -12,7 +12,7 @@ namespace PlayersWorlds.Maps.Maze {
         private static readonly Log s_log = Log.ToConsole("MazeTestHelper");
 
         public static bool IsSolveable(Maze2D maze) {
-            var cells = new HashSet<MazeCell>(maze.MazeCells);
+            var cells = new HashSet<Cell>(maze.MazeCells);
             var dijkstra = DijkstraDistance.Find(cells.First());
             cells.ExceptWith(dijkstra.Keys);
 

@@ -47,9 +47,9 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             var solution = DijkstraDistance.FindLongestTrail(maze);
             Assert.That(solution.LongestTrail.Count, Is.EqualTo(6));
             Assert.That(maze.Cells.Count(
-                cell => cell.BaseCell.X<DijkstraDistance.IsLongestTrailStartExtension>() != null), Is.EqualTo(1));
+                cell => cell.X<DijkstraDistance.IsLongestTrailStartExtension>() != null), Is.EqualTo(1));
             Assert.That(maze.Cells.Count(
-                cell => cell.BaseCell.X<DijkstraDistance.IsLongestTrailEndExtension>() != null), Is.EqualTo(1));
+                cell => cell.X<DijkstraDistance.IsLongestTrailEndExtension>() != null), Is.EqualTo(1));
             // perhaps the caller of FindLongestTrail will add it as maze extension?..
             Assert.That(maze.Cells.Count(
                 cell => maze.X<DijkstraDistance.LongestTrailExtension>() != null), Is.EqualTo(0));

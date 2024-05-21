@@ -30,14 +30,14 @@ namespace PlayersWorlds.Maps.Maze {
             //       cell. In this case, we need to poke a cell in every
             //       isolated area.
 
-            var visitedCells = new HashSet<MazeCell>();
+            var visitedCells = new HashSet<Cell>();
             foreach (var cellGroup in builder.CellGroups) {
                 visitedCells.Add(builder.Random.RandomOf(cellGroup, cellGroup.Count));
             }
 
             while (!builder.IsFillComplete()) {
                 _log.D(3, 1000, "WilsonsMazeGenerator.GenerateMaze() 1");
-                var walkPath = new List<MazeCell>();
+                var walkPath = new List<Cell>();
                 var nextCell = builder.PickNextCellToLink(); // 4x3
 
                 if (visitedCells.Contains(nextCell))

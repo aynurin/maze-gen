@@ -154,7 +154,7 @@ namespace PlayersWorlds.Maps {
         /// Checks if this Area overlaps with another Area.
         /// </summary>
         /// <param name="other">The other Area to check</param>
-        /// <returns><c>true</c> if the two MapAreas overlap; otherwise, <c>
+        /// <returns><c>true</c> if the two Areas overlap; otherwise, <c>
         /// false</c>.</returns>
         public bool Overlaps(Area other) => OverlapArea(other) != Vector.Zero2D;
 

@@ -70,13 +70,13 @@ namespace PlayersWorlds.Maps.Maze {
 
         internal class CellsMapping {
             private readonly Area _map;
-            private readonly MazeCell _mazeCell;
+            private readonly Cell _mazeCell;
             private readonly MazeToMapOptions _options;
             private readonly Vector[] _size = new Vector[9];
             private readonly Vector[] _position = new Vector[9];
             private const int NW = 0, N = 1, NE = 2, W = 3, CENTER = 4, E = 5, SW = 6, S = 7, SE = 8;
 
-            public CellsMapping(Area map, MazeCell mazeCell, MazeToMapOptions options) {
+            public CellsMapping(Area map, Cell mazeCell, MazeToMapOptions options) {
                 map.ThrowIfNull(nameof(map));
                 mazeCell.ThrowIfNull(nameof(mazeCell));
                 options.ThrowIfNull(nameof(options));

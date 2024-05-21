@@ -186,7 +186,7 @@ namespace PlayersWorlds.Maps.Maze {
             var map = MazeTestHelper.GenerateMaze(size, options);
             Assert.That(map, Is.Not.Null);
 
-            var solution = new LongestTrailExtension(new List<MazeCell>());
+            var solution = new LongestTrailExtension(new List<Cell>());
             Assert.DoesNotThrow(() => solution = DijkstraDistance.FindLongestTrail(map));
             Assert.That(solution, Is.Not.Null);
             Assert.That(solution.LongestTrail, Is.Not.Null.Or.Empty);
@@ -239,7 +239,7 @@ namespace PlayersWorlds.Maps.Maze {
                 new Vector(3, 4),
                 new GeneratorOptions() { Algorithm = generatorType },
                 out var builder);
-            var solution = new LongestTrailExtension(new List<MazeCell>());
+            var solution = new LongestTrailExtension(new List<Cell>());
             Assert.DoesNotThrow(() => solution = DijkstraDistance.FindLongestTrail(maze));
             Assert.That(solution, Is.Not.Null);
             Assert.That(solution.LongestTrail, Is.Not.Null.Or.Empty);

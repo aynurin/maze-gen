@@ -32,7 +32,7 @@ namespace PlayersWorlds.Maps.Maze {
     /// </remarks>
     public class Maze2D : ExtensibleObject {
         private readonly Vector _size;
-        private readonly NArray<MazeCell> _cells;
+        private readonly NArray<Cell> _cells;
         /// <summary>
         /// A read-only access to all cells in this maze field.
         /// </summary>
@@ -40,12 +40,12 @@ namespace PlayersWorlds.Maps.Maze {
         /// Contains the full field of cells even if the cells are not a part
         /// of the maze.
         /// </remarks>
-        public NArray<MazeCell> Cells => _cells;
+        public NArray<Cell> Cells => _cells;
         /// <summary>
         /// Maze cells, i.e. cells that belong to the maze and have links to 
         /// other maze cells.
         /// </summary>
-        public IEnumerable<MazeCell> MazeCells =>
+        public IEnumerable<Cell> MazeCells =>
             _cells.Where(cell => cell.IsConnected);
 
         /// <summary />
@@ -79,8 +79,8 @@ namespace PlayersWorlds.Maps.Maze {
                     "At the moment, only 2D mazes are supported.");
             }
             _size = baseArea.Size;
-            _cells = new NArray<MazeCell>(
-                _size, xy => new MazeCell(baseArea.Cells[xy]));
+            _cells = new NArray<Cell>(
+                _size, xy => new Cell(xy));
             foreach (var cell in _cells.Iterate()) {
                 var north = cell.xy + Vector.North2D;
                 if (north.Y < baseArea.Size.Y) {
@@ -96,13 +96,13 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
-        private readonly Dictionary<Area, ICollection<MazeCell>>
-            _mapAreas = new Dictionary<Area, ICollection<MazeCell>>();
+        private readonly Dictionary<Area, ICollection<Cell>>
+            _mapAreas = new Dictionary<Area, ICollection<Cell>>();
 
         /// <summary>
         /// Areas assigned to this maze. See <see cref="Maps.Areas"/>.
         /// </summary>
-        public Dictionary<Area, ICollection<MazeCell>> MapAreas => _mapAreas;
+        public Dictionary<Area, ICollection<Cell>> MapAreas => _mapAreas;
 
         internal void AddArea(Area area) {
             var areaCells = _cells.IterateIntersection(area.Position, area.Size)
@@ -110,7 +110,7 @@ namespace PlayersWorlds.Maps.Maze {
                 .ToList();
             _mapAreas.Add(area, areaCells);
             foreach (var cell in areaCells) {
-                cell.AddMapArea(area, areaCells);
+                cell.AddMapArea(area);
             }
         }
 

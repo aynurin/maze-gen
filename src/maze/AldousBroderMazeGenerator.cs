@@ -28,7 +28,7 @@ namespace PlayersWorlds.Maps.Maze {
             while (!builder.IsFillComplete()) {
                 _log.D(3, 1000, "AldousBroderMazeGenerator.GenerateMaze()");
                 if (idleLoops >= maxIdleLoops) {
-                    // A maze can have isolated maze areas do to MapAreas
+                    // A maze can have isolated maze areas do to Areas
                     // layout, so if we are stuck, we need to try picking a new
                     // starting point.
                     currentCell = builder.PickNextCellToLink();

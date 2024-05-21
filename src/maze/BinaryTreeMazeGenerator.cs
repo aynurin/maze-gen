@@ -24,7 +24,7 @@ namespace PlayersWorlds.Maps.Maze {
                 var linkNorth = states[i++] % 2 == 0;
                 var canConnectEast = builder.CanConnect(currentCell, Vector.East2D);
                 var canConnectNorth = builder.CanConnect(currentCell, Vector.North2D);
-                MazeCell cellToLink = null;
+                Cell cellToLink = null;
                 if ((linkNorth || !canConnectEast) && canConnectNorth) {
                     cellToLink = currentCell.Neighbors(Vector.North2D).Value;
                 } else if (canConnectEast) {

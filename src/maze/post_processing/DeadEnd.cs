@@ -14,14 +14,14 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             /// Creates an instance of the DeadEndsExtension.
             /// </summary>
             /// <param name="deadEnds"></param>
-            public DeadEndsExtension(IEnumerable<MazeCell> deadEnds) {
+            public DeadEndsExtension(IEnumerable<Cell> deadEnds) {
                 DeadEnds = deadEnds.ToList();
             }
 
             /// <summary>
             /// The list of all found dead ends.
             /// </summary>
-            public List<MazeCell> DeadEnds { get; private set; }
+            public List<Cell> DeadEnds { get; private set; }
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             var deadEnds = maze.Cells.Where(cell => cell.Links().Count == 1)
                 .ToList();
             foreach (var cell in deadEnds) {
-                cell.BaseCell.X(new IsDeadEndExtension());
+                cell.X(new IsDeadEndExtension());
             }
             return new DeadEndsExtension(deadEnds);
         }
