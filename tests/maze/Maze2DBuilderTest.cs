@@ -23,10 +23,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void BuildsCorrectCellsCollectionsWithHallAreas() {
             var maze = new Maze2D(6, 6);
-            maze.AddArea(MapArea.Create(AreaType.Hall,
-                                        new Vector(2, 3),
-                                        new Vector(3, 2),
-                                        "hall"));
+            maze.AddArea(Area.Create(new Vector(2, 3),
+                                     new Vector(3, 2),
+                                     AreaType.Hall,
+                                     "hall"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
@@ -65,10 +65,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void BuildsCorrectCellsCollectionsWithHallAreasAtTheEdge() {
             var maze = new Maze2D(6, 6);
-            maze.AddArea(MapArea.Create(AreaType.Hall,
-                                        new Vector(3, 4),
-                                        new Vector(3, 2),
-                                        "hall"));
+            maze.AddArea(Area.Create(new Vector(3, 4),
+                                     new Vector(3, 2),
+                                     AreaType.Hall,
+                                     "hall"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
@@ -93,10 +93,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void PicksPriorityCellsWhenAvailable() {
             var maze = new Maze2D(6, 6);
-            maze.AddArea(MapArea.Create(AreaType.Hall,
-                                        new Vector(3, 4),
-                                        new Vector(3, 2),
-                                        "hall"));
+            maze.AddArea(Area.Create(new Vector(3, 4),
+                                     new Vector(3, 2),
+                                     AreaType.Hall,
+                                     "hall"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
@@ -138,10 +138,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void PickRandomNeighborToLink() {
             var maze = new Maze2D(6, 6);
-            maze.AddArea(MapArea.Create(AreaType.Hall,
-                                        new Vector(3, 4),
-                                        new Vector(3, 2),
-                                        "hall"));
+            maze.AddArea(Area.Create(new Vector(3, 4),
+                                     new Vector(3, 2),
+                                     AreaType.Hall,
+                                     "hall"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
@@ -194,14 +194,14 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IterateUnlinkedCells_IteratesAllAvailableCells() {
             var maze = new Maze2D(6, 6);
-            maze.AddArea(MapArea.Create(AreaType.Hall,
-                                        new Vector(3, 4),
-                                        new Vector(3, 2),
-                                        "hall"));
-            maze.AddArea(MapArea.Create(AreaType.Fill,
-                                        new Vector(1, 1),
-                                        new Vector(2, 3),
-                                        "hall"));
+            maze.AddArea(Area.Create(new Vector(3, 4),
+                                     new Vector(3, 2),
+                                     AreaType.Hall,
+                                     "hall"));
+            maze.AddArea(Area.Create(new Vector(1, 1),
+                                     new Vector(2, 3),
+                                     AreaType.Fill,
+                                     "hall"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
@@ -249,10 +249,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_NoCells() {
             var maze = new Maze2D(5, 5);
-            maze.AddArea(MapArea.Create(AreaType.Fill,
-                                        new Vector(0, 0),
-                                        new Vector(5, 5),
-                                        "fill"));
+            maze.AddArea(Area.Create(new Vector(0, 0),
+                                     new Vector(5, 5),
+                                     AreaType.Fill,
+                                     "fill"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
@@ -285,10 +285,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_Full_WithHall() {
             var maze = new Maze2D(5, 5);
-            maze.AddArea(MapArea.Create(AreaType.Hall,
-                                        new Vector(1, 1),
-                                        new Vector(3, 3),
-                                        "hall"));
+            maze.AddArea(Area.Create(new Vector(1, 1),
+                                     new Vector(3, 3),
+                                     AreaType.Hall,
+                                     "hall"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
@@ -313,10 +313,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_Full_WithFill() {
             var maze = new Maze2D(5, 5);
-            maze.AddArea(MapArea.Create(AreaType.Fill,
-                                        new Vector(1, 1),
-                                        new Vector(3, 3),
-                                        "hall"));
+            maze.AddArea(Area.Create(new Vector(1, 1),
+                                     new Vector(3, 3),
+                                     AreaType.Fill,
+                                     "hall"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
@@ -341,10 +341,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_Full_WithCave() {
             var maze = new Maze2D(5, 5);
-            maze.AddArea(MapArea.Create(AreaType.Cave,
-                                        new Vector(1, 1),
-                                        new Vector(3, 3),
-                                        "hall"));
+            maze.AddArea(Area.Create(new Vector(1, 1),
+                                     new Vector(3, 3),
+                                     AreaType.Cave,
+                                     "hall"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
@@ -492,10 +492,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void ApplyAreas() {
             var maze = new Maze2D(5, 5);
-            maze.AddArea(MapArea.Create(AreaType.Hall,
-                                        new Vector(1, 1),
-                                        new Vector(3, 3),
-                                        "hall"));
+            maze.AddArea(Area.Create(new Vector(1, 1),
+                                     new Vector(3, 3),
+                                     AreaType.Hall,
+                                     "hall"));
             var walkway = new List<MazeCell>() {
                 maze.Cells[new Vector(1, 0)],
                 maze.Cells[new Vector(0, 0)]
@@ -527,8 +527,8 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void OverlappingAreas_ProduceValidPriorityCells() {
             var maze = new Maze2D(15, 15);
-            var area1 = MapArea.Create(AreaType.Hall, new Vector(2, 3), new Vector(4, 7));
-            var area2 = MapArea.Create(AreaType.Hall, new Vector(4, 8), new Vector(7, 3));
+            var area1 = Area.Create(new Vector(2, 3), new Vector(4, 7), AreaType.Hall);
+            var area2 = Area.Create(new Vector(4, 8), new Vector(7, 3), AreaType.Hall);
             maze.AddArea(area1);
             maze.AddArea(area2);
             var builder = new Maze2DBuilder(maze,
@@ -554,18 +554,18 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void CanConnect() {
             var maze = new Maze2D(10, 10);
-            maze.AddArea(MapArea.Create(AreaType.Hall,
-                                        new Vector(1, 2),
-                                        new Vector(3, 2),
-                                        "hall"));
-            maze.AddArea(MapArea.Create(AreaType.Fill,
-                                        new Vector(6, 1),
-                                        new Vector(2, 4),
-                                        "fill"));
-            maze.AddArea(MapArea.Create(AreaType.Cave,
-                                        new Vector(1, 6),
-                                        new Vector(2, 2),
-                                        "cave"));
+            maze.AddArea(Area.Create(new Vector(1, 2),
+                                     new Vector(3, 2),
+                                     AreaType.Hall,
+                                     "hall"));
+            maze.AddArea(Area.Create(new Vector(6, 1),
+                                     new Vector(2, 4),
+                                     AreaType.Fill,
+                                     "fill"));
+            maze.AddArea(Area.Create(new Vector(1, 6),
+                                     new Vector(2, 2),
+                                     AreaType.Cave,
+                                     "cave"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()

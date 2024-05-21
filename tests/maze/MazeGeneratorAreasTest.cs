@@ -11,7 +11,7 @@ namespace PlayersWorlds.Maps.Maze {
 
     [TestFixture]
     internal class MazeGeneratorAreasTest : Test {
-        public Maze2D GenerateMaze(Type generatorType, List<MapArea> areas) =>
+        public Maze2D GenerateMaze(Type generatorType, List<Area> areas) =>
             MazeTestHelper.GenerateMaze(new Vector(15, 15),
                 new GeneratorOptions() {
                     FillFactor = FillFactorOption.Full,
@@ -24,9 +24,9 @@ namespace PlayersWorlds.Maps.Maze {
         [Repeat(10), Category("Integration")]
         public void FillAreasAreAppliedProperly(
             [ValueSource("GetAllGenerators")] Type generatorType) {
-            var fill = MapArea.Create(AreaType.Fill, new Vector(2, 4), new Vector(3, 4));
+            var fill = Area.Create(new Vector(2, 4), new Vector(3, 4), AreaType.Fill);
 
-            var maze = GenerateMaze(generatorType, new List<MapArea>() { fill });
+            var maze = GenerateMaze(generatorType, new List<Area>() { fill });
 
             var fillCells = maze.MapAreas[fill];
             Assert.That(fillCells, Has.Exactly(12).Items);
@@ -46,8 +46,8 @@ namespace PlayersWorlds.Maps.Maze {
         [Repeat(10), Category("Integration")]
         public void HallAreasAreAppliedProperly(
             [ValueSource("GetAllGenerators")] Type generatorType) {
-            var hall = MapArea.Create(AreaType.Hall, new Vector(8, 2), new Vector(4, 5));
-            var maze = GenerateMaze(generatorType, new List<MapArea>() { hall });
+            var hall = Area.Create(new Vector(8, 2), new Vector(4, 5), AreaType.Hall);
+            var maze = GenerateMaze(generatorType, new List<Area>() { hall });
 
             var areaArea = 20;
             var areaPerimeter = 14;
@@ -97,8 +97,8 @@ namespace PlayersWorlds.Maps.Maze {
         [Repeat(10), Category("Integration")]
         public void CaveAreasAreAppliedProperly(
             [ValueSource("GetAllGenerators")] Type generatorType) {
-            var cave = MapArea.Create(AreaType.Cave, new Vector(5, 10), new Vector(7, 3));
-            var maze = GenerateMaze(generatorType, new List<MapArea>() { cave });
+            var cave = Area.Create(new Vector(5, 10), new Vector(7, 3), AreaType.Cave);
+            var maze = GenerateMaze(generatorType, new List<Area>() { cave });
 
             var areaArea = 21;
             var areaPerimeter = 16;
@@ -142,9 +142,9 @@ namespace PlayersWorlds.Maps.Maze {
         public void OverlappingAreasAreAppliedProperly(
             [ValueSource("GetAllGenerators")] Type generatorType,
             [ValueSource("GetAllAreaTypes")] AreaType areaType) {
-            var area1 = MapArea.Create(areaType, new Vector(2, 3), new Vector(4, 7));
-            var area2 = MapArea.Create(areaType, new Vector(4, 8), new Vector(7, 3));
-            var maze = GenerateMaze(generatorType, new List<MapArea>() { area1, area2 });
+            var area1 = Area.Create(new Vector(2, 3), new Vector(4, 7), areaType);
+            var area2 = Area.Create(new Vector(4, 8), new Vector(7, 3), areaType);
+            var maze = GenerateMaze(generatorType, new List<Area>() { area1, area2 });
 
             var areaArea = 45;
             var mazeArea = 225;
@@ -196,12 +196,12 @@ namespace PlayersWorlds.Maps.Maze {
         public void TwoMatchingAreas(
             [ValueSource("GetAllGenerators")] Type generatorType,
             [ValueSource("GetAllAreaTypes")] AreaType areaType) {
-            var area1 = MapArea.Create(areaType, new Vector(2, 2), new Vector(2, 2));
-            var area2 = MapArea.Create(areaType, new Vector(2, 2), new Vector(2, 2));
+            var area1 = Area.Create(new Vector(2, 2), new Vector(2, 2), areaType);
+            var area2 = Area.Create(new Vector(2, 2), new Vector(2, 2), areaType);
             var maze = MazeTestHelper.GenerateMaze(
                 new Vector(6, 6), new GeneratorOptions() {
                     Algorithm = generatorType,
-                    MapAreas = new List<MapArea>() { area1, area2 },
+                    MapAreas = new List<Area>() { area1, area2 },
                     FillFactor = FillFactorOption.Full,
                 },
                 out var builder);
@@ -228,15 +228,15 @@ namespace PlayersWorlds.Maps.Maze {
         public void DenseWalkways(
             [ValueSource("GetAllGenerators")] Type generatorType,
             [ValueSource("GetAllAreaTypes")] AreaType areaType) {
-            var areas = new List<MapArea>() {
-                MapArea.Create(areaType, new Vector(1, 1), new Vector(2, 2)),
-                MapArea.Create(areaType, new Vector(4, 1), new Vector(2, 3)),
-                MapArea.Create(areaType, new Vector(7, 1), new Vector(2, 2)),
-                MapArea.Create(areaType, new Vector(1, 4), new Vector(2, 3)),
-                MapArea.Create(areaType, new Vector(4, 5), new Vector(1, 2)),
-                MapArea.Create(areaType, new Vector(6, 5), new Vector(1, 2)),
-                MapArea.Create(areaType, new Vector(7, 4), new Vector(2, 1)),
-                MapArea.Create(areaType, new Vector(8, 6), new Vector(1, 1)),
+            var areas = new List<Area>() {
+                Area.Create(new Vector(1, 1), new Vector(2, 2), areaType),
+                Area.Create(new Vector(4, 1), new Vector(2, 3), areaType),
+                Area.Create(new Vector(7, 1), new Vector(2, 2), areaType),
+                Area.Create(new Vector(1, 4), new Vector(2, 3), areaType),
+                Area.Create(new Vector(4, 5), new Vector(1, 2), areaType),
+                Area.Create(new Vector(6, 5), new Vector(1, 2), areaType),
+                Area.Create(new Vector(7, 4), new Vector(2, 1), areaType),
+                Area.Create(new Vector(8, 6), new Vector(1, 1), areaType),
             };
             var maze = MazeTestHelper.GenerateMaze(
                 new Vector(10, 8), new GeneratorOptions() {
@@ -263,10 +263,9 @@ namespace PlayersWorlds.Maps.Maze {
         [Repeat(10), Category("Integration")]
         public void WilsonsHalls() {
             GenerateMaze(GeneratorOptions.Algorithms.Wilsons,
-                new List<MapArea>() {
-                    MapArea.Create(AreaType.Hall,
-                                   new Vector(2, 3),
-                                   new Vector(4, 7)) });
+                new List<Area>() {
+                    Area.Create(
+                        new Vector(2, 3), new Vector(4, 7), AreaType.Hall) });
 
             // The algorithm hung up b/c wilson's creates it's own walk paths
             // without marking the cells as visited. And if it's choosing only
@@ -307,13 +306,13 @@ namespace PlayersWorlds.Maps.Maze {
                     return;
                 }
             }
-            var area1 = MapArea.Create(areaType, new Vector(2, 2), new Vector(2, 2));
-            var area2 = MapArea.Create(areaType, new Vector(24, 24), new Vector(2, 2));
+            var area1 = Area.Create(new Vector(2, 2), new Vector(2, 2), areaType);
+            var area2 = Area.Create(new Vector(24, 24), new Vector(2, 2), areaType);
             var maze = MazeTestHelper.GenerateMaze(
                 new Vector(30, 30),
                 new GeneratorOptions() {
                     Algorithm = generatorType,
-                    MapAreas = new List<MapArea>() { area1, area2 }
+                    MapAreas = new List<Area>() { area1, area2 }
                 },
                 out _);
 
@@ -327,11 +326,12 @@ namespace PlayersWorlds.Maps.Maze {
         public void ManualAndAutoAreasGeneration() {
             var options = new GeneratorOptions() {
                 Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                MapAreas = new List<MapArea>() {
-                    MapArea.Create(AreaType.Hall,
-                                   new Vector(2, 3),
-                                   new Vector(4, 7), "fixed"),
-                    MapArea.CreateAutoPositioned(AreaType.Hall, new Vector(2, 5), "auto")
+                MapAreas = new List<Area>() {
+                    Area.Create(new Vector(2, 3),
+                                new Vector(4, 7),
+                                AreaType.Hall,
+                                "fixed"),
+                    Area.CreateUnpositioned(new Vector(2, 5), AreaType.Hall, "auto")
                 },
                 MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto
             };

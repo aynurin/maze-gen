@@ -156,7 +156,7 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
-        private IEnumerable<MazeCell> WalkInCells(MapArea area) {
+        private IEnumerable<MazeCell> WalkInCells(Area area) {
             if (area.Type == AreaType.Hall) {
                 // find all cells next to this hall that can be linked to the
                 // hall.

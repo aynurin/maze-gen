@@ -9,7 +9,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             RandomSource random,
             TestLog log,
             Vector mapSize,
-            IEnumerable<MapArea> areas,
+            IEnumerable<Area> areas,
             int maxEpochs = -1) {
 
             var debugLevel = 0;
@@ -34,7 +34,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                         .Where(
                             a => originalCopy.Any(
                                     b => a != b &&
-                                         a.Overlap(b).Area > 0))
+                                         a.OverlapArea(b).Area > 0))
                         .ToList(),
                 OriginalOutOfBounds =
                     originalCopy
@@ -56,7 +56,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     .Where(a =>
                         result.PlacedAreas.Any(
                             b => a != b &&
-                                 a.Overlap(b).Area > 0))
+                                 a.OverlapArea(b).Area > 0))
                     .ToList();
             result.PlacedOutOfBounds =
                 result.PlacedAreas
@@ -76,12 +76,12 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         internal class DistributeResult {
             public TestLog Log { get; set; }
-            public List<MapArea> OriginalOutOfBounds { get; set; }
-            public List<MapArea> OriginalOverlapping { get; set; }
-            public List<MapArea> OriginalAreas { get; set; }
-            public List<MapArea> PlacedOutOfBounds { get; set; }
-            public List<MapArea> PlacedOverlapping { get; set; }
-            public List<MapArea> PlacedAreas { get; set; }
+            public List<Area> OriginalOutOfBounds { get; set; }
+            public List<Area> OriginalOverlapping { get; set; }
+            public List<Area> OriginalAreas { get; set; }
+            public List<Area> PlacedOutOfBounds { get; set; }
+            public List<Area> PlacedOverlapping { get; set; }
+            public List<Area> PlacedAreas { get; set; }
             public int MaxEpochs { get; set; }
             public string TestString { get; set; }
 

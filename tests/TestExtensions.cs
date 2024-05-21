@@ -19,14 +19,14 @@ public static class TestExtensions {
     /// <param name="serialized"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public static MapArea ToArea(this string serialized) {
+    public static Area ToArea(this string serialized) {
         var parts = serialized.Split(new char[] { ';', ' ', ':' }, StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length != 2) {
-            throw new FormatException($"Could not parse string as MapArea: {serialized}");
+            throw new FormatException($"Could not parse string as Area: {serialized}");
         }
         var position = VectorD.Parse(parts[0]).RoundToInt();
         var size = VectorD.Parse(parts[1]).RoundToInt();
-        return MapArea.CreateAutoPositioned(AreaType.None, position, size);
+        return Area.CreateUnpositioned(position, size, AreaType.None);
     }
 
     public static HashSet<T> ToHashSet<T>(this IEnumerable<T> collection) {

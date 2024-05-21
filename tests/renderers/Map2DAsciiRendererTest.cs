@@ -29,9 +29,9 @@ namespace PlayersWorlds.Maps.Renderers {
                 "▓░▒░▓\n" +
                 "▓░░░▓\n" +
                 "▓▓▓▓▓\n";
-            var actual = map.ToString();
+            var actual = map.RenderToString();
             TestLog.CreateForThisTest().D(5, actual);
-            Assert.That(expected, Is.EqualTo(actual));
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }

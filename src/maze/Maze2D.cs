@@ -96,15 +96,15 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
-        private readonly Dictionary<MapArea, ICollection<MazeCell>>
-            _mapAreas = new Dictionary<MapArea, ICollection<MazeCell>>();
+        private readonly Dictionary<Area, ICollection<MazeCell>>
+            _mapAreas = new Dictionary<Area, ICollection<MazeCell>>();
 
         /// <summary>
         /// Areas assigned to this maze. See <see cref="Maps.Areas"/>.
         /// </summary>
-        public Dictionary<MapArea, ICollection<MazeCell>> MapAreas => _mapAreas;
+        public Dictionary<Area, ICollection<MazeCell>> MapAreas => _mapAreas;
 
-        internal void AddArea(MapArea area) {
+        internal void AddArea(Area area) {
             var areaCells = _cells.IterateIntersection(area.Position, area.Size)
                 .Select(cell => cell.cell)
                 .ToList();
@@ -196,7 +196,7 @@ namespace PlayersWorlds.Maps.Maze {
                 var size = Vector.Parse(parts[0]);
                 var maze = new Maze2D(size.X, size.Y);
                 parts[1].Split(',')
-                    .ForEach(areaStr => maze.AddArea(MapArea.Parse(areaStr)));
+                    .ForEach(areaStr => maze.AddArea(Area.Parse(areaStr)));
                 parts[2].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ForEach(cellStr => {
                     var part = cellStr.Split(':', ' ').Select(int.Parse).ToArray();
                     for (var j = 1; j < part.Length; j++) {

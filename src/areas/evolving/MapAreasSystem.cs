@@ -15,14 +15,14 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         private readonly Action<GenerationImpact> _onGeneration;
         private readonly Action<EpochResult> _onEpoch;
 
-        internal static IEnumerable<(MapArea area, string label)>
-            GetNicknames(IEnumerable<MapArea> areas) =>
+        internal static IEnumerable<(Area area, string label)>
+            GetNicknames(IEnumerable<Area> areas) =>
                 areas.Select((a, i) => (area: a, label: s_nicknames[i]));
 
         public MapAreasSystem(
             RandomSource random,
             Vector envSize,
-            IEnumerable<MapArea> areas,
+            IEnumerable<Area> areas,
             Action<GenerationImpact> onGeneration,
             Action<EpochResult> onEpoch) {
             _random = random;
@@ -43,6 +43,10 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var areasForces = new List<VectorD>();
             // get epoch forces
             foreach (var area in _areas) {
+                if (area.IsPositionFixed) {
+                    areasForces.Add(VectorD.Zero2D);
+                    continue;
+                }
                 var areaForces = _areas.Where(other => other != area)
                   .Select(other => areaForceProducer.GetAreaForce(area, other));
                 var overallAreaForce = areaForces
@@ -54,7 +58,6 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             }
             // apply epoch force in this generation
             for (var i = 0; i < _areas.Count; i++) {
-                if (_areas[i].IsPositionFixed) continue;
                 _areas[i].AdjustPosition(areasForces[i] * fragment);
             }
             var impact = new MasGenerationImpact(

@@ -8,14 +8,14 @@ namespace PlayersWorlds.Maps.Maze {
     public class SidewinderMazeGeneratorTest : Test {
         [Test]
         public void ArchShapedAreas() {
-            var area1 = MapArea.Create(AreaType.Hall, new Vector(2, 2), new Vector(3, 13));
-            var area2 = MapArea.Create(AreaType.Hall, new Vector(10, 2), new Vector(3, 13));
-            var area3 = MapArea.Create(AreaType.Hall, new Vector(4, 8), new Vector(7, 3));
+            var area1 = Area.Create(new Vector(2, 2), new Vector(3, 13), AreaType.Hall);
+            var area2 = Area.Create(new Vector(10, 2), new Vector(3, 13), AreaType.Hall);
+            var area3 = Area.Create(new Vector(4, 8), new Vector(7, 3), AreaType.Hall);
             MazeTestHelper.GenerateMaze(
                 new Vector(15, 15),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.Sidewinder,
-                    MapAreas = new List<MapArea>() { area1, area2, area3 },
+                    MapAreas = new List<Area>() { area1, area2, area3 },
                     FillFactor = GeneratorOptions.FillFactorOption.Full
                 },
                 out var builder);
@@ -25,14 +25,14 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         [Repeat(10), Category("Integration")] // random factor
         public void ArchShapedAreasLeftExit() {
-            var area1 = MapArea.Create(AreaType.Hall, new Vector(2, 2), new Vector(3, 13));
-            var area2 = MapArea.Create(AreaType.Hall, new Vector(10, 2), new Vector(3, 13));
-            var area3 = MapArea.Create(AreaType.Hall, new Vector(6, 8), new Vector(7, 3));
+            var area1 = Area.Create(new Vector(2, 2), new Vector(3, 13), AreaType.Hall);
+            var area2 = Area.Create(new Vector(10, 2), new Vector(3, 13), AreaType.Hall);
+            var area3 = Area.Create(new Vector(6, 8), new Vector(7, 3), AreaType.Hall);
             MazeTestHelper.GenerateMaze(
                 new Vector(15, 15),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.Sidewinder,
-                    MapAreas = new List<MapArea>() { area1, area2, area3 },
+                    MapAreas = new List<Area>() { area1, area2, area3 },
                     FillFactor = GeneratorOptions.FillFactorOption.Full
                 },
                 out var builder);

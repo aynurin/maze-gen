@@ -37,7 +37,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         /// to evolve a <see cref="MapAreasSystem" />.
         /// </summary>
         public void Distribute(Vector mapSize,
-                               IEnumerable<MapArea> areas,
+                               IEnumerable<Area> areas,
                                int maxEpochs) {
             var areasWithNicknames = MapAreasSystem.GetNicknames(areas);
             if (_renderer != null) {

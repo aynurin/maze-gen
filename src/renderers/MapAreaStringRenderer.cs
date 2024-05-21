@@ -6,13 +6,13 @@ using PlayersWorlds.Maps.Areas;
 
 namespace PlayersWorlds.Maps.Renderers {
     /// <summary>
-    /// Renders a set of <see cref="MapArea" /> in a 2D space to a string.
+    /// Renders a set of <see cref="Area" /> in a 2D space to a string.
     /// </summary>
     public class MapAreaStringRenderer {
 
         /// <summary />
         public string Render(Vector envSize,
-            IEnumerable<(MapArea area, string label)> areas) {
+            IEnumerable<(Area area, string label)> areas) {
             var bufferSize = new Vector(envSize.X * 2 * 2, envSize.Y * 2);
             var buffer = new AsciiBuffer(bufferSize.X, bufferSize.Y, true);
             var offset = new Vector(envSize.X / 2, envSize.Y / 2);

@@ -26,11 +26,11 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         [Test]
         public void Overlaps() {
-            var area1 = FloatingArea.FromMapArea(MapArea.Create(
-                AreaType.None, new Vector(0, 0), new Vector(10, 10)),
+            var area1 = FloatingArea.FromMapArea(Area.Create(
+                new Vector(0, 0), new Vector(10, 10), AreaType.None),
                 Vector.Zero2D);
-            var area2 = FloatingArea.FromMapArea(MapArea.Create(
-                AreaType.None, new Vector(5, 5), new Vector(10, 10)),
+            var area2 = FloatingArea.FromMapArea(Area.Create(
+                new Vector(5, 5), new Vector(10, 10), AreaType.None),
                 Vector.Zero2D);
             Assert.That(area1.Overlaps(area2), Is.True);
             Assert.Throws<InvalidOperationException>(() => area1.Overlaps(area1));
@@ -38,11 +38,11 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         [Test]
         public void Contains() {
-            var area1 = FloatingArea.FromMapArea(MapArea.Create(
-                AreaType.None, new Vector(0, 0), new Vector(10, 10)),
+            var area1 = FloatingArea.FromMapArea(Area.Create(
+                new Vector(0, 0), new Vector(10, 10), AreaType.None),
                 Vector.Zero2D);
-            var area2 = FloatingArea.FromMapArea(MapArea.Create(
-                AreaType.None, new Vector(5, 5), new Vector(10, 10)),
+            var area2 = FloatingArea.FromMapArea(Area.Create(
+                new Vector(5, 5), new Vector(10, 10), AreaType.None),
                 Vector.Zero2D);
             Assert.That(area1.Contains(new VectorD(0.5D, 0.5D)), Is.True);
             Assert.That(area2.Contains(new VectorD(1.5D, 1.5D)), Is.False);

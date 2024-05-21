@@ -24,7 +24,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// the maze.
         /// generate areas.
         /// </summary>
-        public List<MapArea> MapAreas { get; set; }
+        public List<Area> MapAreas { get; set; }
         /// <summary>
         /// When <see cref="MapAreasOptions"/> is set to
         /// <see cref="MapAreaOptions.Auto"/>, this generator will be used to

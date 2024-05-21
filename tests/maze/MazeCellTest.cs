@@ -46,8 +46,8 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void CanAssignMapAreaOnce() {
             var a = new MazeCell(new Cell(new Vector(2, 1)));
-            var mapArea = MapArea.Create(
-                AreaType.Fill, new Vector(2, 2), new Vector(2, 2));
+            var mapArea = Area.Create(
+                new Vector(2, 2), new Vector(2, 2), AreaType.Fill);
 
             Assert.That(() => a.AddMapArea(mapArea, new List<MazeCell> { a }),
                 Throws.Nothing);

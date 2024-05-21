@@ -26,7 +26,8 @@ namespace PlayersWorlds.Maps.MapFilters {
                 "░░░░▓\n";
             log.D(5, expected);
             log.D(5, map.ToString());
-            Assert.That(map.ToString(), Is.EqualTo(expected));
+            var actual = map.RenderToString();
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -55,7 +56,8 @@ namespace PlayersWorlds.Maps.MapFilters {
                 var expected = emptyMap;
                 log.D(5, expected);
                 log.D(5, map.ToString());
-                Assert.That(map.ToString(), Is.EqualTo(expected));
+                var actual = map.RenderToString();
+                Assert.That(actual, Is.EqualTo(expected));
             }
         }
 
@@ -74,7 +76,8 @@ namespace PlayersWorlds.Maps.MapFilters {
             var expected = Map2DTest.Spot1x3;
             log.D(5, expected);
             log.D(5, map.ToString());
-            Assert.That(map.ToString(), Is.EqualTo(expected));
+            var actual = map.RenderToString();
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -95,7 +98,8 @@ namespace PlayersWorlds.Maps.MapFilters {
                 "▒▓▓▓▓\n";
             log.D(5, expected);
             log.D(5, map.ToString());
-            Assert.That(map.ToString(), Is.EqualTo(expected));
+            var actual = map.RenderToString();
+            Assert.That(actual, Is.EqualTo(expected));
         }
         [Test]
         public void SmoothBoxEraseSpots() {
@@ -115,7 +119,8 @@ namespace PlayersWorlds.Maps.MapFilters {
                 "▒▓▓▓▓\n";
             log.D(5, expected);
             log.D(5, map.ToString());
-            Assert.That(map.ToString(), Is.EqualTo(expected));
+            var actual = map.RenderToString();
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }

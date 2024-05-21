@@ -26,16 +26,16 @@ namespace PlayersWorlds.Maps.Areas {
         /// <param name="size">The size of the map.</param>
         /// <param name="existingAreas">Pre-existing areas.</param>
         /// <returns>Areas to be added to the map.</returns>
-        public override IEnumerable<MapArea> Generate(
+        public override IEnumerable<Area> Generate(
             Vector size,
-            List<MapArea> existingAreas) {
+            List<Area> existingAreas) {
             if (_settings.DimensionProbabilities.Keys.All(areaSize =>
                 !areaSize.FitsInto(size - new Vector(2, 2)))) {
                 // none of the areas fit the map
-                return new List<MapArea>();
+                return new List<Area>();
             }
             var addedArea = existingAreas?.Sum(area => area.Size.Area) ?? 0;
-            var areas = new List<MapArea>();
+            var areas = new List<Area>();
             while (addedArea < size.Area * _settings.MinFillFactor) {
                 var area = GetRandomZone();
                 if (!area.Size.FitsInto(size - new Vector(2, 2)))
@@ -50,17 +50,17 @@ namespace PlayersWorlds.Maps.Areas {
         }
 
         // for testing
-        internal IEnumerable<MapArea> Generate(int count) {
+        internal IEnumerable<Area> Generate(int count) {
             for (var i = 0; i < count; i++) {
                 yield return GetRandomZone();
             }
         }
 
-        private MapArea GetRandomZone() {
+        private Area GetRandomZone() {
             var type = PickRandom(_settings.AreaTypeProbabilities);
             var size = RandomRotate(PickRandom(_settings.DimensionProbabilities));
             var tags = PickRandom(_settings.TagProbabilities[type]);
-            return MapArea.CreateAutoPositioned(type, size, tags);
+            return Area.CreateUnpositioned(size, type, tags);
         }
 
         private T PickRandom<T>(IDictionary<T, float> distribution) {

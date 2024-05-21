@@ -13,14 +13,14 @@ namespace PlayersWorlds.Maps.Maze {
     public class MazeGeneratorTest : Test {
 
         private class CustomAreaGenerator : AreaGenerator {
-            public override IEnumerable<MapArea> Generate(
-                Vector size, List<MapArea> existingAreas) {
+            public override IEnumerable<Area> Generate(
+                Vector size, List<Area> existingAreas) {
                 if (size.X <= 10 || size.Y <= 10) {
-                    return Enumerable.Empty<MapArea>();
+                    return Enumerable.Empty<Area>();
                 }
                 return new[] {
-                    MapArea.Create(
-                        AreaType.Hall, new Vector(0, 0), new Vector(2, 3))
+                    Area.Create(
+                        new Vector(0, 0), new Vector(2, 3), AreaType.Hall)
                 };
             }
         }
@@ -170,7 +170,7 @@ namespace PlayersWorlds.Maps.Maze {
             [ValueSource("GetGeneratorOptionsMapAreaOptions")]
             GeneratorOptions.MapAreaOptions mapAreaOptions,
             [ValueSource("GetGeneratorOptionsMapAreas")]
-            List<MapArea> mapAreas
+            List<Area> mapAreas
         ) {
             if (!MazeTestHelper.IsSupported(generatorType, fillFactor)) {
                 Assert.Ignore();
@@ -197,7 +197,12 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test, Category("Integration")]
         public void IsFillComplete_Debug() {
-            IsFillComplete(typeof(WilsonsMazeGenerator), GeneratorOptions.FillFactorOption.Full, GeneratorOptions.MapAreaOptions.Auto, null);
+            IsFillComplete(typeof(HuntAndKillMazeGenerator),
+                           GeneratorOptions.FillFactorOption.ThreeQuarters,
+                           GeneratorOptions.MapAreaOptions.Auto,
+                           new List<Area>() {
+                Area.CreateUnpositioned(new Vector(3, 2), new Vector(2, 3), AreaType.Hall),
+                Area.CreateUnpositioned(new Vector(6, 5), new Vector(3, 2), AreaType.Fill) });
         }
 
         [Test]
@@ -253,20 +258,20 @@ namespace PlayersWorlds.Maps.Maze {
             yield return GeneratorOptions.MapAreaOptions.Manual;
         }
 
-        public static IEnumerable<List<MapArea>>
+        public static IEnumerable<List<Area>>
             GetGeneratorOptionsMapAreas() {
             yield return null;
-            yield return new List<MapArea>();
-            yield return new List<MapArea>() {
-                MapArea.CreateAutoPositioned(AreaType.Fill, new Vector(3, 2), new Vector(2, 3)) };
-            yield return new List<MapArea>() {
-                MapArea.CreateAutoPositioned(AreaType.Hall, new Vector(3, 2), new Vector(3, 2)) };
-            yield return new List<MapArea>() {
-                MapArea.CreateAutoPositioned(AreaType.Fill, new Vector(3, 2), new Vector(2, 3)),
-                MapArea.CreateAutoPositioned(AreaType.Hall, new Vector(6, 5), new Vector(3, 2)) };
-            yield return new List<MapArea>() {
-                MapArea.CreateAutoPositioned(AreaType.Hall, new Vector(3, 2), new Vector(2, 3)),
-                MapArea.CreateAutoPositioned(AreaType.Fill, new Vector(6, 5), new Vector(3, 2)) };
+            yield return new List<Area>();
+            yield return new List<Area>() {
+                Area.CreateUnpositioned(new Vector(3, 2), new Vector(2, 3), AreaType.Fill) };
+            yield return new List<Area>() {
+                Area.CreateUnpositioned(new Vector(3, 2), new Vector(3, 2), AreaType.Hall) };
+            yield return new List<Area>() {
+                Area.CreateUnpositioned(new Vector(3, 2), new Vector(2, 3), AreaType.Fill),
+                Area.CreateUnpositioned(new Vector(6, 5), new Vector(3, 2), AreaType.Hall) };
+            yield return new List<Area>() {
+                Area.CreateUnpositioned(new Vector(3, 2), new Vector(2, 3), AreaType.Hall),
+                Area.CreateUnpositioned(new Vector(6, 5), new Vector(3, 2), AreaType.Fill) };
         }
     }
 }

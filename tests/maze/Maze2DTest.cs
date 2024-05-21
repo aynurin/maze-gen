@@ -137,7 +137,7 @@ namespace PlayersWorlds.Maps.Maze {
                 Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                 FillFactor = GeneratorOptions.FillFactorOption.Full,
                 MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
-                MapAreas = new List<MapArea> { MapArea.Parse("P2x1;S2x2;Hall") }
+                MapAreas = new List<Area> { Area.Parse("P2x1;S2x2;Hall") }
             };
             var maze = MazeTestHelper.GenerateMaze(
                 new Vector(5, 5), options);
@@ -150,7 +150,7 @@ namespace PlayersWorlds.Maps.Maze {
                 Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                 FillFactor = GeneratorOptions.FillFactorOption.Full,
                 MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
-                MapAreas = new List<MapArea> { MapArea.Parse("P2x1;S2x2;Fill") }
+                MapAreas = new List<Area> { Area.Parse("P2x1;S2x2;Fill") }
             };
             var maze = MazeTestHelper.GenerateMaze(
                 new Vector(5, 5), options);

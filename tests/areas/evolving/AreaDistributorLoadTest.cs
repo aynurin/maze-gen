@@ -23,7 +23,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 var log = TestLog.CreateForThisTest();
                 var maze = new Maze2D(testRandom.Next(5, 50), testRandom.Next(5, 50));
                 var roomsCount = (int)Math.Sqrt(maze.Size.Area) / 3;
-                var rooms = new List<MapArea>();
+                var rooms = new List<Area>();
                 for (var j = 0; j < roomsCount; j++) {
                     var size = new Vector(
                         testRandom.Next(1, maze.Size.X / 3),
@@ -31,8 +31,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     var position = new Vector(
                         testRandom.Next(0, (maze.Size - size).X),
                         testRandom.Next(0, (maze.Size - size).Y));
-                    rooms.Add(MapArea.CreateAutoPositioned(
-                        AreaType.None, position, size));
+                    rooms.Add(Area.CreateUnpositioned(
+                        position, size, AreaType.None));
                 }
                 var result = AreaDistributorHelper.Distribute(testRandom, log, maze.Size, rooms, 100);
                 lock (results) {

@@ -51,10 +51,10 @@ namespace PlayersWorlds.Maps {
                 "▓░░░░░░░░░░░▓\n" +
                 "▓▓▓▓▓▓▓▓▓▓▓▓▓\n" +
                 "0000000000000\n";
-            var actual = map.ToString();
+            var actual = map.RenderToString();
             log.D(5, expected);
             log.D(5, actual);
-            Assert.That(expected, Is.EqualTo(actual));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -88,18 +88,18 @@ namespace PlayersWorlds.Maps {
                 "0▓░░░░░░░▒▓▓▓▓▓▒░░▓0\n" +
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
-            var actual = map.ToString();
+            var actual = map.RenderToString();
             log.D(5, expected);
             log.D(5, actual);
-            Assert.That(expected, Is.EqualTo(actual));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
         public void CanRenderAMapWithFilledAreas() {
             var log = TestLog.CreateForThisTest();
             _maze.AddArea(
-                MapArea.Create(
-                    AreaType.Fill, new Vector(1, 1), new Vector(1, 1)));
+                Area.Create(
+                    new Vector(1, 1), new Vector(1, 1), AreaType.Fill));
             var builder = new Maze2DBuilder(_maze, new GeneratorOptions() { });
             builder.ApplyAreas();
             var mazeRenderingOptions = new MazeToMapOptions(
@@ -130,18 +130,18 @@ namespace PlayersWorlds.Maps {
                 "0▓░░▒▓▓▓▓▓▓▓▓▓▓▒░░▓0\n" +
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
-            var actual = map.ToString();
+            var actual = map.RenderToString();
             log.D(5, expected);
             log.D(5, actual);
-            Assert.That(expected, Is.EqualTo(actual));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
         public void CanRenderAMapWithHallAreas() {
             var log = TestLog.CreateForThisTest();
             _maze.AddArea(
-                MapArea.Create(
-                    AreaType.Hall, new Vector(0, 0), new Vector(4, 2)));
+                Area.Create(
+                    new Vector(0, 0), new Vector(4, 2), AreaType.Hall));
             var builder = new Maze2DBuilder(_maze, new GeneratorOptions() { });
             builder.ApplyAreas();
             var mazeRenderingOptions = new MazeToMapOptions(
@@ -173,9 +173,9 @@ namespace PlayersWorlds.Maps {
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
             log.D(5, expected);
-            var actual = map.ToString();
+            var actual = map.RenderToString();
             log.D(5, actual);
-            Assert.That(expected, Is.EqualTo(actual));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]

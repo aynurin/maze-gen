@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.Areas.Evolving;
 using PlayersWorlds.Maps.Renderers;
 
 namespace PlayersWorlds.Maps {
@@ -9,16 +10,52 @@ namespace PlayersWorlds.Maps {
     /// Represents an area of arbitrary cells in an N-space.
     /// </summary>
     public class Area : ExtensibleObject {
-        private readonly Vector _position;
+        private Vector _position;
         private readonly bool _isPositionFixed;
-
         private readonly NArray<Cell> _cells;
-
         private readonly AreaType _areaType;
-
+        private readonly string[] _tags;
         private readonly List<Area> _childAreas = new List<Area>();
 
+        /// <summary>
+        /// Position of this area in the target map.
+        /// </summary>
+        /// <remarks>
+        /// If the area is applied to a maze, then it's the cells of the maze;
+        /// and if the area is applied to a map, then it's the cells of the map.
+        /// </remarks>
+        /// <remarks>
+        /// There should be a clear separation in code between
+        /// positioned areas and non-positioned areas, so we will
+        /// throw here without letting the consumer to check if
+        /// the area is positioned or not.
+        /// </remarks>
+        public Vector Position {
+            get {
+                if (_position.IsEmpty) {
+                    throw new InvalidOperationException(
+                        "Position is not initialized. " +
+                        "Check if IsPositionFixed == true.");
+                }
+                return _position;
+            }
+        }
+
+        internal bool IsPositionFixed => _isPositionFixed;
+
+
+        /// <summary>
+        /// Used by other algorithms to identify if the area can be entered
+        /// by the player or not.
+        /// </summary>
         public AreaType Type => _areaType;
+
+        /// <summary>
+        /// Allows to specify any data significant for further use. These tags
+        /// can be populated by the user and will be retained in the resulting
+        /// map.
+        /// </summary>
+        public string[] Tags => _tags;
 
         public IReadOnlyCollection<Area> ChildAreas => _childAreas.AsReadOnly();
 
@@ -38,31 +75,6 @@ namespace PlayersWorlds.Maps {
         internal double LowY => _position.Y;
         internal double HighY => _position.Y + Size.Y;
 
-        public static Area Create(
-            Vector position, Vector size, AreaType areaType) =>
-            new Area(position, true, areaType,
-                     new NArray<Cell>(size, xy => new Cell(xy)));
-
-        public static Area CreateUnpositioned(
-            Vector size, AreaType areaType) =>
-            new Area(Vector.Empty, false, areaType,
-                     new NArray<Cell>(size, xy => new Cell(xy)));
-
-        public static Area CreateEnvironment(Vector size) =>
-            CreateEnvironment(size, xy => new Cell(xy));
-
-        public static Area CreateEnvironment(Vector size, Func<Vector, Cell> initialValue) =>
-            new Area(Vector.Empty, false, AreaType.Environment,
-                     new NArray<Cell>(size, initialValue));
-
-        private Area(Vector position, bool isPositionFixed,
-                    AreaType areaType, NArray<Cell> mapdata) {
-            _position = position;
-            _cells = mapdata;
-            _areaType = areaType;
-            _isPositionFixed = isPositionFixed;
-        }
-
         /// <summary>
         /// Gets the value of a cell at the specified <see cref="Vector"/>
         /// position.
@@ -74,6 +86,58 @@ namespace PlayersWorlds.Maps {
         /// the map bounds.</exception>
         public Cell this[Vector xy] {
             get => _cells[xy];
+        }
+
+        public static Area Create(Vector position,
+                                  Vector size,
+                                  AreaType areaType,
+                                  params string[] tags) =>
+            new Area(position, true, areaType,
+                     new NArray<Cell>(size, xy => new Cell(xy)), tags);
+
+        public static Area CreateUnpositioned(Vector size,
+                                              AreaType areaType,
+                                              params string[] tags) =>
+            new Area(Vector.Empty, false, areaType,
+                     new NArray<Cell>(size, xy => new Cell(xy)), tags);
+
+        public static Area CreateUnpositioned(Vector position,
+                                              Vector size,
+                                              AreaType areaType,
+                                              params string[] tags) =>
+            new Area(position, false, areaType,
+                     new NArray<Cell>(size, xy => new Cell(xy)), tags);
+
+        public static Area CreateEnvironment(Vector size,
+                                             params string[] tags) =>
+            CreateEnvironment(size, xy => new Cell(xy), tags);
+
+        public static Area CreateEnvironment(Vector size,
+                                             Func<Vector, Cell> initialValue,
+                                             params string[] tags) =>
+            new Area(Vector.Zero(size.Value.Count),
+                     /*isPositionFixed=*/false,
+                     AreaType.Environment,
+                     new NArray<Cell>(size, initialValue),
+                     tags);
+
+        private Area(Vector position, bool isPositionFixed,
+                    AreaType areaType, NArray<Cell> mapdata,
+                    params string[] tags) {
+            if (position.IsEmpty && isPositionFixed) {
+                throw new ArgumentException("Position is not initialized.");
+            }
+            _position = position;
+            _cells = mapdata;
+            _areaType = areaType;
+            _isPositionFixed = isPositionFixed;
+            _tags = tags;
+        }
+
+        public void Reposition(Vector newPosition) {
+            if (_isPositionFixed)
+                throw new InvalidOperationException("Position is fixed");
+            _position = newPosition;
         }
 
         internal void AddAreas(IEnumerable<Area> areas) {
@@ -187,11 +251,47 @@ namespace PlayersWorlds.Maps {
                      _areaType, new NArray<Cell>(Cells));
 
         /// <summary>
+        /// Parses a string representation of a Area, similar to one produced
+        /// by the <see cref="ToString"/> method.
+        /// </summary>
+        /// <remarks>
+        /// Note the rounding that occurs in <see cref="VectorD.ToString()" />.
+        /// </remarks>
+        /// <param name="v">A <see cref="string" /> of the form
+        /// "P{Position};S{Size};{Type}[;tags]".</param>
+        /// <param name="isPositionFixed"><c>true</c> to indicate that this area
+        /// shouldn't be repositioned by <see cref="AreaDistributor" />,
+        /// otherwise <c>false</c> (default)</param>
+        /// <returns></returns>
+        internal static Area Parse(string v, bool isPositionFixed = false) {
+            var parts = v.Split(';');
+            var type = parts.Length > 2 ?
+                (AreaType)Enum.Parse(typeof(AreaType), parts[2]) :
+                AreaType.None;
+            var size = VectorD.Parse(parts[1]).RoundToInt();
+            var position = VectorD.Parse(parts[0]).RoundToInt();
+            return new Area(position,
+                            isPositionFixed,
+                            type,
+                            new NArray<Cell>(size, xy => new Cell(xy)),
+                            parts.Skip(3).ToArray());
+        }
+
+        /// <summary>
+        /// Produces a string representation of this Area.
+        /// </summary>
+        /// <returns>A <see cref="string" /> of the form
+        /// "P{Position};S{Size};{Type}".</returns>
+        public override string ToString() =>
+            $"P{(_position.IsEmpty ? "<empty>" : _position.ToString())};" +
+            $"S{Size};{Type};" + string.Join(";", Tags);
+
+        /// <summary>
         /// Renders the map to a string using a
         /// <see cref="Map2DStringRenderer" />.
         /// </summary>
         /// <returns>A string containing a rendered map.</returns>
-        public override string ToString() {
+        public string RenderToString() {
             return new Map2DStringRenderer().Render(this);
         }
     }

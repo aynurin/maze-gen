@@ -65,8 +65,8 @@ namespace PlayersWorlds.Maps.Areas {
             return PlaceArea(new List<Area>());
         }
 
-        public override IEnumerable<MapArea> Generate(Vector size,
-            List<MapArea> existingAreas) {
+        public override IEnumerable<Area> Generate(Vector size,
+            List<Area> existingAreas) {
             throw new NotImplementedException();
         }
 

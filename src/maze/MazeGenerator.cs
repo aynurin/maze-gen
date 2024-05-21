@@ -88,7 +88,7 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
-        private static List<MapArea> GenerateMazeAreas(
+        private static List<Area> GenerateMazeAreas(
             Vector mazeSize,
             GeneratorOptions options) {
             // count existing (desired) placement errors we can ignore when
@@ -99,21 +99,20 @@ namespace PlayersWorlds.Maps.Maze {
                             options.MapAreas.Any(other =>
                                 area != other &&
                                 other.IsPositionFixed &&
-                                area.Overlap(other).Area > 0)) +
+                                area.OverlapArea(other).Area > 0)) +
                 options.MapAreas.Count(
                     area => area.IsPositionFixed &&
                             !area.FitsInto(Vector.Zero2D, mazeSize));
-            // when we auto-generate the areas, there is a 5% chance that we
+            // when we auto-generate the areas, there is a <1% chance that we
             // can't auto-distribute (see SideToSideForceProducer.cs) so we make
             // several attempts.
             var attempts = options.MapAreasOptions ==
                     GeneratorOptions.MapAreaOptions.Auto ? 3 : 1;
             while (true) {
                 s_log.D(5, 1000, "MazeGenerator.GenerateMazeAreas()");
-                var areas = new List<MapArea>(
-                    options.MapAreas ?? new List<MapArea>());
-                s_log.D(1, string.Join(", ",
-                    areas.Select(a => $"P{a.Position};S{a.Size}")));
+                var areas = new List<Area>(
+                    options.MapAreas ?? new List<Area>());
+                s_log.D(1, string.Join(", ", areas.Select(a => a.ToString())));
                 if (options.MapAreasOptions ==
                     GeneratorOptions.MapAreaOptions.Auto) {
                     areas.AddRange(
@@ -125,7 +124,7 @@ namespace PlayersWorlds.Maps.Maze {
                     areas.Count(
                         area => areas.Any(other =>
                                     area != other &&
-                                    area.Overlap(other).Area > 0)) +
+                                    area.OverlapArea(other).Area > 0)) +
                     areas.Count(
                         area => !area.FitsInto(Vector.Zero2D, mazeSize));
                 s_log.D(1, string.Join(", ",
@@ -143,7 +142,7 @@ namespace PlayersWorlds.Maps.Maze {
                     var impact = areas.Select(area =>
                                         areas.Where(other => area != other)
                                              .Sum(other =>
-                                                area.Overlap(other).Area))
+                                                area.OverlapArea(other).Area))
                                       .Sum() / 2;
                     throw new InvalidOperationException(message);
                 }

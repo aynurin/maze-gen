@@ -19,7 +19,7 @@ namespace PlayersWorlds.Maps.Areas {
         /// <param name="existingAreas">Pre-existing areas to consider when
         /// generating new areas.</param>
         /// <returns>Areas to be added to the map.</returns>
-        public abstract IEnumerable<MapArea> Generate(Vector size,
-            List<MapArea> existingAreas);
+        public abstract IEnumerable<Area> Generate(Vector size,
+            List<Area> existingAreas);
     }
 }

@@ -11,11 +11,11 @@ namespace PlayersWorlds.Maps.Maze {
         private readonly List<MazeCell> _links = new List<MazeCell>();
         private readonly List<MazeCell> _neighbors = new List<MazeCell>();
         private readonly Cell _baseCell;
-        private readonly Dictionary<MapArea, ReadOnlyCollection<MazeCell>>
-            _mapAreas = new Dictionary<MapArea, ReadOnlyCollection<MazeCell>>();
+        private readonly Dictionary<Area, ReadOnlyCollection<MazeCell>>
+            _mapAreas = new Dictionary<Area, ReadOnlyCollection<MazeCell>>();
 
-        internal ReadOnlyDictionary<MapArea, ReadOnlyCollection<MazeCell>> MapAreas =>
-            new ReadOnlyDictionary<MapArea, ReadOnlyCollection<MazeCell>>(_mapAreas);
+        internal ReadOnlyDictionary<Area, ReadOnlyCollection<MazeCell>> MapAreas =>
+            new ReadOnlyDictionary<Area, ReadOnlyCollection<MazeCell>>(_mapAreas);
 
         /// <summary />
         public Vector Position => _baseCell.Position;
@@ -37,12 +37,12 @@ namespace PlayersWorlds.Maps.Maze {
             _baseCell = baseCell;
         }
         /// <summary>
-        /// Assign this cell to a <see cref="MapArea" />.
+        /// Assign this cell to a <see cref="Area" />.
         /// </summary>
         // If the map area is not visitable, then we can't visit this cell, thus
         // it can't have neighbors and links.
-        // This method will not propagate the MapArea to the neighbors.
-        public void AddMapArea(MapArea area, IList<MazeCell> mapAreaCells) {
+        // This method will not propagate the Area to the neighbors.
+        public void AddMapArea(Area area, IList<MazeCell> mapAreaCells) {
             _mapAreas.Add(area, new ReadOnlyCollection<MazeCell>(mapAreaCells));
         }
 
@@ -69,7 +69,7 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         // !! smellz?
-        internal void LinkAllNeighborsInArea(MapArea area) {
+        internal void LinkAllNeighborsInArea(Area area) {
             var areaCells = _mapAreas[area];
             foreach (var neighbor in _neighbors) {
                 if (areaCells.Contains(neighbor) && !_links.Contains(neighbor)) {

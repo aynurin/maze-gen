@@ -113,12 +113,12 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void ParseMap() {
-            Assert.That(Parse(Backslash, Tags).ToString(), Is.EqualTo(Backslash));
-            Assert.That(Parse(BackslashVoidBg, Tags).ToString(), Is.EqualTo(BackslashVoidBg));
-            Assert.That(Parse(SmoothCorner, Tags).ToString(), Is.EqualTo(SmoothCorner));
-            Assert.That(Parse(SmoothCornerVoidBg, Tags).ToString(), Is.EqualTo(SmoothCornerVoidBg));
-            Assert.That(Parse(SmoothBox, Tags).ToString(), Is.EqualTo(SmoothBox));
-            Assert.That(Parse(SmoothBoxVoidBg, Tags).ToString(), Is.EqualTo(SmoothBoxVoidBg));
+            Assert.That(Parse(Backslash, Tags).RenderToString(), Is.EqualTo(Backslash));
+            Assert.That(Parse(BackslashVoidBg, Tags).RenderToString(), Is.EqualTo(BackslashVoidBg));
+            Assert.That(Parse(SmoothCorner, Tags).RenderToString(), Is.EqualTo(SmoothCorner));
+            Assert.That(Parse(SmoothCornerVoidBg, Tags).RenderToString(), Is.EqualTo(SmoothCornerVoidBg));
+            Assert.That(Parse(SmoothBox, Tags).RenderToString(), Is.EqualTo(SmoothBox));
+            Assert.That(Parse(SmoothBoxVoidBg, Tags).RenderToString(), Is.EqualTo(SmoothBoxVoidBg));
         }
     }
 }

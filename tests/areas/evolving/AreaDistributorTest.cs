@@ -11,16 +11,16 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             base.SetUp();
             _random = RandomSource.CreateFromEnv();
         }
-        private static MapArea TestArea(int x, int y, int width, int height) =>
-            MapArea.CreateAutoPositioned(
-                AreaType.None, new Vector(x, y), new Vector(width, height));
+        private static Area TestArea(int x, int y, int width, int height) =>
+            Area.CreateUnpositioned(
+                new Vector(x, y), new Vector(width, height), AreaType.None);
 
         [Test, Category("Integration")]
         public void AreaDistributorTest_OneTest() =>
             AreaDistributorHelper.Distribute(
                 _random,
                 TestLog.CreateForThisTest(), new Vector(10, 10),
-                new List<MapArea>() { TestArea(0, 0, 4, 4) },
+                new List<Area>() { TestArea(0, 0, 4, 4) },
                 maxEpochs: 10)
                 .AssertAllFit();
 
@@ -29,7 +29,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             AreaDistributorHelper.Distribute(
                 _random,
                 TestLog.CreateForThisTest(), new Vector(10, 10),
-                new List<MapArea>() {
+                new List<Area>() {
                     TestArea(1, 4, 8, 2),
                     TestArea(1, 5, 2, 4),
                     TestArea(2, 6, 2, 4),
@@ -44,7 +44,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 _random,
                 TestLog.CreateForThisTest(),
                 new Vector(10, 10),
-                new List<MapArea>() {
+                new List<Area>() {
                     TestArea(0, 0, 2, 2),
                     TestArea(10, 10, 2, 2)
                 },
@@ -60,7 +60,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 _random,
                 TestLog.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => MapArea.Parse(s, isPositionFixed: false)),
+                        .Select(s => Area.Parse(s, isPositionFixed: false)),
                 maxEpochs: 10)
                 .AssertAllFit();
         }
@@ -87,7 +87,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 _random,
                 TestLog.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => MapArea.Parse(s, isPositionFixed: false)),
+                        .Select(s => Area.Parse(s, isPositionFixed: false)),
                 maxEpochs: 10)
                 .AssertDoesNotFit();
         }
@@ -105,7 +105,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 _random,
                 TestLog.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => MapArea.Parse(s, isPositionFixed: false)),
+                        .Select(s => Area.Parse(s, isPositionFixed: false)),
                 maxEpochs: 10)
                 .AssertAllFit();
         }
