@@ -10,8 +10,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void LinksAreMutual() {
-            var a = new MazeCell(2, 1);
-            var b = new MazeCell(2, 2);
+            var a = new MazeCell(new Cell(new Vector(2, 1)));
+            var b = new MazeCell(new Cell(new Vector(2, 2)));
             a.Neighbors().Add(b);
             b.Neighbors().Add(a);
 
@@ -32,9 +32,9 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void LinksOnlyWithNeighbors() {
-            var a = new MazeCell(2, 1);
-            var b = new MazeCell(2, 2);
-            var c = new MazeCell(2, 3);
+            var a = new MazeCell(new Cell(new Vector(2, 1)));
+            var b = new MazeCell(new Cell(new Vector(2, 2)));
+            var c = new MazeCell(new Cell(new Vector(2, 3)));
             a.Neighbors().Add(b);
             b.Neighbors().Add(a);
             b.Neighbors().Add(c);
@@ -45,7 +45,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void CanAssignMapAreaOnce() {
-            var a = new MazeCell(2, 1);
+            var a = new MazeCell(new Cell(new Vector(2, 1)));
             var mapArea = MapArea.Create(
                 AreaType.Fill, new Vector(2, 2), new Vector(2, 2));
 
@@ -59,8 +59,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void ToStringTest() {
-            var a = new MazeCell(2, 1);
-            var b = new MazeCell(2, 2);
+            var a = new MazeCell(new Cell(new Vector(2, 1)));
+            var b = new MazeCell(new Cell(new Vector(2, 2)));
             a.Neighbors().Add(b);
             b.Neighbors().Add(a);
 
@@ -70,8 +70,8 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That("2x2V", Is.EqualTo(b.ToString()));
             Assert.That("2x2V(--S-)", Is.EqualTo(b.ToLongString()));
 
-            var c = new MazeCell(1, 1);
-            var d = new MazeCell(2, 1);
+            var c = new MazeCell(new Cell(new Vector(1, 1)));
+            var d = new MazeCell(new Cell(new Vector(2, 1)));
             c.Neighbors().Add(d);
             d.Neighbors().Add(c);
 
@@ -85,8 +85,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void DoubleLinkingThrowsError() {
-            var a = new MazeCell(1, 2);
-            var b = new MazeCell(2, 2);
+            var a = new MazeCell(new Cell(new Vector(1, 2)));
+            var b = new MazeCell(new Cell(new Vector(2, 2)));
             a.Neighbors().Add(b);
             b.Neighbors().Add(a);
             a.Link(b);

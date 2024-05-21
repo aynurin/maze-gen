@@ -6,6 +6,7 @@ using NUnit.Framework;
 using NUnit.Framework.Internal;
 using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Maze.PostProcessing;
+using static PlayersWorlds.Maps.Maze.PostProcessing.DijkstraDistance;
 
 namespace PlayersWorlds.Maps.Maze {
     [TestFixture]
@@ -145,7 +146,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.FillFactorOption.FullWidth
                 }, out var _);
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            Assert.That(maze.MazeCells.Min(cell => cell.X) == 0 && maze.MazeCells.Max(cell => cell.X) == 9, Is.True, maze.ToString());
+            Assert.That(maze.MazeCells.Min(cell => cell.Position.X) == 0 && maze.MazeCells.Max(cell => cell.Position.X) == 9, Is.True, maze.ToString());
         }
 
         [Test]
@@ -157,7 +158,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.FillFactorOption.FullHeight
                 }, out var _);
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            Assert.That(maze.MazeCells.Min(cell => cell.Y) == 0 && maze.MazeCells.Max(cell => cell.Y) == 9, Is.True, maze.ToString());
+            Assert.That(maze.MazeCells.Min(cell => cell.Position.Y) == 0 && maze.MazeCells.Max(cell => cell.Position.Y) == 9, Is.True, maze.ToString());
         }
 
         [Test, Category("Integration")]
@@ -185,13 +186,13 @@ namespace PlayersWorlds.Maps.Maze {
             var map = MazeTestHelper.GenerateMaze(size, options);
             Assert.That(map, Is.Not.Null);
 
-            var solution = new List<MazeCell>();
+            var solution = new LongestTrailExtension(new List<MazeCell>());
             Assert.DoesNotThrow(() => solution = DijkstraDistance.FindLongestTrail(map));
-            Assert.That(solution, Is.Not.Null.Or.Empty);
+            Assert.That(solution, Is.Not.Null);
+            Assert.That(solution.LongestTrail, Is.Not.Null.Or.Empty);
 
-            map.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(map));
-            map.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
-                solution);
+            map.X(DeadEnd.Find(map));
+            map.X(solution);
         }
 
         [Test, Category("Integration")]
@@ -233,9 +234,10 @@ namespace PlayersWorlds.Maps.Maze {
                 new Vector(3, 4),
                 new GeneratorOptions() { Algorithm = generatorType },
                 out var builder);
-            var solution = new List<MazeCell>();
+            var solution = new LongestTrailExtension(new List<MazeCell>());
             Assert.DoesNotThrow(() => solution = DijkstraDistance.FindLongestTrail(maze));
-            Assert.That(solution, Is.Not.Null.Or.Empty);
+            Assert.That(solution, Is.Not.Null);
+            Assert.That(solution.LongestTrail, Is.Not.Null.Or.Empty);
         }
 
         public static IEnumerable<Type> GetAllGenerators() =>

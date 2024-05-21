@@ -27,9 +27,9 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             Assert.That(solution.HasValue, Is.True);
             Assert.That(5, Is.EqualTo(solution.Value.Count));
             Assert.That(new Vector(0, 0), Is.EqualTo(
-                solution.Value.First().Coordinates));
+                solution.Value.First().Position));
             Assert.That(new Vector(2, 2), Is.EqualTo(
-                solution.Value.Last().Coordinates));
+                solution.Value.Last().Position));
         }
 
         [Test]
@@ -45,16 +45,14 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         public void DijkstraDistance_CanFindLongestTrail() {
             var maze = Maze2D.Parse("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance.FindLongestTrail(maze);
-            Assert.That(6, Is.EqualTo(solution.Count));
-            Assert.That(8, Is.EqualTo(maze.Cells.Count(
-                cell => !cell.Attributes.ContainsKey(
-                    DijkstraDistance.LongestTrailStartAttribute))));
-            Assert.That(8, Is.EqualTo(maze.Cells.Count(
-                cell => !cell.Attributes.ContainsKey(
-                    DijkstraDistance.LongestTrailEndAttribute))));
-            Assert.That(3, Is.EqualTo(maze.Cells.Count(
-                cell => !cell.Attributes.ContainsKey(
-                    DijkstraDistance.LongestTrailAttribute))));
+            Assert.That(solution.LongestTrail.Count, Is.EqualTo(6));
+            Assert.That(maze.Cells.Count(
+                cell => cell.BaseCell.X<DijkstraDistance.IsLongestTrailStartExtension>() != null), Is.EqualTo(1));
+            Assert.That(maze.Cells.Count(
+                cell => cell.BaseCell.X<DijkstraDistance.IsLongestTrailEndExtension>() != null), Is.EqualTo(1));
+            // perhaps the caller of FindLongestTrail will add it as maze extension?..
+            Assert.That(maze.Cells.Count(
+                cell => maze.X<DijkstraDistance.LongestTrailExtension>() != null), Is.EqualTo(0));
         }
     }
 }

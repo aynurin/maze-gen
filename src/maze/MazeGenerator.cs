@@ -69,7 +69,7 @@ namespace PlayersWorlds.Maps.Maze {
                     "constructor.");
             }
 
-            var maze = new Maze2D(size);
+            var maze = new Maze2D(size.X, size.Y);
             try {
                 GenerateMazeAreas(size, options).ForEach(maze.AddArea);
                 s_log.D(1, $"Generated {maze.MapAreas.Count} maze areas");
@@ -80,9 +80,8 @@ namespace PlayersWorlds.Maps.Maze {
                 (Activator.CreateInstance(options.Algorithm) as MazeGenerator)
                     .GenerateMaze(builder);
                 builder.ApplyAreas();
-                maze.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(maze));
-                maze.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
-                    DijkstraDistance.FindLongestTrail(maze));
+                maze.X(DeadEnd.Find(maze));
+                maze.X(DijkstraDistance.FindLongestTrail(builder));
                 return maze;
             } catch (Exception ex) {
                 throw new MazeGenerationException(maze, ex);

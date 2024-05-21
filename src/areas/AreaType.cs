@@ -26,6 +26,10 @@ namespace PlayersWorlds.Maps.Areas {
         /// <summary>
         /// An area the player cannot enter, e.g., a lake or a rock.
         /// </summary>
-        Fill = 3
+        Fill = 3,
+        /// <summary>
+        /// Describes an environment within this area.
+        /// </summary>
+        Environment = 3
     }
 }

@@ -64,6 +64,16 @@ namespace PlayersWorlds.Maps {
         }
 
         /// <summary>
+        /// Creates a copy of the provided <see cref="NArray{T}"/>.
+        /// </summary>
+        /// <param name="other">The source <see cref="NArray{T}"/>.</param>
+        public NArray(NArray<T> other) {
+            Size = other.Size;
+            _cells = new T[Size.Area];
+            Array.Copy(other._cells, _cells, _cells.Length);
+        }
+
+        /// <summary>
         /// Returns the position of the first occurrence of a value in the map.
         /// </summary>
         /// <param name="value"></param>
@@ -179,6 +189,29 @@ namespace PlayersWorlds.Maps {
                     xy + new Vector(Enumerable.Repeat(-1, Size.Dimensions)),
                     new Vector(Enumerable.Repeat(3, Size.Dimensions)))
                 .Where(cell => cell.xy != xy);
+        }
+
+        /// <summary>
+        /// Scales the NArray to a larger size based on the provided vector.
+        /// </summary>
+        /// <remarks>This method scales to a larger size without interpolation.
+        /// So the target size must be a multiple of the current size.</remarks>
+        /// <param name="vector">The vector representing the new size of the
+        /// NArray.</param>
+        /// <returns>A new <see cref="NArray{T}"/> instance that is a scaled 
+        /// version of the current NArray.</returns>
+        public NArray<T> ScaleUp(Vector vector) {
+            if (Size.Area == 0 || vector.Area == 0) {
+                return new NArray<T>(vector);
+            }
+            var scale = vector.Value.Zip(Size.Value, (a, b) => a / b).ToArray();
+            if (scale.Any(a => a <= 0)) {
+                throw new ArgumentException(
+                    "Can't scale up a NArray to a smaller size");
+            }
+            var scaledMap = new NArray<T>(vector, (xy) =>
+                this[new Vector(xy.Value.Zip(scale, (a, b) => a / b))]);
+            return scaledMap;
         }
 
         #region IReadOnlyList<T> 

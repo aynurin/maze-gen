@@ -101,8 +101,14 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         public int MagnitudeSq => _value.Sum(a => a * a);
 
-        /// <param name="x">X coordinate (rows)</param>
-        /// <param name="y">Y coordinate (columns)</param>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector"/> struct
+        /// representing a 2-dimensional vector.
+        /// </summary>
+        /// <param name="x">The X coordinate (horizontal component) of the
+        /// vector.</param>
+        /// <param name="y">The Y coordinate (vertical component) of the
+        /// vector.</param>
         public Vector(int x, int y) : this(new int[] { x, y }) { }
 
         /// <summary>

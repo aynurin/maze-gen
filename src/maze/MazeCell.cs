@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
 using PlayersWorlds.Maps.Areas;
 
 namespace PlayersWorlds.Maps.Maze {
@@ -12,21 +10,18 @@ namespace PlayersWorlds.Maps.Maze {
     public class MazeCell {
         private readonly List<MazeCell> _links = new List<MazeCell>();
         private readonly List<MazeCell> _neighbors = new List<MazeCell>();
+        private readonly Cell _baseCell;
         private readonly Dictionary<MapArea, ReadOnlyCollection<MazeCell>>
             _mapAreas = new Dictionary<MapArea, ReadOnlyCollection<MazeCell>>();
 
         internal ReadOnlyDictionary<MapArea, ReadOnlyCollection<MazeCell>> MapAreas =>
             new ReadOnlyDictionary<MapArea, ReadOnlyCollection<MazeCell>>(_mapAreas);
 
-        /// <summary>
-        /// <see cref="PostProcessing" /> attributes of this cell.
-        /// </summary>
-        public Dictionary<string, string> Attributes { get; }
-            = new Dictionary<string, string>();
-
         /// <summary />
-        // TODO: Rename to Position
-        public Vector Coordinates { get; private set; }
+        public Vector Position => _baseCell.Position;
+
+        [Obsolete]
+        public Cell BaseCell => _baseCell;
 
         /// <summary>
         /// <c>true</c> if this cell has been visited by the maze generation
@@ -34,11 +29,13 @@ namespace PlayersWorlds.Maps.Maze {
         /// </summary>
         public bool IsConnected => _links.Count > 0;
 
-        /// <summary />
-        public int X => Coordinates.X;
-        /// <summary />
-        public int Y => Coordinates.Y;
-
+        /// <summary>
+        /// Creates a new instance of the <see cref="MazeCell" /> class for a 
+        /// given map cell.
+        /// </summary>
+        public MazeCell(Cell baseCell) {
+            _baseCell = baseCell;
+        }
         /// <summary>
         /// Assign this cell to a <see cref="MapArea" />.
         /// </summary>
@@ -47,16 +44,6 @@ namespace PlayersWorlds.Maps.Maze {
         // This method will not propagate the MapArea to the neighbors.
         public void AddMapArea(MapArea area, IList<MazeCell> mapAreaCells) {
             _mapAreas.Add(area, new ReadOnlyCollection<MazeCell>(mapAreaCells));
-        }
-
-        internal MazeCell(int x, int y) : this(new Vector(x, y)) { }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="MazeCell" /> class using 
-        /// a vector as cell coordinates.
-        /// </summary>
-        public MazeCell(Vector coordinates) {
-            Coordinates = coordinates;
         }
 
         /// <summary>
@@ -103,7 +90,6 @@ namespace PlayersWorlds.Maps.Maze {
         /// <summary>
         /// The neighbors of this cell.
         /// </summary>
-        // TODO: this should be read-only.
         public IList<MazeCell> Neighbors() => _neighbors;
 
         /// <summary>
@@ -113,12 +99,14 @@ namespace PlayersWorlds.Maps.Maze {
         /// the directional vectors predefined in the <see cref="Vector" />
         /// class.</param>
         public Optional<MazeCell> Neighbors(Vector unitVector) =>
-            new Optional<MazeCell>(_neighbors.Find(cell => cell.Coordinates == this.Coordinates + unitVector));
+            new Optional<MazeCell>(_neighbors.Find(
+                cell => cell._baseCell.Position ==
+                        this._baseCell.Position + unitVector));
 
         /// <summary>
         /// The links between this cell and other cells.
         /// </summary>
-        public ReadOnlyCollection<MazeCell> Links() => _links.AsReadOnly();
+        public IList<MazeCell> Links() => _links.AsReadOnly();
 
         /// <summary>
         /// Get a linked cell in the specified direction.
@@ -127,7 +115,9 @@ namespace PlayersWorlds.Maps.Maze {
         /// the directional vectors predefined in the <see cref="Vector" />
         /// class.</param>
         public Optional<MazeCell> Links(Vector unitVector) =>
-            new Optional<MazeCell>(_links.Find(cell => cell.Coordinates == this.Coordinates + unitVector));
+            new Optional<MazeCell>(_links.Find(
+                cell => cell._baseCell.Position ==
+                        this._baseCell.Position + unitVector));
 
         /// <summary>
         /// A debug string describing this cell.
@@ -141,7 +131,8 @@ namespace PlayersWorlds.Maps.Maze {
         /// has been visited by a maze generator algorithm.
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => $"{Coordinates}{(IsConnected ? "V" : "")}";
+        public override string ToString() =>
+            $"{_baseCell.Position}{(IsConnected ? "V" : "")}";
 
         private string GatesString() => string.Concat(
             Links(Vector.North2D).HasValue ? "N" : "-",

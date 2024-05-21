@@ -39,7 +39,7 @@ namespace PlayersWorlds.Maps.Renderers {
         /// <returns></returns>
         public string WithTrail() {
             var trail = _maze.LongestPath.HasValue ?
-                _maze.LongestPath.Value :
+                _maze.LongestPath.Value.LongestTrail :
                 new List<MazeCell>();
             var solutionCells = new HashSet<MazeCell>(trail);
             // print cells from top to bottom
@@ -73,7 +73,7 @@ namespace PlayersWorlds.Maps.Renderers {
 
         private void PrintCell(MazeCell cell, string cellData) {
             var asciiCoords = CellCoords.Create(_maze.Size,
-                                                cell.Coordinates,
+                                                cell.Position,
                                                 _cellInnerWidth,
                                                 _cellInnerHeight);
             if (!string.IsNullOrEmpty(cellData)) {

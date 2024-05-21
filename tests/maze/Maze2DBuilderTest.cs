@@ -152,14 +152,14 @@ namespace PlayersWorlds.Maps.Maze {
                 builder.TryPickRandomNeighbor(maze.Cells[new Vector(1, 5)], out var randomNeighbor);
                 Assert.That(randomNeighbor, Is.Not.Null);
                 Assert.That(builder.TestPriorityCells.ContainsKey(randomNeighbor), Is.True);
-                Assert.That(randomNeighbor.X, Is.AnyOf(0, 2));
+                Assert.That(randomNeighbor.Position.X, Is.AnyOf(0, 2));
             }
 
             // hall area neighbors are never chosen;
             for (var i = 0; i < 1000; i++) {
                 builder.TryPickRandomNeighbor(maze.Cells[new Vector(1, 5)], out var randomNeighbor);
                 Assert.That(randomNeighbor, Is.Not.Null);
-                Assert.That(randomNeighbor.X, Is.Not.EqualTo(3));
+                Assert.That(randomNeighbor.Position.X, Is.Not.EqualTo(3));
             }
         }
 

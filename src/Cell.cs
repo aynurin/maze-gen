@@ -3,16 +3,36 @@ using System.Collections.Generic;
 
 namespace PlayersWorlds.Maps {
     /// <summary>
-    /// A <see cref="Map2D"/> cell.
+    /// An <see cref="Area"/> cell.
     /// </summary>
     /// <remarks>
     /// For now it's only a set of tags assigned to the cell.
     /// </remarks>
-    public class Cell {
+    public class Cell : ExtensibleObject {
         /// <summary>
         /// Tags assigned to cell.
         /// </summary>
         public List<CellTag> Tags { get; } = new List<CellTag>();
+        private readonly Vector _position;
+        // private readonly List<Area> _areas = new List<Area>();
+
+        /// <summary>
+        /// Absolute position of this cell in the world.
+        /// </summary>
+        public Vector Position => _position;
+
+        /// <summary>
+        /// Creates an instance of cell at the specified position.
+        /// </summary>
+        /// <param name="position">The position of the cell in its area.</param>
+        /// <remarks>Supposed for internal use only.</remarks>
+        internal Cell(Vector position) {
+            _position = position;
+        }
+
+        override public string ToString() {
+            return $"Cell({Position}, Tags={string.Join(", ", Tags)})";
+        }
 
         /// <summary>
         /// Cell tags can be used in the game engine to choose objects, visual

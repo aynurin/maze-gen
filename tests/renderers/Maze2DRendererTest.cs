@@ -208,9 +208,8 @@ namespace PlayersWorlds.Maps {
                 "│   ┼   └───┘   │\n" +
                 "│ 7   8   9   a │\n" +
                 "└───────────────┘\n";
-            _maze.Attributes.Set(DeadEnd.DeadEndAttribute, DeadEnd.Find(_maze));
-            _maze.Attributes.Set(DijkstraDistance.LongestTrailAttribute,
-                DijkstraDistance.FindLongestTrail(_maze));
+            _maze.X(DeadEnd.Find(_maze));
+            _maze.X(DijkstraDistance.FindLongestTrail(_maze));
             log.D(5, _maze.ToString());
             Assert.That(expected, Is.EqualTo(_maze.ToString()));
         }

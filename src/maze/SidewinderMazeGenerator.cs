@@ -24,9 +24,9 @@ namespace PlayersWorlds.Maps.Maze {
             var run = new List<MazeCell>();
             var i = 0;
             foreach (var currentCell in builder.AllCells) {
-                if (currentCell.Y != currentY) {
+                if (currentCell.Position.Y != currentY) {
                     run.Clear();
-                    currentY = currentCell.Y;
+                    currentY = currentCell.Position.Y;
                 }
 
                 // we don't check if the cell is already connected

@@ -30,15 +30,9 @@ namespace PlayersWorlds.Maps.Maze {
     /// of cells to pick from when picking a random cell in the field. And
     /// another approach to pick a random neighbor.</p>
     /// </remarks>
-    public class Maze2D {
+    public class Maze2D : ExtensibleObject {
         private readonly Vector _size;
         private readonly NArray<MazeCell> _cells;
-        /// <summary>
-        /// Post-processing attributes assigned to this maze. See
-        /// <see cref="PostProcessing"/>.
-        /// </summary>
-        public Dictionary<string, List<MazeCell>> Attributes { get; } =
-            new Dictionary<string, List<MazeCell>>();
         /// <summary>
         /// A read-only access to all cells in this maze field.
         /// </summary>
@@ -59,13 +53,11 @@ namespace PlayersWorlds.Maps.Maze {
 
         /// <summary>
         /// If the longest path was set, returns the longest path. See
-        /// <see cref="PostProcessing.DijkstraDistance"/>.
+        /// <see cref="DijkstraDistance"/>.
         /// </summary>
-        public Optional<List<MazeCell>> LongestPath {
-            get =>
-                Attributes.ContainsKey(DijkstraDistance.LongestTrailAttribute) ?
-                Attributes[DijkstraDistance.LongestTrailAttribute] :
-                    Optional<List<MazeCell>>.Empty;
+        public Optional<DijkstraDistance.LongestTrailExtension> LongestPath {
+            get => X<DijkstraDistance.LongestTrailExtension>() ??
+                   Optional<DijkstraDistance.LongestTrailExtension>.Empty;
         }
 
         /// <summary>
@@ -73,25 +65,25 @@ namespace PlayersWorlds.Maps.Maze {
         /// </summary>
         /// <param name="x">columns</param>
         /// <param name="y">rows</param>
-        public Maze2D(int x, int y) : this(new Vector(x, y)) { }
+        [Obsolete]
+        public Maze2D(int x, int y) :
+            this(Area.CreateEnvironment(new Vector(x, y), xy => new Cell(xy))) { }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="size">Map2D size,
-        ///     where X is the width, number of columns,
-        ///     and Y is the height, number of rows</param>
-        public Maze2D(Vector size) {
-            size.ThrowIfNotAValidSize();
-            if (size.Dimensions != 2) {
+        /// <param name="baseArea">Area on which the maze is generated</param>
+        public Maze2D(Area baseArea) {
+            if (baseArea.Size.Dimensions != 2) {
                 throw new NotImplementedException(
                     "At the moment, only 2D mazes are supported.");
             }
-            _size = size;
-            _cells = new NArray<MazeCell>(_size, xy => new MazeCell(xy));
+            _size = baseArea.Size;
+            _cells = new NArray<MazeCell>(
+                _size, xy => new MazeCell(baseArea.Cells[xy]));
             foreach (var cell in _cells.Iterate()) {
                 var north = cell.xy + Vector.North2D;
-                if (north.Y < size.Y) {
+                if (north.Y < baseArea.Size.Y) {
                     cell.cell.Neighbors().Add(_cells[north]);
                     _cells[north].Neighbors().Add(cell.cell);
                 }
@@ -153,7 +145,7 @@ namespace PlayersWorlds.Maps.Maze {
             var cells = string.Join(",", _cells.Select((cell, index) => {
                 if (_cells[index].Links().Count > 0) {
                     var links = _cells[index].Links()
-                        .Select(link => link.Coordinates.ToIndex(_size))
+                        .Select(link => link.Position.ToIndex(_size))
                         .Where(link => !linksAdded.Contains(new int[] { index, link }));
 
                     linksAdded.UnionWith(links.Select(link => new int[] { link, index }));
@@ -189,7 +181,8 @@ namespace PlayersWorlds.Maps.Maze {
             if (serialized.IndexOf('|') == -1) {
                 // TODO: Migrate all serialization to the other format.
                 var parts = serialized.Split(';', '\n');
-                var maze = new Maze2D(new Vector(parts[0].Split('x').Select(int.Parse)));
+                var size = new Vector(parts[0].Split('x').Select(int.Parse));
+                var maze = new Maze2D(size.X, size.Y);
                 for (var i = 1; i < parts.Length; i++) {
                     var part = parts[i].Split(':', ',').Select(int.Parse).ToArray();
                     for (var j = 1; j < part.Length; j++) {
@@ -200,7 +193,8 @@ namespace PlayersWorlds.Maps.Maze {
             } else {
                 var linksAdded = new HashSet<string>();
                 var parts = serialized.Split('|');
-                var maze = new Maze2D(Vector.Parse(parts[0]));
+                var size = Vector.Parse(parts[0]);
+                var maze = new Maze2D(size.X, size.Y);
                 parts[1].Split(',')
                     .ForEach(areaStr => maze.AddArea(MapArea.Parse(areaStr)));
                 parts[2].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ForEach(cellStr => {

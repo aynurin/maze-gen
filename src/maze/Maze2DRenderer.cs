@@ -77,16 +77,20 @@ namespace PlayersWorlds.Maps.Maze {
             private const int NW = 0, N = 1, NE = 2, W = 3, CENTER = 4, E = 5, SW = 6, S = 7, SE = 8;
 
             public CellsMapping(Map2D map, MazeCell mazeCell, MazeToMapOptions options) {
+                map.ThrowIfNull(nameof(map));
+                mazeCell.ThrowIfNull(nameof(mazeCell));
+                options.ThrowIfNull(nameof(options));
+
                 _map = map;
                 _mazeCell = mazeCell;
                 _options = options;
 
-                _size[SW] = _options.WallSize(_mazeCell.Coordinates);
-                _position[SW] = _options.SWPosition(_mazeCell.Coordinates);
-                _size[CENTER] = _options.TrailSize(_mazeCell.Coordinates);
+                _size[SW] = _options.WallSize(_mazeCell.Position);
+                _position[SW] = _options.SWPosition(_mazeCell.Position);
+                _size[CENTER] = _options.TrailSize(_mazeCell.Position);
                 _position[CENTER] = _position[SW] + _size[SW];
                 _size[NE] = _options.WallSize(
-                    _mazeCell.Coordinates + Vector.NorthEast2D);
+                    _mazeCell.Position + Vector.NorthEast2D);
                 _position[NE] = _position[CENTER] + _size[CENTER];
 
                 _size[NW] = new Vector(_size[SW].X, _size[NE].Y);

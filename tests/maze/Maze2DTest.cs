@@ -30,7 +30,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void Maze2D_AllowsOnly2D() {
             Assert.Throws<NotImplementedException>(() => new Maze2D(
-                new Vector(new int[] { 1, 2, 3 })));
+                Area.CreateEnvironment(new Vector(new int[] { 1, 2, 3 }))));
         }
 
         [Test]
@@ -55,14 +55,14 @@ namespace PlayersWorlds.Maps.Maze {
                 for (var y = 0; y < rows; y++) {
                     var cell = map.Cells[new Vector(x, y)];
                     var neighbors = map.Cells.Where(c =>
-                        (c.X == cell.X && Math.Abs(c.Y - cell.Y) == 1) ||
-                        (c.Y == cell.Y && Math.Abs(c.X - cell.X) == 1))
+                        (c.Position.X == cell.Position.X && Math.Abs(c.Position.Y - cell.Position.Y) == 1) ||
+                        (c.Position.Y == cell.Position.Y && Math.Abs(c.Position.X - cell.Position.X) == 1))
                             .ToList();
                     var nonNeighbors = map.Cells
                         .Where(c => c != cell && !neighbors.Contains(c))
                         .ToList();
                     if (neighbors.Count != cell.Neighbors().Count) {
-                        TestLog.CreateForThisTest().D(5, $"Cell {cell.X},{cell.Y} has {neighbors.Count} neighbors. It should have {cell.Neighbors().Count} neighbors.");
+                        TestLog.CreateForThisTest().D(5, $"Cell {cell.Position.X},{cell.Position.Y} has {neighbors.Count} neighbors. It should have {cell.Neighbors().Count} neighbors.");
                     }
                     Assert.That(neighbors.Count, Is.EqualTo(cell.Neighbors().Count));
                     Assert.That(neighbors.All(c => cell.Neighbors().Contains(c)), Is.True);
@@ -158,14 +158,14 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         [Test]
-        public void Maze2D_HasAttributesSet() {
+        public void Maze2D_HasExtensionsSet() {
             var map = MazeTestHelper.GenerateMaze(new Vector(3, 3),
                 new GeneratorOptions() {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full
                 });
-            Assert.That(map.Attributes[DeadEnd.DeadEndAttribute], Is.Not.Empty);
-            Assert.That(map.Attributes[DijkstraDistance.LongestTrailAttribute], Is.Not.Empty);
+            Assert.That(map.X<DeadEnd.DeadEndsExtension>(), Is.Not.Null);
+            Assert.That(map.X<DijkstraDistance.LongestTrailExtension>(), Is.Not.Null);
         }
 
         [Test]

@@ -420,14 +420,14 @@ namespace PlayersWorlds.Maps.Maze {
             }
             switch (_options.FillFactor) {
                 case FillFactorOption.FullWidth: {
-                        var minX = _connectedCells.Min(c => c.X);
-                        var maxX = _connectedCells.Max(c => c.X);
+                        var minX = _connectedCells.Min(c => c.Position.X);
+                        var maxX = _connectedCells.Max(c => c.Position.X);
                         return minX == 0 && maxX == _maze.Size.X - 1;
                     }
 
                 case FillFactorOption.FullHeight: {
-                        var minY = _connectedCells.Min(c => c.Y);
-                        var maxY = _connectedCells.Max(c => c.Y);
+                        var minY = _connectedCells.Min(c => c.Position.Y);
+                        var maxY = _connectedCells.Max(c => c.Position.Y);
                         return minY == 0 && maxY == _maze.Size.Y - 1;
                     }
 
