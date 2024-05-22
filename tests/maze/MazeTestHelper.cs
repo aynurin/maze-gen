@@ -11,8 +11,9 @@ namespace PlayersWorlds.Maps.Maze {
     internal static class MazeTestHelper {
         private static readonly Log s_log = Log.ToConsole("MazeTestHelper");
 
-        public static bool IsSolveable(Maze2D maze) {
-            var cells = new HashSet<Cell>(maze.MazeCells);
+        public static bool IsSolveable(Area maze) {
+            var cells = new HashSet<Cell>(
+                maze.Cells.Where(c => c.Links().Count > 0));
             var dijkstra = DijkstraDistance.Find(cells.First());
             cells.ExceptWith(dijkstra.Keys);
 
@@ -25,7 +26,7 @@ namespace PlayersWorlds.Maps.Maze {
             return true;
         }
 
-        public static Maze2D GenerateMaze(
+        public static Area GenerateMaze(
                                    Vector size,
                                    GeneratorOptions options,
                                    out Maze2DBuilder builder) {
@@ -41,14 +42,14 @@ namespace PlayersWorlds.Maps.Maze {
                 options, out builder);
             s_log.D(2, maze.ToString());
             if (options.MapAreas != null) {
-                Assert.That(maze.MapAreas.Count,
+                Assert.That(maze.ChildAreas.Count,
                     Is.GreaterThanOrEqualTo(options.MapAreas.Count),
                     "Wrong number of areas");
             }
             return maze;
         }
 
-        public static Maze2D GenerateMaze(
+        public static Area GenerateMaze(
                                    Vector size,
                                    GeneratorOptions options) {
             return GenerateMaze(size, options, out _);

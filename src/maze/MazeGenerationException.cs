@@ -4,13 +4,13 @@ using System.Runtime.Serialization;
 namespace PlayersWorlds.Maps.Maze {
     [Serializable]
     internal class MazeGenerationException : Exception {
-        public Maze2D Maze { get; set; }
+        public Area Maze { get; set; }
 
-        public MazeGenerationException(Maze2D maze, string message) : base(message) {
+        public MazeGenerationException(Area maze, string message) : base(message) {
             Maze = maze;
         }
 
-        public MazeGenerationException(Maze2D maze, Exception innerException) : base(innerException.Message, innerException) {
+        public MazeGenerationException(Area maze, Exception innerException) : base(innerException.Message, innerException) {
             Maze = maze;
         }
 

@@ -43,19 +43,19 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(() => a.Link(c), Throws.InstanceOf<NotImplementedException>());
         }
 
-        [Test]
-        public void CanAssignMapAreaOnce() {
-            var a = new Cell(new Vector(2, 1));
-            var mapArea = Area.Create(
-                new Vector(2, 2), new Vector(2, 2), AreaType.Fill);
+        // [Test]
+        // public void CanAssignMapAreaOnce() {
+        //     var a = new Cell(new Vector(2, 1));
+        //     var mapArea = Area.Create(
+        //         new Vector(2, 2), new Vector(2, 2), AreaType.Fill);
 
-            Assert.That(() => a.AddMapArea(mapArea),
-                Throws.Nothing);
-            Assert.That(() => a.AddMapArea(mapArea),
-                Throws.InvalidOperationException);
-            Assert.That(a.ChildAreas, Has.Exactly(1).Items);
-            Assert.That(a.ChildAreas.First(), Is.SameAs(mapArea));
-        }
+        //     Assert.That(() => a.AddMapArea(mapArea),
+        //         Throws.Nothing);
+        //     Assert.That(() => a.AddMapArea(mapArea),
+        //         Throws.InvalidOperationException);
+        //     Assert.That(a.ChildAreas, Has.Exactly(1).Items);
+        //     Assert.That(a.ChildAreas.First(), Is.SameAs(mapArea));
+        // }
 
         [Test]
         public void ToStringTest() {

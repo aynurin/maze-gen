@@ -13,7 +13,8 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
                     Algorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.FillFactorOption.Full
                 });
-            var visitedCells = maze.MazeCells.ToList();
+            var visitedCells = maze.Cells
+                .Where(cell => cell.Links().Count > 0).ToList();
             var distances = DijkstraDistance.Find(random.RandomOf(visitedCells));
             Assert.That(distances.Count, Is.EqualTo(visitedCells.Count));
             Assert.That(distances.Values.Average(), Is.GreaterThan(1));
@@ -21,7 +22,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
 
         [Test]
         public void DijkstraDistance_CanSolveAMaze() {
-            var maze = Maze2D.Parse("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
+            var maze = Area.ParseAsMaze("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance
                 .Solve(maze.Cells.First(), maze.Cells.Last());
             Assert.That(solution.HasValue, Is.True);
@@ -34,7 +35,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
 
         [Test]
         public void DijkstraDistance_ReturnsEmptyIfNoSolutionFound() {
-            var maze = Maze2D.Parse("3x3;0:3;1:4;2:5;3:4;4:7;6:7;7:8");
+            var maze = Area.ParseAsMaze("3x3;0:3;1:4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance
                 .Solve(maze.Cells[new Vector(2, 1)],
                        maze.Cells[new Vector(1, 2)]);
@@ -43,7 +44,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
 
         [Test]
         public void DijkstraDistance_CanFindLongestTrail() {
-            var maze = Maze2D.Parse("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
+            var maze = Area.ParseAsMaze("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance.FindLongestTrail(maze);
             Assert.That(solution.LongestTrail.Count, Is.EqualTo(6));
             Assert.That(maze.Cells.Count(

@@ -13,37 +13,38 @@ namespace PlayersWorlds.Maps {
 
         override public int Run() {
             base.Run();
-            var maze = Maze2D.Parse(SerializedMaze);
+            var maze = Area.ParseAsMaze(SerializedMaze);
+            var mazeCells = maze.Cells.Where(c => c.IsConnected).ToList();
             Console.WriteLine(maze.Serialize());
             Console.WriteLine(maze.ToString());
             Console.WriteLine($"Visited: " +
-                maze.MazeCells.Count());
+                mazeCells.Count());
             Console.WriteLine($"Area Cells: ");
             Console.WriteLine("  Fill ({0}): ({1})",
-                maze.MapAreas.Count(
-                                a => a.Key.Type == AreaType.Fill),
-                maze.MapAreas.Where(
-                                a => a.Key.Type == AreaType.Fill)
-                             .Select(a => a.Value.Count).Sum());
+                maze.ChildAreas.Count(
+                                a => a.Type == AreaType.Fill),
+                maze.ChildAreas.Where(
+                                a => a.Type == AreaType.Fill)
+                             .Select(a => a.Cells.Count).Sum());
             Console.WriteLine("  Cave ({0}): ({1}): ",
-                maze.MapAreas.Count(
-                                a => a.Key.Type == AreaType.Cave),
-                maze.MapAreas.Where(
-                                a => a.Key.Type == AreaType.Cave)
-                             .Select(a => a.Value.Count).Sum());
+                maze.ChildAreas.Count(
+                                a => a.Type == AreaType.Cave),
+                maze.ChildAreas.Where(
+                                a => a.Type == AreaType.Cave)
+                             .Select(a => a.Cells.Count).Sum());
             Console.WriteLine("  Hall ({0}): ({1}): ",
-                maze.MapAreas.Count(
-                                a => a.Key.Type == AreaType.Hall),
-                maze.MapAreas.Where(
-                                a => a.Key.Type == AreaType.Hall)
-                             .Select(a => a.Value.Count).Sum());
+                maze.ChildAreas.Count(
+                                a => a.Type == AreaType.Hall),
+                maze.ChildAreas.Where(
+                                a => a.Type == AreaType.Hall)
+                             .Select(a => a.Cells.Count).Sum());
             Console.WriteLine("Unvisited cells: " +
                 string.Join(",",
                     maze.Cells
                         .Where(c =>
                             !c.IsConnected &&
-                            !maze.MapAreas.Any(
-                                area => area.Value.Contains(c)))));
+                            !maze.ChildAreas.Any(
+                                area => area.Cells.Any(ch => ch.Parent == c)))));
             return 0;
         }
     }

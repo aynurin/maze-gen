@@ -11,7 +11,7 @@ namespace PlayersWorlds.Maps.Renderers {
     /// </summary>
     public class Maze2DStringBoxRenderer {
 
-        private readonly Maze2D _maze;
+        private readonly Area _maze;
         private readonly int _cellInnerHeight;
         private readonly int _cellInnerWidth;
         private readonly Vector _asciiMazeSize;
@@ -20,7 +20,7 @@ namespace PlayersWorlds.Maps.Renderers {
             new Dictionary<int, string>();
 
         /// <summary />
-        public Maze2DStringBoxRenderer(Maze2D maze,
+        public Maze2DStringBoxRenderer(Area maze,
                                       int cellInnerHeight = 1,
                                       int cellInnerWidth = 3) {
             _maze = maze; // 4x4
@@ -33,14 +33,13 @@ namespace PlayersWorlds.Maps.Renderers {
         }
 
         /// <summary>
-        /// Also render the trail if it's defined in the maze
-        /// <see cref="Maze2D.LongestPath" />.
+        /// Also render the trail if it's defined in the maze extensions.
         /// </summary>
         /// <returns></returns>
         public string WithTrail() {
-            var trail = _maze.LongestPath.HasValue ?
-                _maze.LongestPath.Value.LongestTrail :
-                new List<Cell>();
+            var trail = _maze.X<DijkstraDistance.LongestTrailExtension>()
+                            ?.LongestTrail
+                        ?? new List<Cell>();
             var solutionCells = new HashSet<Cell>(trail);
             // print cells from top to bottom
             for (var y = _maze.Size.Y - 1; y >= 0; y--) {

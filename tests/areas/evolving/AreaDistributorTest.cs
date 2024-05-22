@@ -124,6 +124,19 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 .AssertAllFit();
         }
 
+        [Test]
+        public void AreaDistributorTest_CanLayout_Debug() {
+            var layout = "10x10: P7x9;S2x3 P7x2;S3x2 P3x9;S2x2 P0x5;S2x3 P7x1;S2x3 P0x0;S6x5";
+            var parts = layout.Split(':');
+            AreaDistributorHelper.Distribute(
+                RandomSource.CreateFromEnv(),
+                TestLog.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
+                parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.ToArea()),
+                maxEpochs: 10)
+                .AssertAllFit();
+        }
+
         [Test, Category("Integration"), Category("FixThis")]
         public void AreaDistributorTest_FailLayout(
             [ValueSource("FailingLayouts")] string layout

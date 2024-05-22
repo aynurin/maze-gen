@@ -29,7 +29,7 @@ namespace PlayersWorlds.Maps.Maze {
     /// </summary>
     // TODO: What's a better name for this class?
     public class Maze2DBuilder {
-        private readonly Maze2D _maze;
+        private readonly Area _mazeArea;
         private readonly GeneratorOptions _options;
 
         private readonly int _isFillCompleteAttempts;
@@ -93,10 +93,11 @@ namespace PlayersWorlds.Maps.Maze {
         /// <summary>
         /// Creates a new instance of the <see cref="Maze2DBuilder"/> class.
         /// </summary>
-        /// <param name="maze"><see cref="Maze2D" /> to build.</param>
+        /// <param name="mazeArea"><see cref="Area" /> to build the maze on.
+        /// </param>
         /// <param name="options"><see cref="GeneratorOptions" />.</param>
-        public Maze2DBuilder(Maze2D maze, GeneratorOptions options) {
-            _maze = maze;
+        public Maze2DBuilder(Area mazeArea, GeneratorOptions options) {
+            _mazeArea = mazeArea;
             _options = options;
 
             // Find priority cells to connect first. _priorityCellsToConnect are
@@ -105,12 +106,14 @@ namespace PlayersWorlds.Maps.Maze {
             // from the priority list (but stay in the regular pool so they can
             // be processed as normal.
             _priorityCellsToConnect = new Dictionary<Cell, List<Cell>>();
-            foreach (var areaInfo in _maze.MapAreas) {
-                var area = areaInfo.Key;
-                var areaCells = areaInfo.Value.ToList();
+            foreach (var areaInfo in _mazeArea.ChildAreas) {
+                var area = areaInfo;
+                var mazeAreaCells = areaInfo.Cells // TODO: Not covered
+                    .Select(c => c.Parent)
+                    .ToList();
                 if (area.Type == AreaType.Cave) {
                     // make sure all cave areas are linked.
-                    areaCells.ForEach(c => _priorityCellsToConnect.Set(c, areaCells));
+                    mazeAreaCells.ForEach(c => _priorityCellsToConnect.Set(c, mazeAreaCells));
                 } else if (area.Type == AreaType.Hall) {
                     // halls will be connected later. BUT we need to make sure
                     // halls have at least one neighbor cell connected to the
@@ -118,33 +121,32 @@ namespace PlayersWorlds.Maps.Maze {
                     var cells = WalkInCells(area)
                         // make sure we don't include cells that belong to 
                         // any other area.
-                        .Except(_maze.MapAreas
+                        .Except(_mazeArea.ChildAreas
                             .Where(otherArea =>
-                                area != otherArea.Key &&
-                                (otherArea.Key.Type == AreaType.Hall ||
-                                    otherArea.Key.Type == AreaType.Fill))
-                            .SelectMany(otherArea => otherArea.Value))
+                                area != otherArea &&
+                                (otherArea.Type == AreaType.Hall ||
+                                    otherArea.Type == AreaType.Fill))
+                            .SelectMany(otherArea => otherArea.Cells.Select(c => c.Parent))) // TODO: Not covered
                         .ToList();
                     cells.ForEach(c => _priorityCellsToConnect.Set(c, cells));
                 }
             }
 
-            // fill the unlinked cells skipping the halls and filled areas.
-            _cellsToConnect = new HashSet<Cell>(_maze.Cells
-                .Where(c => c.ChildAreas
-                       .All(cellArea => cellArea.Type != AreaType.Fill &&
-                                        cellArea.Type != AreaType.Hall)));
-            _allConnectableCells = new HashSet<Cell>(_maze.Cells
-                .Where(c => c.ChildAreas
-                       .All(cellArea => cellArea.Type != AreaType.Fill &&
-                                        cellArea.Type != AreaType.Hall)));
+            _isFillCompleteAttempts = (int)Math.Pow(_mazeArea.Size.Area, 2);
 
-            _isFillCompleteAttempts = (int)Math.Pow(maze.Size.Area, 2);
+            // _cellsToConnect = all cells that do not belong to fill and hall areas.
+            _cellsToConnect = new HashSet<Cell>(_mazeArea.Cells
+                .Where(c => c.Children
+                    .All(childCell =>
+                        childCell.OwningArea.Value.Type != AreaType.Fill &&
+                        childCell.OwningArea.Value.Type != AreaType.Hall)));
 
-            var buffer = new HashSet<Cell>(_maze.Cells
-                .Where(c => c.ChildAreas
-                       .All(cellArea => cellArea.Type != AreaType.Fill &&
-                                        cellArea.Type != AreaType.Hall)));
+            // _allConnectableCells = _cellsToConnect but persisted over time.
+            _allConnectableCells = new HashSet<Cell>(_cellsToConnect);
+
+            // in case the area has isolated areas, we need to find all
+            // connectable groups of cells.
+            var buffer = new HashSet<Cell>(_cellsToConnect);
             _cellGroups = new List<HashSet<Cell>>();
             if (buffer.Count > 0) {
                 do {
@@ -160,13 +162,16 @@ namespace PlayersWorlds.Maps.Maze {
             if (area.Type == AreaType.Hall) {
                 // find all cells next to this hall that can be linked to the
                 // hall.
-                return _maze.Cells
+                return _mazeArea.Cells
                     .IterateIntersection(
                         new Vector(area.Position.Value.Select(c => c - 1)),
                         new Vector(area.Size.Value.Select(c => c + 2)))
                     .Where(c => !c.xy.IsIn(area.Position, area.Size) &&
+                                 // get rid of corner cells that can't be an
+                                 // entrance into this area.
                                  c.cell.Neighbors().Any(
-                                    n => n.ChildAreas.Contains(area)))
+                                    n => n.Children
+                                        .Any(ch => ch.OwningArea == area)))
                     .Select(c => c.cell);
             }
             throw new InvalidOperationException(
@@ -280,9 +285,9 @@ namespace PlayersWorlds.Maps.Maze {
             // halls were avoided during the maze generation.
             // now is the time to see if there are maze corridors next
             // to any halls, and if there are, connect them.
-            foreach (var areaInfo in _maze.MapAreas) {
-                var area = areaInfo.Key;
-                var areaCells = areaInfo.Value.ToList();
+            foreach (var areaInfo in _mazeArea.ChildAreas) {
+                var area = areaInfo;
+                var areaCells = areaInfo.Cells.Select(c => c.Parent);
                 if (area.Type == AreaType.Hall || area.Type == AreaType.Cave) {
                     // link all hall and cave inner cells together.
                     areaCells.ForEach(cell => cell.LinkAllNeighborsInArea(area));
@@ -293,7 +298,8 @@ namespace PlayersWorlds.Maps.Maze {
                     var entranceExists =
                         walkInCells.SelectMany(cell => cell.Links())
                             .Any(linkedCell =>
-                                 linkedCell.ChildAreas.Contains(area));
+                                 linkedCell.Children
+                                    .Any(c => c.OwningArea == area));
                     // entrance can already be created by an overlapping area.
                     if (entranceExists) continue;
                     var visitedWalkInCells = walkInCells
@@ -301,13 +307,13 @@ namespace PlayersWorlds.Maps.Maze {
                     if (visitedWalkInCells.Count == 0) {
                         Trace.TraceWarning(
                             "Hall {0} has no visited entrance cells",
-                            areaInfo.Key
+                            areaInfo
                         );
                         continue;
                     }
                     var walkway = _options.RandomSource.RandomOf(visitedWalkInCells);
                     var entrance = walkway.Neighbors()
-                        .First(c => c.ChildAreas.Contains(areaInfo.Key));
+                        .First(c => c.Children.Any(child => child.OwningArea == area));
                     Connect(walkway, entrance);
                 } else if (area.Type == AreaType.Fill) {
                     // if it's a filled area it cannot be visited, so we remove
@@ -422,13 +428,13 @@ namespace PlayersWorlds.Maps.Maze {
                 case FillFactorOption.FullWidth: {
                         var minX = _connectedCells.Min(c => c.Position.X);
                         var maxX = _connectedCells.Max(c => c.Position.X);
-                        return minX == 0 && maxX == _maze.Size.X - 1;
+                        return minX == 0 && maxX == _mazeArea.Size.X - 1;
                     }
 
                 case FillFactorOption.FullHeight: {
                         var minY = _connectedCells.Min(c => c.Position.Y);
                         var maxY = _connectedCells.Max(c => c.Position.Y);
-                        return minY == 0 && maxY == _maze.Size.Y - 1;
+                        return minY == 0 && maxY == _mazeArea.Size.Y - 1;
                     }
 
                 case FillFactorOption.Full:
@@ -464,6 +470,6 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         /// <inheritdoc />
-        public override string ToString() => this.DebugString() + "\n" + _maze.Serialize();
+        public override string ToString() => this.DebugString() + "\n" + _mazeArea.Serialize(); // TODO: Not covered
     }
 }

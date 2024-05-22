@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,7 +34,20 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         /// <summary>
         /// Find dead ends in the maze.
         /// </summary>
-        public static DeadEndsExtension Find(Maze2D maze) {
+        public static DeadEndsExtension Find(Maze2DBuilder maze) {
+            var deadEnds = maze.AllCells.Where(cell => cell.Links().Count == 1)
+                .ToList();
+            foreach (var cell in deadEnds) {
+                cell.X(new IsDeadEndExtension());
+            }
+            return new DeadEndsExtension(deadEnds);
+        }
+
+        /// <summary>
+        /// Find dead ends in the maze.
+        /// </summary>
+        [Obsolete]
+        public static DeadEndsExtension Find(Area maze) {
             var deadEnds = maze.Cells.Where(cell => cell.Links().Count == 1)
                 .ToList();
             foreach (var cell in deadEnds) {

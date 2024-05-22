@@ -10,16 +10,16 @@ namespace PlayersWorlds.Maps.Maze {
     /// Renders a <see cref="Maze2D" /> to a string.
     /// </summary>
     public class Maze2DRenderer {
-        private readonly Maze2D _maze;
+        private readonly Area _maze;
         private readonly MazeToMapOptions _options;
         private readonly List<Map2DFilter> _filters = new List<Map2DFilter>();
 
         internal static Area CreateMapForMaze(
-            Maze2D maze, MazeToMapOptions options) =>
+            Area maze, MazeToMapOptions options) =>
                 Area.CreateEnvironment(options.RenderedSize(maze.Size));
 
         /// <summary />
-        public Maze2DRenderer(Maze2D maze, MazeToMapOptions options) {
+        public Maze2DRenderer(Area maze, MazeToMapOptions options) {
             maze.ThrowIfNull("maze");
             options.ThrowIfNull("options");
             options.ThrowIfWrong(maze.Size);

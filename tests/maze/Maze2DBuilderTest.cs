@@ -10,7 +10,7 @@ namespace PlayersWorlds.Maps.Maze {
     public class Maze2DBuilderTest : Test {
         [Test]
         public void BuildsCorrectCellsCollections() {
-            var maze = new Maze2D(5, 5);
+            var maze = Area.CreateEnvironment(new Vector(5, 5));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
@@ -22,11 +22,12 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void BuildsCorrectCellsCollectionsWithHallAreas() {
-            var maze = new Maze2D(6, 6);
-            maze.AddArea(Area.Create(new Vector(2, 3),
-                                     new Vector(3, 2),
-                                     AreaType.Hall,
-                                     "hall"));
+            var maze = Area.CreateEnvironment(new Vector(6, 6));
+            maze.CreateChildArea(
+                Area.Create(new Vector(2, 3),
+                            new Vector(3, 2),
+                            AreaType.Hall,
+                            "hall"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
@@ -52,10 +53,11 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(builder.TestPriorityCells.First().Value,
                 Is.EqualTo(priorityCells));
 
-            foreach (var areaInfo in maze.MapAreas) {
-                if (areaInfo.Key.Type == AreaType.Hall || areaInfo.Key.Type == AreaType.Fill) {
-                    var selectableCells = builder.TestCellsToConnect.Intersect(areaInfo.Value).ToList();
-                    if (selectableCells.Count > 0 || areaInfo.Value.Any(cell => cell.Links().Count > 0)) {
+            foreach (var areaInfo in maze.ChildAreas) {
+                var areaCells = areaInfo.Cells.Select(cell => cell.Parent);
+                if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
+                    var selectableCells = builder.TestCellsToConnect.Intersect(areaCells).ToList();
+                    if (selectableCells.Count > 0 || areaCells.Any(cell => cell.Links().Count > 0)) {
                         Assert.Fail("Hall cells are in the cellsToConnect collection or have links.");
                     }
                 }
@@ -64,8 +66,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void BuildsCorrectCellsCollectionsWithHallAreasAtTheEdge() {
-            var maze = new Maze2D(6, 6);
-            maze.AddArea(Area.Create(new Vector(3, 4),
+            var maze = Area.CreateEnvironment(new Vector(6, 6));
+            maze.CreateChildArea(Area.Create(new Vector(3, 4),
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
@@ -92,8 +94,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void PicksPriorityCellsWhenAvailable() {
-            var maze = new Maze2D(6, 6);
-            maze.AddArea(Area.Create(new Vector(3, 4),
+            var maze = Area.CreateEnvironment(new Vector(6, 6));
+            maze.CreateChildArea(Area.Create(new Vector(3, 4),
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
@@ -137,8 +139,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void PickRandomNeighborToLink() {
-            var maze = new Maze2D(6, 6);
-            maze.AddArea(Area.Create(new Vector(3, 4),
+            var maze = Area.CreateEnvironment(new Vector(6, 6));
+            maze.CreateChildArea(Area.Create(new Vector(3, 4),
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
@@ -165,7 +167,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void MarkConnected() {
-            var maze = new Maze2D(3, 3);
+            var maze = Area.CreateEnvironment(new Vector(3, 3));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
@@ -193,12 +195,12 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void IterateUnlinkedCells_IteratesAllAvailableCells() {
-            var maze = new Maze2D(6, 6);
-            maze.AddArea(Area.Create(new Vector(3, 4),
+            var maze = Area.CreateEnvironment(new Vector(6, 6));
+            maze.CreateChildArea(Area.Create(new Vector(3, 4),
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
-            maze.AddArea(Area.Create(new Vector(1, 1),
+            maze.CreateChildArea(Area.Create(new Vector(1, 1),
                                      new Vector(2, 3),
                                      AreaType.Fill,
                                      "hall"));
@@ -248,8 +250,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void IsFillComplete_NoCells() {
-            var maze = new Maze2D(5, 5);
-            maze.AddArea(Area.Create(new Vector(0, 0),
+            var maze = Area.CreateEnvironment(new Vector(5, 5));
+            maze.CreateChildArea(Area.Create(new Vector(0, 0),
                                      new Vector(5, 5),
                                      AreaType.Fill,
                                      "fill"));
@@ -263,7 +265,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void IsFillComplete_Full() {
-            var maze = new Maze2D(2, 2);
+            var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() { });
 
@@ -284,8 +286,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void IsFillComplete_Full_WithHall() {
-            var maze = new Maze2D(5, 5);
-            maze.AddArea(Area.Create(new Vector(1, 1),
+            var maze = Area.CreateEnvironment(new Vector(5, 5));
+            maze.CreateChildArea(Area.Create(new Vector(1, 1),
                                      new Vector(3, 3),
                                      AreaType.Hall,
                                      "hall"));
@@ -312,8 +314,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void IsFillComplete_Full_WithFill() {
-            var maze = new Maze2D(5, 5);
-            maze.AddArea(Area.Create(new Vector(1, 1),
+            var maze = Area.CreateEnvironment(new Vector(5, 5));
+            maze.CreateChildArea(Area.Create(new Vector(1, 1),
                                      new Vector(3, 3),
                                      AreaType.Fill,
                                      "hall"));
@@ -340,8 +342,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void IsFillComplete_Full_WithCave() {
-            var maze = new Maze2D(5, 5);
-            maze.AddArea(Area.Create(new Vector(1, 1),
+            var maze = Area.CreateEnvironment(new Vector(5, 5));
+            maze.CreateChildArea(Area.Create(new Vector(1, 1),
                                      new Vector(3, 3),
                                      AreaType.Cave,
                                      "hall"));
@@ -375,7 +377,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void IsFillComplete_FullWidth() {
-            var maze = new Maze2D(2, 2);
+            var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     FillFactor = GeneratorOptions.FillFactorOption.FullWidth,
@@ -395,7 +397,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void IsFillComplete_FullHeight() {
-            var maze = new Maze2D(2, 2);
+            var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     FillFactor = GeneratorOptions.FillFactorOption.FullHeight,
@@ -415,7 +417,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void IsFillComplete_Quarter() {
-            var maze = new Maze2D(2, 2);
+            var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     FillFactor = GeneratorOptions.FillFactorOption.Quarter,
@@ -431,7 +433,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void IsFillComplete_Half() {
-            var maze = new Maze2D(2, 2);
+            var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     FillFactor = GeneratorOptions.FillFactorOption.Half,
@@ -447,7 +449,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void IsFillComplete_ThreeQuarters() {
-            var maze = new Maze2D(2, 2);
+            var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     FillFactor = GeneratorOptions.FillFactorOption.ThreeQuarters,
@@ -467,7 +469,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void IsFillComplete_NinetyPercent() {
-            var maze = new Maze2D(2, 2);
+            var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     FillFactor = GeneratorOptions.FillFactorOption.NinetyPercent,
@@ -491,8 +493,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void ApplyAreas() {
-            var maze = new Maze2D(5, 5);
-            maze.AddArea(Area.Create(new Vector(1, 1),
+            var maze = Area.CreateEnvironment(new Vector(5, 5));
+            maze.CreateChildArea(Area.Create(new Vector(1, 1),
                                      new Vector(3, 3),
                                      AreaType.Hall,
                                      "hall"));
@@ -504,8 +506,8 @@ namespace PlayersWorlds.Maps.Maze {
             var areaCells = maze.Cells
                     .IterateIntersection(new Vector(1, 1), new Vector(3, 3));
 
-            Assert.That(maze.MazeCells, Has.No.Member(entrance));
-            Assert.That(maze.MazeCells, Has.No.Member(walkway[0]));
+            Assert.That(maze.Cells.Where(c => c.Links().Count() > 0), Has.No.Member(entrance));
+            Assert.That(maze.Cells.Where(c => c.Links().Count() > 0), Has.No.Member(walkway[0]));
 
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
@@ -519,32 +521,31 @@ namespace PlayersWorlds.Maps.Maze {
                 .Where(c => c.cell.Links().Count() > 0)
                 .Select(c => c.cell).ToList();
 
-            Assert.That(maze.MazeCells, Has.Member(entrance));
-            Assert.That(maze.MazeCells, Has.Member(walkway[0]));
+            Assert.That(maze.Cells.Where(c => c.Links().Count() > 0), Has.Member(entrance));
+            Assert.That(maze.Cells.Where(c => c.Links().Count() > 0), Has.Member(walkway[0]));
             Assert.That(entrance.Links(), Has.Member(walkway[0]));
         }
 
         [Test]
         public void OverlappingAreas_ProduceValidPriorityCells() {
-            var maze = new Maze2D(15, 15);
-            var area1 = Area.Create(new Vector(2, 3), new Vector(4, 7), AreaType.Hall);
-            var area2 = Area.Create(new Vector(4, 8), new Vector(7, 3), AreaType.Hall);
-            maze.AddArea(area1);
-            maze.AddArea(area2);
+            var maze = Area.CreateEnvironment(new Vector(15, 15));
+            var area1 = maze.CreateChildArea(Area.Create(new Vector(2, 3), new Vector(4, 7), AreaType.Hall));
+            var area2 = maze.CreateChildArea(Area.Create(new Vector(4, 8), new Vector(7, 3), AreaType.Hall));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     RandomSource = RandomSource.CreateFromEnv()
                 });
 
-            Assert.That(builder.TestPriorityCells.Keys.Intersect(maze.MapAreas[area1]), Is.Empty);
-            Assert.That(builder.TestCellsToConnect.Intersect(maze.MapAreas[area1]), Is.Empty);
-            Assert.That(builder.TestPriorityCells.Keys.Intersect(maze.MapAreas[area2]), Is.Empty);
-            Assert.That(builder.TestCellsToConnect.Intersect(maze.MapAreas[area2]), Is.Empty);
+            Assert.That(builder.TestPriorityCells.Keys.Intersect(area1.Cells.Select(c => c.Parent)), Is.Empty);
+            Assert.That(builder.TestCellsToConnect.Intersect(area1.Cells.Select(c => c.Parent)), Is.Empty);
+            Assert.That(builder.TestPriorityCells.Keys.Intersect(area2.Cells.Select(c => c.Parent)), Is.Empty);
+            Assert.That(builder.TestCellsToConnect.Intersect(area2.Cells.Select(c => c.Parent)), Is.Empty);
 
-            foreach (var areaInfo in maze.MapAreas) {
-                if (areaInfo.Key.Type == AreaType.Hall || areaInfo.Key.Type == AreaType.Fill) {
-                    var selectableCells = builder.TestCellsToConnect.Intersect(areaInfo.Value).ToList();
-                    if (selectableCells.Count > 0 || areaInfo.Value.Any(cell => cell.Links().Count > 0)) {
+            foreach (var areaInfo in maze.ChildAreas) {
+                var areaCells = areaInfo.Cells.Select(cell => cell.Parent);
+                if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
+                    var selectableCells = builder.TestCellsToConnect.Intersect(areaCells).ToList();
+                    if (selectableCells.Count > 0 || areaCells.Any(cell => cell.Links().Count > 0)) {
                         Assert.Fail("Hall cells are in the cellsToConnect collection or have links.");
                     }
                 }
@@ -553,16 +554,16 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void CanConnect() {
-            var maze = new Maze2D(10, 10);
-            maze.AddArea(Area.Create(new Vector(1, 2),
+            var maze = Area.CreateEnvironment(new Vector(10, 10));
+            maze.CreateChildArea(Area.Create(new Vector(1, 2),
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
-            maze.AddArea(Area.Create(new Vector(6, 1),
+            maze.CreateChildArea(Area.Create(new Vector(6, 1),
                                      new Vector(2, 4),
                                      AreaType.Fill,
                                      "fill"));
-            maze.AddArea(Area.Create(new Vector(1, 6),
+            maze.CreateChildArea(Area.Create(new Vector(1, 6),
                                      new Vector(2, 2),
                                      AreaType.Cave,
                                      "cave"));

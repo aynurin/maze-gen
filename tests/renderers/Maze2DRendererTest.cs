@@ -11,12 +11,12 @@ using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 namespace PlayersWorlds.Maps {
     [TestFixture]
     public class Maze2DRendererTest : Test {
-        private Maze2D _maze;
+        private Area _maze;
 
         [SetUp]
         override public void SetUp() {
             base.SetUp();
-            _maze = Maze2D.Parse("4x4;0:1,4;1:2,5;2:3;3:7;4:5,8;8:12;12:13;13:14;14:10;10:11");
+            _maze = Area.ParseAsMaze("4x4;0:1,4;1:2,5;2:3;3:7;4:5,8;8:12;12:13;13:14;14:10;10:11");
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void CanRenderAMapWithFilledAreas() {
             var log = TestLog.CreateForThisTest();
-            _maze.AddArea(
+            _maze.CreateChildArea(
                 Area.Create(
                     new Vector(1, 1), new Vector(1, 1), AreaType.Fill));
             var builder = new Maze2DBuilder(_maze, new GeneratorOptions() { });
@@ -139,7 +139,7 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void CanRenderAMapWithHallAreas() {
             var log = TestLog.CreateForThisTest();
-            _maze.AddArea(
+            _maze.CreateChildArea(
                 Area.Create(
                     new Vector(0, 0), new Vector(4, 2), AreaType.Hall));
             var builder = new Maze2DBuilder(_maze, new GeneratorOptions() { });
@@ -192,7 +192,7 @@ namespace PlayersWorlds.Maps {
                 "│               │\n" +
                 "└───────────────┘\n";
             log.D(5, _maze.ToString());
-            Assert.That(expected, Is.EqualTo(_maze.ToString()));
+            Assert.That(expected, Is.EqualTo(_maze.MazeToString()));
         }
 
         [Test]
@@ -211,7 +211,7 @@ namespace PlayersWorlds.Maps {
             _maze.X(DeadEnd.Find(_maze));
             _maze.X(DijkstraDistance.FindLongestTrail(_maze));
             log.D(5, _maze.ToString());
-            Assert.That(expected, Is.EqualTo(_maze.ToString()));
+            Assert.That(expected, Is.EqualTo(_maze.MazeToString()));
         }
 
         [Test]

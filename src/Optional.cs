@@ -48,7 +48,10 @@ namespace PlayersWorlds.Maps {
         /// Thrown if the Optional is empty.</exception>
         public T Value {
             get {
-                if (!HasValue) throw new InvalidOperationException("This optional doesn't have value. Please use 'HasValue' prior to accessing 'Value'");
+                if (!HasValue) {
+                    throw new InvalidOperationException(
+                        $"This {this.GetType().Name} doesn't have value.");
+                }
                 return _value;
             }
         }

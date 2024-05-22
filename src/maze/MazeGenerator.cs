@@ -33,10 +33,11 @@ namespace PlayersWorlds.Maps.Maze {
         /// <exception cref="ArgumentException">The provided maze generator type
         /// is not inherited from <see cref="MazeGenerator" /> or does not
         /// provide a default constructor.</exception>
-        public static Maze2D Generate(Vector size, GeneratorOptions options) =>
+        // TODO: Generator generates on a given area, it does not create areas
+        public static Area Generate(Vector size, GeneratorOptions options) =>
             Generate(size, options, out var _);
 
-        internal static Maze2D Generate(Vector size, GeneratorOptions options,
+        internal static Area Generate(Vector size, GeneratorOptions options,
             out Maze2DBuilder builder) {
             if (options.RandomSource == null) {
                 throw new ArgumentNullException(
@@ -69,18 +70,18 @@ namespace PlayersWorlds.Maps.Maze {
                     "constructor.");
             }
 
-            var maze = new Maze2D(size.X, size.Y);
+            var maze = Area.CreateEnvironment(size);
             try {
-                GenerateMazeAreas(size, options).ForEach(maze.AddArea);
-                s_log.D(1, $"Generated {maze.MapAreas.Count} maze areas");
-                foreach (var area in maze.MapAreas) {
+                GenerateMazeAreas(size, options).ForEach(area => maze.CreateChildArea(area));
+                s_log.D(1, $"Generated {maze.ChildAreas.Count} maze areas");
+                foreach (var area in maze.ChildAreas) {
                     s_log.D(1, "Area: " + area.ToString());
                 }
                 builder = new Maze2DBuilder(maze, options);
                 (Activator.CreateInstance(options.Algorithm) as MazeGenerator)
                     .GenerateMaze(builder);
                 builder.ApplyAreas();
-                maze.X(DeadEnd.Find(maze));
+                maze.X(DeadEnd.Find(builder));
                 maze.X(DijkstraDistance.FindLongestTrail(builder));
                 return maze;
             } catch (Exception ex) {

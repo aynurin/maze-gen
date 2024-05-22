@@ -21,7 +21,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var numPassed = 0;
             _ = Parallel.For(0, numTotal, ops, (i, state) => {
                 var log = TestLog.CreateForThisTest();
-                var maze = new Maze2D(testRandom.Next(5, 50), testRandom.Next(5, 50));
+                var mazeSize = new Vector(testRandom.Next(5, 50), testRandom.Next(5, 50));
+                var maze = Area.CreateEnvironment(mazeSize);
                 var roomsCount = (int)Math.Sqrt(maze.Size.Area) / 3;
                 var rooms = new List<Area>();
                 for (var j = 0; j < roomsCount; j++) {

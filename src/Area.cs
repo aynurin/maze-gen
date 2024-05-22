@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Areas.Evolving;
+using PlayersWorlds.Maps.MapFilters;
+using PlayersWorlds.Maps.Maze;
 using PlayersWorlds.Maps.Renderers;
+using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
 namespace PlayersWorlds.Maps {
     /// <summary>
@@ -132,6 +135,21 @@ namespace PlayersWorlds.Maps {
             _areaType = areaType;
             _isPositionFixed = isPositionFixed;
             _tags = tags;
+
+            foreach (var cell in _cells.Iterate()) {
+                cell.cell.OwningArea = this;
+                var north = cell.xy + Vector.North2D;
+                if (north.Y < _cells.Size.Y) {
+                    cell.cell.Neighbors().Add(_cells[north]);
+                    _cells[north].Neighbors().Add(cell.cell);
+                }
+
+                var west = cell.xy + Vector.West2D;
+                if (west.X >= 0) {
+                    cell.cell.Neighbors().Add(_cells[west]);
+                    _cells[west].Neighbors().Add(cell.cell);
+                }
+            }
         }
 
         public void Reposition(Vector newPosition) {
@@ -140,14 +158,18 @@ namespace PlayersWorlds.Maps {
             _position = newPosition;
         }
 
-        internal void AddAreas(IEnumerable<Area> areas) {
-            _childAreas.AddRange(areas);
-            // // add the new areas to all cells owned by this area.
-            // foreach (var area in areas) {
-            //     foreach (var cell in area.Cells) {
-            //         this.Cells[cell.Position].AddArea(area);
-            //     }
-            // }
+        internal Area CreateChildArea(Area template) {
+            var field = new NArray<Cell>(
+                template.Size,
+                (xy) => _cells[template.Position + xy]
+                            .CreateChildCellFrom(xy, template[xy]));
+            var childArea = new Area(template._position,
+                            template._isPositionFixed,
+                            template._areaType,
+                            field,
+                            template._tags);
+            _childAreas.Add(childArea);
+            return childArea;
         }
 
         /// <summary>
@@ -246,6 +268,25 @@ namespace PlayersWorlds.Maps {
                             _areaType, _cells.ScaleUp(newSize));
         }
 
+        /// <summary>
+        /// Renders this maze to a <see cref="Area" /> with the given options.
+        /// </summary>
+        /// <param name="options"><see cref="MazeToMapOptions" /></param>
+        /// <returns></returns>
+        // TODO: Factor out
+        public Area ToMap(MazeToMapOptions options) {
+            options.ThrowIfWrong(this.Size);
+            var map = Maze2DRenderer.CreateMapForMaze(this, options);
+            new Maze2DRenderer(this, options)
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, options.WallWidths.Min(), options.WallHeights.Min()))
+                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, options.WallWidths.Min(), options.WallHeights.Min()))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, options.WallWidths.Min(), options.WallHeights.Min()))
+                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
+                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
+                .Render(map);
+            return map;
+        }
+
         public Area ShallowCopy() =>
             new Area(_position, _isPositionFixed,
                      _areaType, new NArray<Cell>(Cells));
@@ -291,8 +332,87 @@ namespace PlayersWorlds.Maps {
         /// <see cref="Map2DStringRenderer" />.
         /// </summary>
         /// <returns>A string containing a rendered map.</returns>
+        // TODO: Factor out or rename
         public string RenderToString() {
             return new Map2DStringRenderer().Render(this);
+        }
+
+        /// <summary>
+        /// Returns a serialized representation of this maze.
+        /// </summary>
+        // !! BUG: Currently the serialized representation is not the same as 
+        //  the one used by Parse.
+        // TODO: Create a common serialization approach.
+        public string Serialize() {
+            var linksAdded = new HashSet<int[]>();
+            var size = Size.ToString();
+            var areas = string.Join(",", _childAreas.Select(area => area.ToString()));
+            var cells = string.Join(",", _cells.Select((cell, index) => {
+                if (_cells[index].Links().Count > 0) {
+                    var links = _cells[index].Links()
+                        .Select(link => link.Position.ToIndex(Size))
+                        .Where(link => !linksAdded.Contains(new int[] { index, link }));
+
+                    linksAdded.UnionWith(links.Select(link => new int[] { link, index }));
+
+                    return $"{index}:{string.Join(" ", links)}";
+                } else {
+                    return null;
+                }
+            }).Where(s => s != null));
+            return $"{size}|{areas}|{cells}";
+        }
+
+        /// <summary>
+        /// Parses a string into a <see cref="Maze2D" />.
+        /// </summary>
+        /// <param name="serialized">A string of the form
+        /// <c>Vector; cell:link,link,...; cell:link,link,...; ...</c>, where
+        /// <c>Vector</c> is a string representation of a 2D
+        /// <see cref="Vector" /> defining the size of the maze, <c>cell</c> is
+        /// the index of the cell in the maze, and <c>link</c> is the index of 
+        /// a cell linked to this cell.</param>
+        /// <returns></returns>
+        // TODO: Add Areas
+        public static Area ParseAsMaze(string serialized) {
+            if (serialized.IndexOf('|') == -1) {
+                // TODO: Migrate all serialization to the other format.
+                var parts = serialized.Split(';', '\n');
+                var size = new Vector(parts[0].Split('x').Select(int.Parse));
+                var maze = Area.CreateEnvironment(size);
+                for (var i = 1; i < parts.Length; i++) {
+                    var part = parts[i].Split(':', ',').Select(int.Parse).ToArray();
+                    for (var j = 1; j < part.Length; j++) {
+                        maze._cells[part[0]].Link(maze._cells[part[j]]);
+                    }
+                }
+                return maze;
+            } else {
+                var linksAdded = new HashSet<string>();
+                var parts = serialized.Split('|');
+                var size = Vector.Parse(parts[0]);
+                var maze = Area.CreateEnvironment(size);
+                parts[1].Split(',')
+                    .ForEach(areaStr => maze.CreateChildArea(Area.Parse(areaStr)));
+                parts[2].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ForEach(cellStr => {
+                    var part = cellStr.Split(':', ' ').Select(int.Parse).ToArray();
+                    for (var j = 1; j < part.Length; j++) {
+                        if (linksAdded.Contains($"{part[0]}|{part[j]}")) continue;
+                        maze._cells[part[0]].Link(maze._cells[part[j]]);
+                        linksAdded.Add($"{part[0]}|{part[j]}");
+                        linksAdded.Add($"{part[j]}|{part[0]}");
+                    }
+                });
+                return maze;
+            }
+        }
+
+        /// <summary>
+        /// Renders this maze to a string using
+        /// <see cref="Maze2DStringBoxRenderer" />.
+        /// </summary>
+        public string MazeToString() {
+            return new Maze2DStringBoxRenderer(this).WithTrail();
         }
     }
 }

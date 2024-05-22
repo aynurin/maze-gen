@@ -9,7 +9,7 @@ namespace PlayersWorlds.Maps.Maze {
     public class WilsonsMazeGeneratorTest : Test {
         [Test, Timeout(1000)]
         public void DuplicateRandom() {
-            var maze = new Maze2D(5, 5);
+            var maze = Area.CreateEnvironment(new Vector(5, 5));
             var opts = new GeneratorOptions() {
                 RandomSource = RandomSource.CreateFromEnv()
             };

@@ -12,12 +12,14 @@ namespace PlayersWorlds.Maps {
     public class Cell : ExtensibleObject {
         private readonly List<Cell> _links = new List<Cell>();
         private readonly List<Cell> _neighbors = new List<Cell>();
+        private readonly Cell _parent;
+        private readonly List<Cell> _children = new List<Cell>();
+        private Optional<Area> _owningArea;
         /// <summary>
         /// Tags assigned to cell.
         /// </summary>
         public List<CellTag> Tags { get; } = new List<CellTag>();
         private readonly Vector _position;
-        private readonly List<Area> _childAreas = new List<Area>();
 
         /// <summary>
         /// Absolute position of this cell in the world.
@@ -30,19 +32,16 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         public bool IsConnected => _links.Count > 0;
 
-        public List<Area> ChildAreas => _childAreas;
         /// <summary>
-        /// Assign this cell to a <see cref="Area" />.
+        /// Cells related to this cell in child areas.
         /// </summary>
-        // If the map area is not visitable, then we can't visit this cell, thus
-        // it can't have neighbors and links.
-        // This method will not propagate the Area to the neighbors.
-        public void AddMapArea(Area area) {
-            if (_childAreas.Contains(area)) {
-                throw new InvalidOperationException(
-                    "This area is already assigned to this cell");
-            }
-            _childAreas.Add(area);
+        public List<Cell> Children => _children;
+
+        public Cell Parent => _parent;
+
+        public Optional<Area> OwningArea {
+            get => _owningArea;
+            set => _owningArea = value;
         }
 
         /// <summary>
@@ -52,6 +51,28 @@ namespace PlayersWorlds.Maps {
         /// <remarks>Supposed for internal use only.</remarks>
         internal Cell(Vector position) {
             _position = position;
+        }
+
+        /// <summary>
+        /// Creates an instance of cell at the specified position.
+        /// </summary>
+        /// <param name="position">The position of the cell in its area.</param>
+        /// <param name="parent">The related call in the parent 
+        /// <see cref="Area" />.</param>
+        /// <remarks>Supposed for internal use only.</remarks>
+        private Cell(Vector position, Cell parent) {
+            _position = position;
+            _parent = parent;
+        }
+
+        public Cell CreateChildCellFrom(Vector xy, Cell template) {
+            // child Cell will have a parent set to this cell
+            // it is added to child cells of this cell
+            // it copies tags from the template.
+            var childCell = new Cell(xy, this);
+            _children.Add(childCell);
+            childCell.Tags.AddRange(template.Tags);
+            return childCell;
         }
 
         /// <summary>

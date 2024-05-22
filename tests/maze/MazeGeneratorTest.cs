@@ -37,12 +37,12 @@ namespace PlayersWorlds.Maps.Maze {
                     MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto
                 });
             log.D(5, maze.ToString());
-            Assert.That(maze.MapAreas, Has.Count.EqualTo(1));
-            Assert.That(maze.MapAreas.First().Key.Size,
+            Assert.That(maze.ChildAreas, Has.Count.EqualTo(1));
+            Assert.That(maze.ChildAreas.First().Size,
                 Is.EqualTo(new Vector(2, 3)));
-            Assert.That(maze.MapAreas.First().Key.Position,
+            Assert.That(maze.ChildAreas.First().Position,
                 Is.EqualTo(new Vector(0, 0)));
-            Assert.That(maze.MapAreas.First().Key.Type,
+            Assert.That(maze.ChildAreas.First().Type,
                 Is.EqualTo(AreaType.Hall));
         }
 
@@ -86,7 +86,8 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.FillFactorOption.Half
                 }, out var _);
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            Assert.That(maze.MazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area / 2), maze.ToString());
+            var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
+            Assert.That(mazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area / 2), maze.ToString());
         }
 
         [Test]
@@ -98,7 +99,8 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.FillFactorOption.Full
                 }, out var _);
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            Assert.That(size.Area, Is.EqualTo(maze.MazeCells.Count()));
+            var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
+            Assert.That(size.Area, Is.EqualTo(mazeCells.Count()));
         }
 
         [Test]
@@ -110,7 +112,8 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.FillFactorOption.Quarter
                 }, out var _);
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            Assert.That(maze.MazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.25), maze.ToString());
+            var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
+            Assert.That(mazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.25), maze.ToString());
         }
 
         [Test]
@@ -122,7 +125,8 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.FillFactorOption.ThreeQuarters
                 }, out var _);
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            Assert.That(maze.MazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.75), maze.ToString());
+            var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
+            Assert.That(mazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.75), maze.ToString());
         }
 
         [Test]
@@ -134,7 +138,8 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.FillFactorOption.NinetyPercent
                 }, out var _);
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            Assert.That(maze.MazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.9), maze.ToString());
+            var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
+            Assert.That(mazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.9), maze.ToString());
         }
 
         [Test]
@@ -146,7 +151,8 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.FillFactorOption.FullWidth
                 }, out var _);
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            Assert.That(maze.MazeCells.Min(cell => cell.Position.X) == 0 && maze.MazeCells.Max(cell => cell.Position.X) == 9, Is.True, maze.ToString());
+            var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
+            Assert.That(mazeCells.Min(cell => cell.Position.X) == 0 && mazeCells.Max(cell => cell.Position.X) == 9, Is.True, maze.ToString());
         }
 
         [Test]
@@ -158,7 +164,8 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.FillFactorOption.FullHeight
                 }, out var _);
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            Assert.That(maze.MazeCells.Min(cell => cell.Position.Y) == 0 && maze.MazeCells.Max(cell => cell.Position.Y) == 9, Is.True, maze.ToString());
+            var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
+            Assert.That(mazeCells.Min(cell => cell.Position.Y) == 0 && mazeCells.Max(cell => cell.Position.Y) == 9, Is.True, maze.ToString());
         }
 
         [Test, Category("Integration")]

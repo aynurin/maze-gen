@@ -11,7 +11,7 @@ namespace PlayersWorlds.Maps.Maze {
 
     [TestFixture]
     internal class MazeGeneratorAreasTest : Test {
-        public Maze2D GenerateMaze(Type generatorType, List<Area> areas) =>
+        public Area GenerateMaze(Type generatorType, List<Area> areas) =>
             MazeTestHelper.GenerateMaze(new Vector(15, 15),
                 new GeneratorOptions() {
                     FillFactor = FillFactorOption.Full,
@@ -28,7 +28,8 @@ namespace PlayersWorlds.Maps.Maze {
 
             var maze = GenerateMaze(generatorType, new List<Area>() { fill });
 
-            var fillCells = maze.MapAreas[fill];
+            Assert.That(maze.ChildAreas, Has.Exactly(1).Items);
+            var fillCells = maze.ChildAreas.First().Cells.Select(c => c.Parent).ToList();
             Assert.That(fillCells, Has.Exactly(12).Items);
 
             var otherCells = maze.Cells
@@ -104,7 +105,8 @@ namespace PlayersWorlds.Maps.Maze {
             var areaPerimeter = 16;
             var mazeArea = 225;
 
-            var caveCells = maze.MapAreas[cave];
+            Assert.That(maze.ChildAreas, Has.Exactly(1).Items);
+            var caveCells = maze.ChildAreas.First().Cells.Select(c => c.Parent).ToList();
             Assert.That(caveCells, Has.Exactly(21).Items);
 
             var otherCells = maze.Cells
@@ -146,19 +148,22 @@ namespace PlayersWorlds.Maps.Maze {
             var area2 = Area.Create(new Vector(4, 8), new Vector(7, 3), areaType);
             var maze = GenerateMaze(generatorType, new List<Area>() { area1, area2 });
 
+            area1 = maze.ChildAreas.First();
+            area2 = maze.ChildAreas.Last();
+
             var areaArea = 45;
             var mazeArea = 225;
-            var areaCells = maze.MapAreas[area1]
-                            .Concat(maze.MapAreas[area2])
+            var areaCells = area1.Cells.Select(c => c.Parent)
+                            .Concat(area2.Cells.Select(c => c.Parent))
                             .Distinct();
 
-            Assert.That(maze.MapAreas[area1], Has.Exactly(28).Items);
-            Assert.That(maze.MapAreas[area2], Has.Exactly(21).Items);
+            Assert.That(area1.Cells, Has.Exactly(28).Items);
+            Assert.That(area2.Cells, Has.Exactly(21).Items);
             Assert.That(areaCells, Has.Exactly(areaArea).Items);
 
             var otherCells = maze.Cells
-                .Except(maze.MapAreas[area1])
-                .Except(maze.MapAreas[area2])
+                .Except(area1.Cells.Select(c => c.Parent))
+                .Except(area2.Cells.Select(c => c.Parent))
                 .ToList();
 
             Assert.That(otherCells, Has.Exactly(mazeArea - areaArea).Items);
@@ -215,9 +220,8 @@ namespace PlayersWorlds.Maps.Maze {
                 expectConnected += 1; // entrance cell within the call.
             }
 
-            Assert.That(maze.MapAreas[area1], Has.Exactly(areaArea).Items);
-            Assert.That(maze.MapAreas[area2], Has.Exactly(areaArea).Items);
-            Assert.That(maze.MapAreas[area1], Is.EqualTo(maze.MapAreas[area2]));
+            Assert.That(maze.ChildAreas.First().Cells, Has.Exactly(areaArea).Items);
+            Assert.That(maze.ChildAreas.Last().Cells, Has.Exactly(areaArea).Items);
             Assert.That(builder.TestCellsToConnect, Is.Empty);
             Assert.That(builder.TestConnectedCells,
                 Has.Exactly(expectConnected).Items);
@@ -337,7 +341,7 @@ namespace PlayersWorlds.Maps.Maze {
             };
             var maze = MazeTestHelper.GenerateMaze(new Vector(20, 20), options,
                                                    out _);
-            Assert.That(maze.MapAreas.Count, Is.GreaterThan(2));
+            Assert.That(maze.ChildAreas.Count, Is.GreaterThan(2));
         }
 
         public static IEnumerable<Type> GetAllGenerators() =>
