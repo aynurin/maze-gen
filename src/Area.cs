@@ -45,6 +45,7 @@ namespace PlayersWorlds.Maps {
         }
 
         internal bool IsPositionFixed => _isPositionFixed;
+        internal bool IsPositionEmpty => _position.IsEmpty;
 
 
         /// <summary>

@@ -1,8 +1,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using PlayersWorlds.Maps.Areas;
+using System.Linq;
 
 namespace PlayersWorlds.Maps.Renderers {
     /// <summary>
@@ -19,13 +18,19 @@ namespace PlayersWorlds.Maps.Renderers {
             DrawRect(buffer, new Vector(offset.X, offset.Y),
                 envSize, "", s_mazeChars);
             // transpile room positions to reflect reversed X in Terminal
-            areas.ForEach(area => DrawRect(buffer,
+            areas.Where(area => !area.area.IsPositionEmpty).ForEach(area => DrawRect(buffer,
                 new Vector(area.area.Position.X + offset.X,
                            envSize.Y - area.area.Size.Y - area.area.Position.Y + offset.Y),
                            area.area.Size,
                            area.label,
                            s_roomChars));
-            return buffer.ToString();
+            return buffer.ToString() +
+                Environment.NewLine +
+                string.Join(Environment.NewLine,
+                            areas.Where(area => area.area.IsPositionEmpty)
+                                 .Select(a => "unpositioned area: " +
+                                              a.label +
+                                              a.area.ToString()));
         }
 
         private void DrawRect(AsciiBuffer buffer, Vector pos, Vector size,

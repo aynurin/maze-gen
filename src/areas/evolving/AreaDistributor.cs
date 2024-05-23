@@ -41,13 +41,13 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                                int maxEpochs) {
             var areasWithNicknames = MapAreasSystem.GetNicknames(areas);
             if (_renderer != null) {
-                _log.I(_renderer.Render(mapSize, areasWithNicknames));
+                _log.D(4, _renderer.Render(mapSize, areasWithNicknames));
             }
             var simulator = new EvolvingSimulator(maxEpochs, 20);
             var system = new MapAreasSystem(_random, mapSize, areas, r => { },
                 r => {
                     if (_verboseOutput && _renderer != null) {
-                        _log.I(_renderer.Render(mapSize, areasWithNicknames));
+                        _log.D(4, _renderer.Render(mapSize, areasWithNicknames));
                     }
                 });
             simulator.Evolve(system);

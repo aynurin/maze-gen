@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Areas.Evolving;
 using PlayersWorlds.Maps.Maze.PostProcessing;
+using PlayersWorlds.Maps.Renderers;
 
 namespace PlayersWorlds.Maps.Maze {
     /// <summary>
@@ -139,7 +136,7 @@ namespace PlayersWorlds.Maps.Maze {
                     var message =
                         $"Could not generate rooms for maze of size {mazeSize}. " +
                         $"Last set of rooms had {errors} errors " +
-                        $"({string.Join(" ", roomsDebugStr)}).";
+                        $"({string.Join(" ", roomsDebugStr)}) {options.RandomSource}.";
                     var impact = areas.Select(area =>
                                         areas.Where(other => area != other)
                                              .Sum(other =>

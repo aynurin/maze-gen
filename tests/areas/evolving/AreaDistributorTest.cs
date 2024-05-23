@@ -22,7 +22,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 TestLog.CreateForThisTest(), new Vector(10, 10),
                 new List<Area>() { TestArea(0, 0, 4, 4) },
                 maxEpochs: 10)
-                .AssertAllFit();
+                .AssertAllFit(_random);
 
         [Test, Category("Integration")]
         public void AreaDistributorTest_SidePressure() =>
@@ -36,7 +36,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     TestArea(3, 7, 2, 4)
                 },
                 maxEpochs: 10)
-                .AssertAllFit();
+                .AssertAllFit(_random);
 
         [Test, Category("Integration")]
         public void AreaDistributorTest_TwoTest() =>
@@ -49,7 +49,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     TestArea(10, 10, 2, 2)
                 },
                 maxEpochs: 10
-                ).AssertAllFit();
+                ).AssertAllFit(_random);
 
         [Test, Category("Integration")]
         public void AreaDistributorTest_OverlapTwo(
@@ -62,7 +62,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => Area.Parse(s, isPositionFixed: false)),
                 maxEpochs: 10)
-                .AssertAllFit();
+                .AssertAllFit(_random);
         }
 
         public static IEnumerable<string> OverlapTwoTests() {
@@ -89,7 +89,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => Area.Parse(s, isPositionFixed: false)),
                 maxEpochs: 10)
-                .AssertDoesNotFit();
+                .AssertDoesNotFit(_random);
         }
 
         public static IEnumerable<string> OverlapTwoFail() {
@@ -107,7 +107,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => Area.Parse(s, isPositionFixed: false)),
                 maxEpochs: 10)
-                .AssertAllFit();
+                .AssertAllFit(_random);
         }
 
         [Test, Category("Integration"), Category("Smoke")]
@@ -121,20 +121,21 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => s.ToArea()),
                 maxEpochs: 10)
-                .AssertAllFit();
+                .AssertAllFit(_random);
         }
 
         [Test]
         public void AreaDistributorTest_CanLayout_Debug() {
-            var layout = "10x10: P7x9;S2x3 P7x2;S3x2 P3x9;S2x2 P0x5;S2x3 P7x1;S2x3 P0x0;S6x5";
+            var layout = "48x6: P32x-1;S11x1 P9x7;S14x1 P5x7;S13x1 P27x2;S15x1 P5x3;S3x1";
             var parts = layout.Split(':');
+            var random = RandomSource.CreateFromEnv();
             AreaDistributorHelper.Distribute(
-                RandomSource.CreateFromEnv(),
+                random,
                 TestLog.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => s.ToArea()),
                 maxEpochs: 10)
-                .AssertAllFit();
+                .AssertAllFit(random);
         }
 
         [Test, Category("Integration"), Category("FixThis")]
@@ -148,7 +149,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => s.ToArea()),
                 maxEpochs: 10)
-                .AssertDoesNotFit();
+                .AssertDoesNotFit(_random);
         }
 
         public static IEnumerable<string> VariousSingles() {

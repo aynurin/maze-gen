@@ -180,5 +180,10 @@ namespace PlayersWorlds.Maps {
         public T RandomOrDefaultOf<T>(IEnumerable<T> items, int count) {
             return count == 0 ? default : items.ElementAt(D("RandomOrDefaultOf(IEnumerable<T>,int)").Next(count));
         }
+
+        /// <inheritdoc/>
+        public override string ToString() {
+            return $"Random({Seed})";
+        }
     }
 }

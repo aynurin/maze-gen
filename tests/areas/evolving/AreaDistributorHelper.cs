@@ -65,7 +65,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
             result.TestString = $"yield return \"{mapSize}: " +
                 string.Join(" ", result.OriginalAreas.Select(area =>
-                    $"P{area.Position};S{area.Size}")) + "\"";
+                    $"P{area.Position};S{area.Size}")) +
+                    "\"; // " + random.ToString();
 
             if (debugLevel >= 4) {
                 log.Buffered.Flush();
@@ -85,27 +86,27 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             public int MaxEpochs { get; set; }
             public string TestString { get; set; }
 
-            internal void AssertAllFit() {
+            internal void AssertAllFit(RandomSource random) {
                 if (PlacedOutOfBounds.Count > 0 || PlacedOverlapping.Count > 0) {
                     Log?.Buffered.Flush();
                 }
                 Assert.That(PlacedOutOfBounds, Is.Empty,
                     "Out Of Bounds: " + string.Join(", ",
-                        PlacedOutOfBounds.Select(area => $"P{area.Position};S{area.Size}")));
+                        PlacedOutOfBounds.Select(area => $"P{area.Position};S{area.Size} ({random})")));
                 Assert.That(PlacedOverlapping, Is.Empty,
                     "Overlapping: " + string.Join(", ",
-                        PlacedOverlapping.Select(area => $"P{area.Position};S{area.Size}")));
+                        PlacedOverlapping.Select(area => $"P{area.Position};S{area.Size} ({random})")));
             }
 
-            internal void AssertDoesNotFit() {
+            internal void AssertDoesNotFit(RandomSource random) {
                 if (PlacedOutOfBounds.Count > 0 || PlacedOverlapping.Count > 0) {
                     Log?.Buffered.Flush();
                 }
                 Assert.That(PlacedOutOfBounds.Concat(PlacedOverlapping), Is.Not.Empty,
                     "Out Of Bounds: " + string.Join(", ",
-                        PlacedOutOfBounds.Select(area => $"P{area.Position};S{area.Size}") +
+                        PlacedOutOfBounds.Select(area => $"P{area.Position};S{area.Size} ({random})") +
                     ". Overlapping: " + string.Join(", ",
-                        PlacedOverlapping.Select(area => $"P{area.Position};S{area.Size}"))));
+                        PlacedOverlapping.Select(area => $"P{area.Position};S{area.Size} ({random})"))));
             }
         }
     }
