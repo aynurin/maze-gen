@@ -11,6 +11,7 @@ namespace PlayersWorlds.Maps.Maze {
         public void DuplicateRandom() {
             var maze = Area.CreateEnvironment(new Vector(5, 5));
             var opts = new GeneratorOptions() {
+                MazeAlgorithm = typeof(WilsonsMazeGenerator),
                 RandomSource = RandomSource.CreateFromEnv()
             };
             var builderMock = new Mock<Maze2DBuilder>(maze, opts);

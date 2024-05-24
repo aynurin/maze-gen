@@ -105,7 +105,7 @@ namespace PlayersWorlds.Maps.Maze {
                 throw new ArgumentNullException(
                     "Please specify a RandomSource to use for maze " +
                     "generation using GeneratorOptions.RandomSource.",
-                    "_options.RandomSource");
+                    "options.RandomSource");
             }
             if (_options.AreaGeneration == GeneratorOptions.AreaGenerationMode.Auto
                 && _options.AreaGenerator == null) {
@@ -266,7 +266,7 @@ namespace PlayersWorlds.Maps.Maze {
                         new RandomAreaGenerator(_options.RandomSource));
                     allAreas.AddRange(areaGenerator.Generate(mazeArea));
                 }
-                if (mazeArea.ChildAreas.Any(a => !a.IsPositionFixed)) {
+                if (allAreas.Any(a => !a.IsPositionFixed)) {
                     new AreaDistributor(_options.RandomSource)
                         .Distribute(mazeArea, allAreas, 1);
                 }
@@ -289,6 +289,7 @@ namespace PlayersWorlds.Maps.Maze {
                 if (errors <= 0) {
                     allAreas.Where(area => !mazeArea.ChildAreas.Contains(area))
                             .ForEach(area => mazeArea.CreateChildArea(area));
+                    return;
                 } else if (--attempts == 0) {
                     var roomsDebugStr = string.Join(", ",
                         allAreas.Select(a => $"P{a.Position};S{a.Size}"));
@@ -548,7 +549,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// <c>false</c>.</returns>
         /// <exception cref="InvalidOperationException">This method has been
         /// called over maze.Size.Area ^ 3 times. Please report a bug providing
-        /// the version of this library, the serialized maze, and _options.
+        /// the version of this library, the serialized maze, and options.
         /// </exception>
         public virtual bool IsFillComplete() {
             if (_isFillCompleteAttemptsMade >= _isFillCompleteAttempts) {
@@ -600,14 +601,14 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         /// <summary>
-        /// The requested _options set is not supported.
+        /// The requested options set is not supported.
         /// </summary>
-        /// <param name="_options">The <see cref="GeneratorOptions"/> to check.
+        /// <param name="options">The <see cref="GeneratorOptions"/> to check.
         /// </param>
-        /// <exception cref="ArgumentException">The _options set is not
+        /// <exception cref="ArgumentException">The options set is not
         /// supported.</exception>
-        public void ThrowIfIncompatibleOptions(GeneratorOptions _options) {
-            if (_options.FillFactor != _options.FillFactor) {
+        public void ThrowIfIncompatibleOptions(GeneratorOptions options) {
+            if (_options.FillFactor != options.FillFactor) {
                 throw new ArgumentException(_options.MazeAlgorithm.Name +
                 " doesn't currently support fill factors other than Full");
             }

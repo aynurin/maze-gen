@@ -100,7 +100,10 @@ namespace PlayersWorlds.Maps {
             _maze.CreateChildArea(
                 Area.Create(
                     new Vector(1, 1), new Vector(1, 1), AreaType.Fill));
-            var builder = new Maze2DBuilder(_maze, new GeneratorOptions() { });
+            var builder = new Maze2DBuilder(_maze, new GeneratorOptions() {
+                MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
+                RandomSource = RandomSource.CreateFromEnv()
+            });
             builder.ApplyAreas();
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 2, 3, 3, 2 },
@@ -142,7 +145,10 @@ namespace PlayersWorlds.Maps {
             _maze.CreateChildArea(
                 Area.Create(
                     new Vector(0, 0), new Vector(4, 2), AreaType.Hall));
-            var builder = new Maze2DBuilder(_maze, new GeneratorOptions() { });
+            var builder = new Maze2DBuilder(_maze, new GeneratorOptions() {
+                MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
+                RandomSource = RandomSource.CreateFromEnv()
+            });
             builder.ApplyAreas();
             var mazeRenderingOptions = new MazeToMapOptions(
                 trailWidths: new int[] { 2, 3, 3, 2 },
