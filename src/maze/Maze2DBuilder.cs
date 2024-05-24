@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Emit;
 using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.Areas.Evolving;
 using PlayersWorlds.Maps.Maze.PostProcessing;
 using static PlayersWorlds.Maps.Maze.GeneratorOptions;
 
@@ -100,6 +101,36 @@ namespace PlayersWorlds.Maps.Maze {
             _mazeArea = mazeArea;
             _options = options;
 
+            if (_options.RandomSource == null) {
+                throw new ArgumentNullException(
+                    "Please specify a RandomSource to use for maze " +
+                    "generation using GeneratorOptions.RandomSource.",
+                    "_options.RandomSource");
+            }
+            if (_options.AreaGeneration == GeneratorOptions.AreaGenerationMode.Auto
+                && _options.AreaGenerator == null) {
+                throw new ArgumentNullException(
+                    "Please specify an AreaGenerator to use for maze " +
+                    "area generation using GeneratorOptions.AreaGenerator.");
+            }
+            if (_options.MazeAlgorithm == null) {
+                throw new ArgumentNullException(
+                    "Please specify maze generation algorithm using " +
+                    "GeneratorOptions.MazeAlgorithm.");
+            }
+            if (!typeof(MazeGenerator).IsAssignableFrom(_options.MazeAlgorithm)) {
+                throw new ArgumentException(
+                    "Specified maze generation algorithm " +
+                    $"({_options.MazeAlgorithm.FullName}) is not a subtype of " +
+                    "MazeGenerator.");
+            }
+            if (_options.MazeAlgorithm.GetConstructor(Type.EmptyTypes) == null) {
+                throw new ArgumentException(
+                    "Specified maze generation algorithm " +
+                    $"({_options.MazeAlgorithm.FullName}) does not have a " +
+                    "default constructor.");
+            }
+
             // Find priority cells to connect first. _priorityCellsToConnect are
             // associated with areas they relate to. When any of the given area
             // cells is processed, all "priority cells" of this area are removed
@@ -113,7 +144,8 @@ namespace PlayersWorlds.Maps.Maze {
                     .ToList();
                 if (area.Type == AreaType.Cave) {
                     // make sure all cave areas are linked.
-                    mazeAreaCells.ForEach(c => _priorityCellsToConnect.Set(c, mazeAreaCells));
+                    mazeAreaCells.ForEach(
+                        c => _priorityCellsToConnect.Set(c, mazeAreaCells));
                 } else if (area.Type == AreaType.Hall) {
                     // halls will be connected later. BUT we need to make sure
                     // halls have at least one neighbor cell connected to the
@@ -126,7 +158,8 @@ namespace PlayersWorlds.Maps.Maze {
                                 area != otherArea &&
                                 (otherArea.Type == AreaType.Hall ||
                                     otherArea.Type == AreaType.Fill))
-                            .SelectMany(otherArea => otherArea.Cells.Select(c => c.Parent))) // TODO: Not covered
+                            .SelectMany(otherArea => // TODO: Not covered
+                                otherArea.Cells.Select(c => c.Parent)))
                         .ToList();
                     cells.ForEach(c => _priorityCellsToConnect.Set(c, cells));
                 }
@@ -134,14 +167,14 @@ namespace PlayersWorlds.Maps.Maze {
 
             _isFillCompleteAttempts = (int)Math.Pow(_mazeArea.Size.Area, 2);
 
-            // _cellsToConnect = all cells that do not belong to fill and hall areas.
+            // all cells that do not belong to fill and hall areas.
             _cellsToConnect = new HashSet<Cell>(_mazeArea.Cells
                 .Where(c => c.Children
                     .All(childCell =>
                         childCell.OwningArea.Value.Type != AreaType.Fill &&
                         childCell.OwningArea.Value.Type != AreaType.Hall)));
 
-            // _allConnectableCells = _cellsToConnect but persisted over time.
+            // _cellsToConnect but persisted over time.
             _allConnectableCells = new HashSet<Cell>(_cellsToConnect);
 
             // in case the area has isolated areas, we need to find all
@@ -155,6 +188,117 @@ namespace PlayersWorlds.Maps.Maze {
                     _cellGroups.Add(new HashSet<Cell>(distances.Keys));
                     buffer.ExceptWith(distances.Keys);
                 } while (buffer.Count > 0);
+            }
+        }
+
+        /// <summary>
+        /// A helper method to generate a new maze on the given area.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Maze generation algorithm
+        /// is not specified. See <see cref="GeneratorOptions.Algorithms" />.
+        /// </exception>
+        /// <exception cref="ArgumentException">The provided maze generator type
+        /// is not inherited from <see cref="MazeGenerator" /> or does not
+        /// provide a default constructor.</exception>
+        public void BuildMaze() {
+            try {
+                GenerateMazeAreas(_mazeArea);
+                (Activator.CreateInstance(_options.MazeAlgorithm) as MazeGenerator)
+                    .GenerateMaze(this);
+                ApplyAreas();
+                _mazeArea.X(DeadEnd.Find(this));
+                _mazeArea.X(DijkstraDistance.FindLongestTrail(this));
+                _mazeArea.X(this);
+            } catch (Exception ex) {
+                throw new MazeGenerationException(_mazeArea, ex);
+            }
+        }
+
+        /// <summary>
+        /// A static helper method to generate a new maze on the given area.
+        /// </summary>
+        /// <returns>An instance of <see cref="Maze2DBuilder" /> used to
+        /// generate the maze.</returns>
+        /// <exception cref="ArgumentNullException">Maze generation algorithm
+        /// is not specified. See <see cref="GeneratorOptions.Algorithms" />.
+        /// </exception>
+        /// <exception cref="ArgumentException">The provided maze generator type
+        /// is not inherited from <see cref="MazeGenerator" /> or does not
+        /// provide a default constructor.</exception>
+        public static Maze2DBuilder BuildMaze(Area mazeArea,
+                                     GeneratorOptions options = null) {
+            var builder = new Maze2DBuilder(mazeArea,
+                              options ?? new GeneratorOptions());
+            builder.BuildMaze();
+            return builder;
+        }
+
+        private void GenerateMazeAreas(
+            Area mazeArea) {
+            // count existing (desired) placement errors we can ignore when
+            // checking auto-generated areas.
+            var existingErrors =
+                mazeArea.ChildAreas.Count(
+                    area => area.IsPositionFixed &&
+                            mazeArea.ChildAreas.Any(other =>
+                                area != other &&
+                                other.IsPositionFixed &&
+                                area.OverlapArea(other).Area > 0)) +
+                mazeArea.ChildAreas.Count(
+                    area => area.IsPositionFixed &&
+                            !area.FitsInto(Vector.Zero2D, mazeArea.Size));
+            // when we auto-generate the areas, there is a <1% chance that we
+            // can't auto-distribute (see DirectedDistanceForceProducer.cs) so
+            // we make several attempts.
+            var attempts = _options.AreaGeneration ==
+                    GeneratorOptions.AreaGenerationMode.Auto ? 3 : 1;
+            while (attempts > 0) {
+                var allAreas = new List<Area>(mazeArea.ChildAreas);
+                // add more rooms
+                //     AreaGenerator creates new rooms as a separate list
+                // layout
+                //     Tries to layout Area rooms with new rooms
+                // if all worked out, stop.
+                if (_options.AreaGeneration ==
+                    GeneratorOptions.AreaGenerationMode.Auto) {
+                    var areaGenerator = (
+                        _options.AreaGenerator ??
+                        new RandomAreaGenerator(_options.RandomSource));
+                    allAreas.AddRange(areaGenerator.Generate(mazeArea));
+                }
+                if (mazeArea.ChildAreas.Any(a => !a.IsPositionFixed)) {
+                    new AreaDistributor(_options.RandomSource)
+                        .Distribute(mazeArea, allAreas, 1);
+                }
+                // problem is: how do we distribute the rooms w/o changing
+                // the original room locations?
+                // on the other hand, if we deep clone, how do we let the area
+                // know which rooms are new to add?
+                // in a perfect world, we would deep clone, try to layout, and
+                // if it worked,
+                //          a: return a new mazeArea with the new layout
+                //          b: add only new rooms to the original mazeArea
+                // FIXME: while distributing, we can't disturb the original layout...
+                var errors = -existingErrors +
+                    allAreas.Count(
+                        area => allAreas.Any(other =>
+                                    area != other &&
+                                    area.OverlapArea(other).Area > 0)) +
+                    allAreas.Count(
+                        area => !area.FitsInto(Vector.Zero2D, mazeArea.Size));
+                if (errors <= 0) {
+                    allAreas.Where(area => !mazeArea.ChildAreas.Contains(area))
+                            .ForEach(area => mazeArea.CreateChildArea(area));
+                } else if (--attempts == 0) {
+                    var roomsDebugStr = string.Join(", ",
+                        allAreas.Select(a => $"P{a.Position};S{a.Size}"));
+                    var message =
+                        $"Could not generate rooms for maze of size " +
+                        $"{mazeArea.Size}. Last set of rooms had {errors} " +
+                        $"errors ({string.Join(" ", roomsDebugStr)}) " +
+                        $"{_options.RandomSource}.";
+                    throw new MazeGenerationException(mazeArea, message);
+                }
             }
         }
 
@@ -404,7 +548,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// <c>false</c>.</returns>
         /// <exception cref="InvalidOperationException">This method has been
         /// called over maze.Size.Area ^ 3 times. Please report a bug providing
-        /// the version of this library, the serialized maze, and options.
+        /// the version of this library, the serialized maze, and _options.
         /// </exception>
         public virtual bool IsFillComplete() {
             if (_isFillCompleteAttemptsMade >= _isFillCompleteAttempts) {
@@ -425,29 +569,29 @@ namespace PlayersWorlds.Maps.Maze {
                 return false;
             }
             switch (_options.FillFactor) {
-                case FillFactorOption.FullWidth: {
+                case MazeFillFactor.FullWidth: {
                         var minX = _connectedCells.Min(c => c.Position.X);
                         var maxX = _connectedCells.Max(c => c.Position.X);
                         return minX == 0 && maxX == _mazeArea.Size.X - 1;
                     }
 
-                case FillFactorOption.FullHeight: {
+                case MazeFillFactor.FullHeight: {
                         var minY = _connectedCells.Min(c => c.Position.Y);
                         var maxY = _connectedCells.Max(c => c.Position.Y);
                         return minY == 0 && maxY == _mazeArea.Size.Y - 1;
                     }
 
-                case FillFactorOption.Full:
+                case MazeFillFactor.Full:
                     return _cellsToConnect.Count == 0;
 
                 default: {
                         var fillFactor =
                             _options.FillFactor ==
-                                FillFactorOption.Quarter ? 0.25 :
+                                MazeFillFactor.Quarter ? 0.25 :
                             _options.FillFactor ==
-                                FillFactorOption.Half ? 0.5 :
+                                MazeFillFactor.Half ? 0.5 :
                             _options.FillFactor ==
-                                FillFactorOption.ThreeQuarters ? 0.75 :
+                                MazeFillFactor.ThreeQuarters ? 0.75 :
                             0.9;
                         return _cellsToConnect.Count <=
                             _allConnectableCells.Count * (1 - fillFactor);
@@ -456,15 +600,15 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         /// <summary>
-        /// The requested options set is not supported.
+        /// The requested _options set is not supported.
         /// </summary>
-        /// <param name="options">The <see cref="GeneratorOptions"/> to check.
+        /// <param name="_options">The <see cref="GeneratorOptions"/> to check.
         /// </param>
-        /// <exception cref="ArgumentException">The options set is not
+        /// <exception cref="ArgumentException">The _options set is not
         /// supported.</exception>
-        public void ThrowIfIncompatibleOptions(GeneratorOptions options) {
-            if (_options.FillFactor != options.FillFactor) {
-                throw new ArgumentException(_options.Algorithm.Name +
+        public void ThrowIfIncompatibleOptions(GeneratorOptions _options) {
+            if (_options.FillFactor != _options.FillFactor) {
+                throw new ArgumentException(_options.MazeAlgorithm.Name +
                 " doesn't currently support fill factors other than Full");
             }
         }

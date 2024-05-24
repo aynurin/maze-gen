@@ -18,7 +18,7 @@ namespace PlayersWorlds.Maps {
         private readonly NArray<Cell> _cells;
         private readonly AreaType _areaType;
         private readonly string[] _tags;
-        private readonly List<Area> _childAreas = new List<Area>();
+        private readonly List<Area> _childAreas;
 
         /// <summary>
         /// Position of this area in the target map.
@@ -96,21 +96,27 @@ namespace PlayersWorlds.Maps {
                                   Vector size,
                                   AreaType areaType,
                                   params string[] tags) =>
-            new Area(position, true, areaType,
-                     new NArray<Cell>(size, xy => new Cell(xy)), tags);
+            new Area(position,
+                     /*isPositionFixed=*/true, areaType,
+                     new NArray<Cell>(size, xy => new Cell(xy)),
+                     /*childAreas=*/null, tags);
 
         public static Area CreateUnpositioned(Vector size,
                                               AreaType areaType,
                                               params string[] tags) =>
-            new Area(Vector.Empty, false, areaType,
-                     new NArray<Cell>(size, xy => new Cell(xy)), tags);
+            new Area(Vector.Empty,
+                     /*isPositionFixed=*/false, areaType,
+                     new NArray<Cell>(size, xy => new Cell(xy)),
+                     /*childAreas=*/null, tags);
 
         public static Area CreateUnpositioned(Vector position,
                                               Vector size,
                                               AreaType areaType,
                                               params string[] tags) =>
-            new Area(position, false, areaType,
-                     new NArray<Cell>(size, xy => new Cell(xy)), tags);
+            new Area(position,
+                     /*isPositionFixed=*/false, areaType,
+                     new NArray<Cell>(size, xy => new Cell(xy)),
+                     /*childAreas=*/null, tags);
 
         public static Area CreateEnvironment(Vector size,
                                              params string[] tags) =>
@@ -123,19 +129,24 @@ namespace PlayersWorlds.Maps {
                      /*isPositionFixed=*/false,
                      AreaType.Environment,
                      new NArray<Cell>(size, initialValue),
+                     /*childAreas=*/null,
                      tags);
 
         private Area(Vector position, bool isPositionFixed,
                     AreaType areaType, NArray<Cell> mapdata,
-                    params string[] tags) {
+                    IEnumerable<Area> childAreas,
+                    IEnumerable<string> tags) {
             if (position.IsEmpty && isPositionFixed) {
                 throw new ArgumentException("Position is not initialized.");
             }
+            position.ThrowIfNull(nameof(position));
+            mapdata.ThrowIfNull(nameof(mapdata));
             _position = position;
             _cells = mapdata;
             _areaType = areaType;
             _isPositionFixed = isPositionFixed;
-            _tags = tags;
+            _childAreas = childAreas?.ToList() ?? new List<Area>();
+            _tags = tags?.ToArray() ?? new string[0];
 
             foreach (var cell in _cells.Iterate()) {
                 cell.cell.OwningArea = this;
@@ -159,7 +170,7 @@ namespace PlayersWorlds.Maps {
             _position = newPosition;
         }
 
-        internal Area CreateChildArea(Area template) {
+        public Area CreateChildArea(Area template) {
             var field = new NArray<Cell>(
                 template.Size,
                 (xy) => _cells[template.Position + xy]
@@ -168,10 +179,16 @@ namespace PlayersWorlds.Maps {
                             template._isPositionFixed,
                             template._areaType,
                             field,
+                            template._childAreas,
                             template._tags);
             _childAreas.Add(childArea);
             return childArea;
         }
+
+        public Area ShallowCopy() =>
+            new Area(_position, _isPositionFixed,
+                     _areaType, new NArray<Cell>(Cells),
+                     _childAreas, _tags);
 
         /// <summary>
         /// Checks if this Area overlaps with another Area.
@@ -257,6 +274,7 @@ namespace PlayersWorlds.Maps {
         /// <param name="newSize">The size of the saled map.</param>
         /// <returns>A new instance of <see cref="Area" /></returns>
         public Area Scale(Vector newSize) {
+            // TODO: No coverage
             if (newSize.Value.Zip(Size.Value,
                     (a, b) => a % b != 0 || a < b).Any()) {
                 throw new ArgumentException(
@@ -265,8 +283,18 @@ namespace PlayersWorlds.Maps {
                     nameof(newSize));
             }
 
-            return new Area(_position, _isPositionFixed,
-                            _areaType, _cells.ScaleUp(newSize));
+            var scaleFactor = newSize.Value.Zip(Size.Value,
+                    (a, b) => a / b).ToArray();
+            var childAreas = _childAreas.Select(
+                childArea => childArea.Scale(
+                    new Vector(childArea.Size.Value.Zip(
+                        scaleFactor, (a, b) => a * b))));
+            var position =
+                new Vector(_position.Value.Zip(scaleFactor, (a, b) => a * b));
+            var cells = _cells.ScaleUp(newSize);
+
+            return new Area(position, _isPositionFixed, _areaType, cells,
+                            childAreas, _tags);
         }
 
         /// <summary>
@@ -287,10 +315,6 @@ namespace PlayersWorlds.Maps {
                 .Render(map);
             return map;
         }
-
-        public Area ShallowCopy() =>
-            new Area(_position, _isPositionFixed,
-                     _areaType, new NArray<Cell>(Cells));
 
         /// <summary>
         /// Parses a string representation of a Area, similar to one produced
@@ -316,6 +340,7 @@ namespace PlayersWorlds.Maps {
                             isPositionFixed,
                             type,
                             new NArray<Cell>(size, xy => new Cell(xy)),
+                            /*childAreas=*/null,
                             parts.Skip(3).ToArray());
         }
 

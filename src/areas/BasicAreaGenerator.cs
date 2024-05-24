@@ -65,12 +65,15 @@ namespace PlayersWorlds.Maps.Areas {
             return PlaceArea(new List<Area>());
         }
 
-        public override IEnumerable<Area> Generate(Vector size,
-            List<Area> existingAreas) {
-            throw new NotImplementedException();
+        public override IEnumerable<Area> Generate(Area targetArea) {
+            if (_minSize.FitsInto(_targetArea.Size)) {
+                // none of the areas fit the map
+                return new List<Area>();
+            }
+            return PlaceArea(new List<Area>(targetArea.ChildAreas));
         }
 
-        private List<Area> PlaceArea(List<Area> generatedAreas) {
+        private ICollection<Area> PlaceArea(ICollection<Area> generatedAreas) {
             if (generatedAreas.Count == _count) return generatedAreas;
             var maxTries = 100;
             while (maxTries > 0) {
@@ -83,7 +86,7 @@ namespace PlayersWorlds.Maps.Areas {
             return generatedAreas;
         }
 
-        private Area CreateRandomArea(List<Area> generatedAreas) {
+        private Area CreateRandomArea(ICollection<Area> generatedAreas) {
             var tag = _randomSource.RandomOf(_tags);
             var type = _randomSource.RandomOf(_areaTypes);
             Area area;
@@ -101,7 +104,8 @@ namespace PlayersWorlds.Maps.Areas {
             return null;
         }
 
-        private bool IsAValidLayout(List<Area> generatedAreas, Area newArea) =>
+        private bool IsAValidLayout(ICollection<Area> generatedAreas,
+                                    Area newArea) =>
             !generatedAreas
                     .Where(area => newArea.Overlaps(area)).Any()
             && !_areasNoOverlap

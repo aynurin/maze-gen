@@ -13,21 +13,14 @@ namespace PlayersWorlds.Maps.Maze {
         /// cref="Maze2DBuilder.IsFillComplete() "/>
         /// implementation for details.
         /// </summary>
-        public FillFactorOption FillFactor { get; set; }
+        public MazeFillFactor FillFactor { get; set; }
         /// <summary>
         /// How (and if) to generate areas in the maze.
         /// </summary>
-        public MapAreaOptions MapAreasOptions { get; set; }
+        public AreaGenerationMode AreaGeneration { get; set; }
         /// <summary>
-        /// When <see cref="MapAreasOptions"/> is set to
-        /// <see cref="MapAreaOptions.Manual"/>, this list of areas will be added to
-        /// the maze.
-        /// generate areas.
-        /// </summary>
-        public List<Area> MapAreas { get; set; }
-        /// <summary>
-        /// When <see cref="MapAreasOptions"/> is set to
-        /// <see cref="MapAreaOptions.Auto"/>, this generator will be used to
+        /// When <see cref="AreaGeneration"/> is set to
+        /// <see cref="AreaGenerationMode.Auto"/>, this generator will be used to
         /// generate areas.
         /// </summary>
         public AreaGenerator AreaGenerator { get; set; }
@@ -35,7 +28,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// Algorithm to use when generating the maze. Has to be a type derived
         /// from <see cref="MazeGenerator"/>.
         /// </summary>
-        public Type Algorithm { get; set; }
+        public Type MazeAlgorithm { get; set; }
         /// <summary>
         /// A source of random numbers to use when generating the maze.
         /// </summary>
@@ -46,7 +39,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// cref="Maze2DBuilder.IsFillComplete()"/>
         /// implementation for details.
         /// </summary>
-        public enum FillFactorOption {
+        public enum MazeFillFactor {
             /// <summary>
             /// All cells of the maze will be visited.
             /// </summary>
@@ -86,19 +79,15 @@ namespace PlayersWorlds.Maps.Maze {
         /// <summary>
         /// How to generate various areas in the maze.
         /// </summary>
-        public enum MapAreaOptions {
-            /// <summary>
-            /// Do not generate any areas.
-            /// </summary>
-            None,
+        public enum AreaGenerationMode {
             /// <summary>
             /// Specify the areas manually in
-            /// <see cref="GeneratorOptions.MapAreas"/>.
+            /// <see cref="Area"/>.
             /// </summary>
             Manual,
             /// <summary>
             /// Use a generator to generate the areas. The generator can be
-            /// specified in <see cref="GeneratorOptions.Algorithm" />.
+            /// specified in <see cref="GeneratorOptions.MazeAlgorithm" />.
             /// </summary>
             Auto
         }

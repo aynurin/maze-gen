@@ -80,10 +80,10 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_CanRenderMap() {
-            var map = MazeTestHelper.GenerateMaze(new Vector(3, 3),
+            var map = MazeTestHelper.GenerateMaze(new Vector(3, 3), null,
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.Full
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Full
                 });
             var scaledMap = map.ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 2, 3, 2 }, new int[] { 2, 3, 2 }, new int[] { 1, 2, 1, 2 }, new int[] { 1, 3, 1, 3 }));
 
@@ -94,33 +94,33 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_AddsNoRoomsWhenNoneRequested() {
-            var maze = MazeTestHelper.GenerateMaze(new Vector(10, 10),
+            var maze = MazeTestHelper.GenerateMaze(new Vector(10, 10), null,
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.Full,
-                    MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Full,
+                    AreaGeneration = GeneratorOptions.AreaGenerationMode.Manual,
                 });
             Assert.That(maze.ChildAreas.Count, Is.EqualTo(0));
         }
 
         [Test]
         public void Maze2D_AddsNoRoomsToASmallMaze() {
-            var maze = MazeTestHelper.GenerateMaze(new Vector(3, 3),
+            var maze = MazeTestHelper.GenerateMaze(new Vector(3, 3), null,
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.Full,
-                    MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto,
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Full,
+                    AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto,
                 });
             Assert.That(maze.ChildAreas.Count, Is.EqualTo(0));
         }
 
         [Test]
         public void Maze2D_AddsRooms() {
-            var maze = MazeTestHelper.GenerateMaze(new Vector(5, 5),
+            var maze = MazeTestHelper.GenerateMaze(new Vector(5, 5), null,
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.Full,
-                    MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto,
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Full,
+                    AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto,
                 });
             Assert.That(maze.ChildAreas.Count, Is.GreaterThan(0));
         }
@@ -128,35 +128,33 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void Maze2D_AddsOneHall() {
             var options = new GeneratorOptions() {
-                Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                FillFactor = GeneratorOptions.FillFactorOption.Full,
-                MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
-                MapAreas = new List<Area> { Area.Parse("P2x1;S2x2;Hall") }
+                MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                FillFactor = GeneratorOptions.MazeFillFactor.Full,
+                AreaGeneration = GeneratorOptions.AreaGenerationMode.Manual,
             };
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(5, 5), options);
+                new Vector(5, 5), new List<Area> { Area.Parse("P2x1;S2x2;Hall") }, options);
             Assert.That(maze.ChildAreas.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void Maze2D_AddsOneFill() {
             var options = new GeneratorOptions() {
-                Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                FillFactor = GeneratorOptions.FillFactorOption.Full,
-                MapAreasOptions = GeneratorOptions.MapAreaOptions.Manual,
-                MapAreas = new List<Area> { Area.Parse("P2x1;S2x2;Fill") }
+                MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                FillFactor = GeneratorOptions.MazeFillFactor.Full,
+                AreaGeneration = GeneratorOptions.AreaGenerationMode.Manual
             };
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(5, 5), options);
+                new Vector(5, 5), new List<Area> { Area.Parse("P2x1;S2x2;Fill") }, options);
             Assert.That(maze.ChildAreas.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void Maze2D_HasExtensionsSet() {
-            var map = MazeTestHelper.GenerateMaze(new Vector(3, 3),
+            var map = MazeTestHelper.GenerateMaze(new Vector(3, 3), null,
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.Full
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Full
                 });
             Assert.That(map.X<DeadEnd.DeadEndsExtension>(), Is.Not.Null);
             Assert.That(map.X<DijkstraDistance.LongestTrailExtension>(), Is.Not.Null);

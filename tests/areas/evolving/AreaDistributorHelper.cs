@@ -20,6 +20,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 maxEpochs = int.Parse(TestContext.Parameters["EPOCHS"]);
             }
 
+            var env = Area.CreateEnvironment(mapSize);
             var managedAreas = areas.ToList();
             var originalCopy = managedAreas
                 .Select(x => x.ShallowCopy())
@@ -39,7 +40,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 OriginalOutOfBounds =
                     originalCopy
                         .Where(
-                            area => !area.FitsInto(Vector.Zero2D, mapSize))
+                            area => !area.FitsInto(env))
                         .ToList(),
                 PlacedAreas = managedAreas
             };
@@ -49,7 +50,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     new MapAreaStringRenderer() :
                     null,
                 debugLevel >= 5)
-                .Distribute(mapSize, managedAreas, maxEpochs);
+                .Distribute(env, managedAreas, maxEpochs);
 
             result.PlacedOverlapping =
                 result.PlacedAreas

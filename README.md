@@ -12,9 +12,9 @@ The basic workflow is:
    var size = new Vector(20, 20);
    var map = MazeGenerator.Generate(size,
          new GeneratorOptions() {
-            Algorithm = GeneratorOptions.Algorithms.RecursiveBacktracker,
-            FillFactor = GeneratorOptions.FillFactorOption.ThreeQuarters,
-            MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto,
+            MazeAlgorithm = GeneratorOptions.Algorithms.RecursiveBacktracker,
+            FillFactor = GeneratorOptions.MazeFillFactor.ThreeQuarters,
+            AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto,
          }).ToMap(Maze.Maze2DRenderer.MazeToMapOptions.SquareCells(1, 1));
    ```
 

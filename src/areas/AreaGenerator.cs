@@ -15,11 +15,8 @@ namespace PlayersWorlds.Maps.Areas {
         /// If pre-existing areas are specified, they should be counted to make
         /// sure there are enough and not too many areas in the maze.
         /// </remarks>
-        /// <param name="size">The size of the map.</param>
-        /// <param name="existingAreas">Pre-existing areas to consider when
-        /// generating new areas.</param>
+        /// <param name="targetArea">The map to generate areas for.</param>
         /// <returns>Areas to be added to the map.</returns>
-        public abstract IEnumerable<Area> Generate(Vector size,
-            List<Area> existingAreas);
+        public abstract IEnumerable<Area> Generate(Area targetArea);
     }
 }

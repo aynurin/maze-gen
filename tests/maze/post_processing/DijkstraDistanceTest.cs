@@ -10,8 +10,8 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             var random = RandomSource.CreateFromEnv();
             var maze = MazeTestHelper.GenerateMaze(new Vector(10, 10),
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.Full
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Full
                 });
             var visitedCells = maze.Cells
                 .Where(cell => cell.Links().Count > 0).ToList();

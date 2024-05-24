@@ -36,18 +36,19 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         /// Distributes objects in an area. Uses the <see cref="EvolvingSimulator"/>
         /// to evolve a <see cref="MapAreasSystem" />.
         /// </summary>
-        public void Distribute(Vector mapSize,
-                               IEnumerable<Area> areas,
+        public void Distribute(Area targetArea,
+                               IEnumerable<Area> areasToAdd,
                                int maxEpochs) {
-            var areasWithNicknames = MapAreasSystem.GetNicknames(areas);
+            var allAreas = targetArea.ChildAreas.Concat(areasToAdd).ToList();
+            var areasWithNicknames = MapAreasSystem.GetNicknames(allAreas);
             if (_renderer != null) {
-                _log.D(4, _renderer.Render(mapSize, areasWithNicknames));
+                _log.D(4, _renderer.Render(targetArea.Size, areasWithNicknames));
             }
             var simulator = new EvolvingSimulator(maxEpochs, 20);
-            var system = new MapAreasSystem(_random, mapSize, areas, r => { },
+            var system = new MapAreasSystem(_random, targetArea.Size, allAreas, r => { },
                 r => {
                     if (_verboseOutput && _renderer != null) {
-                        _log.D(4, _renderer.Render(mapSize, areasWithNicknames));
+                        _log.D(4, _renderer.Render(targetArea.Size, areasWithNicknames));
                     }
                 });
             simulator.Evolve(system);

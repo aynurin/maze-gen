@@ -8,7 +8,6 @@ namespace PlayersWorlds.Maps.Areas {
     /// Generate areas randomly for a map of the provided size.
     /// </summary>
     public class RandomAreaGenerator : AreaGenerator {
-        private readonly Log _log = Log.ToConsole<RandomAreaGenerator>();
         private readonly RandomAreaGeneratorSettings _settings;
 
         /// <summary>
@@ -21,30 +20,37 @@ namespace PlayersWorlds.Maps.Areas {
         }
 
         /// <summary>
+        /// Creates a new random area generator with the specified settings.
+        /// </summary>
+        /// <param name="randomSource">Source of random numbers.</param>
+        public RandomAreaGenerator(RandomSource randomSource) {
+            _settings = new RandomAreaGeneratorSettings(randomSource);
+        }
+
+        /// <summary>
         /// Randomly generates areas for a map of the specified size.
         /// </summary>
-        /// <param name="size">The size of the map.</param>
-        /// <param name="existingAreas">Pre-existing areas.</param>
+        /// <param name="targetArea">The map to generate areas for.</param>
         /// <returns>Areas to be added to the map.</returns>
-        public override IEnumerable<Area> Generate(
-            Vector size,
-            List<Area> existingAreas) {
+        public override IEnumerable<Area> Generate(Area targetArea) {
             if (_settings.DimensionProbabilities.Keys.All(areaSize =>
-                !areaSize.FitsInto(size - new Vector(2, 2)))) {
+                !areaSize.FitsInto(targetArea.Size - new Vector(2, 2)))) {
                 // none of the areas fit the map
                 return new List<Area>();
             }
-            var addedArea = existingAreas?.Sum(area => area.Size.Area) ?? 0;
+            var alreadyOccupiedArea =
+                targetArea.ChildAreas.Sum(area => area.Size.Area);
             var areas = new List<Area>();
-            while (addedArea < size.Area * _settings.MinFillFactor) {
+            var attempts = 10;
+            while (attempts > 0 && alreadyOccupiedArea <
+                   targetArea.Size.Area * _settings.MaxFillFactor) {
                 var area = GetRandomZone();
-                if (!area.Size.FitsInto(size - new Vector(2, 2)))
-                    continue;
-                if (addedArea + area.Size.Area >
-                    size.Area * Math.Min(1, _settings.MinFillFactor * 2))
-                    continue;
-                areas.Add(area);
-                addedArea += area.Size.Area;
+                if (alreadyOccupiedArea + area.Size.Area <
+                    targetArea.Size.Area * _settings.MaxFillFactor) {
+                    areas.Add(area);
+                    alreadyOccupiedArea += area.Size.Area;
+                }
+                attempts--;
             }
             return areas;
         }
@@ -85,7 +91,7 @@ namespace PlayersWorlds.Maps.Areas {
 
         /// <summary />
         public class RandomAreaGeneratorSettings {
-            internal float MinFillFactor { get; }
+            internal float MaxFillFactor { get; }
 
             internal Dictionary<Vector, float> DimensionProbabilities { get; }
 
@@ -100,18 +106,18 @@ namespace PlayersWorlds.Maps.Areas {
             /// values provide some basic settings.
             /// </summary>
             /// <param name="randomSource"></param>
-            /// <param name="minFillFactor"></param>
+            /// <param name="maxFillFactor"></param>
             /// <param name="dimensionProbabilities"></param>
             /// <param name="areaTypeProbabilities"></param>
             /// <param name="tagProbabilities"></param>
             public RandomAreaGeneratorSettings(
                 RandomSource randomSource,
-                float minFillFactor = 0.3f,
+                float maxFillFactor = 0.5f,
                 Dictionary<Vector, float> dimensionProbabilities = null,
                 Dictionary<AreaType, float> areaTypeProbabilities = null,
                 Dictionary<AreaType, Dictionary<string, float>> tagProbabilities = null) {
                 RandomSource = randomSource;
-                MinFillFactor = minFillFactor;
+                MaxFillFactor = maxFillFactor;
                 DimensionProbabilities = dimensionProbabilities ?? s_default_dimensions;
                 AreaTypeProbabilities = areaTypeProbabilities ?? s_default_area_types;
                 TagProbabilities = tagProbabilities ?? s_default_tags;

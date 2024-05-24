@@ -12,11 +12,10 @@ namespace PlayersWorlds.Maps.Maze {
             var area2 = Area.Create(new Vector(10, 2), new Vector(3, 13), AreaType.Hall);
             var area3 = Area.Create(new Vector(4, 8), new Vector(7, 3), AreaType.Hall);
             MazeTestHelper.GenerateMaze(
-                new Vector(15, 15),
+                new Vector(15, 15), new List<Area>() { area1, area2, area3 },
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.Sidewinder,
-                    MapAreas = new List<Area>() { area1, area2, area3 },
-                    FillFactor = GeneratorOptions.FillFactorOption.Full
+                    MazeAlgorithm = GeneratorOptions.Algorithms.Sidewinder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Full
                 },
                 out var builder);
             Assert.That(builder.TestCellsToConnect, Is.Empty);
@@ -29,11 +28,10 @@ namespace PlayersWorlds.Maps.Maze {
             var area2 = Area.Create(new Vector(10, 2), new Vector(3, 13), AreaType.Hall);
             var area3 = Area.Create(new Vector(6, 8), new Vector(7, 3), AreaType.Hall);
             MazeTestHelper.GenerateMaze(
-                new Vector(15, 15),
+                new Vector(15, 15), new List<Area>() { area1, area2, area3 },
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.Sidewinder,
-                    MapAreas = new List<Area>() { area1, area2, area3 },
-                    FillFactor = GeneratorOptions.FillFactorOption.Full
+                    MazeAlgorithm = GeneratorOptions.Algorithms.Sidewinder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Full
                 },
                 out var builder);
             Assert.That(builder.TestCellsToConnect, Is.Empty);

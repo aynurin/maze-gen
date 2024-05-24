@@ -16,7 +16,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// the maze to be generated.</param>
         override public void GenerateMaze(Maze2DBuilder builder) {
             builder.ThrowIfIncompatibleOptions(new GeneratorOptions() {
-                FillFactor = FillFactorOption.Full,
+                FillFactor = MazeFillFactor.Full,
             });
             var states = builder.Random.NextBytes(builder.AllCells.Count);
             var i = 0;

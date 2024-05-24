@@ -12,12 +12,11 @@ namespace PlayersWorlds.Maps.Maze {
     [TestFixture]
     internal class MazeGeneratorAreasTest : Test {
         public Area GenerateMaze(Type generatorType, List<Area> areas) =>
-            MazeTestHelper.GenerateMaze(new Vector(15, 15),
+            MazeTestHelper.GenerateMaze(new Vector(15, 15), areas,
                 new GeneratorOptions() {
-                    FillFactor = FillFactorOption.Full,
-                    Algorithm = generatorType,
-                    MapAreasOptions = MapAreaOptions.Manual,
-                    MapAreas = areas
+                    FillFactor = MazeFillFactor.Full,
+                    MazeAlgorithm = generatorType,
+                    AreaGeneration = AreaGenerationMode.Manual,
                 });
 
         [Test]
@@ -204,10 +203,10 @@ namespace PlayersWorlds.Maps.Maze {
             var area1 = Area.Create(new Vector(2, 2), new Vector(2, 2), areaType);
             var area2 = Area.Create(new Vector(2, 2), new Vector(2, 2), areaType);
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(6, 6), new GeneratorOptions() {
-                    Algorithm = generatorType,
-                    MapAreas = new List<Area>() { area1, area2 },
-                    FillFactor = FillFactorOption.Full,
+                new Vector(6, 6), new List<Area>() { area1, area2 },
+                new GeneratorOptions() {
+                    MazeAlgorithm = generatorType,
+                    FillFactor = MazeFillFactor.Full,
                 },
                 out var builder);
             Assert.That(MazeTestHelper.IsSolveable(maze));
@@ -243,10 +242,9 @@ namespace PlayersWorlds.Maps.Maze {
                 Area.Create(new Vector(8, 6), new Vector(1, 1), areaType),
             };
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(10, 8), new GeneratorOptions() {
-                    Algorithm = generatorType,
-                    MapAreas = areas,
-                    FillFactor = GeneratorOptions.FillFactorOption.Full,
+                new Vector(10, 8), areas, new GeneratorOptions() {
+                    MazeAlgorithm = generatorType,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Full,
                 },
                 out var builder);
 
@@ -279,7 +277,7 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         public void ScatteredAreasDebug() {
-            ScatteredAreas(GeneratorOptions.Algorithms.Wilsons, AreaType.Cave, FillFactorOption.Quarter);
+            ScatteredAreas(GeneratorOptions.Algorithms.Wilsons, AreaType.Cave, MazeFillFactor.Quarter);
         }
 
         [Test]
@@ -287,7 +285,7 @@ namespace PlayersWorlds.Maps.Maze {
         public void ScatteredAreas(
             [ValueSource("GetAllGenerators")] Type generatorType,
             [ValueSource("GetAllAreaTypes")] AreaType areaType,
-            [ValueSource("GetAllFillFactors")] FillFactorOption fillFactor) {
+            [ValueSource("GetAllFillFactors")] MazeFillFactor fillFactor) {
             if (!MazeTestHelper.IsSupported(generatorType, fillFactor)) {
                 Assert.Ignore();
             }
@@ -297,14 +295,14 @@ namespace PlayersWorlds.Maps.Maze {
             if (generatorType == typeof(AldousBroderMazeGenerator) ||
                 generatorType == typeof(HuntAndKillMazeGenerator) ||
                 generatorType == typeof(RecursiveBacktrackerMazeGenerator)) {
-                if (fillFactor == FillFactorOption.Quarter ||
-                    fillFactor == FillFactorOption.Half ||
-                    fillFactor == FillFactorOption.ThreeQuarters ||
+                if (fillFactor == MazeFillFactor.Quarter ||
+                    fillFactor == MazeFillFactor.Half ||
+                    fillFactor == MazeFillFactor.ThreeQuarters ||
                     // TODO(#32): Re-enable low fill factors with probabalistic 
                     //            testing
-                    fillFactor == FillFactorOption.NinetyPercent ||
-                    fillFactor == FillFactorOption.FullWidth ||
-                    fillFactor == FillFactorOption.FullHeight) {
+                    fillFactor == MazeFillFactor.NinetyPercent ||
+                    fillFactor == MazeFillFactor.FullWidth ||
+                    fillFactor == MazeFillFactor.FullHeight) {
                     // full layouts are uninteresting for this test
                     Assert.Ignore();
                     return;
@@ -313,10 +311,9 @@ namespace PlayersWorlds.Maps.Maze {
             var area1 = Area.Create(new Vector(2, 2), new Vector(2, 2), areaType);
             var area2 = Area.Create(new Vector(24, 24), new Vector(2, 2), areaType);
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(30, 30),
+                new Vector(30, 30), new List<Area>() { area1, area2 },
                 new GeneratorOptions() {
-                    Algorithm = generatorType,
-                    MapAreas = new List<Area>() { area1, area2 }
+                    MazeAlgorithm = generatorType,
                 },
                 out _);
 
@@ -329,18 +326,17 @@ namespace PlayersWorlds.Maps.Maze {
         [Repeat(100), Category("Integration")]
         public void ManualAndAutoAreasGeneration() {
             var options = new GeneratorOptions() {
-                Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                MapAreas = new List<Area>() {
+                MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto
+            };
+            var maze = MazeTestHelper.GenerateMaze(new Vector(20, 20),
+                new List<Area>() {
                     Area.Create(new Vector(2, 3),
                                 new Vector(4, 7),
                                 AreaType.Hall,
                                 "fixed"),
                     Area.CreateUnpositioned(new Vector(2, 5), AreaType.Hall, "auto")
-                },
-                MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto
-            };
-            var maze = MazeTestHelper.GenerateMaze(new Vector(20, 20), options,
-                                                   out _);
+                }, options, out _);
             Assert.That(maze.ChildAreas.Count, Is.GreaterThan(2));
         }
 
@@ -350,7 +346,7 @@ namespace PlayersWorlds.Maps.Maze {
         public static IEnumerable<AreaType> GetAllAreaTypes() =>
             MazeTestHelper.GetAllAreaTypes();
 
-        public static IEnumerable<FillFactorOption> GetAllFillFactors() =>
+        public static IEnumerable<MazeFillFactor> GetAllFillFactors() =>
             MazeTestHelper.GetAllFillFactors();
     }
 }

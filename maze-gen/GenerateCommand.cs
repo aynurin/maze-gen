@@ -17,17 +17,18 @@ namespace PlayersWorlds.Maps {
             var size = Vector.Parse(MazeSize);
             var randomSource = RandomSource.CreateFromEnv();
             var generatorOptions = new GeneratorOptions() {
-                Algorithm = Type.GetType(
+                MazeAlgorithm = Type.GetType(
                     "PlayersWorlds.Maps.Maze." + AlgorithmName +
                     "MazeGenerator, PlayersWorlds.Maps"),
-                FillFactor = GeneratorOptions.FillFactorOption.Full,
-                MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto,
+                FillFactor = GeneratorOptions.MazeFillFactor.Full,
+                AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto,
                 RandomSource = randomSource,
                 AreaGenerator = new RandomAreaGenerator(
                     new RandomAreaGenerator.RandomAreaGeneratorSettings(
                         randomSource))
             };
-            var maze = MazeGenerator.Generate(size, generatorOptions);
+            var maze = Area.CreateEnvironment(size);
+            Maze2DBuilder.BuildMaze(maze, generatorOptions);
             Console.WriteLine(maze.Serialize());
             Console.WriteLine(maze.ToString());
             Console.WriteLine(maze.ToMap(MazeToMapOptions.RectCells(2, 1)).ToString());

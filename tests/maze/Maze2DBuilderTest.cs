@@ -380,7 +380,7 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.FullWidth,
+                    FillFactor = GeneratorOptions.MazeFillFactor.FullWidth,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
 
@@ -400,7 +400,7 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.FullHeight,
+                    FillFactor = GeneratorOptions.MazeFillFactor.FullHeight,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
 
@@ -420,7 +420,7 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.Quarter,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Quarter,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
 
@@ -436,7 +436,7 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.Half,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Half,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
 
@@ -452,7 +452,7 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.ThreeQuarters,
+                    FillFactor = GeneratorOptions.MazeFillFactor.ThreeQuarters,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
 
@@ -472,7 +472,7 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.NinetyPercent,
+                    FillFactor = GeneratorOptions.MazeFillFactor.NinetyPercent,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
 

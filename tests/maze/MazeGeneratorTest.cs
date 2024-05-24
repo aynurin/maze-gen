@@ -14,8 +14,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         private class CustomAreaGenerator : AreaGenerator {
             public override IEnumerable<Area> Generate(
-                Vector size, List<Area> existingAreas) {
-                if (size.X <= 10 || size.Y <= 10) {
+                Area targetArea) {
+                if (targetArea.Size.X <= 10 || targetArea.Size.Y <= 10) {
                     return Enumerable.Empty<Area>();
                 }
                 return new[] {
@@ -29,12 +29,12 @@ namespace PlayersWorlds.Maps.Maze {
         public void CanUseCustomAreaGenerator() {
             var log = Log.ToConsole("MazeGeneratorTest.CanUseCustomAreaGenerator");
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(15, 15),
+                new Vector(15, 15), null,
                 new GeneratorOptions() {
                     AreaGenerator = new CustomAreaGenerator(),
-                    FillFactor = GeneratorOptions.FillFactorOption.Full,
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto
+                    FillFactor = GeneratorOptions.MazeFillFactor.Full,
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto
                 });
             log.D(5, maze.ToString());
             Assert.That(maze.ChildAreas, Has.Count.EqualTo(1));
@@ -52,10 +52,10 @@ namespace PlayersWorlds.Maps.Maze {
         ) {
             var log = Log.ToConsole($"MazeGeneratorTest.CanGenerateMazes({generatorType.Name})");
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(20, 20), new GeneratorOptions() {
-                    FillFactor = GeneratorOptions.FillFactorOption.Full,
-                    Algorithm = generatorType
-                }, out var _);
+                new Vector(20, 20), null, new GeneratorOptions() {
+                    FillFactor = GeneratorOptions.MazeFillFactor.Full,
+                    MazeAlgorithm = generatorType
+                });
             Assert.That(MazeTestHelper.IsSolveable(maze));
             log.D(5, maze.ToString());
             Assert.That(maze.Cells.Count(cell => cell.Links().Count == 0), Is.EqualTo(0));
@@ -66,15 +66,15 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.Throws<MazeGenerationException>(() =>
                 MazeTestHelper.GenerateMaze(new Vector(10, 10),
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.BinaryTree,
-                    FillFactor = GeneratorOptions.FillFactorOption.Half
-                }, out var _));
+                    MazeAlgorithm = GeneratorOptions.Algorithms.BinaryTree,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Half
+                }));
             Assert.Throws<MazeGenerationException>(() =>
                 MazeTestHelper.GenerateMaze(new Vector(10, 10),
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.Sidewinder,
-                    FillFactor = GeneratorOptions.FillFactorOption.Half
-                }, out var _));
+                    MazeAlgorithm = GeneratorOptions.Algorithms.Sidewinder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Half
+                }));
         }
 
         [Test]
@@ -82,9 +82,9 @@ namespace PlayersWorlds.Maps.Maze {
             var size = new Vector(10, 10);
             var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.Half
-                }, out var _);
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Half
+                });
             Assert.That(MazeTestHelper.IsSolveable(maze));
             var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
             Assert.That(mazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area / 2), maze.ToString());
@@ -95,9 +95,9 @@ namespace PlayersWorlds.Maps.Maze {
             var size = new Vector(10, 10);
             var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.Full
-                }, out var _);
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Full
+                });
             Assert.That(MazeTestHelper.IsSolveable(maze));
             var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
             Assert.That(size.Area, Is.EqualTo(mazeCells.Count()));
@@ -108,9 +108,9 @@ namespace PlayersWorlds.Maps.Maze {
             var size = new Vector(10, 10);
             var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.Quarter
-                }, out var _);
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.Quarter
+                });
             Assert.That(MazeTestHelper.IsSolveable(maze));
             var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
             Assert.That(mazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.25), maze.ToString());
@@ -121,9 +121,9 @@ namespace PlayersWorlds.Maps.Maze {
             var size = new Vector(10, 10);
             var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.ThreeQuarters
-                }, out var _);
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.ThreeQuarters
+                });
             Assert.That(MazeTestHelper.IsSolveable(maze));
             var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
             Assert.That(mazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.75), maze.ToString());
@@ -134,9 +134,9 @@ namespace PlayersWorlds.Maps.Maze {
             var size = new Vector(10, 10);
             var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.NinetyPercent
-                }, out var _);
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.NinetyPercent
+                });
             Assert.That(MazeTestHelper.IsSolveable(maze));
             var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
             Assert.That(mazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.9), maze.ToString());
@@ -147,9 +147,9 @@ namespace PlayersWorlds.Maps.Maze {
             var size = new Vector(10, 10);
             var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.FullWidth
-                }, out var _);
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.FullWidth
+                });
             Assert.That(MazeTestHelper.IsSolveable(maze));
             var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
             Assert.That(mazeCells.Min(cell => cell.Position.X) == 0 && mazeCells.Max(cell => cell.Position.X) == 9, Is.True, maze.ToString());
@@ -160,9 +160,9 @@ namespace PlayersWorlds.Maps.Maze {
             var size = new Vector(10, 10);
             var maze = MazeTestHelper.GenerateMaze(size,
                 new GeneratorOptions() {
-                    Algorithm = GeneratorOptions.Algorithms.AldousBroder,
-                    FillFactor = GeneratorOptions.FillFactorOption.FullHeight
-                }, out var _);
+                    MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
+                    FillFactor = GeneratorOptions.MazeFillFactor.FullHeight
+                });
             Assert.That(MazeTestHelper.IsSolveable(maze));
             var mazeCells = maze.Cells.Where(cell => cell.Links().Count > 0).ToList();
             Assert.That(mazeCells.Min(cell => cell.Position.Y) == 0 && mazeCells.Max(cell => cell.Position.Y) == 9, Is.True, maze.ToString());
@@ -173,9 +173,9 @@ namespace PlayersWorlds.Maps.Maze {
             [ValueSource("GetAllGenerators")]
             Type generatorType,
             [ValueSource("GetGeneratorOptionsFillFactors")]
-            GeneratorOptions.FillFactorOption fillFactor,
+            GeneratorOptions.MazeFillFactor fillFactor,
             [ValueSource("GetGeneratorOptionsMapAreaOptions")]
-            GeneratorOptions.MapAreaOptions mapAreaOptions,
+            GeneratorOptions.AreaGenerationMode mapAreaOptions,
             [ValueSource("GetGeneratorOptionsMapAreas")]
             List<Area> mapAreas
         ) {
@@ -185,14 +185,13 @@ namespace PlayersWorlds.Maps.Maze {
             }
             var size = new Vector(10, 10);
             var options = new GeneratorOptions() {
-                Algorithm = generatorType,
+                MazeAlgorithm = generatorType,
                 FillFactor = fillFactor,
-                MapAreasOptions = mapAreaOptions,
-                MapAreas = mapAreas,
+                AreaGeneration = mapAreaOptions,
                 RandomSource = RandomSource.CreateFromEnv()
             };
 
-            var map = MazeTestHelper.GenerateMaze(size, options);
+            var map = MazeTestHelper.GenerateMaze(size, mapAreas, options);
             Assert.That(map, Is.Not.Null);
 
             var solution = new LongestTrailExtension(new List<Cell>());
@@ -208,17 +207,17 @@ namespace PlayersWorlds.Maps.Maze {
         public void IsFillComplete_Debug() {
             // Fails: Could not generate rooms for maze of size 10x10. Last set of rooms had 2 errors (P5x4;S6x3, P-1x4;S6x3) Random(524).
             IsFillComplete(typeof(HuntAndKillMazeGenerator),
-                           GeneratorOptions.FillFactorOption.FullWidth,
-                           GeneratorOptions.MapAreaOptions.Auto,
+                           GeneratorOptions.MazeFillFactor.FullWidth,
+                           GeneratorOptions.AreaGenerationMode.Auto,
                            null);
         }
 
         [Test]
         public void WrongGeneratorOptions() {
             Assert.That(() => MazeTestHelper.GenerateMaze(new Vector(3, 4), new GeneratorOptions()), Throws.TypeOf<ArgumentNullException>());
-            Assert.That(() => MazeTestHelper.GenerateMaze(new Vector(3, 4), new GeneratorOptions { Algorithm = typeof(string) }), Throws.TypeOf<ArgumentException>());
-            Assert.That(() => MazeTestHelper.GenerateMaze(new Vector(3, 4), new GeneratorOptions { Algorithm = typeof(TestGeneratorA) }), Throws.TypeOf<ArgumentException>());
-            Assert.That(() => MazeTestHelper.GenerateMaze(new Vector(3, 4), new GeneratorOptions { Algorithm = typeof(TestGeneratorB) }), Throws.Nothing);
+            Assert.That(() => MazeTestHelper.GenerateMaze(new Vector(3, 4), new GeneratorOptions { MazeAlgorithm = typeof(string) }), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => MazeTestHelper.GenerateMaze(new Vector(3, 4), new GeneratorOptions { MazeAlgorithm = typeof(TestGeneratorA) }), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => MazeTestHelper.GenerateMaze(new Vector(3, 4), new GeneratorOptions { MazeAlgorithm = typeof(TestGeneratorB) }), Throws.Nothing);
         }
 
         class TestGeneratorA : MazeGenerator {
@@ -245,10 +244,10 @@ namespace PlayersWorlds.Maps.Maze {
         ) {
             var maze = MazeTestHelper.GenerateMaze(
                 new Vector(3, 4),
-                new GeneratorOptions() { Algorithm = generatorType },
-                out var builder);
+                new GeneratorOptions() { MazeAlgorithm = generatorType });
             var solution = new LongestTrailExtension(new List<Cell>());
-            Assert.DoesNotThrow(() => solution = DijkstraDistance.FindLongestTrail(maze));
+            Assert.DoesNotThrow(
+                () => solution = DijkstraDistance.FindLongestTrail(maze));
             Assert.That(solution, Is.Not.Null);
             Assert.That(solution.LongestTrail, Is.Not.Null.Or.Empty);
         }
@@ -256,14 +255,14 @@ namespace PlayersWorlds.Maps.Maze {
         public static IEnumerable<Type> GetAllGenerators() =>
             MazeTestHelper.GetAllGenerators();
 
-        public static IEnumerable<GeneratorOptions.FillFactorOption>
+        public static IEnumerable<GeneratorOptions.MazeFillFactor>
             GetGeneratorOptionsFillFactors() =>
             MazeTestHelper.GetAllFillFactors();
 
-        public static IEnumerable<GeneratorOptions.MapAreaOptions>
+        public static IEnumerable<GeneratorOptions.AreaGenerationMode>
             GetGeneratorOptionsMapAreaOptions() {
-            yield return GeneratorOptions.MapAreaOptions.Auto;
-            yield return GeneratorOptions.MapAreaOptions.Manual;
+            yield return GeneratorOptions.AreaGenerationMode.Auto;
+            yield return GeneratorOptions.AreaGenerationMode.Manual;
         }
 
         public static IEnumerable<List<Area>>

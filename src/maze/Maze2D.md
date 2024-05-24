@@ -23,7 +23,7 @@ UnlinkedCells are cells that have not been visited by the generator.
 The scenarios of using UnlinkedCells:
 
 - Pick the next cell to visit by a generator.
-- IsFillComplete for FillFactorOption.Quarter|Half|ThreeQuarters|Full
+- IsFillComplete for MazeFillFactor.Quarter|Half|ThreeQuarters|Full
 
 !! Bug: UnlinkedCells is not managed in Cell.Link/Unlink. It's only
 referenced in ApplyAreas and Parse.
