@@ -118,8 +118,9 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             while (stack.Count > 0) {
                 nextCell = stack.Pop();
                 var distance = distances[nextCell];
-                foreach (var neighbor in nextCell.Neighbors()) {
-                    if (!builder.CanConnect(nextCell, neighbor))
+                foreach (var neighborXY in nextCell.Neighbors()) {
+                    var neighbor = builder.MazeArea[neighborXY];
+                    if (!builder.CanConnect(nextCell, neighborXY))
                         continue;
                     // if a maze has loops, we have to check if we are building
                     // a shorter path or a longer one.

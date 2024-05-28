@@ -9,7 +9,7 @@ nunit="$(realpath ./packages/NUnit.ConsoleRunner.3.17.0/tools/nunit3-console.exe
 
 
 cd build/Debug/tests
-mono $AltCover --assemblyFilter=Moq --typeFilter=PlayersWorlds.Maps.Areas.Evolving.VectorDistanceForceProducer --typeFilter=PlayersWorlds.Maps.Maze.MazeGenerationException --pathFilter=./src/renderers --outputDirectory=__Instrumented
+mono $AltCover --assemblyFilter=Moq --typeFilter=PlayersWorlds.Maps.Areas.Evolving.VectorDistanceForceProducer --typeFilter=PlayersWorlds.Maps.Maze.MazeBuilderException --pathFilter=./src/renderers --outputDirectory=__Instrumented
 mono $AltCover Runner --recorderDirectory __Instrumented --cobertura=../../coverage.cobertura.xml --executable "$nunit" -- __Instrumented/PlayersWorlds.Maps.Tests.dll --framework=mono-4.0 --where="Category!=Load AND Category!=Integration"
 cd ../../..
 mono $ReportGenerator -reports:build/coverage.cobertura.xml -targetdir:build/coverage -reporttypes:TextSummary -assemblyfilters:-AltCover.Monitor\;-PlayersWorlds.Maps.Tests

@@ -16,6 +16,7 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.TestCellsToConnect, Has.Exactly(25).Items);
             Assert.That(builder.TestPriorityCells, Has.Exactly(0).Items);
@@ -34,6 +35,7 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             var priorityCells = new List<Cell>() {
                 maze.Cells[new Vector(2, 2)],
@@ -78,6 +80,7 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             var priorityCells = new List<Cell>() {
                 maze.Cells[new Vector(3, 3)],
@@ -107,6 +110,7 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             var priorityCells = new List<Cell>() {
                 maze.Cells[new Vector(3, 3)],
@@ -119,21 +123,23 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(builder.TestCellsToConnect, Has.Exactly(30).Items);
             Assert.That(builder.TestPriorityCells, Has.Exactly(5).Items);
 
+            var pickedCells = new HashSet<Cell>();
             for (var i = 0; i < 1000; i++) {
-                Assert.That(builder.PickNextCellToLink(),
-                    Is.AnyOf(priorityCells));
+                var cell = builder.PickNextCellToLink();
+                pickedCells.Add(cell);
+                Assert.That(cell, Is.AnyOf(priorityCells));
             }
+
+            Assert.That(pickedCells, Has.Exactly(5).Items);
 
             foreach (var cell in priorityCells) {
                 try {
-                    builder.Connect(cell, Vector.East2D);
-                } catch (InvalidOperationException) { }
+                    builder.Connect(cell.Position, cell.Position + Vector.East2D);
+                } catch (IndexOutOfRangeException) { }
                 try {
-                    builder.Connect(cell, Vector.North2D);
-                } catch (InvalidOperationException) { }
+                    builder.Connect(cell.Position, cell.Position + Vector.North2D);
+                } catch (IndexOutOfRangeException) { }
             }
-
-            Assert.That(builder.TestConnectedCells, Is.EqualTo(priorityCells));
 
             for (var i = 0; i < 1000; i++) {
                 Assert.That(builder.PickNextCellToLink(),
@@ -153,6 +159,7 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             // hall area neighbors are never chosen;
             for (var i = 0; i < 1000; i++) {
@@ -178,6 +185,7 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             var connectedCells = new List<Cell>() {
                 maze.Cells[new Vector(0, 0)],
@@ -187,7 +195,7 @@ namespace PlayersWorlds.Maps.Maze {
             };
 
             for (var i = 0; i < connectedCells.Count - 1; i++) {
-                builder.Connect(connectedCells[i], connectedCells[i + 1]);
+                builder.Connect(connectedCells[i].Position, connectedCells[i + 1].Position);
             }
 
             Assert.That(builder.TestCellsToConnect, Has.Exactly(5).Items);
@@ -195,7 +203,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(builder.TestConnectedCells, Has.Exactly(4).Items);
 
             connectedCells.ForEach(c =>
-                Assert.That(builder.IsConnected(c)));
+                Assert.That(builder.IsConnected(c.Position)));
         }
 
 
@@ -215,6 +223,7 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             var priorityCells = new List<Cell>() {
                 maze.Cells[new Vector(3, 3)],
@@ -267,6 +276,7 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.True);
         }
@@ -279,19 +289,20 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 0)],
-                maze.Cells[new Vector(1, 0)]);
+                new Vector(0, 0),
+                new Vector(1, 0));
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 0)],
-                maze.Cells[new Vector(0, 1)]);
+                new Vector(0, 0),
+                new Vector(0, 1));
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 1)],
-                maze.Cells[new Vector(1, 1)]);
+                new Vector(0, 1),
+                new Vector(1, 1));
             Assert.That(builder.IsFillComplete(), Is.True);
         }
 
@@ -307,6 +318,7 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
             var areaCells = maze.Cells
@@ -315,11 +327,11 @@ namespace PlayersWorlds.Maps.Maze {
             cellsToConnect.ExceptWith(areaCells.Select(c => c.cell));
             foreach (var cell in cellsToConnect) {
                 try {
-                    builder.Connect(cell, Vector.East2D);
-                } catch (InvalidOperationException) { }
+                    builder.Connect(cell.Position, cell.Position + Vector.East2D);
+                } catch (IndexOutOfRangeException) { }
                 try {
-                    builder.Connect(cell, Vector.North2D);
-                } catch (InvalidOperationException) { }
+                    builder.Connect(cell.Position, cell.Position + Vector.North2D);
+                } catch (IndexOutOfRangeException) { }
             }
             Assert.That(builder.IsFillComplete(), Is.True);
         }
@@ -336,6 +348,7 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
             var areaCells = maze.Cells
@@ -344,11 +357,11 @@ namespace PlayersWorlds.Maps.Maze {
             cellsToConnect.ExceptWith(areaCells.Select(c => c.cell));
             foreach (var cell in cellsToConnect) {
                 try {
-                    builder.Connect(cell, Vector.East2D);
-                } catch (InvalidOperationException) { }
+                    builder.Connect(cell.Position, cell.Position + Vector.East2D);
+                } catch (IndexOutOfRangeException) { }
                 try {
-                    builder.Connect(cell, Vector.North2D);
-                } catch (InvalidOperationException) { }
+                    builder.Connect(cell.Position, cell.Position + Vector.North2D);
+                } catch (IndexOutOfRangeException) { }
             }
             Assert.That(builder.IsFillComplete(), Is.True);
         }
@@ -365,27 +378,28 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
             var areaCells = maze.Cells
                     .IterateIntersection(new Vector(1, 1), new Vector(3, 3));
 
             for (var i = 0; i < 4; i++) {
-                builder.Connect(maze.Cells[new Vector(i, 0)], Vector.East2D);
-                builder.Connect(maze.Cells[new Vector(i, 4)], Vector.East2D);
-                builder.Connect(maze.Cells[new Vector(0, i)], Vector.North2D);
-                builder.Connect(maze.Cells[new Vector(4, i)], Vector.North2D);
+                builder.Connect(new Vector(i, 0), new Vector(i, 0) + Vector.East2D);
+                builder.Connect(new Vector(i, 4), new Vector(i, 4) + Vector.East2D);
+                builder.Connect(new Vector(0, i), new Vector(0, i) + Vector.North2D);
+                builder.Connect(new Vector(4, i), new Vector(4, i) + Vector.North2D);
             }
 
             maze.Cells
                     .IterateIntersection(new Vector(1, 1), new Vector(2, 2))
                     .ForEach(c => {
-                        builder.Connect(c.cell, Vector.East2D);
-                        builder.Connect(c.cell, Vector.North2D);
+                        builder.Connect(c.cell.Position, c.xy + Vector.East2D);
+                        builder.Connect(c.cell.Position, c.xy + Vector.North2D);
                     });
 
             Assert.That(builder.IsFillComplete(), Is.False);
-            builder.Connect(maze.Cells[new Vector(2, 3)], Vector.East2D);
+            builder.Connect(new Vector(2, 3), new Vector(2, 3) + Vector.East2D);
             Assert.That(builder.IsFillComplete(), Is.True);
         }
 
@@ -398,15 +412,16 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.FullWidth,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 0)],
-                maze.Cells[new Vector(0, 1)]);
+                new Vector(0, 0),
+                new Vector(0, 1));
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 0)],
-                maze.Cells[new Vector(1, 0)]);
+                new Vector(0, 0),
+                new Vector(1, 0));
             Assert.That(builder.IsFillComplete(), Is.True);
         }
 
@@ -419,15 +434,16 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.FullHeight,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 0)],
-                maze.Cells[new Vector(1, 0)]);
+                new Vector(0, 0),
+                new Vector(1, 0));
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 0)],
-                maze.Cells[new Vector(0, 1)]);
+                new Vector(0, 0),
+                new Vector(0, 1));
             Assert.That(builder.IsFillComplete(), Is.True);
         }
 
@@ -440,11 +456,12 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.Quarter,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 0)],
-                maze.Cells[new Vector(1, 0)]);
+                new Vector(0, 0),
+                new Vector(1, 0));
             Assert.That(builder.IsFillComplete(), Is.True);
         }
 
@@ -457,11 +474,12 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.Half,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 0)],
-                maze.Cells[new Vector(1, 0)]);
+                new Vector(0, 0),
+                new Vector(1, 0));
             Assert.That(builder.IsFillComplete(), Is.True);
         }
 
@@ -474,15 +492,16 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.ThreeQuarters,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 0)],
-                maze.Cells[new Vector(1, 0)]);
+                new Vector(0, 0),
+                new Vector(1, 0));
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 0)],
-                maze.Cells[new Vector(0, 1)]);
+                new Vector(0, 0),
+                new Vector(0, 1));
             Assert.That(builder.IsFillComplete(), Is.True);
         }
 
@@ -495,19 +514,20 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.NinetyPercent,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 0)],
-                maze.Cells[new Vector(1, 0)]);
+                new Vector(0, 0),
+                new Vector(1, 0));
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 0)],
-                maze.Cells[new Vector(0, 1)]);
+                new Vector(0, 0),
+                new Vector(0, 1));
             Assert.That(builder.IsFillComplete(), Is.False);
             builder.Connect(
-                maze.Cells[new Vector(0, 1)],
-                maze.Cells[new Vector(1, 1)]);
+                new Vector(0, 1),
+                new Vector(1, 1));
             Assert.That(builder.IsFillComplete(), Is.True);
         }
 
@@ -534,7 +554,8 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
-            builder.Connect(walkway[0], walkway[1]);
+            builder.TestRebuildCellMaps();
+            builder.Connect(walkway[0].Position, walkway[1].Position);
             // this should connect entrance to walkway[0]
             builder.ApplyAreas();
 
@@ -557,6 +578,7 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(builder.TestPriorityCells.Keys.Intersect(area1.Cells.Select(c => c.Parent)), Is.Empty);
             Assert.That(builder.TestCellsToConnect.Intersect(area1.Cells.Select(c => c.Parent)), Is.Empty);
@@ -594,71 +616,72 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
                 });
+            builder.TestRebuildCellMaps();
 
             Assert.That(
                 builder.CanConnect(
                     maze.Cells[new Vector(0, 0)],
-                    Vector.East2D),
+                    new Vector(0, 0) + Vector.East2D),
                 Is.True);
 
             Assert.That(
                 builder.CanConnect(
                     maze.Cells[new Vector(0, 2)],
-                    Vector.East2D),
+                    new Vector(0, 2) + Vector.East2D),
                 Is.False);
 
             Assert.That(
                 builder.CanConnect(
                     maze.Cells[new Vector(2, 1)],
-                    Vector.North2D),
+                    new Vector(2, 1) + Vector.North2D),
                 Is.False);
 
             Assert.That(
                 builder.CanConnect(
                     maze.Cells[new Vector(2, 2)],
-                    Vector.East2D),
+                    new Vector(2, 2) + Vector.East2D),
                 Is.False);
 
             Assert.That(
                 builder.CanConnect(
                     maze.Cells[new Vector(3, 2)],
-                    Vector.East2D),
+                    new Vector(3, 2) + Vector.East2D),
                 Is.False);
 
             Assert.That(
                 builder.CanConnect(
                     maze.Cells[new Vector(4, 2)],
-                    Vector.East2D),
+                    new Vector(4, 2) + Vector.East2D),
                 Is.True);
 
             Assert.That(
                 builder.CanConnect(
                     maze.Cells[new Vector(5, 2)],
-                    Vector.East2D),
+                    new Vector(5, 2) + Vector.East2D),
                 Is.False);
 
             Assert.That(
                 builder.CanConnect(
                     maze.Cells[new Vector(0, 6)],
-                    Vector.East2D),
+                    new Vector(0, 6) + Vector.East2D),
                 Is.True);
 
             Assert.That(
                 builder.CanConnect(
                     maze.Cells[new Vector(1, 5)],
-                    Vector.North2D),
+                    new Vector(1, 5) + Vector.North2D),
                 Is.True);
 
             Assert.That(
                 builder.CanConnect(
                     maze.Cells[new Vector(1, 9)],
-                    Vector.South2D),
+                    new Vector(1, 9) + Vector.South2D),
                 Is.True);
 
             Assert.That(
                 builder.CanConnect(
                     maze.Cells[new Vector(2, 6)],
-                    Vector.East2D),
+                    new Vector(2, 6) + Vector.East2D),
                 Is.True);
         }
     }

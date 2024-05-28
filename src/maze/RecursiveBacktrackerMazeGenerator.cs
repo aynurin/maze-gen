@@ -28,7 +28,7 @@ namespace PlayersWorlds.Maps.Maze {
                 var currentCell = stack.Peek();
                 if (builder.TryPickRandomNeighbor(
                         currentCell, out var nextCell, true)) {
-                    builder.Connect(currentCell, nextCell);
+                    builder.Connect(currentCell.Position, nextCell.Position);
                     stack.Push(nextCell);
                 } else {
                     stack.Pop();

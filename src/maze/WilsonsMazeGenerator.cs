@@ -57,7 +57,7 @@ namespace PlayersWorlds.Maps.Maze {
                 }
 
                 for (var i = 0; i < walkPath.Count - 1; i++) {
-                    builder.Connect(walkPath[i], walkPath[i + 1]);
+                    builder.Connect(walkPath[i].Position, walkPath[i + 1].Position);
                     visitedCells.Add(walkPath[i]);
                 }
                 visitedCells.Add(walkPath.Last());

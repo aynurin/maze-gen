@@ -22,13 +22,13 @@ namespace PlayersWorlds.Maps.Maze {
             var i = 0;
             foreach (var currentCell in builder.AllCells) {
                 var linkNorth = states[i++] % 2 == 0;
-                var canConnectEast = builder.CanConnect(currentCell, Vector.East2D);
-                var canConnectNorth = builder.CanConnect(currentCell, Vector.North2D);
+                var canConnectEast = builder.CanConnect(currentCell, currentCell.Position + Vector.East2D);
+                var canConnectNorth = builder.CanConnect(currentCell, currentCell.Position + Vector.North2D);
                 Cell cellToLink = null;
                 if ((linkNorth || !canConnectEast) && canConnectNorth) {
-                    cellToLink = currentCell.Neighbors(Vector.North2D).Value;
+                    cellToLink = currentCell.Neighbors(currentCell.Position + Vector.North2D).Value;
                 } else if (canConnectEast) {
-                    cellToLink = currentCell.Neighbors(Vector.East2D).Value;
+                    cellToLink = currentCell.Neighbors(currentCell.Position + Vector.East2D).Value;
                 }
 
                 if (cellToLink == null && currentCell.Links().Count == 0) {
@@ -46,7 +46,7 @@ namespace PlayersWorlds.Maps.Maze {
                     }
                 }
                 if (cellToLink != null) {
-                    builder.Connect(currentCell, cellToLink);
+                    builder.Connect(currentCell.Position, cellToLink.Position);
                 }
             }
         }

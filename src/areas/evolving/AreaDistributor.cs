@@ -42,13 +42,13 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             var allAreas = targetArea.ChildAreas.Concat(areasToAdd).ToList();
             var areasWithNicknames = MapAreasSystem.GetNicknames(allAreas);
             if (_renderer != null) {
-                _log.D(4, _renderer.Render(targetArea.Size, areasWithNicknames));
+                _log.D(1, _renderer.Render(targetArea.Size, areasWithNicknames));
             }
             var simulator = new EvolvingSimulator(maxEpochs, 20);
             var system = new MapAreasSystem(_random, targetArea.Size, allAreas, r => { },
                 r => {
                     if (_verboseOutput && _renderer != null) {
-                        _log.D(4, _renderer.Render(targetArea.Size, areasWithNicknames));
+                        _log.D(1, _renderer.Render(targetArea.Size, areasWithNicknames));
                     }
                 });
             simulator.Evolve(system);

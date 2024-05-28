@@ -203,7 +203,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_Iterate_OneCell() {
-            var map = new NArray<Cell>(new Vector(5, 5), xy => new Cell(xy));
+            var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.Iterate(new Vector(0, 0), new Vector(1, 1)).ToList();
             var debugString = string.Join(",", cells.Select(c => map.IndexOf(c.cell)));
             Assert.That(1, Is.EqualTo(cells.Count()));
@@ -212,7 +212,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_Iterate_TwoCells() {
-            var map = new NArray<Cell>(new Vector(5, 5), xy => new Cell(xy));
+            var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.Iterate(new Vector(0, 0), new Vector(2, 1)).ToList();
             var debugString = string.Join(",", cells.Select(c => map.IndexOf(c.cell)));
             Assert.That(2, Is.EqualTo(cells.Count()));
@@ -222,7 +222,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_Iterate_TreeByTwo() {
-            var map = new NArray<Cell>(new Vector(5, 5), xy => new Cell(xy));
+            var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.Iterate(new Vector(0, 0), new Vector(3, 2)).ToList();
             var debugString = string.Join(",", cells.Select(c => map.IndexOf(c.cell)));
             Assert.That(6, Is.EqualTo(cells.Count()));
@@ -236,7 +236,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_Iterate_FourCellsFar() {
-            var map = new NArray<Cell>(new Vector(5, 5), xy => new Cell(xy));
+            var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.Iterate(new Vector(3, 3), new Vector(2, 2)).ToList();
             var debugString = string.Join(",", cells.Select(c => map.IndexOf(c.cell)));
             Assert.That(4, Is.EqualTo(cells.Count()));
@@ -248,7 +248,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_Iterate_OutOfBounds() {
-            var map = new NArray<Cell>(new Vector(5, 5), xy => new Cell(xy));
+            var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             Assert.Throws<IndexOutOfRangeException>(() => map.Iterate(new Vector(5, 5), new Vector(1, 1)).ToList());
             Assert.Throws<IndexOutOfRangeException>(() => map.Iterate(new Vector(6, 3), new Vector(1, 1)).ToList());
             Assert.Throws<IndexOutOfRangeException>(() => map.Iterate(new Vector(0, 0), new Vector(6, 6)).ToList());
@@ -257,7 +257,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_IterateIntersection_AnyCellAtP1x1() {
-            var map = new NArray<Cell>(new Vector(5, 5), xy => new Cell(xy));
+            var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.IterateIntersection(new Vector(2, 2), new Vector(1, 1)).ToList();
             Assert.That(cells, Has.Exactly(1).Items);
             Assert.That(cells.First().cell, Is.EqualTo(map[new Vector(2, 2).ToIndex(map.Size)]));
@@ -265,7 +265,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void CellsAt_AnyCellAt2x2() {
-            var map = new NArray<Cell>(new Vector(5, 5), xy => new Cell(xy));
+            var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.IterateIntersection(new Vector(2, 2), new Vector(2, 2)).ToList();
             Assert.That(cells, Has.Exactly(4).Items);
             Assert.That(cells[0].cell, Is.EqualTo(map[new Vector(2, 2).ToIndex(map.Size)]));
@@ -276,7 +276,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_IterateIntersection_AnyCellAtEdge1x1() {
-            var map = new NArray<Cell>(new Vector(5, 5), xy => new Cell(xy));
+            var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.IterateIntersection(new Vector(4, 4), new Vector(1, 1)).ToList();
             Assert.That(cells, Has.Exactly(1).Items);
             Assert.That(cells[0].cell, Is.EqualTo(map[new Vector(4, 4).ToIndex(map.Size)]));
@@ -284,7 +284,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_IterateIntersection_AnyCellAtFarEdge2x2() {
-            var map = new NArray<Cell>(new Vector(5, 5), xy => new Cell(xy));
+            var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.IterateIntersection(new Vector(4, 4), new Vector(2, 2)).ToList();
             Assert.That(cells, Has.Exactly(1).Items);
             Assert.That(cells[0].cell, Is.EqualTo(map[new Vector(4, 4).ToIndex(map.Size)]));
@@ -292,7 +292,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void CellsAt_AnyCellAtCloseEdge2x2() {
-            var map = new NArray<Cell>(new Vector(5, 5), xy => new Cell(xy));
+            var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.IterateIntersection(new Vector(0, 0), new Vector(2, 2)).ToList();
             Assert.That(cells, Has.Exactly(4).Items);
             Assert.That(cells[0].cell, Is.EqualTo(map[new Vector(0, 0).ToIndex(map.Size)]));
@@ -303,7 +303,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void CellsAt_AnyCellAtZeroSize() {
-            var map = new NArray<Cell>(new Vector(5, 5), xy => new Cell(xy));
+            var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             Assert.That(() => map.IterateIntersection(new Vector(2, 2), new Vector(0, 0)).First(), Throws.ArgumentException);
         }
 
@@ -320,6 +320,14 @@ namespace PlayersWorlds.Maps {
 
             override public int GetHashCode() {
                 return Value.GetHashCode();
+            }
+        }
+
+        class TestCell {
+            private Vector _xy;
+
+            public TestCell(Vector xy) {
+                _xy = xy;
             }
         }
     }

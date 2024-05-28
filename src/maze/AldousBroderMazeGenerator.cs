@@ -34,9 +34,9 @@ namespace PlayersWorlds.Maps.Maze {
                     currentCell = builder.PickNextCellToLink();
                 }
                 if (builder.TryPickRandomNeighbor(currentCell, out var next)) {
-                    if (!builder.IsConnected(next) ||
-                        !builder.IsConnected(currentCell)) {
-                        builder.Connect(currentCell, next);
+                    if (!builder.IsConnected(next.Position) ||
+                        !builder.IsConnected(currentCell.Position)) {
+                        builder.Connect(currentCell.Position, next.Position);
                         idleLoops = 0;
                     } else {
                         idleLoops++;

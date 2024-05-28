@@ -112,7 +112,7 @@ namespace PlayersWorlds.Maps.Areas {
             /// <param name="tagProbabilities"></param>
             public RandomAreaGeneratorSettings(
                 RandomSource randomSource,
-                float maxFillFactor = 0.5f,
+                float maxFillFactor = 0.33f,
                 Dictionary<Vector, float> dimensionProbabilities = null,
                 Dictionary<AreaType, float> areaTypeProbabilities = null,
                 Dictionary<AreaType, Dictionary<string, float>> tagProbabilities = null) {

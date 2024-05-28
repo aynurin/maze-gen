@@ -50,26 +50,35 @@ namespace PlayersWorlds.Maps.Maze {
         public void CanGenerateMazes(
             [ValueSource("GetAllGenerators")] Type generatorType
         ) {
-            var log = Log.ToConsole($"MazeGeneratorTest.CanGenerateMazes({generatorType.Name})");
+            var randomSource = RandomSource.CreateFromEnv();
+            var log = Log.ToConsole($"MazeGeneratorTest.CanGenerateMazes({generatorType.Name}); ");
             var maze = MazeTestHelper.GenerateMaze(
                 new Vector(20, 20), null, new GeneratorOptions() {
                     FillFactor = GeneratorOptions.MazeFillFactor.Full,
-                    MazeAlgorithm = generatorType
+                    MazeAlgorithm = generatorType,
+                    RandomSource = randomSource
                 });
-            Assert.That(MazeTestHelper.IsSolveable(maze));
-            log.D(5, maze.ToString());
+            Assert.That(MazeTestHelper.IsSolveable(maze), $"{generatorType.Name} generated an unsolveable maze with seed {randomSource.Seed}");
             Assert.That(maze.Cells.Count(cell => cell.Links().Count == 0), Is.EqualTo(0));
         }
 
         [Test]
+        public void CanGenerateMazes_Debug(
+        ) {
+            CanGenerateMazes(typeof(SidewinderMazeGenerator));
+            // CanGenerateMazes(typeof(BinaryTreeMazeGenerator));
+            // CanGenerateMazes(typeof(AldousBroderMazeGenerator));
+        }
+
+        [Test]
         public void OnlyFullGenerators() {
-            Assert.Throws<MazeGenerationException>(() =>
+            Assert.Throws<MazeBuilderException>(() =>
                 MazeTestHelper.GenerateMaze(new Vector(10, 10),
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.BinaryTree,
                     FillFactor = GeneratorOptions.MazeFillFactor.Half
                 }));
-            Assert.Throws<MazeGenerationException>(() =>
+            Assert.Throws<MazeBuilderException>(() =>
                 MazeTestHelper.GenerateMaze(new Vector(10, 10),
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Sidewinder,
@@ -205,11 +214,17 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test, Ignore("Debugging only")]
         public void IsFillComplete_Debug() {
-            // Fails: Could not generate rooms for maze of size 10x10. Last set of rooms had 2 errors (P5x4;S6x3, P-1x4;S6x3) Random(524).
-            IsFillComplete(typeof(HuntAndKillMazeGenerator),
-                           GeneratorOptions.MazeFillFactor.FullWidth,
+            // // Fails: Could not generate rooms for maze of size 10x10. Last set of rooms had 2 errors (P5x4;S6x3, P-1x4;S6x3) Random(524).
+            // IsFillComplete(typeof(AldousBroderMazeGenerator),
+            //                GeneratorOptions.MazeFillFactor.Half,
+            //                GeneratorOptions.AreaGenerationMode.Auto,
+            //                null);
+            // Fails: Could not generate rooms for maze of size 10x10. Last set of rooms had 4 errors (P1x7;S2x3, P8x5;S3x2, P2x-1;S3x6, P0x5;S3x2, P3x4;S4x3) Random(408).
+            IsFillComplete(typeof(AldousBroderMazeGenerator),
+                           GeneratorOptions.MazeFillFactor.Half,
                            GeneratorOptions.AreaGenerationMode.Auto,
-                           null);
+                           new List<Area>() {
+                Area.CreateUnpositioned(new Vector(3, 2), new Vector(2, 3), AreaType.Fill) });
         }
 
         [Test]
@@ -228,12 +243,12 @@ namespace PlayersWorlds.Maps.Maze {
         class TestGeneratorB : MazeGenerator {
             public override void GenerateMaze(Maze2DBuilder builder) {
                 builder.AllCells.ForEach(cell => {
-                    try {
-                        builder.Connect(cell, Vector.East2D);
-                    } catch (InvalidOperationException) { }
-                    try {
-                        builder.Connect(cell, Vector.North2D);
-                    } catch (InvalidOperationException) { }
+                    if (builder.MazeArea.Contains(cell.Position + Vector.East2D)) {
+                        builder.Connect(cell.Position, cell.Position + Vector.East2D);
+                    }
+                    if (builder.MazeArea.Contains(cell.Position + Vector.North2D)) {
+                        builder.Connect(cell.Position, cell.Position + Vector.North2D);
+                    }
                 });
             }
         }

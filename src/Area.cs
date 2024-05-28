@@ -19,6 +19,7 @@ namespace PlayersWorlds.Maps {
         private readonly AreaType _areaType;
         private readonly string[] _tags;
         private readonly List<Area> _childAreas;
+        private readonly Area _parent;
 
         /// <summary>
         /// Position of this area in the target map.
@@ -66,7 +67,6 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// Size of the map in cells.
         /// </summary>
-
         public Vector Size => _cells.Size;
 
         /// <summary>
@@ -78,6 +78,8 @@ namespace PlayersWorlds.Maps {
         internal double HighX => _position.X + Size.X;
         internal double LowY => _position.Y;
         internal double HighY => _position.Y + Size.Y;
+
+        public Area Parent => _parent;
 
         /// <summary>
         /// Gets the value of a cell at the specified <see cref="Vector"/>
@@ -97,16 +99,14 @@ namespace PlayersWorlds.Maps {
                                   AreaType areaType,
                                   params string[] tags) =>
             new Area(position,
-                     /*isPositionFixed=*/true, areaType,
-                     new NArray<Cell>(size, xy => new Cell(xy)),
+                     /*isPositionFixed=*/true, size, areaType,
                      /*childAreas=*/null, tags);
 
         public static Area CreateUnpositioned(Vector size,
                                               AreaType areaType,
                                               params string[] tags) =>
             new Area(Vector.Empty,
-                     /*isPositionFixed=*/false, areaType,
-                     new NArray<Cell>(size, xy => new Cell(xy)),
+                     /*isPositionFixed=*/false, size, areaType,
                      /*childAreas=*/null, tags);
 
         public static Area CreateUnpositioned(Vector position,
@@ -114,54 +114,109 @@ namespace PlayersWorlds.Maps {
                                               AreaType areaType,
                                               params string[] tags) =>
             new Area(position,
-                     /*isPositionFixed=*/false, areaType,
-                     new NArray<Cell>(size, xy => new Cell(xy)),
+                     /*isPositionFixed=*/false, size, areaType,
                      /*childAreas=*/null, tags);
 
         public static Area CreateEnvironment(Vector size,
                                              params string[] tags) =>
-            CreateEnvironment(size, xy => new Cell(xy), tags);
-
-        public static Area CreateEnvironment(Vector size,
-                                             Func<Vector, Cell> initialValue,
-                                             params string[] tags) =>
             new Area(Vector.Zero(size.Value.Count),
                      /*isPositionFixed=*/false,
-                     AreaType.Environment,
-                     new NArray<Cell>(size, initialValue),
+                     size, AreaType.Environment,
                      /*childAreas=*/null,
                      tags);
 
-        private Area(Vector position, bool isPositionFixed,
-                    AreaType areaType, NArray<Cell> mapdata,
+        /// <summary>
+        /// Creates a new instance of Area.
+        /// </summary>
+        /// <param name="position">Position of this area.</param>
+        /// <param name="isPositionFixed"><c>true</c> if the position is fixed,
+        /// <c>false</c> otherwise.</param>
+        /// <param name="size">Size of the area.</param>
+        /// <param name="areaType">Area type.</param>
+        /// <param name="childAreas">Child areas.</param>
+        /// <param name="tags">Tags to assign to this area.</param>
+        /// <exception cref="ArgumentException"></exception>
+        private Area(Vector position, bool isPositionFixed, Vector size,
+                    AreaType areaType,
                     IEnumerable<Area> childAreas,
                     IEnumerable<string> tags) {
             if (position.IsEmpty && isPositionFixed) {
                 throw new ArgumentException("Position is not initialized.");
             }
             position.ThrowIfNull(nameof(position));
-            mapdata.ThrowIfNull(nameof(mapdata));
             _position = position;
-            _cells = mapdata;
             _areaType = areaType;
             _isPositionFixed = isPositionFixed;
-            _childAreas = childAreas?.ToList() ?? new List<Area>();
+            _childAreas = childAreas == null ?
+                new List<Area>() :
+                new List<Area>(childAreas);
             _tags = tags?.ToArray() ?? new string[0];
 
+            _cells = new NArray<Cell>(size, xy => new Cell(xy, this));
             foreach (var cell in _cells.Iterate()) {
-                cell.cell.OwningArea = this;
                 var north = cell.xy + Vector.North2D;
                 if (north.Y < _cells.Size.Y) {
-                    cell.cell.Neighbors().Add(_cells[north]);
-                    _cells[north].Neighbors().Add(cell.cell);
+                    cell.cell.Neighbors().Add(north);
+                    _cells[north].Neighbors().Add(cell.xy);
                 }
 
                 var west = cell.xy + Vector.West2D;
                 if (west.X >= 0) {
-                    cell.cell.Neighbors().Add(_cells[west]);
-                    _cells[west].Neighbors().Add(cell.cell);
+                    cell.cell.Neighbors().Add(west);
+                    _cells[west].Neighbors().Add(cell.xy);
                 }
             }
+        }
+
+        /// <summary>
+        /// Copy constructor.
+        /// </summary>
+        private Area(Vector position, bool isPositionFixed, NArray<Cell> cells,
+                    AreaType areaType, Area parent,
+                    IEnumerable<Area> childAreas,
+                    string[] tags) {
+            _position = position;
+            _areaType = areaType;
+            _isPositionFixed = isPositionFixed;
+            _parent = parent;
+            _childAreas = new List<Area>(childAreas);
+            _tags = new string[tags.Length];
+            Array.Copy(tags, _tags, tags.Length);
+            _cells = new NArray<Cell>(
+                cells.Size, xy => cells[xy].CloneWithParent(this));
+        }
+
+        public IEnumerable<Cell> ChildCellsAt(Vector xy) {
+            // yield return _cells[xy];
+            foreach (var area in _childAreas) {
+                if (!area.Contains(xy)) continue;
+                var positionInArea = xy - area.Position;
+                yield return area[positionInArea];
+                foreach (var cell in area.ChildCellsAt(positionInArea)) {
+                    yield return cell;
+                }
+            }
+        }
+
+        public Area ShallowCopy() => new Area(
+            _position,
+            _isPositionFixed,
+            _cells,
+            _areaType,
+            _parent,
+            _childAreas,
+            _tags);
+
+        public Area CreateChildArea(Area template) {
+            var childArea = new Area(template._position,
+                            template._isPositionFixed,
+                            template._cells,
+                            template._areaType,
+                            this,
+                            template._childAreas,
+                            template._tags);
+            _childAreas.Add(childArea);
+            return childArea;
         }
 
         public void Reposition(Vector newPosition) {
@@ -169,26 +224,6 @@ namespace PlayersWorlds.Maps {
                 throw new InvalidOperationException("Position is fixed");
             _position = newPosition;
         }
-
-        public Area CreateChildArea(Area template) {
-            var field = new NArray<Cell>(
-                template.Size,
-                (xy) => _cells[template.Position + xy]
-                            .CreateChildCellFrom(xy, template[xy]));
-            var childArea = new Area(template._position,
-                            template._isPositionFixed,
-                            template._areaType,
-                            field,
-                            template._childAreas,
-                            template._tags);
-            _childAreas.Add(childArea);
-            return childArea;
-        }
-
-        public Area ShallowCopy() =>
-            new Area(_position, _isPositionFixed,
-                     _areaType, new NArray<Cell>(Cells),
-                     _childAreas, _tags);
 
         /// <summary>
         /// Checks if this Area overlaps with another Area.
@@ -232,8 +267,8 @@ namespace PlayersWorlds.Maps {
         /// <returns><c>true</c> if the given point is within this area.
         /// </returns>
         public bool Contains(Vector point) {
-            return LowX <= point.X && HighX >= point.X
-                && LowY <= point.Y && HighY >= point.Y;
+            return LowX <= point.X && HighX > point.X
+                && LowY <= point.Y && HighY > point.Y;
         }
 
         /// <summary>
@@ -293,8 +328,8 @@ namespace PlayersWorlds.Maps {
                 new Vector(_position.Value.Zip(scaleFactor, (a, b) => a * b));
             var cells = _cells.ScaleUp(newSize);
 
-            return new Area(position, _isPositionFixed, _areaType, cells,
-                            childAreas, _tags);
+            return new Area(position, _isPositionFixed, cells,
+                            _areaType, _parent, childAreas, _tags);
         }
 
         /// <summary>
@@ -336,10 +371,8 @@ namespace PlayersWorlds.Maps {
                 AreaType.None;
             var size = VectorD.Parse(parts[1]).RoundToInt();
             var position = VectorD.Parse(parts[0]).RoundToInt();
-            return new Area(position,
-                            isPositionFixed,
-                            type,
-                            new NArray<Cell>(size, xy => new Cell(xy)),
+            return new Area(position, isPositionFixed,
+                            size, type,
                             /*childAreas=*/null,
                             parts.Skip(3).ToArray());
         }
@@ -390,7 +423,7 @@ namespace PlayersWorlds.Maps {
         }
 
         /// <summary>
-        /// Parses a string into a <see cref="Maze2D" />.
+        /// Parses a string into a <see cref="Area" />.
         /// </summary>
         /// <param name="serialized">A string of the form
         /// <c>Vector; cell:link,link,...; cell:link,link,...; ...</c>, where
@@ -418,17 +451,22 @@ namespace PlayersWorlds.Maps {
                 var parts = serialized.Split('|');
                 var size = Vector.Parse(parts[0]);
                 var maze = Area.CreateEnvironment(size);
-                parts[1].Split(',')
-                    .ForEach(areaStr => maze.CreateChildArea(Area.Parse(areaStr)));
-                parts[2].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ForEach(cellStr => {
-                    var part = cellStr.Split(':', ' ').Select(int.Parse).ToArray();
-                    for (var j = 1; j < part.Length; j++) {
-                        if (linksAdded.Contains($"{part[0]}|{part[j]}")) continue;
-                        maze._cells[part[0]].Link(maze._cells[part[j]]);
-                        linksAdded.Add($"{part[0]}|{part[j]}");
-                        linksAdded.Add($"{part[j]}|{part[0]}");
-                    }
-                });
+                parts[1].Split(',').ForEach(
+                    areaStr => maze.CreateChildArea(Area.Parse(areaStr)));
+                parts[2].Split(
+                    new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .ForEach(cellStr => {
+                        var part = cellStr.Split(':', ' ')
+                                          .Select(int.Parse).ToArray();
+                        for (var j = 1; j < part.Length; j++) {
+                            if (linksAdded.Contains($"{part[0]}|{part[j]}")) {
+                                continue;
+                            }
+                            maze._cells[part[0]].Link(maze._cells[part[j]]);
+                            linksAdded.Add($"{part[0]}|{part[j]}");
+                            linksAdded.Add($"{part[j]}|{part[0]}");
+                        }
+                    });
                 return maze;
             }
         }

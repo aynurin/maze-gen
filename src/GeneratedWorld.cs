@@ -33,7 +33,7 @@ namespace PlayersWorlds.Maps {
         /// <returns>The <see cref="GeneratedWorld"/> instance with the new
         /// layer added, allowing for method chaining.</returns>
         public GeneratedWorld AddLayer(Vector size) {
-            _layers.Add(Area.CreateEnvironment(size, xy => new Cell(xy)));
+            _layers.Add(Area.CreateEnvironment(size));
             return this;
         }
 

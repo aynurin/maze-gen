@@ -36,12 +36,16 @@ namespace PlayersWorlds.Maps.Maze {
         private readonly int _isFillCompleteAttempts;
         private int _isFillCompleteAttemptsMade;
 
-        private readonly HashSet<Cell> _cellsToConnect;
-        private readonly Dictionary<Cell, List<Cell>> _priorityCellsToConnect;
-        private readonly HashSet<Cell> _allConnectableCells;
+        private readonly HashSet<Cell> _cellsToConnect =
+            new HashSet<Cell>();
+        private readonly Dictionary<Cell, List<Cell>> _priorityCellsToConnect =
+            new Dictionary<Cell, List<Cell>>();
+        private readonly HashSet<Cell> _allConnectableCells =
+            new HashSet<Cell>();
         private readonly HashSet<Cell> _connectedCells =
             new HashSet<Cell>();
-        private readonly List<HashSet<Cell>> _cellGroups;
+        private readonly List<HashSet<Cell>> _cellGroups =
+            new List<HashSet<Cell>>();
 
         /// <summary>
         /// Cells that can be connected and are not connected yet.
@@ -91,6 +95,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         internal RandomSource Random { get => _options.RandomSource; }
 
+        public Area MazeArea => _mazeArea;
+
         /// <summary>
         /// Creates a new instance of the <see cref="Maze2DBuilder"/> class.
         /// </summary>
@@ -131,12 +137,20 @@ namespace PlayersWorlds.Maps.Maze {
                     "default constructor.");
             }
 
+            _isFillCompleteAttempts = (int)Math.Pow(_mazeArea.Size.Area, 2);
+        }
+
+        internal void TestRebuildCellMaps() {
+            RebuildCellMaps();
+        }
+
+        private void RebuildCellMaps() {
             // Find priority cells to connect first. _priorityCellsToConnect are
             // associated with areas they relate to. When any of the given area
             // cells is processed, all "priority cells" of this area are removed
             // from the priority list (but stay in the regular pool so they can
             // be processed as normal.
-            _priorityCellsToConnect = new Dictionary<Cell, List<Cell>>();
+            _priorityCellsToConnect.Clear();
             foreach (var areaInfo in _mazeArea.ChildAreas) {
                 var area = areaInfo;
                 var mazeAreaCells = areaInfo.Cells // TODO: Not covered
@@ -165,22 +179,25 @@ namespace PlayersWorlds.Maps.Maze {
                 }
             }
 
-            _isFillCompleteAttempts = (int)Math.Pow(_mazeArea.Size.Area, 2);
-
             // all cells that do not belong to fill and hall areas.
-            _cellsToConnect = new HashSet<Cell>(_mazeArea.Cells
-                .Where(c => c.Children
+            _cellsToConnect.Clear();
+            _allConnectableCells.Clear();
+            _mazeArea.Cells
+                .Where(c => _mazeArea.ChildCellsAt(c.Position)
                     .All(childCell =>
-                        childCell.OwningArea.Value.Type != AreaType.Fill &&
-                        childCell.OwningArea.Value.Type != AreaType.Hall)));
+                        childCell.OwningArea.Type != AreaType.Fill &&
+                        childCell.OwningArea.Type != AreaType.Hall))
+                .ForEach(c => {
+                    _cellsToConnect.Add(c);
+                    // same as _cellsToConnect but persisted over time.
+                    _allConnectableCells.Add(c);
+                });
 
-            // _cellsToConnect but persisted over time.
-            _allConnectableCells = new HashSet<Cell>(_cellsToConnect);
 
             // in case the area has isolated areas, we need to find all
             // connectable groups of cells.
             var buffer = new HashSet<Cell>(_cellsToConnect);
-            _cellGroups = new List<HashSet<Cell>>();
+            _cellGroups.Clear();
             if (buffer.Count > 0) {
                 do {
                     var distances = DijkstraDistance.FindRaw(
@@ -203,6 +220,16 @@ namespace PlayersWorlds.Maps.Maze {
         public void BuildMaze() {
             try {
                 GenerateMazeAreas(_mazeArea);
+
+                var unpositionedAreas = _mazeArea.ChildAreas.Where(area => area.IsPositionEmpty).ToList();
+                if (unpositionedAreas.Count > 0) {
+                    throw new ArgumentException(
+                        "Maze contains unpositioned areas: " +
+                        string.Join(", ", unpositionedAreas));
+                }
+
+                RebuildCellMaps();
+
                 (Activator.CreateInstance(_options.MazeAlgorithm) as MazeGenerator)
                     .GenerateMaze(this);
                 ApplyAreas();
@@ -210,7 +237,7 @@ namespace PlayersWorlds.Maps.Maze {
                 _mazeArea.X(DijkstraDistance.FindLongestTrail(this));
                 _mazeArea.X(this);
             } catch (Exception ex) {
-                throw new MazeGenerationException(_mazeArea, ex);
+                throw new MazeBuilderException(this, ex);
             }
         }
 
@@ -268,7 +295,7 @@ namespace PlayersWorlds.Maps.Maze {
                 }
                 if (allAreas.Any(a => !a.IsPositionFixed)) {
                     new AreaDistributor(_options.RandomSource)
-                        .Distribute(mazeArea, allAreas, 1);
+                        .Distribute(mazeArea, allAreas, 2);
                 }
                 // problem is: how do we distribute the rooms w/o changing
                 // the original room locations?
@@ -298,7 +325,7 @@ namespace PlayersWorlds.Maps.Maze {
                         $"{mazeArea.Size}. Last set of rooms had {errors} " +
                         $"errors ({string.Join(" ", roomsDebugStr)}) " +
                         $"{_options.RandomSource}.";
-                    throw new MazeGenerationException(mazeArea, message);
+                    throw new MazeBuilderException(this, message);
                 }
             }
         }
@@ -315,7 +342,7 @@ namespace PlayersWorlds.Maps.Maze {
                                  // get rid of corner cells that can't be an
                                  // entrance into this area.
                                  c.cell.Neighbors().Any(
-                                    n => n.Children
+                                    n => _mazeArea.ChildCellsAt(n)
                                         .Any(ch => ch.OwningArea == area)))
                     .Select(c => c.cell);
             }
@@ -400,7 +427,7 @@ namespace PlayersWorlds.Maps.Maze {
             // connected.
             // also make sure hall areas have at least one neighbor cell
             // connected to the maze so we can connect them later.
-            var neighbors = cell.Neighbors();
+            var neighbors = cell.Neighbors().Select(n => _mazeArea[n]);
             var cellsToConnect = honorPriority ?
                 _priorityCellsToConnect.GetAll(neighbors)
                     .Select(kv => kv.Item1).ToList() :
@@ -443,7 +470,7 @@ namespace PlayersWorlds.Maps.Maze {
                     var entranceExists =
                         walkInCells.SelectMany(cell => cell.Links())
                             .Any(linkedCell =>
-                                 linkedCell.Children
+                                 _mazeArea.ChildCellsAt(linkedCell.Position)
                                     .Any(c => c.OwningArea == area));
                     // entrance can already be created by an overlapping area.
                     if (entranceExists) continue;
@@ -458,8 +485,8 @@ namespace PlayersWorlds.Maps.Maze {
                     }
                     var walkway = _options.RandomSource.RandomOf(visitedWalkInCells);
                     var entrance = walkway.Neighbors()
-                        .First(c => c.Children.Any(child => child.OwningArea == area));
-                    Connect(walkway, entrance);
+                        .First(c => _mazeArea.ChildCellsAt(c).Any(child => child.OwningArea == area));
+                    Connect(walkway.Position, entrance);
                 } else if (area.Type == AreaType.Fill) {
                     // if it's a filled area it cannot be visited, so we remove
                     // all mentions of its cells:
@@ -468,7 +495,8 @@ namespace PlayersWorlds.Maps.Maze {
                     // 3. remove all links that involve its cells
                     foreach (var cell in areaCells) {
                         cell.Neighbors().ForEach(
-                            neighbor => neighbor.Neighbors().Remove(cell));
+                            neighbor => _mazeArea[neighbor].Neighbors()
+                                .Remove(cell.Position));
                         cell.Neighbors().Clear();
                         var links = cell.Links().ToArray();
                         links.ForEach(link => cell.Unlink(link));
@@ -480,43 +508,20 @@ namespace PlayersWorlds.Maps.Maze {
         /// <summary>
         /// Checks if the given cell can be connected in the given direction.
         /// </summary>
+        // TODO: this really means "no suitable neighbors". Perhaps the users
+        //       should use a more specific check?
         public bool CanConnect(Cell cell, Vector neighbor) =>
             _allConnectableCells.Contains(cell) &&
             cell.Neighbors(neighbor).HasValue &&
             _allConnectableCells.Contains(cell.Neighbors(neighbor).Value);
 
         /// <summary>
-        /// Checks if the given cells can be connected with each other.
-        /// </summary>
-        public bool CanConnect(Cell one, Cell another) =>
-            _allConnectableCells.Contains(one) &&
-            _allConnectableCells.Contains(another) &&
-            one.Neighbors().Contains(another);
-
-        /// <summary>
         /// Check if the given cell is connected to the maze cells.
         /// </summary>
-        public bool IsConnected(Cell cell) {
-            var connected = _connectedCells.Contains(cell);
+        public bool IsConnected(Vector cellPosition) {
+            var connected = _connectedCells.Contains(_mazeArea[cellPosition]);
             // TODO: Prod-time assert library? I.e. Assert.That(cell.Links().Count > 0);
             return connected;
-        }
-
-        /// <summary>
-        /// Connects one cell with it's neighbor in the provided direction.
-        /// </summary>
-        /// <param name="cell">The first cell to connect.</param>
-        /// <param name="direction">The direction of the neighbor to connect.
-        /// </param>
-        public Cell Connect(Cell cell, Vector direction) {
-            if (CanConnect(cell, direction)) {
-                var another = cell.Neighbors(direction).Value;
-                Connect(cell, another);
-                return another;
-            } else {
-                throw new InvalidOperationException(
-                    "No cell to connect to: " + cell);
-            }
         }
 
         /// <summary>
@@ -524,21 +529,22 @@ namespace PlayersWorlds.Maps.Maze {
         /// </summary>
         /// <param name="one">The first cell to connect.</param>
         /// <param name="another">The second cell to connect.</param>
-        public void Connect(Cell one, Cell another) {
+        public void Connect(Vector one, Vector another) {
             Trace.WriteLine(string.Format("Connecting {0} to {1}.", one, another));
             // mark the cell as visited so it's not picked again in the 
             // PickNextRandomUnlinkedCell
-            foreach (var cell in new Cell[] { one, another }) {
-                if (_priorityCellsToConnect.ContainsKey(cell)) {
-                    var cellsToRemove = _priorityCellsToConnect[cell];
+            foreach (var position in new[] { one, another }) {
+                if (_priorityCellsToConnect.ContainsKey(_mazeArea[position])) {
+                    var cellsToRemove = _priorityCellsToConnect[_mazeArea[position]];
                     cellsToRemove.ForEach(c => _priorityCellsToConnect.Remove(c));
                 }
                 // only the connected cell is removed from _cellsToConnect because
                 // we still might want to connect other cells of the related areas.
-                _cellsToConnect.Remove(cell);
-                _connectedCells.Add(cell);
+                _cellsToConnect.Remove(_mazeArea[position]);
+                _connectedCells.Add(_mazeArea[position]);
             }
-            one.Link(another);
+            // TODO: first try link, then remove from collections
+            _mazeArea[one].Link(_mazeArea[another]);
         }
 
         /// <summary>

@@ -10,16 +10,11 @@ namespace PlayersWorlds.Maps {
     /// For now it's only a set of tags assigned to the cell.
     /// </remarks>
     public class Cell : ExtensibleObject {
-        private readonly List<Cell> _links = new List<Cell>();
-        private readonly List<Cell> _neighbors = new List<Cell>();
-        private readonly Cell _parent;
-        private readonly List<Cell> _children = new List<Cell>();
-        private Optional<Area> _owningArea;
-        /// <summary>
-        /// Tags assigned to cell.
-        /// </summary>
-        public List<CellTag> Tags { get; } = new List<CellTag>();
         private readonly Vector _position;
+        private readonly Area _owningArea;
+        private readonly List<CellTag> _tags = new List<CellTag>();
+        private readonly List<Vector> _links = new List<Vector>();
+        private readonly List<Vector> _neighbors = new List<Vector>();
 
         /// <summary>
         /// Absolute position of this cell in the world.
@@ -27,52 +22,41 @@ namespace PlayersWorlds.Maps {
         public Vector Position => _position;
 
         /// <summary>
+        /// Area that owns this cell.
+        /// </summary>
+        public Area OwningArea => _owningArea;
+
+        /// <summary>
+        /// Tags assigned to cell.
+        /// </summary>
+        public List<CellTag> Tags => _tags;
+
+        /// <summary>
         /// <c>true</c> if this cell has been visited by the maze generation
         /// algorithm.
         /// </summary>
         public bool IsConnected => _links.Count > 0;
 
-        /// <summary>
-        /// Cells related to this cell in child areas.
-        /// </summary>
-        public List<Cell> Children => _children;
-
-        public Cell Parent => _parent;
-
-        public Optional<Area> OwningArea {
-            get => _owningArea;
-            set => _owningArea = value;
-        }
+        public Cell Parent =>
+                _owningArea.Parent[_owningArea.Position + _position];
 
         /// <summary>
         /// Creates an instance of cell at the specified position.
         /// </summary>
         /// <param name="position">The position of the cell in its area.</param>
+        /// <param name="owningArea">Area that owns this cell.</param>
         /// <remarks>Supposed for internal use only.</remarks>
-        internal Cell(Vector position) {
+        public Cell(Vector position, Area owningArea) {
             _position = position;
+            _owningArea = owningArea;
         }
 
-        /// <summary>
-        /// Creates an instance of cell at the specified position.
-        /// </summary>
-        /// <param name="position">The position of the cell in its area.</param>
-        /// <param name="parent">The related call in the parent 
-        /// <see cref="Area" />.</param>
-        /// <remarks>Supposed for internal use only.</remarks>
-        private Cell(Vector position, Cell parent) {
-            _position = position;
-            _parent = parent;
-        }
-
-        public Cell CreateChildCellFrom(Vector xy, Cell template) {
-            // child Cell will have a parent set to this cell
-            // it is added to child cells of this cell
-            // it copies tags from the template.
-            var childCell = new Cell(xy, this);
-            _children.Add(childCell);
-            childCell.Tags.AddRange(template.Tags);
-            return childCell;
+        internal Cell CloneWithParent(Area area) {
+            var newCell = new Cell(_position, area);
+            newCell._tags.AddRange(_tags);
+            newCell._links.AddRange(_links);
+            newCell._neighbors.AddRange(_neighbors);
+            return newCell;
         }
 
         /// <summary>
@@ -86,15 +70,16 @@ namespace PlayersWorlds.Maps {
         /// </exception>
         public void Link(Cell cell) {
             // check if the cell is a neighbor.
-            if (!_neighbors.Contains(cell))
+            if (!_neighbors.Contains(cell.Position))
                 throw new NotImplementedException(
-                    "Linking with non-adjacent cells is not supported yet");
+                    "Linking with non-adjacent cells is not supported yet (" +
+                    $"Trying to link {cell} to {this}). Neighbors: {string.Join(", ", _neighbors)}");
             // fool-proof to avoid double linking.
-            if (_links.Contains(cell))
+            if (_links.Contains(cell.Position))
                 throw new InvalidOperationException($"This link already exists ({this}->{cell})");
 
-            _links.Add(cell);
-            cell._links.Add(this);
+            _links.Add(cell.Position);
+            cell._links.Add(this.Position);
         }
 
         // !! smellz?
@@ -103,8 +88,8 @@ namespace PlayersWorlds.Maps {
                 if (_links.Contains(neighbor)) {
                     continue;
                 }
-                if (area.Cells.Any(c => (area.Position + c.Position) == neighbor.Position)) {
-                    Link(neighbor);
+                if (area.Cells.Any(c => (area.Position + c.Position) == neighbor)) {
+                    Link(_owningArea[neighbor]);
                 }
             }
         }
@@ -114,30 +99,37 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         /// <param name="cell"></param>
         public void Unlink(Cell cell) {
-            _links.Remove(cell);
-            cell._links.Remove(this);
+            _links.Remove(cell.Position);
+            cell._links.Remove(this.Position);
         }
 
         /// <summary>
         /// The neighbors of this cell.
         /// </summary>
-        public IList<Cell> Neighbors() => _neighbors;
+        // TODO: Readonly? With vectors, we can just pre-compute?
+        public IList<Vector> Neighbors() => _neighbors;
 
         /// <summary>
         /// Get a neighbor of this cell in the specified direction.
         /// </summary>
-        /// <param name="unitVector">A vector that points to the neighbor. See
-        /// the directional vectors predefined in the <see cref="Vector" />
-        /// class.</param>
-        public Optional<Cell> Neighbors(Vector unitVector) =>
-            new Optional<Cell>(_neighbors.Find(
-                cell => cell.Position ==
-                        this.Position + unitVector));
+        /// <param name="positionInArea">Position of the neighbor in the area.
+        /// </param>
+        public Optional<Cell> Neighbors(Vector positionInArea) {
+            var position = _neighbors.Find(
+                cell => cell ==
+                        positionInArea);
+            if (position.IsEmpty) {
+                return Optional<Cell>.Empty;
+            }
+            return _owningArea[position];
+        }
 
         /// <summary>
         /// The links between this cell and other cells.
         /// </summary>
-        public IList<Cell> Links() => _links.AsReadOnly();
+        // TODO: Change all return types to vectors.
+        public IList<Cell> Links() =>
+            _links.Select(link => _owningArea[link]).ToList().AsReadOnly();
 
         /// <summary>
         /// Get a linked cell in the specified direction.
@@ -145,10 +137,15 @@ namespace PlayersWorlds.Maps {
         /// <param name="unitVector">A vector that points to the neighbor. See
         /// the directional vectors predefined in the <see cref="Vector" />
         /// class.</param>
-        public Optional<Cell> Links(Vector unitVector) =>
-            new Optional<Cell>(_links.Find(
-                cell => cell.Position ==
-                        this.Position + unitVector));
+        public Optional<Cell> Links(Vector unitVector) {
+            var position = _links.Find(
+                cell => cell ==
+                        this.Position + unitVector);
+            if (position.IsEmpty) {
+                return Optional<Cell>.Empty;
+            }
+            return _owningArea[position];
+        }
 
         override public string ToString() =>
             $"Cell({Position}{(IsConnected ? "V" : "")} " +
