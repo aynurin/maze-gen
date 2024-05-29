@@ -61,7 +61,7 @@ namespace PlayersWorlds.Maps.Maze {
                 var areaCells = areaInfo.Cells.Select(cell => cell.Parent);
                 if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
                     var selectableCells = builder.TestCellsToConnect.Intersect(areaCells).ToList();
-                    if (selectableCells.Count > 0 || areaCells.Any(cell => cell.Links().Count > 0)) {
+                    if (selectableCells.Count > 0 || areaCells.Any(cell => cell.HasLinks())) {
                         Assert.Fail("Hall cells are in the cellsToConnect collection or have links.");
                     }
                 }
@@ -546,8 +546,8 @@ namespace PlayersWorlds.Maps.Maze {
             var areaCells = maze.Cells
                     .IterateIntersection(new Vector(1, 1), new Vector(3, 3));
 
-            Assert.That(maze.Cells.Where(c => c.Links().Count() > 0), Has.No.Member(entrance));
-            Assert.That(maze.Cells.Where(c => c.Links().Count() > 0), Has.No.Member(walkway[0]));
+            Assert.That(maze.Cells.Where(c => c.HasLinks()), Has.No.Member(entrance));
+            Assert.That(maze.Cells.Where(c => c.HasLinks()), Has.No.Member(walkway[0]));
 
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
@@ -560,12 +560,12 @@ namespace PlayersWorlds.Maps.Maze {
             builder.ApplyAreas();
 
             var connectedCells = areaCells
-                .Where(c => c.cell.Links().Count() > 0)
+                .Where(c => c.cell.HasLinks())
                 .Select(c => c.cell).ToList();
 
-            Assert.That(maze.Cells.Where(c => c.Links().Count() > 0), Has.Member(entrance));
-            Assert.That(maze.Cells.Where(c => c.Links().Count() > 0), Has.Member(walkway[0]));
-            Assert.That(entrance.Links(), Has.Member(walkway[0]));
+            Assert.That(maze.Cells.Where(c => c.HasLinks()), Has.Member(entrance));
+            Assert.That(maze.Cells.Where(c => c.HasLinks()), Has.Member(walkway[0]));
+            Assert.That(entrance.Links(), Has.Member(walkway[0].Position));
         }
 
         [Test]
@@ -589,7 +589,7 @@ namespace PlayersWorlds.Maps.Maze {
                 var areaCells = areaInfo.Cells.Select(cell => cell.Parent);
                 if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
                     var selectableCells = builder.TestCellsToConnect.Intersect(areaCells).ToList();
-                    if (selectableCells.Count > 0 || areaCells.Any(cell => cell.Links().Count > 0)) {
+                    if (selectableCells.Count > 0 || areaCells.Any(cell => cell.HasLinks())) {
                         Assert.Fail("Hall cells are in the cellsToConnect collection or have links.");
                     }
                 }

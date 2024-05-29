@@ -83,22 +83,22 @@ namespace PlayersWorlds.Maps.Renderers {
             _buffer[I(asciiCoords.Northwest)] |= Border.Type.X;
             _buffer[I(asciiCoords.Southeast)] |= Border.Type.X;
             _buffer[I(asciiCoords.Southwest)] |= Border.Type.X;
-            if (!cell.Links(Vector.North2D).HasValue) {
+            if (!cell.HasLink(cell.Position + Vector.North2D)) {
                 _buffer[I(asciiCoords.Northeast)] |= Border.Type.Left;
                 _buffer[I(asciiCoords.Northwest)] |= Border.Type.Right;
                 foreach (var x in asciiCoords.North) _buffer[I(x)] |= Border.Type.South;
             }
-            if (!cell.Links(Vector.South2D).HasValue) {
+            if (!cell.HasLink(cell.Position + Vector.South2D)) {
                 _buffer[I(asciiCoords.Southeast)] |= Border.Type.Left;
                 _buffer[I(asciiCoords.Southwest)] |= Border.Type.Right;
                 foreach (var x in asciiCoords.South) _buffer[I(x)] |= Border.Type.North;
             }
-            if (!cell.Links(Vector.East2D).HasValue) {
+            if (!cell.HasLink(cell.Position + Vector.East2D)) {
                 _buffer[I(asciiCoords.Southeast)] |= Border.Type.Top;
                 _buffer[I(asciiCoords.Northeast)] |= Border.Type.Bottom;
                 foreach (var x in asciiCoords.East) _buffer[I(x)] |= Border.Type.East;
             }
-            if (!cell.Links(Vector.West2D).HasValue) {
+            if (!cell.HasLink(cell.Position + Vector.West2D)) {
                 _buffer[I(asciiCoords.Southwest)] |= Border.Type.Top;
                 _buffer[I(asciiCoords.Northwest)] |= Border.Type.Bottom;
                 foreach (var x in asciiCoords.West) _buffer[I(x)] |= Border.Type.West;

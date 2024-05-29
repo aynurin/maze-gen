@@ -67,12 +67,12 @@ namespace PlayersWorlds.Maps.Maze {
                 // continue with the lowest leftmost unconnected cell.
                 if (connectEast && canConnectEast) {
                     cellsToLink[0] = currentCell;
-                    cellsToLink[1] = currentCell.Neighbors(currentCell.Position + Vector.East2D).HasValue ? currentCell.Neighbors(currentCell.Position + Vector.East2D).Value : null;
+                    cellsToLink[1] = currentCell.HasNeighbor(currentCell.Position + Vector.East2D) ? builder.MazeArea[currentCell.Position + Vector.East2D] : null;
                 } else if (canConnectNorth) {
                     cellsToLink[0] = runCandidate;
-                    cellsToLink[1] = runCandidate.Neighbors(runCandidate.Position + Vector.North2D).HasValue ? runCandidate.Neighbors(runCandidate.Position + Vector.North2D).Value : null;
+                    cellsToLink[1] = runCandidate.HasNeighbor(runCandidate.Position + Vector.North2D) ? builder.MazeArea[runCandidate.Position + Vector.North2D] : null;
                     run.Clear();
-                } else if (currentCell.Links().Count == 0) {
+                } else if (!currentCell.HasLinks()) {
                     // This link is not connected, and won't be connected
                     // because of this maze geometry. Let's connect it to
                     // any other cell so that it's not left out.

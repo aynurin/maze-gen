@@ -68,18 +68,18 @@ namespace PlayersWorlds.Maps {
         /// </exception>
         /// <exception cref="InvalidOperationException">The link already exists.
         /// </exception>
-        public void Link(Cell cell) {
+        public void Link(Vector other) {
             // check if the cell is a neighbor.
-            if (!_neighbors.Contains(cell.Position))
+            if (!_neighbors.Contains(other))
                 throw new NotImplementedException(
                     "Linking with non-adjacent cells is not supported yet (" +
-                    $"Trying to link {cell} to {this}). Neighbors: {string.Join(", ", _neighbors)}");
+                    $"Trying to link {other} to {this}). Neighbors: {string.Join(", ", _neighbors)}");
             // fool-proof to avoid double linking.
-            if (_links.Contains(cell.Position))
-                throw new InvalidOperationException($"This link already exists ({this}->{cell})");
+            if (_links.Contains(other))
+                throw new InvalidOperationException($"This link already exists ({this}->{other})");
 
-            _links.Add(cell.Position);
-            cell._links.Add(this.Position);
+            _links.Add(other);
+            _owningArea[other]._links.Add(this.Position);
         }
 
         // !! smellz?
@@ -89,7 +89,7 @@ namespace PlayersWorlds.Maps {
                     continue;
                 }
                 if (area.Cells.Any(c => (area.Position + c.Position) == neighbor)) {
-                    Link(_owningArea[neighbor]);
+                    Link(neighbor);
                 }
             }
         }
@@ -97,10 +97,10 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// Breaks a link between the cells.
         /// </summary>
-        /// <param name="cell"></param>
-        public void Unlink(Cell cell) {
-            _links.Remove(cell.Position);
-            cell._links.Remove(this.Position);
+        /// <param name="other"></param>
+        public void Unlink(Vector other) {
+            _links.Remove(other);
+            _owningArea[other]._links.Remove(this.Position);
         }
 
         /// <summary>
@@ -109,43 +109,20 @@ namespace PlayersWorlds.Maps {
         // TODO: Readonly? With vectors, we can just pre-compute?
         public IList<Vector> Neighbors() => _neighbors;
 
-        /// <summary>
-        /// Get a neighbor of this cell in the specified direction.
-        /// </summary>
-        /// <param name="positionInArea">Position of the neighbor in the area.
-        /// </param>
-        public Optional<Cell> Neighbors(Vector positionInArea) {
-            var position = _neighbors.Find(
-                cell => cell ==
-                        positionInArea);
-            if (position.IsEmpty) {
-                return Optional<Cell>.Empty;
-            }
-            return _owningArea[position];
-        }
+        public bool HasNeighbor(Vector positionInArea) =>
+            _neighbors.Contains(positionInArea);
 
         /// <summary>
         /// The links between this cell and other cells.
         /// </summary>
         // TODO: Change all return types to vectors.
-        public IList<Cell> Links() =>
-            _links.Select(link => _owningArea[link]).ToList().AsReadOnly();
+        public IList<Vector> Links() =>
+            _links.AsReadOnly();
 
-        /// <summary>
-        /// Get a linked cell in the specified direction.
-        /// </summary>
-        /// <param name="unitVector">A vector that points to the neighbor. See
-        /// the directional vectors predefined in the <see cref="Vector" />
-        /// class.</param>
-        public Optional<Cell> Links(Vector unitVector) {
-            var position = _links.Find(
-                cell => cell ==
-                        this.Position + unitVector);
-            if (position.IsEmpty) {
-                return Optional<Cell>.Empty;
-            }
-            return _owningArea[position];
-        }
+        public bool HasLink(Vector positionInArea) =>
+            _links.Contains(positionInArea);
+
+        public bool HasLinks() => _links.Count > 0;
 
         override public string ToString() =>
             $"Cell({Position}{(IsConnected ? "V" : "")} " +
@@ -160,10 +137,10 @@ namespace PlayersWorlds.Maps {
             $"[{string.Join(", ", Tags)}])";
 
         private string GatesString() => string.Concat(
-            Links(Vector.North2D).HasValue ? "N" : "-",
-            Links(Vector.East2D).HasValue ? "E" : "-",
-            Links(Vector.South2D).HasValue ? "S" : "-",
-            Links(Vector.West2D).HasValue ? "W" : "-");
+            HasLink(_position + Vector.North2D) ? "N" : "-",
+            HasLink(_position + Vector.East2D) ? "E" : "-",
+            HasLink(_position + Vector.South2D) ? "S" : "-",
+            HasLink(_position + Vector.West2D) ? "W" : "-");
 
         /// <summary>
         /// Cell tags can be used in the game engine to choose objects, visual

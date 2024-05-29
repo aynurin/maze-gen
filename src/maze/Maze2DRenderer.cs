@@ -50,16 +50,16 @@ namespace PlayersWorlds.Maps.Maze {
                 if (cell.IsConnected) {
                     mapping.CenterCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (cell.Links(Vector.North2D).HasValue) {
+                if (cell.HasLink(cell.Position + Vector.North2D)) {
                     mapping.NCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (cell.Links(Vector.East2D).HasValue) {
+                if (cell.HasLink(cell.Position + Vector.East2D)) {
                     mapping.ECells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (cell.Links(Vector.South2D).HasValue) {
+                if (cell.HasLink(cell.Position + Vector.South2D)) {
                     mapping.SCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (cell.Links(Vector.West2D).HasValue) {
+                if (cell.HasLink(cell.Position + Vector.West2D)) {
                     mapping.WCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
             }

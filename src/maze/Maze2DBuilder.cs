@@ -470,7 +470,7 @@ namespace PlayersWorlds.Maps.Maze {
                     var entranceExists =
                         walkInCells.SelectMany(cell => cell.Links())
                             .Any(linkedCell =>
-                                 _mazeArea.ChildCellsAt(linkedCell.Position)
+                                 _mazeArea.ChildCellsAt(linkedCell)
                                     .Any(c => c.OwningArea == area));
                     // entrance can already be created by an overlapping area.
                     if (entranceExists) continue;
@@ -512,8 +512,8 @@ namespace PlayersWorlds.Maps.Maze {
         //       should use a more specific check?
         public bool CanConnect(Cell cell, Vector neighbor) =>
             _allConnectableCells.Contains(cell) &&
-            cell.Neighbors(neighbor).HasValue &&
-            _allConnectableCells.Contains(cell.Neighbors(neighbor).Value);
+            cell.HasNeighbor(neighbor) &&
+            _allConnectableCells.Contains(_mazeArea[neighbor]);
 
         /// <summary>
         /// Check if the given cell is connected to the maze cells.
@@ -544,7 +544,7 @@ namespace PlayersWorlds.Maps.Maze {
                 _connectedCells.Add(_mazeArea[position]);
             }
             // TODO: first try link, then remove from collections
-            _mazeArea[one].Link(_mazeArea[another]);
+            _mazeArea[one].Link(another);
         }
 
         /// <summary>

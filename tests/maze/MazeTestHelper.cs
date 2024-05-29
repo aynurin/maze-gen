@@ -13,9 +13,9 @@ namespace PlayersWorlds.Maps.Maze {
 
         public static bool IsSolveable(Area maze) {
             var cells = new HashSet<Cell>(
-                maze.Cells.Where(c => c.Links().Count > 0));
-            var dijkstra = DijkstraDistance.Find(cells.First());
-            cells.ExceptWith(dijkstra.Keys);
+                maze.Cells.Where(c => c.HasLinks()));
+            var dijkstra = DijkstraDistance.Find(maze, cells.First().Position);
+            cells.ExceptWith(dijkstra.Keys.Select(c => maze[c]));
 
             if (cells.Count > 0) {
                 s_log.I(

@@ -19,7 +19,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         public override string Message {
             get {
-                return base.Message + "\n" + Builder.ToString();
+                return base.Message + "\n" + Builder.Random.ToString() + "\n" + Builder.ToString();
             }
         }
     }

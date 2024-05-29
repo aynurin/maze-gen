@@ -45,6 +45,7 @@ namespace PlayersWorlds.Maps {
                             !c.IsConnected &&
                             !maze.ChildAreas.Any(
                                 area => area.Cells.Any(ch => ch.Parent == c)))));
+            Console.WriteLine(maze.MazeToString());
             return 0;
         }
     }

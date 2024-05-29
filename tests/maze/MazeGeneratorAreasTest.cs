@@ -38,7 +38,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(otherCells, Has.Exactly(213).Items);
 
             // fill areas do not have links with the external cells
-            Assert.That(fillCells.SelectMany(cell => cell.Links()),
+            Assert.That(fillCells.SelectMany(cell => cell.Links().Select(link => maze[link])),
                 Has.None.AnyOf(otherCells));
         }
 
@@ -64,7 +64,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             Assert.That(otherCells, Has.Exactly(mazeArea - areaArea).Items);
             // hall areas have only one link with the external cells
-            Assert.That(hallCells.SelectMany(cell => cell.Links()),
+            Assert.That(hallCells.SelectMany(cell => cell.Links().Select(link => maze[link])),
                 Has.Exactly(1).AnyOf(otherCells));
 
             var hallInnerCells = maze.Cells.IterateIntersection(
@@ -89,7 +89,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             // exactly one of hall edge cells is connected to the external cells
             Assert.That(
-                hallEdgeCells.SelectMany(cell => cell.Links()),
+                hallEdgeCells.SelectMany(cell => cell.Links().Select(link => maze[link])),
                 Has.Exactly(1).AnyOf(otherCells));
         }
 
@@ -114,7 +114,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             Assert.That(otherCells, Has.Exactly(mazeArea - areaArea).Items);
             // cave areas have at least one link with the external cells
-            Assert.That(caveCells.SelectMany(cell => cell.Links())
+            Assert.That(caveCells.SelectMany(cell => cell.Links().Select(l => maze[l]))
                                  .Intersect(otherCells).ToList(),
                         Has.Count.GreaterThanOrEqualTo(1));
 
@@ -169,7 +169,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             if (areaType == AreaType.Fill) {
                 // fill areas do not have links with the external cells
-                Assert.That(areaCells.SelectMany(cell => cell.Links()),
+                Assert.That(areaCells.SelectMany(cell => cell.Links().Select(link => maze[link])),
                     Has.None.AnyOf(otherCells));
             } else {
                 var innerCells = maze.Cells.IterateIntersection(
@@ -317,9 +317,9 @@ namespace PlayersWorlds.Maps.Maze {
                 },
                 out _);
 
-            var paths = DijkstraDistance.Find(maze.Cells[area1.Position]);
+            var paths = DijkstraDistance.Find(maze, area1.Position);
 
-            Assert.That(paths.ContainsKey(maze.Cells[area2.Position]));
+            Assert.That(paths.ContainsKey(area2.Position));
         }
 
         [Test]

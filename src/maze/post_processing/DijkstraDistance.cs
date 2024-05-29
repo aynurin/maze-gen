@@ -71,20 +71,20 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         /// <summary>
         /// Finds Dijkstra distances for the given cell.
         /// </summary>
+        /// <param name="mazeArea">Area of the maze.</param>
         /// <param name="startingCell">The cell to start the BFS walk.</param>
         /// <returns></returns>
-        public static Dictionary<Cell, int> Find(Cell startingCell) {
-            var distances = new Dictionary<Cell, int> {
+        public static Dictionary<Vector, int> Find(Area mazeArea, Vector startingCell) {
+            var distances = new Dictionary<Vector, int> {
                 { startingCell, 0 }
             };
-            startingCell.X(new DistanceExtension(0));
-            var stack = new Stack<Cell>();
+            var stack = new Stack<Vector>();
             stack.Push(startingCell);
-            Cell nextCell;
+            Vector nextCell;
             while (stack.Count > 0) {
                 nextCell = stack.Pop();
                 var distance = distances[nextCell];
-                foreach (var neighbor in nextCell.Links()) {
+                foreach (var neighbor in mazeArea[nextCell].Links()) {
                     // if a maze has loops, we have to check if we are building
                     // a shorter path or a longer one.
                     if (!distances.ContainsKey(neighbor)) {
@@ -92,7 +92,6 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
                     } else if (distance + 1 < distances[neighbor]) {
                         distances[neighbor] = distance + 1;
                     } else continue;
-                    neighbor.X(new DistanceExtension(distances[neighbor]));
                     stack.Push(neighbor);
                 }
             }
@@ -144,16 +143,16 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         /// <paramref name="startingCell" /> to <paramref name="targetCell" />
         /// or <c>Optional&lt;List&lt;Cell&gt;&gt;.Empty</c> if the solution
         /// does not exist.</returns>        
-        public static Optional<List<Cell>> Solve(
-            Cell startingCell, Cell targetCell) {
-            var distances = Find(startingCell);
+        public static Optional<List<Cell>> Solve(Area mazeArea,
+            Vector startingCell, Vector targetCell) {
+            var distances = Find(mazeArea, startingCell);
             if (!distances.ContainsKey(targetCell)) {
                 return Optional<List<Cell>>.Empty;
             }
-            var solution = new List<Cell>() { targetCell };
+            var solution = new List<Cell>() { mazeArea[targetCell] };
             while (distances[targetCell] > 0) {
-                targetCell = targetCell.Links().OrderBy(cell => distances[cell]).First();
-                solution.Add(targetCell);
+                targetCell = mazeArea[targetCell].Links().OrderBy(cell => distances[cell]).First();
+                solution.Add(mazeArea[targetCell]);
             }
             solution.Reverse();
             return solution;
@@ -162,17 +161,17 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         /// <summary />
         public static LongestTrailExtension FindLongestTrail(Maze2DBuilder builder) {
             builder.AllCells.ThrowIfNullOrEmpty("maze.MazeCells");
-            var distances = Find(builder.AllCells.First());
+            var distances = Find(builder.MazeArea, builder.AllCells.First().Position);
             var startingPoint = distances.OrderByDescending(kvp => kvp.Value)
                                          .Select(kvp => kvp.Key).First();
-            startingPoint.X(new IsLongestTrailStartExtension());
-            distances = Find(startingPoint);
+            builder.MazeArea[startingPoint].X(new IsLongestTrailStartExtension());
+            distances = Find(builder.MazeArea, startingPoint);
             var targetPoint = distances.OrderByDescending(kvp => kvp.Value)
                                        .Select(kvp => kvp.Key).First();
-            startingPoint.X(new IsLongestTrailEndExtension());
-            var solution = Solve(startingPoint, targetPoint).Value;
+            builder.MazeArea[startingPoint].X(new IsLongestTrailEndExtension());
+            var solution = Solve(builder.MazeArea, startingPoint, targetPoint).Value;
             foreach (var cell in solution) {
-                startingPoint.X(new IsLongestTrailExtension());
+                builder.MazeArea[startingPoint].X(new IsLongestTrailExtension());
             }
             return new LongestTrailExtension(solution);
         }
@@ -180,17 +179,17 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         [Obsolete]
         public static LongestTrailExtension FindLongestTrail(Area maze) {
             maze.Cells.ThrowIfNullOrEmpty("maze.MazeCells");
-            var distances = Find(maze.Cells.First());
+            var distances = Find(maze, maze.Cells.First().Position);
             var startingPoint = distances.OrderByDescending(kvp => kvp.Value)
                                          .Select(kvp => kvp.Key).First();
-            startingPoint.X(new IsLongestTrailStartExtension());
-            distances = Find(startingPoint);
+            maze[startingPoint].X(new IsLongestTrailStartExtension());
+            distances = Find(maze, startingPoint);
             var targetPoint = distances.OrderByDescending(kvp => kvp.Value)
                                        .Select(kvp => kvp.Key).First();
-            startingPoint.X(new IsLongestTrailEndExtension());
-            var solution = Solve(startingPoint, targetPoint).Value;
+            maze[startingPoint].X(new IsLongestTrailEndExtension());
+            var solution = Solve(maze, startingPoint, targetPoint).Value;
             foreach (var cell in solution) {
-                startingPoint.X(new IsLongestTrailExtension());
+                maze[startingPoint].X(new IsLongestTrailExtension());
             }
             return new LongestTrailExtension(solution);
         }

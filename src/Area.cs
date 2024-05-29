@@ -407,9 +407,9 @@ namespace PlayersWorlds.Maps {
             var size = Size.ToString();
             var areas = string.Join(",", _childAreas.Select(area => area.ToString()));
             var cells = string.Join(",", _cells.Select((cell, index) => {
-                if (_cells[index].Links().Count > 0) {
+                if (_cells[index].HasLinks()) {
                     var links = _cells[index].Links()
-                        .Select(link => link.Position.ToIndex(Size))
+                        .Select(link => link.ToIndex(Size))
                         .Where(link => !linksAdded.Contains(new int[] { index, link }));
 
                     linksAdded.UnionWith(links.Select(link => new int[] { link, index }));
@@ -442,7 +442,7 @@ namespace PlayersWorlds.Maps {
                 for (var i = 1; i < parts.Length; i++) {
                     var part = parts[i].Split(':', ',').Select(int.Parse).ToArray();
                     for (var j = 1; j < part.Length; j++) {
-                        maze._cells[part[0]].Link(maze._cells[part[j]]);
+                        maze._cells[part[0]].Link(Vector.FromIndex(part[j], maze.Size));
                     }
                 }
                 return maze;
@@ -451,7 +451,7 @@ namespace PlayersWorlds.Maps {
                 var parts = serialized.Split('|');
                 var size = Vector.Parse(parts[0]);
                 var maze = Area.CreateEnvironment(size);
-                parts[1].Split(',').ForEach(
+                parts[1].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ForEach(
                     areaStr => maze.CreateChildArea(Area.Parse(areaStr)));
                 parts[2].Split(
                     new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
@@ -462,7 +462,7 @@ namespace PlayersWorlds.Maps {
                             if (linksAdded.Contains($"{part[0]}|{part[j]}")) {
                                 continue;
                             }
-                            maze._cells[part[0]].Link(maze._cells[part[j]]);
+                            maze._cells[part[0]].Link(Vector.FromIndex(part[j], maze.Size));
                             linksAdded.Add($"{part[0]}|{part[j]}");
                             linksAdded.Add($"{part[j]}|{part[0]}");
                         }
