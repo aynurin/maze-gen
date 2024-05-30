@@ -14,7 +14,7 @@ namespace PlayersWorlds.Maps.Maze {
             var a = env[new Vector(2, 1)];
             var b = env[new Vector(2, 2)];
 
-            a.Link(b.Position);
+            env.Link(a.Position, b.Position);
             Assert.That(a.Links(), Has.Count.EqualTo(1));
             Assert.That(b.Links(), Has.Count.EqualTo(1));
             Assert.That(a.HasLink(a.Position + Vector.North2D), Is.True);
@@ -36,7 +36,7 @@ namespace PlayersWorlds.Maps.Maze {
             var b = env[new Vector(2, 2)];
             var c = env[new Vector(2, 3)];
 
-            Assert.That(() => a.Link(c.Position), Throws.InstanceOf<NotImplementedException>());
+            Assert.That(() => env.Link(a.Position, c.Position), Throws.InstanceOf<InvalidOperationException>());
         }
 
         // [Test]
@@ -61,13 +61,13 @@ namespace PlayersWorlds.Maps.Maze {
             var c = env[new Vector(1, 3)];
             var d = env[new Vector(2, 3)];
 
-            a.Link(b.Position);
+            env.Link(a.Position, b.Position);
             Assert.That(a.ToString(), Is.EqualTo("Cell(2x1V [])"));
             Assert.That(b.ToString(), Is.EqualTo("Cell(2x2V [])"));
             Assert.That(a.ToLongString(), Is.EqualTo("Cell(2x1V(N---) [])"));
             Assert.That(b.ToLongString(), Is.EqualTo("Cell(2x2V(--S-) [])"));
 
-            c.Link(d.Position);
+            env.Link(c.Position, d.Position);
             Assert.That(c.ToLongString(), Is.EqualTo("Cell(1x3V(-E--) [])"));
             Assert.That(d.ToLongString(), Is.EqualTo("Cell(2x3V(---W) [])"));
 
@@ -80,8 +80,8 @@ namespace PlayersWorlds.Maps.Maze {
             var env = Area.CreateEnvironment(new Vector(5, 5));
             var a = env[new Vector(1, 2)];
             var b = env[new Vector(2, 2)];
-            a.Link(b.Position);
-            Assert.Throws<InvalidOperationException>(() => b.Link(a.Position));
+            env.Link(a.Position, b.Position);
+            Assert.Throws<InvalidOperationException>(() => env.Link(a.Position, a.Position));
         }
 
     }

@@ -338,12 +338,10 @@ namespace PlayersWorlds.Maps.Maze {
                     .IterateIntersection(
                         new Vector(area.Position.Value.Select(c => c - 1)),
                         new Vector(area.Size.Value.Select(c => c + 2)))
-                    .Where(c => !c.xy.IsIn(area.Position, area.Size) &&
-                                 // get rid of corner cells that can't be an
-                                 // entrance into this area.
-                                 c.cell.Neighbors().Any(
-                                    n => _mazeArea.ChildCellsAt(n)
-                                        .Any(ch => ch.OwningArea == area)))
+                    .Where(c => !area.Contains(c.xy) &&
+                                 // only cells that have neighbors in this area.
+                                 _mazeArea.NeighborsOf(c.xy).Any(
+                                    n => area.Contains(n)))
                     .Select(c => c.cell);
             }
             throw new InvalidOperationException(
@@ -427,7 +425,7 @@ namespace PlayersWorlds.Maps.Maze {
             // connected.
             // also make sure hall areas have at least one neighbor cell
             // connected to the maze so we can connect them later.
-            var neighbors = cell.Neighbors().Select(n => _mazeArea[n]);
+            var neighbors = _mazeArea.NeighborsOf(cell.Position).Select(n => _mazeArea[n]);
             var cellsToConnect = honorPriority ?
                 _priorityCellsToConnect.GetAll(neighbors)
                     .Select(kv => kv.Item1).ToList() :
@@ -484,23 +482,9 @@ namespace PlayersWorlds.Maps.Maze {
                         continue;
                     }
                     var walkway = _options.RandomSource.RandomOf(visitedWalkInCells);
-                    var entrance = walkway.Neighbors()
-                        .First(c => _mazeArea.ChildCellsAt(c).Any(child => child.OwningArea == area));
+                    var entrance = _mazeArea.NeighborsOf(walkway.Position)
+                        .First(c => area.Contains(c));
                     Connect(walkway.Position, entrance);
-                } else if (area.Type == AreaType.Fill) {
-                    // if it's a filled area it cannot be visited, so we remove
-                    // all mentions of its cells:
-                    // 1. remove all of its cells from their neighbors
-                    // 2. remove all neighbors of its cells
-                    // 3. remove all links that involve its cells
-                    foreach (var cell in areaCells) {
-                        cell.Neighbors().ForEach(
-                            neighbor => _mazeArea[neighbor].Neighbors()
-                                .Remove(cell.Position));
-                        cell.Neighbors().Clear();
-                        var links = cell.Links().ToArray();
-                        links.ForEach(link => cell.Unlink(link));
-                    }
                 }
             }
         }
@@ -512,7 +496,7 @@ namespace PlayersWorlds.Maps.Maze {
         //       should use a more specific check?
         public bool CanConnect(Cell cell, Vector neighbor) =>
             _allConnectableCells.Contains(cell) &&
-            cell.HasNeighbor(neighbor) &&
+            _mazeArea.AreNeighbors(cell.Position, neighbor) &&
             _allConnectableCells.Contains(_mazeArea[neighbor]);
 
         /// <summary>
@@ -544,7 +528,7 @@ namespace PlayersWorlds.Maps.Maze {
                 _connectedCells.Add(_mazeArea[position]);
             }
             // TODO: first try link, then remove from collections
-            _mazeArea[one].Link(another);
+            _mazeArea.Link(one, another);
         }
 
         /// <summary>

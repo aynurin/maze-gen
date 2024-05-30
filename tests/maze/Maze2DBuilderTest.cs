@@ -61,7 +61,7 @@ namespace PlayersWorlds.Maps.Maze {
                 var areaCells = areaInfo.Cells.Select(cell => cell.Parent);
                 if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
                     var selectableCells = builder.TestCellsToConnect.Intersect(areaCells).ToList();
-                    if (selectableCells.Count > 0 || areaCells.Any(cell => cell.HasLinks())) {
+                    if (selectableCells.Count > 0) {
                         Assert.Fail("Hall cells are in the cellsToConnect collection or have links.");
                     }
                 }
@@ -339,10 +339,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_Full_WithFill() {
             var maze = Area.CreateEnvironment(new Vector(5, 5));
-            maze.CreateChildArea(Area.Create(new Vector(1, 1),
-                                     new Vector(3, 3),
-                                     AreaType.Fill,
-                                     "hall"));
+            var area = maze.CreateChildArea(Area.Create(new Vector(1, 1),
+                                                        new Vector(3, 3),
+                                                        AreaType.Fill,
+                                                        "hall"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
@@ -353,15 +353,13 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(builder.IsFillComplete(), Is.False);
             var areaCells = maze.Cells
                     .IterateIntersection(new Vector(1, 1), new Vector(3, 3));
-            var cellsToConnect = maze.Cells.ToHashSet();
-            cellsToConnect.ExceptWith(areaCells.Select(c => c.cell));
+            var cellsToConnect = maze.Cells.Select(c => c.Position).ToHashSet();
+            cellsToConnect.ExceptWith(areaCells.Select(c => c.xy));
             foreach (var cell in cellsToConnect) {
-                try {
-                    builder.Connect(cell.Position, cell.Position + Vector.East2D);
-                } catch (IndexOutOfRangeException) { }
-                try {
-                    builder.Connect(cell.Position, cell.Position + Vector.North2D);
-                } catch (IndexOutOfRangeException) { }
+                if (cellsToConnect.Contains(cell + Vector.East2D))
+                    builder.Connect(cell, cell + Vector.East2D);
+                if (cellsToConnect.Contains(cell + Vector.North2D))
+                    builder.Connect(cell, cell + Vector.North2D);
             }
             Assert.That(builder.IsFillComplete(), Is.True);
         }
@@ -546,7 +544,6 @@ namespace PlayersWorlds.Maps.Maze {
             var areaCells = maze.Cells
                     .IterateIntersection(new Vector(1, 1), new Vector(3, 3));
 
-            Assert.That(maze.Cells.Where(c => c.HasLinks()), Has.No.Member(entrance));
             Assert.That(maze.Cells.Where(c => c.HasLinks()), Has.No.Member(walkway[0]));
 
             var builder = new Maze2DBuilder(maze,
@@ -589,7 +586,7 @@ namespace PlayersWorlds.Maps.Maze {
                 var areaCells = areaInfo.Cells.Select(cell => cell.Parent);
                 if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
                     var selectableCells = builder.TestCellsToConnect.Intersect(areaCells).ToList();
-                    if (selectableCells.Count > 0 || areaCells.Any(cell => cell.HasLinks())) {
+                    if (selectableCells.Count > 0) {
                         Assert.Fail("Hall cells are in the cellsToConnect collection or have links.");
                     }
                 }

@@ -32,10 +32,9 @@ namespace PlayersWorlds.Maps {
         public List<CellTag> Tags => _tags;
 
         /// <summary>
-        /// <c>true</c> if this cell has been visited by the maze generation
-        /// algorithm.
+        /// <c>true</c> if this cell is connected to any other cells.
         /// </summary>
-        public bool IsConnected => _links.Count > 0;
+        public bool IsConnected => HasLinks();
 
         public Cell Parent =>
                 _owningArea.Parent[_owningArea.Position + _position];
@@ -82,13 +81,31 @@ namespace PlayersWorlds.Maps {
             _owningArea[other]._links.Add(this.Position);
         }
 
+        /// <summary>
+        /// Creates a link between this cell and the specified cell making a
+        /// path that can be used by the player to travel between the two cells.
+        /// </summary>
+        /// <exception cref="NotImplementedException">The cells are not adjacent
+        /// and traveling between non-adjacent cells is not yet implemented.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">The link already exists.
+        /// </exception>
+        public void Link(Cell other) {
+            // fool-proof to avoid double linking.
+            if (_links.Contains(other.Position))
+                throw new InvalidOperationException($"This link already exists ({this}->{other})");
+
+            _links.Add(other.Position);
+            other._links.Add(this.Position);
+        }
+
         // !! smellz?
         internal void LinkAllNeighborsInArea(Area area) {
             foreach (var neighbor in _neighbors) {
                 if (_links.Contains(neighbor)) {
                     continue;
                 }
-                if (area.Cells.Any(c => (area.Position + c.Position) == neighbor)) {
+                if (area.Contains(neighbor)) {
                     Link(neighbor);
                 }
             }
@@ -100,29 +117,50 @@ namespace PlayersWorlds.Maps {
         /// <param name="other"></param>
         public void Unlink(Vector other) {
             _links.Remove(other);
-            _owningArea[other]._links.Remove(this.Position);
+            _owningArea[other]._links.Remove(_position);
         }
-
-        /// <summary>
-        /// The neighbors of this cell.
-        /// </summary>
-        // TODO: Readonly? With vectors, we can just pre-compute?
-        public IList<Vector> Neighbors() => _neighbors;
-
-        public bool HasNeighbor(Vector positionInArea) =>
-            _neighbors.Contains(positionInArea);
 
         /// <summary>
         /// The links between this cell and other cells.
         /// </summary>
         // TODO: Change all return types to vectors.
         public IList<Vector> Links() =>
-            _links.AsReadOnly();
+            _links.Concat(
+                _owningArea.NeighborsOf(_position)
+                           .Where(n => _owningArea.ChildAreas
+                                       .Any(a => (
+                                            a.Type == Areas.AreaType.Hall ||
+                                            a.Type == Areas.AreaType.Cave) &&
+                                            a.Contains(_position) &&
+                                            a.Contains(n))))
+                  .Distinct().ToList();
 
         public bool HasLink(Vector positionInArea) =>
-            _links.Contains(positionInArea);
+            // has hard links
+            (_links.Contains(positionInArea) ||
+            // or is a part of an interconnected area
+            _owningArea.ChildAreas.Any(a => (a.Type == Areas.AreaType.Hall ||
+                                             a.Type == Areas.AreaType.Cave) &&
+                                            a.Contains(_position) &&
+                                            a.Contains(positionInArea))) &&
+            // and never a part of a filled area.
+            _owningArea.ChildAreas.All(
+                a => a.Type != Areas.AreaType.Fill || (
+                    !a.Contains(_position) && !a.Contains(positionInArea)));
 
-        public bool HasLinks() => _links.Count > 0;
+        public bool HasLinks() =>
+            // has hard links
+            (_links.Count > 0 ||
+             // or is a part of an interconnected area
+             _owningArea.ChildAreas.Any(
+                a => (a.Type == Areas.AreaType.Hall ||
+                      a.Type == Areas.AreaType.Cave) &&
+                     a.Contains(_position) &&
+                     _owningArea.NeighborsOf(_position)
+                                .Any(n => a.Contains(n)))) &&
+            // and never a part of a filled area.
+            _owningArea.ChildAreas.All(
+                a => a.Type != Areas.AreaType.Fill || !a.Contains(_position));
 
         override public string ToString() =>
             $"Cell({Position}{(IsConnected ? "V" : "")} " +

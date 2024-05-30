@@ -55,12 +55,12 @@ namespace PlayersWorlds.Maps.Maze {
                     var nonNeighbors = map.Cells
                         .Where(c => c != cell && !neighbors.Contains(c))
                         .ToList();
-                    if (neighbors.Count != cell.Neighbors().Count) {
-                        TestLog.CreateForThisTest().D(5, $"Cell {cell.Position.X},{cell.Position.Y} has {neighbors.Count} neighbors. It should have {cell.Neighbors().Count} neighbors.");
+                    if (neighbors.Count != map.NeighborsOf(cell.Position).Count()) {
+                        TestLog.CreateForThisTest().D(5, $"Cell {cell.Position.X},{cell.Position.Y} has {neighbors.Count} neighbors. It should have {map.NeighborsOf(cell.Position).Count()} neighbors.");
                     }
-                    Assert.That(neighbors.Count, Is.EqualTo(cell.Neighbors().Count));
-                    Assert.That(neighbors.All(c => cell.Neighbors().Contains(c.Position)), Is.True);
-                    Assert.That(nonNeighbors.Any(c => cell.Neighbors().Contains(c.Position)), Is.False);
+                    Assert.That(neighbors.Count, Is.EqualTo(map.NeighborsOf(cell.Position).Count()));
+                    Assert.That(neighbors.All(c => map.NeighborsOf(cell.Position).Contains(c.Position)), Is.True);
+                    Assert.That(nonNeighbors.Any(c => map.NeighborsOf(cell.Position).Contains(c.Position)), Is.False);
 
                     if (x > 0) Assert.That(
                         map[cell.Position + Vector.West2D],
@@ -183,10 +183,10 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(!maze.Cells[6].HasLink(maze.Cells[6].Position + Vector.West2D), Is.True);
             Assert.That(!maze.Cells[6].HasLink(maze.Cells[6].Position + Vector.South2D), Is.True);
             Assert.That(!maze.Cells[6].HasLink(maze.Cells[6].Position + Vector.North2D), Is.True);
-            Assert.That(maze.Cells[6].HasNeighbor(maze.Cells[6].Position + Vector.East2D), Is.True);
-            Assert.That(!maze.Cells[6].HasNeighbor(maze.Cells[6].Position + Vector.West2D), Is.True);
-            Assert.That(maze.Cells[6].HasNeighbor(maze.Cells[6].Position + Vector.South2D), Is.True);
-            Assert.That(!maze.Cells[6].HasNeighbor(maze.Cells[6].Position + Vector.North2D), Is.True);
+            Assert.That(maze.AreNeighbors(maze.Cells[6].Position, maze.Cells[6].Position + Vector.East2D), Is.True);
+            Assert.That(!maze.AreNeighbors(maze.Cells[6].Position, maze.Cells[6].Position + Vector.West2D), Is.True);
+            Assert.That(maze.AreNeighbors(maze.Cells[6].Position, maze.Cells[6].Position + Vector.South2D), Is.True);
+            Assert.That(!maze.AreNeighbors(maze.Cells[6].Position, maze.Cells[6].Position + Vector.North2D), Is.True);
         }
 
         [Test]

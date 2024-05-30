@@ -20,6 +20,7 @@ namespace PlayersWorlds.Maps {
         private readonly string[] _tags;
         private readonly List<Area> _childAreas;
         private readonly Area _parent;
+        private readonly HashSet<Cell> _areasSnapshot = new HashSet<Cell>();
 
         /// <summary>
         /// Position of this area in the target map.
@@ -153,19 +154,6 @@ namespace PlayersWorlds.Maps {
             _tags = tags?.ToArray() ?? new string[0];
 
             _cells = new NArray<Cell>(size, xy => new Cell(xy, this));
-            foreach (var cell in _cells.Iterate()) {
-                var north = cell.xy + Vector.North2D;
-                if (north.Y < _cells.Size.Y) {
-                    cell.cell.Neighbors().Add(north);
-                    _cells[north].Neighbors().Add(cell.xy);
-                }
-
-                var west = cell.xy + Vector.West2D;
-                if (west.X >= 0) {
-                    cell.cell.Neighbors().Add(west);
-                    _cells[west].Neighbors().Add(cell.xy);
-                }
-            }
         }
 
         /// <summary>
@@ -216,7 +204,15 @@ namespace PlayersWorlds.Maps {
                             template._childAreas,
                             template._tags);
             _childAreas.Add(childArea);
+            RebuildChildAreasSnapshot();
             return childArea;
+        }
+
+        private void RebuildChildAreasSnapshot() {
+            _areasSnapshot.Clear();
+            // foreach (var area in _childAreas) {
+            //     _areasSnapshot.Add(area);
+            // }
         }
 
         public void Reposition(Vector newPosition) {
@@ -284,6 +280,53 @@ namespace PlayersWorlds.Maps {
                 HighX <= position.X + size.X &&
                 LowY >= position.Y &&
                 HighY <= position.Y + size.Y;
+        }
+
+        public IEnumerable<Vector> NeighborsOf(Vector cell) {
+            if (cell.Y > 0) {
+                var pos = cell + Vector.South2D;
+                if (!_childAreas.Where(a => a._areaType == AreaType.Fill && a.Contains(pos)).Any()) {
+                    yield return pos;
+                }
+            }
+            if (cell.X < _cells.Size.X - 1) {
+                var pos = cell + Vector.East2D;
+                if (!_childAreas.Where(a => a._areaType == AreaType.Fill && a.Contains(pos)).Any()) {
+                    yield return pos;
+                }
+            }
+            if (cell.Y < _cells.Size.Y - 1) {
+                var pos = cell + Vector.North2D;
+                if (!_childAreas.Where(a => a._areaType == AreaType.Fill && a.Contains(pos)).Any()) {
+                    yield return pos;
+                }
+            }
+            if (cell.X > 0) {
+                var pos = cell + Vector.West2D;
+                if (!_childAreas.Where(a => a._areaType == AreaType.Fill && a.Contains(pos)).Any()) {
+                    yield return pos;
+                }
+            }
+        }
+
+        public bool AreNeighbors(Vector one, Vector another) {
+            return NeighborsOf(one).Contains(another);
+        }
+
+        public void Link(Vector one, Vector another) {
+            // check if the cell is a neighbor.
+            if (!NeighborsOf(one).Contains(another)) {
+                throw new InvalidOperationException(
+                    "Linking with non-adjacent cells is not supported yet (" +
+                    $"Trying to link {one} to {another}). Neighbors: {string.Join(", ", NeighborsOf(one))}");
+            }
+            // this should never happen.
+            if (!NeighborsOf(another).Contains(one)) {
+                throw new InvalidProgramException(
+                    "Non-mirroring neighborhood (" +
+                    $"Trying to link {one} to {another}). Neighbors of one: {string.Join(", ", NeighborsOf(one))}, neighbors of another: {string.Join(", ", NeighborsOf(another))}");
+            }
+            this[one].Link(this[another]);
         }
 
         /// <summary>
@@ -442,7 +485,10 @@ namespace PlayersWorlds.Maps {
                 for (var i = 1; i < parts.Length; i++) {
                     var part = parts[i].Split(':', ',').Select(int.Parse).ToArray();
                     for (var j = 1; j < part.Length; j++) {
-                        maze._cells[part[0]].Link(Vector.FromIndex(part[j], maze.Size));
+                        maze.Link(
+                            Vector.FromIndex(part[0], maze.Size),
+                            Vector.FromIndex(part[j], maze.Size)
+                        );
                     }
                 }
                 return maze;
@@ -462,7 +508,10 @@ namespace PlayersWorlds.Maps {
                             if (linksAdded.Contains($"{part[0]}|{part[j]}")) {
                                 continue;
                             }
-                            maze._cells[part[0]].Link(Vector.FromIndex(part[j], maze.Size));
+                            maze.Link(
+                                Vector.FromIndex(part[0], maze.Size),
+                                Vector.FromIndex(part[j], maze.Size)
+                            );
                             linksAdded.Add($"{part[0]}|{part[j]}");
                             linksAdded.Add($"{part[j]}|{part[0]}");
                         }

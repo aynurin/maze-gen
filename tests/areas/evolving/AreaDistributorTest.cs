@@ -193,7 +193,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             yield return "5x45: P-1x5;S1x10 P-2x21;S1x12 P7x17;S1x14 P2x40;S1x1 P1x29;S1x4";
             yield return "46x5: P4x-1;S10x1 P29x0;S7x1 P29x2;S2x1 P32x2;S10x1 P17x0;S5x1";
             yield return "6x48: P-2x28;S1x14 P6x6;S1x12 P3x22;S1x2 P1x14;S1x7 P2x23;S1x12";
-            yield return "47x5: P30x-3;S13x1 P24x-2;S11x1 P17x7;S14x1 P27x2;S2x1 P4x1;S4x1";
+            yield return "47x5: P30x-3;S13x1 P24x-2;S11x1 P17x7;S14x1 P27x2;S2x1 P4x1;S4x1"; // fails at 238
             yield return "5x45: P-2x13;S1x10 P-2x7;S1x12 P2x3;S1x2 P0x3;S1x8 P2x10;S1x1";
             yield return "5x47: P7x28;S1x13 P6x15;S1x11 P1x2;S1x3 P2x40;S1x2 P2x43;S1x1";
             yield return "5x36: P-2x21;S1x11 P2x12;S1x1 P2x15;S1x2 P2x8;S1x3";
@@ -220,7 +220,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             yield return "31x32: P24.45x15.67;S8.00x7.00 P14.09x8.51;S1.00x6.00 P16.22x5.85;S9.00x9.00 P18.23x27.41;S1.00x4.00 P13.75x0.80;S3.00x3.00 P8.52x18.43;S4.00x7.00 P1.71x14.65;S9.00x6.00 P0.38x4.06;S7.00x7.00 P25.06x24.29;S5.00x7.00 P11.40x19.76;S6.00x9.00";
             yield return "45x43: P38.00x15.09;S8.00x10.00 P0.42x0.08;S10.00x4.00 P17.64x33.27;S8.00x2.00 P-0.03x22.54;S1.00x12.00 P17.50x0.62;S12.00x7.00 P23.05x19.66;S14.00x7.00 P21.76x17.00;S1.00x7.00 P11.34x8.71;S8.00x9.00 P9.60x23.72;S12.00x7.00 P0.45x8.22;S8.00x5.00 P0.65x19.15;S12.00x3.00 P19.87x38.89;S7.00x2.00 P33.99x38.13;S10.00x4.00 P34.00x0.58;S11.00x12.00";
             yield return "49x10: P4.00x1.00;S13.00x7.00 P8.00x1.00;S10.00x7.00";
-            yield return "49x16: P2x7;S12x4 P7x-1;S11x3 P19x4;S13x4 P27x11;S15x4 P17x10;S3x4 P14x3;S13x4 P24x9;S6x4 P1x13;S14x2 P9x4;S4x3";
+            yield return "49x16: P2x7;S12x4 P7x-1;S11x3 P19x4;S13x4 P27x11;S15x4 P17x10;S3x4 P14x3;S13x4 P24x9;S6x4 P1x13;S14x2 P9x4;S4x3"; // fails at 23
             yield return "49x42: P19x1;S11x2 P34x31;S6x8 P15x29;S13x12 P15x11;S5x12 P23x5;S12x6 P3x17;S9x2 P16x6;S15x4 P15x29;S9x11 P39x37;S6x4 P28x22;S12x9 P31x8;S6x3 P27x23;S9x5 P0x27;S13x9 P11x17;S5x11 P4x2;S1x1";
             yield return "24x46: P11x20;S3x9 P5x15;S6x10 P5x14;S7x13 P10x26;S5x11 P10x18;S1x4 P11x13;S1x5 P10x29;S6x9 P13x8;S2x10 P3x17;S7x13 P5x28;S5x5 P18x8;S5x12";
             yield return "10x10: P7x9;S2x3 P7x2;S3x2 P3x9;S2x2 P0x5;S2x3 P7x1;S2x3 P0x0;S6x5";

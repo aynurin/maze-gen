@@ -29,14 +29,19 @@ namespace PlayersWorlds.Maps.Maze {
                     builder.Connect(currentCell.Position, nextCell.Position);
                     currentCell = nextCell;
                 } else {
-                    var hunt = builder.GetPrioritizedCellsToConnect()
-                                      .FirstOrDefault(
-                                        cell => cell.Neighbors()
-                                                    .Any(builder.IsConnected));
+                    var hunt =
+                        builder.GetPrioritizedCellsToConnect()
+                               .FirstOrDefault(
+                                    cell =>
+                                        builder.MazeArea
+                                               .NeighborsOf(cell.Position)
+                                               .Any(builder.IsConnected));
                     if (hunt != null) {
-                        builder.Connect(hunt.Position, hunt.Neighbors()
-                                                  .Where(builder.IsConnected)
-                                                  .First());
+                        builder.Connect(
+                            hunt.Position,
+                            builder.MazeArea.NeighborsOf(hunt.Position)
+                                            .Where(builder.IsConnected)
+                                            .First());
                         currentCell = hunt;
                     } else {
                         // we don't have any unconnected cells with connected

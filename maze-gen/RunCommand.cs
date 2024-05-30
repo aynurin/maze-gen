@@ -19,6 +19,7 @@ namespace PlayersWorlds.Maps {
             var type = Type.GetType(typeName + ", PlayersWorlds.Maps.Tests");
             var testObj = Activator.CreateInstance(type);
             Console.WriteLine($"Creating obj {testObj?.GetType().FullName}: {testObj}");
+            type.GetMethod("SetUp")?.Invoke(testObj, null);
             var method = type.GetMethod(methodName);
             for (var i = 0; i < RunCount; i++) {
                 Console.WriteLine(method + ": " + i);

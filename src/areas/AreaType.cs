@@ -30,6 +30,6 @@ namespace PlayersWorlds.Maps.Areas {
         /// <summary>
         /// Describes an environment within this area.
         /// </summary>
-        Environment = 3
+        Environment = 4
     }
 }

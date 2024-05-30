@@ -135,6 +135,7 @@ namespace PlayersWorlds.Maps {
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
             var actual = map.RenderToString();
+            log.D(5, _maze.MazeToString());
             log.D(5, expected);
             log.D(5, actual);
             Assert.That(actual, Is.EqualTo(expected));
@@ -180,6 +181,7 @@ namespace PlayersWorlds.Maps {
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
+            log.D(5, _maze.MazeToString());
             log.D(5, expected);
             var actual = map.RenderToString();
             log.D(5, actual);
