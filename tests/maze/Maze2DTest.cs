@@ -171,18 +171,18 @@ namespace PlayersWorlds.Maps.Maze {
             // ╟───╴   └───╢
             // ║ 6   7   8 ║
             // ╚═══════════╝
-            Assert.That(!maze.Cells[0].HasLink(maze.Cells[0].Position + Vector.East2D), Is.True);
-            Assert.That(!maze.Cells[4].HasLink(maze.Cells[4].Position + Vector.East2D), Is.True);
-            Assert.That(maze.Cells[4].HasLink(maze.Cells[4].Position + Vector.South2D), Is.True);
-            Assert.That(maze.Cells[4].HasLink(maze.Cells[4].Position + Vector.North2D), Is.True);
-            Assert.That(maze.Cells[7].HasLink(maze.Cells[7].Position + Vector.East2D), Is.True);
-            Assert.That(maze.Cells[7].HasLink(maze.Cells[7].Position + Vector.West2D), Is.True);
-            Assert.That(maze.Cells[7].HasLink(maze.Cells[7].Position + Vector.South2D), Is.True);
-            Assert.That(!maze.Cells[7].HasLink(maze.Cells[7].Position + Vector.North2D), Is.True);
-            Assert.That(maze.Cells[6].HasLink(maze.Cells[6].Position + Vector.East2D), Is.True);
-            Assert.That(!maze.Cells[6].HasLink(maze.Cells[6].Position + Vector.West2D), Is.True);
-            Assert.That(!maze.Cells[6].HasLink(maze.Cells[6].Position + Vector.South2D), Is.True);
-            Assert.That(!maze.Cells[6].HasLink(maze.Cells[6].Position + Vector.North2D), Is.True);
+            Assert.That(!maze.CellsAreLinked(maze.Cells[0].Position, maze.Cells[0].Position + Vector.East2D), Is.True);
+            Assert.That(!maze.CellsAreLinked(maze.Cells[4].Position, maze.Cells[4].Position + Vector.East2D), Is.True);
+            Assert.That(maze.CellsAreLinked(maze.Cells[4].Position, maze.Cells[4].Position + Vector.South2D), Is.True);
+            Assert.That(maze.CellsAreLinked(maze.Cells[4].Position, maze.Cells[4].Position + Vector.North2D), Is.True);
+            Assert.That(maze.CellsAreLinked(maze.Cells[7].Position, maze.Cells[7].Position + Vector.East2D), Is.True);
+            Assert.That(maze.CellsAreLinked(maze.Cells[7].Position, maze.Cells[7].Position + Vector.West2D), Is.True);
+            Assert.That(maze.CellsAreLinked(maze.Cells[7].Position, maze.Cells[7].Position + Vector.South2D), Is.True);
+            Assert.That(!maze.CellsAreLinked(maze.Cells[7].Position, maze.Cells[7].Position + Vector.North2D), Is.True);
+            Assert.That(maze.CellsAreLinked(maze.Cells[6].Position, maze.Cells[6].Position + Vector.East2D), Is.True);
+            Assert.That(!maze.CellsAreLinked(maze.Cells[6].Position, maze.Cells[6].Position + Vector.West2D), Is.True);
+            Assert.That(!maze.CellsAreLinked(maze.Cells[6].Position, maze.Cells[6].Position + Vector.South2D), Is.True);
+            Assert.That(!maze.CellsAreLinked(maze.Cells[6].Position, maze.Cells[6].Position + Vector.North2D), Is.True);
             Assert.That(maze.AreNeighbors(maze.Cells[6].Position, maze.Cells[6].Position + Vector.East2D), Is.True);
             Assert.That(!maze.AreNeighbors(maze.Cells[6].Position, maze.Cells[6].Position + Vector.West2D), Is.True);
             Assert.That(maze.AreNeighbors(maze.Cells[6].Position, maze.Cells[6].Position + Vector.South2D), Is.True);

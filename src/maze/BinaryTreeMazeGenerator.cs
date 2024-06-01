@@ -31,7 +31,7 @@ namespace PlayersWorlds.Maps.Maze {
                     cellToLink = builder.MazeArea[currentCell.Position + Vector.East2D];
                 }
 
-                if (cellToLink == null && !currentCell.HasLinks()) {
+                if (cellToLink == null && !builder.MazeArea.CellHasLinks(currentCell.Position)) {
                     // This link is not connected, and won't be connected
                     // because of this maze geometry. Let's connect it to
                     // any other cell so that it's not left out.
@@ -43,11 +43,6 @@ namespace PlayersWorlds.Maps.Maze {
                         Trace.TraceWarning(
                             $"BinaryTreeMazeGenerator could not find any " +
                             $"neighbors to connect {currentCell} to.");
-                    }
-                }
-                if (currentCell != null && currentCell.Position == new Vector(19, 19)) {
-                    if (cellToLink != null && cellToLink.Position == new Vector(19, 18)) {
-                        System.Diagnostics.Debugger.Break();
                     }
                 }
                 if (cellToLink != null) {

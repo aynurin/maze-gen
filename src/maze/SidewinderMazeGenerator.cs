@@ -72,7 +72,7 @@ namespace PlayersWorlds.Maps.Maze {
                     cellsToLink[0] = runCandidate;
                     cellsToLink[1] = builder.MazeArea.AreNeighbors(runCandidate.Position, runCandidate.Position + Vector.North2D) ? builder.MazeArea[runCandidate.Position + Vector.North2D] : null;
                     run.Clear();
-                } else if (!currentCell.HasLinks()) {
+                } else if (!builder.MazeArea.CellHasLinks(currentCell.Position)) {
                     // This link is not connected, and won't be connected
                     // because of this maze geometry. Let's connect it to
                     // any other cell so that it's not left out.

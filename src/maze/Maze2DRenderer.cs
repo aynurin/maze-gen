@@ -39,7 +39,7 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         /// <summary>
-        /// Renders a <see cref="Maze2D" /> to a string.
+        /// Renders a <see cref="Area" /> to a string.
         /// </summary>
         public void Render(Area map) {
             if (!_options.RenderedSize(_maze.Size).FitsInto(map.Size)) {
@@ -47,19 +47,22 @@ namespace PlayersWorlds.Maps.Maze {
             }
             foreach (var cell in _maze.Cells) {
                 var mapping = new CellsMapping(map, cell, _options);
+                if (cell.Position == new Vector(1, 1)) {
+                    System.Diagnostics.Debugger.Break();
+                }
                 if (cell.IsConnected) {
                     mapping.CenterCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (cell.HasLink(cell.Position + Vector.North2D)) {
+                if (_maze.CellsAreLinked(cell.Position, cell.Position + Vector.North2D)) {
                     mapping.NCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (cell.HasLink(cell.Position + Vector.East2D)) {
+                if (_maze.CellsAreLinked(cell.Position, cell.Position + Vector.East2D)) {
                     mapping.ECells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (cell.HasLink(cell.Position + Vector.South2D)) {
+                if (_maze.CellsAreLinked(cell.Position, cell.Position + Vector.South2D)) {
                     mapping.SCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (cell.HasLink(cell.Position + Vector.West2D)) {
+                if (_maze.CellsAreLinked(cell.Position, cell.Position + Vector.West2D)) {
                     mapping.WCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
             }

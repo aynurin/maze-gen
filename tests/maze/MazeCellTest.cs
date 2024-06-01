@@ -17,14 +17,14 @@ namespace PlayersWorlds.Maps.Maze {
             env.Link(a.Position, b.Position);
             Assert.That(a.Links(), Has.Count.EqualTo(1));
             Assert.That(b.Links(), Has.Count.EqualTo(1));
-            Assert.That(a.HasLink(a.Position + Vector.North2D), Is.True);
-            Assert.That(b.HasLink(b.Position + Vector.South2D), Is.True);
+            Assert.That(env.CellsAreLinked(a.Position, a.Position + Vector.North2D), Is.True);
+            Assert.That(env.CellsAreLinked(b.Position, b.Position + Vector.South2D), Is.True);
             Assert.That(env[a.Position + Vector.North2D], Is.EqualTo(b));
             Assert.That(env[b.Position + Vector.South2D], Is.EqualTo(a));
 
             b.Unlink(a.Position);
-            Assert.That(a.HasLink(a.Position + Vector.North2D), Is.False);
-            Assert.That(b.HasLink(b.Position + Vector.South2D), Is.False);
+            Assert.That(env.CellsAreLinked(a.Position, a.Position + Vector.North2D), Is.False);
+            Assert.That(env.CellsAreLinked(b.Position, b.Position + Vector.South2D), Is.False);
             Assert.That(a.Links(), Has.Count.EqualTo(0));
             Assert.That(b.Links(), Has.Count.EqualTo(0));
         }
@@ -72,7 +72,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(d.ToLongString(), Is.EqualTo("Cell(2x3V(---W) [])"));
 
             b.Unlink(a.Position);
-            Assert.That(a.HasLink(a.Position + Vector.South2D), Is.False);
+            Assert.That(env.CellsAreLinked(a.Position, a.Position + Vector.South2D), Is.False);
         }
 
         [Test]

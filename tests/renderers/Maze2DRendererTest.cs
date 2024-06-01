@@ -9,6 +9,7 @@ using PlayersWorlds.Maps.Maze.PostProcessing;
 using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
 namespace PlayersWorlds.Maps {
+    // TODO: We have two Maze2DRendererTest.cs files.
     [TestFixture]
     public class Maze2DRendererTest : Test {
         private Area _maze;
@@ -201,8 +202,8 @@ namespace PlayersWorlds.Maps {
                 "│   ┼   └───┘   │\n" +
                 "│               │\n" +
                 "└───────────────┘\n";
-            log.D(5, _maze.ToString());
-            Assert.That(expected, Is.EqualTo(_maze.MazeToString()));
+            log.D(5, _maze.MazeToString());
+            Assert.That(_maze.MazeToString(), Is.EqualTo(expected));
         }
 
         [Test]
@@ -220,8 +221,8 @@ namespace PlayersWorlds.Maps {
                 "└───────────────┘\n";
             _maze.X(DeadEnd.Find(_maze));
             _maze.X(DijkstraDistance.FindLongestTrail(_maze));
-            log.D(5, _maze.ToString());
-            Assert.That(expected, Is.EqualTo(_maze.MazeToString()));
+            log.D(5, _maze.MazeToString());
+            Assert.That(_maze.MazeToString(), Is.EqualTo(expected));
         }
 
         [Test]

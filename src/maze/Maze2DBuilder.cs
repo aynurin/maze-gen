@@ -223,7 +223,7 @@ namespace PlayersWorlds.Maps.Maze {
 
                 var unpositionedAreas = _mazeArea.ChildAreas.Where(area => area.IsPositionEmpty).ToList();
                 if (unpositionedAreas.Count > 0) {
-                    throw new ArgumentException(
+                    throw new MazeBuilderException(this,
                         "Maze contains unpositioned areas: " +
                         string.Join(", ", unpositionedAreas));
                 }

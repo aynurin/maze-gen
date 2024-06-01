@@ -13,7 +13,7 @@ namespace PlayersWorlds.Maps {
         private readonly Vector _position;
         private readonly Area _owningArea;
         private readonly List<CellTag> _tags = new List<CellTag>();
-        private readonly List<Vector> _links = new List<Vector>();
+        private readonly HashSet<Vector> _links = new HashSet<Vector>();
         private readonly List<Vector> _neighbors = new List<Vector>();
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// <c>true</c> if this cell is connected to any other cells.
         /// </summary>
-        public bool IsConnected => HasLinks();
+        public bool IsConnected => _owningArea.CellHasLinks(_position);
 
         public Cell Parent =>
                 _owningArea.Parent[_owningArea.Position + _position];
@@ -53,7 +53,9 @@ namespace PlayersWorlds.Maps {
         internal Cell CloneWithParent(Area area) {
             var newCell = new Cell(_position, area);
             newCell._tags.AddRange(_tags);
-            newCell._links.AddRange(_links);
+            foreach (var link in _links) {
+                newCell._links.Add(link);
+            }
             newCell._neighbors.AddRange(_neighbors);
             return newCell;
         }
@@ -136,31 +138,9 @@ namespace PlayersWorlds.Maps {
                   .Distinct().ToList();
 
         public bool HasLink(Vector positionInArea) =>
-            // has hard links
-            (_links.Contains(positionInArea) ||
-            // or is a part of an interconnected area
-            _owningArea.ChildAreas.Any(a => (a.Type == Areas.AreaType.Hall ||
-                                             a.Type == Areas.AreaType.Cave) &&
-                                            a.Contains(_position) &&
-                                            a.Contains(positionInArea))) &&
-            // and never a part of a filled area.
-            _owningArea.ChildAreas.All(
-                a => a.Type != Areas.AreaType.Fill || (
-                    !a.Contains(_position) && !a.Contains(positionInArea)));
+            _links.Contains(positionInArea);
 
-        public bool HasLinks() =>
-            // has hard links
-            (_links.Count > 0 ||
-             // or is a part of an interconnected area
-             _owningArea.ChildAreas.Any(
-                a => (a.Type == Areas.AreaType.Hall ||
-                      a.Type == Areas.AreaType.Cave) &&
-                     a.Contains(_position) &&
-                     _owningArea.NeighborsOf(_position)
-                                .Any(n => a.Contains(n)))) &&
-            // and never a part of a filled area.
-            _owningArea.ChildAreas.All(
-                a => a.Type != Areas.AreaType.Fill || !a.Contains(_position));
+        public bool HasLinks() => _links.Count > 0;
 
         override public string ToString() =>
             $"Cell({Position}{(IsConnected ? "V" : "")} " +
@@ -175,10 +155,10 @@ namespace PlayersWorlds.Maps {
             $"[{string.Join(", ", Tags)}])";
 
         private string GatesString() => string.Concat(
-            HasLink(_position + Vector.North2D) ? "N" : "-",
-            HasLink(_position + Vector.East2D) ? "E" : "-",
-            HasLink(_position + Vector.South2D) ? "S" : "-",
-            HasLink(_position + Vector.West2D) ? "W" : "-");
+            _owningArea.CellsAreLinked(_position, _position + Vector.North2D) ? "N" : "-",
+            _owningArea.CellsAreLinked(_position, _position + Vector.East2D) ? "E" : "-",
+            _owningArea.CellsAreLinked(_position, _position + Vector.South2D) ? "S" : "-",
+            _owningArea.CellsAreLinked(_position, _position + Vector.West2D) ? "W" : "-");
 
         /// <summary>
         /// Cell tags can be used in the game engine to choose objects, visual

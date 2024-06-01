@@ -14,7 +14,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
                     FillFactor = GeneratorOptions.MazeFillFactor.Full
                 });
             var visitedCells = maze.Cells
-                .Where(cell => cell.HasLinks()).ToList();
+                .Where(cell => maze.CellHasLinks(cell.Position)).ToList();
             var distances = DijkstraDistance.Find(maze, random.RandomOf(visitedCells).Position);
             Assert.That(distances.Count, Is.EqualTo(visitedCells.Count));
             Assert.That(distances.Values.Average(), Is.GreaterThan(1));

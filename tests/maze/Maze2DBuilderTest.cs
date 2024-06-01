@@ -544,7 +544,7 @@ namespace PlayersWorlds.Maps.Maze {
             var areaCells = maze.Cells
                     .IterateIntersection(new Vector(1, 1), new Vector(3, 3));
 
-            Assert.That(maze.Cells.Where(c => c.HasLinks()), Has.No.Member(walkway[0]));
+            Assert.That(maze.Cells.Where(c => maze.CellHasLinks(c.Position)), Has.No.Member(walkway[0]));
 
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
@@ -557,11 +557,11 @@ namespace PlayersWorlds.Maps.Maze {
             builder.ApplyAreas();
 
             var connectedCells = areaCells
-                .Where(c => c.cell.HasLinks())
+                .Where(c => builder.MazeArea.CellHasLinks(c.xy))
                 .Select(c => c.cell).ToList();
 
-            Assert.That(maze.Cells.Where(c => c.HasLinks()), Has.Member(entrance));
-            Assert.That(maze.Cells.Where(c => c.HasLinks()), Has.Member(walkway[0]));
+            Assert.That(maze.Cells.Where(c => builder.MazeArea.CellHasLinks(c.Position)), Has.Member(entrance));
+            Assert.That(maze.Cells.Where(c => builder.MazeArea.CellHasLinks(c.Position)), Has.Member(walkway[0]));
             Assert.That(entrance.Links(), Has.Member(walkway[0].Position));
         }
 

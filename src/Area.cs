@@ -20,7 +20,8 @@ namespace PlayersWorlds.Maps {
         private readonly string[] _tags;
         private readonly List<Area> _childAreas;
         private readonly Area _parent;
-        private readonly HashSet<Cell> _areasSnapshot = new HashSet<Cell>();
+        private List<HashSet<Vector>> _interconnectedAreasSnapshot = new List<HashSet<Vector>>();
+        private HashSet<Vector> _filledAreasSnapshot = new HashSet<Vector>();
 
         /// <summary>
         /// Position of this area in the target map.
@@ -152,8 +153,8 @@ namespace PlayersWorlds.Maps {
                 new List<Area>() :
                 new List<Area>(childAreas);
             _tags = tags?.ToArray() ?? new string[0];
-
             _cells = new NArray<Cell>(size, xy => new Cell(xy, this));
+            RebuildChildAreasSnapshot();
         }
 
         /// <summary>
@@ -172,6 +173,7 @@ namespace PlayersWorlds.Maps {
             Array.Copy(tags, _tags, tags.Length);
             _cells = new NArray<Cell>(
                 cells.Size, xy => cells[xy].CloneWithParent(this));
+            RebuildChildAreasSnapshot();
         }
 
         public IEnumerable<Cell> ChildCellsAt(Vector xy) {
@@ -184,6 +186,23 @@ namespace PlayersWorlds.Maps {
                     yield return cell;
                 }
             }
+        }
+
+        public bool CellsAreLinked(Vector one, Vector another) {
+            return Contains(one) && Contains(another) &&
+                   !_filledAreasSnapshot.Contains(one) &&
+                   !_filledAreasSnapshot.Contains(another) &&
+                   (_cells[one].HasLink(another) ||
+                   _interconnectedAreasSnapshot
+                        .Any(a => a.Contains(one) && a.Contains(another)));
+        }
+
+        public bool CellHasLinks(Vector one) {
+            return Contains(one) &&
+                   !_filledAreasSnapshot.Contains(one) &&
+                   (_cells[one].HasLinks() ||
+                   _interconnectedAreasSnapshot
+                        .Any(a => a.Contains(one)));
         }
 
         public Area ShallowCopy() => new Area(
@@ -209,16 +228,37 @@ namespace PlayersWorlds.Maps {
         }
 
         private void RebuildChildAreasSnapshot() {
-            _areasSnapshot.Clear();
-            // foreach (var area in _childAreas) {
-            //     _areasSnapshot.Add(area);
-            // }
+            if (_childAreas.Count == 0) return;
+            // check if the cell belongs to an interconnected area.
+            // check if two cells belong to the same interconnected area.
+            // make sure the cell does not belong to a filled area.
+            var interconnectedAreasSnapshot = new List<HashSet<Vector>>();
+            var filledAreasSnapshot = new HashSet<Vector>();
+            foreach (var area in _childAreas.Where(a => a.Type == AreaType.Fill)) {
+                if (area.IsPositionEmpty) continue;
+                foreach (var cell in area._cells) {
+                    filledAreasSnapshot.Add(cell.Position + area.Position);
+                }
+            }
+            foreach (var area in _childAreas.Where(a => a.Type == AreaType.Hall || a.Type == AreaType.Cave)) {
+                if (area.IsPositionEmpty) continue;
+                var areaCells = new HashSet<Vector>(area._cells.Select(cell => cell.Position + area.Position));
+                areaCells.ExceptWith(filledAreasSnapshot);
+                if (areaCells.Count > 0) {
+                    interconnectedAreasSnapshot.Add(areaCells);
+                }
+            }
+            _interconnectedAreasSnapshot = interconnectedAreasSnapshot;
+            _filledAreasSnapshot = filledAreasSnapshot;
         }
 
         public void Reposition(Vector newPosition) {
             if (_isPositionFixed)
                 throw new InvalidOperationException("Position is fixed");
             _position = newPosition;
+            // TODO: instead of rebuilding every time here, consider re-creating
+            //       the area when all positioning is done
+            _parent?.RebuildChildAreasSnapshot();
         }
 
         /// <summary>
@@ -285,25 +325,25 @@ namespace PlayersWorlds.Maps {
         public IEnumerable<Vector> NeighborsOf(Vector cell) {
             if (cell.Y > 0) {
                 var pos = cell + Vector.South2D;
-                if (!_childAreas.Where(a => a._areaType == AreaType.Fill && a.Contains(pos)).Any()) {
+                if (!_filledAreasSnapshot.Contains(pos)) {
                     yield return pos;
                 }
             }
             if (cell.X < _cells.Size.X - 1) {
                 var pos = cell + Vector.East2D;
-                if (!_childAreas.Where(a => a._areaType == AreaType.Fill && a.Contains(pos)).Any()) {
+                if (!_filledAreasSnapshot.Contains(pos)) {
                     yield return pos;
                 }
             }
             if (cell.Y < _cells.Size.Y - 1) {
                 var pos = cell + Vector.North2D;
-                if (!_childAreas.Where(a => a._areaType == AreaType.Fill && a.Contains(pos)).Any()) {
+                if (!_filledAreasSnapshot.Contains(pos)) {
                     yield return pos;
                 }
             }
             if (cell.X > 0) {
                 var pos = cell + Vector.West2D;
-                if (!_childAreas.Where(a => a._areaType == AreaType.Fill && a.Contains(pos)).Any()) {
+                if (!_filledAreasSnapshot.Contains(pos)) {
                     yield return pos;
                 }
             }
