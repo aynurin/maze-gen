@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayersWorlds.Maps", "src\PlayersWorlds.Maps.csproj", "{1475F129-1D8B-4631-92ED-30972E539CF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayersWorlds.Maps.Tests", "tests\PlayersWorlds.Maps.Tests.csproj", "{C0FBCEBB-2BFA-49B2-92E0-D1F64D4D82E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "tests\PlayersWorlds.Maps.Tests.csproj", "{C0FBCEBB-2BFA-49B2-92E0-D1F64D4D82E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mazegen", "maze-gen\mazegen.csproj", "{F51C8CCD-1544-45A7-A0C0-FF513055325A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serializer", "tools\serializer\PlayersWorlds.Maps.Serializer.csproj", "{08d058c9-f76b-4c46-a749-f6103e8c7dd5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,5 +27,9 @@ Global
 		{F51C8CCD-1544-45A7-A0C0-FF513055325A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F51C8CCD-1544-45A7-A0C0-FF513055325A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F51C8CCD-1544-45A7-A0C0-FF513055325A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08d058c9-f76b-4c46-a749-f6103e8c7dd5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08d058c9-f76b-4c46-a749-f6103e8c7dd5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08d058c9-f76b-4c46-a749-f6103e8c7dd5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08d058c9-f76b-4c46-a749-f6103e8c7dd5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
