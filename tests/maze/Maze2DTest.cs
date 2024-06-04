@@ -5,6 +5,7 @@ using NUnit.Framework;
 using NUnit.Framework.Internal;
 using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Maze.PostProcessing;
+using PlayersWorlds.Maps.Serializer;
 
 namespace PlayersWorlds.Maps.Maze {
     [TestFixture]
@@ -133,7 +134,7 @@ namespace PlayersWorlds.Maps.Maze {
                 AreaGeneration = GeneratorOptions.AreaGenerationMode.Manual,
             };
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(5, 5), new List<Area> { Area.Parse("P2x1;S2x2;Hall") }, options);
+                new Vector(5, 5), new List<Area> { LegacyAreaSerializer.ParseV01AreaString("P2x1;S2x2;Hall") }, options);
             Assert.That(maze.ChildAreas.Count, Is.EqualTo(1));
         }
 
@@ -145,7 +146,7 @@ namespace PlayersWorlds.Maps.Maze {
                 AreaGeneration = GeneratorOptions.AreaGenerationMode.Manual
             };
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(5, 5), new List<Area> { Area.Parse("P2x1;S2x2;Fill") }, options);
+                new Vector(5, 5), new List<Area> { LegacyAreaSerializer.ParseV01AreaString("P2x1;S2x2;Fill") }, options);
             Assert.That(maze.ChildAreas.Count, Is.EqualTo(1));
         }
 
@@ -162,7 +163,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_CanParse() {
-            var maze = Area.ParseAsMaze("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
+            var maze = LegacyAreaSerializer.ParseV01MazeString("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             TestLog.CreateForThisTest().D(5, maze.ToString());
             // ╔═══╤═══════╗
             // ║ 0 │ 1   2 ║
@@ -191,7 +192,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_CanParse2() {
-            var maze = Area.ParseAsMaze("3x4");
+            var maze = LegacyAreaSerializer.ParseV01MazeString("3x4");
             Assert.That(maze.Size.X == 3 && maze.Size.Y == 4, Is.True);
         }
     }

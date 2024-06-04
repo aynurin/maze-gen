@@ -6,6 +6,7 @@ using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.MapFilters;
 using PlayersWorlds.Maps.Maze;
 using PlayersWorlds.Maps.Maze.PostProcessing;
+using PlayersWorlds.Maps.Serializer;
 using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
 namespace PlayersWorlds.Maps {
@@ -17,7 +18,7 @@ namespace PlayersWorlds.Maps {
         [SetUp]
         override public void SetUp() {
             base.SetUp();
-            _maze = Area.ParseAsMaze("4x4;0:1,4;1:2,5;2:3;3:7;4:5,8;8:12;12:13;13:14;14:10;10:11");
+            _maze = LegacyAreaSerializer.ParseV01MazeString("4x4;0:1,4;1:2,5;2:3;3:7;4:5,8;8:12;12:13;13:14;14:10;10:11");
         }
 
         [Test]
@@ -227,7 +228,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void Maze2DToMap2DConverter_ThrowsIfInvalidOptions() {
-            _maze = Area.ParseAsMaze("4x4;0:1,4;1:2,5;2:3;3:7;4:5,8;8:12;12:13;13:14;14:10;10:11");
+            _maze = LegacyAreaSerializer.ParseV01MazeString("4x4;0:1,4;1:2,5;2:3;3:7;4:5,8;8:12;12:13;13:14;14:10;10:11");
             Assert.Throws<ArgumentException>(() => MazeToMapOptions.RectCells(new Vector(1, 2), new Vector(3, 0)));
             Assert.Throws<ArgumentException>(() => MazeToMapOptions.RectCells(new Vector(1, -2), new Vector(3, 4)));
             Assert.Throws<ArgumentException>(() => MazeToMapOptions.SquareCells(1, -2));

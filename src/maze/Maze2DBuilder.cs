@@ -605,6 +605,8 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         /// <inheritdoc />
-        public override string ToString() => this.DebugString() + "\n" + _mazeArea.Serialize(); // TODO: Not covered
+        // TODO: Not covered
+        public override string ToString() =>
+            this.DebugString() + "\n" + _mazeArea.ToString();
     }
 }

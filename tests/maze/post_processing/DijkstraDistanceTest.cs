@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
+using PlayersWorlds.Maps.Serializer;
 
 namespace PlayersWorlds.Maps.Maze.PostProcessing {
     [TestFixture]
@@ -22,7 +23,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
 
         [Test]
         public void DijkstraDistance_CanSolveAMaze() {
-            var maze = Area.ParseAsMaze("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
+            var maze = LegacyAreaSerializer.ParseV01MazeString("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance
                 .Solve(maze, maze.Cells.First().Position, maze.Cells.Last().Position);
             Assert.That(solution.HasValue, Is.True);
@@ -35,7 +36,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
 
         [Test]
         public void DijkstraDistance_ReturnsEmptyIfNoSolutionFound() {
-            var maze = Area.ParseAsMaze("3x3;0:3;1:4;2:5;3:4;4:7;6:7;7:8");
+            var maze = LegacyAreaSerializer.ParseV01MazeString("3x3;0:3;1:4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance
                 .Solve(maze,
                        new Vector(2, 1),
@@ -45,7 +46,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
 
         [Test]
         public void DijkstraDistance_CanFindLongestTrail() {
-            var maze = Area.ParseAsMaze("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
+            var maze = LegacyAreaSerializer.ParseV01MazeString("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance.FindLongestTrail(maze);
             Assert.That(solution.LongestTrail.Count, Is.EqualTo(6));
             Assert.That(maze.Cells.Count(

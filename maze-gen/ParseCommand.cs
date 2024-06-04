@@ -2,10 +2,9 @@ using System;
 using System.Linq;
 using CommandLine;
 using PlayersWorlds.Maps.Areas;
-using PlayersWorlds.Maps.Maze;
+using PlayersWorlds.Maps.Serializer;
 
 namespace PlayersWorlds.Maps {
-
     [Verb("parse", HelpText = "Parse and render a maze from a string.")]
     class ParseCommand : BaseCommand {
         [Value(0, MetaName = "serialized maze", HelpText = "Serialized maze.")]
@@ -13,9 +12,10 @@ namespace PlayersWorlds.Maps {
 
         override public int Run() {
             base.Run();
-            var maze = Area.ParseAsMaze(SerializedMaze);
+            var maze = LegacyAreaSerializer.ParseV01MazeString(SerializedMaze);
             var mazeCells = maze.Cells.Where(c => c.IsConnected).ToList();
-            Console.WriteLine(maze.Serialize());
+            var areaSerializer = new AreaSerializer();
+            Console.WriteLine(areaSerializer.Serialize(maze));
             Console.WriteLine(maze.ToString());
             Console.WriteLine($"Visited: " +
                 mazeCells.Count());

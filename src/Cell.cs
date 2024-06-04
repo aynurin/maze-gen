@@ -14,7 +14,6 @@ namespace PlayersWorlds.Maps {
         private readonly Area _owningArea;
         private readonly List<CellTag> _tags = new List<CellTag>();
         private readonly HashSet<Vector> _links = new HashSet<Vector>();
-        private readonly List<Vector> _neighbors = new List<Vector>();
 
         /// <summary>
         /// Absolute position of this cell in the world.
@@ -45,7 +44,7 @@ namespace PlayersWorlds.Maps {
         /// <param name="position">The position of the cell in its area.</param>
         /// <param name="owningArea">Area that owns this cell.</param>
         /// <remarks>Supposed for internal use only.</remarks>
-        public Cell(Vector position, Area owningArea) {
+        internal Cell(Vector position, Area owningArea) {
             _position = position;
             _owningArea = owningArea;
         }
@@ -56,7 +55,6 @@ namespace PlayersWorlds.Maps {
             foreach (var link in _links) {
                 newCell._links.Add(link);
             }
-            newCell._neighbors.AddRange(_neighbors);
             return newCell;
         }
 
@@ -71,10 +69,10 @@ namespace PlayersWorlds.Maps {
         /// </exception>
         public void Link(Vector other) {
             // check if the cell is a neighbor.
-            if (!_neighbors.Contains(other))
+            if (!_owningArea.AreNeighbors(_position, other))
                 throw new NotImplementedException(
                     "Linking with non-adjacent cells is not supported yet (" +
-                    $"Trying to link {other} to {this}). Neighbors: {string.Join(", ", _neighbors)}");
+                    $"Trying to link {other} to {this}).");
             // fool-proof to avoid double linking.
             if (_links.Contains(other))
                 throw new InvalidOperationException($"This link already exists ({this}->{other})");
@@ -103,8 +101,8 @@ namespace PlayersWorlds.Maps {
 
         // !! smellz?
         internal void LinkAllNeighborsInArea(Area area) {
-            foreach (var neighbor in _neighbors) {
-                if (_links.Contains(neighbor)) {
+            foreach (var neighbor in _owningArea.NeighborsOf(_position)) {
+                if (_owningArea.CellsAreLinked(_position, neighbor)) {
                     continue;
                 }
                 if (area.Contains(neighbor)) {
@@ -205,7 +203,7 @@ namespace PlayersWorlds.Maps {
             /// </summary>
             /// <returns>A string that represents this CellTag.</returns>
             public override string ToString() {
-                return "CellTag('" + _tag + "')";
+                return _tag;
             }
 
             /// <summary>

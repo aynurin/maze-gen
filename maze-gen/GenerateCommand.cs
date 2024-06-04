@@ -29,7 +29,6 @@ namespace PlayersWorlds.Maps {
             };
             var maze = Area.CreateEnvironment(size);
             Maze2DBuilder.BuildMaze(maze, generatorOptions);
-            Console.WriteLine(maze.Serialize());
             Console.WriteLine(maze.ToString());
             Console.WriteLine(maze.ToMap(MazeToMapOptions.RectCells(2, 1)).ToString());
             return 0;

@@ -26,17 +26,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.4.0.1\lib\net462\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="AltCover.Monitor">
-      <HintPath>..\packages\altcover.8.6.68\lib\net20\AltCover.Monitor.dll</HintPath>
+      <HintPath>..\packages\altcover.8.8.74\lib\net20\AltCover.Monitor.dll</HintPath>
     </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.20.70\lib\net462\Moq.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.4.1.0\lib\net462\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.5.1.1\lib\net462\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.20.70\lib\net462\Moq.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -53,6 +53,10 @@
     <ProjectReference Include="..\src\PlayersWorlds.Maps.csproj">
       <Project>{1475F129-1D8B-4631-92ED-30972E539CF2}</Project>
       <Name>PlayersWorlds.Maps</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tools\serializer\PlayersWorlds.Maps.Serializer.csproj">
+      <Project>{08d058c9-f76b-4c46-a749-f6103e8c7dd5}</Project>
+      <Name>PlayersWorlds.Maps.Serializer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

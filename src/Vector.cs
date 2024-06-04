@@ -227,7 +227,7 @@ namespace PlayersWorlds.Maps {
         /// <c>x,y</c>.
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => IsEmpty ? "<empty>" : _value.Length == 0 ? "00" : string.Join("x", _value);
+        public override string ToString() => IsEmpty ? "<empty>" : _value.Length == 0 ? "-0-" : string.Join("x", _value);
 
         /// <summary>
         /// Checks if two vectors have the same components.

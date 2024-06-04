@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PlayersWorlds.Maps.Areas;
-using PlayersWorlds.Maps.Areas.Evolving;
 using PlayersWorlds.Maps.MapFilters;
 using PlayersWorlds.Maps.Maze;
 using PlayersWorlds.Maps.Renderers;
+using PlayersWorlds.Maps.Serializer;
 using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
 namespace PlayersWorlds.Maps {
@@ -138,7 +138,8 @@ namespace PlayersWorlds.Maps {
         /// <param name="childAreas">Child areas.</param>
         /// <param name="tags">Tags to assign to this area.</param>
         /// <exception cref="ArgumentException"></exception>
-        private Area(Vector position, bool isPositionFixed, Vector size,
+        // TODO: Area constructors seem to be redundant.
+        internal Area(Vector position, bool isPositionFixed, Vector size,
                     AreaType areaType,
                     IEnumerable<Area> childAreas,
                     IEnumerable<string> tags) {
@@ -151,7 +152,7 @@ namespace PlayersWorlds.Maps {
             _isPositionFixed = isPositionFixed;
             _childAreas = childAreas == null ?
                 new List<Area>() :
-                new List<Area>(childAreas);
+                childAreas.Select(a => a.ShallowCopy(this)).ToList();
             _tags = tags?.ToArray() ?? new string[0];
             _cells = new NArray<Cell>(size, xy => new Cell(xy, this));
             RebuildChildAreasSnapshot();
@@ -160,17 +161,26 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// Copy constructor.
         /// </summary>
-        private Area(Vector position, bool isPositionFixed, NArray<Cell> cells,
+        internal Area(Vector position, bool isPositionFixed, NArray<Cell> cells,
                     AreaType areaType, Area parent,
                     IEnumerable<Area> childAreas,
                     string[] tags) {
+            if (position.IsEmpty && isPositionFixed) {
+                throw new ArgumentException("Position is not initialized.");
+            }
             _position = position;
             _areaType = areaType;
             _isPositionFixed = isPositionFixed;
             _parent = parent;
-            _childAreas = new List<Area>(childAreas);
-            _tags = new string[tags.Length];
-            Array.Copy(tags, _tags, tags.Length);
+            _childAreas = childAreas == null ?
+                new List<Area>() :
+                childAreas.Select(a => a.ShallowCopy(this)).ToList();
+            if (tags == null) {
+                _tags = new string[0];
+            } else {
+                _tags = new string[tags.Length];
+                Array.Copy(tags, _tags, tags.Length);
+            }
             _cells = new NArray<Cell>(
                 cells.Size, xy => cells[xy].CloneWithParent(this));
             RebuildChildAreasSnapshot();
@@ -205,12 +215,12 @@ namespace PlayersWorlds.Maps {
                         .Any(a => a.Contains(one)));
         }
 
-        public Area ShallowCopy() => new Area(
+        public Area ShallowCopy(Area parent = null) => new Area(
             _position,
             _isPositionFixed,
             _cells,
             _areaType,
-            _parent,
+            parent ?? _parent,
             _childAreas,
             _tags);
 
@@ -435,39 +445,12 @@ namespace PlayersWorlds.Maps {
         }
 
         /// <summary>
-        /// Parses a string representation of a Area, similar to one produced
-        /// by the <see cref="ToString"/> method.
-        /// </summary>
-        /// <remarks>
-        /// Note the rounding that occurs in <see cref="VectorD.ToString()" />.
-        /// </remarks>
-        /// <param name="v">A <see cref="string" /> of the form
-        /// "P{Position};S{Size};{Type}[;tags]".</param>
-        /// <param name="isPositionFixed"><c>true</c> to indicate that this area
-        /// shouldn't be repositioned by <see cref="AreaDistributor" />,
-        /// otherwise <c>false</c> (default)</param>
-        /// <returns></returns>
-        internal static Area Parse(string v, bool isPositionFixed = false) {
-            var parts = v.Split(';');
-            var type = parts.Length > 2 ?
-                (AreaType)Enum.Parse(typeof(AreaType), parts[2]) :
-                AreaType.None;
-            var size = VectorD.Parse(parts[1]).RoundToInt();
-            var position = VectorD.Parse(parts[0]).RoundToInt();
-            return new Area(position, isPositionFixed,
-                            size, type,
-                            /*childAreas=*/null,
-                            parts.Skip(3).ToArray());
-        }
-
-        /// <summary>
         /// Produces a string representation of this Area.
         /// </summary>
         /// <returns>A <see cref="string" /> of the form
         /// "P{Position};S{Size};{Type}".</returns>
         public override string ToString() =>
-            $"P{(_position.IsEmpty ? "<empty>" : _position.ToString())};" +
-            $"S{Size};{Type};" + string.Join(";", Tags);
+            new AreaSerializer().Serialize(this);
 
         /// <summary>
         /// Renders the map to a string using a
@@ -477,87 +460,6 @@ namespace PlayersWorlds.Maps {
         // TODO: Factor out or rename
         public string RenderToString() {
             return new Map2DStringRenderer().Render(this);
-        }
-
-        /// <summary>
-        /// Returns a serialized representation of this maze.
-        /// </summary>
-        // !! BUG: Currently the serialized representation is not the same as 
-        //  the one used by Parse.
-        // TODO: Create a common serialization approach.
-        public string Serialize() {
-            var linksAdded = new HashSet<int[]>();
-            var size = Size.ToString();
-            var areas = string.Join(",", _childAreas.Select(area => area.ToString()));
-            var cells = string.Join(",", _cells.Select((cell, index) => {
-                if (_cells[index].HasLinks()) {
-                    var links = _cells[index].Links()
-                        .Select(link => link.ToIndex(Size))
-                        .Where(link => !linksAdded.Contains(new int[] { index, link }));
-
-                    linksAdded.UnionWith(links.Select(link => new int[] { link, index }));
-
-                    return $"{index}:{string.Join(" ", links)}";
-                } else {
-                    return null;
-                }
-            }).Where(s => s != null));
-            return $"{size}|{areas}|{cells}";
-        }
-
-        /// <summary>
-        /// Parses a string into a <see cref="Area" />.
-        /// </summary>
-        /// <param name="serialized">A string of the form
-        /// <c>Vector; cell:link,link,...; cell:link,link,...; ...</c>, where
-        /// <c>Vector</c> is a string representation of a 2D
-        /// <see cref="Vector" /> defining the size of the maze, <c>cell</c> is
-        /// the index of the cell in the maze, and <c>link</c> is the index of 
-        /// a cell linked to this cell.</param>
-        /// <returns></returns>
-        // TODO: Add Areas
-        public static Area ParseAsMaze(string serialized) {
-            if (serialized.IndexOf('|') == -1) {
-                // TODO: Migrate all serialization to the other format.
-                var parts = serialized.Split(';', '\n');
-                var size = new Vector(parts[0].Split('x').Select(int.Parse));
-                var maze = Area.CreateEnvironment(size);
-                for (var i = 1; i < parts.Length; i++) {
-                    var part = parts[i].Split(':', ',').Select(int.Parse).ToArray();
-                    for (var j = 1; j < part.Length; j++) {
-                        maze.Link(
-                            Vector.FromIndex(part[0], maze.Size),
-                            Vector.FromIndex(part[j], maze.Size)
-                        );
-                    }
-                }
-                return maze;
-            } else {
-                var linksAdded = new HashSet<string>();
-                var parts = serialized.Split('|');
-                var size = Vector.Parse(parts[0]);
-                var maze = Area.CreateEnvironment(size);
-                parts[1].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ForEach(
-                    areaStr => maze.CreateChildArea(Area.Parse(areaStr)));
-                parts[2].Split(
-                    new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                    .ForEach(cellStr => {
-                        var part = cellStr.Split(':', ' ')
-                                          .Select(int.Parse).ToArray();
-                        for (var j = 1; j < part.Length; j++) {
-                            if (linksAdded.Contains($"{part[0]}|{part[j]}")) {
-                                continue;
-                            }
-                            maze.Link(
-                                Vector.FromIndex(part[0], maze.Size),
-                                Vector.FromIndex(part[j], maze.Size)
-                            );
-                            linksAdded.Add($"{part[0]}|{part[j]}");
-                            linksAdded.Add($"{part[j]}|{part[0]}");
-                        }
-                    });
-                return maze;
-            }
         }
 
         /// <summary>

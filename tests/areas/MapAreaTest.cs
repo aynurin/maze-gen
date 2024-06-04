@@ -7,7 +7,7 @@ namespace PlayersWorlds.Maps.Areas {
     internal class MapAreaTest : Test {
         private static Area NewArea(int x, int y, int width, int height) {
             return Area.Create(
-                new Vector(x, y), new Vector(width, height), AreaType.None);
+                new Vector(x, y), new Vector(width, height), AreaType.Maze);
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace PlayersWorlds.Maps.Areas {
         [Test]
         public void Position_UnpositionedThrowsIfNotInitialized() {
             var area1 = Area.CreateUnpositioned(
-                new Vector(10, 10), AreaType.None);
+                new Vector(10, 10), AreaType.Maze);
             Assert.That(() => { var pos = area1.Position; },
                 Throws.TypeOf<InvalidOperationException>());
         }
@@ -65,7 +65,7 @@ namespace PlayersWorlds.Maps.Areas {
         [Test]
         public void Position_DoesNotThrowIfInitialized() {
             var area1 = Area.Create(
-                new Vector(1, 1), new Vector(10, 10), AreaType.None);
+                new Vector(1, 1), new Vector(10, 10), AreaType.Maze);
             Assert.That(
                 () => { var pos = area1.Position; }, Throws.Nothing);
         }
@@ -76,7 +76,7 @@ namespace PlayersWorlds.Maps.Areas {
                 Area.Create(
                     Vector.Empty,
                     new Vector(10, 10),
-                    AreaType.None),
+                    AreaType.Maze),
                 Throws.TypeOf<ArgumentException>());
         }
     }

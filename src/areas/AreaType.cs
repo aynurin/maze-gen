@@ -5,13 +5,9 @@ namespace PlayersWorlds.Maps.Areas {
     /// </summary>
     public enum AreaType {
         /// <summary>
-        /// Same as <see cref="Maze"/>.
-        /// </summary>
-        None = 0,
-        /// <summary>
         /// A regular area that might have different tags to denote any
         /// specific purpose like styling or activity, but does not limit
-        /// generative algorithms.
+        /// procedural generation algorithms.
         /// </summary>
         Maze = 0,
         /// <summary>
@@ -30,6 +26,10 @@ namespace PlayersWorlds.Maps.Areas {
         /// <summary>
         /// Describes an environment within this area.
         /// </summary>
-        Environment = 4
+        Environment = 4,
+        /// <summary>
+        /// Same as <see cref="Maze"/>.
+        /// </summary>
+        None = 5,
     }
 }

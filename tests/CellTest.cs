@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
+using PlayersWorlds.Maps.Serializer;
 
 namespace PlayersWorlds.Maps {
 
@@ -12,7 +10,15 @@ namespace PlayersWorlds.Maps {
             var tag = new Cell.CellTag("test");
             Assert.That(tag.GetHashCode(), Is.EqualTo("test".GetHashCode()));
             Assert.That(tag.Equals("test"), Is.True);
-            Assert.That(tag.ToString(), Is.EqualTo("CellTag('test')"));
+            Assert.That(tag.ToString(), Is.EqualTo("test"));
+        }
+
+        [Test]
+        public void Serialize() {
+            var env = Area.CreateEnvironment(new Vector(5, 5));
+            var actual = new CellSerializer().Serialize(env.Cells[3]);
+            var expected = "Cell:{3x0;;}";
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }

@@ -37,7 +37,7 @@ public class RandomAreaGeneratorTest : Test {
                 }
             }
 
-            Assert.That(area.Type, Is.Not.EqualTo(AreaType.None));
+            Assert.That(area.Type, Is.Not.EqualTo(AreaType.Maze));
             if (types.ContainsKey(area.Type)) {
                 types[area.Type] += 1;
             } else {
@@ -93,7 +93,7 @@ public class RandomAreaGeneratorTest : Test {
                 }
             }
 
-            Assert.That(area.Type, Is.Not.EqualTo(AreaType.None));
+            Assert.That(area.Type, Is.Not.EqualTo(AreaType.Maze));
             if (types.ContainsKey(area.Type)) {
                 types[area.Type] += 1;
             } else {
