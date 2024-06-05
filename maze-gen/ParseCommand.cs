@@ -39,12 +39,7 @@ namespace PlayersWorlds.Maps {
                                 a => a.Type == AreaType.Hall)
                              .Select(a => a.Cells.Count).Sum());
             Console.WriteLine("Unvisited cells: " +
-                string.Join(",",
-                    maze.Cells
-                        .Where(c =>
-                            !c.IsConnected &&
-                            !maze.ChildAreas.Any(
-                                area => area.Cells.Any(ch => ch.Parent == c)))));
+                string.Join(",", maze.Cells.Where(c => !c.IsConnected)));
             Console.WriteLine(maze.MazeToString());
             return 0;
         }

@@ -35,9 +35,6 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         public bool IsConnected => _owningArea.CellHasLinks(_position);
 
-        public Cell Parent =>
-                _owningArea.Parent[_owningArea.Position + _position];
-
         /// <summary>
         /// Creates an instance of cell at the specified position.
         /// </summary>
@@ -97,18 +94,6 @@ namespace PlayersWorlds.Maps {
 
             _links.Add(other.Position);
             other._links.Add(this.Position);
-        }
-
-        // !! smellz?
-        internal void LinkAllNeighborsInArea(Area area) {
-            foreach (var neighbor in _owningArea.NeighborsOf(_position)) {
-                if (_owningArea.CellsAreLinked(_position, neighbor)) {
-                    continue;
-                }
-                if (area.Contains(neighbor)) {
-                    Link(neighbor);
-                }
-            }
         }
 
         /// <summary>

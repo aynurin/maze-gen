@@ -189,7 +189,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             yield return "42x5: P4x5;S10x1 P30x1;S3x1 P10x1;S3x1 P2x2;S1x1";
             yield return "39x5: P14x5;S10x1 P5x-1;S9x1 P2x2;S1x1 P10x4;S8x1";
             yield return "6x47: P6x12;S1x12 P3x13;S1x5 P3x18;S1x4 P3x38;S1x6 P2x2;S1x2";
-            yield return "6x47: P-1x28;S1x11 P6x11;S1x11 P6x6;S1x11 P-1x6;S1x11 P1x35;S1x5";
+            yield return "6x47: P-1x28;S1x11 P6x11;S1x11 P6x6;S1x11 P-1x6;S1x11 P1x35;S1x5"; // Overlapping: P2x15;S1x11 (Random(618)), P2x11;S1x5 (Random(618))
             yield return "6x47: P7x10;S1x14 P2x41;S1x3 P3x4;S1x3 P3x10;S1x4 P0x25;S1x9";
             yield return "5x45: P-1x5;S1x10 P-2x21;S1x12 P7x17;S1x14 P2x40;S1x1 P1x29;S1x4";
             yield return "46x5: P4x-1;S10x1 P29x0;S7x1 P29x2;S2x1 P32x2;S10x1 P17x0;S5x1";
@@ -203,7 +203,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             yield return "6x42: P-1x6;S1x11 P-2x21;S1x13 P3x36;S1x3 P5x7;S1x9 P0x27;S1x10";
             yield return "40x5: P8x6;S12x1 P24x-1;S9x1 P3x0;S8x1 P23x2;S2x1";
             yield return "47x7: P19x7;S14x1 P9x2;S8x1 P7x4;S8x1 P14x2;S4x1 P28x5;S10x1 P35x3;S2x1";
-            yield return "48x6: P32x-1;S11x1 P9x7;S14x1 P5x7;S13x1 P27x2;S15x1 P5x3;S3x1"; // fails at 121
+            yield return "48x6: P32x-1;S11x1 P9x7;S14x1 P5x7;S13x1 P27x2;S15x1 P5x3;S3x1"; // fails at 121, 660
             yield return "46x6: P20x-2;S13x1 P10x7;S14x1 P22x2;S4x1 P35x3;S6x1 P17x3;S7x1";
             yield return "6x39: P-1x10;S1x11 P0x3;S1x7 P0x11;S1x10 P2x20;S1x7 P3x26;S1x6";
             yield return "43x42: P3.20x34.43;S6.00x7.00 P10.77x25.44;S9.00x11.00";
@@ -224,7 +224,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             yield return "49x16: P2x7;S12x4 P7x-1;S11x3 P19x4;S13x4 P27x11;S15x4 P17x10;S3x4 P14x3;S13x4 P24x9;S6x4 P1x13;S14x2 P9x4;S4x3"; // fails at 23
             yield return "49x42: P19x1;S11x2 P34x31;S6x8 P15x29;S13x12 P15x11;S5x12 P23x5;S12x6 P3x17;S9x2 P16x6;S15x4 P15x29;S9x11 P39x37;S6x4 P28x22;S12x9 P31x8;S6x3 P27x23;S9x5 P0x27;S13x9 P11x17;S5x11 P4x2;S1x1";
             yield return "24x46: P11x20;S3x9 P5x15;S6x10 P5x14;S7x13 P10x26;S5x11 P10x18;S1x4 P11x13;S1x5 P10x29;S6x9 P13x8;S2x10 P3x17;S7x13 P5x28;S5x5 P18x8;S5x12";
-            yield return "10x10: P7x9;S2x3 P7x2;S3x2 P3x9;S2x2 P0x5;S2x3 P7x1;S2x3 P0x0;S6x5"; // Out Of Bounds: P-1x3;S6x5 (Random(569))
+            yield return "10x10: P7x9;S2x3 P7x2;S3x2 P3x9;S2x2 P0x5;S2x3 P7x1;S2x3 P0x0;S6x5"; // Out Of Bounds: P-1x3;S6x5 (Random(569)); Out Of Bounds: P-1x5;S6x5 (Random(292))
         }
 
         public static IEnumerable<string> FailingLayouts() {

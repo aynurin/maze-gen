@@ -153,8 +153,7 @@ namespace PlayersWorlds.Maps.Maze {
             _priorityCellsToConnect.Clear();
             foreach (var areaInfo in _mazeArea.ChildAreas) {
                 var area = areaInfo;
-                var mazeAreaCells = areaInfo.Cells // TODO: Not covered
-                    .Select(c => c.Parent)
+                var mazeAreaCells = _mazeArea.ChildAreaCells(areaInfo) // TODO: Not covered
                     .ToList();
                 if (area.Type == AreaType.Cave) {
                     // make sure all cave areas are linked.
@@ -173,7 +172,7 @@ namespace PlayersWorlds.Maps.Maze {
                                 (otherArea.Type == AreaType.Hall ||
                                     otherArea.Type == AreaType.Fill))
                             .SelectMany(otherArea => // TODO: Not covered
-                                otherArea.Cells.Select(c => c.Parent)))
+                                _mazeArea.ChildAreaCells(otherArea)))
                         .ToList();
                     cells.ForEach(c => _priorityCellsToConnect.Set(c, cells));
                 }
@@ -457,11 +456,7 @@ namespace PlayersWorlds.Maps.Maze {
             // to any halls, and if there are, connect them.
             foreach (var areaInfo in _mazeArea.ChildAreas) {
                 var area = areaInfo;
-                var areaCells = areaInfo.Cells.Select(c => c.Parent);
-                if (area.Type == AreaType.Hall || area.Type == AreaType.Cave) {
-                    // link all hall and cave inner cells together.
-                    areaCells.ForEach(cell => cell.LinkAllNeighborsInArea(area));
-                }
+                var areaCells = _mazeArea.ChildAreaCells(areaInfo);
                 if (area.Type == AreaType.Hall) {
                     // create hall entrances.
                     var walkInCells = WalkInCells(area).ToList();

@@ -20,8 +20,9 @@ namespace PlayersWorlds.Maps {
         private readonly string[] _tags;
         private readonly List<Area> _childAreas;
         private readonly Area _parent;
-        private List<HashSet<Vector>> _interconnectedAreasSnapshot = new List<HashSet<Vector>>();
-        private HashSet<Vector> _filledAreasSnapshot = new HashSet<Vector>();
+        private List<HashSet<Vector>> _hallCaveAreasCells =
+            new List<HashSet<Vector>>();
+        private HashSet<Vector> _fillAreasCells = new HashSet<Vector>();
 
         /// <summary>
         /// Position of this area in the target map.
@@ -186,6 +187,12 @@ namespace PlayersWorlds.Maps {
             RebuildChildAreasSnapshot();
         }
 
+        public IEnumerable<Cell> ChildAreaCells(Area area) {
+            foreach (var cell in area.Cells) {
+                yield return this[area.Position + cell.Position];
+            }
+        }
+
         public IEnumerable<Cell> ChildCellsAt(Vector xy) {
             // yield return _cells[xy];
             foreach (var area in _childAreas) {
@@ -200,19 +207,29 @@ namespace PlayersWorlds.Maps {
 
         public bool CellsAreLinked(Vector one, Vector another) {
             return Contains(one) && Contains(another) &&
-                   !_filledAreasSnapshot.Contains(one) &&
-                   !_filledAreasSnapshot.Contains(another) &&
+                   !_fillAreasCells.Contains(one) &&
+                   !_fillAreasCells.Contains(another) &&
                    (_cells[one].HasLink(another) ||
-                   _interconnectedAreasSnapshot
+                   _hallCaveAreasCells
                         .Any(a => a.Contains(one) && a.Contains(another)));
         }
 
         public bool CellHasLinks(Vector one) {
             return Contains(one) &&
-                   !_filledAreasSnapshot.Contains(one) &&
+                   !_fillAreasCells.Contains(one) &&
                    (_cells[one].HasLinks() ||
-                   _interconnectedAreasSnapshot
+                   _hallCaveAreasCells
                         .Any(a => a.Contains(one)));
+        }
+
+        public IList<Vector> CellLinks(Vector cell) {
+            return _cells[cell].Links()
+                .Concat(NeighborsOf(cell)
+                           .Where(n =>
+                               !_fillAreasCells.Contains(n) &&
+                               _hallCaveAreasCells.Any(
+                             area => area.Contains(n) && area.Contains(cell))))
+                  .Distinct().ToList();
         }
 
         public Area ShallowCopy(Area parent = null) => new Area(
@@ -239,8 +256,8 @@ namespace PlayersWorlds.Maps {
 
         private void RebuildChildAreasSnapshot() {
             if (_childAreas.Count == 0) return;
-            // check if the cell belongs to an interconnected area.
-            // check if two cells belong to the same interconnected area.
+            // check if the cell belongs to a Hall or Cave.
+            // check if two cells belong to the same Hall or Cave area.
             // make sure the cell does not belong to a filled area.
             var interconnectedAreasSnapshot = new List<HashSet<Vector>>();
             var filledAreasSnapshot = new HashSet<Vector>();
@@ -258,8 +275,8 @@ namespace PlayersWorlds.Maps {
                     interconnectedAreasSnapshot.Add(areaCells);
                 }
             }
-            _interconnectedAreasSnapshot = interconnectedAreasSnapshot;
-            _filledAreasSnapshot = filledAreasSnapshot;
+            _hallCaveAreasCells = interconnectedAreasSnapshot;
+            _fillAreasCells = filledAreasSnapshot;
         }
 
         public void Reposition(Vector newPosition) {
@@ -335,25 +352,25 @@ namespace PlayersWorlds.Maps {
         public IEnumerable<Vector> NeighborsOf(Vector cell) {
             if (cell.Y > 0) {
                 var pos = cell + Vector.South2D;
-                if (!_filledAreasSnapshot.Contains(pos)) {
+                if (!_fillAreasCells.Contains(pos)) {
                     yield return pos;
                 }
             }
             if (cell.X < _cells.Size.X - 1) {
                 var pos = cell + Vector.East2D;
-                if (!_filledAreasSnapshot.Contains(pos)) {
+                if (!_fillAreasCells.Contains(pos)) {
                     yield return pos;
                 }
             }
             if (cell.Y < _cells.Size.Y - 1) {
                 var pos = cell + Vector.North2D;
-                if (!_filledAreasSnapshot.Contains(pos)) {
+                if (!_fillAreasCells.Contains(pos)) {
                     yield return pos;
                 }
             }
             if (cell.X > 0) {
                 var pos = cell + Vector.West2D;
-                if (!_filledAreasSnapshot.Contains(pos)) {
+                if (!_fillAreasCells.Contains(pos)) {
                     yield return pos;
                 }
             }

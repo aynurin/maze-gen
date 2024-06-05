@@ -58,7 +58,7 @@ namespace PlayersWorlds.Maps.Maze {
                 Is.EqualTo(priorityCells));
 
             foreach (var areaInfo in maze.ChildAreas) {
-                var areaCells = areaInfo.Cells.Select(cell => cell.Parent);
+                var areaCells = maze.ChildAreaCells(areaInfo);
                 if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
                     var selectableCells = builder.TestCellsToConnect.Intersect(areaCells).ToList();
                     if (selectableCells.Count > 0) {
@@ -577,13 +577,13 @@ namespace PlayersWorlds.Maps.Maze {
                 });
             builder.TestRebuildCellMaps();
 
-            Assert.That(builder.TestPriorityCells.Keys.Intersect(area1.Cells.Select(c => c.Parent)), Is.Empty);
-            Assert.That(builder.TestCellsToConnect.Intersect(area1.Cells.Select(c => c.Parent)), Is.Empty);
-            Assert.That(builder.TestPriorityCells.Keys.Intersect(area2.Cells.Select(c => c.Parent)), Is.Empty);
-            Assert.That(builder.TestCellsToConnect.Intersect(area2.Cells.Select(c => c.Parent)), Is.Empty);
+            Assert.That(builder.TestPriorityCells.Keys.Intersect(maze.ChildAreaCells(area1)), Is.Empty);
+            Assert.That(builder.TestCellsToConnect.Intersect(maze.ChildAreaCells(area1)), Is.Empty);
+            Assert.That(builder.TestPriorityCells.Keys.Intersect(maze.ChildAreaCells(area2)), Is.Empty);
+            Assert.That(builder.TestCellsToConnect.Intersect(maze.ChildAreaCells(area2)), Is.Empty);
 
             foreach (var areaInfo in maze.ChildAreas) {
-                var areaCells = areaInfo.Cells.Select(cell => cell.Parent);
+                var areaCells = maze.ChildAreaCells(areaInfo);
                 if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
                     var selectableCells = builder.TestCellsToConnect.Intersect(areaCells).ToList();
                     if (selectableCells.Count > 0) {
