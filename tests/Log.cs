@@ -59,9 +59,11 @@ public class TestLog {
 
     public class ImmediateFileLogWriter : ILogWriter {
         private static readonly object s_lock = new object();
+
         public void Write(string logName, LogMessage message) {
             lock (s_lock) {
-                using (var writer = new StreamWriter(Path.Combine(Environment.CurrentDirectory, $"{logName}.log"), true)) {
+                using (var writer =
+                       new StreamWriter(Path.Combine(Environment.CurrentDirectory, $"{logName}.log"), true)) {
                     writer.WriteLine($"{message.Message}");
                 }
             }
@@ -110,6 +112,7 @@ public class TestLog {
             foreach (var message in _buffer) {
                 _parentLog.Write(message);
             }
+
             Reset();
         }
     }
@@ -121,7 +124,8 @@ public class TestLog {
         public int DebugLevel { get; set; }
 
         public LogMessage(LogLevel level, string message) :
-            this(level, 0, message) { }
+            this(level, 0, message) {
+        }
 
         public LogMessage(LogLevel level, int debugLevel, string message) {
             Level = level;
@@ -132,10 +136,13 @@ public class TestLog {
 
         public static LogMessage D(int debugLevel, string message) =>
             new LogMessage(LogLevel.Debug, debugLevel, message);
+
         public static LogMessage I(string message) =>
             new LogMessage(LogLevel.Info, message);
+
         public static LogMessage W(string message) =>
             new LogMessage(LogLevel.Warning, message);
+
         public static LogMessage E(string message) =>
             new LogMessage(LogLevel.Error, message);
 

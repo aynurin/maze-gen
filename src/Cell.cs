@@ -109,23 +109,14 @@ namespace PlayersWorlds.Maps {
         /// The links between this cell and other cells.
         /// </summary>
         // TODO: Change all return types to vectors.
-        public IList<Vector> Links() =>
-            _links.Concat(
-                _owningArea.NeighborsOf(_position)
-                           .Where(n => _owningArea.ChildAreas
-                                       .Any(a => (
-                                            a.Type == Areas.AreaType.Hall ||
-                                            a.Type == Areas.AreaType.Cave) &&
-                                            a.Contains(_position) &&
-                                            a.Contains(n))))
-                  .Distinct().ToList();
+        public IList<Vector> Links() => _links.ToList();
 
         public bool HasLink(Vector positionInArea) =>
             _links.Contains(positionInArea);
 
         public bool HasLinks() => _links.Count > 0;
 
-        override public string ToString() =>
+        public override string ToString() =>
             $"Cell({Position}{(IsConnected ? "V" : "")} " +
             $"[{string.Join(", ", Tags)}])";
 
@@ -172,7 +163,7 @@ namespace PlayersWorlds.Maps {
             /// </returns>
             public override bool Equals(object obj) {
                 if (obj is string v) return _tag.Equals(v);
-                return _tag.Equals((obj as CellTag)._tag);
+                return _tag.Equals((obj as CellTag)?._tag);
             }
 
             /// <summary>

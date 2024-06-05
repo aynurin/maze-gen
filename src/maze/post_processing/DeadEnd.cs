@@ -35,7 +35,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         /// Find dead ends in the maze.
         /// </summary>
         public static DeadEndsExtension Find(Maze2DBuilder maze) {
-            var deadEnds = maze.AllCells.Where(cell => cell.Links().Count == 1)
+            var deadEnds = maze.AllCells.Where(cell => maze.MazeArea.CellLinks(cell.Position).Count == 1)
                 .ToList();
             foreach (var cell in deadEnds) {
                 cell.X(new IsDeadEndExtension());
@@ -48,7 +48,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         /// </summary>
         [Obsolete]
         public static DeadEndsExtension Find(Area maze) {
-            var deadEnds = maze.Cells.Where(cell => cell.Links().Count == 1)
+            var deadEnds = maze.Cells.Where(cell => maze.CellLinks(cell.Position).Count == 1)
                 .ToList();
             foreach (var cell in deadEnds) {
                 cell.X(new IsDeadEndExtension());

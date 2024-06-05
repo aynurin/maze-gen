@@ -59,7 +59,7 @@ namespace PlayersWorlds.Maps.Maze {
                     RandomSource = randomSource
                 });
             Assert.That(MazeTestHelper.IsSolveable(maze), $"{generatorType.Name} generated an unsolveable maze with seed {randomSource.Seed}");
-            Assert.That(maze.Cells.Count(cell => cell.Links().Count == 0), Is.EqualTo(0));
+            Assert.That(maze.Cells.Count(cell => maze.CellLinks(cell.Position).Count == 0), Is.EqualTo(0));
         }
 
         [Test]

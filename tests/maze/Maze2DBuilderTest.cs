@@ -562,7 +562,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             Assert.That(maze.Cells.Where(c => builder.MazeArea.CellHasLinks(c.Position)), Has.Member(entrance));
             Assert.That(maze.Cells.Where(c => builder.MazeArea.CellHasLinks(c.Position)), Has.Member(walkway[0]));
-            Assert.That(entrance.Links(), Has.Member(walkway[0].Position));
+            Assert.That(maze.CellLinks(entrance.Position), Has.Member(walkway[0].Position));
         }
 
         [Test]

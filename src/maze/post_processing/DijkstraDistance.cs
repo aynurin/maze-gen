@@ -84,7 +84,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             while (stack.Count > 0) {
                 nextCell = stack.Pop();
                 var distance = distances[nextCell];
-                foreach (var neighbor in mazeArea[nextCell].Links()) {
+                foreach (var neighbor in mazeArea.CellLinks(nextCell)) {
                     // if a maze has loops, we have to check if we are building
                     // a shorter path or a longer one.
                     if (!distances.ContainsKey(neighbor)) {
@@ -151,7 +151,8 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             }
             var solution = new List<Cell>() { mazeArea[targetCell] };
             while (distances[targetCell] > 0) {
-                targetCell = mazeArea[targetCell].Links().OrderBy(cell => distances[cell]).First();
+                targetCell = mazeArea.CellLinks(targetCell)
+                    .OrderBy(cell => distances[cell]).First();
                 solution.Add(mazeArea[targetCell]);
             }
             solution.Reverse();

@@ -178,9 +178,9 @@ namespace PlayersWorlds.Maps.Maze {
                 }
             }
 
-            // all cells that do not belong to fill and hall areas.
             _cellsToConnect.Clear();
             _allConnectableCells.Clear();
+            // all cells that do not belong to fill and hall areas.
             _mazeArea.Cells
                 .Where(c => _mazeArea.ChildCellsAt(c.Position)
                     .All(childCell =>
@@ -461,7 +461,7 @@ namespace PlayersWorlds.Maps.Maze {
                     // create hall entrances.
                     var walkInCells = WalkInCells(area).ToList();
                     var entranceExists =
-                        walkInCells.SelectMany(cell => cell.Links())
+                        walkInCells.SelectMany(cell => _mazeArea.CellLinks(cell.Position))
                             .Any(linkedCell =>
                                  _mazeArea.ChildCellsAt(linkedCell)
                                     .Any(c => c.OwningArea == area));
