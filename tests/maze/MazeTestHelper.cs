@@ -40,10 +40,10 @@ namespace PlayersWorlds.Maps.Maze {
                         options.RandomSource));
             }
             var maze = Area.CreateEnvironment(size);
-            childAreas?.ForEach(childArea => maze.CreateChildArea(childArea));
+            childAreas?.ForEach(childArea => maze.AddChildArea(childArea));
             builder = Maze2DBuilder.BuildMaze(maze, options);
             s_log.D(2, maze.MazeToString());
-            Assert.That(maze.ChildAreas.Count,
+            Assert.That(maze.ChildAreas().Count,
                 Is.GreaterThanOrEqualTo(childAreas?.Count ?? 0),
                 "Wrong number of areas");
             return maze;

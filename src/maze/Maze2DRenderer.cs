@@ -50,7 +50,7 @@ namespace PlayersWorlds.Maps.Maze {
                 if (cell.Position == new Vector(1, 1)) {
                     System.Diagnostics.Debugger.Break();
                 }
-                if (cell.IsConnected) {
+                if (_maze.CellHasLinks(cell.Position)) {
                     mapping.CenterCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
                 }
                 if (_maze.CellsAreLinked(cell.Position, cell.Position + Vector.North2D)) {

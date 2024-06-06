@@ -151,7 +151,7 @@ namespace PlayersWorlds.Maps.Maze {
             // from the priority list (but stay in the regular pool so they can
             // be processed as normal.
             _priorityCellsToConnect.Clear();
-            foreach (var areaInfo in _mazeArea.ChildAreas) {
+            foreach (var areaInfo in _mazeArea.ChildAreas()) {
                 var area = areaInfo;
                 var mazeAreaCells = _mazeArea.ChildAreaCells(areaInfo) // TODO: Not covered
                     .ToList();
@@ -166,7 +166,7 @@ namespace PlayersWorlds.Maps.Maze {
                     var cells = WalkInCells(area)
                         // make sure we don't include cells that belong to 
                         // any other area.
-                        .Except(_mazeArea.ChildAreas
+                        .Except(_mazeArea.ChildAreas()
                             .Where(otherArea =>
                                 area != otherArea &&
                                 (otherArea.Type == AreaType.Hall ||
@@ -181,11 +181,10 @@ namespace PlayersWorlds.Maps.Maze {
             _cellsToConnect.Clear();
             _allConnectableCells.Clear();
             // all cells that do not belong to fill and hall areas.
-            _mazeArea.Cells
-                .Where(c => _mazeArea.ChildCellsAt(c.Position)
-                    .All(childCell =>
-                        childCell.OwningArea.Type != AreaType.Fill &&
-                        childCell.OwningArea.Type != AreaType.Hall))
+            _mazeArea.Cells // does this cell belong to a fill or hall child area?
+                .Where(c => _mazeArea.ChildAreas(c.Position)
+                    .All(area => area.Type != AreaType.Fill &&
+                                 area.Type != AreaType.Hall))
                 .ForEach(c => {
                     _cellsToConnect.Add(c);
                     // same as _cellsToConnect but persisted over time.
@@ -220,7 +219,7 @@ namespace PlayersWorlds.Maps.Maze {
             try {
                 GenerateMazeAreas(_mazeArea);
 
-                var unpositionedAreas = _mazeArea.ChildAreas.Where(area => area.IsPositionEmpty).ToList();
+                var unpositionedAreas = _mazeArea.ChildAreas().Where(area => area.IsPositionEmpty).ToList();
                 if (unpositionedAreas.Count > 0) {
                     throw new MazeBuilderException(this,
                         "Maze contains unpositioned areas: " +
@@ -264,13 +263,13 @@ namespace PlayersWorlds.Maps.Maze {
             // count existing (desired) placement errors we can ignore when
             // checking auto-generated areas.
             var existingErrors =
-                mazeArea.ChildAreas.Count(
+                mazeArea.ChildAreas().Count(
                     area => area.IsPositionFixed &&
-                            mazeArea.ChildAreas.Any(other =>
+                            mazeArea.ChildAreas().Any(other =>
                                 area != other &&
                                 other.IsPositionFixed &&
                                 area.OverlapArea(other).Area > 0)) +
-                mazeArea.ChildAreas.Count(
+                mazeArea.ChildAreas().Count(
                     area => area.IsPositionFixed &&
                             !area.FitsInto(Vector.Zero2D, mazeArea.Size));
             // when we auto-generate the areas, there is a <1% chance that we
@@ -279,7 +278,7 @@ namespace PlayersWorlds.Maps.Maze {
             var attempts = _options.AreaGeneration ==
                     GeneratorOptions.AreaGenerationMode.Auto ? 3 : 1;
             while (attempts > 0) {
-                var allAreas = new List<Area>(mazeArea.ChildAreas);
+                var allAreas = new List<Area>(mazeArea.ChildAreas());
                 // add more rooms
                 //     AreaGenerator creates new rooms as a separate list
                 // layout
@@ -313,8 +312,8 @@ namespace PlayersWorlds.Maps.Maze {
                     allAreas.Count(
                         area => !area.FitsInto(Vector.Zero2D, mazeArea.Size));
                 if (errors <= 0) {
-                    allAreas.Where(area => !mazeArea.ChildAreas.Contains(area))
-                            .ForEach(area => mazeArea.CreateChildArea(area));
+                    allAreas.Where(area => !mazeArea.ChildAreas().Contains(area))
+                            .ForEach(area => mazeArea.AddChildArea(area));
                     return;
                 } else if (--attempts == 0) {
                     var roomsDebugStr = string.Join(", ",
@@ -454,7 +453,7 @@ namespace PlayersWorlds.Maps.Maze {
             // halls were avoided during the maze generation.
             // now is the time to see if there are maze corridors next
             // to any halls, and if there are, connect them.
-            foreach (var areaInfo in _mazeArea.ChildAreas) {
+            foreach (var areaInfo in _mazeArea.ChildAreas()) {
                 var area = areaInfo;
                 var areaCells = _mazeArea.ChildAreaCells(areaInfo);
                 if (area.Type == AreaType.Hall) {
@@ -462,9 +461,9 @@ namespace PlayersWorlds.Maps.Maze {
                     var walkInCells = WalkInCells(area).ToList();
                     var entranceExists =
                         walkInCells.SelectMany(cell => _mazeArea.CellLinks(cell.Position))
-                            .Any(linkedCell =>
-                                 _mazeArea.ChildCellsAt(linkedCell)
-                                    .Any(c => c.OwningArea == area));
+                            .Any(linkedCell => // does this cell belong to a given child area?
+                                 _mazeArea.ChildAreas(linkedCell)
+                                    .Any(childArea => childArea == area));
                     // entrance can already be created by an overlapping area.
                     if (entranceExists) continue;
                     var visitedWalkInCells = walkInCells

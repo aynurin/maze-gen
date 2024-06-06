@@ -21,7 +21,7 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            Assert.That(deserializedArea.ChildAreas, Is.Empty);
+            Assert.That(deserializedArea.ChildAreas(), Is.Empty);
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            Assert.That(deserializedArea.ChildAreas, Is.Empty);
+            Assert.That(deserializedArea.ChildAreas(), Is.Empty);
             Assert.That(deserializedArea[new Vector(0, 0)].Tags, Is.EquivalentTo(new[] { tag1 }));
             Assert.That(deserializedArea[new Vector(1, 1)].Tags, Is.EquivalentTo(new[] { tag2 }));
         }
@@ -47,15 +47,15 @@ namespace PlayersWorlds.Maps.Serializer {
             var childArea1 = Area.Create(new Vector(0, 0), new Vector(1, 1), AreaType.Maze);
             var childArea2 = Area.Create(new Vector(1, 1), new Vector(1, 1), AreaType.Maze);
             var area = Area.Create(new Vector(0, 0), new Vector(2, 2), AreaType.Maze);
-            area.CreateChildArea(childArea1);
-            area.CreateChildArea(childArea2);
+            area.AddChildArea(childArea1);
+            area.AddChildArea(childArea2);
             var serializedArea = _serializer.Serialize(area);
             var deserializedArea = _serializer.Deserialize(serializedArea);
             Assert.That(deserializedArea.Size, Is.EqualTo(new Vector(2, 2)));
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            var childAreas = new List<Area>(deserializedArea.ChildAreas);
+            var childAreas = new List<Area>(deserializedArea.ChildAreas());
             Assert.That(childAreas.Count, Is.EqualTo(2));
             Assert.That(childAreas[0].Size, Is.EqualTo(new Vector(1, 1)));
             Assert.That(childAreas[0].Position, Is.EqualTo(new Vector(0, 0)));
@@ -76,7 +76,7 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(1, 2)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            Assert.That(deserializedArea.ChildAreas, Is.Empty);
+            Assert.That(deserializedArea.ChildAreas(), Is.Empty);
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.EquivalentTo(new[] { "tag1", "tag2" }));
-            Assert.That(deserializedArea.ChildAreas, Is.Empty);
+            Assert.That(deserializedArea.ChildAreas(), Is.Empty);
         }
 
         [Test]
@@ -96,15 +96,15 @@ namespace PlayersWorlds.Maps.Serializer {
             var childArea1 = Area.CreateUnpositioned(new Vector(1, 1), AreaType.Maze);
             var childArea2 = Area.CreateUnpositioned(new Vector(1, 1), AreaType.Maze);
             var area = Area.Create(new Vector(0, 0), new Vector(2, 2), AreaType.Maze);
-            area.CreateChildArea(childArea1);
-            area.CreateChildArea(childArea2);
+            area.AddChildArea(childArea1);
+            area.AddChildArea(childArea2);
             var serializedArea = _serializer.Serialize(area);
             var deserializedArea = _serializer.Deserialize(serializedArea);
             Assert.That(deserializedArea.Size, Is.EqualTo(new Vector(2, 2)));
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            var childAreas = new List<Area>(deserializedArea.ChildAreas);
+            var childAreas = new List<Area>(deserializedArea.ChildAreas());
             Assert.That(childAreas.Count, Is.EqualTo(2));
             Assert.That(childAreas[0].Size, Is.EqualTo(new Vector(1, 1)));
             Assert.That(childAreas[0].IsPositionEmpty, Is.True);
@@ -121,15 +121,15 @@ namespace PlayersWorlds.Maps.Serializer {
             var childArea1 = Area.Create(new Vector(1, 1), new Vector(1, 1), AreaType.Maze);
             var childArea2 = Area.Create(new Vector(2, 2), new Vector(1, 1), AreaType.Maze);
             var area = Area.Create(new Vector(0, 0), new Vector(3, 3), AreaType.Maze);
-            area.CreateChildArea(childArea1);
-            area.CreateChildArea(childArea2);
+            area.AddChildArea(childArea1);
+            area.AddChildArea(childArea2);
             var serializedArea = _serializer.Serialize(area);
             var deserializedArea = _serializer.Deserialize(serializedArea);
             Assert.That(deserializedArea.Size, Is.EqualTo(new Vector(3, 3)));
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            var childAreas = new List<Area>(deserializedArea.ChildAreas);
+            var childAreas = new List<Area>(deserializedArea.ChildAreas());
             Assert.That(childAreas.Count, Is.EqualTo(2));
             Assert.That(childAreas[0].Size, Is.EqualTo(new Vector(1, 1)));
             Assert.That(childAreas[0].Position, Is.EqualTo(new Vector(1, 1)));
@@ -146,15 +146,15 @@ namespace PlayersWorlds.Maps.Serializer {
             var childArea1 = Area.Create(new Vector(1, 1), new Vector(1, 1), AreaType.Maze);
             var childArea2 = Area.CreateUnpositioned(new Vector(1, 1), AreaType.Maze);
             var area = Area.Create(new Vector(0, 0), new Vector(3, 3), AreaType.Maze);
-            area.CreateChildArea(childArea1);
-            area.CreateChildArea(childArea2);
+            area.AddChildArea(childArea1);
+            area.AddChildArea(childArea2);
             var serializedArea = _serializer.Serialize(area);
             var deserializedArea = _serializer.Deserialize(serializedArea);
             Assert.That(deserializedArea.Size, Is.EqualTo(new Vector(3, 3)));
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            var childAreas = new List<Area>(deserializedArea.ChildAreas);
+            var childAreas = new List<Area>(deserializedArea.ChildAreas());
             Assert.That(childAreas.Count, Is.EqualTo(2));
             Assert.That(childAreas[0].Size, Is.EqualTo(new Vector(1, 1)));
             Assert.That(childAreas[0].Position, Is.EqualTo(new Vector(1, 1)));
@@ -164,6 +164,17 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(childAreas[1].IsPositionEmpty, Is.True);
             Assert.That(childAreas[1].Type, Is.EqualTo(AreaType.Maze));
             Assert.That(childAreas[1].Tags, Is.Empty);
+        }
+
+        [Test]
+        public void CanSerializeAndDeserializeAnAreaWithLinkedCells() {
+            var area = Area.CreateEnvironment(new Vector(5, 5));
+            area.Link(new Vector(0, 0), new Vector(0, 1));
+            var serializedArea = _serializer.Serialize(area);
+            var deserializedArea = _serializer.Deserialize(serializedArea);
+            Assert.That(
+                deserializedArea.CellsAreLinked(
+                    new Vector(0, 0), new Vector(0, 1)));
         }
     }
 }

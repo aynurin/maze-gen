@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PlayersWorlds.Maps.Serializer;
 
 namespace PlayersWorlds.Maps {
     /// <summary>
@@ -11,9 +12,8 @@ namespace PlayersWorlds.Maps {
     /// </remarks>
     public class Cell : ExtensibleObject {
         private readonly Vector _position;
-        private readonly Area _owningArea;
         private readonly List<CellTag> _tags = new List<CellTag>();
-        private readonly HashSet<Vector> _links = new HashSet<Vector>();
+        private readonly HashSet<Vector> _hardLinks = new HashSet<Vector>();
 
         /// <summary>
         /// Absolute position of this cell in the world.
@@ -21,118 +21,32 @@ namespace PlayersWorlds.Maps {
         public Vector Position => _position;
 
         /// <summary>
-        /// Area that owns this cell.
-        /// </summary>
-        public Area OwningArea => _owningArea;
-
-        /// <summary>
         /// Tags assigned to cell.
         /// </summary>
         public List<CellTag> Tags => _tags;
 
-        /// <summary>
-        /// <c>true</c> if this cell is connected to any other cells.
-        /// </summary>
-        public bool IsConnected => _owningArea.CellHasLinks(_position);
+        public HashSet<Vector> HardLinks => _hardLinks;
 
         /// <summary>
         /// Creates an instance of cell at the specified position.
         /// </summary>
         /// <param name="position">The position of the cell in its area.</param>
-        /// <param name="owningArea">Area that owns this cell.</param>
         /// <remarks>Supposed for internal use only.</remarks>
-        internal Cell(Vector position, Area owningArea) {
+        internal Cell(Vector position) {
             _position = position;
-            _owningArea = owningArea;
         }
 
         internal Cell CloneWithParent(Area area) {
-            var newCell = new Cell(_position, area);
+            var newCell = new Cell(_position);
             newCell._tags.AddRange(_tags);
-            foreach (var link in _links) {
-                newCell._links.Add(link);
+            foreach (var link in _hardLinks) {
+                newCell._hardLinks.Add(link);
             }
             return newCell;
         }
 
-        /// <summary>
-        /// Creates a link between this cell and the specified cell making a
-        /// path that can be used by the player to travel between the two cells.
-        /// </summary>
-        /// <exception cref="NotImplementedException">The cells are not adjacent
-        /// and traveling between non-adjacent cells is not yet implemented.
-        /// </exception>
-        /// <exception cref="InvalidOperationException">The link already exists.
-        /// </exception>
-        public void Link(Vector other) {
-            // check if the cell is a neighbor.
-            if (!_owningArea.AreNeighbors(_position, other))
-                throw new NotImplementedException(
-                    "Linking with non-adjacent cells is not supported yet (" +
-                    $"Trying to link {other} to {this}).");
-            // fool-proof to avoid double linking.
-            if (_links.Contains(other))
-                throw new InvalidOperationException($"This link already exists ({this}->{other})");
-
-            _links.Add(other);
-            _owningArea[other]._links.Add(this.Position);
-        }
-
-        /// <summary>
-        /// Creates a link between this cell and the specified cell making a
-        /// path that can be used by the player to travel between the two cells.
-        /// </summary>
-        /// <exception cref="NotImplementedException">The cells are not adjacent
-        /// and traveling between non-adjacent cells is not yet implemented.
-        /// </exception>
-        /// <exception cref="InvalidOperationException">The link already exists.
-        /// </exception>
-        public void Link(Cell other) {
-            // fool-proof to avoid double linking.
-            if (_links.Contains(other.Position))
-                throw new InvalidOperationException($"This link already exists ({this}->{other})");
-
-            _links.Add(other.Position);
-            other._links.Add(this.Position);
-        }
-
-        /// <summary>
-        /// Breaks a link between the cells.
-        /// </summary>
-        /// <param name="other"></param>
-        public void Unlink(Vector other) {
-            _links.Remove(other);
-            _owningArea[other]._links.Remove(_position);
-        }
-
-        /// <summary>
-        /// The links between this cell and other cells.
-        /// </summary>
-        // TODO: Change all return types to vectors.
-        public IList<Vector> Links() => _links.ToList();
-
-        public bool HasLink(Vector positionInArea) =>
-            _links.Contains(positionInArea);
-
-        public bool HasLinks() => _links.Count > 0;
-
-        public override string ToString() =>
-            $"Cell({Position}{(IsConnected ? "V" : "")} " +
-            $"[{string.Join(", ", Tags)}])";
-
-        /// <summary>
-        /// A debug string describing this cell.
-        /// </summary>
-        /// <returns></returns>
-        public string ToLongString() =>
-            $"Cell({Position}{(IsConnected ? "V" : "")}({GatesString()}) " +
-            $"[{string.Join(", ", Tags)}])";
-
-        private string GatesString() => string.Concat(
-            _owningArea.CellsAreLinked(_position, _position + Vector.North2D) ? "N" : "-",
-            _owningArea.CellsAreLinked(_position, _position + Vector.East2D) ? "E" : "-",
-            _owningArea.CellsAreLinked(_position, _position + Vector.South2D) ? "S" : "-",
-            _owningArea.CellsAreLinked(_position, _position + Vector.West2D) ? "W" : "-");
+        override public string ToString() =>
+            new CellSerializer().Serialize(this);
 
         /// <summary>
         /// Cell tags can be used in the game engine to choose objects, visual

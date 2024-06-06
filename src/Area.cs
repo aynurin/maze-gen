@@ -19,7 +19,6 @@ namespace PlayersWorlds.Maps {
         private readonly AreaType _areaType;
         private readonly string[] _tags;
         private readonly List<Area> _childAreas;
-        private readonly Area _parent;
         private List<HashSet<Vector>> _hallCaveAreasCells =
             new List<HashSet<Vector>>();
         private HashSet<Vector> _fillAreasCells = new HashSet<Vector>();
@@ -65,8 +64,6 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         public string[] Tags => _tags;
 
-        public IReadOnlyCollection<Area> ChildAreas => _childAreas.AsReadOnly();
-
         /// <summary>
         /// Size of the map in cells.
         /// </summary>
@@ -81,8 +78,6 @@ namespace PlayersWorlds.Maps {
         internal double HighX => _position.X + Size.X;
         internal double LowY => _position.Y;
         internal double HighY => _position.Y + Size.Y;
-
-        public Area Parent => _parent;
 
         /// <summary>
         /// Gets the value of a cell at the specified <see cref="Vector"/>
@@ -112,11 +107,11 @@ namespace PlayersWorlds.Maps {
                      /*isPositionFixed=*/false, size, areaType,
                      /*childAreas=*/null, tags);
 
-        public static Area CreateUnpositioned(Vector position,
+        public static Area CreateUnpositioned(Vector initialPosition,
                                               Vector size,
                                               AreaType areaType,
                                               params string[] tags) =>
-            new Area(position,
+            new Area(initialPosition,
                      /*isPositionFixed=*/false, size, areaType,
                      /*childAreas=*/null, tags);
 
@@ -153,9 +148,9 @@ namespace PlayersWorlds.Maps {
             _isPositionFixed = isPositionFixed;
             _childAreas = childAreas == null ?
                 new List<Area>() :
-                childAreas.Select(a => a.ShallowCopy(this)).ToList();
+                new List<Area>(childAreas);
             _tags = tags?.ToArray() ?? new string[0];
-            _cells = new NArray<Cell>(size, xy => new Cell(xy, this));
+            _cells = new NArray<Cell>(size, xy => new Cell(xy));
             RebuildChildAreasSnapshot();
         }
 
@@ -163,7 +158,7 @@ namespace PlayersWorlds.Maps {
         /// Copy constructor.
         /// </summary>
         internal Area(Vector position, bool isPositionFixed, NArray<Cell> cells,
-                    AreaType areaType, Area parent,
+                    AreaType areaType,
                     IEnumerable<Area> childAreas,
                     string[] tags) {
             if (position.IsEmpty && isPositionFixed) {
@@ -172,10 +167,9 @@ namespace PlayersWorlds.Maps {
             _position = position;
             _areaType = areaType;
             _isPositionFixed = isPositionFixed;
-            _parent = parent;
             _childAreas = childAreas == null ?
                 new List<Area>() :
-                childAreas.Select(a => a.ShallowCopy(this)).ToList();
+                new List<Area>(childAreas);
             if (tags == null) {
                 _tags = new string[0];
             } else {
@@ -193,37 +187,31 @@ namespace PlayersWorlds.Maps {
             }
         }
 
-        public IEnumerable<Cell> ChildCellsAt(Vector xy) {
-            // yield return _cells[xy];
-            foreach (var area in _childAreas) {
-                if (!area.Contains(xy)) continue;
-                var positionInArea = xy - area.Position;
-                yield return area[positionInArea];
-                foreach (var cell in area.ChildCellsAt(positionInArea)) {
-                    yield return cell;
-                }
-            }
-        }
+        public IEnumerable<Area> ChildAreas() =>
+            _childAreas.AsReadOnly();
+
+        public IEnumerable<Area> ChildAreas(Vector xy) =>
+            _childAreas.Where(a => a.Contains(xy));
 
         public bool CellsAreLinked(Vector one, Vector another) {
             return Contains(one) && Contains(another) &&
                    !_fillAreasCells.Contains(one) &&
                    !_fillAreasCells.Contains(another) &&
-                   (_cells[one].HasLink(another) ||
+                   (_cells[one].HardLinks.Contains(another) ||
                    _hallCaveAreasCells
                         .Any(a => a.Contains(one) && a.Contains(another)));
         }
 
-        public bool CellHasLinks(Vector one) {
-            return Contains(one) &&
-                   !_fillAreasCells.Contains(one) &&
-                   (_cells[one].HasLinks() ||
+        public bool CellHasLinks(Vector cell) {
+            return Contains(cell) &&
+                   !_fillAreasCells.Contains(cell) &&
+                   (_cells[cell].HardLinks.Count > 0 ||
                    _hallCaveAreasCells
-                        .Any(a => a.Contains(one)));
+                        .Any(a => a.Contains(cell)));
         }
 
         public IList<Vector> CellLinks(Vector cell) {
-            return _cells[cell].Links()
+            return _cells[cell].HardLinks
                 .Concat(NeighborsOf(cell)
                            .Where(n =>
                                !_fillAreasCells.Contains(n) &&
@@ -232,29 +220,20 @@ namespace PlayersWorlds.Maps {
                   .Distinct().ToList();
         }
 
-        public Area ShallowCopy(Area parent = null) => new Area(
+        public Area ShallowCopy() => new Area(
             _position,
             _isPositionFixed,
             _cells,
             _areaType,
-            parent ?? _parent,
             _childAreas,
             _tags);
 
-        public Area CreateChildArea(Area template) {
-            var childArea = new Area(template._position,
-                            template._isPositionFixed,
-                            template._cells,
-                            template._areaType,
-                            this,
-                            template._childAreas,
-                            template._tags);
-            _childAreas.Add(childArea);
+        public void AddChildArea(Area area) {
+            _childAreas.Add(area);
             RebuildChildAreasSnapshot();
-            return childArea;
         }
 
-        private void RebuildChildAreasSnapshot() {
+        public void RebuildChildAreasSnapshot() {
             if (_childAreas.Count == 0) return;
             // check if the cell belongs to a Hall or Cave.
             // check if two cells belong to the same Hall or Cave area.
@@ -283,9 +262,6 @@ namespace PlayersWorlds.Maps {
             if (_isPositionFixed)
                 throw new InvalidOperationException("Position is fixed");
             _position = newPosition;
-            // TODO: instead of rebuilding every time here, consider re-creating
-            //       the area when all positioning is done
-            _parent?.RebuildChildAreasSnapshot();
         }
 
         /// <summary>
@@ -393,7 +369,8 @@ namespace PlayersWorlds.Maps {
                     "Non-mirroring neighborhood (" +
                     $"Trying to link {one} to {another}). Neighbors of one: {string.Join(", ", NeighborsOf(one))}, neighbors of another: {string.Join(", ", NeighborsOf(another))}");
             }
-            this[one].Link(this[another]);
+            this[one].HardLinks.Add(another);
+            this[another].HardLinks.Add(one);
         }
 
         /// <summary>
@@ -439,7 +416,7 @@ namespace PlayersWorlds.Maps {
             var cells = _cells.ScaleUp(newSize);
 
             return new Area(position, _isPositionFixed, cells,
-                            _areaType, _parent, childAreas, _tags);
+                            _areaType, childAreas, _tags);
         }
 
         /// <summary>

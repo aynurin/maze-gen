@@ -64,7 +64,7 @@ namespace PlayersWorlds.Maps.Serializer {
                 var size = Vector.Parse(parts[0]);
                 var maze = Area.CreateEnvironment(size);
                 parts[1].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ForEach(
-                    areaStr => maze.CreateChildArea(ParseV01AreaString(areaStr)));
+                    areaStr => maze.AddChildArea(ParseV01AreaString(areaStr)));
                 parts[2].Split(
                     new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                     .ForEach(cellStr => {

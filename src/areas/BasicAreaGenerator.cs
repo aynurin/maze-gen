@@ -17,7 +17,7 @@ namespace PlayersWorlds.Maps.Areas {
         private readonly int _count;
         private readonly Vector _minSize;
         private readonly Vector _maxSize;
-        private readonly IReadOnlyCollection<Area> _areasNoOverlap;
+        private readonly IEnumerable<Area> _areasNoOverlap;
 
         /// <summary>
         /// Creates a new random area generator with the specified settings.
@@ -45,7 +45,7 @@ namespace PlayersWorlds.Maps.Areas {
                                   int count,
                                   Vector minSize,
                                   Vector maxSize,
-                                  IReadOnlyCollection<Area> areasNoOverlap) {
+                                  IEnumerable<Area> areasNoOverlap) {
             _randomSource = randomSource;
             _targetArea = targetArea;
             _areaTypes = areaTypes;
@@ -53,7 +53,7 @@ namespace PlayersWorlds.Maps.Areas {
             _count = count;
             _minSize = minSize;
             _maxSize = maxSize;
-            _areasNoOverlap = areasNoOverlap ?? new List<Area>().AsReadOnly();
+            _areasNoOverlap = areasNoOverlap ?? new List<Area>();
         }
 
         /// <inheritdoc />
@@ -70,7 +70,7 @@ namespace PlayersWorlds.Maps.Areas {
                 // none of the areas fit the map
                 return new List<Area>();
             }
-            return PlaceArea(new List<Area>(targetArea.ChildAreas));
+            return PlaceArea(new List<Area>(targetArea.ChildAreas()));
         }
 
         private ICollection<Area> PlaceArea(ICollection<Area> generatedAreas) {

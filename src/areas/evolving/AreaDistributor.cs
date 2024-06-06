@@ -39,7 +39,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         public void Distribute(Area targetArea,
                                IEnumerable<Area> areasToAdd,
                                int maxEpochs) {
-            var allAreas = targetArea.ChildAreas.Concat(areasToAdd).ToList();
+            var allAreas = targetArea.ChildAreas().Concat(areasToAdd).ToList();
             var areasWithNicknames = MapAreasSystem.GetNicknames(allAreas);
             if (_renderer != null) {
                 _log.D(1, _renderer.Render(targetArea.Size, areasWithNicknames));
@@ -52,6 +52,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     }
                 });
             simulator.Evolve(system);
+            // TODO: Not covered
+            targetArea.RebuildChildAreasSnapshot();
         }
     }
 }

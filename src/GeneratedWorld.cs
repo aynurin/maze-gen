@@ -64,10 +64,9 @@ namespace PlayersWorlds.Maps {
             var layer = CurrentLayer.ShallowCopy();
             AreaGenerator areaGenerator = new BasicAreaGenerator(
                 _randomSource, layer, areaTypes, tags, count, minSize, maxSize,
-                layer.ChildAreas);
-            var generatedAreas =
-                areaGenerator.Generate(layer)
-                .Select(area => layer.CreateChildArea(area));
+                layer.ChildAreas());
+            areaGenerator.Generate(layer)
+                .ForEach(area => layer.AddChildArea(area));
             CurrentLayer = layer;
             return this;
         }

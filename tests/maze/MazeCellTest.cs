@@ -15,18 +15,19 @@ namespace PlayersWorlds.Maps.Maze {
             var b = env[new Vector(2, 2)];
 
             env.Link(a.Position, b.Position);
-            Assert.That(a.Links(), Has.Count.EqualTo(1));
-            Assert.That(b.Links(), Has.Count.EqualTo(1));
+            Assert.That(a.HardLinks, Has.Count.EqualTo(1));
+            Assert.That(b.HardLinks, Has.Count.EqualTo(1));
             Assert.That(env.CellsAreLinked(a.Position, a.Position + Vector.North2D), Is.True);
             Assert.That(env.CellsAreLinked(b.Position, b.Position + Vector.South2D), Is.True);
             Assert.That(env[a.Position + Vector.North2D], Is.EqualTo(b));
             Assert.That(env[b.Position + Vector.South2D], Is.EqualTo(a));
 
-            b.Unlink(a.Position);
+            b.HardLinks.Remove(a.Position);
+            a.HardLinks.Remove(b.Position);
             Assert.That(env.CellsAreLinked(a.Position, a.Position + Vector.North2D), Is.False);
             Assert.That(env.CellsAreLinked(b.Position, b.Position + Vector.South2D), Is.False);
-            Assert.That(a.Links(), Has.Count.EqualTo(0));
-            Assert.That(b.Links(), Has.Count.EqualTo(0));
+            Assert.That(a.HardLinks, Has.Count.EqualTo(0));
+            Assert.That(b.HardLinks, Has.Count.EqualTo(0));
         }
 
         [Test]
@@ -49,8 +50,8 @@ namespace PlayersWorlds.Maps.Maze {
         //         Throws.Nothing);
         //     Assert.That(() => a.AddMapArea(mapArea),
         //         Throws.InvalidOperationException);
-        //     Assert.That(a.ChildAreas, Has.Exactly(1).Items);
-        //     Assert.That(a.ChildAreas.First(), Is.SameAs(mapArea));
+        //     Assert.That(a.ChildAreas(), Has.Exactly(1).Items);
+        //     Assert.That(a.ChildAreas().First(), Is.SameAs(mapArea));
         // }
 
         [Test]
@@ -62,16 +63,15 @@ namespace PlayersWorlds.Maps.Maze {
             var d = env[new Vector(2, 3)];
 
             env.Link(a.Position, b.Position);
-            Assert.That(a.ToString(), Is.EqualTo("Cell(2x1V [])"));
-            Assert.That(b.ToString(), Is.EqualTo("Cell(2x2V [])"));
-            Assert.That(a.ToLongString(), Is.EqualTo("Cell(2x1V(N---) [])"));
-            Assert.That(b.ToLongString(), Is.EqualTo("Cell(2x2V(--S-) [])"));
+            Assert.That(a.ToString(), Is.EqualTo("Cell:{2x1;[2x2];}"));
+            Assert.That(b.ToString(), Is.EqualTo("Cell:{2x2;[2x1];}"));
 
             env.Link(c.Position, d.Position);
-            Assert.That(c.ToLongString(), Is.EqualTo("Cell(1x3V(-E--) [])"));
-            Assert.That(d.ToLongString(), Is.EqualTo("Cell(2x3V(---W) [])"));
+            Assert.That(c.ToString(), Is.EqualTo("Cell:{1x3;[2x3];}"));
+            Assert.That(d.ToString(), Is.EqualTo("Cell:{2x3;[1x3];}"));
 
-            b.Unlink(a.Position);
+            b.HardLinks.Remove(a.Position);
+            a.HardLinks.Remove(b.Position);
             Assert.That(env.CellsAreLinked(a.Position, a.Position + Vector.South2D), Is.False);
         }
 

@@ -107,7 +107,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     roomsShifts.Aggregate((acc, a) => acc + a),
                 roomsShifts.Select(shift => shift.MagnitudeSq).Stats(),
                 IsLayoutValid());
-            // complete evolution when there room shifts are minimal
+            // complete evolution when the room shifts are minimal
             epochResult.CompleteEvolution =
                 epochResult.Stats.Mode == 0 && epochResult.Stats.Variance <= 0.1;
 

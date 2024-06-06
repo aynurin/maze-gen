@@ -78,7 +78,7 @@ namespace PlayersWorlds.Maps.Renderers {
             if (!string.IsNullOrEmpty(cellData)) {
                 _data.Add(I(asciiCoords.Center), cellData);
             }
-            if (!cell.IsConnected) return;
+            if (!_maze.CellHasLinks(cell.Position)) return;
             _buffer[I(asciiCoords.Northeast)] |= Border.Type.X;
             _buffer[I(asciiCoords.Northwest)] |= Border.Type.X;
             _buffer[I(asciiCoords.Southeast)] |= Border.Type.X;

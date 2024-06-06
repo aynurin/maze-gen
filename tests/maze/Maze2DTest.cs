@@ -101,7 +101,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.Full,
                     AreaGeneration = GeneratorOptions.AreaGenerationMode.Manual,
                 });
-            Assert.That(maze.ChildAreas.Count, Is.EqualTo(0));
+            Assert.That(maze.ChildAreas().Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.Full,
                     AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto,
                 });
-            Assert.That(maze.ChildAreas.Count, Is.EqualTo(0));
+            Assert.That(maze.ChildAreas().Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.Full,
                     AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto,
                 });
-            Assert.That(maze.ChildAreas.Count, Is.GreaterThan(0));
+            Assert.That(maze.ChildAreas().Count, Is.GreaterThan(0));
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace PlayersWorlds.Maps.Maze {
             };
             var maze = MazeTestHelper.GenerateMaze(
                 new Vector(5, 5), new List<Area> { LegacyAreaSerializer.ParseV01AreaString("P2x1;S2x2;Hall") }, options);
-            Assert.That(maze.ChildAreas.Count, Is.EqualTo(1));
+            Assert.That(maze.ChildAreas().Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -147,7 +147,7 @@ namespace PlayersWorlds.Maps.Maze {
             };
             var maze = MazeTestHelper.GenerateMaze(
                 new Vector(5, 5), new List<Area> { LegacyAreaSerializer.ParseV01AreaString("P2x1;S2x2;Fill") }, options);
-            Assert.That(maze.ChildAreas.Count, Is.EqualTo(1));
+            Assert.That(maze.ChildAreas().Count, Is.EqualTo(1));
         }
 
         [Test]

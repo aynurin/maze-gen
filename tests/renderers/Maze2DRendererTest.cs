@@ -99,7 +99,7 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void CanRenderAMapWithFilledAreas() {
             var log = TestLog.CreateForThisTest();
-            _maze.CreateChildArea(
+            _maze.AddChildArea(
                 Area.Create(
                     new Vector(1, 1), new Vector(1, 1), AreaType.Fill));
             var builder = new Maze2DBuilder(_maze, new GeneratorOptions() {
@@ -146,7 +146,7 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void CanRenderAMapWithHallAreas() {
             var log = TestLog.CreateForThisTest();
-            _maze.CreateChildArea(
+            _maze.AddChildArea(
                 Area.Create(
                     new Vector(0, 0), new Vector(4, 2), AreaType.Hall));
             var builder = new Maze2DBuilder(_maze, new GeneratorOptions() {

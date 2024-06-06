@@ -25,7 +25,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void BuildsCorrectCellsCollectionsWithHallAreas() {
             var maze = Area.CreateEnvironment(new Vector(6, 6));
-            maze.CreateChildArea(
+            maze.AddChildArea(
                 Area.Create(new Vector(2, 3),
                             new Vector(3, 2),
                             AreaType.Hall,
@@ -57,7 +57,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(builder.TestPriorityCells.First().Value,
                 Is.EqualTo(priorityCells));
 
-            foreach (var areaInfo in maze.ChildAreas) {
+            foreach (var areaInfo in maze.ChildAreas()) {
                 var areaCells = maze.ChildAreaCells(areaInfo);
                 if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
                     var selectableCells = builder.TestCellsToConnect.Intersect(areaCells).ToList();
@@ -71,7 +71,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void BuildsCorrectCellsCollectionsWithHallAreasAtTheEdge() {
             var maze = Area.CreateEnvironment(new Vector(6, 6));
-            maze.CreateChildArea(Area.Create(new Vector(3, 4),
+            maze.AddChildArea(Area.Create(new Vector(3, 4),
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
@@ -101,7 +101,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void PicksPriorityCellsWhenAvailable() {
             var maze = Area.CreateEnvironment(new Vector(6, 6));
-            maze.CreateChildArea(Area.Create(new Vector(3, 4),
+            maze.AddChildArea(Area.Create(new Vector(3, 4),
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
@@ -150,7 +150,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void PickRandomNeighborToLink() {
             var maze = Area.CreateEnvironment(new Vector(6, 6));
-            maze.CreateChildArea(Area.Create(new Vector(3, 4),
+            maze.AddChildArea(Area.Create(new Vector(3, 4),
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
@@ -210,11 +210,11 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IterateUnlinkedCells_IteratesAllAvailableCells() {
             var maze = Area.CreateEnvironment(new Vector(6, 6));
-            maze.CreateChildArea(Area.Create(new Vector(3, 4),
+            maze.AddChildArea(Area.Create(new Vector(3, 4),
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
-            maze.CreateChildArea(Area.Create(new Vector(1, 1),
+            maze.AddChildArea(Area.Create(new Vector(1, 1),
                                      new Vector(2, 3),
                                      AreaType.Fill,
                                      "hall"));
@@ -267,7 +267,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_NoCells() {
             var maze = Area.CreateEnvironment(new Vector(5, 5));
-            maze.CreateChildArea(Area.Create(new Vector(0, 0),
+            maze.AddChildArea(Area.Create(new Vector(0, 0),
                                      new Vector(5, 5),
                                      AreaType.Fill,
                                      "fill"));
@@ -309,7 +309,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_Full_WithHall() {
             var maze = Area.CreateEnvironment(new Vector(5, 5));
-            maze.CreateChildArea(Area.Create(new Vector(1, 1),
+            maze.AddChildArea(Area.Create(new Vector(1, 1),
                                      new Vector(3, 3),
                                      AreaType.Hall,
                                      "hall"));
@@ -339,10 +339,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_Full_WithFill() {
             var maze = Area.CreateEnvironment(new Vector(5, 5));
-            var area = maze.CreateChildArea(Area.Create(new Vector(1, 1),
-                                                        new Vector(3, 3),
-                                                        AreaType.Fill,
-                                                        "hall"));
+            maze.AddChildArea(Area.Create(new Vector(1, 1),
+                                          new Vector(3, 3),
+                                          AreaType.Fill,
+                                          "hall"));
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
@@ -367,7 +367,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_Full_WithCave() {
             var maze = Area.CreateEnvironment(new Vector(5, 5));
-            maze.CreateChildArea(Area.Create(new Vector(1, 1),
+            maze.AddChildArea(Area.Create(new Vector(1, 1),
                                      new Vector(3, 3),
                                      AreaType.Cave,
                                      "hall"));
@@ -532,7 +532,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void ApplyAreas() {
             var maze = Area.CreateEnvironment(new Vector(5, 5));
-            maze.CreateChildArea(Area.Create(new Vector(1, 1),
+            maze.AddChildArea(Area.Create(new Vector(1, 1),
                                      new Vector(3, 3),
                                      AreaType.Hall,
                                      "hall"));
@@ -568,8 +568,10 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void OverlappingAreas_ProduceValidPriorityCells() {
             var maze = Area.CreateEnvironment(new Vector(15, 15));
-            var area1 = maze.CreateChildArea(Area.Create(new Vector(2, 3), new Vector(4, 7), AreaType.Hall));
-            var area2 = maze.CreateChildArea(Area.Create(new Vector(4, 8), new Vector(7, 3), AreaType.Hall));
+            var area1 = Area.Create(new Vector(2, 3), new Vector(4, 7), AreaType.Hall);
+            var area2 = Area.Create(new Vector(4, 8), new Vector(7, 3), AreaType.Hall);
+            maze.AddChildArea(area1);
+            maze.AddChildArea(area2);
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
@@ -582,7 +584,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(builder.TestPriorityCells.Keys.Intersect(maze.ChildAreaCells(area2)), Is.Empty);
             Assert.That(builder.TestCellsToConnect.Intersect(maze.ChildAreaCells(area2)), Is.Empty);
 
-            foreach (var areaInfo in maze.ChildAreas) {
+            foreach (var areaInfo in maze.ChildAreas()) {
                 var areaCells = maze.ChildAreaCells(areaInfo);
                 if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
                     var selectableCells = builder.TestCellsToConnect.Intersect(areaCells).ToList();
@@ -596,15 +598,15 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void CanConnect() {
             var maze = Area.CreateEnvironment(new Vector(10, 10));
-            maze.CreateChildArea(Area.Create(new Vector(1, 2),
+            maze.AddChildArea(Area.Create(new Vector(1, 2),
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
-            maze.CreateChildArea(Area.Create(new Vector(6, 1),
+            maze.AddChildArea(Area.Create(new Vector(6, 1),
                                      new Vector(2, 4),
                                      AreaType.Fill,
                                      "fill"));
-            maze.CreateChildArea(Area.Create(new Vector(1, 6),
+            maze.AddChildArea(Area.Create(new Vector(1, 6),
                                      new Vector(2, 2),
                                      AreaType.Cave,
                                      "cave"));

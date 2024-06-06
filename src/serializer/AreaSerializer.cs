@@ -18,7 +18,7 @@ namespace PlayersWorlds.Maps.Serializer {
             //       construction is all weird.
             var cells = new NArray<Cell>(size, xy => cellSerializer.Deserialize(cellsArray[xy.ToIndex(size)]));
             var childAreas = stringReader.ReadEnumerable().Select(Deserialize).ToArray();
-            var area = new Area(position, isPositionFixed, cells, type, null, childAreas, tags);
+            var area = new Area(position, isPositionFixed, cells, type, childAreas, tags);
             return area;
         }
 
@@ -32,7 +32,7 @@ namespace PlayersWorlds.Maps.Serializer {
                 .WriteValue(obj.Type.ToString())
                 .WriteEnumerable(obj.Tags)
                 .WriteEnumerable(obj.Cells.Select(cellSerializer.Serialize))
-                .WriteEnumerable(obj.ChildAreas.Select(Serialize))
+                .WriteEnumerable(obj.ChildAreas().Select(Serialize))
                 .WriteObjectEnd();
         }
     }
