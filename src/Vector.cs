@@ -75,6 +75,7 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// The vector is not empty only if it was initialized with components.
         /// </summary>
+        // TODO: _value can't be null, make the check more assertive
         public bool IsEmpty => _value == null || _value.Length == 0;
         /// <summary>
         /// Returns a first component of a non-empty vector.
@@ -85,9 +86,9 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// Returns a second component of a non-empty vector.
         /// </summary>
-        public int Y => !IsEmpty ? _value[1] :
+        public int Y => !IsEmpty && _value.Length > 1 ? _value[1] :
             throw new InvalidOperationException(
-                "Y is only supported in two- or more dimensional space");
+                "Y is only supported in non-empty two+ dimensional space");
         /// <summary>
         /// Number of components in this vector.
         /// </summary>
@@ -219,6 +220,7 @@ namespace PlayersWorlds.Maps {
         /// components, returns the hash code of the empty int[].
         /// </summary>
         /// <returns></returns>
+        // TODO: _value can't be null, make the check more assertive
         public override int GetHashCode() =>
             _value == null ? base.GetHashCode() : _hashcode;
 
@@ -300,6 +302,12 @@ namespace PlayersWorlds.Maps {
         /// <returns>A new instance of <see cref="Vector"/></returns>
         public static Vector Parse(string serialized) {
             return new Vector(serialized.Split('x').Select(int.Parse));
+        }
+
+        public void ThrowIfEmpty() {
+            if (this.IsEmpty) {
+                throw new InvalidOperationException("Vector is empty");
+            }
         }
 
         /// <summary>

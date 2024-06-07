@@ -15,14 +15,14 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             /// Creates an instance of the DeadEndsExtension.
             /// </summary>
             /// <param name="deadEnds"></param>
-            public DeadEndsExtension(IEnumerable<Cell> deadEnds) {
+            public DeadEndsExtension(IEnumerable<Vector> deadEnds) {
                 DeadEnds = deadEnds.ToList();
             }
 
             /// <summary>
             /// The list of all found dead ends.
             /// </summary>
-            public List<Cell> DeadEnds { get; private set; }
+            public List<Vector> DeadEnds { get; private set; }
         }
 
         /// <summary>
@@ -35,10 +35,10 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         /// Find dead ends in the maze.
         /// </summary>
         public static DeadEndsExtension Find(Maze2DBuilder maze) {
-            var deadEnds = maze.AllCells.Where(cell => maze.MazeArea.CellLinks(cell.Position).Count == 1)
+            var deadEnds = maze.AllCells.Where(cell => maze.MazeArea.CellLinks(cell).Count == 1)
                 .ToList();
             foreach (var cell in deadEnds) {
-                cell.X(new IsDeadEndExtension());
+                maze.MazeArea[cell].X(new IsDeadEndExtension());
             }
             return new DeadEndsExtension(deadEnds);
         }
@@ -48,10 +48,10 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         /// </summary>
         [Obsolete]
         public static DeadEndsExtension Find(Area maze) {
-            var deadEnds = maze.Cells.Where(cell => maze.CellLinks(cell.Position).Count == 1)
+            var deadEnds = maze.Cells.Positions.Where(cell => maze.CellLinks(cell).Count == 1)
                 .ToList();
             foreach (var cell in deadEnds) {
-                cell.X(new IsDeadEndExtension());
+                maze[cell].X(new IsDeadEndExtension());
             }
             return new DeadEndsExtension(deadEnds);
         }

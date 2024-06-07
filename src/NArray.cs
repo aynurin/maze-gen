@@ -43,6 +43,9 @@ namespace PlayersWorlds.Maps {
         /// <inheritdoc />
         public T this[int index] => _cells[index];
 
+        public IEnumerable<Vector> Positions =>
+            _cells.Select((cell, index) => Vector.FromIndex(index, Size));
+
         /// <summary>
         /// Creates a new array with the specified size and optional initial
         /// value for each cell.
@@ -88,7 +91,7 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         /// <returns>An enumerable collection of tuples containing the item's
         /// position as a <see cref="Vector"/> and its value.</returns>
-        public IEnumerable<(Vector xy, T cell)> Iterate() {
+        public IEnumerable<Vector> Iterate() {
             return IterateIntersection(Vector.Zero(Size.Dimensions), Size);
         }
 
@@ -104,7 +107,7 @@ namespace PlayersWorlds.Maps {
         /// of the bounds of the map.
         /// <see cref="IterateIntersection(Vector,Vector)" /> is an alternative
         /// that doesn't throw.</exception>
-        public IEnumerable<(Vector xy, T cell)> Iterate(
+        public IEnumerable<Vector> Iterate(
             Vector xy, Vector size) {
             size.ThrowIfNotAValidSize();
             if (xy.X < 0 ||
@@ -129,7 +132,7 @@ namespace PlayersWorlds.Maps {
         /// <param name="xy">Lowest XY position of the region.</param>
         /// <param name="size">Size of the region.</param>
         /// <returns><see cref="Cell" />s of the specified region.</returns>
-        public IEnumerable<(Vector xy, T cell)>
+        public IEnumerable<Vector>
         IterateIntersection(Vector xy, Vector size) {
             // Validate dimensions
             size.ThrowIfNotAValidSize();
@@ -157,7 +160,7 @@ namespace PlayersWorlds.Maps {
             var dimension = 0;
             while (dimension < current.Count) {
                 var position = new Vector(current);
-                yield return (position, this[position]);
+                yield return position;
 
                 // Increment coordinates, wrapping back to 0 when reaching the
                 // end of a dimension
@@ -183,12 +186,12 @@ namespace PlayersWorlds.Maps {
         /// cells for as a <see cref="Vector"/>.</param>
         /// <returns>An enumerable collection of <see cref="Vector"/> positions
         /// of adjacent cells.</returns>
-        public IEnumerable<(Vector xy, T cell)>
+        public IEnumerable<Vector>
         IterateAdjacentCells(Vector xy) {
             return IterateIntersection(
                     xy + new Vector(Enumerable.Repeat(-1, Size.Dimensions)),
                     new Vector(Enumerable.Repeat(3, Size.Dimensions)))
-                .Where(cell => cell.xy != xy);
+                .Where(cell => cell != xy);
         }
 
         /// <summary>

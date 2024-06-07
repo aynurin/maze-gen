@@ -12,10 +12,10 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             var deadEnds = DeadEnd.Find(maze);
             Assert.That(deadEnds.DeadEnds, Is.Not.Empty);
             Assert.That(4, Is.EqualTo(deadEnds.DeadEnds.Count));
-            Assert.That(deadEnds.DeadEnds.Contains(maze.Cells[new Vector(0, 0)]), Is.True, "0,0");
-            Assert.That(deadEnds.DeadEnds.Contains(maze.Cells[new Vector(2, 1)]), Is.True, "2,1");
-            Assert.That(deadEnds.DeadEnds.Contains(maze.Cells[new Vector(0, 2)]), Is.True, "0,2");
-            Assert.That(deadEnds.DeadEnds.Contains(maze.Cells[new Vector(2, 2)]), Is.True, "2,2");
+            Assert.That(deadEnds.DeadEnds.Contains(new Vector(0, 0)), Is.True, "0,0");
+            Assert.That(deadEnds.DeadEnds.Contains(new Vector(2, 1)), Is.True, "2,1");
+            Assert.That(deadEnds.DeadEnds.Contains(new Vector(0, 2)), Is.True, "0,2");
+            Assert.That(deadEnds.DeadEnds.Contains(new Vector(2, 2)), Is.True, "2,2");
             Assert.That(maze.Cells.Count(
                 cell => cell.X<DeadEnd.IsDeadEndExtension>() != null), Is.EqualTo(4));
         }

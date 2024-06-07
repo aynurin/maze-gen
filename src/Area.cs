@@ -181,9 +181,9 @@ namespace PlayersWorlds.Maps {
             RebuildChildAreasSnapshot();
         }
 
-        public IEnumerable<Cell> ChildAreaCells(Area area) {
-            foreach (var cell in area.Cells) {
-                yield return this[area.Position + cell.Position];
+        public IEnumerable<Vector> ChildAreaCells(Area area) {
+            foreach (var cell in area.Cells.Positions) {
+                yield return area.Position + cell;
             }
         }
 
@@ -242,13 +242,14 @@ namespace PlayersWorlds.Maps {
             var filledAreasSnapshot = new HashSet<Vector>();
             foreach (var area in _childAreas.Where(a => a.Type == AreaType.Fill)) {
                 if (area.IsPositionEmpty) continue;
-                foreach (var cell in area._cells) {
-                    filledAreasSnapshot.Add(cell.Position + area.Position);
+                foreach (var cell in area._cells.Positions) {
+                    filledAreasSnapshot.Add(cell + area.Position);
                 }
             }
             foreach (var area in _childAreas.Where(a => a.Type == AreaType.Hall || a.Type == AreaType.Cave)) {
                 if (area.IsPositionEmpty) continue;
-                var areaCells = new HashSet<Vector>(area._cells.Select(cell => cell.Position + area.Position));
+                var areaCells = new HashSet<Vector>(
+                    area._cells.Positions.Select(cell => cell + area.Position));
                 areaCells.ExceptWith(filledAreasSnapshot);
                 if (areaCells.Count > 0) {
                     interconnectedAreasSnapshot.Add(areaCells);
@@ -325,32 +326,12 @@ namespace PlayersWorlds.Maps {
                 HighY <= position.Y + size.Y;
         }
 
-        public IEnumerable<Vector> NeighborsOf(Vector cell) {
-            if (cell.Y > 0) {
-                var pos = cell + Vector.South2D;
-                if (!_fillAreasCells.Contains(pos)) {
-                    yield return pos;
-                }
-            }
-            if (cell.X < _cells.Size.X - 1) {
-                var pos = cell + Vector.East2D;
-                if (!_fillAreasCells.Contains(pos)) {
-                    yield return pos;
-                }
-            }
-            if (cell.Y < _cells.Size.Y - 1) {
-                var pos = cell + Vector.North2D;
-                if (!_fillAreasCells.Contains(pos)) {
-                    yield return pos;
-                }
-            }
-            if (cell.X > 0) {
-                var pos = cell + Vector.West2D;
-                if (!_fillAreasCells.Contains(pos)) {
-                    yield return pos;
-                }
-            }
-        }
+        public IEnumerable<Vector> NeighborsOf(Vector cell) => new[] {
+                cell + Vector.South2D,
+                cell + Vector.East2D,
+                cell + Vector.North2D,
+                cell + Vector.West2D
+            }.Where(p => Contains(p) && !_fillAreasCells.Contains(p));
 
         public bool AreNeighbors(Vector one, Vector another) {
             return NeighborsOf(one).Contains(another);

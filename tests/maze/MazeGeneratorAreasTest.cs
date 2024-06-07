@@ -31,14 +31,14 @@ namespace PlayersWorlds.Maps.Maze {
             var fillCells = maze.ChildAreaCells(maze.ChildAreas().First()).ToList();
             Assert.That(fillCells, Has.Exactly(12).Items);
 
-            var otherCells = maze.Cells
+            var otherCells = maze.Cells.Positions
                 .Except(fillCells)
                 .ToList();
 
             Assert.That(otherCells, Has.Exactly(213).Items);
 
             // fill areas do not have links with the external cells
-            Assert.That(fillCells.SelectMany(cell => maze.CellLinks(cell.Position).Select(link => maze[link])),
+            Assert.That(fillCells.SelectMany(cell => maze.CellLinks(cell).Select(link => maze[link])),
                 Has.None.AnyOf(otherCells));
         }
 
@@ -54,42 +54,41 @@ namespace PlayersWorlds.Maps.Maze {
             var mazeArea = 225;
 
             var hallCells = maze.Cells
-                .IterateIntersection(hall.Position, hall.Size)
-                .Select(cell => cell.cell).ToList();
+                .IterateIntersection(hall.Position, hall.Size).ToList();
             Assert.That(hallCells, Has.Exactly(areaArea).Items);
 
-            var otherCells = maze.Cells
+            var otherCells = maze.Cells.Positions
                 .Except(hallCells)
                 .ToList();
 
             Assert.That(otherCells, Has.Exactly(mazeArea - areaArea).Items);
             // hall areas have only one link with the external cells
-            Assert.That(hallCells.SelectMany(cell => maze.CellLinks(cell.Position).Select(link => maze[link])),
+            Assert.That(hallCells.SelectMany(cell => maze.CellLinks(cell)),
                 Has.Exactly(1).AnyOf(otherCells));
 
             var hallInnerCells = maze.Cells.IterateIntersection(
                 hall.Position + Vector.NorthEast2D,
                 hall.Size + Vector.SouthWest2D + Vector.SouthWest2D)
-                .Select(cell => cell.cell).ToList();
+                .ToList();
             Assert.That(hallInnerCells.Count(),
                 Is.EqualTo(areaArea - areaPerimeter));
             // hall areas don't have walls inside the areas
-            Assert.That(hallInnerCells.All(cell => maze.CellLinks(cell.Position).Count == 4));
+            Assert.That(hallInnerCells.All(cell => maze.CellLinks(cell).Count == 4));
 
-            var hallEdgeCells = new HashSet<Cell>(hallCells);
+            var hallEdgeCells = new HashSet<Vector>(hallCells);
             hallEdgeCells.ExceptWith(hallInnerCells);
             Assert.That(hallEdgeCells.Count(), Is.EqualTo(areaPerimeter));
 
             // only corners can have at least two links
-            Assert.That(hallEdgeCells.Count(cell => maze.CellLinks(cell.Position).Count == 2),
+            Assert.That(hallEdgeCells.Count(cell => maze.CellLinks(cell).Count == 2),
                 Is.LessThanOrEqualTo(4));
             // all other edge cells have 3 or more links
-            Assert.That(hallEdgeCells.Count(cell => maze.CellLinks(cell.Position).Count >= 3),
+            Assert.That(hallEdgeCells.Count(cell => maze.CellLinks(cell).Count >= 3),
                 Is.GreaterThanOrEqualTo(areaPerimeter - 4));
 
             // exactly one of hall edge cells is connected to the external cells
             Assert.That(
-                hallEdgeCells.SelectMany(cell => maze.CellLinks(cell.Position).Select(link => maze[link])),
+                hallEdgeCells.SelectMany(cell => maze.CellLinks(cell)),
                 Has.Exactly(1).AnyOf(otherCells));
         }
 
@@ -108,33 +107,33 @@ namespace PlayersWorlds.Maps.Maze {
             var caveCells = maze.ChildAreaCells(maze.ChildAreas().First()).ToList();
             Assert.That(caveCells, Has.Exactly(21).Items);
 
-            var otherCells = maze.Cells
+            var otherCells = maze.Cells.Positions
                 .Except(caveCells)
                 .ToList();
 
             Assert.That(otherCells, Has.Exactly(mazeArea - areaArea).Items);
             // cave areas have at least one link with the external cells
-            Assert.That(caveCells.SelectMany(cell => maze.CellLinks(cell.Position).Select(l => maze[l]))
+            Assert.That(caveCells.SelectMany(cell => maze.CellLinks(cell))
                                  .Intersect(otherCells).ToList(),
                         Has.Count.GreaterThanOrEqualTo(1));
 
             var caveInnerCells = maze.Cells.IterateIntersection(
                 cave.Position + Vector.NorthEast2D,
                 cave.Size + Vector.SouthWest2D + Vector.SouthWest2D)
-                .Select(cell => cell.cell).ToList();
+                .ToList();
             Assert.That(caveInnerCells.Count(),
                 Is.EqualTo(areaArea - areaPerimeter));
             // cave areas don't have walls inside the areas
-            Assert.That(caveInnerCells.All(cell => maze.CellLinks(cell.Position).Count == 4));
+            Assert.That(caveInnerCells.All(cell => maze.CellLinks(cell).Count == 4));
 
-            var caveEdgeCells = new HashSet<Cell>(caveCells);
+            var caveEdgeCells = new HashSet<Vector>(caveCells);
             caveEdgeCells.ExceptWith(caveInnerCells);
             Assert.That(caveEdgeCells.Count(), Is.EqualTo(areaPerimeter));
             // only corners can have at least two links
-            Assert.That(caveEdgeCells.Count(cell => maze.CellLinks(cell.Position).Count == 2),
+            Assert.That(caveEdgeCells.Count(cell => maze.CellLinks(cell).Count == 2),
                 Is.LessThanOrEqualTo(4));
             // all other edge cells have 3 or more links
-            Assert.That(caveEdgeCells.Count(cell => maze.CellLinks(cell.Position).Count >= 3),
+            Assert.That(caveEdgeCells.Count(cell => maze.CellLinks(cell).Count >= 3),
                 Is.GreaterThanOrEqualTo(areaPerimeter - 4));
         }
 
@@ -160,7 +159,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(area2.Cells, Has.Exactly(21).Items);
             Assert.That(areaCells, Has.Exactly(areaArea).Items);
 
-            var otherCells = maze.Cells
+            var otherCells = maze.Cells.Positions
                 .Except(maze.ChildAreaCells(area1))
                 .Except(maze.ChildAreaCells(area2))
                 .ToList();
@@ -169,7 +168,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             if (areaType == AreaType.Fill) {
                 // fill areas do not have links with the external cells
-                Assert.That(areaCells.SelectMany(cell => maze.CellLinks(cell.Position).Select(link => maze[link])),
+                Assert.That(areaCells.SelectMany(cell => maze.CellLinks(cell).Select(link => maze[link])),
                     Has.None.AnyOf(otherCells));
             } else {
                 var innerCells = maze.Cells.IterateIntersection(
@@ -179,17 +178,17 @@ namespace PlayersWorlds.Maps.Maze {
                         maze.Cells.IterateIntersection(
                             area2.Position + Vector.NorthEast2D,
                             area2.Size + Vector.SouthWest2D + Vector.SouthWest2D)
-                    ).Select(cell => cell.cell).Distinct().ToList();
+                    ).Distinct().ToList();
                 // cave areas don't have walls inside the areas
-                Assert.That(innerCells.All(cell => maze.CellLinks(cell.Position).Count == 4), string.Join(",", innerCells.Where(cell => maze.CellLinks(cell.Position).Count < 4)));
+                Assert.That(innerCells.All(cell => maze.CellLinks(cell).Count == 4), string.Join(",", innerCells.Where(cell => maze.CellLinks(cell).Count < 4)));
 
-                var edgeCells = new HashSet<Cell>(areaCells);
+                var edgeCells = new HashSet<Vector>(areaCells);
                 edgeCells.ExceptWith(innerCells);
                 // only corners can have at least two links
-                Assert.That(edgeCells.Count(cell => maze.CellLinks(cell.Position).Count == 2),
+                Assert.That(edgeCells.Count(cell => maze.CellLinks(cell).Count == 2),
                     Is.LessThanOrEqualTo(6));
                 // all other edge cells have 3 or more links
-                Assert.That(edgeCells.Count(cell => maze.CellLinks(cell.Position).Count >= 3),
+                Assert.That(edgeCells.Count(cell => maze.CellLinks(cell).Count >= 3),
                     Is.GreaterThanOrEqualTo(edgeCells.Count() - 6));
 
             }
@@ -226,6 +225,11 @@ namespace PlayersWorlds.Maps.Maze {
                 Has.Exactly(expectConnected).Items);
         }
 
+        [Test, Ignore("Debug only")]
+        public void DenseWalkwaysDebug() {
+            DenseWalkways(typeof(BinaryTreeMazeGenerator), AreaType.Fill);
+        }
+
         [Test]
         [Repeat(10), Category("Integration")]
         public void DenseWalkways(
@@ -256,9 +260,9 @@ namespace PlayersWorlds.Maps.Maze {
                 expectConnected += areas.Count; // entrance cell within the call.
             }
 
-            Assert.That(builder.TestCellsToConnect, Is.Empty);
+            Assert.That(builder.TestCellsToConnect, Is.Empty, builder.Random.ToString());
             Assert.That(builder.TestConnectedCells,
-                Has.Exactly(expectConnected).Items);
+                Has.Exactly(expectConnected).Items, builder.Random.ToString());
         }
 
         [Test]

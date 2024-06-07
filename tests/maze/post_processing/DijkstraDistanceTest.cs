@@ -14,9 +14,9 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
                     MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.MazeFillFactor.Full
                 });
-            var visitedCells = maze.Cells
-                .Where(cell => maze.CellHasLinks(cell.Position)).ToList();
-            var distances = DijkstraDistance.Find(maze, random.RandomOf(visitedCells).Position);
+            var visitedCells = maze.Cells.Positions
+                .Where(cell => maze.CellHasLinks(cell)).ToList();
+            var distances = DijkstraDistance.Find(maze, random.RandomOf(visitedCells));
             Assert.That(distances.Count, Is.EqualTo(visitedCells.Count));
             Assert.That(distances.Values.Average(), Is.GreaterThan(1));
         }
@@ -25,13 +25,13 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         public void DijkstraDistance_CanSolveAMaze() {
             var maze = LegacyAreaSerializer.ParseV01MazeString("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance
-                .Solve(maze, maze.Cells.First().Position, maze.Cells.Last().Position);
+                .Solve(maze, maze.Cells.Positions.First(), maze.Cells.Positions.Last());
             Assert.That(solution.HasValue, Is.True);
             Assert.That(5, Is.EqualTo(solution.Value.Count));
             Assert.That(new Vector(0, 0), Is.EqualTo(
-                solution.Value.First().Position));
+                solution.Value.First()));
             Assert.That(new Vector(2, 2), Is.EqualTo(
-                solution.Value.Last().Position));
+                solution.Value.Last()));
         }
 
         [Test]

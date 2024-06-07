@@ -22,16 +22,16 @@ namespace PlayersWorlds.Maps.Maze {
             var i = 0;
             foreach (var currentCell in builder.AllCells) {
                 var linkNorth = states[i++] % 2 == 0;
-                var canConnectEast = builder.CanConnect(currentCell, currentCell.Position + Vector.East2D);
-                var canConnectNorth = builder.CanConnect(currentCell, currentCell.Position + Vector.North2D);
-                Cell cellToLink = null;
+                var canConnectEast = builder.CanConnect(currentCell, currentCell + Vector.East2D);
+                var canConnectNorth = builder.CanConnect(currentCell, currentCell + Vector.North2D);
+                var cellToLink = Vector.Empty;
                 if ((linkNorth || !canConnectEast) && canConnectNorth) {
-                    cellToLink = builder.MazeArea[currentCell.Position + Vector.North2D];
+                    cellToLink = currentCell + Vector.North2D;
                 } else if (canConnectEast) {
-                    cellToLink = builder.MazeArea[currentCell.Position + Vector.East2D];
+                    cellToLink = currentCell + Vector.East2D;
                 }
 
-                if (cellToLink == null && !builder.MazeArea.CellHasLinks(currentCell.Position)) {
+                if (cellToLink.IsEmpty && !builder.MazeArea.CellHasLinks(currentCell)) {
                     // This link is not connected, and won't be connected
                     // because of this maze geometry. Let's connect it to
                     // any other cell so that it's not left out.
@@ -45,8 +45,8 @@ namespace PlayersWorlds.Maps.Maze {
                             $"neighbors to connect {currentCell} to.");
                     }
                 }
-                if (cellToLink != null) {
-                    builder.Connect(currentCell.Position, cellToLink.Position);
+                if (!cellToLink.IsEmpty) {
+                    builder.Connect(currentCell, cellToLink);
                 }
             }
         }

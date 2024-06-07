@@ -26,7 +26,7 @@ namespace PlayersWorlds.Maps.Maze {
                 _log.D(3, 10000, "HuntAndKillMazeGenerator.GenerateMaze()");
                 if (builder.TryPickRandomNeighbor(
                         currentCell, out var nextCell, onlyUnconnected: true)) {
-                    builder.Connect(currentCell.Position, nextCell.Position);
+                    builder.Connect(currentCell, nextCell);
                     currentCell = nextCell;
                 } else {
                     var hunt =
@@ -34,12 +34,12 @@ namespace PlayersWorlds.Maps.Maze {
                                .FirstOrDefault(
                                     cell =>
                                         builder.MazeArea
-                                               .NeighborsOf(cell.Position)
+                                               .NeighborsOf(cell)
                                                .Any(builder.IsConnected));
                     if (hunt != null) {
                         builder.Connect(
-                            hunt.Position,
-                            builder.MazeArea.NeighborsOf(hunt.Position)
+                            hunt,
+                            builder.MazeArea.NeighborsOf(hunt)
                                             .Where(builder.IsConnected)
                                             .First());
                         currentCell = hunt;

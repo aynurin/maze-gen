@@ -23,7 +23,7 @@ namespace PlayersWorlds.Maps {
             var array = new NArray<int>(size, xy => initialValue);
 
             foreach (var cell in array.Iterate()) {
-                Assert.That(cell.cell, Is.EqualTo(initialValue));
+                Assert.That(initialValue, Is.EqualTo(array[cell]));
             }
         }
 
@@ -80,8 +80,8 @@ namespace PlayersWorlds.Maps {
             var visited = new bool[size.Area];
 
             foreach (var cell in array.Iterate()) {
-                Assert.That(visited[cell.xy.ToIndex(size)], Is.False);
-                visited[cell.xy.ToIndex(size)] = true;
+                Assert.That(visited[cell.ToIndex(size)], Is.False);
+                visited[cell.ToIndex(size)] = true;
             }
 
             Assert.That(visited.All(v => v), Is.True);
@@ -94,10 +94,11 @@ namespace PlayersWorlds.Maps {
             array[new Vector(1, 1)].Value = 10;
 
             var region = new Vector(1, 1);
-            var expectedCells = new[] { (new Vector(1, 1), new Item(10)) };
+            var expectedCells = new[] { new Vector(1, 1) };
 
             var actualCells = array.Iterate(region, region).ToArray();
             Assert.That(expectedCells, Is.EqualTo(actualCells));
+            Assert.That(array[actualCells.First()], Is.EqualTo(new Item(10)));
         }
 
         [Test]
@@ -148,7 +149,7 @@ namespace PlayersWorlds.Maps {
             var expectedCells = new[] { (new Vector(1, 1), new Item(10)) };
 
             var actualCells = array.IterateIntersection(region, size2).ToArray();
-            Assert.That(expectedCells[0], Is.EqualTo(actualCells[1]));
+            Assert.That(actualCells[1], Is.EqualTo(new Vector(1, 1)));
         }
 
         [Test]
@@ -161,18 +162,18 @@ namespace PlayersWorlds.Maps {
 
             var actualCells = array.IterateAdjacentCells(new Vector(0, 0)).ToArray();
             Assert.That(actualCells, Has.Exactly(3).Items);
-            Assert.That(actualCells[2].cell.Value, Is.EqualTo(20));
+            Assert.That(array[actualCells[2]].Value, Is.EqualTo(20));
 
             actualCells = array.IterateAdjacentCells(new Vector(1, 1)).ToArray();
             Assert.That(actualCells, Has.Exactly(8).Items);
             Assert.That(
-                actualCells.Select(cell => cell.cell.Value).ToArray(),
+                actualCells.Select(cell => array[cell].Value).ToArray(),
                 Is.EqualTo(new int[] { 10, 0, 0, 0, 0, 0, 0, 30 }));
 
             actualCells = array.IterateAdjacentCells(new Vector(2, 2)).ToArray();
             Assert.That(actualCells, Has.Exactly(3).Items);
             Assert.That(
-                actualCells.Select(cell => cell.cell.Value).ToArray(),
+                actualCells.Select(cell => array[cell].Value).ToArray(),
                 Is.EqualTo(new int[] { 20, 0, 0 }));
         }
 
@@ -186,18 +187,18 @@ namespace PlayersWorlds.Maps {
 
             var actualCells = array.IterateAdjacentCells(new Vector(new int[] { 0, 0, 0 })).ToArray();
             Assert.That(actualCells, Has.Exactly(7).Items);
-            Assert.That(actualCells[6].cell.Value, Is.EqualTo(20));
+            Assert.That(array[actualCells[6]].Value, Is.EqualTo(20));
 
             actualCells = array.IterateAdjacentCells(new Vector(new int[] { 1, 1, 1 })).ToArray();
             Assert.That(actualCells, Has.Exactly(26).Items);
             Assert.That(
-                actualCells.Select(cell => cell.cell.Value).ToArray(),
+                actualCells.Select(cell => array[cell].Value).ToArray(),
                 Is.EqualTo(new int[] { 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30 }));
 
             actualCells = array.IterateAdjacentCells(new Vector(new int[] { 2, 2, 2 })).ToArray();
             Assert.That(actualCells, Has.Exactly(7).Items);
             Assert.That(
-                actualCells.Select(cell => cell.cell.Value).ToArray(),
+                actualCells.Select(cell => array[cell].Value).ToArray(),
                 Is.EqualTo(new int[] { 20, 0, 0, 0, 0, 0, 0 }));
         }
 
@@ -205,45 +206,45 @@ namespace PlayersWorlds.Maps {
         public void NArray_Iterate_OneCell() {
             var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.Iterate(new Vector(0, 0), new Vector(1, 1)).ToList();
-            var debugString = string.Join(",", cells.Select(c => map.IndexOf(c.cell)));
+            var debugString = string.Join(",", cells.Select(c => c.ToIndex(map.Size)));
             Assert.That(1, Is.EqualTo(cells.Count()));
-            Assert.That(new Vector(0, 0), Is.EqualTo(map.IndexOf(cells.First().cell)));
+            Assert.That(cells.First(), Is.EqualTo(new Vector(0, 0)));
         }
 
         [Test]
         public void NArray_Iterate_TwoCells() {
             var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.Iterate(new Vector(0, 0), new Vector(2, 1)).ToList();
-            var debugString = string.Join(",", cells.Select(c => map.IndexOf(c.cell)));
+            var debugString = string.Join(",", cells.Select(c => c.ToIndex(map.Size)));
             Assert.That(2, Is.EqualTo(cells.Count()));
-            Assert.That(new Vector(0, 0), Is.EqualTo(map.IndexOf(cells.First().cell)), "0,0: " + debugString);
-            Assert.That(new Vector(1, 0), Is.EqualTo(map.IndexOf(cells.Last().cell)), "1,0: " + debugString);
+            Assert.That(cells.First(), Is.EqualTo(new Vector(0, 0)), "0,0: " + debugString);
+            Assert.That(cells.Last(), Is.EqualTo(new Vector(1, 0)), "1,0: " + debugString);
         }
 
         [Test]
         public void NArray_Iterate_TreeByTwo() {
             var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.Iterate(new Vector(0, 0), new Vector(3, 2)).ToList();
-            var debugString = string.Join(",", cells.Select(c => map.IndexOf(c.cell)));
+            var debugString = string.Join(",", cells.Select(c => c.ToIndex(map.Size)));
             Assert.That(6, Is.EqualTo(cells.Count()));
-            Assert.That(new Vector(0, 0), Is.EqualTo(map.IndexOf(cells[0].cell)), "0,0: " + debugString);
-            Assert.That(new Vector(1, 0), Is.EqualTo(map.IndexOf(cells[1].cell)), "1,0: " + debugString);
-            Assert.That(new Vector(2, 0), Is.EqualTo(map.IndexOf(cells[2].cell)), "2,0: " + debugString);
-            Assert.That(new Vector(0, 1), Is.EqualTo(map.IndexOf(cells[3].cell)), "0,1: " + debugString);
-            Assert.That(new Vector(1, 1), Is.EqualTo(map.IndexOf(cells[4].cell)), "1,1: " + debugString);
-            Assert.That(new Vector(2, 1), Is.EqualTo(map.IndexOf(cells[5].cell)), "2,1: " + debugString);
+            Assert.That(cells[0], Is.EqualTo(new Vector(0, 0)), "0,0: " + debugString);
+            Assert.That(cells[1], Is.EqualTo(new Vector(1, 0)), "1,0: " + debugString);
+            Assert.That(cells[2], Is.EqualTo(new Vector(2, 0)), "2,0: " + debugString);
+            Assert.That(cells[3], Is.EqualTo(new Vector(0, 1)), "0,1: " + debugString);
+            Assert.That(cells[4], Is.EqualTo(new Vector(1, 1)), "1,1: " + debugString);
+            Assert.That(cells[5], Is.EqualTo(new Vector(2, 1)), "2,1: " + debugString);
         }
 
         [Test]
         public void NArray_Iterate_FourCellsFar() {
             var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.Iterate(new Vector(3, 3), new Vector(2, 2)).ToList();
-            var debugString = string.Join(",", cells.Select(c => map.IndexOf(c.cell)));
+            var debugString = string.Join(",", cells.Select(c => c.ToIndex(map.Size)));
             Assert.That(4, Is.EqualTo(cells.Count()));
-            Assert.That(new Vector(3, 3), Is.EqualTo(map.IndexOf(cells[0].cell)), "3,3: " + debugString);
-            Assert.That(new Vector(4, 3), Is.EqualTo(map.IndexOf(cells[1].cell)), "4,3: " + debugString);
-            Assert.That(new Vector(3, 4), Is.EqualTo(map.IndexOf(cells[2].cell)), "3,4: " + debugString);
-            Assert.That(new Vector(4, 4), Is.EqualTo(map.IndexOf(cells[3].cell)), "4,4: " + debugString);
+            Assert.That(cells[0], Is.EqualTo(new Vector(3, 3)), "3,3: " + debugString);
+            Assert.That(cells[1], Is.EqualTo(new Vector(4, 3)), "4,3: " + debugString);
+            Assert.That(cells[2], Is.EqualTo(new Vector(3, 4)), "3,4: " + debugString);
+            Assert.That(cells[3], Is.EqualTo(new Vector(4, 4)), "4,4: " + debugString);
         }
 
         [Test]
@@ -260,7 +261,7 @@ namespace PlayersWorlds.Maps {
             var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.IterateIntersection(new Vector(2, 2), new Vector(1, 1)).ToList();
             Assert.That(cells, Has.Exactly(1).Items);
-            Assert.That(cells.First().cell, Is.EqualTo(map[new Vector(2, 2).ToIndex(map.Size)]));
+            Assert.That(cells.First(), Is.EqualTo(new Vector(2, 2)));
         }
 
         [Test]
@@ -268,10 +269,10 @@ namespace PlayersWorlds.Maps {
             var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.IterateIntersection(new Vector(2, 2), new Vector(2, 2)).ToList();
             Assert.That(cells, Has.Exactly(4).Items);
-            Assert.That(cells[0].cell, Is.EqualTo(map[new Vector(2, 2).ToIndex(map.Size)]));
-            Assert.That(cells[1].cell, Is.EqualTo(map[new Vector(3, 2).ToIndex(map.Size)]));
-            Assert.That(cells[2].cell, Is.EqualTo(map[new Vector(2, 3).ToIndex(map.Size)]));
-            Assert.That(cells[3].cell, Is.EqualTo(map[new Vector(3, 3).ToIndex(map.Size)]));
+            Assert.That(cells[0], Is.EqualTo(new Vector(2, 2)));
+            Assert.That(cells[1], Is.EqualTo(new Vector(3, 2)));
+            Assert.That(cells[2], Is.EqualTo(new Vector(2, 3)));
+            Assert.That(cells[3], Is.EqualTo(new Vector(3, 3)));
         }
 
         [Test]
@@ -279,7 +280,7 @@ namespace PlayersWorlds.Maps {
             var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.IterateIntersection(new Vector(4, 4), new Vector(1, 1)).ToList();
             Assert.That(cells, Has.Exactly(1).Items);
-            Assert.That(cells[0].cell, Is.EqualTo(map[new Vector(4, 4).ToIndex(map.Size)]));
+            Assert.That(cells[0], Is.EqualTo(new Vector(4, 4)));
         }
 
         [Test]
@@ -287,7 +288,7 @@ namespace PlayersWorlds.Maps {
             var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.IterateIntersection(new Vector(4, 4), new Vector(2, 2)).ToList();
             Assert.That(cells, Has.Exactly(1).Items);
-            Assert.That(cells[0].cell, Is.EqualTo(map[new Vector(4, 4).ToIndex(map.Size)]));
+            Assert.That(cells[0], Is.EqualTo(new Vector(4, 4)));
         }
 
         [Test]
@@ -295,10 +296,10 @@ namespace PlayersWorlds.Maps {
             var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
             var cells = map.IterateIntersection(new Vector(0, 0), new Vector(2, 2)).ToList();
             Assert.That(cells, Has.Exactly(4).Items);
-            Assert.That(cells[0].cell, Is.EqualTo(map[new Vector(0, 0).ToIndex(map.Size)]));
-            Assert.That(cells[1].cell, Is.EqualTo(map[new Vector(1, 0).ToIndex(map.Size)]));
-            Assert.That(cells[2].cell, Is.EqualTo(map[new Vector(0, 1).ToIndex(map.Size)]));
-            Assert.That(cells[3].cell, Is.EqualTo(map[new Vector(1, 1).ToIndex(map.Size)]));
+            Assert.That(cells[0], Is.EqualTo(new Vector(0, 0)));
+            Assert.That(cells[1], Is.EqualTo(new Vector(1, 0)));
+            Assert.That(cells[2], Is.EqualTo(new Vector(0, 1)));
+            Assert.That(cells[3], Is.EqualTo(new Vector(1, 1)));
         }
 
         [Test]

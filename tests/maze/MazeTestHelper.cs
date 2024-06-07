@@ -12,10 +12,10 @@ namespace PlayersWorlds.Maps.Maze {
         private static readonly Log s_log = Log.ToConsole("MazeTestHelper");
 
         public static bool IsSolveable(Area maze) {
-            var cells = new HashSet<Cell>(
-                maze.Cells.Where(c => maze.CellHasLinks(c.Position)));
-            var dijkstra = DijkstraDistance.Find(maze, cells.First().Position);
-            cells.ExceptWith(dijkstra.Keys.Select(c => maze[c]));
+            var cells = new HashSet<Vector>(
+                maze.Cells.Positions.Where(c => maze.CellHasLinks(c)));
+            var dijkstra = DijkstraDistance.Find(maze, cells.First());
+            cells.ExceptWith(dijkstra.Keys);
 
             if (cells.Count > 0) {
                 s_log.I(

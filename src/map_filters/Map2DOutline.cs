@@ -41,20 +41,20 @@ namespace PlayersWorlds.Maps.MapFilters {
         override public void Render(Area map) {
             for (var y = 0; y < map.Size.Y; y++) {
                 for (var x = 0; x < map.Size.X; x++) {
-                    var cell = map[new Vector(x, y)];
-                    if (cell.Tags.Any(t => _cellType.Contains(t)) ||
-                        cell.Tags.Contains(_outlineType)) continue;
+                    var cell = new Vector(x, y);
+                    if (map[cell].Tags.Any(t => _cellType.Contains(t)) ||
+                        map[cell].Tags.Contains(_outlineType)) continue;
                     var setOutline =
                         map.Cells.IterateIntersection(
                             new Vector(x - _outlineWidth, y - _outlineHeight),
                             new Vector(_outlineWidth * 2 + 1, _outlineHeight * 2 + 1))
-                           .Any(c => c.cell != cell &&
-                                c.cell.Tags.Any(t => _cellType.Contains(t)));
+                           .Any(c => c != cell &&
+                                map[c].Tags.Any(t => _cellType.Contains(t)));
                     if (setOutline) {
                         foreach (var tag in _cellType)
-                            if (cell.Tags.Contains(tag))
-                                cell.Tags.Remove(tag);
-                        cell.Tags.Add(_outlineType);
+                            if (map[cell].Tags.Contains(tag))
+                                map[cell].Tags.Remove(tag);
+                        map[cell].Tags.Add(_outlineType);
                     }
 
                 }

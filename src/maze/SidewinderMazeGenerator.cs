@@ -21,12 +21,12 @@ namespace PlayersWorlds.Maps.Maze {
             });
             var cellStates = builder.Random.NextBytes(builder.AllCells.Count);
             var currentY = 0;
-            var run = new List<Cell>();
+            var run = new List<Vector>();
             var i = 0;
             foreach (var currentCell in builder.AllCells) {
-                if (currentCell.Position.Y != currentY) {
+                if (currentCell.Y != currentY) {
                     run.Clear();
-                    currentY = currentCell.Position.Y;
+                    currentY = currentCell.Y;
                 }
 
                 // we don't check if the cell is already connected
@@ -34,20 +34,20 @@ namespace PlayersWorlds.Maps.Maze {
                 // might have already been connected from the lower left cells,
                 // but we still need to work through the right top cells.
 
-                if (builder.CanConnect(currentCell, currentCell.Position + Vector.North2D))
+                if (builder.CanConnect(currentCell, currentCell + Vector.North2D))
                     run.Add(currentCell);
 
                 var canConnectNorth = run.Count > 0;
-                Cell runCandidate = null;
+                var runCandidate = Vector.Empty;
                 if (canConnectNorth) {
                     runCandidate = run[cellStates[i] % run.Count];
                     // see SidewinderMazeGeneratorTest.ArchShapedAreasLeftExit
                     // in case the random run cell cannot be connected to its
                     // north neighbor, we can try picking any run cell that can:
-                    if (!builder.CanConnect(runCandidate, runCandidate.Position + Vector.North2D)) {
+                    if (!builder.CanConnect(runCandidate, runCandidate + Vector.North2D)) {
                         runCandidate = builder.Random.RandomOf(run
                             .Where(cell =>
-                                builder.CanConnect(cell, cell.Position + Vector.North2D))
+                                builder.CanConnect(cell, cell + Vector.North2D))
                             .ToList());
                         canConnectNorth = runCandidate != null;
                     }
@@ -55,9 +55,9 @@ namespace PlayersWorlds.Maps.Maze {
 
                 var connectEast = cellStates[i] % 2 == 0 || !canConnectNorth;
                 var canConnectEast =
-                    builder.CanConnect(currentCell, currentCell.Position + Vector.East2D);
+                    builder.CanConnect(currentCell, currentCell + Vector.East2D);
 
-                var cellsToLink = new Cell[2];
+                var cellsToLink = new Vector[2];
 
                 // if the random was to connect east, we will try to connect
                 // east
@@ -67,12 +67,12 @@ namespace PlayersWorlds.Maps.Maze {
                 // continue with the lowest leftmost unconnected cell.
                 if (connectEast && canConnectEast) {
                     cellsToLink[0] = currentCell;
-                    cellsToLink[1] = builder.MazeArea.AreNeighbors(currentCell.Position, currentCell.Position + Vector.East2D) ? builder.MazeArea[currentCell.Position + Vector.East2D] : null;
+                    cellsToLink[1] = builder.MazeArea.AreNeighbors(currentCell, currentCell + Vector.East2D) ? currentCell + Vector.East2D : Vector.Empty;
                 } else if (canConnectNorth) {
                     cellsToLink[0] = runCandidate;
-                    cellsToLink[1] = builder.MazeArea.AreNeighbors(runCandidate.Position, runCandidate.Position + Vector.North2D) ? builder.MazeArea[runCandidate.Position + Vector.North2D] : null;
+                    cellsToLink[1] = builder.MazeArea.AreNeighbors(runCandidate, runCandidate + Vector.North2D) ? runCandidate + Vector.North2D : Vector.Empty;
                     run.Clear();
-                } else if (!builder.MazeArea.CellHasLinks(currentCell.Position)) {
+                } else if (!builder.MazeArea.CellHasLinks(currentCell)) {
                     // This link is not connected, and won't be connected
                     // because of this maze geometry. Let's connect it to
                     // any other cell so that it's not left out.
@@ -89,8 +89,8 @@ namespace PlayersWorlds.Maps.Maze {
                                 $"neighbors to connect {currentCell} to.");
                     }
                 }
-                if (cellsToLink.All(c => c != null)) {
-                    builder.Connect(cellsToLink[0].Position, cellsToLink[1].Position);
+                if (cellsToLink.All(c => !c.IsEmpty)) {
+                    builder.Connect(cellsToLink[0], cellsToLink[1]);
                 }
                 i++;
             }

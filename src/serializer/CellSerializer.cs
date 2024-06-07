@@ -7,11 +7,6 @@ namespace PlayersWorlds.Maps.Serializer {
             var serializer = new BasicStringReader(typeof(Cell), str);
             var position = Vector.Parse(serializer.ReadValue());
             var cell = new Cell(position);
-            if (cell.Position != position) {
-                throw new ArgumentException(
-                    $"Position mismatch: expected {cell.Position}, got " +
-                    $"{position} in {str}");
-            }
             foreach (var link in serializer.ReadEnumerable()) {
                 cell.HardLinks.Add(Vector.Parse(link));
             }
@@ -19,22 +14,6 @@ namespace PlayersWorlds.Maps.Serializer {
                 cell.Tags.Add(new Cell.CellTag(tag));
             }
             return cell;
-        }
-
-        public void Deserialize(Cell obj, string str) {
-            var serializer = new BasicStringReader(obj.GetType(), str);
-            var position = Vector.Parse(serializer.ReadValue());
-            if (obj.Position != position) {
-                throw new ArgumentException(
-                    $"Position mismatch: expected {obj.Position}, got " +
-                    $"{position} in {str}");
-            }
-            foreach (var link in serializer.ReadEnumerable()) {
-                obj.HardLinks.Add(Vector.Parse(link));
-            }
-            foreach (var tag in serializer.ReadEnumerable()) {
-                obj.Tags.Add(new Cell.CellTag(tag));
-            }
         }
 
         /// <summary>

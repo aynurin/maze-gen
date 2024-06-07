@@ -45,25 +45,22 @@ namespace PlayersWorlds.Maps.Maze {
             if (!_options.RenderedSize(_maze.Size).FitsInto(map.Size)) {
                 throw new ArgumentException("Map does not fit the maze.");
             }
-            foreach (var cell in _maze.Cells) {
+            foreach (var cell in _maze.Cells.Positions) {
                 var mapping = new CellsMapping(map, cell, _options);
-                if (cell.Position == new Vector(1, 1)) {
-                    System.Diagnostics.Debugger.Break();
+                if (_maze.CellHasLinks(cell)) {
+                    mapping.CenterCells.Where(c => map.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (_maze.CellHasLinks(cell.Position)) {
-                    mapping.CenterCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
+                if (_maze.CellsAreLinked(cell, cell + Vector.North2D)) {
+                    mapping.NCells.Where(c => map.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (_maze.CellsAreLinked(cell.Position, cell.Position + Vector.North2D)) {
-                    mapping.NCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
+                if (_maze.CellsAreLinked(cell, cell + Vector.East2D)) {
+                    mapping.ECells.Where(c => map.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (_maze.CellsAreLinked(cell.Position, cell.Position + Vector.East2D)) {
-                    mapping.ECells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
+                if (_maze.CellsAreLinked(cell, cell + Vector.South2D)) {
+                    mapping.SCells.Where(c => map.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (_maze.CellsAreLinked(cell.Position, cell.Position + Vector.South2D)) {
-                    mapping.SCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
-                }
-                if (_maze.CellsAreLinked(cell.Position, cell.Position + Vector.West2D)) {
-                    mapping.WCells.ForEach(c => c.Tags.Add(Cell.CellTag.MazeTrail));
+                if (_maze.CellsAreLinked(cell, cell + Vector.West2D)) {
+                    mapping.WCells.Where(c => map.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
                 }
             }
             foreach (var filter in _filters) {
@@ -73,27 +70,27 @@ namespace PlayersWorlds.Maps.Maze {
 
         internal class CellsMapping {
             private readonly Area _map;
-            private readonly Cell _mazeCell;
+            private readonly Vector _mazeCell;
             private readonly MazeToMapOptions _options;
             private readonly Vector[] _size = new Vector[9];
             private readonly Vector[] _position = new Vector[9];
             private const int NW = 0, N = 1, NE = 2, W = 3, CENTER = 4, E = 5, SW = 6, S = 7, SE = 8;
 
-            public CellsMapping(Area map, Cell mazeCell, MazeToMapOptions options) {
+            public CellsMapping(Area map, Vector mazeCell, MazeToMapOptions options) {
                 map.ThrowIfNull(nameof(map));
-                mazeCell.ThrowIfNull(nameof(mazeCell));
+                mazeCell.ThrowIfEmpty();
                 options.ThrowIfNull(nameof(options));
 
                 _map = map;
                 _mazeCell = mazeCell;
                 _options = options;
 
-                _size[SW] = _options.WallSize(_mazeCell.Position);
-                _position[SW] = _options.SWPosition(_mazeCell.Position);
-                _size[CENTER] = _options.TrailSize(_mazeCell.Position);
+                _size[SW] = _options.WallSize(_mazeCell);
+                _position[SW] = _options.SWPosition(_mazeCell);
+                _size[CENTER] = _options.TrailSize(_mazeCell);
                 _position[CENTER] = _position[SW] + _size[SW];
                 _size[NE] = _options.WallSize(
-                    _mazeCell.Position + Vector.NorthEast2D);
+                    _mazeCell + Vector.NorthEast2D);
                 _position[NE] = _position[CENTER] + _size[CENTER];
 
                 _size[NW] = new Vector(_size[SW].X, _size[NE].Y);
@@ -135,41 +132,32 @@ namespace PlayersWorlds.Maps.Maze {
             public Vector SEPosition => _position[SE];
             public Vector SESize => _size[SE];
 
-            public IEnumerable<Cell> CenterCells =>
-                _map.Cells.Iterate(_position[CENTER], _size[CENTER])
-                    .Select(c => c.cell);
+            public IEnumerable<Vector> CenterCells =>
+                _map.Cells.Iterate(_position[CENTER], _size[CENTER]);
 
-            public IEnumerable<Cell> NWCells =>
-                _map.Cells.Iterate(_position[NW], _size[NW])
-                    .Select(c => c.cell);
+            public IEnumerable<Vector> NWCells =>
+                _map.Cells.Iterate(_position[NW], _size[NW]);
 
-            public IEnumerable<Cell> NCells =>
-                _map.Cells.Iterate(_position[N], _size[N])
-                    .Select(c => c.cell);
+            public IEnumerable<Vector> NCells =>
+                _map.Cells.Iterate(_position[N], _size[N]);
 
-            public IEnumerable<Cell> NECells =>
-                _map.Cells.Iterate(_position[NE], _size[NE])
-                    .Select(c => c.cell);
+            public IEnumerable<Vector> NECells =>
+                _map.Cells.Iterate(_position[NE], _size[NE]);
 
-            public IEnumerable<Cell> WCells =>
-                _map.Cells.Iterate(_position[W], _size[W])
-                    .Select(c => c.cell);
+            public IEnumerable<Vector> WCells =>
+                _map.Cells.Iterate(_position[W], _size[W]);
 
-            public IEnumerable<Cell> ECells =>
-                _map.Cells.Iterate(_position[E], _size[E])
-                    .Select(c => c.cell);
+            public IEnumerable<Vector> ECells =>
+                _map.Cells.Iterate(_position[E], _size[E]);
 
-            public IEnumerable<Cell> SWCells =>
-                _map.Cells.Iterate(_position[SW], _size[SW])
-                    .Select(c => c.cell);
+            public IEnumerable<Vector> SWCells =>
+                _map.Cells.Iterate(_position[SW], _size[SW]);
 
-            public IEnumerable<Cell> SCells =>
-                _map.Cells.Iterate(_position[S], _size[S])
-                    .Select(c => c.cell);
+            public IEnumerable<Vector> SCells =>
+                _map.Cells.Iterate(_position[S], _size[S]);
 
-            public IEnumerable<Cell> SECells =>
-                _map.Cells.Iterate(_position[SE], _size[SE])
-                    .Select(c => c.cell);
+            public IEnumerable<Vector> SECells =>
+                _map.Cells.Iterate(_position[SE], _size[SE]);
 
 
         }

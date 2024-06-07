@@ -45,8 +45,9 @@ namespace PlayersWorlds.Maps.MapFilters {
         /// </summary>
         /// <param name="map">The map to apply the filter to.</param>
         override public void Render(Area map) {
-            var visited = new bool[map.Size.X * map.Size.Y];
-            foreach (var (xy, cell) in map.Cells.Iterate()) {
+            var visited = new bool[map.Size.Area];
+            foreach (var xy in map.Cells.Iterate()) {
+                var cellData = map[xy];
                 if (visited[xy.ToIndex(map.Size)]) continue;
 
                 // look for all spots of the given type
@@ -57,7 +58,7 @@ namespace PlayersWorlds.Maps.MapFilters {
                 // if the spot is smaller, erase it.
                 // mark all spot cells as visited
 
-                if (!CellIsASpot(cell)) {
+                if (!CellIsASpot(cellData)) {
                     visited[xy.ToIndex(map.Size)] = true;
                     continue;
                 }
@@ -65,7 +66,7 @@ namespace PlayersWorlds.Maps.MapFilters {
                 var dfsStack = new Stack<Vector>();
                 dfsStack.Push(xy);
 
-                var spotCells = new List<Cell> { cell };
+                var spotCells = new List<Cell> { cellData };
                 var minX = int.MaxValue;
                 var maxX = int.MinValue;
                 var minY = int.MaxValue;
@@ -78,11 +79,11 @@ namespace PlayersWorlds.Maps.MapFilters {
                     if (minY > current.Y) minY = current.Y;
                     if (maxY < current.Y) maxY = current.Y;
 
-                    foreach (var (nextXy, nextCell) in map.Cells.IterateAdjacentCells(current)) {
-                        if (!CellIsASpot(nextCell)) continue;
+                    foreach (var nextXy in map.Cells.IterateAdjacentCells(current)) {
+                        if (!CellIsASpot(map[nextXy])) continue;
                         if (visited[nextXy.ToIndex(map.Size)] == false) {
                             visited[nextXy.ToIndex(map.Size)] = true;
-                            spotCells.Add(nextCell);
+                            spotCells.Add(map[nextXy]);
                             dfsStack.Push(nextXy);
                         }
                     }

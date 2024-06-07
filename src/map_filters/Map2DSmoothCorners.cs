@@ -51,11 +51,11 @@ namespace PlayersWorlds.Maps.MapFilters {
                     var a = map.Cells.IterateIntersection(
                                 new Vector(x - _cornerWidth, y),
                                 new Vector(_cornerWidth * 2 + 1, 1))
-                               .Count(c => c.cell.Tags.Contains(_cellType));
+                               .Count(c => map[c].Tags.Contains(_cellType));
                     var b = map.Cells.IterateIntersection(
                                 new Vector(x, y - _cornerHeight),
                                 new Vector(1, _cornerHeight * 2 + 1))
-                               .Count(c => c.cell.Tags.Contains(_cellType));
+                               .Count(c => map[c].Tags.Contains(_cellType));
                     var setOutline = a > 0 && b > 0;
                     if (setOutline) {
                         if (cell.Tags.Contains(_cellType))

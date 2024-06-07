@@ -15,12 +15,12 @@ namespace PlayersWorlds.Maps.Maze {
                 RandomSource = RandomSource.CreateFromEnv()
             };
             var builderMock = new Mock<Maze2DBuilder>(maze, opts);
-            var firstCell = maze.Cells[new Vector(4, 3)];
-            var randomNeighbor = maze.Cells[new Vector(3, 3)];
+            var firstCell = new Vector(4, 3);
+            var randomNeighbor = new Vector(3, 3);
 
             builderMock.SetupGet(b => b.CellGroups)
-                .Returns(new List<HashSet<Cell>>() {
-                    new HashSet<Cell>() { firstCell }
+                .Returns(new List<HashSet<Vector>>() {
+                    new HashSet<Vector>() { firstCell }
                 });
 
             builderMock.SetupSequence(b => b.PickNextCellToLink())
