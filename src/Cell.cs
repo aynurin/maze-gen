@@ -11,14 +11,8 @@ namespace PlayersWorlds.Maps {
     /// For now it's only a set of tags assigned to the cell.
     /// </remarks>
     public class Cell : ExtensibleObject {
-        private readonly Vector _position;
         private readonly List<CellTag> _tags = new List<CellTag>();
         private readonly HashSet<Vector> _hardLinks = new HashSet<Vector>();
-
-        /// <summary>
-        /// Absolute position of this cell in the world.
-        /// </summary>
-        public Vector Position => _position;
 
         /// <summary>
         /// Tags assigned to cell.
@@ -30,14 +24,11 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// Creates an instance of cell at the specified position.
         /// </summary>
-        /// <param name="position">The position of the cell in its area.</param>
         /// <remarks>Supposed for internal use only.</remarks>
-        internal Cell(Vector position) {
-            _position = position;
-        }
+        internal Cell() { }
 
-        internal Cell CloneWithParent(Area area) {
-            var newCell = new Cell(_position);
+        internal Cell Clone() {
+            var newCell = new Cell();
             newCell._tags.AddRange(_tags);
             foreach (var link in _hardLinks) {
                 newCell._hardLinks.Add(link);

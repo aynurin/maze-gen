@@ -5,8 +5,7 @@ namespace PlayersWorlds.Maps.Serializer {
     public class CellSerializer : IStringSerializer<Cell> {
         public Cell Deserialize(string str) {
             var serializer = new BasicStringReader(typeof(Cell), str);
-            var position = Vector.Parse(serializer.ReadValue());
-            var cell = new Cell(position);
+            var cell = new Cell();
             foreach (var link in serializer.ReadEnumerable()) {
                 cell.HardLinks.Add(Vector.Parse(link));
             }
@@ -26,7 +25,6 @@ namespace PlayersWorlds.Maps.Serializer {
         public string Serialize(Cell obj) {
             return new BasicStringWriter()
                 .WriteObjectStart(obj.GetType())
-                .WriteValue(obj.Position.ToString())
                 .WriteEnumerable(obj.HardLinks.Select(v => v.ToString()))
                 .WriteEnumerable(obj.Tags.Select(v => v.ToString()))
                 .WriteObjectEnd();

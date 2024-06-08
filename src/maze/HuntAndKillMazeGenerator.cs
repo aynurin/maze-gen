@@ -36,7 +36,7 @@ namespace PlayersWorlds.Maps.Maze {
                                         builder.MazeArea
                                                .NeighborsOf(cell)
                                                .Any(builder.IsConnected));
-                    if (hunt != null) {
+                    if (!hunt.IsEmpty) {
                         builder.Connect(
                             hunt,
                             builder.MazeArea.NeighborsOf(hunt)

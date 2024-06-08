@@ -308,6 +308,12 @@ namespace PlayersWorlds.Maps {
             Assert.That(() => map.IterateIntersection(new Vector(2, 2), new Vector(0, 0)).First(), Throws.ArgumentException);
         }
 
+        [Test]
+        public void IterateInOrder() {
+            var map = new NArray<TestCell>(new Vector(5, 5), xy => new TestCell(xy));
+            Assert.That(() => map.Iterate().ToArray(), Is.EqualTo(map.Select(c => c.Xy).ToArray()));
+        }
+
         class Item {
             public int Value { get; set; }
 
@@ -330,6 +336,8 @@ namespace PlayersWorlds.Maps {
             public TestCell(Vector xy) {
                 _xy = xy;
             }
+
+            public Vector Xy { get => _xy; set => _xy = value; }
         }
     }
 }

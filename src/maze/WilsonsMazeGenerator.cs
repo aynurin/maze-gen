@@ -52,7 +52,7 @@ namespace PlayersWorlds.Maps.Maze {
                     builder.TryPickRandomNeighbor(nextCell, out nextCell, honorPriority: false); //3x3, 4x3
                 };
 
-                if (nextCell != null) {
+                if (!nextCell.IsEmpty) {
                     walkPath.Add(nextCell);
                 }
 

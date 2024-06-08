@@ -17,7 +17,7 @@ namespace PlayersWorlds.Maps {
         public void Serialize() {
             var env = Area.CreateEnvironment(new Vector(5, 5));
             var actual = new CellSerializer().Serialize(env.Cells[3]);
-            var expected = "Cell:{3x0;;}";
+            var expected = "Cell:{;}";
             Assert.That(actual, Is.EqualTo(expected));
         }
     }

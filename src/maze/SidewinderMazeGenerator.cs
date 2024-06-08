@@ -49,7 +49,7 @@ namespace PlayersWorlds.Maps.Maze {
                             .Where(cell =>
                                 builder.CanConnect(cell, cell + Vector.North2D))
                             .ToList());
-                        canConnectNorth = runCandidate != null;
+                        canConnectNorth = !runCandidate.IsEmpty;
                     }
                 }
 

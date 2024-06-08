@@ -150,7 +150,7 @@ namespace PlayersWorlds.Maps {
                 new List<Area>() :
                 new List<Area>(childAreas);
             _tags = tags?.ToArray() ?? new string[0];
-            _cells = new NArray<Cell>(size, xy => new Cell(xy));
+            _cells = new NArray<Cell>(size, xy => new Cell());
             RebuildChildAreasSnapshot();
         }
 
@@ -177,7 +177,7 @@ namespace PlayersWorlds.Maps {
                 Array.Copy(tags, _tags, tags.Length);
             }
             _cells = new NArray<Cell>(
-                cells.Size, xy => cells[xy].CloneWithParent(this));
+                cells.Size, xy => cells[xy].Clone());
             RebuildChildAreasSnapshot();
         }
 
