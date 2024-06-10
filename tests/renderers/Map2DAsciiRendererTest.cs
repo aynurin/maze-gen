@@ -11,17 +11,17 @@ namespace PlayersWorlds.Maps.Renderers {
         [Test]
         public void TestRender() {
             var map = Area.CreateEnvironment(new Vector(5, 5));
-            map.Cells.Iterate(new Vector(0, 0), new Vector(5, 5))
+            map.Cells.Region(new Vector(0, 0), new Vector(5, 5))
                 .ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
-            map.Cells.Iterate(new Vector(0, 0), new Vector(5, 1))
+            map.Cells.Region(new Vector(0, 0), new Vector(5, 1))
                 .ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeWall));
-            map.Cells.Iterate(new Vector(0, 0), new Vector(1, 5))
+            map.Cells.Region(new Vector(0, 0), new Vector(1, 5))
                 .ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeWall));
-            map.Cells.Iterate(new Vector(4, 0), new Vector(1, 5))
+            map.Cells.Region(new Vector(4, 0), new Vector(1, 5))
                 .ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeWall));
-            map.Cells.Iterate(new Vector(0, 4), new Vector(5, 1))
+            map.Cells.Region(new Vector(0, 4), new Vector(5, 1))
                 .ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeWall));
-            map.Cells.Iterate(new Vector(2, 2), new Vector(1, 1))
+            map.Cells.Region(new Vector(2, 2), new Vector(1, 1))
                 .ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeWallCorner));
             var expected =
                 "▓▓▓▓▓\n" +

@@ -48,11 +48,11 @@ namespace PlayersWorlds.Maps.MapFilters {
                     var cell = map[new Vector(x, y)];
                     if (cell.Tags.Contains(_cellType) ||
                         cell.Tags.Contains(_cornerType)) continue;
-                    var a = map.Cells.IterateIntersection(
+                    var a = map.Cells.SafeRegion(
                                 new Vector(x - _cornerWidth, y),
                                 new Vector(_cornerWidth * 2 + 1, 1))
                                .Count(c => map[c].Tags.Contains(_cellType));
-                    var b = map.Cells.IterateIntersection(
+                    var b = map.Cells.SafeRegion(
                                 new Vector(x, y - _cornerHeight),
                                 new Vector(1, _cornerHeight * 2 + 1))
                                .Count(c => map[c].Tags.Contains(_cellType));

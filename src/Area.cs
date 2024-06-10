@@ -182,7 +182,7 @@ namespace PlayersWorlds.Maps {
         }
 
         public IEnumerable<Vector> ChildAreaCells(Area area) {
-            foreach (var cell in area.Cells.Positions) {
+            foreach (var cell in area.Cells) {
                 yield return area.Position + cell;
             }
         }
@@ -242,14 +242,14 @@ namespace PlayersWorlds.Maps {
             var filledAreasSnapshot = new HashSet<Vector>();
             foreach (var area in _childAreas.Where(a => a.Type == AreaType.Fill)) {
                 if (area.IsPositionEmpty) continue;
-                foreach (var cell in area._cells.Positions) {
+                foreach (var cell in area._cells) {
                     filledAreasSnapshot.Add(cell + area.Position);
                 }
             }
             foreach (var area in _childAreas.Where(a => a.Type == AreaType.Hall || a.Type == AreaType.Cave)) {
                 if (area.IsPositionEmpty) continue;
                 var areaCells = new HashSet<Vector>(
-                    area._cells.Positions.Select(cell => cell + area.Position));
+                    area._cells.Select(cell => cell + area.Position));
                 areaCells.ExceptWith(filledAreasSnapshot);
                 if (areaCells.Count > 0) {
                     interconnectedAreasSnapshot.Add(areaCells);

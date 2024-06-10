@@ -31,7 +31,7 @@ namespace PlayersWorlds.Maps.Serializer {
                 .WriteValue(obj.IsPositionFixed.ToString())
                 .WriteValue(obj.Type.ToString())
                 .WriteEnumerable(obj.Tags)
-                .WriteEnumerable(obj.Cells.Select(cellSerializer.Serialize))
+                .WriteEnumerable(obj.Cells.Select(cell => cellSerializer.Serialize(obj[cell])))
                 .WriteEnumerable(obj.ChildAreas().Select(Serialize))
                 .WriteObjectEnd();
         }

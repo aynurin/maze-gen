@@ -143,7 +143,7 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         public void ThrowIfNotAValidSize() {
-            if (_value.Length == 0 || _value.Any(i => i <= 0))
+            if (_value.Length == 0 || _value.Any(i => i < 0))
                 throw new ArgumentException($"This Vector is not a valid size: {this}");
         }
 

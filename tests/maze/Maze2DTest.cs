@@ -21,8 +21,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_WrongSize() {
-            Assert.Throws<ArgumentException>(() => Area.CreateEnvironment(new Vector(0, 3)));
-            Assert.Throws<ArgumentException>(() => Area.CreateEnvironment(new Vector(2, 0)));
+            Assert.DoesNotThrow(() => Area.CreateEnvironment(new Vector(0, 3)));
+            Assert.DoesNotThrow(() => Area.CreateEnvironment(new Vector(2, 0)));
             Assert.Throws<ArgumentException>(() => Area.CreateEnvironment(new Vector(-1, 1)));
             Assert.Throws<ArgumentException>(() => Area.CreateEnvironment(new Vector(1, -1)));
             Assert.Throws<ArgumentException>(() => Area.CreateEnvironment(new Vector(-1, -1)));
@@ -49,11 +49,11 @@ namespace PlayersWorlds.Maps.Maze {
             for (var x = 0; x < cols; x++) {
                 for (var y = 0; y < rows; y++) {
                     var cell = new Vector(x, y);
-                    var neighbors = map.Cells.Positions.Where(c =>
+                    var neighbors = map.Cells.Where(c =>
                         (c.X == cell.X && Math.Abs(c.Y - cell.Y) == 1) ||
                         (c.Y == cell.Y && Math.Abs(c.X - cell.X) == 1))
                             .ToList();
-                    var nonNeighbors = map.Cells.Positions
+                    var nonNeighbors = map.Cells
                         .Where(c => c != cell && !neighbors.Contains(c))
                         .ToList();
                     if (neighbors.Count != map.NeighborsOf(cell).Count()) {

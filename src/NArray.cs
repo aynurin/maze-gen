@@ -12,22 +12,21 @@ namespace PlayersWorlds.Maps {
     /// There wasn't a need to make it n-dimensional at this stage, but I want
     /// to explore scenarios of storing more information in a map. E.g. every
     /// cell could contain data for more space, like space-associated data 
-    /// (icebergs, volcanos), scaled sub spaces (Yennefer's tent,
-    /// https://youtu.be/TAf8Z4aTOTM, or Hermione's bag), or even items present
-    /// in the cell.
+    /// (icebergs, volcanos), scaled sub spaces (Hermione's bag), or simply
+    /// items in the cell.
     /// </remarks>
     /// <typeparam name="T">The type of data stored in each cell of the map.
     /// </typeparam>
-    public class NArray<T> : IReadOnlyList<T> {
-        private readonly T[] _cells;
+    public class NArray<T> : IReadOnlyCollection<Vector> {
+        private readonly T[] _cellData;
+
+        /// <inheritdoc />
+        public int Count => _cellData.Length;
 
         /// <summary>
         /// Gets the size of the N-dimensional array.
         /// </summary>
         public Vector Size { get; }
-
-        /// <inheritdoc />
-        public int Count => _cells.Length;
 
         /// <summary>
         /// Gets the value of a cell at the specified <see cref="Vector"/>
@@ -38,13 +37,7 @@ namespace PlayersWorlds.Maps {
         /// <returns>The value of the cell at the specified position.</returns>
         /// <exception cref="IndexOutOfRangeException">The position is outside
         /// the map bounds.</exception>
-        public T this[Vector position] => _cells[position.ToIndex(Size)];
-
-        /// <inheritdoc />
-        public T this[int index] => _cells[index];
-
-        public IEnumerable<Vector> Positions =>
-            _cells.Select((cell, index) => Vector.FromIndex(index, Size));
+        public T this[Vector position] => _cellData[position.ToIndex(Size)];
 
         /// <summary>
         /// Creates a new array with the specified size and optional initial
@@ -58,41 +51,27 @@ namespace PlayersWorlds.Maps {
 
             Size = size;
 
-            _cells = new T[size.Area];
+            _cellData = new T[size.Area];
 
-            for (var i = 0; i < _cells.Length; i++) {
-                _cells[i] = initialValue == null ? default :
+            for (var i = 0; i < _cellData.Length; i++) {
+                _cellData[i] = initialValue == null ? default :
                     initialValue(Vector.FromIndex(i, size));
             }
         }
 
         /// <summary>
-        /// Creates a copy of the provided <see cref="NArray{T}"/>.
+        /// Gets a list of <see cref="Vector"/> positions of all adjacent cells
+        /// to the specified position, excluding cells outside the map bounds.
         /// </summary>
-        /// <param name="other">The source <see cref="NArray{T}"/>.</param>
-        public NArray(NArray<T> other) {
-            Size = other.Size;
-            _cells = new T[Size.Area];
-            Array.Copy(other._cells, _cells, _cells.Length);
-        }
-
-        /// <summary>
-        /// Returns the position of the first occurrence of a value in the map.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public Vector IndexOf(T value) =>
-            Vector.FromIndex(
-                    Array.FindIndex(_cells, x => x.Equals(value)), Size);
-
-        /// <summary>
-        /// Iterates over all cells in the map in row-major order, returning
-        /// each cell's position and value as a tuple.
-        /// </summary>
-        /// <returns>An enumerable collection of tuples containing the item's
-        /// position as a <see cref="Vector"/> and its value.</returns>
-        public IEnumerable<Vector> Iterate() {
-            return IterateIntersection(Vector.Zero(Size.Dimensions), Size);
+        /// <param name="xy">The position of the cell to get adjacent
+        /// cells for as a <see cref="Vector"/>.</param>
+        /// <returns>An enumerable collection of <see cref="Vector"/> positions
+        /// of adjacent cells.</returns>
+        public IEnumerable<Vector> AdjacentRegion(Vector xy) {
+            return SafeRegion(
+                    xy + new Vector(Enumerable.Repeat(-1, Size.Dimensions)),
+                    new Vector(Enumerable.Repeat(3, Size.Dimensions)))
+                .Where(cell => cell != xy);
         }
 
         /// <summary>
@@ -103,44 +82,14 @@ namespace PlayersWorlds.Maps {
         /// <returns>An enumerable collection of tuples of the specified region
         /// containing the cell position as a <see cref="Vector"/> and its
         /// value.</returns>
-        /// <exception cref="IndexOutOfRangeException">The coordinates are out
-        /// of the bounds of the map.
-        /// <see cref="IterateIntersection(Vector,Vector)" /> is an alternative
-        /// that doesn't throw.</exception>
-        public IEnumerable<Vector> Iterate(
+        public IEnumerable<Vector> SafeRegion(
             Vector xy, Vector size) {
             size.ThrowIfNotAValidSize();
-            if (xy.X < 0 ||
-                xy.X + size.X > Size.X ||
-                xy.Y < 0 ||
-                xy.Y + size.Y > Size.Y) {
-                throw new IndexOutOfRangeException(
-                    $"Can't retrieve area of size {size} at {xy} " +
-                    $"in map of size {Size}");
-            }
-            return IterateIntersection(xy, size);
-        }
-
-        // TODO: Test all iterators
-        // TODO: Make all iterators use IterateIntersection to reduce code duplication
-
-        /// <summary>
-        /// Retrieve all cells of a rectangular region on the map.
-        /// </summary>
-        /// <remarks>Retrieves any cells on the map that belong to the requested
-        /// region.</remarks>
-        /// <param name="xy">Lowest XY position of the region.</param>
-        /// <param name="size">Size of the region.</param>
-        /// <returns><see cref="Cell" />s of the specified region.</returns>
-        public IEnumerable<Vector>
-        IterateIntersection(Vector xy, Vector size) {
-            // Validate dimensions
-            size.ThrowIfNotAValidSize();
-            if (size.Dimensions != Size.Dimensions ||
-                xy.Dimensions != Size.Dimensions) {
+            if (xy.Dimensions != size.Dimensions || xy.Dimensions != Size.Dimensions) {
                 throw new ArgumentException(
-                    "Vector dimensions must match map dimensions " +
-                    $"(NArray({Size}).IterateIntersection({xy}, {size}))");
+                    $"The position and size of the region ({size}) must have " +
+                    $"the same number of dimensions as the size of the map " +
+                    $"(xy={xy}, size={size}, map size={Size}).");
             }
 
             var xyValue = new List<int>(xy.Value);
@@ -151,9 +100,48 @@ namespace PlayersWorlds.Maps {
                     xyValue[i] = 0;
                 }
                 if (xyValue[i] + sizeValue[i] > Size.Value[i]) {
-                    sizeValue[i] = Size.Value[i] - xyValue[i];
+                    sizeValue[i] = Math.Max(0, Size.Value[i] - xyValue[i]);
                 }
             }
+
+            return Region(new Vector(xyValue), new Vector(sizeValue));
+        }
+
+        /// <summary>
+        /// Retrieve all cells of a rectangular region on the map.
+        /// </summary>
+        /// <remarks>Retrieves any cells on the map that belong to the requested
+        /// region.</remarks>
+        /// <param name="xy">Lowest XY position of the region.</param>
+        /// <param name="size">Size of the region.</param>
+        /// <returns><see cref="Cell" />s of the specified region.</returns>
+        /// <exception cref="IndexOutOfRangeException">The coordinates are out
+        /// of the bounds of the map.
+        /// <see cref="SafeRegion(Vector,Vector)" /> is an alternative
+        /// that doesn't throw.</exception>
+        public IEnumerable<Vector> Region(Vector xy, Vector size) {
+            // Validate dimensions
+            size.ThrowIfNotAValidSize();
+            if (size.Area == 0) {
+                yield break;
+            }
+            if (size.Dimensions != Size.Dimensions ||
+                xy.Dimensions != Size.Dimensions) {
+                throw new ArgumentException(
+                    "Vector dimensions must match map dimensions " +
+                    $"(NArray({Size}).SafeRegion({xy}, {size}))");
+            }
+            if (xy.Value.Any(x => x < 0) ||
+                xy.Value.Select(
+                    (x, i) => (xy.Value[i] + size.Value[i]) > Size.Value[i])
+                        .Any(_ => _)) {
+                throw new IndexOutOfRangeException(
+                    $"Can't retrieve area of size {size} at {xy} " +
+                    $"in map of size {Size}");
+            }
+
+            var xyValue = new List<int>(xy.Value);
+            var sizeValue = new List<int>(size.Value);
 
             var current = new List<int>(xyValue);
 
@@ -179,22 +167,6 @@ namespace PlayersWorlds.Maps {
         }
 
         /// <summary>
-        /// Gets a list of <see cref="Vector"/> positions of all adjacent cells
-        /// to the specified position, excluding cells outside the map bounds.
-        /// </summary>
-        /// <param name="xy">The position of the cell to get adjacent
-        /// cells for as a <see cref="Vector"/>.</param>
-        /// <returns>An enumerable collection of <see cref="Vector"/> positions
-        /// of adjacent cells.</returns>
-        public IEnumerable<Vector>
-        IterateAdjacentCells(Vector xy) {
-            return IterateIntersection(
-                    xy + new Vector(Enumerable.Repeat(-1, Size.Dimensions)),
-                    new Vector(Enumerable.Repeat(3, Size.Dimensions)))
-                .Where(cell => cell != xy);
-        }
-
-        /// <summary>
         /// Scales the NArray to a larger size based on the provided vector.
         /// </summary>
         /// <remarks>This method scales to a larger size without interpolation.
@@ -217,13 +189,16 @@ namespace PlayersWorlds.Maps {
             return scaledMap;
         }
 
-        #region IReadOnlyList<T> 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator() {
-            return ((IEnumerable<T>)_cells).GetEnumerator();
+        #region IReadOnlyCollection<Vector> 
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
         }
 
-        IEnumerator IEnumerable.GetEnumerator() {
-            return _cells.GetEnumerator();
+        /// <inheritdoc />
+        public IEnumerator<Vector> GetEnumerator() {
+            for (var i = 0; i < _cellData.Length; i++) {
+                yield return Vector.FromIndex(i, Size);
+            }
         }
         #endregion
     }

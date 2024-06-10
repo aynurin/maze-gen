@@ -181,7 +181,7 @@ namespace PlayersWorlds.Maps.Maze {
             _cellsToConnect.Clear();
             _allConnectableCells.Clear();
             // all cells that do not belong to fill and hall areas.
-            _mazeArea.Cells.Positions // does this cell belong to a fill or hall child area?
+            _mazeArea.Cells // does this cell belong to a fill or hall child area?
                 .Where(c => _mazeArea.ChildAreas(c)
                     .All(area => area.Type != AreaType.Fill &&
                                  area.Type != AreaType.Hall))
@@ -333,7 +333,7 @@ namespace PlayersWorlds.Maps.Maze {
                 // find all cells next to this hall that can be linked to the
                 // hall.
                 return _mazeArea.Cells
-                    .IterateIntersection(
+                    .SafeRegion(
                         new Vector(area.Position.Value.Select(c => c - 1)),
                         new Vector(area.Size.Value.Select(c => c + 2)))
                     .Where(c => !area.Contains(c) &&

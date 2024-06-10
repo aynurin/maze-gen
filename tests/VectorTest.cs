@@ -93,7 +93,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void Vector_ThrowsIfNotAValidSize() {
-            Assert.Throws<ArgumentException>(() => new Vector(new int[] { 0, 1, 2, 3 }).ThrowIfNotAValidSize());
+            Assert.Throws<ArgumentException>(() => new Vector(new int[] { 0, 1, 2, 3, -1 }).ThrowIfNotAValidSize());
             Assert.Throws<ArgumentException>(() => new Vector(new int[] { 1, -1 }).ThrowIfNotAValidSize());
             Assert.DoesNotThrow(() => new Vector(new int[] { 1 }).ThrowIfNotAValidSize());
         }

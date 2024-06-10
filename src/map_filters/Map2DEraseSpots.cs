@@ -46,7 +46,7 @@ namespace PlayersWorlds.Maps.MapFilters {
         /// <param name="map">The map to apply the filter to.</param>
         override public void Render(Area map) {
             var visited = new bool[map.Size.Area];
-            foreach (var xy in map.Cells.Iterate()) {
+            foreach (var xy in map.Cells) {
                 var cellData = map[xy];
                 if (visited[xy.ToIndex(map.Size)]) continue;
 
@@ -79,7 +79,7 @@ namespace PlayersWorlds.Maps.MapFilters {
                     if (minY > current.Y) minY = current.Y;
                     if (maxY < current.Y) maxY = current.Y;
 
-                    foreach (var nextXy in map.Cells.IterateAdjacentCells(current)) {
+                    foreach (var nextXy in map.Cells.AdjacentRegion(current)) {
                         if (!CellIsASpot(map[nextXy])) continue;
                         if (visited[nextXy.ToIndex(map.Size)] == false) {
                             visited[nextXy.ToIndex(map.Size)] = true;
