@@ -260,7 +260,7 @@ namespace PlayersWorlds.Maps {
                 wallHeights: new int[] { 2, 1, 2, 1, 2 });
             var map = CreateMapForMaze(_maze, mazeToMapOptions);
             var mazeToMap = new Maze2DRenderer(_maze, mazeToMapOptions);
-            var cellMapping = new CellsMapping(map, _maze.Cells.First(), mazeToMapOptions);
+            var cellMapping = new CellsMapping(map, _maze.Grid.First(), mazeToMapOptions);
 
             Assert.That(cellMapping.SWPosition, Is.EqualTo(new Vector(0, 0)), "SWPosition");
             Assert.That(cellMapping.SWSize, Is.EqualTo(new Vector(1, 2)), "SWSize");

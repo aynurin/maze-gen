@@ -31,7 +31,7 @@ namespace PlayersWorlds.Maps.Maze {
             var fillCells = maze.ChildAreaCells(maze.ChildAreas().First()).ToList();
             Assert.That(fillCells, Has.Exactly(12).Items);
 
-            var otherCells = maze.Cells
+            var otherCells = maze.Grid
                 .Except(fillCells)
                 .ToList();
 
@@ -53,11 +53,11 @@ namespace PlayersWorlds.Maps.Maze {
             var areaPerimeter = 14;
             var mazeArea = 225;
 
-            var hallCells = maze.Cells
+            var hallCells = maze.Grid
                 .SafeRegion(hall.Position, hall.Size).ToList();
             Assert.That(hallCells, Has.Exactly(areaArea).Items);
 
-            var otherCells = maze.Cells
+            var otherCells = maze.Grid
                 .Except(hallCells)
                 .ToList();
 
@@ -66,7 +66,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(hallCells.SelectMany(cell => maze.CellLinks(cell)),
                 Has.Exactly(1).AnyOf(otherCells));
 
-            var hallInnerCells = maze.Cells.SafeRegion(
+            var hallInnerCells = maze.Grid.SafeRegion(
                 hall.Position + Vector.NorthEast2D,
                 hall.Size + Vector.SouthWest2D + Vector.SouthWest2D)
                 .ToList();
@@ -107,7 +107,7 @@ namespace PlayersWorlds.Maps.Maze {
             var caveCells = maze.ChildAreaCells(maze.ChildAreas().First()).ToList();
             Assert.That(caveCells, Has.Exactly(21).Items);
 
-            var otherCells = maze.Cells
+            var otherCells = maze.Grid
                 .Except(caveCells)
                 .ToList();
 
@@ -117,7 +117,7 @@ namespace PlayersWorlds.Maps.Maze {
                                  .Intersect(otherCells).ToList(),
                         Has.Count.GreaterThanOrEqualTo(1));
 
-            var caveInnerCells = maze.Cells.SafeRegion(
+            var caveInnerCells = maze.Grid.SafeRegion(
                 cave.Position + Vector.NorthEast2D,
                 cave.Size + Vector.SouthWest2D + Vector.SouthWest2D)
                 .ToList();
@@ -155,11 +155,11 @@ namespace PlayersWorlds.Maps.Maze {
                             .Concat(maze.ChildAreaCells(area2))
                             .Distinct();
 
-            Assert.That(area1.Cells, Has.Exactly(28).Items);
-            Assert.That(area2.Cells, Has.Exactly(21).Items);
+            Assert.That(area1.Grid, Has.Exactly(28).Items);
+            Assert.That(area2.Grid, Has.Exactly(21).Items);
             Assert.That(areaCells, Has.Exactly(areaArea).Items);
 
-            var otherCells = maze.Cells
+            var otherCells = maze.Grid
                 .Except(maze.ChildAreaCells(area1))
                 .Except(maze.ChildAreaCells(area2))
                 .ToList();
@@ -171,11 +171,11 @@ namespace PlayersWorlds.Maps.Maze {
                 Assert.That(areaCells.SelectMany(cell => maze.CellLinks(cell).Select(link => maze[link])),
                     Has.None.AnyOf(otherCells));
             } else {
-                var innerCells = maze.Cells.SafeRegion(
+                var innerCells = maze.Grid.SafeRegion(
                     area1.Position + Vector.NorthEast2D,
                     area1.Size + Vector.SouthWest2D + Vector.SouthWest2D)
                     .Concat(
-                        maze.Cells.SafeRegion(
+                        maze.Grid.SafeRegion(
                             area2.Position + Vector.NorthEast2D,
                             area2.Size + Vector.SouthWest2D + Vector.SouthWest2D)
                     ).Distinct().ToList();
@@ -218,8 +218,8 @@ namespace PlayersWorlds.Maps.Maze {
                 expectConnected += 1; // entrance cell within the call.
             }
 
-            Assert.That(maze.ChildAreas().First().Cells, Has.Exactly(areaArea).Items);
-            Assert.That(maze.ChildAreas().Last().Cells, Has.Exactly(areaArea).Items);
+            Assert.That(maze.ChildAreas().First().Grid, Has.Exactly(areaArea).Items);
+            Assert.That(maze.ChildAreas().Last().Grid, Has.Exactly(areaArea).Items);
             Assert.That(builder.TestCellsToConnect, Is.Empty);
             Assert.That(builder.TestConnectedCells,
                 Has.Exactly(expectConnected).Items);

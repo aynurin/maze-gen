@@ -247,13 +247,13 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(builder.TestPriorityCells, Has.Exactly(5).Items);
 
             var iterate = builder.AllCells.ToList();
-            var cellsOrder = maze.Cells.ToList();
+            var cellsOrder = maze.Grid.ToList();
 
             Assert.That(iterate, Is.SupersetOf(priorityCells));
             Assert.That(iterate, Has.None.AnyOf(unavailableCells));
 
             // check if the order of cells in IterateCells matches the 
-            // order of cells in maze.Cells
+            // order of cells in maze.Grid
             var allCellsIndex = -1;
             var iterateIdx = 0;
             for (; iterateIdx < iterate.Count; iterateIdx++) {
@@ -321,9 +321,9 @@ namespace PlayersWorlds.Maps.Maze {
             builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
-            var areaCells = maze.Cells
+            var areaCells = maze.Grid
                     .SafeRegion(new Vector(1, 1), new Vector(3, 3));
-            var cellsToConnect = maze.Cells.ToHashSet();
+            var cellsToConnect = maze.Grid.ToHashSet();
             cellsToConnect.ExceptWith(areaCells);
             foreach (var cell in cellsToConnect) {
                 if (maze.Contains(cell + Vector.East2D)) {
@@ -351,9 +351,9 @@ namespace PlayersWorlds.Maps.Maze {
             builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
-            var areaCells = maze.Cells
+            var areaCells = maze.Grid
                     .SafeRegion(new Vector(1, 1), new Vector(3, 3));
-            var cellsToConnect = maze.Cells.ToHashSet();
+            var cellsToConnect = maze.Grid.ToHashSet();
             cellsToConnect.ExceptWith(areaCells);
             foreach (var cell in cellsToConnect) {
                 if (cellsToConnect.Contains(cell + Vector.East2D))
@@ -379,7 +379,7 @@ namespace PlayersWorlds.Maps.Maze {
             builder.TestRebuildCellMaps();
 
             Assert.That(builder.IsFillComplete(), Is.False);
-            var areaCells = maze.Cells
+            var areaCells = maze.Grid
                     .SafeRegion(new Vector(1, 1), new Vector(3, 3));
 
             for (var i = 0; i < 4; i++) {
@@ -389,7 +389,7 @@ namespace PlayersWorlds.Maps.Maze {
                 builder.Connect(new Vector(4, i), new Vector(4, i) + Vector.North2D);
             }
 
-            maze.Cells
+            maze.Grid
                     .SafeRegion(new Vector(1, 1), new Vector(2, 2))
                     .ForEach(c => {
                         builder.Connect(c, c + Vector.East2D);
@@ -541,10 +541,10 @@ namespace PlayersWorlds.Maps.Maze {
                 new Vector(0, 0)
             };
             var entrance = new Vector(1, 1);
-            var areaCells = maze.Cells
+            var areaCells = maze.Grid
                     .SafeRegion(new Vector(1, 1), new Vector(3, 3));
 
-            Assert.That(maze.Cells.Where(c => maze.CellHasLinks(c)), Has.No.Member(walkway[0]));
+            Assert.That(maze.Grid.Where(c => maze.CellHasLinks(c)), Has.No.Member(walkway[0]));
 
             var builder = new Maze2DBuilder(maze,
                 new GeneratorOptions() {
@@ -560,8 +560,8 @@ namespace PlayersWorlds.Maps.Maze {
                 .Where(c => builder.MazeArea.CellHasLinks(c))
                 .ToList();
 
-            Assert.That(maze.Cells.Where(c => builder.MazeArea.CellHasLinks(c)), Has.Member(entrance));
-            Assert.That(maze.Cells.Where(c => builder.MazeArea.CellHasLinks(c)), Has.Member(walkway[0]));
+            Assert.That(maze.Grid.Where(c => builder.MazeArea.CellHasLinks(c)), Has.Member(entrance));
+            Assert.That(maze.Grid.Where(c => builder.MazeArea.CellHasLinks(c)), Has.Member(walkway[0]));
             Assert.That(maze.CellLinks(entrance), Has.Member(walkway[0]));
         }
 

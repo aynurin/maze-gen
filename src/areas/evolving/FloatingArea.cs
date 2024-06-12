@@ -51,6 +51,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         public void AdjustPosition(VectorD d) {
             if (!IsPositionFixed) {
                 Position += d;
+                _linkedArea?.Reposition(Position.RoundToInt());
             }
         }
 

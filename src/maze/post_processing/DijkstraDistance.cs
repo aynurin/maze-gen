@@ -154,8 +154,8 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
 
         [Obsolete]
         public static LongestTrailExtension FindLongestTrail(Area maze) {
-            maze.Cells.ThrowIfNullOrEmpty("maze.MazeCells");
-            var distances = Find(maze, maze.Cells.First());
+            maze.Grid.ThrowIfNullOrEmpty("maze.MazeCells");
+            var distances = Find(maze, maze.Grid.First());
             var startingPoint = distances.OrderByDescending(kvp => kvp.Value)
                                          .Select(kvp => kvp.Key).First();
             maze[startingPoint].X(new IsLongestTrailStartExtension());

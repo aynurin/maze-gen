@@ -10,16 +10,14 @@ namespace PlayersWorlds.Maps.Serializer {
             var size = Vector.Parse(stringReader.ReadValue());
             var positionString = stringReader.ReadValue();
             var position = string.IsNullOrEmpty(positionString) ? Vector.Empty : Vector.Parse(positionString);
+            var grid = new Grid(position, size);
             var isPositionFixed = bool.Parse(stringReader.ReadValue());
             var type = (AreaType)Enum.Parse(typeof(AreaType), stringReader.ReadValue());
             var tags = stringReader.ReadEnumerable().ToArray();
             var cellsArray = stringReader.ReadEnumerable().ToArray();
-            // TODO: There is no point in making a Grid here. The whole Area
-            //       construction is all weird.
-            var cells = new Grid<Cell>(position, size,
-                xy => cellSerializer.Deserialize(cellsArray[xy.ToIndex(size)]));
+            var cells = cellsArray.Select(cell => cellSerializer.Deserialize(cell));
             var childAreas = stringReader.ReadEnumerable().Select(Deserialize).ToArray();
-            var area = new Area(cells, isPositionFixed, type, childAreas, tags);
+            var area = new Area(grid, cells, isPositionFixed, type, childAreas, tags);
             return area;
         }
 
@@ -32,7 +30,7 @@ namespace PlayersWorlds.Maps.Serializer {
                 .WriteValue(obj.IsPositionFixed.ToString())
                 .WriteValue(obj.Type.ToString())
                 .WriteEnumerable(obj.Tags)
-                .WriteEnumerable(obj.Cells.Select(cell => cellSerializer.Serialize(obj[cell])))
+                .WriteEnumerable(obj.Grid.Select(cell => cellSerializer.Serialize(obj[cell])))
                 .WriteEnumerable(obj.ChildAreas().Select(Serialize))
                 .WriteObjectEnd();
         }

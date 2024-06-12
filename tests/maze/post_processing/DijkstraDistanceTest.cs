@@ -14,7 +14,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
                     MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.MazeFillFactor.Full
                 });
-            var visitedCells = maze.Cells
+            var visitedCells = maze.Grid
                 .Where(cell => maze.CellHasLinks(cell)).ToList();
             var distances = DijkstraDistance.Find(maze, random.RandomOf(visitedCells));
             Assert.That(distances.Count, Is.EqualTo(visitedCells.Count));
@@ -25,7 +25,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         public void DijkstraDistance_CanSolveAMaze() {
             var maze = LegacyAreaSerializer.ParseV01MazeString("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance
-                .Solve(maze, maze.Cells.First(), maze.Cells.Last());
+                .Solve(maze, maze.Grid.First(), maze.Grid.Last());
             Assert.That(solution.HasValue, Is.True);
             Assert.That(5, Is.EqualTo(solution.Value.Count));
             Assert.That(new Vector(0, 0), Is.EqualTo(
@@ -49,13 +49,13 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
             var maze = LegacyAreaSerializer.ParseV01MazeString("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
             var solution = DijkstraDistance.FindLongestTrail(maze);
             Assert.That(solution.LongestTrail.Count, Is.EqualTo(6));
-            Assert.That(maze.Cells.Count(
-                cell => maze[cell].X<DijkstraDistance.IsLongestTrailStartExtension>() != null), Is.EqualTo(1));
-            Assert.That(maze.Cells.Count(
-                cell => maze[cell].X<DijkstraDistance.IsLongestTrailEndExtension>() != null), Is.EqualTo(1));
+            Assert.That(maze.Count(
+                cell => cell.X<DijkstraDistance.IsLongestTrailStartExtension>() != null), Is.EqualTo(1));
+            Assert.That(maze.Count(
+                cell => cell.X<DijkstraDistance.IsLongestTrailEndExtension>() != null), Is.EqualTo(1));
             // perhaps the caller of FindLongestTrail will add it as maze extension?..
-            Assert.That(maze.Cells.Count(
-                cell => maze[cell].X<DijkstraDistance.LongestTrailExtension>() != null), Is.EqualTo(0));
+            Assert.That(maze.Count(
+                cell => cell.X<DijkstraDistance.LongestTrailExtension>() != null), Is.EqualTo(0));
         }
     }
 }

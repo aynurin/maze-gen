@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using PlayersWorlds.Maps.Areas;
@@ -12,9 +13,10 @@ namespace PlayersWorlds.Maps {
     /// <summary>
     /// Represents an area of arbitrary cells in an N-space.
     /// </summary>
-    public class Area : ExtensibleObject {
+    public class Area : ExtensibleObject, IReadOnlyCollection<Cell> {
         private readonly bool _isPositionFixed;
-        private readonly Grid<Cell> _grid;
+        private readonly List<Cell> _cells;
+        private readonly Grid _grid;
         private readonly AreaType _areaType;
         private readonly string[] _tags;
         private readonly List<Area> _childAreas;
@@ -71,7 +73,9 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// A readonly access to the map cells.
         /// </summary>
-        public Grid<Cell> Cells => _grid;
+        public Grid Grid => _grid;
+
+        public int Count => _cells.Count;
 
         /// <summary>
         /// Gets the value of a cell at the specified <see cref="Vector"/>
@@ -82,9 +86,7 @@ namespace PlayersWorlds.Maps {
         /// <returns>The value of the cell at the specified position.</returns>
         /// <exception cref="IndexOutOfRangeException">The position is outside
         /// the map bounds.</exception>
-        public Cell this[Vector xy] {
-            get => _grid[xy];
-        }
+        public Cell this[Vector xy] => _cells[xy.ToIndex(_grid.Size)];
 
         public static Area Create(Vector position,
                                   Vector size,
@@ -143,18 +145,20 @@ namespace PlayersWorlds.Maps {
                 new List<Area>() :
                 new List<Area>(childAreas);
             _tags = tags?.ToArray() ?? new string[0];
-            _grid = new Grid<Cell>(position, size, xy => new Cell());
+            _grid = new Grid(position, size);
+            _cells = Enumerable.Range(0, size.Area).Select(_ => new Cell())
+                .ToList();
             RebuildChildAreasSnapshot();
         }
 
         /// <summary>
         /// Copy constructor.
         /// </summary>
-        internal Area(Grid<Cell> cells, bool isPositionFixed,
+        internal Area(Grid grid, IEnumerable<Cell> cells, bool isPositionFixed,
                     AreaType areaType,
                     IEnumerable<Area> childAreas,
                     string[] tags) {
-            if (cells.Position.IsEmpty && isPositionFixed) {
+            if (grid.Position.IsEmpty && isPositionFixed) {
                 throw new ArgumentException("Position is not initialized.");
             }
             _areaType = areaType;
@@ -168,13 +172,13 @@ namespace PlayersWorlds.Maps {
                 _tags = new string[tags.Length];
                 Array.Copy(tags, _tags, tags.Length);
             }
-            _grid = new Grid<Cell>(cells.Position,
-                cells.Size, xy => cells[xy].Clone());
+            _grid = new Grid(grid.Position, grid.Size);
+            _cells = new List<Cell>(cells);
             RebuildChildAreasSnapshot();
         }
 
         public IEnumerable<Vector> ChildAreaCells(Area area) {
-            foreach (var cell in area.Cells) {
+            foreach (var cell in area.Grid) {
                 yield return area.Position + cell;
             }
         }
@@ -189,7 +193,7 @@ namespace PlayersWorlds.Maps {
             return Contains(one) && Contains(another) &&
                    !_fillAreasCells.Contains(one) &&
                    !_fillAreasCells.Contains(another) &&
-                   (_grid[one].HardLinks.Contains(another) ||
+                   (this[one].HardLinks.Contains(another) ||
                    _hallCaveAreasCells
                         .Any(a => a.Contains(one) && a.Contains(another)));
         }
@@ -197,13 +201,13 @@ namespace PlayersWorlds.Maps {
         public bool CellHasLinks(Vector cell) {
             return Contains(cell) &&
                    !_fillAreasCells.Contains(cell) &&
-                   (_grid[cell].HardLinks.Count > 0 ||
+                   (this[cell].HardLinks.Count > 0 ||
                    _hallCaveAreasCells
                         .Any(a => a.Contains(cell)));
         }
 
         public IList<Vector> CellLinks(Vector cell) {
-            return _grid[cell].HardLinks
+            return this[cell].HardLinks
                 .Concat(NeighborsOf(cell)
                            .Where(n =>
                                !_fillAreasCells.Contains(n) &&
@@ -214,6 +218,7 @@ namespace PlayersWorlds.Maps {
 
         public Area ShallowCopy() => new Area(
             _grid,
+            _cells,
             _isPositionFixed,
             _areaType,
             _childAreas,
@@ -363,6 +368,14 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         public string MazeToString() {
             return new Maze2DStringBoxRenderer(this).WithTrail();
+        }
+
+        public IEnumerator<Cell> GetEnumerator() {
+            return _cells.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return _cells.GetEnumerator();
         }
     }
 }

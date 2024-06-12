@@ -17,13 +17,9 @@ namespace PlayersWorlds.Maps {
     /// </remarks>
     /// <typeparam name="T">The type of data stored in each cell of the grid.
     /// </typeparam>
-    public class Grid<T> : IReadOnlyCollection<Vector> {
+    public class Grid : IEnumerable<Vector> {
         private Vector _position;
         private readonly Vector _size;
-        private readonly T[] _cellData;
-
-        /// <inheritdoc />
-        public int Count => _cellData.Length;
 
         /// <summary>
         /// Gets the size of the N-dimensional array.
@@ -38,18 +34,6 @@ namespace PlayersWorlds.Maps {
         internal double HighY => _position.Y + Size.Y;
 
         /// <summary>
-        /// Gets data associated with the given coordinates.
-        /// </summary>
-        /// <remarks>Corrdinates in a Grid are 0-bound and relative to this
-        /// Grid's <paramref name="position" />.</remarks>
-        /// <param name="position">The location of the cell as a
-        /// <see cref="Vector"/>.</param>
-        /// <returns>The value of the cell at the specified position.</returns>
-        /// <exception cref="IndexOutOfRangeException">The position is outside
-        /// the map bounds.</exception>
-        public T this[Vector position] => _cellData[position.ToIndex(_size)];
-
-        /// <summary>
         /// Creates a new array with the specified size and optional initial
         /// value for each cell.
         /// </summary>
@@ -57,10 +41,8 @@ namespace PlayersWorlds.Maps {
         /// another Grid.</param>
         /// <param name="size">The size of the map as a <see cref="Vector"/> of
         /// dimensions (rows, columns).</param>
-        /// <param name="initialValue">The initial value for each cell.</param>
-        public Grid(Vector position, Vector size, Func<Vector, T> initialValue) {
+        public Grid(Vector position, Vector size) {
             size.ThrowIfNotAValidSize();
-            initialValue.ThrowIfNull(nameof(initialValue));
             if (position != Vector.Empty &&
                 position.Dimensions != size.Dimensions) {
                 throw new ArgumentException(
@@ -70,12 +52,6 @@ namespace PlayersWorlds.Maps {
 
             _position = position;
             _size = size;
-
-            _cellData = new T[size.Area];
-
-            for (var i = 0; i < _cellData.Length; i++) {
-                _cellData[i] = initialValue(Vector.FromIndex(i, size));
-            }
         }
 
         internal void Reposition(Vector newPosition) {
@@ -198,7 +174,7 @@ namespace PlayersWorlds.Maps {
         /// <param name="other">The other Grid to check.</param>
         /// <returns><c>true</c> if the two Grids have an overlap; otherwise,
         /// <c>false</c>.</returns>
-        public bool Overlaps(Grid<T> other) => Overlap(other).Any();
+        public bool Overlaps(Grid other) => Overlap(other).Any();
 
         /// <summary>
         /// Gets coordinates of cells of this Grid that overlap any cells of the
@@ -207,7 +183,7 @@ namespace PlayersWorlds.Maps {
         /// <param name="other">The other Area to check</param>
         /// <returns><see cref="Vector" /> positions of the overlapping cells,
         /// or an empty enumerable if there is no overlap.</returns>
-        public IEnumerable<Vector> Overlap(Grid<T> other) {
+        public IEnumerable<Vector> Overlap(Grid other) {
             if (this == other)
                 throw new InvalidOperationException("Can't compare with self");
 
@@ -254,14 +230,15 @@ namespace PlayersWorlds.Maps {
                 HighY <= position.Y + size.Y;
         }
 
-        #region IReadOnlyCollection<Vector> 
+        #region IEnumerable<Vector> 
+        /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
         }
 
         /// <inheritdoc />
         public IEnumerator<Vector> GetEnumerator() {
-            for (var i = 0; i < _cellData.Length; i++) {
+            for (var i = 0; i < _size.Area; i++) {
                 yield return Vector.FromIndex(i, _size);
             }
         }

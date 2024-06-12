@@ -13,7 +13,7 @@ namespace PlayersWorlds.Maps {
         override public int Run() {
             base.Run();
             var maze = LegacyAreaSerializer.ParseV01MazeString(SerializedMaze);
-            var mazeCells = maze.Cells.Where(c => maze.CellHasLinks(c)).ToList();
+            var mazeCells = maze.Grid.Where(c => maze.CellHasLinks(c)).ToList();
             var areaSerializer = new AreaSerializer();
             Console.WriteLine(areaSerializer.Serialize(maze));
             Console.WriteLine(maze.ToString());
@@ -25,22 +25,22 @@ namespace PlayersWorlds.Maps {
                                 a => a.Type == AreaType.Fill),
                 maze.ChildAreas().Where(
                                 a => a.Type == AreaType.Fill)
-                             .Select(a => a.Cells.Count).Sum());
+                             .Select(a => a.Grid.Size.Area).Sum());
             Console.WriteLine("  Cave ({0}): ({1}): ",
                 maze.ChildAreas().Count(
                                 a => a.Type == AreaType.Cave),
                 maze.ChildAreas().Where(
                                 a => a.Type == AreaType.Cave)
-                             .Select(a => a.Cells.Count).Sum());
+                             .Select(a => a.Grid.Size.Area).Sum());
             Console.WriteLine("  Hall ({0}): ({1}): ",
                 maze.ChildAreas().Count(
                                 a => a.Type == AreaType.Hall),
                 maze.ChildAreas().Where(
                                 a => a.Type == AreaType.Hall)
-                             .Select(a => a.Cells.Count).Sum());
+                             .Select(a => a.Grid.Size.Area).Sum());
             Console.WriteLine(
                 "Unvisited cells: " +
-                string.Join(",", maze.Cells
+                string.Join(",", maze.Grid
                     .Where(c => !maze.CellHasLinks(c))));
             Console.WriteLine(maze.MazeToString());
             return 0;

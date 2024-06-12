@@ -9,73 +9,23 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void NArray_Constructor_CreatesCorrectSize() {
             var size = new Vector(5, 3);
-            var array = new Grid<int>(Vector.Zero2D, size, xy => 0);
+            var array = new Grid(Vector.Zero2D, size);
 
             Assert.That(size, Is.EqualTo(array.Size));
             Assert.That(15, Is.EqualTo(array.Count())); // 5 * 3 elements
         }
 
         [Test]
-        public void NArray_Constructor_SetsInitialValues() {
-            var size = new Vector(2, 2);
-            var initialValue = 10;
-            var array = new Grid<int>(Vector.Zero2D, size, xy => initialValue);
-
-            foreach (var cell in array) {
-                Assert.That(initialValue, Is.EqualTo(array[cell]));
-            }
-        }
-
-        [Test]
         public void NArray_Constructor_ThrowsOnInvalidSize() {
             Assert.That(
-                () => new Grid<int>(Vector.Zero2D, new Vector(-1, 2), xy => 0),
+                () => new Grid(Vector.Zero2D, new Vector(-1, 2)),
                 Throws.ArgumentException);
         }
 
         [Test]
-        public void NArray_Indexing_GetValuesCorrectly() {
-            var size = new Vector(3, 3);
-            var array = new Grid<Item>(Vector.Zero2D, size, xy => new Item(0));
-            array[new Vector(1, 2)].Value = 20;
-
-            Assert.That(array[new Vector(1, 2)].Value, Is.EqualTo(20));
-        }
-
-        [Test]
-        public void NArray_Indexing_ThrowsOnOutOfBounds() {
-            var size = new Vector(new int[] { 2, 2, 1 });
-            var array = new Grid<int>(Vector.Zero(3), size, xy => 0);
-
-            Assert.That(
-                () => array[new Vector(new int[] { 3, 1, 1 })],
-                Throws.InstanceOf<IndexOutOfRangeException>());
-
-            Assert.That(
-                () => array[new Vector(new int[] { 1, 3, 1 })],
-                Throws.InstanceOf<IndexOutOfRangeException>());
-
-            Assert.That(
-                () => array[new Vector(new int[] { 1, 1, 2 })],
-                Throws.InstanceOf<IndexOutOfRangeException>());
-
-            Assert.That(
-                () => array[new Vector(new int[] { 1, 1 })],
-                Throws.InstanceOf<ArgumentException>());
-        }
-
-        [Test]
-        public void NArray_Indexing_SetsValuesCorrectly() {
-            var size = new Vector(3, 3);
-            var array = new Grid<Item>(Vector.Zero2D, size, xy => new Item(0));
-            array[new Vector(1, 2)].Value = 20;
-
-            Assert.That(array[new Vector(1, 2)].Value, Is.EqualTo(20));
-        }
-        [Test]
         public void NArray_Iterate_TraversesAllCells() {
             var size = new Vector(new int[] { 2, 2, 3 });
-            var array = new Grid<int>(Vector.Zero(3), size, xy => 0);
+            var array = new Grid(Vector.Zero(3), size);
             var visited = new bool[size.Area];
 
             foreach (var cell in array) {
@@ -89,20 +39,18 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void NArray_IterateRegion_ReturnsCorrectCells() {
             var size = new Vector(3, 3);
-            var array = new Grid<Item>(Vector.Zero2D, size, xy => new Item(0));
-            array[new Vector(1, 1)].Value = 10;
+            var array = new Grid(Vector.Zero2D, size);
 
             var region = new Vector(1, 1);
             var expectedCells = new[] { new Vector(1, 1) };
 
             var actualCells = array.Region(region, region).ToArray();
-            Assert.That(expectedCells, Is.EqualTo(actualCells));
-            Assert.That(array[actualCells.First()], Is.EqualTo(new Item(10)));
+            Assert.That(actualCells, Is.EqualTo(expectedCells));
         }
 
         [Test]
         public void NArray_IterateRegion_HandlesOutOfBounds() {
-            var array = new Grid<int>(Vector.Zero2D, new Vector(3, 3), xy => 0);
+            var array = new Grid(Vector.Zero2D, new Vector(3, 3));
 
             var region = new Vector(4, 4);
 
@@ -126,7 +74,7 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void NArray_IterateRegion_HandlesDimensionsMismatch() {
             var size = new Vector(new int[] { 3, 3, 3 });
-            var array = new Grid<int>(Vector.Zero(3), size, xy => 0);
+            var array = new Grid(Vector.Zero(3), size);
 
             var region1 = new Vector(new int[] { 1, 1 });
             var region2 = new Vector(new int[] { 1, 1, 1 });
@@ -147,12 +95,10 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void NArray_IterateIntersection_HandlesOverlap() {
             var size = new Vector(3, 3);
-            var array = new Grid<Item>(Vector.Zero2D, size, xy => new Item(0));
-            array[new Vector(1, 1)].Value = 10;
+            var array = new Grid(Vector.Zero2D, size);
 
             var region = new Vector(0, 1);
             var size2 = new Vector(2, 1);
-            var expectedCells = new[] { (new Vector(1, 1), new Item(10)) };
 
             var actualCells = array.SafeRegion(region, size2).ToArray();
             Assert.That(actualCells[1], Is.EqualTo(new Vector(1, 1)));
@@ -161,56 +107,83 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void NArray_AdjacentRegion_ReturnsCorrectNeighbors() {
             var size = new Vector(3, 3);
-            var array = new Grid<Item>(Vector.Zero2D, size, xy => new Item(0));
-            array[new Vector(0, 0)].Value = 10;
-            array[new Vector(1, 1)].Value = 20;
-            array[new Vector(2, 2)].Value = 30;
+            var array = new Grid(Vector.Zero2D, size);
 
             var actualCells = array.AdjacentRegion(new Vector(0, 0)).ToArray();
             Assert.That(actualCells, Has.Exactly(3).Items);
-            Assert.That(array[actualCells[2]].Value, Is.EqualTo(20));
+            Assert.That(actualCells, Is.EqualTo(new[] {
+                new Vector(new int[] { 1, 0 }),
+                new Vector(new int[] { 0, 1 }),
+                new Vector(new int[] { 1, 1 }) }));
 
             actualCells = array.AdjacentRegion(new Vector(1, 1)).ToArray();
             Assert.That(actualCells, Has.Exactly(8).Items);
-            Assert.That(
-                actualCells.Select(cell => array[cell].Value).ToArray(),
-                Is.EqualTo(new int[] { 10, 0, 0, 0, 0, 0, 0, 30 }));
+            Assert.That(actualCells, Is.EqualTo(new[] {
+                new Vector(new int[] { 0, 0 }),
+                new Vector(new int[] { 1, 0 }),
+                new Vector(new int[] { 2, 0 }),
+                new Vector(new int[] { 0, 1 }),
+                new Vector(new int[] { 2, 1 }),
+                new Vector(new int[] { 0, 2 }),
+                new Vector(new int[] { 1, 2 }),
+                new Vector(new int[] { 2, 2 }) }));
 
             actualCells = array.AdjacentRegion(new Vector(2, 2)).ToArray();
             Assert.That(actualCells, Has.Exactly(3).Items);
-            Assert.That(
-                actualCells.Select(cell => array[cell].Value).ToArray(),
-                Is.EqualTo(new int[] { 20, 0, 0 }));
+            Assert.That(actualCells, Is.EqualTo(new[] {
+                new Vector(new int[] { 1, 1 }),
+                new Vector(new int[] { 2, 1 }),
+                new Vector(new int[] { 1, 2 }) }));
         }
 
         [Test]
         public void NArray_AdjacentRegion_ReturnsCorrectNeighborsIn4DSpace() {
             var size = new Vector(new int[] { 3, 3, 3 });
-            var array = new Grid<Item>(Vector.Zero(3), size, xy => new Item(0));
-            array[new Vector(new int[] { 0, 0, 0 })].Value = 10;
-            array[new Vector(new int[] { 1, 1, 1 })].Value = 20;
-            array[new Vector(new int[] { 2, 2, 2 })].Value = 30;
+            var array = new Grid(Vector.Zero(3), size);
 
             var actualCells = array.AdjacentRegion(new Vector(new int[] { 0, 0, 0 })).ToArray();
             Assert.That(actualCells, Has.Exactly(7).Items);
-            Assert.That(array[actualCells[6]].Value, Is.EqualTo(20));
+            Assert.That(actualCells.Last(), Is.EqualTo(new Vector(new int[] { 1, 1, 1 })));
 
             actualCells = array.AdjacentRegion(new Vector(new int[] { 1, 1, 1 })).ToArray();
             Assert.That(actualCells, Has.Exactly(26).Items);
-            Assert.That(
-                actualCells.Select(cell => array[cell].Value).ToArray(),
-                Is.EqualTo(new int[] { 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30 }));
+            Assert.That(actualCells,
+                Is.EqualTo(new[] {
+                    new Vector(new int[] { 0, 0, 0 }),
+                    new Vector(new int[] { 1, 0, 0 }),
+                    new Vector(new int[] { 2, 0, 0 }),
+                    new Vector(new int[] { 0, 1, 0 }),
+                    new Vector(new int[] { 1, 1, 0 }),
+                    new Vector(new int[] { 2, 1, 0 }),
+                    new Vector(new int[] { 0, 2, 0 }),
+                    new Vector(new int[] { 1, 2, 0 }),
+                    new Vector(new int[] { 2, 2, 0 }),
+                    new Vector(new int[] { 0, 0, 1 }),
+                    new Vector(new int[] { 1, 0, 1 }),
+                    new Vector(new int[] { 2, 0, 1 }),
+                    new Vector(new int[] { 0, 1, 1 }),
+
+                    new Vector(new int[] { 2, 1, 1 }),
+                    new Vector(new int[] { 0, 2, 1 }),
+                    new Vector(new int[] { 1, 2, 1 }),
+                    new Vector(new int[] { 2, 2, 1 }),
+                    new Vector(new int[] { 0, 0, 2 }),
+                    new Vector(new int[] { 1, 0, 2 }),
+                    new Vector(new int[] { 2, 0, 2 }),
+                    new Vector(new int[] { 0, 1, 2 }),
+                    new Vector(new int[] { 1, 1, 2 }),
+                    new Vector(new int[] { 2, 1, 2 }),
+                    new Vector(new int[] { 0, 2, 2 }),
+                    new Vector(new int[] { 1, 2, 2 }),
+                    new Vector(new int[] { 2, 2, 2 }), }));
 
             actualCells = array.AdjacentRegion(new Vector(new int[] { 2, 2, 2 })).ToArray();
             Assert.That(actualCells, Has.Exactly(7).Items);
-            Assert.That(
-                actualCells.Select(cell => array[cell].Value).ToArray(),
-                Is.EqualTo(new int[] { 20, 0, 0, 0, 0, 0, 0 }));
         }
 
         [Test]
         public void NArray_Iterate_OneCell() {
-            var map = new Grid<TestCell>(Vector.Zero2D, new Vector(5, 5), xy => new TestCell(xy));
+            var map = new Grid(Vector.Zero2D, new Vector(5, 5));
             var cells = map.Region(new Vector(0, 0), new Vector(1, 1)).ToList();
             var debugString = string.Join(",", cells.Select(c => c.ToIndex(map.Size)));
             Assert.That(1, Is.EqualTo(cells.Count()));
@@ -219,7 +192,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_Iterate_TwoCells() {
-            var map = new Grid<TestCell>(Vector.Zero2D, new Vector(5, 5), xy => new TestCell(xy));
+            var map = new Grid(Vector.Zero2D, new Vector(5, 5));
             var cells = map.Region(new Vector(0, 0), new Vector(2, 1)).ToList();
             var debugString = string.Join(",", cells.Select(c => c.ToIndex(map.Size)));
             Assert.That(2, Is.EqualTo(cells.Count()));
@@ -229,7 +202,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_Iterate_TreeByTwo() {
-            var map = new Grid<TestCell>(Vector.Zero2D, new Vector(5, 5), xy => new TestCell(xy));
+            var map = new Grid(Vector.Zero2D, new Vector(5, 5));
             var cells = map.Region(new Vector(0, 0), new Vector(3, 2)).ToList();
             var debugString = string.Join(",", cells.Select(c => c.ToIndex(map.Size)));
             Assert.That(6, Is.EqualTo(cells.Count()));
@@ -243,7 +216,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_Iterate_FourCellsFar() {
-            var map = new Grid<TestCell>(Vector.Zero2D, new Vector(5, 5), xy => new TestCell(xy));
+            var map = new Grid(Vector.Zero2D, new Vector(5, 5));
             var cells = map.Region(new Vector(3, 3), new Vector(2, 2)).ToList();
             var debugString = string.Join(",", cells.Select(c => c.ToIndex(map.Size)));
             Assert.That(4, Is.EqualTo(cells.Count()));
@@ -255,7 +228,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_Iterate_OutOfBounds() {
-            var map = new Grid<TestCell>(Vector.Zero2D, new Vector(5, 5), xy => new TestCell(xy));
+            var map = new Grid(Vector.Zero2D, new Vector(5, 5));
             Assert.Throws<IndexOutOfRangeException>(() => map.Region(new Vector(5, 5), new Vector(1, 1)).ToList());
             Assert.Throws<IndexOutOfRangeException>(() => map.Region(new Vector(6, 3), new Vector(1, 1)).ToList());
             Assert.Throws<IndexOutOfRangeException>(() => map.Region(new Vector(0, 0), new Vector(6, 6)).ToList());
@@ -264,7 +237,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_IterateIntersection_AnyCellAtP1x1() {
-            var map = new Grid<TestCell>(Vector.Zero2D, new Vector(5, 5), xy => new TestCell(xy));
+            var map = new Grid(Vector.Zero2D, new Vector(5, 5));
             var cells = map.SafeRegion(new Vector(2, 2), new Vector(1, 1)).ToList();
             Assert.That(cells, Has.Exactly(1).Items);
             Assert.That(cells.First(), Is.EqualTo(new Vector(2, 2)));
@@ -272,7 +245,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void CellsAt_AnyCellAt2x2() {
-            var map = new Grid<TestCell>(Vector.Zero2D, new Vector(5, 5), xy => new TestCell(xy));
+            var map = new Grid(Vector.Zero2D, new Vector(5, 5));
             var cells = map.SafeRegion(new Vector(2, 2), new Vector(2, 2)).ToList();
             Assert.That(cells, Has.Exactly(4).Items);
             Assert.That(cells[0], Is.EqualTo(new Vector(2, 2)));
@@ -283,7 +256,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_IterateIntersection_AnyCellAtEdge1x1() {
-            var map = new Grid<TestCell>(Vector.Zero2D, new Vector(5, 5), xy => new TestCell(xy));
+            var map = new Grid(Vector.Zero2D, new Vector(5, 5));
             var cells = map.SafeRegion(new Vector(4, 4), new Vector(1, 1)).ToList();
             Assert.That(cells, Has.Exactly(1).Items);
             Assert.That(cells[0], Is.EqualTo(new Vector(4, 4)));
@@ -291,7 +264,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void NArray_IterateIntersection_AnyCellAtFarEdge2x2() {
-            var map = new Grid<TestCell>(Vector.Zero2D, new Vector(5, 5), xy => new TestCell(xy));
+            var map = new Grid(Vector.Zero2D, new Vector(5, 5));
             var cells = map.SafeRegion(new Vector(4, 4), new Vector(2, 2)).ToList();
             Assert.That(cells, Has.Exactly(1).Items);
             Assert.That(cells[0], Is.EqualTo(new Vector(4, 4)));
@@ -299,7 +272,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void CellsAt_AnyCellAtCloseEdge2x2() {
-            var map = new Grid<TestCell>(Vector.Zero2D, new Vector(5, 5), xy => new TestCell(xy));
+            var map = new Grid(Vector.Zero2D, new Vector(5, 5));
             var cells = map.SafeRegion(new Vector(0, 0), new Vector(2, 2)).ToList();
             Assert.That(cells, Has.Exactly(4).Items);
             Assert.That(cells[0], Is.EqualTo(new Vector(0, 0)));
@@ -310,7 +283,7 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void SaveRegion_Empty() {
-            var map = new Grid<TestCell>(Vector.Zero2D, new Vector(5, 5), xy => new TestCell(xy));
+            var map = new Grid(Vector.Zero2D, new Vector(5, 5));
             Assert.That(() => map.SafeRegion(new Vector(2, 2), new Vector(0, 0)), Is.Empty);
         }
 

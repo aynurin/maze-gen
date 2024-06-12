@@ -45,7 +45,7 @@ namespace PlayersWorlds.Maps.Maze {
             if (!_options.RenderedSize(_maze.Size).FitsInto(map.Size)) {
                 throw new ArgumentException("Map does not fit the maze.");
             }
-            foreach (var cell in _maze.Cells) {
+            foreach (var cell in _maze.Grid) {
                 var mapping = new CellsMapping(map, cell, _options);
                 if (_maze.CellHasLinks(cell)) {
                     mapping.CenterCells.Where(c => map.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
@@ -133,31 +133,31 @@ namespace PlayersWorlds.Maps.Maze {
             public Vector SESize => _size[SE];
 
             public IEnumerable<Vector> CenterCells =>
-                _map.Cells.Region(_position[CENTER], _size[CENTER]);
+                _map.Grid.Region(_position[CENTER], _size[CENTER]);
 
             public IEnumerable<Vector> NWCells =>
-                _map.Cells.Region(_position[NW], _size[NW]);
+                _map.Grid.Region(_position[NW], _size[NW]);
 
             public IEnumerable<Vector> NCells =>
-                _map.Cells.Region(_position[N], _size[N]);
+                _map.Grid.Region(_position[N], _size[N]);
 
             public IEnumerable<Vector> NECells =>
-                _map.Cells.Region(_position[NE], _size[NE]);
+                _map.Grid.Region(_position[NE], _size[NE]);
 
             public IEnumerable<Vector> WCells =>
-                _map.Cells.Region(_position[W], _size[W]);
+                _map.Grid.Region(_position[W], _size[W]);
 
             public IEnumerable<Vector> ECells =>
-                _map.Cells.Region(_position[E], _size[E]);
+                _map.Grid.Region(_position[E], _size[E]);
 
             public IEnumerable<Vector> SWCells =>
-                _map.Cells.Region(_position[SW], _size[SW]);
+                _map.Grid.Region(_position[SW], _size[SW]);
 
             public IEnumerable<Vector> SCells =>
-                _map.Cells.Region(_position[S], _size[S]);
+                _map.Grid.Region(_position[S], _size[S]);
 
             public IEnumerable<Vector> SECells =>
-                _map.Cells.Region(_position[SE], _size[SE]);
+                _map.Grid.Region(_position[SE], _size[SE]);
 
 
         }

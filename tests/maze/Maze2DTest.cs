@@ -14,7 +14,7 @@ namespace PlayersWorlds.Maps.Maze {
         public void Maze2D_IsInitialized() {
             var map = Area.CreateEnvironment(new Vector(2, 3));
             Assert.That(6, Is.EqualTo(map.Size.Area));
-            Assert.That(6, Is.EqualTo(map.Cells.Count));
+            Assert.That(6, Is.EqualTo(map.Count));
             Assert.That(2, Is.EqualTo(map.Size.X));
             Assert.That(3, Is.EqualTo(map.Size.Y));
         }
@@ -45,15 +45,15 @@ namespace PlayersWorlds.Maps.Maze {
             var cols = 5;
             var map = Area.CreateEnvironment(new Vector(cols, rows));
 
-            Assert.That(map.Cells.Count, Is.EqualTo(rows * cols), "Wrong number of cells.");
+            Assert.That(map.Count, Is.EqualTo(rows * cols), "Wrong number of cells.");
             for (var x = 0; x < cols; x++) {
                 for (var y = 0; y < rows; y++) {
                     var cell = new Vector(x, y);
-                    var neighbors = map.Cells.Where(c =>
+                    var neighbors = map.Grid.Where(c =>
                         (c.X == cell.X && Math.Abs(c.Y - cell.Y) == 1) ||
                         (c.Y == cell.Y && Math.Abs(c.X - cell.X) == 1))
                             .ToList();
-                    var nonNeighbors = map.Cells
+                    var nonNeighbors = map.Grid
                         .Where(c => c != cell && !neighbors.Contains(c))
                         .ToList();
                     if (neighbors.Count != map.NeighborsOf(cell).Count()) {
@@ -77,7 +77,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             var expectedSize = new Vector(13, 15);
 
-            Assert.That(expectedSize.Area, Is.EqualTo(scaledMap.Cells.Count));
+            Assert.That(expectedSize.Area, Is.EqualTo(scaledMap.Count));
         }
 
         [Test]

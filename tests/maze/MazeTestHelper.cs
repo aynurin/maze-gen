@@ -13,7 +13,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         public static bool IsSolveable(Area maze) {
             var cells = new HashSet<Vector>(
-                maze.Cells.Where(c => maze.CellHasLinks(c)));
+                maze.Grid.Where(c => maze.CellHasLinks(c)));
             var dijkstra = DijkstraDistance.Find(maze, cells.First());
             cells.ExceptWith(dijkstra.Keys);
 

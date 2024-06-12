@@ -19,7 +19,7 @@ public class RandomAreaGeneratorTest : Test {
         var count = 1000;
         foreach (var area in zonesGenerator.Generate(count)) {
             if (--count < 0) break;
-            //Assert.That(area.Cells.Count, Is.GreaterThan(0));
+            //Assert.That(areaCount, Is.GreaterThan(0));
             Assert.That(area.Tags.Length, Is.GreaterThan(0));
 
             if (sizes.ContainsKey(area.Size)) {
