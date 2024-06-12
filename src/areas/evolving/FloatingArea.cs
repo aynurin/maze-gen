@@ -51,14 +51,13 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         public void AdjustPosition(VectorD d) {
             if (!IsPositionFixed) {
                 Position += d;
-                _linkedArea?.Reposition(Position.RoundToInt());
             }
         }
 
         /// <summary>
         /// Snaps the position to the integer grid.
         /// </summary>
-        public void AdjustPosition() {
+        public void SnapToGrid() {
             if (!IsPositionFixed) {
                 var roundedPosition = Position.RoundToInt();
                 Position = new VectorD(roundedPosition);

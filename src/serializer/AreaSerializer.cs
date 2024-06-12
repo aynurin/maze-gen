@@ -14,11 +14,12 @@ namespace PlayersWorlds.Maps.Serializer {
             var type = (AreaType)Enum.Parse(typeof(AreaType), stringReader.ReadValue());
             var tags = stringReader.ReadEnumerable().ToArray();
             var cellsArray = stringReader.ReadEnumerable().ToArray();
-            // TODO: There is no point in making an NArray here. The whole Area
+            // TODO: There is no point in making a Grid here. The whole Area
             //       construction is all weird.
-            var cells = new NArray<Cell>(size, xy => cellSerializer.Deserialize(cellsArray[xy.ToIndex(size)]));
+            var cells = new Grid<Cell>(position, size,
+                xy => cellSerializer.Deserialize(cellsArray[xy.ToIndex(size)]));
             var childAreas = stringReader.ReadEnumerable().Select(Deserialize).ToArray();
-            var area = new Area(position, isPositionFixed, cells, type, childAreas, tags);
+            var area = new Area(cells, isPositionFixed, type, childAreas, tags);
             return area;
         }
 

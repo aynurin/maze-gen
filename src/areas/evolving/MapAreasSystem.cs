@@ -89,7 +89,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             GenerationImpact[] thisEpochGenerationsImpacts) {
             // snap all areas to grid at the end of each epoch:
             for (var i = 0; i < _areas.Count; i++) {
-                _areas[i].AdjustPosition();
+                _areas[i].SnapToGrid();
             }
             var roomPositions = _areas.Select(
                 area => area.Position.RoundToInt()).ToList();

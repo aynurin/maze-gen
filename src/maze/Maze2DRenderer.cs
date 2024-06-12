@@ -78,7 +78,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             public CellsMapping(Area map, Vector mazeCell, MazeToMapOptions options) {
                 map.ThrowIfNull(nameof(map));
-                mazeCell.ThrowIfEmpty();
+                mazeCell.ThrowIfEmpty(nameof(mazeCell));
                 options.ThrowIfNull(nameof(options));
 
                 _map = map;

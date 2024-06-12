@@ -5,8 +5,8 @@ using System.Linq;
 
 namespace PlayersWorlds.Maps {
     /// <summary>
-    /// Represents an n-dimensional readonly array stored efficiently in a 1D
-    /// array with indexed access using <see cref="Vector"/> coordinates.
+    /// Represents an n-dimensional grid with indexed access using
+    /// <see cref="Vector"/> coordinates.
     /// </summary>
     /// <remarks>
     /// There wasn't a need to make it n-dimensional at this stage, but I want
@@ -15,9 +15,11 @@ namespace PlayersWorlds.Maps {
     /// (icebergs, volcanos), scaled sub spaces (Hermione's bag), or simply
     /// items in the cell.
     /// </remarks>
-    /// <typeparam name="T">The type of data stored in each cell of the map.
+    /// <typeparam name="T">The type of data stored in each cell of the grid.
     /// </typeparam>
-    public class NArray<T> : IReadOnlyCollection<Vector> {
+    public class Grid<T> : IReadOnlyCollection<Vector> {
+        private Vector _position;
+        private readonly Vector _size;
         private readonly T[] _cellData;
 
         /// <inheritdoc />
@@ -26,37 +28,58 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// Gets the size of the N-dimensional array.
         /// </summary>
-        public Vector Size { get; }
+        public Vector Size => _size;
+
+        public Vector Position => _position;
+
+        internal double LowX => _position.X;
+        internal double HighX => _position.X + Size.X;
+        internal double LowY => _position.Y;
+        internal double HighY => _position.Y + Size.Y;
 
         /// <summary>
-        /// Gets the value of a cell at the specified <see cref="Vector"/>
-        /// position.
+        /// Gets data associated with the given coordinates.
         /// </summary>
+        /// <remarks>Corrdinates in a Grid are 0-bound and relative to this
+        /// Grid's <paramref name="position" />.</remarks>
         /// <param name="position">The location of the cell as a
         /// <see cref="Vector"/>.</param>
         /// <returns>The value of the cell at the specified position.</returns>
         /// <exception cref="IndexOutOfRangeException">The position is outside
         /// the map bounds.</exception>
-        public T this[Vector position] => _cellData[position.ToIndex(Size)];
+        public T this[Vector position] => _cellData[position.ToIndex(_size)];
 
         /// <summary>
         /// Creates a new array with the specified size and optional initial
         /// value for each cell.
         /// </summary>
+        /// <param name="position">The position of this Grid in the world or on
+        /// another Grid.</param>
         /// <param name="size">The size of the map as a <see cref="Vector"/> of
         /// dimensions (rows, columns).</param>
         /// <param name="initialValue">The initial value for each cell.</param>
-        public NArray(Vector size, Func<Vector, T> initialValue = null) {
+        public Grid(Vector position, Vector size, Func<Vector, T> initialValue) {
             size.ThrowIfNotAValidSize();
+            initialValue.ThrowIfNull(nameof(initialValue));
+            if (position != Vector.Empty &&
+                position.Dimensions != size.Dimensions) {
+                throw new ArgumentException(
+                    $"The position and size of the map ({size}) must have the " +
+                    $"same number of dimensions as the position ({position}).");
+            }
 
-            Size = size;
+            _position = position;
+            _size = size;
 
             _cellData = new T[size.Area];
 
             for (var i = 0; i < _cellData.Length; i++) {
-                _cellData[i] = initialValue == null ? default :
-                    initialValue(Vector.FromIndex(i, size));
+                _cellData[i] = initialValue(Vector.FromIndex(i, size));
             }
+        }
+
+        internal void Reposition(Vector newPosition) {
+            _position = newPosition;
         }
 
         /// <summary>
@@ -69,8 +92,8 @@ namespace PlayersWorlds.Maps {
         /// of adjacent cells.</returns>
         public IEnumerable<Vector> AdjacentRegion(Vector xy) {
             return SafeRegion(
-                    xy + new Vector(Enumerable.Repeat(-1, Size.Dimensions)),
-                    new Vector(Enumerable.Repeat(3, Size.Dimensions)))
+                    xy + new Vector(Enumerable.Repeat(-1, _size.Dimensions)),
+                    new Vector(Enumerable.Repeat(3, _size.Dimensions)))
                 .Where(cell => cell != xy);
         }
 
@@ -78,29 +101,29 @@ namespace PlayersWorlds.Maps {
         /// Retrieve all cells of a rectangular region on the map.
         /// </summary>
         /// <param name="xy">Lowest XY position of the region.</param>
-        /// <param name="size">Size of the region.</param>
+        /// <param name="size">_size of the region.</param>
         /// <returns>An enumerable collection of tuples of the specified region
         /// containing the cell position as a <see cref="Vector"/> and its
         /// value.</returns>
         public IEnumerable<Vector> SafeRegion(
             Vector xy, Vector size) {
             size.ThrowIfNotAValidSize();
-            if (xy.Dimensions != size.Dimensions || xy.Dimensions != Size.Dimensions) {
+            if (xy.Dimensions != size.Dimensions || xy.Dimensions != _size.Dimensions) {
                 throw new ArgumentException(
                     $"The position and size of the region ({size}) must have " +
                     $"the same number of dimensions as the size of the map " +
-                    $"(xy={xy}, size={size}, map size={Size}).");
+                    $"(xy={xy}, size={size}, map size={_size}).");
             }
 
             var xyValue = new List<int>(xy.Value);
             var sizeValue = new List<int>(size.Value);
-            for (var i = 0; i < Size.Dimensions; i++) {
+            for (var i = 0; i < _size.Dimensions; i++) {
                 if (xyValue[i] < 0) {
                     sizeValue[i] = sizeValue[i] + xyValue[i];
                     xyValue[i] = 0;
                 }
-                if (xyValue[i] + sizeValue[i] > Size.Value[i]) {
-                    sizeValue[i] = Math.Max(0, Size.Value[i] - xyValue[i]);
+                if (xyValue[i] + sizeValue[i] > _size.Value[i]) {
+                    sizeValue[i] = Math.Max(0, _size.Value[i] - xyValue[i]);
                 }
             }
 
@@ -114,7 +137,7 @@ namespace PlayersWorlds.Maps {
         /// region.</remarks>
         /// <param name="xy">Lowest XY position of the region.</param>
         /// <param name="size">Size of the region.</param>
-        /// <returns><see cref="Cell" />s of the specified region.</returns>
+        /// <returns><see cref="Vector" />s of the specified region.</returns>
         /// <exception cref="IndexOutOfRangeException">The coordinates are out
         /// of the bounds of the map.
         /// <see cref="SafeRegion(Vector,Vector)" /> is an alternative
@@ -125,19 +148,22 @@ namespace PlayersWorlds.Maps {
             if (size.Area == 0) {
                 yield break;
             }
-            if (size.Dimensions != Size.Dimensions ||
-                xy.Dimensions != Size.Dimensions) {
+            if (size.Dimensions != _size.Dimensions ||
+                xy.Dimensions != _size.Dimensions) {
                 throw new ArgumentException(
                     "Vector dimensions must match map dimensions " +
-                    $"(NArray({Size}).SafeRegion({xy}, {size}))");
+                    $"(Grid({_size}).SafeRegion({xy}, {size}))");
             }
-            if (xy.Value.Any(x => x < 0) ||
+            if (xy.Value.Select(
+                (x, i) => xy.Value[i] < _position.Value[i])
+                        .Any(_ => _) ||
                 xy.Value.Select(
-                    (x, i) => (xy.Value[i] + size.Value[i]) > Size.Value[i])
+                    (x, i) => (xy.Value[i] + size.Value[i]) >
+                                    (_size.Value[i] + _position.Value[i]))
                         .Any(_ => _)) {
                 throw new IndexOutOfRangeException(
                     $"Can't retrieve area of size {size} at {xy} " +
-                    $"in map of size {Size}");
+                    $"in map of size {_size}");
             }
 
             var xyValue = new List<int>(xy.Value);
@@ -167,26 +193,65 @@ namespace PlayersWorlds.Maps {
         }
 
         /// <summary>
-        /// Scales the NArray to a larger size based on the provided vector.
+        /// Checks if this Grid has an overlap with another Grid.
         /// </summary>
-        /// <remarks>This method scales to a larger size without interpolation.
-        /// So the target size must be a multiple of the current size.</remarks>
-        /// <param name="vector">The vector representing the new size of the
-        /// NArray.</param>
-        /// <returns>A new <see cref="NArray{T}"/> instance that is a scaled 
-        /// version of the current NArray.</returns>
-        public NArray<T> ScaleUp(Vector vector) {
-            if (Size.Area == 0 || vector.Area == 0) {
-                return new NArray<T>(vector);
+        /// <param name="other">The other Grid to check.</param>
+        /// <returns><c>true</c> if the two Grids have an overlap; otherwise,
+        /// <c>false</c>.</returns>
+        public bool Overlaps(Grid<T> other) => Overlap(other).Any();
+
+        /// <summary>
+        /// Gets coordinates of cells of this Grid that overlap any cells of the
+        /// <paramref name="other" /> Grid.
+        /// </summary>
+        /// <param name="other">The other Area to check</param>
+        /// <returns><see cref="Vector" /> positions of the overlapping cells,
+        /// or an empty enumerable if there is no overlap.</returns>
+        public IEnumerable<Vector> Overlap(Grid<T> other) {
+            if (this == other)
+                throw new InvalidOperationException("Can't compare with self");
+
+            // Calculate the overlap rectangle coordinates
+            var lowX = (int)Math.Max(this.LowX, other.LowX);
+            var highX = (int)Math.Min(this.HighX, other.HighX);
+            var lowY = (int)Math.Max(this.LowY, other.LowY);
+            var highY = (int)Math.Min(this.HighY, other.HighY);
+
+            // Check if there is no overlap
+            if (lowX >= highX || lowY >= highY) {
+                return Enumerable.Empty<Vector>();
             }
-            var scale = vector.Value.Zip(Size.Value, (a, b) => a / b).ToArray();
-            if (scale.Any(a => a <= 0)) {
-                throw new ArgumentException(
-                    "Can't scale up a NArray to a smaller size");
-            }
-            var scaledMap = new NArray<T>(vector, (xy) =>
-                this[new Vector(xy.Value.Zip(scale, (a, b) => a / b))]);
-            return scaledMap;
+
+            // Calculate the size of the overlap area
+            return Region(new Vector(lowX, lowY),
+                new Vector(highX - lowX, highY - lowY));
+        }
+
+        /// <summary>
+        /// Checks if this Area contains or touches the
+        /// <paramref name="point" />.
+        /// </summary>
+        /// <param name="point">The point to check.</param>
+        /// <returns><c>true</c> if the given point is within this area.
+        /// </returns>
+        public bool Contains(Vector point) {
+            return LowX <= point.X && HighX > point.X
+                && LowY <= point.Y && HighY > point.Y;
+        }
+
+        /// <summary>
+        /// Checks if this Area is completely within an area defined by
+        /// <paramref name="position" /> and <paramref name="size" />.
+        /// </summary>
+        /// <param name="position">The position of the outer area.</param>
+        /// <param name="size">The size of the outer rectangle.</param>
+        /// <returns><c>true</c> if the inner rectangle is completely within the
+        /// outer area, <c>false</c> otherwise.</returns>
+        public bool FitsInto(Vector position, Vector size) {
+            return LowX >= position.X &&
+                HighX <= position.X + size.X &&
+                LowY >= position.Y &&
+                HighY <= position.Y + size.Y;
         }
 
         #region IReadOnlyCollection<Vector> 
@@ -197,7 +262,7 @@ namespace PlayersWorlds.Maps {
         /// <inheritdoc />
         public IEnumerator<Vector> GetEnumerator() {
             for (var i = 0; i < _cellData.Length; i++) {
-                yield return Vector.FromIndex(i, Size);
+                yield return Vector.FromIndex(i, _size);
             }
         }
         #endregion

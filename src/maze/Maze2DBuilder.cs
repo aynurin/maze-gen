@@ -268,10 +268,10 @@ namespace PlayersWorlds.Maps.Maze {
                             mazeArea.ChildAreas().Any(other =>
                                 area != other &&
                                 other.IsPositionFixed &&
-                                area.OverlapArea(other).Area > 0)) +
+                                area.Overlaps(other))) +
                 mazeArea.ChildAreas().Count(
                     area => area.IsPositionFixed &&
-                            !area.FitsInto(Vector.Zero2D, mazeArea.Size));
+                            !area.FitsInto(mazeArea));
             // when we auto-generate the areas, there is a <1% chance that we
             // can't auto-distribute (see DirectedDistanceForceProducer.cs) so
             // we make several attempts.
@@ -308,9 +308,9 @@ namespace PlayersWorlds.Maps.Maze {
                     allAreas.Count(
                         area => allAreas.Any(other =>
                                     area != other &&
-                                    area.OverlapArea(other).Area > 0)) +
+                                    area.Overlaps(other))) +
                     allAreas.Count(
-                        area => !area.FitsInto(Vector.Zero2D, mazeArea.Size));
+                        area => !area.FitsInto(mazeArea));
                 if (errors <= 0) {
                     allAreas.Where(area => !mazeArea.ChildAreas().Contains(area))
                             .ForEach(area => mazeArea.AddChildArea(area));

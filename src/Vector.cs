@@ -304,9 +304,9 @@ namespace PlayersWorlds.Maps {
             return new Vector(serialized.Split('x').Select(int.Parse));
         }
 
-        public void ThrowIfEmpty() {
+        public void ThrowIfEmpty(string paramName) {
             if (this.IsEmpty) {
-                throw new InvalidOperationException("Vector is empty");
+                throw new InvalidOperationException(paramName + " is empty");
             }
         }
 

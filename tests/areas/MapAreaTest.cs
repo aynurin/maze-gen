@@ -15,43 +15,43 @@ namespace PlayersWorlds.Maps.Areas {
             var area1 = NewArea(1, 1, 10, 10);
             var area2 = NewArea(1, 1, 10, 10);
             Assert.Throws<InvalidOperationException>(
-                () => area1.OverlapArea(area1));
-            Assert.DoesNotThrow(() => area1.OverlapArea(area2));
+                () => area1.Overlaps(area1));
+            Assert.DoesNotThrow(() => area1.Overlaps(area2));
         }
 
         [Test]
         public void Overlaps_ReturnsTrueIfOverlaps() {
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(4, 4, 4, 4)).Area, Is.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(1, 1, 4, 4)).Area, Is.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(4, 1, 4, 4)).Area, Is.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(7, 1, 4, 4)).Area, Is.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(1, 7, 4, 4)).Area, Is.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(4, 7, 4, 4)).Area, Is.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(7, 7, 4, 4)).Area, Is.GreaterThan(0));
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 4, 4, 4)), Is.True);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 1, 4, 4)), Is.True);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 1, 4, 4)), Is.True);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(7, 1, 4, 4)), Is.True);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 7, 4, 4)), Is.True);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 7, 4, 4)), Is.True);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(7, 7, 4, 4)), Is.True);
 
         }
 
         [Test]
         public void Overlaps_ReturnsFalseIfDoesNotOverlap() {
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(0, 0, 4, 4)).Area, Is.Not.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(1, 0, 4, 4)).Area, Is.Not.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(4, 0, 4, 4)).Area, Is.Not.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(7, 0, 4, 4)).Area, Is.Not.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(1, 8, 4, 4)).Area, Is.Not.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(4, 8, 4, 4)).Area, Is.Not.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(7, 8, 4, 4)).Area, Is.Not.GreaterThan(0));
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(0, 0, 4, 4)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 0, 4, 4)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 0, 4, 4)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(7, 0, 4, 4)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 8, 4, 4)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(4, 8, 4, 4)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(7, 8, 4, 4)), Is.False);
 
             // Touches:
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(1, 4, 3, 3)).Area, Is.Not.GreaterThan(0), "Map areas touch (case 1)");
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(5, 3, 2, 1)).Area, Is.Not.GreaterThan(0), "Map areas touch (case 2)");
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(8, 5, 3, 2)).Area, Is.Not.GreaterThan(0), "Map areas touch (case 3)");
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(5, 8, 1, 4)).Area, Is.Not.GreaterThan(0), "Map areas touch (case 4)");
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(1, 4, 3, 3)), Is.False, "Map areas touch (case 1)");
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(5, 3, 2, 1)), Is.False, "Map areas touch (case 2)");
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(8, 5, 3, 2)), Is.False, "Map areas touch (case 3)");
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(5, 8, 1, 4)), Is.False, "Map areas touch (case 4)");
 
             // Does not touch:
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(0, 4, 3, 3)).Area, Is.Not.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(5, 2, 2, 1)).Area, Is.Not.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(9, 5, 3, 2)).Area, Is.Not.GreaterThan(0));
-            Assert.That(NewArea(4, 4, 4, 4).OverlapArea(NewArea(5, 9, 1, 4)).Area, Is.Not.GreaterThan(0));
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(0, 4, 3, 3)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(5, 2, 2, 1)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(9, 5, 3, 2)), Is.False);
+            Assert.That(NewArea(4, 4, 4, 4).Overlaps(NewArea(5, 9, 1, 4)), Is.False);
         }
 
         [Test]

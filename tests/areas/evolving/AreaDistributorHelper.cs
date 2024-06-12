@@ -35,7 +35,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                         .Where(
                             a => originalCopy.Any(
                                     b => a != b &&
-                                         a.OverlapArea(b).Area > 0))
+                                         a.Overlaps(b)))
                         .ToList(),
                 OriginalOutOfBounds =
                     originalCopy
@@ -57,11 +57,11 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     .Where(a =>
                         result.PlacedAreas.Any(
                             b => a != b &&
-                                 a.OverlapArea(b).Area > 0))
+                                 a.Overlaps(b)))
                     .ToList();
             result.PlacedOutOfBounds =
                 result.PlacedAreas
-                    .Where(block => !block.FitsInto(Vector.Zero2D, mapSize))
+                    .Where(block => !block.FitsInto(env))
                     .ToList();
 
             result.TestString = $"yield return \"{mapSize}: " +
