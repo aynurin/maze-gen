@@ -11,8 +11,7 @@ public class RandomAreaGeneratorTest : Test {
     [Test, Category("Integration")]
     public void ZoneGenerator_CanGenerateZones() {
         var random = RandomSource.CreateFromEnv();
-        var zonesGenerator = new RandomAreaGenerator(
-            new RandomAreaGenerator.RandomAreaGeneratorSettings(random));
+        var zonesGenerator = new RandomAreaGenerator(random);
         var sizes = new Dictionary<Vector, int>();
         var tags = new Dictionary<string, int>();
         var types = new Dictionary<AreaType, int>();
@@ -58,9 +57,8 @@ public class RandomAreaGeneratorTest : Test {
     [Test, Category("Integration")]
     public void ZoneGenerator_CustomSettings() {
         var random = RandomSource.CreateFromEnv();
-        var zonesGenerator = new RandomAreaGenerator(
+        var zonesGenerator = new RandomAreaGenerator(random,
             new RandomAreaGenerator.RandomAreaGeneratorSettings(
-                random,
                 0.3f,
                 new Dictionary<Vector, float>() { { new Vector(1, 2), 1 } },
                 new Dictionary<AreaType, float>() { { AreaType.Hall, 1 } },

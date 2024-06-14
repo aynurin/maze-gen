@@ -34,10 +34,8 @@ namespace PlayersWorlds.Maps.Maze {
             if (options.RandomSource == null) {
                 options.RandomSource = RandomSource.CreateFromEnv();
             }
-            if (options.AreaGenerator == null) {
-                options.AreaGenerator = new RandomAreaGenerator(
-                    new RandomAreaGenerator.RandomAreaGeneratorSettings(
-                        options.RandomSource));
+            if (options.AreaGeneration == AreaGenerationMode.Auto && options.AreaGenerator == null) {
+                options.AreaGenerator = new RandomAreaGenerator(options.RandomSource);
             }
             var maze = Area.CreateEnvironment(size);
             childAreas?.ForEach(childArea => maze.AddChildArea(childArea));

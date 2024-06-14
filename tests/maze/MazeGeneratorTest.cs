@@ -13,7 +13,8 @@ namespace PlayersWorlds.Maps.Maze {
     public class MazeGeneratorTest : Test {
 
         private class CustomAreaGenerator : AreaGenerator {
-            public override IEnumerable<Area> Generate(
+            public CustomAreaGenerator() : base(null, null) { }
+            protected override IEnumerable<Area> Generate(
                 Area targetArea) {
                 if (targetArea.Size.X <= 10 || targetArea.Size.Y <= 10) {
                     return Enumerable.Empty<Area>();
@@ -72,13 +73,13 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void OnlyFullGenerators() {
-            Assert.Throws<MazeBuilderException>(() =>
+            Assert.Throws<ArgumentException>(() =>
                 MazeTestHelper.GenerateMaze(new Vector(10, 10),
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.BinaryTree,
                     FillFactor = GeneratorOptions.MazeFillFactor.Half
                 }));
-            Assert.Throws<MazeBuilderException>(() =>
+            Assert.Throws<ArgumentException>(() =>
                 MazeTestHelper.GenerateMaze(new Vector(10, 10),
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Sidewinder,
@@ -109,7 +110,7 @@ namespace PlayersWorlds.Maps.Maze {
                 });
             Assert.That(MazeTestHelper.IsSolveable(maze));
             var mazeCells = maze.Grid.Where(cell => maze.CellHasLinks(cell)).ToList();
-            Assert.That(size.Area, Is.EqualTo(mazeCells.Count()));
+            Assert.That(mazeCells.Count(), Is.EqualTo(size.Area));
         }
 
         [Test]

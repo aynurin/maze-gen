@@ -65,8 +65,7 @@ namespace PlayersWorlds.Maps {
             AreaGenerator areaGenerator = new BasicAreaGenerator(
                 _randomSource, layer, areaTypes, tags, count, minSize, maxSize,
                 layer.ChildAreas());
-            areaGenerator.Generate(layer)
-                .ForEach(area => layer.AddChildArea(area));
+            areaGenerator.GenerateMazeAreas(layer);
             CurrentLayer = layer;
             return this;
         }

@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
+using static PlayersWorlds.Maps.Maze.GeneratorOptions;
 
 namespace PlayersWorlds.Maps.Maze {
     [TestFixture]
@@ -14,7 +15,12 @@ namespace PlayersWorlds.Maps.Maze {
                 MazeAlgorithm = typeof(WilsonsMazeGenerator),
                 RandomSource = RandomSource.CreateFromEnv()
             };
-            var builderMock = new Mock<Maze2DBuilder>(maze, opts);
+            var builderMock = new Mock<Maze2DBuilder>(
+                RandomSource.CreateFromEnv(),
+                maze,
+                new WilsonsMazeGenerator() as MazeGenerator,
+                null,
+                MazeFillFactor.Full);
             var firstCell = new Vector(4, 3);
             var randomNeighbor = new Vector(3, 3);
 

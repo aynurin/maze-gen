@@ -45,12 +45,8 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 PlacedAreas = managedAreas
             };
 
-            new AreaDistributor(random,
-                debugLevel >= 4 ?
-                    new MapAreaStringRenderer() :
-                    null,
-                debugLevel >= 5)
-                .Distribute(env, managedAreas, maxEpochs);
+            new EvolvingSimulator(maxEpochs, 20).Evolve(
+                new MapAreaSystemFactory(random).Create(env, managedAreas));
 
             result.PlacedOverlapping =
                 result.PlacedAreas

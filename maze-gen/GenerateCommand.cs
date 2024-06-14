@@ -23,9 +23,7 @@ namespace PlayersWorlds.Maps {
                 FillFactor = GeneratorOptions.MazeFillFactor.Full,
                 AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto,
                 RandomSource = randomSource,
-                AreaGenerator = new RandomAreaGenerator(
-                    new RandomAreaGenerator.RandomAreaGeneratorSettings(
-                        randomSource))
+                AreaGenerator = new RandomAreaGenerator(randomSource)
             };
             var maze = Area.CreateEnvironment(size);
             Maze2DBuilder.BuildMaze(maze, generatorOptions);

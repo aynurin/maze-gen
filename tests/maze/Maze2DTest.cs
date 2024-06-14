@@ -93,22 +93,28 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_AddsNoRoomsToASmallMaze() {
+            var random = RandomSource.CreateFromEnv();
             var maze = MazeTestHelper.GenerateMaze(new Vector(3, 3), null,
                 new GeneratorOptions() {
+                    RandomSource = random,
                     MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.MazeFillFactor.Full,
                     AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto,
+                    AreaGenerator = new RandomAreaGenerator(random)
                 });
             Assert.That(maze.ChildAreas().Count, Is.EqualTo(0));
         }
 
         [Test]
         public void Maze2D_AddsRooms() {
+            var random = RandomSource.CreateFromEnv();
             var maze = MazeTestHelper.GenerateMaze(new Vector(5, 5), null,
                 new GeneratorOptions() {
+                    RandomSource = random,
                     MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.MazeFillFactor.Full,
                     AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto,
+                    AreaGenerator = new RandomAreaGenerator(random)
                 });
             Assert.That(maze.ChildAreas().Count, Is.GreaterThan(0));
         }

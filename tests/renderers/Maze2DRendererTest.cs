@@ -103,7 +103,7 @@ namespace PlayersWorlds.Maps {
             _maze.AddChildArea(
                 Area.Create(
                     new Vector(1, 1), new Vector(1, 1), AreaType.Fill));
-            var builder = new Maze2DBuilder(_maze, new GeneratorOptions() {
+            var builder = Maze2DBuilder.CreateFromOptions(_maze, new GeneratorOptions() {
                 MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                 RandomSource = RandomSource.CreateFromEnv()
             });
@@ -150,7 +150,7 @@ namespace PlayersWorlds.Maps {
             _maze.AddChildArea(
                 Area.Create(
                     new Vector(0, 0), new Vector(4, 2), AreaType.Hall));
-            var builder = new Maze2DBuilder(_maze, new GeneratorOptions() {
+            var builder = Maze2DBuilder.CreateFromOptions(_maze, new GeneratorOptions() {
                 MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                 RandomSource = RandomSource.CreateFromEnv()
             });

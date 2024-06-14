@@ -11,7 +11,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void BuildsCorrectCellsCollections() {
             var maze = Area.CreateEnvironment(new Vector(5, 5));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -30,7 +30,7 @@ namespace PlayersWorlds.Maps.Maze {
                             new Vector(3, 2),
                             AreaType.Hall,
                             "hall"));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -75,7 +75,7 @@ namespace PlayersWorlds.Maps.Maze {
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -105,7 +105,7 @@ namespace PlayersWorlds.Maps.Maze {
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -154,7 +154,7 @@ namespace PlayersWorlds.Maps.Maze {
                                      new Vector(3, 2),
                                      AreaType.Hall,
                                      "hall"));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -180,7 +180,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void MarkConnected() {
             var maze = Area.CreateEnvironment(new Vector(3, 3));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -218,7 +218,7 @@ namespace PlayersWorlds.Maps.Maze {
                                      new Vector(2, 3),
                                      AreaType.Fill,
                                      "hall"));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -271,7 +271,7 @@ namespace PlayersWorlds.Maps.Maze {
                                      new Vector(5, 5),
                                      AreaType.Fill,
                                      "fill"));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -284,7 +284,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_Full() {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -313,7 +313,7 @@ namespace PlayersWorlds.Maps.Maze {
                                      new Vector(3, 3),
                                      AreaType.Hall,
                                      "hall"));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -343,7 +343,7 @@ namespace PlayersWorlds.Maps.Maze {
                                           new Vector(3, 3),
                                           AreaType.Fill,
                                           "hall"));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -371,7 +371,7 @@ namespace PlayersWorlds.Maps.Maze {
                                      new Vector(3, 3),
                                      AreaType.Cave,
                                      "hall"));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -404,7 +404,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_FullWidth() {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     FillFactor = GeneratorOptions.MazeFillFactor.FullWidth,
@@ -426,7 +426,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_FullHeight() {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     FillFactor = GeneratorOptions.MazeFillFactor.FullHeight,
@@ -448,7 +448,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_Quarter() {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     FillFactor = GeneratorOptions.MazeFillFactor.Quarter,
@@ -466,7 +466,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_Half() {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     FillFactor = GeneratorOptions.MazeFillFactor.Half,
@@ -484,7 +484,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_ThreeQuarters() {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     FillFactor = GeneratorOptions.MazeFillFactor.ThreeQuarters,
@@ -506,7 +506,7 @@ namespace PlayersWorlds.Maps.Maze {
         [Test]
         public void IsFillComplete_NinetyPercent() {
             var maze = Area.CreateEnvironment(new Vector(2, 2));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     FillFactor = GeneratorOptions.MazeFillFactor.NinetyPercent,
@@ -546,7 +546,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             Assert.That(maze.Grid.Where(c => maze.CellHasLinks(c)), Has.No.Member(walkway[0]));
 
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -572,7 +572,7 @@ namespace PlayersWorlds.Maps.Maze {
             var area2 = Area.Create(new Vector(4, 8), new Vector(7, 3), AreaType.Hall);
             maze.AddChildArea(area1);
             maze.AddChildArea(area2);
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()
@@ -610,7 +610,7 @@ namespace PlayersWorlds.Maps.Maze {
                                      new Vector(2, 2),
                                      AreaType.Cave,
                                      "cave"));
-            var builder = new Maze2DBuilder(maze,
+            var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
                     MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons,
                     RandomSource = RandomSource.CreateFromEnv()

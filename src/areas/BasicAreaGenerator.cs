@@ -45,7 +45,8 @@ namespace PlayersWorlds.Maps.Areas {
                                   int count,
                                   Vector minSize,
                                   Vector maxSize,
-                                  IEnumerable<Area> areasNoOverlap) {
+                                  IEnumerable<Area> areasNoOverlap) :
+            base(null, null) {
             _randomSource = randomSource;
             _targetArea = targetArea;
             _areaTypes = areaTypes;
@@ -56,16 +57,7 @@ namespace PlayersWorlds.Maps.Areas {
             _areasNoOverlap = areasNoOverlap ?? new List<Area>();
         }
 
-        /// <inheritdoc />
-        public IEnumerable<Area> Generate() {
-            if (_minSize.FitsInto(_targetArea.Size)) {
-                // none of the areas fit the map
-                return new List<Area>();
-            }
-            return PlaceArea(new List<Area>());
-        }
-
-        public override IEnumerable<Area> Generate(Area targetArea) {
+        protected override IEnumerable<Area> Generate(Area targetArea) {
             if (_minSize.FitsInto(_targetArea.Size)) {
                 // none of the areas fit the map
                 return new List<Area>();
@@ -87,7 +79,6 @@ namespace PlayersWorlds.Maps.Areas {
         }
 
         private Area CreateRandomArea(ICollection<Area> generatedAreas) {
-            var tag = _randomSource.RandomOf(_tags);
             var type = _randomSource.RandomOf(_areaTypes);
             Area area;
             var size = new Vector(
@@ -98,7 +89,6 @@ namespace PlayersWorlds.Maps.Areas {
                 _randomSource.Next(0, _targetArea.Size.Y - size.Y));
             area = Area.Create(pos, size, type);
             if (IsAValidLayout(generatedAreas, area)) {
-                // area.X(new AreaTagsExtension(tag));
                 return area;
             }
             return null;

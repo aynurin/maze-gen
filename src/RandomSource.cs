@@ -156,6 +156,19 @@ namespace PlayersWorlds.Maps {
         /// <typeparam name="T">The type of elements in the sequence.
         /// </typeparam>
         /// <param name="items">The sequence of items to choose from.</param>
+        /// <returns>A randomly selected item from the sequence.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the sequence
+        /// is empty.</exception>
+        public T RandomOf<T>(ICollection<T> items) =>
+            RandomOf(items, items.Count);
+
+
+        /// <summary>
+        /// Returns a random element from a sequence.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.
+        /// </typeparam>
+        /// <param name="items">The sequence of items to choose from.</param>
         /// <param name="count">The number of items in the sequence.</param>
         /// <returns>A randomly selected item from the sequence.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the sequence

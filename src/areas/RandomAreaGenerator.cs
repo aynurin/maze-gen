@@ -1,30 +1,50 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PlayersWorlds.Maps.Areas.Evolving;
 
 namespace PlayersWorlds.Maps.Areas {
     /// <summary>
     /// Generate areas randomly for a map of the provided size.
     /// </summary>
     public class RandomAreaGenerator : AreaGenerator {
+        private readonly RandomSource _randomSource;
         private readonly RandomAreaGeneratorSettings _settings;
 
         /// <summary>
         /// Creates a new random area generator with the specified settings.
         /// </summary>
-        /// <param name="settings">Settings to control the generator behavior.
-        /// </param>
-        public RandomAreaGenerator(RandomAreaGeneratorSettings settings) {
-            _settings = settings;
+        /// <param name="randomSource">Source of random numbers.</param>
+        public RandomAreaGenerator(RandomSource randomSource) :
+            this(randomSource, new RandomAreaGeneratorSettings()) {
         }
 
         /// <summary>
         /// Creates a new random area generator with the specified settings.
         /// </summary>
         /// <param name="randomSource">Source of random numbers.</param>
-        public RandomAreaGenerator(RandomSource randomSource) {
-            _settings = new RandomAreaGeneratorSettings(randomSource);
+        /// <param name="settings">Settings to control the generator behavior.
+        /// </param>
+        public RandomAreaGenerator(RandomSource randomSource, RandomAreaGeneratorSettings settings) :
+            this(randomSource, settings,
+                 new Evolving.EvolvingSimulator(2, 20),
+                 new Evolving.MapAreaSystemFactory(randomSource)) {
+        }
+
+        /// <summary>
+        /// Creates a new random area generator with the specified settings.
+        /// </summary>
+        /// <param name="randomSource">Source of random numbers.</param>
+        /// <param name="settings">Settings to control the generator behavior.
+        /// </param>
+        /// <param name="simulator"></param>
+        /// <param name="factory"></param>
+        public RandomAreaGenerator(RandomSource randomSource,
+                                   RandomAreaGeneratorSettings settings,
+                                   EvolvingSimulator simulator,
+                                   MapAreaSystemFactory factory) :
+            base(simulator, factory) {
+            _randomSource = randomSource;
+            _settings = settings;
         }
 
         /// <summary>
@@ -32,7 +52,7 @@ namespace PlayersWorlds.Maps.Areas {
         /// </summary>
         /// <param name="targetArea">The map to generate areas for.</param>
         /// <returns>Areas to be added to the map.</returns>
-        public override IEnumerable<Area> Generate(Area targetArea) {
+        protected override IEnumerable<Area> Generate(Area targetArea) {
             if (_settings.DimensionProbabilities.Keys.All(areaSize =>
                 !areaSize.FitsInto(targetArea.Size - new Vector(2, 2)))) {
                 // none of the areas fit the map
@@ -70,7 +90,7 @@ namespace PlayersWorlds.Maps.Areas {
         }
 
         private T PickRandom<T>(IDictionary<T, float> distribution) {
-            var random = _settings.RandomSource.RandomSingle();
+            var random = _randomSource.RandomSingle();
             var cumulativeProb = 0f;
             T lastItem = default;
             foreach (var couple in distribution) {
@@ -84,7 +104,7 @@ namespace PlayersWorlds.Maps.Areas {
         }
 
         private Vector RandomRotate(Vector size) {
-            if (_settings.RandomSource.Next() % 2 == 0)
+            if (_randomSource.Next() % 2 == 0)
                 return size;
             return new Vector(size.Y, size.X);
         }
@@ -99,24 +119,19 @@ namespace PlayersWorlds.Maps.Areas {
 
             internal Dictionary<AreaType, Dictionary<string, float>> TagProbabilities { get; }
 
-            internal RandomSource RandomSource { get; set; }
-
             /// <summary>
             /// Creates an instance of RandomAreaGeneratorSettings. Default
             /// values provide some basic settings.
             /// </summary>
-            /// <param name="randomSource"></param>
             /// <param name="maxFillFactor"></param>
             /// <param name="dimensionProbabilities"></param>
             /// <param name="areaTypeProbabilities"></param>
             /// <param name="tagProbabilities"></param>
             public RandomAreaGeneratorSettings(
-                RandomSource randomSource,
                 float maxFillFactor = 0.33f,
                 Dictionary<Vector, float> dimensionProbabilities = null,
                 Dictionary<AreaType, float> areaTypeProbabilities = null,
                 Dictionary<AreaType, Dictionary<string, float>> tagProbabilities = null) {
-                RandomSource = randomSource;
                 MaxFillFactor = maxFillFactor;
                 DimensionProbabilities = dimensionProbabilities ?? s_default_dimensions;
                 AreaTypeProbabilities = areaTypeProbabilities ?? s_default_area_types;
