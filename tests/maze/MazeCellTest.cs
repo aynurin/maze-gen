@@ -46,12 +46,12 @@ namespace PlayersWorlds.Maps.Maze {
             var d = new Vector(2, 3);
 
             env.Link(a, b);
-            Assert.That(env[a].ToString(), Is.EqualTo("Cell:{[2x2];}"));
-            Assert.That(env[b].ToString(), Is.EqualTo("Cell:{[2x1];}"));
+            Assert.That(env[a].ToString(), Is.EqualTo("Cell:{Environment;[2x2];}"));
+            Assert.That(env[b].ToString(), Is.EqualTo("Cell:{Environment;[2x1];}"));
 
             env.Link(c, d);
-            Assert.That(env[c].ToString(), Is.EqualTo("Cell:{[2x3];}"));
-            Assert.That(env[d].ToString(), Is.EqualTo("Cell:{[1x3];}"));
+            Assert.That(env[c].ToString(), Is.EqualTo("Cell:{Environment;[2x3];}"));
+            Assert.That(env[d].ToString(), Is.EqualTo("Cell:{Environment;[1x3];}"));
 
             env[b].HardLinks.Remove(a);
             env[a].HardLinks.Remove(b);

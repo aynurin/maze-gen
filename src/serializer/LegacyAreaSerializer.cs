@@ -26,8 +26,8 @@ namespace PlayersWorlds.Maps.Serializer {
                 AreaType.Maze;
             var size = VectorD.Parse(parts[1]).RoundToInt();
             var position = VectorD.Parse(parts[0]).RoundToInt();
-            return new Area(position, isPositionFixed,
-                            size, type,
+            return new Area(position, size, isPositionFixed,
+                            type,
                             /*childAreas=*/null,
                             parts.Skip(3).ToArray());
         }
@@ -65,6 +65,7 @@ namespace PlayersWorlds.Maps.Serializer {
                 var maze = Area.CreateEnvironment(size);
                 parts[1].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ForEach(
                     areaStr => maze.AddChildArea(ParseV01AreaString(areaStr)));
+                maze.BakeChildAreas();
                 parts[2].Split(
                     new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                     .ForEach(cellStr => {

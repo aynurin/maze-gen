@@ -111,6 +111,11 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 .AssertAllFit(_random);
         }
 
+        [Test, Ignore("Debugging only")]
+        public void AreaDistributorTest_SingleMapForce_Debug() {
+            AreaDistributorTest_SingleMapForce("6x12: P-1x-4;S2x2");
+        }
+
         [Test, Category("Integration"), Category("Smoke")]
         public void AreaDistributorTest_CanLayout(
             [ValueSource("TestLayouts")] string layout

@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using PlayersWorlds.Maps.Areas;
 
 namespace PlayersWorlds.Maps.Serializer {
 
@@ -9,14 +10,15 @@ namespace PlayersWorlds.Maps.Serializer {
             var env = Area.CreateEnvironment(new Vector(5, 5));
             var cell = new Vector(1, 1);
             var actual = new CellSerializer().Serialize(env[cell]);
-            var expected = "Cell:{;}";
+            var expected = "Cell:{Environment;;}";
             Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
         public void CanDeserializeEmptyCell() {
             var serializer = new CellSerializer();
-            var cell = serializer.Deserialize("Cell:{;}");
+            var cell = serializer.Deserialize("Cell:{Environment;;}");
+            Assert.That(cell.AreaType, Is.EqualTo(AreaType.Environment));
             Assert.That(cell.HardLinks.Count, Is.EqualTo(0));
             Assert.That(cell.Tags.Count, Is.EqualTo(0));
         }
@@ -28,14 +30,14 @@ namespace PlayersWorlds.Maps.Serializer {
             env.Link(cell, cell + Vector.North2D);
             env.Link(cell, cell + Vector.East2D);
             var actual = new CellSerializer().Serialize(env[cell]);
-            var expected = "Cell:{[1x2,2x1];}";
+            var expected = "Cell:{Environment;[1x2,2x1];}";
             Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
         public void CanDeserializeCellWithLinks() {
             var serializer = new CellSerializer();
-            var cell = serializer.Deserialize("Cell:{[1x2,2x1];}");
+            var cell = serializer.Deserialize("Cell:{Environment;[1x2,2x1];}");
             var cellXY = new Vector(1, 1);
             Assert.That(cell.HardLinks.Count, Is.EqualTo(2));
             Assert.That(cell.HardLinks.Contains(cellXY + Vector.North2D), Is.True);
@@ -50,14 +52,14 @@ namespace PlayersWorlds.Maps.Serializer {
             env[cell].Tags.Add(new Cell.CellTag("foo"));
             env[cell].Tags.Add(new Cell.CellTag("bar"));
             var actual = new CellSerializer().Serialize(env[cell]);
-            var expected = "Cell:{;[foo,bar]}";
+            var expected = "Cell:{Environment;;[foo,bar]}";
             Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
         public void CanDeserializeCellWithTags() {
             var serializer = new CellSerializer();
-            var cell = serializer.Deserialize("Cell:{;[foo,bar]}");
+            var cell = serializer.Deserialize("Cell:{Environment;;[foo,bar]}");
             Assert.That(cell.HardLinks.Count, Is.EqualTo(0));
             Assert.That(cell.Tags.Count, Is.EqualTo(2));
             Assert.That(cell.Tags.Contains(new Cell.CellTag("foo")), Is.True);
@@ -73,14 +75,14 @@ namespace PlayersWorlds.Maps.Serializer {
             env[cell].Tags.Add(new Cell.CellTag("foo"));
             env[cell].Tags.Add(new Cell.CellTag("bar"));
             var actual = new CellSerializer().Serialize(env[cell]);
-            var expected = "Cell:{[1x2,2x1];[foo,bar]}";
+            var expected = "Cell:{Environment;[1x2,2x1];[foo,bar]}";
             Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
         public void CanDeserializeCellWithLinksAndTags() {
             var serializer = new CellSerializer();
-            var cell = serializer.Deserialize("Cell:{[1x2,2x1];[foo,bar]}");
+            var cell = serializer.Deserialize("Cell:{Environment;[1x2,2x1];[foo,bar]}");
             var cellXY = new Vector(1, 1);
             Assert.That(cell.HardLinks.Count, Is.EqualTo(2));
             Assert.That(cell.HardLinks.Contains(cellXY + Vector.North2D), Is.True);

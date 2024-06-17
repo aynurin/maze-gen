@@ -100,6 +100,11 @@ namespace PlayersWorlds.Maps {
         [Test]
         public void CanRenderAMapWithFilledAreas() {
             var log = TestLog.CreateForThisTest();
+            // The priority between hard links and filled areas is up to the
+            // rendering engine. In this implementation, the filled areas do not
+            // take priority over hard links (hard links are hard). So we need
+            // to adjust the maze to make it render the way it is expected.
+            _maze = LegacyAreaSerializer.ParseV01MazeString("4x4;0:1,4;1:2;2:3;3:7;4:8;8:12;12:13;13:14;14:10;10:11");
             _maze.AddChildArea(
                 Area.Create(
                     new Vector(1, 1), new Vector(1, 1), AreaType.Fill));

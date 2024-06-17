@@ -58,9 +58,8 @@ namespace PlayersWorlds.Maps.Maze {
                 Is.EqualTo(priorityCells));
 
             foreach (var areaInfo in maze.ChildAreas()) {
-                var areaCells = maze.ChildAreaCells(areaInfo);
                 if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
-                    var selectableCells = builder.TestCellsToConnect.Intersect(areaCells).ToList();
+                    var selectableCells = builder.TestCellsToConnect.Intersect(areaInfo.Grid).ToList();
                     if (selectableCells.Count > 0) {
                         Assert.Fail("Hall cells are in the cellsToConnect collection or have links.");
                     }
@@ -579,15 +578,14 @@ namespace PlayersWorlds.Maps.Maze {
                 });
             builder.TestRebuildCellMaps();
 
-            Assert.That(builder.TestPriorityCells.Keys.Intersect(maze.ChildAreaCells(area1)), Is.Empty);
-            Assert.That(builder.TestCellsToConnect.Intersect(maze.ChildAreaCells(area1)), Is.Empty);
-            Assert.That(builder.TestPriorityCells.Keys.Intersect(maze.ChildAreaCells(area2)), Is.Empty);
-            Assert.That(builder.TestCellsToConnect.Intersect(maze.ChildAreaCells(area2)), Is.Empty);
+            Assert.That(builder.TestPriorityCells.Keys.Intersect(area1.Grid), Is.Empty);
+            Assert.That(builder.TestCellsToConnect.Intersect(area1.Grid), Is.Empty);
+            Assert.That(builder.TestPriorityCells.Keys.Intersect(area2.Grid), Is.Empty);
+            Assert.That(builder.TestCellsToConnect.Intersect(area2.Grid), Is.Empty);
 
             foreach (var areaInfo in maze.ChildAreas()) {
-                var areaCells = maze.ChildAreaCells(areaInfo);
                 if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
-                    var selectableCells = builder.TestCellsToConnect.Intersect(areaCells).ToList();
+                    var selectableCells = builder.TestCellsToConnect.Intersect(areaInfo.Grid).ToList();
                     if (selectableCells.Count > 0) {
                         Assert.Fail("Hall cells are in the cellsToConnect collection or have links.");
                     }

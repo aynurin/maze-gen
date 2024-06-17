@@ -26,7 +26,7 @@ namespace PlayersWorlds.Maps.Serializer {
             return new BasicStringWriter()
                 .WriteObjectStart(obj.GetType())
                 .WriteValue(obj.Size.ToString())
-                .WriteValue(obj.IsPositionEmpty ? "" : obj.Position.ToString())
+                .WriteValue(obj.Grid.Position.IsEmpty ? "" : obj.Grid.Position.ToString())
                 .WriteValue(obj.IsPositionFixed.ToString())
                 .WriteValue(obj.Type.ToString())
                 .WriteEnumerable(obj.Tags)

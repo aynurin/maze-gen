@@ -54,10 +54,6 @@
       <Project>{1475F129-1D8B-4631-92ED-30972E539CF2}</Project>
       <Name>PlayersWorlds.Maps</Name>
     </ProjectReference>
-    <ProjectReference Include="..\tools\serializer\PlayersWorlds.Maps.Serializer.csproj">
-      <Project>{08d058c9-f76b-4c46-a749-f6103e8c7dd5}</Project>
-      <Name>PlayersWorlds.Maps.Serializer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

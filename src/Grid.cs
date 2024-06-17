@@ -94,12 +94,16 @@ namespace PlayersWorlds.Maps {
             var xyValue = new List<int>(xy.Value);
             var sizeValue = new List<int>(size.Value);
             for (var i = 0; i < _size.Dimensions; i++) {
-                if (xyValue[i] < 0) {
-                    sizeValue[i] = sizeValue[i] + xyValue[i];
-                    xyValue[i] = 0;
+                var pos = _position.IsEmpty ? 0 : _position.Value[i];
+                if (xyValue[i] < pos) {
+                    sizeValue[i] = sizeValue[i] + xyValue[i] - pos;
+                    xyValue[i] = pos;
                 }
-                if (xyValue[i] + sizeValue[i] > _size.Value[i]) {
-                    sizeValue[i] = Math.Max(0, _size.Value[i] - xyValue[i]);
+                if (xyValue[i] > pos + _size.Value[i]) {
+                    sizeValue[i] = 0;
+                } else if (xyValue[i] + sizeValue[i] > pos + _size.Value[i]) {
+                    sizeValue[i] =
+                        Math.Max(0, pos + _size.Value[i] - xyValue[i]);
                 }
             }
 
@@ -131,15 +135,18 @@ namespace PlayersWorlds.Maps {
                     $"(Grid({_size}).SafeRegion({xy}, {size}))");
             }
             if (xy.Value.Select(
-                (x, i) => xy.Value[i] < _position.Value[i])
+                (x, i) => xy.Value[i] <
+                    (_position.IsEmpty ? 0 : _position.Value[i]))
                         .Any(_ => _) ||
                 xy.Value.Select(
                     (x, i) => (xy.Value[i] + size.Value[i]) >
-                                    (_size.Value[i] + _position.Value[i]))
+                                    (_size.Value[i] +
+                                        (_position.IsEmpty ? 0 :
+                                         _position.Value[i])))
                         .Any(_ => _)) {
                 throw new IndexOutOfRangeException(
                     $"Can't retrieve area of size {size} at {xy} " +
-                    $"in map of size {_size}");
+                    $"in map of size {_size} located at {_position}.");
             }
 
             var xyValue = new List<int>(xy.Value);
@@ -239,7 +246,9 @@ namespace PlayersWorlds.Maps {
         /// <inheritdoc />
         public IEnumerator<Vector> GetEnumerator() {
             for (var i = 0; i < _size.Area; i++) {
-                yield return Vector.FromIndex(i, _size);
+                yield return _position.IsEmpty ?
+                    Vector.FromIndex(i, _size) :
+                    _position + Vector.FromIndex(i, _size);
             }
         }
         #endregion

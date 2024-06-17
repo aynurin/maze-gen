@@ -1,11 +1,13 @@
 using System;
 using System.Linq;
+using PlayersWorlds.Maps.Areas;
 
 namespace PlayersWorlds.Maps.Serializer {
     public class CellSerializer : IStringSerializer<Cell> {
         public Cell Deserialize(string str) {
             var serializer = new BasicStringReader(typeof(Cell), str);
-            var cell = new Cell();
+            var cell = new Cell(
+                (AreaType)Enum.Parse(typeof(AreaType), serializer.ReadValue()));
             foreach (var link in serializer.ReadEnumerable()) {
                 cell.HardLinks.Add(Vector.Parse(link));
             }
@@ -25,6 +27,7 @@ namespace PlayersWorlds.Maps.Serializer {
         public string Serialize(Cell obj) {
             return new BasicStringWriter()
                 .WriteObjectStart(obj.GetType())
+                .WriteValue(obj.AreaType.ToString())
                 .WriteEnumerable(obj.HardLinks.Select(v => v.ToString()))
                 .WriteEnumerable(obj.Tags.Select(v => v.ToString()))
                 .WriteObjectEnd();

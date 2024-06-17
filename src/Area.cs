@@ -20,9 +20,6 @@ namespace PlayersWorlds.Maps {
         private readonly AreaType _areaType;
         private readonly string[] _tags;
         private readonly List<Area> _childAreas;
-        private List<HashSet<Vector>> _hallCaveAreasCells =
-            new List<HashSet<Vector>>();
-        private HashSet<Vector> _fillAreasCells = new HashSet<Vector>();
 
         /// <summary>
         /// Position of this area in the target map.
@@ -77,6 +74,9 @@ namespace PlayersWorlds.Maps {
 
         public int Count => _cells.Count;
 
+        public bool IsHollow =>
+            _areaType == AreaType.Hall || _areaType == AreaType.Cave;
+
         /// <summary>
         /// Gets the value of a cell at the specified <see cref="Vector"/>
         /// position.
@@ -86,36 +86,36 @@ namespace PlayersWorlds.Maps {
         /// <returns>The value of the cell at the specified position.</returns>
         /// <exception cref="IndexOutOfRangeException">The position is outside
         /// the map bounds.</exception>
-        public Cell this[Vector xy] => _cells[xy.ToIndex(_grid.Size)];
+        public Cell this[Vector xy] => _cells[(_grid.Position.IsEmpty ? xy : (xy - _grid.Position)).ToIndex(_grid.Size)];
 
         public static Area Create(Vector position,
                                   Vector size,
                                   AreaType areaType,
                                   params string[] tags) =>
-            new Area(position,
-                     /*isPositionFixed=*/true, size, areaType,
+            new Area(position, size,
+                     /*isPositionFixed=*/true, areaType,
                      /*childAreas=*/null, tags);
 
         public static Area CreateUnpositioned(Vector size,
                                               AreaType areaType,
                                               params string[] tags) =>
-            new Area(Vector.Empty,
-                     /*isPositionFixed=*/false, size, areaType,
+            new Area(Vector.Empty, size,
+                     /*isPositionFixed=*/false, areaType,
                      /*childAreas=*/null, tags);
 
         public static Area CreateUnpositioned(Vector initialPosition,
                                               Vector size,
                                               AreaType areaType,
                                               params string[] tags) =>
-            new Area(initialPosition,
-                     /*isPositionFixed=*/false, size, areaType,
+            new Area(initialPosition, size,
+                     /*isPositionFixed=*/false, areaType,
                      /*childAreas=*/null, tags);
 
         public static Area CreateEnvironment(Vector size,
                                              params string[] tags) =>
-            new Area(Vector.Zero(size.Value.Count),
+            new Area(Vector.Zero(size.Value.Count), size,
                      /*isPositionFixed=*/false,
-                     size, AreaType.Environment,
+                     AreaType.Environment,
                      /*childAreas=*/null,
                      tags);
 
@@ -123,15 +123,15 @@ namespace PlayersWorlds.Maps {
         /// Creates a new instance of Area.
         /// </summary>
         /// <param name="position">Position of this area.</param>
+        /// <param name="size">Size of the area.</param>
         /// <param name="isPositionFixed"><c>true</c> if the position is fixed,
         /// <c>false</c> otherwise.</param>
-        /// <param name="size">Size of the area.</param>
         /// <param name="areaType">Area type.</param>
         /// <param name="childAreas">Child areas.</param>
         /// <param name="tags">Tags to assign to this area.</param>
         /// <exception cref="ArgumentException"></exception>
         // TODO: Area constructors seem to be redundant.
-        internal Area(Vector position, bool isPositionFixed, Vector size,
+        internal Area(Vector position, Vector size, bool isPositionFixed,
                     AreaType areaType,
                     IEnumerable<Area> childAreas,
                     IEnumerable<string> tags) {
@@ -146,9 +146,10 @@ namespace PlayersWorlds.Maps {
                 new List<Area>(childAreas);
             _tags = tags?.ToArray() ?? new string[0];
             _grid = new Grid(position, size);
-            _cells = Enumerable.Range(0, size.Area).Select(_ => new Cell())
+            _cells = Enumerable.Range(0, size.Area)
+                               .Select(_ => new Cell(areaType))
                 .ToList();
-            RebuildChildAreasSnapshot();
+            BakeChildAreas();
         }
 
         /// <summary>
@@ -174,13 +175,64 @@ namespace PlayersWorlds.Maps {
             }
             _grid = new Grid(grid.Position, grid.Size);
             _cells = new List<Cell>(cells);
-            RebuildChildAreasSnapshot();
+            BakeChildAreas();
         }
 
-        public IEnumerable<Vector> ChildAreaCells(Area area) {
-            foreach (var cell in area.Grid) {
-                yield return area.Position + cell;
+        public void BakeChildAreas() {
+            // check if the cell belongs to a Hall or Cave.
+            // check if two cells belong to the same Hall or Cave area.
+            // make sure the cell is available; unavailable cells cannot be
+            //      visited.
+            var childAreas = _childAreas.Where(a => !a.IsPositionEmpty)
+                                        .ToList();
+
+            // Add all None-Areas to unavailable cells;
+            // Remove all non-None-Areas from unavailable cells.
+            // Force all Fill areas to be unavailable.
+            var unavailableCells = new HashSet<Vector>(
+                _areaType == AreaType.None ? _grid : Enumerable.Empty<Vector>());
+            // the reason we do this in three steps is because areas can be
+            // overlapping. I.e. if there is a hall area over none area, and
+            // then covered by a fill area, the fill area cells have to be
+            // marked unavailable no matter the order in the collection.
+            foreach (var area in childAreas.Where(a => a.Type == AreaType.None)) {
+                foreach (var cell in area._grid) {
+                    unavailableCells.Add(cell);
+                }
             }
+            foreach (var area in childAreas.Where(a => a.Type != AreaType.None)) {
+                unavailableCells.ExceptWith(area._grid.Select(cell => cell));
+            }
+            foreach (var area in childAreas.Where(a => a.Type == AreaType.Fill)) {
+                foreach (var cell in area._grid) {
+                    unavailableCells.Add(cell);
+                }
+            }
+
+            foreach (var cell in _grid) {
+                if (unavailableCells.Contains(cell)) continue;
+                var relatedAreas = childAreas
+                    .Where(a => a.Contains(cell)).ToList();
+                var envNeighbors = _grid.AdjacentRegion(cell)
+                    // don't include diagonal neighbors.
+                    .Where(nbr => nbr.Value.Where(
+                        (x, i) => cell.Value[i] == x).Any())
+                    // don't include unavailable neighbors.
+                    .Where(nbr => !unavailableCells.Contains(nbr))
+                    .ToList();
+                var envLinks = envNeighbors
+                    // both cell and neighbor belong to the same hollow area.
+                    .Where(nbr => relatedAreas.Any(a => a.IsHollow && a.Contains(nbr)));
+                var relatedCells = relatedAreas
+                    .Select(a => a[cell]);
+                this[cell].Bake(relatedCells, envNeighbors, envLinks);
+            }
+        }
+
+        public void Reposition(Vector newPosition) {
+            if (_isPositionFixed)
+                throw new InvalidOperationException("Position is fixed");
+            _grid.Reposition(newPosition);
         }
 
         public IEnumerable<Area> ChildAreas() =>
@@ -190,30 +242,19 @@ namespace PlayersWorlds.Maps {
             _childAreas.Where(a => a.Contains(xy));
 
         public bool CellsAreLinked(Vector one, Vector another) {
-            return Contains(one) && Contains(another) &&
-                   !_fillAreasCells.Contains(one) &&
-                   !_fillAreasCells.Contains(another) &&
-                   (this[one].HardLinks.Contains(another) ||
-                   _hallCaveAreasCells
-                        .Any(a => a.Contains(one) && a.Contains(another)));
+            return this[one].HardLinks.Contains(another) ||
+                   this[one].BakedLinks.Contains(another);
         }
 
         public bool CellHasLinks(Vector cell) {
-            return Contains(cell) &&
-                   !_fillAreasCells.Contains(cell) &&
-                   (this[cell].HardLinks.Count > 0 ||
-                   _hallCaveAreasCells
-                        .Any(a => a.Contains(cell)));
+            return this[cell].HardLinks.Count > 0 ||
+                   this[cell].BakedLinks.Count > 0;
         }
 
-        public IList<Vector> CellLinks(Vector cell) {
+        public ICollection<Vector> CellLinks(Vector cell) {
             return this[cell].HardLinks
-                .Concat(NeighborsOf(cell)
-                           .Where(n =>
-                               !_fillAreasCells.Contains(n) &&
-                               _hallCaveAreasCells.Any(
-                             area => area.Contains(n) && area.Contains(cell))))
-                  .Distinct().ToList();
+                    .Concat(this[cell].BakedLinks)
+                    .Distinct().ToList();
         }
 
         public Area ShallowCopy() => new Area(
@@ -226,39 +267,6 @@ namespace PlayersWorlds.Maps {
 
         public void AddChildArea(Area area) {
             _childAreas.Add(area);
-            RebuildChildAreasSnapshot();
-        }
-
-        public void RebuildChildAreasSnapshot() {
-            if (_childAreas.Count == 0) return;
-            // check if the cell belongs to a Hall or Cave.
-            // check if two cells belong to the same Hall or Cave area.
-            // make sure the cell does not belong to a filled area.
-            var interconnectedAreasSnapshot = new List<HashSet<Vector>>();
-            var filledAreasSnapshot = new HashSet<Vector>();
-            foreach (var area in _childAreas.Where(a => a.Type == AreaType.Fill)) {
-                if (area.IsPositionEmpty) continue;
-                foreach (var cell in area._grid) {
-                    filledAreasSnapshot.Add(cell + area.Position);
-                }
-            }
-            foreach (var area in _childAreas.Where(a => a.Type == AreaType.Hall || a.Type == AreaType.Cave)) {
-                if (area.IsPositionEmpty) continue;
-                var areaCells = new HashSet<Vector>(
-                    area._grid.Select(cell => cell + area.Position));
-                areaCells.ExceptWith(filledAreasSnapshot);
-                if (areaCells.Count > 0) {
-                    interconnectedAreasSnapshot.Add(areaCells);
-                }
-            }
-            _hallCaveAreasCells = interconnectedAreasSnapshot;
-            _fillAreasCells = filledAreasSnapshot;
-        }
-
-        public void Reposition(Vector newPosition) {
-            if (_isPositionFixed)
-                throw new InvalidOperationException("Position is fixed");
-            _grid.Reposition(newPosition);
         }
 
         /// <summary>
@@ -289,9 +297,7 @@ namespace PlayersWorlds.Maps {
             _grid.FitsInto(other._grid.Position, other._grid.Size);
 
         public IEnumerable<Vector> NeighborsOf(Vector cell) =>
-            _grid.AdjacentRegion(cell)
-                 .Where(p => p.Value.Where((x, i) => cell.Value[i] == x).Any())
-                 .Where(p => !_fillAreasCells.Contains(p));
+            this[cell].BakedNeighbors;
 
         public bool AreNeighbors(Vector one, Vector another) {
             return NeighborsOf(one).Contains(another);

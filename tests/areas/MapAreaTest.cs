@@ -79,5 +79,29 @@ namespace PlayersWorlds.Maps.Areas {
                     AreaType.Maze),
                 Throws.TypeOf<ArgumentException>());
         }
+
+        [Test]
+        public void BakeCreatesNeighbors() {
+            var area = Area.CreateEnvironment(new Vector(3, 3));
+            area.BakeChildAreas();
+            Assert.That(area[new Vector(0, 0)].BakedNeighbors, Has.Exactly(2).Items);
+        }
+
+        [Test]
+        public void BakeCreatesLinks() {
+            var area = Area.CreateEnvironment(new Vector(3, 3));
+            area.AddChildArea(Area.Create(new Vector(0, 0), new Vector(3, 3), AreaType.Hall));
+            area.BakeChildAreas();
+            Assert.That(area[new Vector(0, 0)].BakedLinks, Has.Exactly(2).Items);
+        }
+
+        [Test]
+        public void BakeCreatesProperLinks() {
+            var area = Area.CreateEnvironment(new Vector(3, 3));
+            area.AddChildArea(Area.Create(new Vector(1, 1), new Vector(2, 2), AreaType.Hall));
+            area.BakeChildAreas();
+            Assert.That(area[new Vector(0, 0)].BakedLinks, Is.Empty);
+            Assert.That(area[new Vector(1, 1)].BakedLinks, Has.Exactly(2).Items);
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = GenerateMaze(generatorType, new List<Area>() { fill });
 
             Assert.That(maze.ChildAreas(), Has.Exactly(1).Items);
-            var fillCells = maze.ChildAreaCells(maze.ChildAreas().First()).ToList();
+            var fillCells = new List<Vector>(maze.ChildAreas().First().Grid);
             Assert.That(fillCells, Has.Exactly(12).Items);
 
             var otherCells = maze.Grid
@@ -104,7 +104,7 @@ namespace PlayersWorlds.Maps.Maze {
             var mazeArea = 225;
 
             Assert.That(maze.ChildAreas(), Has.Exactly(1).Items);
-            var caveCells = maze.ChildAreaCells(maze.ChildAreas().First()).ToList();
+            var caveCells = new List<Vector>(maze.ChildAreas().First().Grid);
             Assert.That(caveCells, Has.Exactly(21).Items);
 
             var otherCells = maze.Grid
@@ -151,17 +151,15 @@ namespace PlayersWorlds.Maps.Maze {
 
             var areaArea = 45;
             var mazeArea = 225;
-            var areaCells = maze.ChildAreaCells(area1)
-                            .Concat(maze.ChildAreaCells(area2))
-                            .Distinct();
+            var areaCells = area1.Grid.Concat(area2.Grid).Distinct();
 
             Assert.That(area1.Grid, Has.Exactly(28).Items);
             Assert.That(area2.Grid, Has.Exactly(21).Items);
             Assert.That(areaCells, Has.Exactly(areaArea).Items);
 
             var otherCells = maze.Grid
-                .Except(maze.ChildAreaCells(area1))
-                .Except(maze.ChildAreaCells(area2))
+                .Except(area1.Grid)
+                .Except(area2.Grid)
                 .ToList();
 
             Assert.That(otherCells, Has.Exactly(mazeArea - areaArea).Items);

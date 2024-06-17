@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Serializer;
 
 namespace PlayersWorlds.Maps {
@@ -13,6 +14,11 @@ namespace PlayersWorlds.Maps {
     public class Cell : ExtensibleObject {
         private readonly List<CellTag> _tags = new List<CellTag>();
         private readonly HashSet<Vector> _hardLinks = new HashSet<Vector>();
+        private readonly AreaType _areaType;
+        private AreaType? _bakedAreaType;
+        private readonly HashSet<Vector> _bakedLinks = new HashSet<Vector>();
+        private readonly HashSet<Vector> _bakedNeighbors = new HashSet<Vector>();
+        private readonly HashSet<Cell> _bakedCells = new HashSet<Cell>();
 
         /// <summary>
         /// Tags assigned to cell.
@@ -21,19 +27,48 @@ namespace PlayersWorlds.Maps {
 
         public HashSet<Vector> HardLinks => _hardLinks;
 
+        public HashSet<Vector> BakedLinks => _bakedLinks;
+
+        public HashSet<Vector> BakedNeighbors => _bakedNeighbors;
+
+        public HashSet<Cell> BakedCells => _bakedCells;
+
+        public AreaType AreaType => _bakedAreaType ?? _areaType;
+
         /// <summary>
         /// Creates an instance of cell at the specified position.
         /// </summary>
         /// <remarks>Supposed for internal use only.</remarks>
-        internal Cell() { }
+        internal Cell(AreaType areaType) {
+            _areaType = areaType;
+        }
 
         internal Cell Clone() {
-            var newCell = new Cell();
+            var newCell = new Cell(_areaType);
             newCell._tags.AddRange(_tags);
             foreach (var link in _hardLinks) {
                 newCell._hardLinks.Add(link);
             }
             return newCell;
+        }
+
+        internal void Bake(IEnumerable<Cell> relatedCells,
+                           IEnumerable<Vector> envNeighbors,
+                           IEnumerable<Vector> envLinks) {
+            // bake in neighbors, links, and other computed properties.
+            _bakedLinks.Clear();
+            _bakedLinks.UnionWith(envLinks);
+            _bakedNeighbors.Clear();
+            _bakedNeighbors.UnionWith(envNeighbors);
+            _bakedCells.Clear();
+            _bakedCells.UnionWith(relatedCells);
+
+            var bakedType = relatedCells.Select(c => c.AreaType)
+                                        .OrderByDescending(t => t)
+                                        .FirstOrDefault();
+            if (bakedType > _areaType) {
+                _bakedAreaType = bakedType;
+            }
         }
 
         override public string ToString() =>

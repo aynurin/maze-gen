@@ -103,7 +103,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             // TODO(#37): Trace: _log?.Buffered.D(4, $"CompleteEpoch(): {epochResult.DebugString()}, {epochResult.Stats.DebugString()}");
 
             // TODO: Not covered
-            _env.RebuildChildAreasSnapshot();
+            _env.BakeChildAreas();
 
             return epochResult;
         }
