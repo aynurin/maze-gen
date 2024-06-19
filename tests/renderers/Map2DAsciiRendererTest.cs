@@ -10,7 +10,7 @@ namespace PlayersWorlds.Maps.Renderers {
     internal class Map2DStringRendererTest : Test {
         [Test]
         public void TestRender() {
-            var map = Area.CreateEnvironment(new Vector(5, 5));
+            var map = Area.CreateMaze(new Vector(5, 5));
             map.Grid.Region(new Vector(0, 0), new Vector(5, 5))
                 .ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
             map.Grid.Region(new Vector(0, 0), new Vector(5, 1))

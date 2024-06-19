@@ -10,9 +10,9 @@ namespace PlayersWorlds.Maps.Maze {
         public void ThrowsIfCantFit() {
             void Act() =>
                 new Maze2DRenderer(
-                    Area.CreateEnvironment(new Vector(10, 10)),
+                    Area.CreateMaze(new Vector(10, 10)),
                     MazeToMapOptions.SquareCells(2, 2)
-                ).Render(Area.CreateEnvironment(new Vector(10, 10)));
+                ).Render(Area.CreateMaze(new Vector(10, 10)));
             Assert.That(Act, Throws.Exception.TypeOf<ArgumentException>());
         }
     }

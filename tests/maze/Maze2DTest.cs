@@ -12,7 +12,7 @@ namespace PlayersWorlds.Maps.Maze {
     public class Maze2DTest : Test {
         [Test]
         public void Maze2D_IsInitialized() {
-            var map = Area.CreateEnvironment(new Vector(2, 3));
+            var map = Area.CreateMaze(new Vector(2, 3));
             Assert.That(6, Is.EqualTo(map.Size.Area));
             Assert.That(6, Is.EqualTo(map.Count));
             Assert.That(2, Is.EqualTo(map.Size.X));
@@ -21,49 +21,22 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_WrongSize() {
-            Assert.DoesNotThrow(() => Area.CreateEnvironment(new Vector(0, 3)));
-            Assert.DoesNotThrow(() => Area.CreateEnvironment(new Vector(2, 0)));
-            Assert.Throws<ArgumentException>(() => Area.CreateEnvironment(new Vector(-1, 1)));
-            Assert.Throws<ArgumentException>(() => Area.CreateEnvironment(new Vector(1, -1)));
-            Assert.Throws<ArgumentException>(() => Area.CreateEnvironment(new Vector(-1, -1)));
+            Assert.DoesNotThrow(() => Area.CreateMaze(new Vector(0, 3)));
+            Assert.DoesNotThrow(() => Area.CreateMaze(new Vector(2, 0)));
+            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(-1, 1)));
+            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(1, -1)));
+            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(-1, -1)));
         }
 
         [Test]
         public void Maze2D_ToMapWrongOptions() {
-            Assert.DoesNotThrow(() => Area.CreateEnvironment(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3, 4 })));
-            Assert.Throws<ArgumentException>(() => Area.CreateEnvironment(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
-            Assert.Throws<ArgumentException>(() => Area.CreateEnvironment(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
-            Assert.Throws<ArgumentException>(() => Area.CreateEnvironment(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { }, new int[] { 1, 2 })));
-            Assert.DoesNotThrow(() => Area.CreateEnvironment(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1 })));
-            Assert.Throws<ArgumentException>(() => Area.CreateEnvironment(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { })));
-            Assert.Throws<ArgumentNullException>(() => Area.CreateEnvironment(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 1, 2 }, null)));
-        }
-
-        [Test]
-        public void Maze2D_CellsNeighborsAreValid() {
-            var rows = 5;
-            var cols = 5;
-            var map = Area.CreateEnvironment(new Vector(cols, rows));
-
-            Assert.That(map.Count, Is.EqualTo(rows * cols), "Wrong number of cells.");
-            for (var x = 0; x < cols; x++) {
-                for (var y = 0; y < rows; y++) {
-                    var cell = new Vector(x, y);
-                    var neighbors = map.Grid.Where(c =>
-                        (c.X == cell.X && Math.Abs(c.Y - cell.Y) == 1) ||
-                        (c.Y == cell.Y && Math.Abs(c.X - cell.X) == 1))
-                            .ToList();
-                    var nonNeighbors = map.Grid
-                        .Where(c => c != cell && !neighbors.Contains(c))
-                        .ToList();
-                    if (neighbors.Count != map.NeighborsOf(cell).Count()) {
-                        TestLog.CreateForThisTest().D(5, $"Cell {cell.X},{cell.Y} has {neighbors.Count} neighbors. It should have {map.NeighborsOf(cell).Count()} neighbors.");
-                    }
-                    Assert.That(neighbors.Count, Is.EqualTo(map.NeighborsOf(cell).Count()));
-                    Assert.That(neighbors.All(c => map.NeighborsOf(cell).Contains(c)), Is.True);
-                    Assert.That(nonNeighbors.Any(c => map.NeighborsOf(cell).Contains(c)), Is.False);
-                }
-            }
+            Assert.DoesNotThrow(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3, 4 })));
+            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
+            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
+            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { }, new int[] { 1, 2 })));
+            Assert.DoesNotThrow(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1 })));
+            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { })));
+            Assert.Throws<ArgumentNullException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 1, 2 }, null)));
         }
 
         [Test]
@@ -177,10 +150,6 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(!maze.CellsAreLinked(Vector.FromIndex(6, maze.Size), Vector.FromIndex(6, maze.Size) + Vector.West2D), Is.True);
             Assert.That(!maze.CellsAreLinked(Vector.FromIndex(6, maze.Size), Vector.FromIndex(6, maze.Size) + Vector.South2D), Is.True);
             Assert.That(!maze.CellsAreLinked(Vector.FromIndex(6, maze.Size), Vector.FromIndex(6, maze.Size) + Vector.North2D), Is.True);
-            Assert.That(maze.AreNeighbors(Vector.FromIndex(6, maze.Size), Vector.FromIndex(6, maze.Size) + Vector.East2D), Is.True);
-            Assert.That(!maze.AreNeighbors(Vector.FromIndex(6, maze.Size), Vector.FromIndex(6, maze.Size) + Vector.West2D), Is.True);
-            Assert.That(maze.AreNeighbors(Vector.FromIndex(6, maze.Size), Vector.FromIndex(6, maze.Size) + Vector.South2D), Is.True);
-            Assert.That(!maze.AreNeighbors(Vector.FromIndex(6, maze.Size), Vector.FromIndex(6, maze.Size) + Vector.North2D), Is.True);
         }
 
         [Test]

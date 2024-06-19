@@ -119,6 +119,22 @@ namespace PlayersWorlds.Maps {
                      /*childAreas=*/null,
                      tags);
 
+        public static Area CreateMaze(Vector size,
+                                             params string[] tags) =>
+            new Area(Vector.Zero(size.Value.Count), size,
+                     /*isPositionFixed=*/false,
+                     AreaType.Maze,
+                     /*childAreas=*/null,
+                     tags);
+
+        public static Area CreateFrom(Area area, IEnumerable<Cell> cells) =>
+            new Area(area.Grid,
+                     cells,
+                     area.IsPositionFixed,
+                     area.Type,
+                     area.ChildAreas(),
+                     area.Tags);
+
         /// <summary>
         /// Creates a new instance of Area.
         /// </summary>
@@ -178,6 +194,7 @@ namespace PlayersWorlds.Maps {
             BakeChildAreas();
         }
 
+        // TODO: Why is this called 3-4 times?
         public void BakeChildAreas() {
             // check if the cell belongs to a Hall or Cave.
             // check if two cells belong to the same Hall or Cave area.
@@ -209,6 +226,26 @@ namespace PlayersWorlds.Maps {
                 }
             }
 
+            // cell types logic:
+            //   if there are only Environment cells - they are available.
+            //   if there are only Maze cells - they are available.
+            //   if all cells are of any other type - they are unavailable.
+            //   if there are cells of both Maze and Environment or None types,
+            //      only Maze cells are used as neighbors.
+
+            HashSet<Vector> neighborCells;
+            var mazeCells = _cells
+                .Select((c, i) => (cell: c, index: Vector.FromIndex(i, Size)))
+                .Where(c => c.cell.AreaType == AreaType.Maze)
+                .Select(c => c.index)
+                .ToList();
+            if (mazeCells.Count > 0) {
+                neighborCells = new HashSet<Vector>(mazeCells);
+            } else {
+                neighborCells = new HashSet<Vector>(_grid);
+            }
+            neighborCells.ExceptWith(unavailableCells);
+
             foreach (var cell in _grid) {
                 if (unavailableCells.Contains(cell)) continue;
                 var relatedAreas = childAreas
@@ -218,7 +255,8 @@ namespace PlayersWorlds.Maps {
                     .Where(nbr => nbr.Value.Where(
                         (x, i) => cell.Value[i] == x).Any())
                     // don't include unavailable neighbors.
-                    .Where(nbr => !unavailableCells.Contains(nbr))
+                    .Where(nbr => neighborCells.Contains(nbr))
+                    .Where(nbr => neighborCells.Contains(cell))
                     .ToList();
                 var envLinks = envNeighbors
                     // both cell and neighbor belong to the same hollow area.
@@ -266,6 +304,9 @@ namespace PlayersWorlds.Maps {
             _tags);
 
         public void AddChildArea(Area area) {
+            if (!area.Grid.FitsInto(Grid)) {
+                throw new ArgumentException("Area does not fit into this area");
+            }
             _childAreas.Add(area);
         }
 
@@ -294,31 +335,7 @@ namespace PlayersWorlds.Maps {
         /// <returns><c>true</c> if the inner area is completely within the
         /// outer area, <c>false</c> otherwise.</returns>
         public bool FitsInto(Area other) =>
-            _grid.FitsInto(other._grid.Position, other._grid.Size);
-
-        public IEnumerable<Vector> NeighborsOf(Vector cell) =>
-            this[cell].BakedNeighbors;
-
-        public bool AreNeighbors(Vector one, Vector another) {
-            return NeighborsOf(one).Contains(another);
-        }
-
-        public void Link(Vector one, Vector another) {
-            // check if the cell is a neighbor.
-            if (!NeighborsOf(one).Contains(another)) {
-                throw new InvalidOperationException(
-                    "Linking with non-adjacent cells is not supported yet (" +
-                    $"Trying to link {one} to {another}). Neighbors: {string.Join(", ", NeighborsOf(one))}");
-            }
-            // this should never happen.
-            if (!NeighborsOf(another).Contains(one)) {
-                throw new InvalidProgramException(
-                    "Non-mirroring neighborhood (" +
-                    $"Trying to link {one} to {another}). Neighbors of one: {string.Join(", ", NeighborsOf(one))}, neighbors of another: {string.Join(", ", NeighborsOf(another))}");
-            }
-            this[one].HardLinks.Add(another);
-            this[another].HardLinks.Add(one);
-        }
+            _grid.FitsInto(other._grid);
 
         /// <summary>
         /// Scales current map to the specified size.

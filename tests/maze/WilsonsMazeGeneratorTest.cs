@@ -10,7 +10,7 @@ namespace PlayersWorlds.Maps.Maze {
     public class WilsonsMazeGeneratorTest : Test {
         [Test, Timeout(1000)]
         public void DuplicateRandom() {
-            var maze = Area.CreateEnvironment(new Vector(5, 5));
+            var maze = Area.CreateMaze(new Vector(5, 5));
             var opts = new GeneratorOptions() {
                 MazeAlgorithm = typeof(WilsonsMazeGenerator),
                 RandomSource = RandomSource.CreateFromEnv()

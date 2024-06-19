@@ -16,7 +16,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         internal static Area CreateMapForMaze(
             Area maze, MazeToMapOptions options) =>
-                Area.CreateEnvironment(options.RenderedSize(maze.Size));
+                Area.CreateMaze(options.RenderedSize(maze.Size));
 
         /// <summary />
         public Maze2DRenderer(Area maze, MazeToMapOptions options) {

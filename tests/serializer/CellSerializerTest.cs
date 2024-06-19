@@ -27,8 +27,10 @@ namespace PlayersWorlds.Maps.Serializer {
         public void CanSerializeCellWithLinks() {
             var env = Area.CreateEnvironment(new Vector(5, 5));
             var cell = new Vector(1, 1);
-            env.Link(cell, cell + Vector.North2D);
-            env.Link(cell, cell + Vector.East2D);
+            env[cell].HardLinks.Add(cell + Vector.North2D);
+            env[cell + Vector.North2D].HardLinks.Add(cell);
+            env[cell].HardLinks.Add(cell + Vector.East2D);
+            env[cell + Vector.East2D].HardLinks.Add(cell);
             var actual = new CellSerializer().Serialize(env[cell]);
             var expected = "Cell:{Environment;[1x2,2x1];}";
             Assert.That(actual, Is.EqualTo(expected));

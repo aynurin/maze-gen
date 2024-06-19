@@ -47,14 +47,14 @@ namespace PlayersWorlds.Maps.Serializer {
                 // TODO: Migrate all serialization to the other format.
                 var parts = value.Split(';', '\n');
                 var size = new Vector(parts[0].Split('x').Select(int.Parse));
-                var maze = Area.CreateEnvironment(size);
+                var maze = Area.CreateMaze(size);
                 for (var i = 1; i < parts.Length; i++) {
                     var part = parts[i].Split(':', ',').Select(int.Parse).ToArray();
                     for (var j = 1; j < part.Length; j++) {
-                        maze.Link(
-                            Vector.FromIndex(part[0], maze.Size),
-                            Vector.FromIndex(part[j], maze.Size)
-                        );
+                        maze[Vector.FromIndex(part[0], maze.Size)]
+                            .HardLinks.Add(Vector.FromIndex(part[j], maze.Size));
+                        maze[Vector.FromIndex(part[j], maze.Size)]
+                            .HardLinks.Add(Vector.FromIndex(part[0], maze.Size));
                     }
                 }
                 return maze;
@@ -62,7 +62,7 @@ namespace PlayersWorlds.Maps.Serializer {
                 var linksAdded = new HashSet<string>();
                 var parts = value.Split('|');
                 var size = Vector.Parse(parts[0]);
-                var maze = Area.CreateEnvironment(size);
+                var maze = Area.CreateMaze(size);
                 parts[1].Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ForEach(
                     areaStr => maze.AddChildArea(ParseV01AreaString(areaStr)));
                 maze.BakeChildAreas();
@@ -75,11 +75,11 @@ namespace PlayersWorlds.Maps.Serializer {
                             if (linksAdded.Contains($"{part[0]}|{part[j]}")) {
                                 continue;
                             }
-                            maze.Link(
-                                Vector.FromIndex(part[0], maze.Size),
-                                Vector.FromIndex(part[j], maze.Size)
-                            );
+                            maze[Vector.FromIndex(part[0], maze.Size)]
+                                .HardLinks.Add(Vector.FromIndex(part[j], maze.Size));
                             linksAdded.Add($"{part[0]}|{part[j]}");
+                            maze[Vector.FromIndex(part[j], maze.Size)]
+                                .HardLinks.Add(Vector.FromIndex(part[0], maze.Size));
                             linksAdded.Add($"{part[j]}|{part[0]}");
                         }
                     });

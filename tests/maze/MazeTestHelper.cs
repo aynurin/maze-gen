@@ -37,7 +37,7 @@ namespace PlayersWorlds.Maps.Maze {
             if (options.AreaGeneration == AreaGenerationMode.Auto && options.AreaGenerator == null) {
                 options.AreaGenerator = new RandomAreaGenerator(options.RandomSource);
             }
-            var maze = Area.CreateEnvironment(size);
+            var maze = Area.CreateMaze(size);
             childAreas?.ForEach(childArea => maze.AddChildArea(childArea));
             builder = Maze2DBuilder.BuildMaze(maze, options);
             s_log.D(2, maze.MazeToString());

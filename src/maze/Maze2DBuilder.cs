@@ -35,7 +35,8 @@ namespace PlayersWorlds.Maps.Maze {
         private readonly MazeFillFactor _fillFactor;
         private readonly int _isFillCompleteAttempts;
         private int _isFillCompleteAttemptsMade;
-
+        private Dictionary<Vector, HashSet<Vector>> _neighbors =
+            new Dictionary<Vector, HashSet<Vector>>();
         private readonly HashSet<Vector> _cellsToConnect =
             new HashSet<Vector>();
         private readonly Dictionary<Vector, List<Vector>> _priorityCellsToConnect =
@@ -186,6 +187,25 @@ namespace PlayersWorlds.Maps.Maze {
         }
 
         private void RebuildCellMaps() {
+            _neighbors = new Dictionary<Vector, HashSet<Vector>>();
+            var onlyMazeCells = new HashSet<Vector>();
+            foreach (var cell in _mazeArea.Grid) {
+                if (_mazeArea[cell].AreaType != AreaType.Maze) {
+                    _neighbors.Add(cell, new HashSet<Vector>());
+                    continue;
+                } else {
+                    onlyMazeCells.Add(cell);
+                }
+                var mazeNeighbors = _mazeArea.Grid.AdjacentRegion(cell)
+                    // don't include diagonal neighbors.
+                    .Where(nbr => nbr.Value.Where(
+                        (x, i) => cell.Value[i] == x).Any())
+                    // don't include unavailable neighbors.
+                    .Where(nbr => _mazeArea[nbr].AreaType == AreaType.Maze)
+                    .ToList();
+                _neighbors.Add(cell, new HashSet<Vector>(mazeNeighbors));
+            }
+
             // Find priority cells to connect first. _priorityCellsToConnect are
             // associated with areas they relate to. When any of the given area
             // cells is processed, all "priority cells" of this area are removed
@@ -194,16 +214,17 @@ namespace PlayersWorlds.Maps.Maze {
             _priorityCellsToConnect.Clear();
             foreach (var areaInfo in _mazeArea.ChildAreas()) {
                 var area = areaInfo;
-                var mazeAreaCells = new List<Vector>(areaInfo.Grid); // TODO: Not covered
+                var mazeAreaCells = new HashSet<Vector>(areaInfo.Grid); // TODO: Not covered
                 if (area.Type == AreaType.Cave) {
-                    // make sure all cave areas are linked.
+                    mazeAreaCells.IntersectWith(onlyMazeCells);
                     mazeAreaCells.ForEach(
-                        c => _priorityCellsToConnect.Set(c, mazeAreaCells));
+                        c => _priorityCellsToConnect.Set(
+                            c, mazeAreaCells.ToList()));
                 } else if (area.Type == AreaType.Hall) {
                     // halls will be connected later. BUT we need to make sure
                     // halls have at least one neighbor cell connected to the
                     // maze.
-                    var cells = WalkInCells(area)
+                    var cells = new HashSet<Vector>(WalkInCells(area)
                         // make sure we don't include cells that belong to 
                         // any other area.
                         .Except(_mazeArea.ChildAreas()
@@ -212,16 +233,17 @@ namespace PlayersWorlds.Maps.Maze {
                                 (otherArea.Type == AreaType.Hall ||
                                     otherArea.Type == AreaType.Fill))
                             .SelectMany(otherArea => // TODO: Not covered
-                                            otherArea.Grid))
-                        .ToList();
-                    cells.ForEach(c => _priorityCellsToConnect.Set(c, cells));
+                                            otherArea.Grid)));
+                    cells.IntersectWith(onlyMazeCells);
+                    cells.ForEach(p => _priorityCellsToConnect.Set(
+                        p, cells.ToList()));
                 }
             }
 
             _cellsToConnect.Clear();
             _allConnectableCells.Clear();
             // all cells that do not belong to fill and hall areas.
-            _mazeArea.Grid // does this cell belong to a fill or hall child area?
+            onlyMazeCells // does this cell belong to a fill or hall child area?
                 .Where(c => _mazeArea.ChildAreas(c)
                     .All(area => area.Type != AreaType.Fill &&
                                  area.Type != AreaType.Hall))
@@ -283,15 +305,17 @@ namespace PlayersWorlds.Maps.Maze {
                     .SafeRegion(
                         new Vector(area.Position.Value.Select(c => c - 1)),
                         new Vector(area.Size.Value.Select(c => c + 2)))
-                    .Where(c => !area.Contains(c) &&
-                                 // only cells that have neighbors in this area.
-                                 _mazeArea.NeighborsOf(c).Any(
-                                    n => area.Contains(n)));
+                    // cells around this area
+                    .Except(area.Grid)
+                    // that have neighbors in this area.
+                    .Where(c => _neighbors[c].Any(n => area.Contains(n)));
             }
             throw new InvalidOperationException(
                 $"WalkInCells is applicable only to halls " +
                 $"({Enum.GetName(typeof(AreaType), area.Type)} requested).");
         }
+
+        public IEnumerable<Vector> NeighborsOf(Vector cell) => _neighbors[cell];
 
         /// <summary>
         /// Cells that can be connected and are not connected yet, in a
@@ -369,15 +393,14 @@ namespace PlayersWorlds.Maps.Maze {
             // connected.
             // also make sure hall areas have at least one neighbor cell
             // connected to the maze so we can connect them later.
-            var neighbors = _mazeArea.NeighborsOf(cell);
             var cellsToConnect = honorPriority ?
-                _priorityCellsToConnect.GetAll(neighbors)
+                _priorityCellsToConnect.GetAll(_neighbors[cell])
                     .Select(kv => kv.Item1).ToList() :
                     new List<Vector>();
             if (cellsToConnect.Count == 0) {
                 cellsToConnect =
                     (onlyUnconnected ? _cellsToConnect : _allConnectableCells)
-                    .GetAll(neighbors).ToList();
+                    .GetAll(_neighbors[cell]).ToList();
             }
             if (cellsToConnect.Count > 0) {
                 neighbor = _randomSource.RandomOf(cellsToConnect);
@@ -422,7 +445,7 @@ namespace PlayersWorlds.Maps.Maze {
                         continue;
                     }
                     var walkway = _randomSource.RandomOf(visitedWalkInCells);
-                    var entrance = _mazeArea.NeighborsOf(walkway)
+                    var entrance = _neighbors[walkway]
                         .First(c => area.Contains(c));
                     Connect(walkway, entrance);
                 }
@@ -436,8 +459,8 @@ namespace PlayersWorlds.Maps.Maze {
         //       should use a more specific check?
         public bool CanConnect(Vector cell, Vector neighbor) =>
             _allConnectableCells.Contains(cell) &&
-            _mazeArea.AreNeighbors(cell, neighbor) &&
-            _allConnectableCells.Contains(neighbor);
+            _allConnectableCells.Contains(neighbor) &&
+            _neighbors[cell].Contains(neighbor);
 
         /// <summary>
         /// Check if the given cell is connected to the maze cells.
@@ -455,6 +478,18 @@ namespace PlayersWorlds.Maps.Maze {
         /// <param name="another">The second cell to connect.</param>
         public void Connect(Vector one, Vector another) {
             Trace.WriteLine(string.Format("Connecting {0} to {1}.", one, another));
+            // check if the cell is a neighbor.
+            if (!_neighbors[one].Contains(another)) {
+                throw new InvalidOperationException(
+                    "Linking with non-adjacent cells is not supported yet (" +
+                    $"Trying to link {one} to {another}). Neighbors: {string.Join(", ", NeighborsOf(one))}");
+            }
+            // this should never happen.
+            if (!_neighbors[another].Contains(one)) {
+                throw new InvalidProgramException(
+                    "Non-mirroring neighborhood (" +
+                    $"Trying to link {one} to {another}). Neighbors of one: {string.Join(", ", NeighborsOf(one))}, neighbors of another: {string.Join(", ", NeighborsOf(another))}");
+            }
             // mark the cell as visited so it's not picked again in the 
             // PickNextRandomUnlinkedCell
             foreach (var position in new[] { one, another }) {
@@ -467,8 +502,8 @@ namespace PlayersWorlds.Maps.Maze {
                 _cellsToConnect.Remove(position);
                 _connectedCells.Add(position);
             }
-            // TODO: first try link, then remove from collections
-            _mazeArea.Link(one, another);
+            _mazeArea[one].HardLinks.Add(another);
+            _mazeArea[another].HardLinks.Add(one);
         }
 
         /// <summary>

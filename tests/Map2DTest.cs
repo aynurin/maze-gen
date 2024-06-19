@@ -96,7 +96,7 @@ namespace PlayersWorlds.Maps {
         internal static Area Parse(string buffer, Dictionary<char, Cell.CellTag> tagsMapping) {
             var lines = buffer.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
             var size = new Vector(lines.Length, lines[0].Length);
-            var map = Area.CreateEnvironment(size);
+            var map = Area.CreateMaze(size);
             var cellIndex = 0;
             for (var y = lines.Length - 1; y >= 0; y--) {
                 for (var x = 0; x < lines[y].Length; x++) {

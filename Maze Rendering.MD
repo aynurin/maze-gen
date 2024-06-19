@@ -26,7 +26,7 @@ MazeGenerator code would be something like:
 ```c#
 public static Area GenerateWithAreas<T>(Vector size)
     where T : MazeGenerator, new() {
-    var map = Area.CreateEnvironment(size);
+    var map = Area.CreateMaze(size);
     (new T()).GenerateMaze(map);
     var composer = new Map2DAreaComposer(map);
     var areaGenerator = new RandomAreaGenerator(

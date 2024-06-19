@@ -168,8 +168,9 @@ namespace PlayersWorlds.Maps.Serializer {
 
         [Test]
         public void CanSerializeAndDeserializeAnAreaWithLinkedCells() {
-            var area = Area.CreateEnvironment(new Vector(5, 5));
-            area.Link(new Vector(0, 0), new Vector(0, 1));
+            var area = Area.CreateMaze(new Vector(5, 5));
+            area[new Vector(0, 0)].HardLinks.Add(new Vector(0, 1));
+            area[new Vector(0, 1)].HardLinks.Add(new Vector(0, 0));
             var serializedArea = _serializer.Serialize(area);
             var deserializedArea = _serializer.Deserialize(serializedArea);
             Assert.That(

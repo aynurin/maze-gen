@@ -44,7 +44,7 @@ namespace PlayersWorlds.Maps {
         protected virtual void TestTearDown() { }
 
         protected Area Env10(params string[] tags) =>
-            Area.CreateEnvironment(new Vector(10, 10), tags);
+            Area.CreateMaze(new Vector(10, 10), tags);
 
         protected Area Hall(int x, int y, int w, int h) =>
             Area.Create(new Vector(x, y), new Vector(w, h), AreaType.Hall);

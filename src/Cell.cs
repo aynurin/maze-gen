@@ -33,13 +33,13 @@ namespace PlayersWorlds.Maps {
 
         public HashSet<Cell> BakedCells => _bakedCells;
 
-        public AreaType AreaType => _bakedAreaType ?? _areaType;
+        public AreaType AreaType => _areaType;
 
         /// <summary>
         /// Creates an instance of cell at the specified position.
         /// </summary>
         /// <remarks>Supposed for internal use only.</remarks>
-        internal Cell(AreaType areaType) {
+        public Cell(AreaType areaType) {
             _areaType = areaType;
         }
 

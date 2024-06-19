@@ -15,9 +15,9 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void Serialize() {
-            var env = Area.CreateEnvironment(new Vector(5, 5));
+            var env = Area.CreateMaze(new Vector(5, 5));
             var actual = new CellSerializer().Serialize(env[new Vector(3, 0)]);
-            var expected = "Cell:{Environment;;}";
+            var expected = "Cell:{Maze;;}";
             Assert.That(actual, Is.EqualTo(expected));
         }
     }

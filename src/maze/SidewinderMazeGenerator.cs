@@ -67,10 +67,10 @@ namespace PlayersWorlds.Maps.Maze {
                 // continue with the lowest leftmost unconnected cell.
                 if (connectEast && canConnectEast) {
                     cellsToLink[0] = currentCell;
-                    cellsToLink[1] = builder.MazeArea.AreNeighbors(currentCell, currentCell + Vector.East2D) ? currentCell + Vector.East2D : Vector.Empty;
+                    cellsToLink[1] = builder.NeighborsOf(currentCell).Contains(currentCell + Vector.East2D) ? currentCell + Vector.East2D : Vector.Empty;
                 } else if (canConnectNorth) {
                     cellsToLink[0] = runCandidate;
-                    cellsToLink[1] = builder.MazeArea.AreNeighbors(runCandidate, runCandidate + Vector.North2D) ? runCandidate + Vector.North2D : Vector.Empty;
+                    cellsToLink[1] = builder.NeighborsOf(runCandidate).Contains(runCandidate + Vector.North2D) ? runCandidate + Vector.North2D : Vector.Empty;
                     run.Clear();
                 } else if (!builder.MazeArea.CellHasLinks(currentCell)) {
                     // This link is not connected, and won't be connected

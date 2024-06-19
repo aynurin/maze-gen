@@ -28,10 +28,10 @@ namespace PlayersWorlds.Maps {
 
         public Vector Position => _position;
 
-        internal double LowX => _position.X;
-        internal double HighX => _position.X + Size.X;
-        internal double LowY => _position.Y;
-        internal double HighY => _position.Y + Size.Y;
+        internal double LowX => _position.IsEmpty ? 0 : _position.X;
+        internal double HighX => LowX + Size.X;
+        internal double LowY => _position.IsEmpty ? 0 : _position.Y;
+        internal double HighY => LowY + Size.Y;
 
         /// <summary>
         /// Creates a new array with the specified size and optional initial
@@ -223,19 +223,17 @@ namespace PlayersWorlds.Maps {
         }
 
         /// <summary>
-        /// Checks if this Area is completely within an area defined by
-        /// <paramref name="position" /> and <paramref name="size" />.
+        /// Checks if this Area is completely within the <paramref name="other" />
+        /// Grid.
         /// </summary>
-        /// <param name="position">The position of the outer area.</param>
-        /// <param name="size">The size of the outer rectangle.</param>
+        /// <param name="other">The other Grid to check.</param>
         /// <returns><c>true</c> if the inner rectangle is completely within the
         /// outer area, <c>false</c> otherwise.</returns>
-        public bool FitsInto(Vector position, Vector size) {
-            return LowX >= position.X &&
-                HighX <= position.X + size.X &&
-                LowY >= position.Y &&
-                HighY <= position.Y + size.Y;
-        }
+        public bool FitsInto(Grid other) =>
+            LowX >= other.LowX &&
+            HighX <= other.HighX &&
+            LowY >= other.LowY &&
+            HighY <= other.HighY;
 
         #region IEnumerable<Vector> 
         /// <inheritdoc />

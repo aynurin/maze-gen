@@ -33,15 +33,14 @@ namespace PlayersWorlds.Maps.Maze {
                         builder.GetPrioritizedCellsToConnect()
                                .FirstOrDefault(
                                     cell =>
-                                        builder.MazeArea
-                                               .NeighborsOf(cell)
+                                        builder.NeighborsOf(cell)
                                                .Any(builder.IsConnected));
                     if (!hunt.IsEmpty) {
                         builder.Connect(
                             hunt,
-                            builder.MazeArea.NeighborsOf(hunt)
-                                            .Where(builder.IsConnected)
-                                            .First());
+                            builder.NeighborsOf(hunt)
+                                   .Where(builder.IsConnected)
+                                   .First());
                         currentCell = hunt;
                     } else {
                         // we don't have any unconnected cells with connected

@@ -25,7 +25,7 @@ namespace PlayersWorlds.Maps {
                 RandomSource = randomSource,
                 AreaGenerator = new RandomAreaGenerator(randomSource)
             };
-            var maze = Area.CreateEnvironment(size);
+            var maze = Area.CreateMaze(size);
             Maze2DBuilder.BuildMaze(maze, generatorOptions);
             Console.WriteLine(maze.ToString());
             Console.WriteLine(maze.ToMap(MazeToMapOptions.RectCells(2, 1)).RenderToString());

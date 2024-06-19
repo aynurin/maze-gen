@@ -24,7 +24,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 var testRandom1 = RandomSource.CreateFromEnv();
                 var mazeSize = new Vector(
                     testRandom1.Next(5, 50), testRandom1.Next(5, 50));
-                var maze = Area.CreateEnvironment(mazeSize);
+                var maze = Area.CreateMaze(mazeSize);
                 var roomsCount = (int)Math.Sqrt(maze.Size.Area) / 3;
                 var rooms = new List<Area>();
                 for (var j = 0; j < roomsCount; j++) {

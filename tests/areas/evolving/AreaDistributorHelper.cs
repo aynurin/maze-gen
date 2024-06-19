@@ -20,7 +20,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 maxEpochs = int.Parse(TestContext.Parameters["EPOCHS"]);
             }
 
-            var env = Area.CreateEnvironment(mapSize);
+            var env = Area.CreateMaze(mapSize);
             var managedAreas = areas.ToList();
             var originalCopy = managedAreas
                 .Select(x => x.ShallowCopy())
