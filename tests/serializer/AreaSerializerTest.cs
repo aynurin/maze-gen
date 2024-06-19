@@ -174,8 +174,7 @@ namespace PlayersWorlds.Maps.Serializer {
             var serializedArea = _serializer.Serialize(area);
             var deserializedArea = _serializer.Deserialize(serializedArea);
             Assert.That(
-                deserializedArea.CellsAreLinked(
-                    new Vector(0, 0), new Vector(0, 1)));
+                deserializedArea[new Vector(0, 0)].HasLinks(new Vector(0, 1)));
         }
     }
 }

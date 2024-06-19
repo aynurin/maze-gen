@@ -43,6 +43,21 @@ namespace PlayersWorlds.Maps {
             _areaType = areaType;
         }
 
+        public bool HasLinks(Vector another) {
+            return _hardLinks.Contains(another) ||
+                   _bakedLinks.Contains(another);
+        }
+
+        public bool HasLinks() {
+            return _hardLinks.Count > 0 || _bakedLinks.Count > 0;
+        }
+
+        public ICollection<Vector> Links() {
+            return _hardLinks
+                    .Concat(_bakedLinks)
+                    .Distinct().ToList();
+        }
+
         internal Cell Clone() {
             var newCell = new Cell(_areaType);
             newCell._tags.AddRange(_tags);

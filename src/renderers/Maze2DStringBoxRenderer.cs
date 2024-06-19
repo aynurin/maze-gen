@@ -77,27 +77,27 @@ namespace PlayersWorlds.Maps.Renderers {
             if (!string.IsNullOrEmpty(cellData)) {
                 _data.Add(I(asciiCoords.Center), cellData);
             }
-            if (!_maze.CellHasLinks(cell)) return;
+            if (!_maze[cell].HasLinks()) return;
             _buffer[I(asciiCoords.Northeast)] |= Border.Type.X;
             _buffer[I(asciiCoords.Northwest)] |= Border.Type.X;
             _buffer[I(asciiCoords.Southeast)] |= Border.Type.X;
             _buffer[I(asciiCoords.Southwest)] |= Border.Type.X;
-            if (!_maze.CellsAreLinked(cell, cell + Vector.North2D)) {
+            if (!_maze[cell].HasLinks(cell + Vector.North2D)) {
                 _buffer[I(asciiCoords.Northeast)] |= Border.Type.Left;
                 _buffer[I(asciiCoords.Northwest)] |= Border.Type.Right;
                 foreach (var x in asciiCoords.North) _buffer[I(x)] |= Border.Type.South;
             }
-            if (!_maze.CellsAreLinked(cell, cell + Vector.South2D)) {
+            if (!_maze[cell].HasLinks(cell + Vector.South2D)) {
                 _buffer[I(asciiCoords.Southeast)] |= Border.Type.Left;
                 _buffer[I(asciiCoords.Southwest)] |= Border.Type.Right;
                 foreach (var x in asciiCoords.South) _buffer[I(x)] |= Border.Type.North;
             }
-            if (!_maze.CellsAreLinked(cell, cell + Vector.East2D)) {
+            if (!_maze[cell].HasLinks(cell + Vector.East2D)) {
                 _buffer[I(asciiCoords.Southeast)] |= Border.Type.Top;
                 _buffer[I(asciiCoords.Northeast)] |= Border.Type.Bottom;
                 foreach (var x in asciiCoords.East) _buffer[I(x)] |= Border.Type.East;
             }
-            if (!_maze.CellsAreLinked(cell, cell + Vector.West2D)) {
+            if (!_maze[cell].HasLinks(cell + Vector.West2D)) {
                 _buffer[I(asciiCoords.Southwest)] |= Border.Type.Top;
                 _buffer[I(asciiCoords.Northwest)] |= Border.Type.Bottom;
                 foreach (var x in asciiCoords.West) _buffer[I(x)] |= Border.Type.West;

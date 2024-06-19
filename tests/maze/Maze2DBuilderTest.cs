@@ -132,10 +132,10 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(pickedCells, Has.Exactly(5).Items);
 
             foreach (var cell in priorityCells) {
-                if (maze.Contains(cell + Vector.East2D)) {
+                if (maze.Grid.Contains(cell + Vector.East2D)) {
                     builder.Connect(cell, cell + Vector.East2D);
                 }
-                if (maze.Contains(cell + Vector.North2D)) {
+                if (maze.Grid.Contains(cell + Vector.North2D)) {
                     builder.Connect(cell, cell + Vector.North2D);
                 }
             }
@@ -325,10 +325,10 @@ namespace PlayersWorlds.Maps.Maze {
             var cellsToConnect = maze.Grid.ToHashSet();
             cellsToConnect.ExceptWith(areaCells);
             foreach (var cell in cellsToConnect) {
-                if (maze.Contains(cell + Vector.East2D)) {
+                if (maze.Grid.Contains(cell + Vector.East2D)) {
                     builder.Connect(cell, cell + Vector.East2D);
                 }
-                if (maze.Contains(cell + Vector.North2D)) {
+                if (maze.Grid.Contains(cell + Vector.North2D)) {
                     builder.Connect(cell, cell + Vector.North2D);
                 }
             }
@@ -543,7 +543,7 @@ namespace PlayersWorlds.Maps.Maze {
             var areaCells = maze.Grid
                     .SafeRegion(new Vector(1, 1), new Vector(3, 3));
 
-            Assert.That(maze.Grid.Where(c => maze.CellHasLinks(c)), Has.No.Member(walkway[0]));
+            Assert.That(maze.Grid.Where(c => maze[c].HasLinks()), Has.No.Member(walkway[0]));
 
             var builder = Maze2DBuilder.CreateFromOptions(maze,
                 new GeneratorOptions() {
@@ -556,12 +556,12 @@ namespace PlayersWorlds.Maps.Maze {
             builder.ApplyAreas();
 
             var connectedCells = areaCells
-                .Where(c => builder.MazeArea.CellHasLinks(c))
+                .Where(c => builder.MazeArea[c].HasLinks())
                 .ToList();
 
-            Assert.That(maze.Grid.Where(c => builder.MazeArea.CellHasLinks(c)), Has.Member(entrance));
-            Assert.That(maze.Grid.Where(c => builder.MazeArea.CellHasLinks(c)), Has.Member(walkway[0]));
-            Assert.That(maze.CellLinks(entrance), Has.Member(walkway[0]));
+            Assert.That(maze.Grid.Where(c => builder.MazeArea[c].HasLinks()), Has.Member(entrance));
+            Assert.That(maze.Grid.Where(c => builder.MazeArea[c].HasLinks()), Has.Member(walkway[0]));
+            Assert.That(maze[entrance].Links(), Has.Member(walkway[0]));
         }
 
         [Test]
@@ -642,15 +642,15 @@ namespace PlayersWorlds.Maps.Maze {
             builder.Connect(a, b);
             Assert.That(env[a].HardLinks, Has.Count.EqualTo(1));
             Assert.That(env[b].HardLinks, Has.Count.EqualTo(1));
-            Assert.That(env.CellsAreLinked(a, a + Vector.North2D), Is.True);
-            Assert.That(env.CellsAreLinked(b, b + Vector.South2D), Is.True);
+            Assert.That(env[a].HasLinks(a + Vector.North2D), Is.True);
+            Assert.That(env[b].HasLinks(b + Vector.South2D), Is.True);
             Assert.That(env[a + Vector.North2D], Is.EqualTo(env[b]));
             Assert.That(env[b + Vector.South2D], Is.EqualTo(env[a]));
 
             env[b].HardLinks.Remove(a);
             env[a].HardLinks.Remove(b);
-            Assert.That(env.CellsAreLinked(a, a + Vector.North2D), Is.False);
-            Assert.That(env.CellsAreLinked(b, b + Vector.South2D), Is.False);
+            Assert.That(env[a].HasLinks(a + Vector.North2D), Is.False);
+            Assert.That(env[b].HasLinks(b + Vector.South2D), Is.False);
             Assert.That(env[a].HardLinks, Has.Count.EqualTo(0));
             Assert.That(env[b].HardLinks, Has.Count.EqualTo(0));
         }

@@ -39,10 +39,10 @@ namespace PlayersWorlds.Maps.Areas {
                             targetArea.ChildAreas().Any(other =>
                                 area != other &&
                                 other.IsPositionFixed &&
-                                area.Overlaps(other))) +
+                                area.Grid.Overlaps(other.Grid))) +
                 targetArea.ChildAreas().Count(
                     area => area.IsPositionFixed &&
-                            !area.FitsInto(targetArea));
+                            !area.Grid.FitsInto(targetArea.Grid));
             var attempts = MaxAttempts;
             while (attempts > 0) {
                 var allAreas = new List<Area>(targetArea.ChildAreas());
@@ -79,9 +79,9 @@ namespace PlayersWorlds.Maps.Areas {
                     allAreas.Count(
                         area => allAreas.Any(other =>
                                     area != other &&
-                                    area.Overlaps(other))) +
+                                    area.Grid.Overlaps(other.Grid))) +
                     allAreas.Count(
-                        area => !area.FitsInto(targetArea));
+                        area => !area.Grid.FitsInto(targetArea.Grid));
                 if (errors <= 0) {
                     allAreas.Where(area => !targetArea.ChildAreas().Contains(area))
                             .ForEach(area => targetArea.AddChildArea(area));

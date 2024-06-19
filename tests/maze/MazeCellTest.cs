@@ -25,7 +25,7 @@ namespace PlayersWorlds.Maps.Maze {
 
             env[b].HardLinks.Remove(a);
             env[a].HardLinks.Remove(b);
-            Assert.That(env.CellsAreLinked(a, a + Vector.South2D), Is.False);
+            Assert.That(env[a].HasLinks(a + Vector.South2D), Is.False);
         }
 
     }

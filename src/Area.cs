@@ -249,7 +249,7 @@ namespace PlayersWorlds.Maps {
             foreach (var cell in _grid) {
                 if (unavailableCells.Contains(cell)) continue;
                 var relatedAreas = childAreas
-                    .Where(a => a.Contains(cell)).ToList();
+                    .Where(a => a.Grid.Contains(cell)).ToList();
                 var envNeighbors = _grid.AdjacentRegion(cell)
                     // don't include diagonal neighbors.
                     .Where(nbr => nbr.Value.Where(
@@ -260,7 +260,7 @@ namespace PlayersWorlds.Maps {
                     .ToList();
                 var envLinks = envNeighbors
                     // both cell and neighbor belong to the same hollow area.
-                    .Where(nbr => relatedAreas.Any(a => a.IsHollow && a.Contains(nbr)));
+                    .Where(nbr => relatedAreas.Any(a => a.IsHollow && a.Grid.Contains(nbr)));
                 var relatedCells = relatedAreas
                     .Select(a => a[cell]);
                 this[cell].Bake(relatedCells, envNeighbors, envLinks);
@@ -277,23 +277,7 @@ namespace PlayersWorlds.Maps {
             _childAreas.AsReadOnly();
 
         public IEnumerable<Area> ChildAreas(Vector xy) =>
-            _childAreas.Where(a => a.Contains(xy));
-
-        public bool CellsAreLinked(Vector one, Vector another) {
-            return this[one].HardLinks.Contains(another) ||
-                   this[one].BakedLinks.Contains(another);
-        }
-
-        public bool CellHasLinks(Vector cell) {
-            return this[cell].HardLinks.Count > 0 ||
-                   this[cell].BakedLinks.Count > 0;
-        }
-
-        public ICollection<Vector> CellLinks(Vector cell) {
-            return this[cell].HardLinks
-                    .Concat(this[cell].BakedLinks)
-                    .Distinct().ToList();
-        }
+            _childAreas.Where(a => a.Grid.Contains(xy));
 
         public Area ShallowCopy() => new Area(
             _grid,
@@ -308,44 +292,6 @@ namespace PlayersWorlds.Maps {
                 throw new ArgumentException("Area does not fit into this area");
             }
             _childAreas.Add(area);
-        }
-
-        /// <summary>
-        /// Checks if this Area overlaps with another Area.
-        /// </summary>
-        /// <param name="other">The other Area to check</param>
-        /// <returns><c>true</c> if the two Areas overlap; otherwise, <c>
-        /// false</c>.</returns>
-        public bool Overlaps(Area other) => _grid.Overlaps(other._grid);
-
-        /// <summary>
-        /// Checks if this Area contains or touches the
-        /// <paramref name="point" />.
-        /// </summary>
-        /// <param name="point">The point to check.</param>
-        /// <returns><c>true</c> if the given point is within this area.
-        /// </returns>
-        public bool Contains(Vector point) => _grid.Contains(point);
-
-        /// <summary>
-        /// Checks if this Area is completely within the 
-        /// <paramref name="other" /> area.
-        /// </summary>
-        /// <param name="other">The outer area.</param>
-        /// <returns><c>true</c> if the inner area is completely within the
-        /// outer area, <c>false</c> otherwise.</returns>
-        public bool FitsInto(Area other) =>
-            _grid.FitsInto(other._grid);
-
-        /// <summary>
-        /// Scales current map to the specified size.
-        /// </summary>
-        /// <remarks>The size has to be a multiple of the current map size.
-        /// </remarks>
-        /// <param name="newSize">The size of the saled map.</param>
-        /// <returns>A new instance of <see cref="Area" /></returns>
-        public Area Scale(Vector newSize) {
-            throw new NotImplementedException();
         }
 
         /// <summary>

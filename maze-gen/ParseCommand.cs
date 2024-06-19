@@ -13,7 +13,7 @@ namespace PlayersWorlds.Maps {
         override public int Run() {
             base.Run();
             var maze = LegacyAreaSerializer.ParseV01MazeString(SerializedMaze);
-            var mazeCells = maze.Grid.Where(c => maze.CellHasLinks(c)).ToList();
+            var mazeCells = maze.Grid.Where(c => maze[c].HasLinks()).ToList();
             var areaSerializer = new AreaSerializer();
             Console.WriteLine(areaSerializer.Serialize(maze));
             Console.WriteLine(maze.ToString());
@@ -41,7 +41,7 @@ namespace PlayersWorlds.Maps {
             Console.WriteLine(
                 "Unvisited cells: " +
                 string.Join(",", maze.Grid
-                    .Where(c => !maze.CellHasLinks(c))));
+                    .Where(c => !maze[c].HasLinks())));
             Console.WriteLine(maze.MazeToString());
             return 0;
         }

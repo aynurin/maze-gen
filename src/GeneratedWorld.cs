@@ -207,23 +207,6 @@ namespace PlayersWorlds.Maps {
         }
 
         /// <summary>
-        /// Scales the world map to the specified size.
-        /// </summary>
-        /// <param name="vector">The new size of the world.</param>
-        /// <returns>The <see cref="GeneratedWorld"/> instance with the scaled
-        /// layer added, allowing for method chaining.</returns>
-        /// <exception cref="InvalidOperationException">Thrown if the world is
-        /// empty.</exception>
-        public GeneratedWorld Scale(Vector vector) {
-            // !! scaling should depend on cell contents. E.g., when scaling a
-            // !! maze, the neighbors / links will behave differently.
-            // !! either don't allow scaling the maze, or implement a proper
-            // !! scaling algorithm.
-            _layers.Add(CurrentLayer.Scale(vector));
-            return this;
-        }
-
-        /// <summary>
         /// Retrieves the map of the generated world.
         /// </summary>
         /// <returns>A <see cref="Area"/> instance representing the current

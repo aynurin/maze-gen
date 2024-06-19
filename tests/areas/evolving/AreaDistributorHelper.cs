@@ -35,12 +35,12 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                         .Where(
                             a => originalCopy.Any(
                                     b => a != b &&
-                                         a.Overlaps(b)))
+                                         a.Grid.Overlaps(b.Grid)))
                         .ToList(),
                 OriginalOutOfBounds =
                     originalCopy
                         .Where(
-                            area => !area.FitsInto(env))
+                            area => !area.Grid.FitsInto(env.Grid))
                         .ToList(),
                 PlacedAreas = managedAreas
             };
@@ -53,11 +53,11 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     .Where(a =>
                         result.PlacedAreas.Any(
                             b => a != b &&
-                                 a.Overlaps(b)))
+                                 a.Grid.Overlaps(b.Grid)))
                     .ToList();
             result.PlacedOutOfBounds =
                 result.PlacedAreas
-                    .Where(block => !block.FitsInto(env))
+                    .Where(block => !block.Grid.FitsInto(env.Grid))
                     .ToList();
 
             result.TestString = $"yield return \"{mapSize}: " +

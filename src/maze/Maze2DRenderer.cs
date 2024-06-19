@@ -47,20 +47,20 @@ namespace PlayersWorlds.Maps.Maze {
             }
             foreach (var cell in _maze.Grid) {
                 var mapping = new CellsMapping(map, cell, _options);
-                if (_maze.CellHasLinks(cell)) {
-                    mapping.CenterCells.Where(c => map.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
+                if (_maze[cell].HasLinks()) {
+                    mapping.CenterCells.Where(c => map.Grid.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (_maze.CellsAreLinked(cell, cell + Vector.North2D)) {
-                    mapping.NCells.Where(c => map.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
+                if (_maze[cell].HasLinks(cell + Vector.North2D)) {
+                    mapping.NCells.Where(c => map.Grid.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (_maze.CellsAreLinked(cell, cell + Vector.East2D)) {
-                    mapping.ECells.Where(c => map.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
+                if (_maze[cell].HasLinks(cell + Vector.East2D)) {
+                    mapping.ECells.Where(c => map.Grid.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (_maze.CellsAreLinked(cell, cell + Vector.South2D)) {
-                    mapping.SCells.Where(c => map.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
+                if (_maze[cell].HasLinks(cell + Vector.South2D)) {
+                    mapping.SCells.Where(c => map.Grid.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
                 }
-                if (_maze.CellsAreLinked(cell, cell + Vector.West2D)) {
-                    mapping.WCells.Where(c => map.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
+                if (_maze[cell].HasLinks(cell + Vector.West2D)) {
+                    mapping.WCells.Where(c => map.Grid.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
                 }
             }
             foreach (var filter in _filters) {

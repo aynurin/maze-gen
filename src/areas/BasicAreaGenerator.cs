@@ -97,9 +97,9 @@ namespace PlayersWorlds.Maps.Areas {
         private bool IsAValidLayout(ICollection<Area> generatedAreas,
                                     Area newArea) =>
             !generatedAreas
-                    .Where(area => newArea.Overlaps(area)).Any()
+                    .Where(area => newArea.Grid.Overlaps(area.Grid)).Any()
             && !_areasNoOverlap
-                    .Where(area => newArea.Overlaps(area)).Any()
-            && newArea.FitsInto(_targetArea);
+                    .Where(area => newArea.Grid.Overlaps(area.Grid)).Any()
+            && newArea.Grid.FitsInto(_targetArea.Grid);
     }
 }

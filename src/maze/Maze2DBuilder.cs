@@ -308,7 +308,7 @@ namespace PlayersWorlds.Maps.Maze {
                     // cells around this area
                     .Except(area.Grid)
                     // that have neighbors in this area.
-                    .Where(c => _neighbors[c].Any(n => area.Contains(n)));
+                    .Where(c => _neighbors[c].Any(n => area.Grid.Contains(n)));
             }
             throw new InvalidOperationException(
                 $"WalkInCells is applicable only to halls " +
@@ -429,7 +429,7 @@ namespace PlayersWorlds.Maps.Maze {
                     // create hall entrances.
                     var walkInCells = WalkInCells(area).ToList();
                     var entranceExists =
-                        walkInCells.SelectMany(cell => _mazeArea.CellLinks(cell))
+                        walkInCells.SelectMany(cell => _mazeArea[cell].Links())
                             .Any(linkedCell => // does this cell belong to a given child area?
                                  _mazeArea.ChildAreas(linkedCell)
                                     .Any(childArea => childArea == area));
@@ -446,7 +446,7 @@ namespace PlayersWorlds.Maps.Maze {
                     }
                     var walkway = _randomSource.RandomOf(visitedWalkInCells);
                     var entrance = _neighbors[walkway]
-                        .First(c => area.Contains(c));
+                        .First(c => area.Grid.Contains(c));
                     Connect(walkway, entrance);
                 }
             }
@@ -504,6 +504,22 @@ namespace PlayersWorlds.Maps.Maze {
             }
             _mazeArea[one].HardLinks.Add(another);
             _mazeArea[another].HardLinks.Add(one);
+        }
+
+        public bool CellsAreLinked(Vector one, Vector another) {
+            return _mazeArea[one].HardLinks.Contains(another) ||
+                   _mazeArea[one].BakedLinks.Contains(another);
+        }
+
+        public bool CellHasLinks(Vector cell) {
+            return _mazeArea[cell].HardLinks.Count > 0 ||
+                   _mazeArea[cell].BakedLinks.Count > 0;
+        }
+
+        public ICollection<Vector> CellLinks(Vector cell) {
+            return _mazeArea[cell].HardLinks
+                    .Concat(_mazeArea[cell].BakedLinks)
+                    .Distinct().ToList();
         }
 
         /// <summary>

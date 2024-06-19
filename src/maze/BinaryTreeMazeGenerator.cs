@@ -31,7 +31,7 @@ namespace PlayersWorlds.Maps.Maze {
                     cellToLink = currentCell + Vector.East2D;
                 }
 
-                if (cellToLink.IsEmpty && !builder.MazeArea.CellHasLinks(currentCell)) {
+                if (cellToLink.IsEmpty && !builder.MazeArea[currentCell].HasLinks()) {
                     // This link is not connected, and won't be connected
                     // because of this maze geometry. Let's connect it to
                     // any other cell so that it's not left out.

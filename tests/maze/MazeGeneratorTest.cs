@@ -60,7 +60,7 @@ namespace PlayersWorlds.Maps.Maze {
                     RandomSource = randomSource
                 });
             Assert.That(MazeTestHelper.IsSolveable(maze), $"{generatorType.Name} generated an unsolveable maze with seed {randomSource.Seed}");
-            Assert.That(maze.Grid.Count(cell => maze.CellLinks(cell).Count == 0), Is.EqualTo(0));
+            Assert.That(maze.Grid.Count(cell => maze[cell].Links().Count == 0), Is.EqualTo(0));
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.Half
                 });
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            var mazeCells = maze.Grid.Where(cell => maze.CellHasLinks(cell)).ToList();
+            var mazeCells = maze.Grid.Where(cell => maze[cell].HasLinks()).ToList();
             Assert.That(mazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area / 2), maze.ToString());
         }
 
@@ -109,7 +109,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.Full
                 });
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            var mazeCells = maze.Grid.Where(cell => maze.CellHasLinks(cell)).ToList();
+            var mazeCells = maze.Grid.Where(cell => maze[cell].HasLinks()).ToList();
             Assert.That(mazeCells.Count(), Is.EqualTo(size.Area));
         }
 
@@ -122,7 +122,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.Quarter
                 });
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            var mazeCells = maze.Grid.Where(cell => maze.CellHasLinks(cell)).ToList();
+            var mazeCells = maze.Grid.Where(cell => maze[cell].HasLinks()).ToList();
             Assert.That(mazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.25), maze.ToString());
         }
 
@@ -135,7 +135,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.ThreeQuarters
                 });
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            var mazeCells = maze.Grid.Where(cell => maze.CellHasLinks(cell)).ToList();
+            var mazeCells = maze.Grid.Where(cell => maze[cell].HasLinks()).ToList();
             Assert.That(mazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.75), maze.ToString());
         }
 
@@ -148,7 +148,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.NinetyPercent
                 });
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            var mazeCells = maze.Grid.Where(cell => maze.CellHasLinks(cell)).ToList();
+            var mazeCells = maze.Grid.Where(cell => maze[cell].HasLinks()).ToList();
             Assert.That(mazeCells.Count(), Is.GreaterThanOrEqualTo(size.Area * 0.9), maze.ToString());
         }
 
@@ -161,7 +161,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.FullWidth
                 });
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            var mazeCells = maze.Grid.Where(cell => maze.CellHasLinks(cell)).ToList();
+            var mazeCells = maze.Grid.Where(cell => maze[cell].HasLinks()).ToList();
             Assert.That(mazeCells.Min(cell => cell.X) == 0 && mazeCells.Max(cell => cell.X) == 9, Is.True, maze.ToString());
         }
 
@@ -174,7 +174,7 @@ namespace PlayersWorlds.Maps.Maze {
                     FillFactor = GeneratorOptions.MazeFillFactor.FullHeight
                 });
             Assert.That(MazeTestHelper.IsSolveable(maze));
-            var mazeCells = maze.Grid.Where(cell => maze.CellHasLinks(cell)).ToList();
+            var mazeCells = maze.Grid.Where(cell => maze[cell].HasLinks()).ToList();
             Assert.That(mazeCells.Min(cell => cell.Y) == 0 && mazeCells.Max(cell => cell.Y) == 9, Is.True, maze.ToString());
         }
 
@@ -244,10 +244,10 @@ namespace PlayersWorlds.Maps.Maze {
         class TestGeneratorB : MazeGenerator {
             public override void GenerateMaze(Maze2DBuilder builder) {
                 builder.AllCells.ForEach(cell => {
-                    if (builder.MazeArea.Contains(cell + Vector.East2D)) {
+                    if (builder.MazeArea.Grid.Contains(cell + Vector.East2D)) {
                         builder.Connect(cell, cell + Vector.East2D);
                     }
-                    if (builder.MazeArea.Contains(cell + Vector.North2D)) {
+                    if (builder.MazeArea.Grid.Contains(cell + Vector.North2D)) {
                         builder.Connect(cell, cell + Vector.North2D);
                     }
                 });

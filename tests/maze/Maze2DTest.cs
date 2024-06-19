@@ -138,18 +138,18 @@ namespace PlayersWorlds.Maps.Maze {
             // ╟───╴   └───╢
             // ║ 6   7   8 ║
             // ╚═══════════╝
-            Assert.That(!maze.CellsAreLinked(Vector.FromIndex(0, maze.Size), Vector.FromIndex(0, maze.Size) + Vector.East2D), Is.True);
-            Assert.That(!maze.CellsAreLinked(Vector.FromIndex(4, maze.Size), Vector.FromIndex(4, maze.Size) + Vector.East2D), Is.True);
-            Assert.That(maze.CellsAreLinked(Vector.FromIndex(4, maze.Size), Vector.FromIndex(4, maze.Size) + Vector.South2D), Is.True);
-            Assert.That(maze.CellsAreLinked(Vector.FromIndex(4, maze.Size), Vector.FromIndex(4, maze.Size) + Vector.North2D), Is.True);
-            Assert.That(maze.CellsAreLinked(Vector.FromIndex(7, maze.Size), Vector.FromIndex(7, maze.Size) + Vector.East2D), Is.True);
-            Assert.That(maze.CellsAreLinked(Vector.FromIndex(7, maze.Size), Vector.FromIndex(7, maze.Size) + Vector.West2D), Is.True);
-            Assert.That(maze.CellsAreLinked(Vector.FromIndex(7, maze.Size), Vector.FromIndex(7, maze.Size) + Vector.South2D), Is.True);
-            Assert.That(!maze.CellsAreLinked(Vector.FromIndex(7, maze.Size), Vector.FromIndex(7, maze.Size) + Vector.North2D), Is.True);
-            Assert.That(maze.CellsAreLinked(Vector.FromIndex(6, maze.Size), Vector.FromIndex(6, maze.Size) + Vector.East2D), Is.True);
-            Assert.That(!maze.CellsAreLinked(Vector.FromIndex(6, maze.Size), Vector.FromIndex(6, maze.Size) + Vector.West2D), Is.True);
-            Assert.That(!maze.CellsAreLinked(Vector.FromIndex(6, maze.Size), Vector.FromIndex(6, maze.Size) + Vector.South2D), Is.True);
-            Assert.That(!maze.CellsAreLinked(Vector.FromIndex(6, maze.Size), Vector.FromIndex(6, maze.Size) + Vector.North2D), Is.True);
+            Assert.That(!maze[Vector.FromIndex(0, maze.Size)].HasLinks(Vector.FromIndex(0, maze.Size) + Vector.East2D), Is.True);
+            Assert.That(!maze[Vector.FromIndex(4, maze.Size)].HasLinks(Vector.FromIndex(4, maze.Size) + Vector.East2D), Is.True);
+            Assert.That(maze[Vector.FromIndex(4, maze.Size)].HasLinks(Vector.FromIndex(4, maze.Size) + Vector.South2D), Is.True);
+            Assert.That(maze[Vector.FromIndex(4, maze.Size)].HasLinks(Vector.FromIndex(4, maze.Size) + Vector.North2D), Is.True);
+            Assert.That(maze[Vector.FromIndex(7, maze.Size)].HasLinks(Vector.FromIndex(7, maze.Size) + Vector.East2D), Is.True);
+            Assert.That(maze[Vector.FromIndex(7, maze.Size)].HasLinks(Vector.FromIndex(7, maze.Size) + Vector.West2D), Is.True);
+            Assert.That(maze[Vector.FromIndex(7, maze.Size)].HasLinks(Vector.FromIndex(7, maze.Size) + Vector.South2D), Is.True);
+            Assert.That(!maze[Vector.FromIndex(7, maze.Size)].HasLinks(Vector.FromIndex(7, maze.Size) + Vector.North2D), Is.True);
+            Assert.That(maze[Vector.FromIndex(6, maze.Size)].HasLinks(Vector.FromIndex(6, maze.Size) + Vector.East2D), Is.True);
+            Assert.That(!maze[Vector.FromIndex(6, maze.Size)].HasLinks(Vector.FromIndex(6, maze.Size) + Vector.West2D), Is.True);
+            Assert.That(!maze[Vector.FromIndex(6, maze.Size)].HasLinks(Vector.FromIndex(6, maze.Size) + Vector.South2D), Is.True);
+            Assert.That(!maze[Vector.FromIndex(6, maze.Size)].HasLinks(Vector.FromIndex(6, maze.Size) + Vector.North2D), Is.True);
         }
 
         [Test]
