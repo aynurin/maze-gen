@@ -57,6 +57,14 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             [ValueSource("OverlapTwoTests")] string layout
             ) {
             var parts = layout.Split(':');
+            foreach (var areaStr in parts[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)) {
+                var area = LegacyAreaSerializer.ParseV01AreaString(areaStr, isPositionFixed: false);
+                var newStr = area.ToString();
+                Console.WriteLine(areaStr);
+                Console.WriteLine(newStr);
+                Console.WriteLine();
+            }
+            Console.WriteLine();
             AreaDistributorHelper.Distribute(
                 _random,
                 TestLog.CreateForThisTest(), VectorD.Parse(parts[0]).RoundToInt(),

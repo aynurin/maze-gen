@@ -15,7 +15,6 @@ namespace PlayersWorlds.Maps {
         private readonly List<CellTag> _tags = new List<CellTag>();
         private readonly HashSet<Vector> _hardLinks = new HashSet<Vector>();
         private readonly AreaType _areaType;
-        private AreaType? _bakedAreaType;
         private readonly HashSet<Vector> _bakedLinks = new HashSet<Vector>();
         private readonly HashSet<Vector> _bakedNeighbors = new HashSet<Vector>();
         private readonly HashSet<Cell> _bakedCells = new HashSet<Cell>();
@@ -77,13 +76,6 @@ namespace PlayersWorlds.Maps {
             _bakedNeighbors.UnionWith(envNeighbors);
             _bakedCells.Clear();
             _bakedCells.UnionWith(relatedCells);
-
-            var bakedType = relatedCells.Select(c => c.AreaType)
-                                        .OrderByDescending(t => t)
-                                        .FirstOrDefault();
-            if (bakedType > _areaType) {
-                _bakedAreaType = bakedType;
-            }
         }
 
         override public string ToString() =>

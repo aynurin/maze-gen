@@ -15,8 +15,6 @@ namespace PlayersWorlds.Maps {
     /// (icebergs, volcanos), scaled sub spaces (Hermione's bag), or simply
     /// items in the cell.
     /// </remarks>
-    /// <typeparam name="T">The type of data stored in each cell of the grid.
-    /// </typeparam>
     public class Grid : IEnumerable<Vector> {
         private Vector _position;
         private readonly Vector _size;

@@ -16,7 +16,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 MaxDegreeOfParallelism = 24
             };
             // !! Current fail rate is at <0.5%. Requires investigation.
-            const int expectedPassingMoreThan = 990;
+            const int ExpectedPassingMoreThan = 990;
             var numTotal = 1000;
             var numPassed = 0;
             _ = Parallel.For(0, numTotal, ops, (i, state) => {
@@ -59,7 +59,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     r => r.PlacedOutOfBounds.Count +
                          r.PlacedOverlapping.Count > 0)
                     .Select(r => r.TestString));
-            if (numPassed < expectedPassingMoreThan) {
+            if (numPassed < ExpectedPassingMoreThan) {
                 Assert.Fail(message);
             } else if (numPassed < numTotal) {
                 Assert.Inconclusive(message);

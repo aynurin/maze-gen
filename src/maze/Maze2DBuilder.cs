@@ -181,6 +181,14 @@ namespace PlayersWorlds.Maps.Maze {
                                      options.FillFactor);
         }
 
+        internal static Maze2DBuilder FromExistingMaze(Area maze) {
+            return new Maze2DBuilder(RandomSource.CreateFromEnv(),
+                                     maze,
+                                     null,
+                                     null,
+                                     MazeFillFactor.Full);
+        }
+
         internal void TestRebuildCellMaps() {
             _mazeArea.BakeChildAreas();
             RebuildCellMaps();
@@ -292,8 +300,8 @@ namespace PlayersWorlds.Maps.Maze {
 
             _mazeGenerator.GenerateMaze(this);
             ApplyAreas();
-            _mazeArea.X(DeadEnd.Find(this));
-            _mazeArea.X(DijkstraDistance.FindLongestTrail(this));
+            _mazeArea.X(DeadEnd.Find(this.MazeArea));
+            _mazeArea.X(DijkstraDistance.FindLongestTrail(this.MazeArea));
             _mazeArea.X(this);
         }
 

@@ -11,7 +11,6 @@ namespace PlayersWorlds.Maps.Maze {
     /// methods for maze generation.
     /// </summary>
     public abstract class MazeGenerator {
-        private static readonly Log s_log = Log.ToConsole<MazeGenerator>();
         /// <summary>
         /// When implemented in a derived class, generates a new maze.
         /// </summary>

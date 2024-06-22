@@ -97,6 +97,7 @@ namespace PlayersWorlds.Maps {
         /// layer added, allowing for method chaining.</returns>
         public GeneratedWorld AddEnvironmentAreas(string[] tags) {
             // TODO: Implement this
+            var _ = tags;
             // var layer = CurrentLayer.ShallowCopy();
             // AreaGenerator areaGenerator = new EnvironmentAreaGenerator(
             //     _randomSource, layer, tags);
@@ -155,10 +156,10 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         /// <returns></returns>
         public GeneratedWorld MarkLongestPath() {
-            var builder = CurrentLayer.X<Maze2DBuilder>() ??
+            var _ = CurrentLayer.X<Maze2DBuilder>() ??
                 throw new InvalidOperationException(
                     "Can't use MarkLongestPath on a non-maze layer.");
-            CurrentLayer.X(DijkstraDistance.FindLongestTrail(builder));
+            CurrentLayer.X(DijkstraDistance.FindLongestTrail(CurrentLayer));
             return this;
         }
 

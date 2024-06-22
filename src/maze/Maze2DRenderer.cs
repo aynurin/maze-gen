@@ -7,7 +7,7 @@ using PlayersWorlds.Maps.MapFilters;
 namespace PlayersWorlds.Maps.Maze {
 
     /// <summary>
-    /// Renders a <see cref="Maze2D" /> to a string.
+    /// Renders a maze <see cref="Area" /> to a string.
     /// </summary>
     public class Maze2DRenderer {
         private readonly Area _maze;

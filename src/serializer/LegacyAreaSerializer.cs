@@ -16,7 +16,7 @@ namespace PlayersWorlds.Maps.Serializer {
         /// <param name="value">A <see cref="string" /> of the form
         /// "P{Position};S{Size};{Type}[;tags]".</param>
         /// <param name="isPositionFixed"><c>true</c> to indicate that this area
-        /// shouldn't be repositioned by <see cref="AreaDistributor" />,
+        /// shouldn't be repositioned,
         /// otherwise <c>false</c> (default)</param>
         /// <returns></returns>
         public static Area ParseV01AreaString(string value, bool isPositionFixed = false) {

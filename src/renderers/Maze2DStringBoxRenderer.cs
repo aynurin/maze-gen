@@ -7,7 +7,7 @@ using PlayersWorlds.Maps.Maze.PostProcessing;
 
 namespace PlayersWorlds.Maps.Renderers {
     /// <summary>
-    /// Renders a <see cref="Maze2D" /> to a string.
+    /// Renders a <see cref="Area" /> to a string.
     /// </summary>
     public class Maze2DStringBoxRenderer {
 

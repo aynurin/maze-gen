@@ -205,7 +205,8 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(map, Is.Not.Null);
 
             var solution = new LongestTrailExtension(new List<Vector>());
-            Assert.DoesNotThrow(() => solution = DijkstraDistance.FindLongestTrail(map));
+            Assert.DoesNotThrow(
+                () => solution = DijkstraDistance.FindLongestTrail(map));
             Assert.That(solution, Is.Not.Null);
             Assert.That(solution.LongestTrail, Is.Not.Null.Or.Empty);
 

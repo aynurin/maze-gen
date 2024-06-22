@@ -8,8 +8,8 @@ namespace PlayersWorlds.Maps {
     /// Provides a source of randomness with the ability to use a specific seed.
     /// </summary>
     public class RandomSource {
-        private static int _instanceCount = 0;
-        private Log _log = Log.ToConsole<RandomSource>();
+        private static int s_instanceCount = 0;
+        private readonly Log _log = Log.ToConsole<RandomSource>();
         private readonly Random _random;
         private readonly int _instanceId;
 
@@ -30,7 +30,7 @@ namespace PlayersWorlds.Maps {
         /// <param name="seed">The seed to use for random number generation.
         /// </param>
         private RandomSource(int seed) {
-            _instanceId = Interlocked.Increment(ref _instanceCount);
+            _instanceId = Interlocked.Increment(ref s_instanceCount);
             Seed = seed;
             _random = new Random(Seed);
         }

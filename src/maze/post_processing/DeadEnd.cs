@@ -28,25 +28,11 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
         /// <summary>
         /// An extension object that denotes a dead end.
         /// </summary>
-        public class IsDeadEndExtension {
-        }
+        public class IsDeadEndExtension { }
 
         /// <summary>
         /// Find dead ends in the maze.
         /// </summary>
-        public static DeadEndsExtension Find(Maze2DBuilder maze) {
-            var deadEnds = maze.AllCells.Where(cell => maze.MazeArea[cell].Links().Count == 1)
-                .ToList();
-            foreach (var cell in deadEnds) {
-                maze.MazeArea[cell].X(new IsDeadEndExtension());
-            }
-            return new DeadEndsExtension(deadEnds);
-        }
-
-        /// <summary>
-        /// Find dead ends in the maze.
-        /// </summary>
-        [Obsolete]
         public static DeadEndsExtension Find(Area maze) {
             var deadEnds = maze.Grid.Where(cell => maze[cell].Links().Count == 1)
                 .ToList();

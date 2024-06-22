@@ -9,7 +9,6 @@ namespace PlayersWorlds.Maps.Areas {
     /// backtracking.
     /// </summary>
     public class BasicAreaGenerator : AreaGenerator {
-        private readonly Log _log = Log.ToConsole<BasicAreaGenerator>();
         private readonly RandomSource _randomSource;
         private readonly Area _targetArea;
         private readonly AreaType[] _areaTypes;
@@ -80,6 +79,7 @@ namespace PlayersWorlds.Maps.Areas {
 
         private Area CreateRandomArea(ICollection<Area> generatedAreas) {
             var type = _randomSource.RandomOf(_areaTypes);
+            var tag = _randomSource.RandomOf(_tags);
             Area area;
             var size = new Vector(
                 _randomSource.Next(_minSize.X, _maxSize.X),
@@ -87,7 +87,7 @@ namespace PlayersWorlds.Maps.Areas {
             var pos = new Vector(
                 _randomSource.Next(0, _targetArea.Size.X - size.X),
                 _randomSource.Next(0, _targetArea.Size.Y - size.Y));
-            area = Area.Create(pos, size, type);
+            area = Area.Create(pos, size, type, tag);
             if (IsAValidLayout(generatedAreas, area)) {
                 return area;
             }
