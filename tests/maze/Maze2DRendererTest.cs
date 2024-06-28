@@ -11,7 +11,7 @@ namespace PlayersWorlds.Maps.Maze {
             void Act() =>
                 new Maze2DRenderer(
                     Area.CreateMaze(new Vector(10, 10)),
-                    MazeToMapOptions.SquareCells(2, 2)
+                    Maze2DRendererOptions.SquareCells(2, 2)
                 ).Render(Area.CreateMaze(new Vector(10, 10)));
             Assert.That(Act, Throws.Exception.TypeOf<ArgumentException>());
         }

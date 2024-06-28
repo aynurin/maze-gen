@@ -23,12 +23,13 @@ namespace PlayersWorlds.Maps {
                 FillFactor = GeneratorOptions.MazeFillFactor.Full,
                 AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto,
                 RandomSource = randomSource,
-                AreaGenerator = new RandomAreaGenerator(randomSource)
+                AreaGenerator = new RandomAreaGenerator(randomSource),
+                MazeStructureStyle = MazeStructureStyle.Block,
             };
             var maze = Area.CreateMaze(size);
             Maze2DBuilder.BuildMaze(maze, generatorOptions);
             Console.WriteLine(maze.ToString());
-            Console.WriteLine(maze.ToMap(MazeToMapOptions.RectCells(2, 1)).RenderToString());
+            Console.WriteLine(maze.ToMap(Maze2DRendererOptions.RectCells(2, 1)).RenderToString());
             return 0;
         }
     }

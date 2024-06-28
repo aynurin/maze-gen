@@ -142,9 +142,9 @@ namespace PlayersWorlds.Maps {
         /// and all components are greater than zero.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public void ThrowIfNotAValidSize() {
+        public void ThrowIfNotAValidSize(string paramName = null) {
             if (_value.Length == 0 || _value.Any(i => i < 0))
-                throw new ArgumentException($"This Vector is not a valid size: {this}");
+                throw new ArgumentException($"This Vector is not a valid size: {this}", paramName);
         }
 
         private static T ThrowIfEmptyOrApply<T>(Vector one, Vector another, Func<Vector, Vector, T> apply) {

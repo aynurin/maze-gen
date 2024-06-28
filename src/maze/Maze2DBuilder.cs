@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.MapFilters;
 using PlayersWorlds.Maps.Maze.PostProcessing;
 using static PlayersWorlds.Maps.Maze.GeneratorOptions;
+using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
 namespace PlayersWorlds.Maps.Maze {
     /// <summary>
@@ -131,10 +133,62 @@ namespace PlayersWorlds.Maps.Maze {
         /// <exception cref="ArgumentException">The provided maze generator type
         /// is not inherited from <see cref="MazeGenerator" /> or does not
         /// provide a default constructor.</exception>
-        public static Maze2DBuilder BuildMaze(Area mazeArea,
-                                     GeneratorOptions options = null) {
-            var builder = CreateFromOptions(mazeArea, options);
+        public static Maze2DBuilder BuildMaze(
+            Area area,
+            GeneratorOptions options = null) {
+
+            var mazeLayer = area;
+            if (options.MazeStructureStyle == MazeStructureStyle.Block) {
+                // on each dimension, we start adding walls and traills until
+                // we exceed area.Size
+                var renderOptions = options?.MazeRendererOptions ?? Maze2DRendererOptions.SquareCells(1, 1);
+                var mazeSizeValue = new int[area.Size.Dimensions]; // 0, 0
+                var currentDimension = 0;
+                while (currentDimension < area.Size.Dimensions) {
+                    var suggestedNewSize = mazeSizeValue.ToArray();
+                    suggestedNewSize[currentDimension] += 1;
+                    var renderedSize = renderOptions.RenderedSize(new Vector(suggestedNewSize));
+                    if (renderedSize.FitsInto(area.Size)) {
+                        mazeSizeValue = suggestedNewSize;
+                    } else {
+                        currentDimension++;
+                    }
+                }
+                mazeLayer = Area.CreateMaze(new Vector(mazeSizeValue), area.Tags);
+            }
+
+            var builder = CreateFromOptions(mazeLayer, options);
             builder.BuildMaze();
+
+            if (options.MazeStructureStyle == MazeStructureStyle.Block) {
+                var mazeRendererOptions =
+                    options?.MazeRendererOptions ??
+                    Maze2DRendererOptions.SquareCells(1, 1);
+                new Maze2DRenderer(mazeLayer, mazeRendererOptions)
+                    .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail },
+                                           Cell.CellTag.MazeWall,
+                                           mazeRendererOptions.WallCellSize))
+                    .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail,
+                                                 Cell.CellTag.MazeWallCorner,
+                                                 mazeRendererOptions.WallCellSize))
+                    .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail,
+                                                   Cell.CellTag.MazeWallCorner },
+                                           Cell.CellTag.MazeWall,
+                                           mazeRendererOptions.WallCellSize))
+                    .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeVoid },
+                                              includeVoids: true,
+                                              Cell.CellTag.MazeWall,
+                                              maxSpotWidth: 5,
+                                              maxSpotHeight: 5))
+                    .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeWall,
+                                                      Cell.CellTag.MazeWallCorner },
+                                              includeVoids: false,
+                                              Cell.CellTag.MazeTrail,
+                                              maxSpotWidth: 3,
+                                              maxSpotHeight: 3))
+                    .Render(area);
+            }
+
             return builder;
         }
 

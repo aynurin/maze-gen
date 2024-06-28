@@ -29,13 +29,29 @@ namespace PlayersWorlds.Maps {
         /// dimensions.
         /// </summary>
         /// <param name="type"><see cref="AreaType"/> of the new layer.</param>
+        /// <param name="position">Position of the new area.</param>
+        /// <param name="size">The vector representing the dimensions of the
+        /// new map layer.</param>
+        /// <returns>The <see cref="GeneratedWorld"/> instance with the new
+        /// layer added, allowing for method chaining.</returns>
+        public GeneratedWorld AddLayer(AreaType type, Vector position, Vector size) {
+            _layers.Add(Area.Create(position, size, type));
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a new layer to the generated world using the specified map
+        /// dimensions.
+        /// </summary>
+        /// <param name="type"><see cref="AreaType"/> of the new layer.</param>
         /// <param name="size">The vector representing the dimensions of the
         /// new map layer.</param>
         /// <returns>The <see cref="GeneratedWorld"/> instance with the new
         /// layer added, allowing for method chaining.</returns>
         public GeneratedWorld AddLayer(AreaType type, Vector size) {
-            _layers.Add(Area.Create(Vector.Zero2D, size, type));
-            return this;
+            return AddLayer(type,
+                            Vector.Zero(size.Dimensions),
+                            size);
         }
 
         /// <summary>
@@ -47,7 +63,14 @@ namespace PlayersWorlds.Maps {
         /// <returns>The <see cref="GeneratedWorld"/> instance with the new
         /// layer added, allowing for method chaining.</returns>
         public GeneratedWorld AddLayer(Func<Area, Area> createLayer) {
-            _layers.Add(createLayer(CurrentLayer));
+            Area CreateAreaBasedOn(Area area) {
+                var copy = createLayer(area);
+                foreach (var child in area.ChildAreas()) {
+                    copy.AddChildArea(CreateAreaBasedOn(child));
+                }
+                return copy;
+            }
+            _layers.Add(CreateAreaBasedOn(CurrentLayer));
             return this;
         }
 
@@ -118,24 +141,26 @@ namespace PlayersWorlds.Maps {
         /// layer added, allowing for method chaining.</returns>
         /// <exception cref="InvalidOperationException">Thrown if the world is
         /// empty.</exception>
-        public GeneratedWorld OfMaze(Type mazeGeneratorType = null) {
-            var mazeLayer = CurrentLayer.ShallowCopy();
+        public GeneratedWorld OfMaze(MazeStructureStyle mazeStyle,
+                                     GeneratorOptions options = null) {
             // default: full area of the layer will be used for the maze.
             // alternative: add parameter to specify which area of the layer
             //      will be used for the maze.
-            var options = new GeneratorOptions() {
-                RandomSource = RandomSource.CreateFromEnv(),
-                MazeAlgorithm = mazeGeneratorType ??
-                                GeneratorOptions.Algorithms.Wilsons
-            };
+            options = options ?? new GeneratorOptions();
+            options.MazeStructureStyle = mazeStyle;
+            if (options.RandomSource == null) {
+                options.RandomSource = RandomSource.CreateFromEnv();
+            }
+            if (options.MazeAlgorithm == null) {
+                options.MazeAlgorithm = GeneratorOptions.Algorithms.Wilsons;
+            }
             void CreateMaze(Area area) {
-                if (area.Type == AreaType.Maze) {
+                if (area.Any(cell => cell.AreaType == AreaType.Maze)) {
                     Maze2DBuilder.BuildMaze(area, options);
                 }
                 area.ChildAreas().ForEach(a => CreateMaze(a));
             };
-            CreateMaze(mazeLayer);
-            CurrentLayer = mazeLayer;
+            CreateMaze(CurrentLayer);
             return this;
         }
 
@@ -163,19 +188,18 @@ namespace PlayersWorlds.Maps {
             return this;
         }
 
-        public GeneratedWorld ToMap(MazeToMapOptions options = null) {
+        public GeneratedWorld ToMap(Maze2DRendererOptions options = null) {
             var _ = CurrentLayer.X<Maze2DBuilder>() ??
                 throw new InvalidOperationException(
                     "Can't use ToMap on a non-maze layer.");
             options = options ??
-                      MazeToMapOptions.RectCells(
+                      Maze2DRendererOptions.RectCells(
                             new Vector(1, 1), new Vector(1, 1));
-            options.ThrowIfWrong(CurrentLayer.Size);
             var map = Maze2DRenderer.CreateMapForMaze(CurrentLayer, options);
             new Maze2DRenderer(CurrentLayer, options)
-                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, options.WallWidths.Min(), options.WallHeights.Min()))
-                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, options.WallWidths.Min(), options.WallHeights.Min()))
-                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, options.WallWidths.Min(), options.WallHeights.Min()))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, options.WallCellSize))
+                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, options.WallCellSize))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, options.WallCellSize))
                 .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
                 .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);

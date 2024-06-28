@@ -11,18 +11,18 @@ namespace PlayersWorlds.Maps.Maze {
     /// </summary>
     public class Maze2DRenderer {
         private readonly Area _maze;
-        private readonly MazeToMapOptions _options;
+        private readonly Maze2DRendererOptions _options;
         private readonly List<Map2DFilter> _filters = new List<Map2DFilter>();
 
         internal static Area CreateMapForMaze(
-            Area maze, MazeToMapOptions options) =>
-                Area.CreateMaze(options.RenderedSize(maze.Size));
+            Area maze, Maze2DRendererOptions options) =>
+                Area.Create(maze.Position, options.RenderedSize(maze.Size),
+                Areas.AreaType.Environment, maze.Tags);
 
         /// <summary />
-        public Maze2DRenderer(Area maze, MazeToMapOptions options) {
+        public Maze2DRenderer(Area maze, Maze2DRendererOptions options) {
             maze.ThrowIfNull("maze");
             options.ThrowIfNull("options");
-            options.ThrowIfWrong(maze.Size);
 
             _maze = maze;
             _options = options;
@@ -46,7 +46,7 @@ namespace PlayersWorlds.Maps.Maze {
                 throw new ArgumentException("Map does not fit the maze.");
             }
             foreach (var cell in _maze.Grid) {
-                var mapping = new CellsMapping(map, cell, _options);
+                var mapping = new CellsMapping(map, cell - _maze.Position, _options);
                 if (_maze[cell].HasLinks()) {
                     mapping.CenterCells.Where(c => map.Grid.Contains(c)).ForEach(c => map[c].Tags.Add(Cell.CellTag.MazeTrail));
                 }
@@ -71,12 +71,12 @@ namespace PlayersWorlds.Maps.Maze {
         internal class CellsMapping {
             private readonly Area _map;
             private readonly Vector _mazeCell;
-            private readonly MazeToMapOptions _options;
+            private readonly Maze2DRendererOptions _options;
             private readonly Vector[] _size = new Vector[9];
             private readonly Vector[] _position = new Vector[9];
             private const int NW = 0, N = 1, NE = 2, W = 3, CENTER = 4, E = 5, SW = 6, S = 7, SE = 8;
 
-            public CellsMapping(Area map, Vector mazeCell, MazeToMapOptions options) {
+            public CellsMapping(Area map, Vector mazeCell, Maze2DRendererOptions options) {
                 map.ThrowIfNull(nameof(map));
                 mazeCell.ThrowIfEmpty(nameof(mazeCell));
                 options.ThrowIfNull(nameof(options));
@@ -105,6 +105,10 @@ namespace PlayersWorlds.Maps.Maze {
                 _position[S] = new Vector(_position[CENTER].X, _position[SW].Y);
                 _size[SE] = new Vector(_size[NE].X, _size[SW].Y);
                 _position[SE] = new Vector(_position[NE].X, _position[SW].Y);
+
+                for (var i = 0; i < _position.Length; i++) {
+                    _position[i] = _position[i] + _map.Position;
+                }
             }
 
             // y │    N
@@ -165,168 +169,90 @@ namespace PlayersWorlds.Maps.Maze {
         /// <summary>
         /// Maze rendering options.
         /// </summary>
-        public class MazeToMapOptions {
-            internal int[] TrailWidths { get; }
-            internal int[] TrailHeights { get; }
-            internal int[] WallWidths { get; }
-            internal int[] WallHeights { get; }
+        public class Maze2DRendererOptions {
+            internal Vector TrailCellSize { get; }
+            internal Vector WallCellSize { get; }
 
-            internal Vector WallSize(Vector mazeCellPosition) =>
-                new Vector(
-                    WallWidths.Length == 1 ?
-                        WallWidths[0] : WallWidths[mazeCellPosition.X],
-                    WallHeights.Length == 1 ?
-                        WallHeights[0] : WallHeights[mazeCellPosition.Y]);
+            internal Vector WallSize(Vector _) =>
+                WallCellSize;
 
-            internal Vector TrailSize(Vector mazeCellPosition) =>
-                new Vector(
-                    TrailWidths.Length == 1 ?
-                        TrailWidths[0] : TrailWidths[mazeCellPosition.X],
-                    TrailHeights.Length == 1 ?
-                        TrailHeights[0] : TrailHeights[mazeCellPosition.Y]);
+            internal Vector TrailSize(Vector _) =>
+                TrailCellSize;
 
             internal Vector SWPosition(Vector mazeCellPosition) {
                 var trailPart = new Vector(
-                    TrailWidths.Length == 1 ?
-                        TrailWidths[0] * mazeCellPosition.X :
-                        TrailWidths
-                            .Where((v, vi) => vi < mazeCellPosition.X)
-                            .Sum(),
-                    TrailHeights.Length == 1 ?
-                        TrailHeights[0] * mazeCellPosition.Y :
-                        TrailHeights
-                            .Where((v, vi) => vi < mazeCellPosition.Y)
-                            .Sum());
+                        TrailCellSize.X * mazeCellPosition.X,
+                        TrailCellSize.Y * mazeCellPosition.Y);
                 var wallPart = new Vector(
-                    WallWidths.Length == 1 ?
-                        WallWidths[0] * mazeCellPosition.X :
-                        WallWidths
-                            .Where((v, vi) => vi < mazeCellPosition.X)
-                            .Sum(),
-                    WallHeights.Length == 1 ?
-                        WallHeights[0] * mazeCellPosition.Y :
-                        WallHeights
-                            .Where((v, vi) => vi < mazeCellPosition.Y)
-                            .Sum());
+                        WallCellSize.X * mazeCellPosition.X,
+                        WallCellSize.Y * mazeCellPosition.Y);
                 return trailPart + wallPart;
             }
 
             internal Vector RenderedSize(Vector mazeSize) {
-                ThrowIfWrong(mazeSize);
-                return SWPosition(mazeSize) +
-                    new Vector(
-                        WallWidths.Length == 1 ?
-                            WallWidths[0] : WallWidths[mazeSize.X],
-                        WallHeights.Length == 1 ?
-                            WallHeights[0] : WallHeights[mazeSize.Y]);
+                return SWPosition(mazeSize) + WallCellSize;
             }
 
             /// <summary>
             /// Creates new maze rendering options with the specified walls and
             /// trails sizes.
             /// </summary>
-            /// <param name="trailWidths">Widths of all trail cells.</param>
-            /// <param name="trailHeights">Heights of all trail cells.</param>
-            /// <param name="wallWidths">Widths of all wall cells.</param>
-            /// <param name="wallHeights">Heights of all wall cells.</param>
+            /// <param name="trailCellSize">Size of trail cells.</param>
+            /// <param name="wallCellSize">Size of wall cells.</param>
             /// <exception cref="ArgumentException"></exception>
-            public MazeToMapOptions(
-                int[] trailWidths,
-                int[] trailHeights,
-                int[] wallWidths,
-                int[] wallHeights) {
-                trailWidths.ThrowIfNullOrEmpty("trailWidths");
-                trailHeights.ThrowIfNullOrEmpty("trailWidths");
-                wallWidths.ThrowIfNullOrEmpty("trailWidths");
-                wallHeights.ThrowIfNullOrEmpty("trailYHeights");
-                if (trailWidths.Any(v => v <= 0) ||
-                    trailHeights.Any(v => v <= 0) ||
-                    wallWidths.Any(v => v <= 0) ||
-                    wallHeights.Any(v => v <= 0)) {
+            public Maze2DRendererOptions(
+                Vector trailCellSize,
+                Vector wallCellSize) {
+                trailCellSize.ThrowIfNotAValidSize(nameof(trailCellSize));
+                wallCellSize.ThrowIfNotAValidSize(nameof(wallCellSize));
+                if (trailCellSize.Dimensions != wallCellSize.Dimensions) {
+                    throw new ArgumentException("Wall and trail cell sizes " +
+                        "must have the same number of dimensions.");
+                }
+                if (trailCellSize.Area == 0 ||
+                    wallCellSize.Area == 0) {
                     throw new ArgumentException("Zero and negative wall and " +
                         "trail sizes are not supported.");
                 }
-                TrailWidths = trailWidths;
-                TrailHeights = trailHeights;
-                WallWidths = wallWidths;
-                WallHeights = wallHeights;
+                TrailCellSize = trailCellSize;
+                WallCellSize = wallCellSize;
             }
 
             /// <summary>
-            /// Creates an instance of <see cref="MazeToMapOptions" /> with
+            /// Creates an instance of <see cref="Maze2DRendererOptions" /> with
             /// square wall and trail cell sizes.
             /// </summary>
-            public static MazeToMapOptions SquareCells(
+            public static Maze2DRendererOptions SquareCells(
                 int trailCellSize,
                 int wallCellSize)
-                => new MazeToMapOptions(
-                    new int[] { trailCellSize },
-                    new int[] { trailCellSize },
-                    new int[] { wallCellSize },
-                    new int[] { wallCellSize }
+                => new Maze2DRendererOptions(
+                    new Vector(trailCellSize, trailCellSize),
+                    new Vector(wallCellSize, wallCellSize)
                 );
 
             /// <summary>
-            /// Creates an instance of <see cref="MazeToMapOptions" /> with
+            /// Creates an instance of <see cref="Maze2DRendererOptions" /> with
             /// rectangular wall and trail cell sizes.
             /// </summary>
-            public static MazeToMapOptions RectCells(
+            public static Maze2DRendererOptions RectCells(
                 Vector trailCellSize,
                 Vector wallCellSize)
-                => new MazeToMapOptions(
-                    new int[] { trailCellSize.X },
-                    new int[] { trailCellSize.Y },
-                    new int[] { wallCellSize.X },
-                    new int[] { wallCellSize.Y }
+                => new Maze2DRendererOptions(
+                    trailCellSize,
+                    wallCellSize
                 );
 
             /// <summary>
-            /// Creates an instance of <see cref="MazeToMapOptions" /> with
+            /// Creates an instance of <see cref="Maze2DRendererOptions" /> with
             /// rectangular wall and trail cell sizes.
             /// </summary>
-            public static MazeToMapOptions RectCells(
+            public static Maze2DRendererOptions RectCells(
                 int cellWidth,
                 int cellHeight)
-                => new MazeToMapOptions(
-                    new int[] { cellWidth },
-                    new int[] { cellHeight },
-                    new int[] { cellWidth },
-                    new int[] { cellHeight }
+                => new Maze2DRendererOptions(
+                    new Vector(cellWidth, cellHeight),
+                    new Vector(cellWidth, cellHeight)
                 );
-
-            internal void ThrowIfWrong(Vector mazeSize) {
-                var msg = "Please provide {0} for all {1}. The provided maze " +
-                          "({2}) should have {3} {1} {0} (or only one, same " +
-                          "for all {1}), and the provided {0} are ({4})";
-                if (TrailWidths.Length > 1 &&
-                    TrailWidths.Length != mazeSize.X) {
-                    throw new ArgumentException(
-                        string.Format(
-                            msg, "widths", "trails", mazeSize, mazeSize.X,
-                            string.Join(", ", TrailWidths)));
-                }
-                if (TrailHeights.Length > 1 &&
-                    TrailHeights.Length != mazeSize.Y) {
-                    throw new ArgumentException(
-                        string.Format(
-                            msg, "heights", "trails", mazeSize, mazeSize.Y,
-                            string.Join(", ", TrailHeights)));
-                }
-                if (WallWidths.Length > 1 &&
-                    WallWidths.Length != mazeSize.X + 1) {
-                    throw new ArgumentException(
-                        string.Format(
-                            msg, "widths", "walls", mazeSize, mazeSize.X + 1,
-                            string.Join(", ", WallWidths)));
-                }
-                if (WallHeights.Length > 1 &&
-                    WallHeights.Length != mazeSize.Y + 1) {
-                    throw new ArgumentException(
-                        string.Format(
-                            msg, "heights", "walls", mazeSize, mazeSize.Y + 1,
-                            string.Join(", ", WallHeights)));
-                }
-            }
         }
     }
 }

@@ -18,31 +18,6 @@ namespace PlayersWorlds.Maps {
 
             var maze = _useCases[Case](randomSource);
 
-            // var maze = new GeneratedWorld(randomSource)
-            //     .AddLayer(new Vector(3, 2))
-            //     .OfMaze(typeof(HuntAndKillMazeGenerator))
-            //     .ToMap(MazeToMapOptions.SquareCells(5, 2))
-            //     .AddLayer(area => Area.CreateFrom(area,
-            //         area.Select(cell =>
-            //             cell.Tags.Contains(Cell.CellTag.MazeTrail) ?
-            //                 new Cell(AreaType.Maze) :
-            //                 new Cell(AreaType.None))))
-            //     .OfMaze(typeof(HuntAndKillMazeGenerator))
-            //     .ToMap(MazeToMapOptions.SquareCells(1, 1))
-            // .AddAreas(
-            //     new AreaType[] { AreaType.Hall, AreaType.Cave },
-            //     new string[] { "hall", "lake" },
-            //     /* areas count = */2,
-            //     /* min size = */new Vector(2, 3),
-            //     /* max size = */new Vector(5, 5))
-            // .AddLayer().OfMaze()
-            // .MarkDeadends()
-            // .MarkLongestPath()
-            // .ToMap()
-            // .WithElevation()
-            // .AddEnvironmentAreas(new string[] { "underground", "open" })
-            ;
-
             Console.WriteLine(maze.ToString());
             Console.WriteLine(maze.RenderToString());
             return 0;
@@ -52,24 +27,55 @@ namespace PlayersWorlds.Maps {
             new Func<RandomSource, Area>[] {
             r => new GeneratedWorld(r)
                 .AddLayer(AreaType.Maze, new Vector(3, 2))
-                .OfMaze(typeof(HuntAndKillMazeGenerator))
-                .ToMap(MazeToMapOptions.SquareCells(5, 2))
+                .OfMaze(MazeStructureStyle.Border, new GeneratorOptions() {
+                                    MazeAlgorithm = GeneratorOptions.Algorithms.HuntAndKill,
+                                })
+                .ToMap(Maze2DRendererOptions.SquareCells(3, 2))
                 .AddLayer(area => Area.CreateFrom(area,
                     area.Select(cell =>
                         cell.Tags.Contains(Cell.CellTag.MazeTrail) ?
                             new Cell(AreaType.Maze) :
                             new Cell(AreaType.None))))
-                .OfMaze(typeof(HuntAndKillMazeGenerator))
-                .ToMap(MazeToMapOptions.SquareCells(1, 1))
+                .OfMaze(MazeStructureStyle.Border, new GeneratorOptions() {
+                                    MazeAlgorithm = GeneratorOptions.Algorithms.HuntAndKill
+                                })
+                .ToMap(Maze2DRendererOptions.SquareCells(1, 1))
                 .Map(),
             r => new GeneratedWorld(r)
-                .AddLayer(AreaType.Environment, new Vector(10, 10))
+                .AddLayer(AreaType.Environment, new Vector(32, 29))
                 .WithAreas(
-                    Area.Create(new Vector(1, 2), new Vector(3, 6), AreaType.Maze),
-                    Area.Create(new Vector(6, 2), new Vector(3, 6), AreaType.Maze))
-                .OfMaze()
+                    Area.Create(new Vector(4, 4), new Vector(10, 15), AreaType.Maze),
+                    Area.Create(new Vector(18, 10), new Vector(10, 15), AreaType.Maze))
+                .OfMaze(MazeStructureStyle.Block)
                 // TODO: Can't use ToMap on a non-maze layer.
-                .ToMap(MazeToMapOptions.SquareCells(1, 1))
+                // .ToMap(Maze2DRendererOptions.SquareCells(1, 1))
+                .Map(),
+            r => new GeneratedWorld(r)
+                .AddLayer(AreaType.Environment, new Vector(80, 25))
+                .WithAreas(
+                    new GeneratedWorld(r)
+                        .AddLayer(AreaType.Maze, new Vector(2, 0), new Vector(3, 2))
+                        .OfMaze(MazeStructureStyle.Border, new GeneratorOptions() {
+                                            MazeAlgorithm = GeneratorOptions.Algorithms.HuntAndKill,
+                                        })
+                        .ToMap(Maze2DRendererOptions.SquareCells(3, 2))
+                        .AddLayer(area => Area.CreateFrom(area,
+                            area.Select(cell =>
+                                cell.Tags.Contains(Cell.CellTag.MazeTrail) ?
+                                    new Cell(AreaType.Maze) :
+                                    new Cell(AreaType.None))))
+                        .OfMaze(MazeStructureStyle.Border, new GeneratorOptions() {
+                                            MazeAlgorithm = GeneratorOptions.Algorithms.HuntAndKill
+                                        })
+                        .ToMap(Maze2DRendererOptions.SquareCells(1, 1))
+                        .Map())
+                .Map(),
+            r => new GeneratedWorld(r)
+                .AddLayer(AreaType.Maze, new Vector(3, 3))
+                .OfMaze(MazeStructureStyle.Block, new GeneratorOptions() {
+                            MazeAlgorithm = GeneratorOptions.Algorithms.HuntAndKill
+                        })
+                // .ToMap(Maze2DRendererOptions.SquareCells(5, 2))
                 .Map()
             };
     }

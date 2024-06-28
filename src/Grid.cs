@@ -94,7 +94,7 @@ namespace PlayersWorlds.Maps {
             for (var i = 0; i < _size.Dimensions; i++) {
                 var pos = _position.IsEmpty ? 0 : _position.Value[i];
                 if (xyValue[i] < pos) {
-                    sizeValue[i] = sizeValue[i] + xyValue[i] - pos;
+                    sizeValue[i] = Math.Max(0, sizeValue[i] + xyValue[i] - pos);
                     xyValue[i] = pos;
                 }
                 if (xyValue[i] > pos + _size.Value[i]) {

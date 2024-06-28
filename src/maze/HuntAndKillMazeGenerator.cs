@@ -46,7 +46,15 @@ namespace PlayersWorlds.Maps.Maze {
                         // we don't have any unconnected cells with connected
                         // neighbors, meaning there are unconnected areas in 
                         // the maze field.
-                        currentCell = builder.PickNextCellToLink();
+                        var attempts = 100;
+                        do {
+                            nextCell = builder.PickNextCellToLink();
+                            attempts--;
+                        } while (currentCell == nextCell && attempts > 0);
+                        if (currentCell == nextCell && attempts == 0) {
+                            break;
+                        }
+                        currentCell = nextCell;
                     }
                 }
             }

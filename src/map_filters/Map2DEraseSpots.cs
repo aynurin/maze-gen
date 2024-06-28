@@ -48,7 +48,7 @@ namespace PlayersWorlds.Maps.MapFilters {
             var visited = new bool[map.Size.Area];
             foreach (var xy in map.Grid) {
                 var cellData = map[xy];
-                if (visited[xy.ToIndex(map.Size)]) continue;
+                if (visited[(xy - map.Position).ToIndex(map.Size)]) continue;
 
                 // look for all spots of the given type
                 // if a cell matches a spot type, dfs to find the
@@ -59,7 +59,7 @@ namespace PlayersWorlds.Maps.MapFilters {
                 // mark all spot cells as visited
 
                 if (!CellIsASpot(cellData)) {
-                    visited[xy.ToIndex(map.Size)] = true;
+                    visited[(xy - map.Position).ToIndex(map.Size)] = true;
                     continue;
                 }
 
@@ -81,8 +81,8 @@ namespace PlayersWorlds.Maps.MapFilters {
 
                     foreach (var nextXy in map.Grid.AdjacentRegion(current)) {
                         if (!CellIsASpot(map[nextXy])) continue;
-                        if (visited[nextXy.ToIndex(map.Size)] == false) {
-                            visited[nextXy.ToIndex(map.Size)] = true;
+                        if (visited[(nextXy - map.Position).ToIndex(map.Size)] == false) {
+                            visited[(nextXy - map.Position).ToIndex(map.Size)] = true;
                             spotCells.Add(map[nextXy]);
                             dfsStack.Push(nextXy);
                         }

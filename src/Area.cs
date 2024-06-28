@@ -297,16 +297,29 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// Renders this maze to a <see cref="Area" /> with the given options.
         /// </summary>
-        /// <param name="options"><see cref="MazeToMapOptions" /></param>
+        /// <param name="options"><see cref="Maze2DRendererOptions" /></param>
         /// <returns></returns>
         // TODO: Factor out
-        public Area ToMap(MazeToMapOptions options) {
-            options.ThrowIfWrong(this.Size);
+        public Area ToMap(Maze2DRendererOptions options) {
+            // the point of this is not actually "To Map". It's supposed to 
+            // convert the border-style maze (each cell can have borders or
+            // links) to a block-style maze (each cell is either a wall or a 
+            // trail. Either of the styles can be used for rendering, so it's
+            // not converting anything to a map or rendering anything. It's
+            // converting one maze layout option to another.
+
+            // There are two ways to handle this:
+            //  - Generate time, accept a parameter of MazeStyle: Block or
+            //      Border. If it's a block style maze, create a new area
+            //      (smaller in size), generate a maze on it, and then convert
+            //      it to block-style area of the original size.
+            //  - Render time, i.e. here. Which will impact the size and/or
+            //      position of all other areas in this tree.
             var map = Maze2DRenderer.CreateMapForMaze(this, options);
             new Maze2DRenderer(this, options)
-                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, options.WallWidths.Min(), options.WallHeights.Min()))
-                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, options.WallWidths.Min(), options.WallHeights.Min()))
-                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, options.WallWidths.Min(), options.WallHeights.Min()))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, options.WallCellSize))
+                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, options.WallCellSize))
+                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, options.WallCellSize))
                 .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
                 .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
                 .Render(map);

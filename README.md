@@ -15,7 +15,7 @@ The basic workflow is:
             MazeAlgorithm = GeneratorOptions.Algorithms.RecursiveBacktracker,
             FillFactor = GeneratorOptions.MazeFillFactor.ThreeQuarters,
             AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto,
-         }).ToMap(Maze.Maze2DRenderer.MazeToMapOptions.SquareCells(1, 1));
+         }).ToMap(Maze.Maze2DRenderer.Maze2DRendererOptions.SquareCells(1, 1));
    ```
 
 3. This will generate a maze-like dungeon map that looks like the following:

@@ -30,13 +30,10 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_ToMapWrongOptions() {
-            Assert.DoesNotThrow(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3, 4 })));
-            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
-            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 3 }, new int[] { 1 }, new int[] { 1, 2 })));
-            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { }, new int[] { 1, 2 })));
-            Assert.DoesNotThrow(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { 1 })));
-            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2 }, new int[] { 1, 2, 3 }, new int[] { 1 }, new int[] { })));
-            Assert.Throws<ArgumentNullException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 1, 2 }, null)));
+            Assert.DoesNotThrow(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.Maze2DRendererOptions(new Vector(1, 1), new Vector(2, 2))));
+            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.Maze2DRendererOptions(new Vector(1, 1), new Vector(new int[] { 1, 2, 3 }))));
+            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.Maze2DRendererOptions(new Vector(1, 1), new Vector(0, 2))));
+            Assert.Throws<ArgumentException>(() => Area.CreateMaze(new Vector(2, 3)).ToMap(new Maze2DRenderer.Maze2DRendererOptions(new Vector(1, 0), new Vector(2, 2))));
         }
 
         [Test]
@@ -46,11 +43,9 @@ namespace PlayersWorlds.Maps.Maze {
                     MazeAlgorithm = GeneratorOptions.Algorithms.AldousBroder,
                     FillFactor = GeneratorOptions.MazeFillFactor.Full
                 });
-            var scaledMap = map.ToMap(new Maze2DRenderer.MazeToMapOptions(new int[] { 2, 3, 2 }, new int[] { 2, 3, 2 }, new int[] { 1, 2, 1, 2 }, new int[] { 1, 3, 1, 3 }));
+            var scaledMap = map.ToMap(new Maze2DRenderer.Maze2DRendererOptions(new Vector(3, 2), new Vector(2, 1)));
 
-            var expectedSize = new Vector(13, 15);
-
-            Assert.That(expectedSize.Area, Is.EqualTo(scaledMap.Count));
+            Assert.That(scaledMap.Size, Is.EqualTo(new Vector(17, 10)));
         }
 
         [Test]

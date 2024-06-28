@@ -33,6 +33,8 @@ namespace PlayersWorlds.Maps.Maze {
         /// A source of random numbers to use when generating the maze.
         /// </summary>
         public RandomSource RandomSource { get; set; }
+        public MazeStructureStyle MazeStructureStyle { get; set; }
+        public Maze2DRenderer.Maze2DRendererOptions MazeRendererOptions { get; set; }
 
         /// <summary>
         /// How much to fill the maze. <see
