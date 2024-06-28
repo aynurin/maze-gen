@@ -5,6 +5,7 @@ using System.Linq;
 using NUnit.Framework;
 using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Maze.PostProcessing;
+using PlayersWorlds.Maps.Serializer;
 using static PlayersWorlds.Maps.Maze.GeneratorOptions;
 
 namespace PlayersWorlds.Maps.Maze {
@@ -108,6 +109,10 @@ namespace PlayersWorlds.Maps.Maze {
                     Enum.Parse(typeof(MazeFillFactor),
                     TestContext.Parameters["MAZEGEN_FILLFACTOR"]);
             }
+        }
+
+        internal static Area Parse(string area) {
+            return new AreaSerializer().Deserialize(area);
         }
     }
 }

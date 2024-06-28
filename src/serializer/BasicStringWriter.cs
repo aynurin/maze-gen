@@ -37,6 +37,19 @@ namespace PlayersWorlds.Maps.Serializer {
             return this;
         }
 
+        public BasicStringWriter WriteEnumerableIf(IEnumerable<string> value, bool condition) {
+            if (condition) {
+                WriteEnumerable(value);
+            } else {
+                if (_first) {
+                    _first = false;
+                } else {
+                    _writer.Write(";");
+                }
+            }
+            return this;
+        }
+
         public BasicStringWriter WriteEnumerable(IEnumerable<string> value) {
             if (_first) {
                 _first = false;

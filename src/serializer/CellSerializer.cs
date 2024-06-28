@@ -4,10 +4,20 @@ using PlayersWorlds.Maps.Areas;
 
 namespace PlayersWorlds.Maps.Serializer {
     public class CellSerializer : IStringSerializer<Cell> {
+        private readonly AreaType _defaultType;
+
+        public CellSerializer(AreaType defaultType) {
+            _defaultType = defaultType;
+        }
+
         public Cell Deserialize(string str) {
             var serializer = new BasicStringReader(typeof(Cell), str);
-            var cell = new Cell(
-                (AreaType)Enum.Parse(typeof(AreaType), serializer.ReadValue()));
+            var type = _defaultType;
+            var typeStr = serializer.ReadValue();
+            if (typeStr != "") {
+                type = (AreaType)Enum.Parse(typeof(AreaType), typeStr);
+            }
+            var cell = new Cell(type);
             foreach (var link in serializer.ReadEnumerable()) {
                 cell.HardLinks.Add(Vector.Parse(link));
             }
@@ -27,7 +37,7 @@ namespace PlayersWorlds.Maps.Serializer {
         public string Serialize(Cell obj) {
             return new BasicStringWriter()
                 .WriteObjectStart(obj.GetType())
-                .WriteValue(obj.AreaType.ToString())
+                .WriteValue(obj.AreaType == _defaultType ? "" : obj.AreaType.ToString())
                 .WriteEnumerable(obj.HardLinks.Select(v => v.ToString()))
                 .WriteEnumerable(obj.Tags.Select(v => v.ToString()))
                 .WriteObjectEnd();

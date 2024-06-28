@@ -12,7 +12,7 @@ namespace PlayersWorlds.Maps {
 
         override public int Run() {
             base.Run();
-            var maze = LegacyAreaSerializer.ParseV01MazeString(SerializedMaze);
+            var maze = new AreaSerializer().Deserialize(SerializedMaze);
             var mazeCells = maze.Grid.Where(c => maze[c].HasLinks()).ToList();
             var areaSerializer = new AreaSerializer();
             Console.WriteLine(areaSerializer.Serialize(maze));

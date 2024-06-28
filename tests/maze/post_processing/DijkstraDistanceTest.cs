@@ -23,7 +23,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
 
         [Test]
         public void DijkstraDistance_CanSolveAMaze() {
-            var maze = LegacyAreaSerializer.ParseV01MazeString("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
+            var maze = MazeTestHelper.Parse("Area:{3x3;0x0;False;Maze;;[Cell:{;[0x1];},Cell:{;[2x0,1x1];},Cell:{;[1x0,2x1];},Cell:{;[0x0,1x1];},Cell:{;[1x0,0x1,1x2];},Cell:{;[2x0];},Cell:{;[1x2];},Cell:{;[1x1,0x2,2x2];},Cell:{;[1x2];}];}");
             var solution = DijkstraDistance
                 .Solve(maze, maze.Grid.First(), maze.Grid.Last());
             Assert.That(solution.HasValue, Is.True);
@@ -36,7 +36,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
 
         [Test]
         public void DijkstraDistance_ReturnsEmptyIfNoSolutionFound() {
-            var maze = LegacyAreaSerializer.ParseV01MazeString("3x3;0:3;1:4;2:5;3:4;4:7;6:7;7:8");
+            var maze = MazeTestHelper.Parse("Area:{3x3;0x0;False;Maze;;[Cell:{;[0x1];},Cell:{;[1x1];},Cell:{;[2x1];},Cell:{;[0x0,1x1];},Cell:{;[1x0,0x1,1x2];},Cell:{;[2x0];},Cell:{;[1x2];},Cell:{;[1x1,0x2,2x2];},Cell:{;[1x2];}];}");
             var solution = DijkstraDistance
                 .Solve(maze,
                        new Vector(2, 1),
@@ -46,7 +46,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
 
         [Test]
         public void DijkstraDistance_CanFindLongestTrail() {
-            var maze = LegacyAreaSerializer.ParseV01MazeString("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
+            var maze = MazeTestHelper.Parse("Area:{3x3;0x0;False;Maze;;[Cell:{;[0x1];},Cell:{;[2x0,1x1];},Cell:{;[1x0,2x1];},Cell:{;[0x0,1x1];},Cell:{;[1x0,0x1,1x2];},Cell:{;[2x0];},Cell:{;[1x2];},Cell:{;[1x1,0x2,2x2];},Cell:{;[1x2];}];}");
             var solution = DijkstraDistance.FindLongestTrail(maze);
             Assert.That(solution.LongestTrail.Count, Is.EqualTo(6));
             Assert.That(maze.Count(

@@ -10,6 +10,14 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             TestLog log,
             Vector mapSize,
             IEnumerable<Area> areas,
+            int maxEpochs = -1) => Distribute(
+                random, log, Area.CreateMaze(mapSize), areas, maxEpochs);
+
+        internal static DistributeResult Distribute(
+            RandomSource random,
+            TestLog log,
+            Area env,
+            IEnumerable<Area> areas,
             int maxEpochs = -1) {
 
             var debugLevel = 0;
@@ -20,11 +28,15 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                 maxEpochs = int.Parse(TestContext.Parameters["EPOCHS"]);
             }
 
-            var env = Area.CreateMaze(mapSize);
             var managedAreas = areas.ToList();
             var originalCopy = managedAreas
                 .Select(x => x.ShallowCopy())
                 .ToList();
+
+            if (debugLevel >= 4) {
+                log.Buffered.D(4, new MapAreaStringRenderer().Render(env.Size, managedAreas.Select(a => (a, ""))));
+                log.Buffered.Flush();
+            }
 
             var result = new DistributeResult {
                 Log = log,
@@ -60,12 +72,13 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
                     .Where(block => !block.Grid.FitsInto(env.Grid))
                     .ToList();
 
-            result.TestString = $"yield return \"{mapSize}: " +
+            result.TestString = $"yield return \"{env.Size}: " +
                 string.Join(" ", result.OriginalAreas.Select(area =>
                     $"P{area.Position};S{area.Size}")) +
                     "\"; // " + random.ToString();
 
             if (debugLevel >= 4) {
+                log.Buffered.D(4, new MapAreaStringRenderer().Render(env.Size, managedAreas.Select(a => (a, ""))));
                 log.Buffered.Flush();
             }
 

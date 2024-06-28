@@ -18,7 +18,7 @@ namespace PlayersWorlds.Maps {
         [SetUp]
         override public void SetUp() {
             base.SetUp();
-            _maze = LegacyAreaSerializer.ParseV01MazeString("4x4;0:1,4;1:2,5;2:3;3:7;4:5,8;8:12;12:13;13:14;14:10;10:11");
+            _maze = MazeTestHelper.Parse("Area:{4x4;0x0;False;Maze;;[Cell:{;[1x0,0x1];},Cell:{;[0x0,2x0,1x1];},Cell:{;[1x0,3x0];},Cell:{;[2x0,3x1];},Cell:{;[0x0,1x1,0x2];},Cell:{;[1x0,0x1];},Cell:{;;},Cell:{;[3x0];},Cell:{;[0x1,0x3];},Cell:{;;},Cell:{;[2x3,3x2];},Cell:{;[2x2];},Cell:{;[0x2,1x3];},Cell:{;[0x3,2x3];},Cell:{;[1x3,2x2];},Cell:{;;}];}");
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace PlayersWorlds.Maps {
             // rendering engine. In this implementation, the filled areas do not
             // take priority over hard links (hard links are hard). So we need
             // to adjust the maze to make it render the way it is expected.
-            _maze = LegacyAreaSerializer.ParseV01MazeString("4x4;0:1,4;1:2;2:3;3:7;4:8;8:12;12:13;13:14;14:10;10:11");
+            _maze = MazeTestHelper.Parse("Area:{4x4;0x0;False;Maze;;[Cell:{;[1x0,0x1];},Cell:{;[0x0,2x0];},Cell:{;[1x0,3x0];},Cell:{;[2x0,3x1];},Cell:{;[0x0,0x2];},Cell:{;;},Cell:{;;},Cell:{;[3x0];},Cell:{;[0x1,0x3];},Cell:{;;},Cell:{;[2x3,3x2];},Cell:{;[2x2];},Cell:{;[0x2,1x3];},Cell:{;[0x3,2x3];},Cell:{;[1x3,2x2];},Cell:{;;}];}");
             _maze.AddChildArea(
                 Area.Create(
                     new Vector(1, 1), new Vector(1, 1), AreaType.Fill));

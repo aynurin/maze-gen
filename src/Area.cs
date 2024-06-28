@@ -276,6 +276,10 @@ namespace PlayersWorlds.Maps {
         public IEnumerable<Area> ChildAreas() =>
             _childAreas.AsReadOnly();
 
+        public void ClearChildAreas() {
+            _childAreas.Clear();
+        }
+
         public IEnumerable<Area> ChildAreas(Vector xy) =>
             _childAreas.Where(a => a.Grid.Contains(xy));
 
@@ -288,9 +292,10 @@ namespace PlayersWorlds.Maps {
             _tags);
 
         public void AddChildArea(Area area) {
-            if (!area.Grid.FitsInto(Grid)) {
-                throw new ArgumentException("Area does not fit into this area");
-            }
+            // TODO: Do we need this check?
+            // if (!area.Grid.FitsInto(Grid)) {
+            //     throw new ArgumentException("Area does not fit into this area");
+            // }
             _childAreas.Add(area);
         }
 

@@ -94,8 +94,9 @@ namespace PlayersWorlds.Maps.Maze {
                 FillFactor = GeneratorOptions.MazeFillFactor.Full,
                 AreaGeneration = GeneratorOptions.AreaGenerationMode.Manual,
             };
+            // 
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(5, 5), new List<Area> { LegacyAreaSerializer.ParseV01AreaString("P2x1;S2x2;Hall") }, options);
+                new Vector(5, 5), new List<Area> { MazeTestHelper.Parse("Area:{2x2;2x1;False;Hall;;;}") }, options);
             Assert.That(maze.ChildAreas().Count, Is.EqualTo(1));
         }
 
@@ -106,8 +107,9 @@ namespace PlayersWorlds.Maps.Maze {
                 FillFactor = GeneratorOptions.MazeFillFactor.Full,
                 AreaGeneration = GeneratorOptions.AreaGenerationMode.Manual
             };
+            // 
             var maze = MazeTestHelper.GenerateMaze(
-                new Vector(5, 5), new List<Area> { LegacyAreaSerializer.ParseV01AreaString("P2x1;S2x2;Fill") }, options);
+                new Vector(5, 5), new List<Area> { MazeTestHelper.Parse("Area:{2x2;2x1;False;Fill;;;}") }, options);
             Assert.That(maze.ChildAreas().Count, Is.EqualTo(1));
         }
 
@@ -124,7 +126,7 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_CanParse() {
-            var maze = LegacyAreaSerializer.ParseV01MazeString("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
+            var maze = MazeTestHelper.Parse("Area:{3x3;0x0;False;Maze;;[Cell:{;[0x1];},Cell:{;[2x0,1x1];},Cell:{;[1x0,2x1];},Cell:{;[0x0,1x1];},Cell:{;[1x0,0x1,1x2];},Cell:{;[2x0];},Cell:{;[1x2];},Cell:{;[1x1,0x2,2x2];},Cell:{;[1x2];}];}");
             TestLog.CreateForThisTest().D(5, maze.ToString());
             // ╔═══╤═══════╗
             // ║ 0 │ 1   2 ║
@@ -149,7 +151,8 @@ namespace PlayersWorlds.Maps.Maze {
 
         [Test]
         public void Maze2D_CanParse2() {
-            var maze = LegacyAreaSerializer.ParseV01MazeString("3x4");
+            // Area:{3x4;0x0;False;Maze;;;}
+            var maze = MazeTestHelper.Parse("Area:{3x4;0x0;False;Maze;;;}");
             Assert.That(maze.Size.X == 3 && maze.Size.Y == 4, Is.True);
         }
     }

@@ -8,7 +8,7 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
     public class DeadEndTest : Test {
         [Test]
         public void DeadEnd_CanFindDeadEnds() {
-            var maze = LegacyAreaSerializer.ParseV01MazeString("3x3;0:3;1:2,4;2:5;3:4;4:7;6:7;7:8");
+            var maze = MazeTestHelper.Parse("Area:{3x3;0x0;False;Maze;;[Cell:{;[0x1];},Cell:{;[2x0,1x1];},Cell:{;[1x0,2x1];},Cell:{;[0x0,1x1];},Cell:{;[1x0,0x1,1x2];},Cell:{;[2x0];},Cell:{;[1x2];},Cell:{;[1x1,0x2,2x2];},Cell:{;[1x2];}];}");
             var deadEnds = DeadEnd.Find(maze);
             Assert.That(deadEnds.DeadEnds, Is.Not.Empty);
             Assert.That(4, Is.EqualTo(deadEnds.DeadEnds.Count));

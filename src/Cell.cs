@@ -79,7 +79,7 @@ namespace PlayersWorlds.Maps {
         }
 
         override public string ToString() =>
-            new CellSerializer().Serialize(this);
+            new CellSerializer(AreaType.None).Serialize(this);
 
         /// <summary>
         /// Cell tags can be used in the game engine to choose objects, visual
