@@ -53,6 +53,11 @@ namespace PlayersWorlds.Maps {
         }
 
         internal void Reposition(Vector newPosition) {
+            if (newPosition.Dimensions != _size.Dimensions) {
+                throw new ArgumentException(
+                    $"The position and size of the map ({_size}) must have the " +
+                    $"same number of dimensions as the position ({newPosition}).");
+            }
             _position = newPosition;
         }
 
