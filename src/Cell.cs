@@ -57,6 +57,8 @@ namespace PlayersWorlds.Maps {
         internal Cell Clone() {
             var newCell = new Cell(_areaType);
             newCell._tags.AddRange(_tags);
+            newCell._bakedLinks.UnionWith(_bakedLinks);
+            newCell._bakedNeighbors.UnionWith(_bakedNeighbors);
             foreach (var link in _hardLinks) {
                 newCell._hardLinks.Add(link);
             }
@@ -73,7 +75,9 @@ namespace PlayersWorlds.Maps {
         }
 
         override public string ToString() =>
-            new CellSerializer(AreaType.None).Serialize(this);
+            $"Cell({_areaType});{string.Join(", ", _hardLinks)};" +
+            $"{string.Join(", ", _bakedLinks)};" +
+            $"{string.Join(", ", _bakedNeighbors)}";
 
         /// <summary>
         /// Cell tags can be used in the game engine to choose objects, visual

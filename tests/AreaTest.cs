@@ -65,13 +65,13 @@ namespace PlayersWorlds.Maps {
         }
 
         [Test]
-        public void CopyConstructorWithNulls() {
+        public void CopyCtorWithNulls() {
             Assert.Throws<ArgumentNullException>(
                 () => new Area(null, null, false, AreaType.None, null, null));
         }
 
         [Test]
-        public void CopyConstructorWithWrongNumberOfCells() {
+        public void CopyCtorWithWrongNumberOfCells() {
             Assert.Throws<ArgumentException>(
                 () => new Area(new Grid(Vector.Zero2D, V11),
                                Enumerable.Empty<Cell>(),
@@ -82,7 +82,7 @@ namespace PlayersWorlds.Maps {
         }
 
         [Test]
-        public void CopyConstructorChecksGridPosition() {
+        public void CopyCtorChecksGridPosition() {
             Assert.Throws<ArgumentException>(
                 () => new Area(new Grid(Vector.Empty, V11),
                                Enumerable.Repeat(new Cell(AreaType.None), 1),
