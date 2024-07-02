@@ -19,7 +19,7 @@ fi
 
 echo $where_param
 cd build/Debug/tests
-mono $AltCover --assemblyFilter=Moq --typeFilter=PlayersWorlds.Maps.Areas.Evolving.VectorDistanceForceProducer --typeFilter=PlayersWorlds.Maps.Maze.MazeBuildingException --pathFilter=./src/renderers --outputDirectory=__Instrumented
+mono $AltCover --assemblyFilter=Moq --typeFilter=PlayersWorlds.Maps.Areas.Evolving.VectorDistanceForceProducer --typeFilter=PlayersWorlds.Maps.Maze.MazeBuildingException --methodFilter=GetEnumerator --pathFilter=./src/renderers --outputDirectory=__Instrumented
 mono $AltCover Runner --recorderDirectory __Instrumented --cobertura=../../coverage.cobertura.xml --executable "$nunit" -- __Instrumented/PlayersWorlds.Maps.Tests.dll --framework=mono-4.0 --where="$where_param"
 cd ../../..
 mono $ReportGenerator -reports:build/coverage.cobertura.xml -targetdir:build/coverage -reporttypes:TextSummary -assemblyfilters:-AltCover.Monitor\;-PlayersWorlds.Maps.Tests

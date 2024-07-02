@@ -57,7 +57,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(builder.TestPriorityCells.First().Value,
                 Is.EqualTo(priorityCells));
 
-            foreach (var areaInfo in maze.ChildAreas()) {
+            foreach (var areaInfo in maze.ChildAreas) {
                 if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
                     var selectableCells = builder.TestCellsToConnect.Intersect(areaInfo.Grid).ToList();
                     if (selectableCells.Count > 0) {
@@ -583,7 +583,7 @@ namespace PlayersWorlds.Maps.Maze {
             Assert.That(builder.TestPriorityCells.Keys.Intersect(area2.Grid), Is.Empty);
             Assert.That(builder.TestCellsToConnect.Intersect(area2.Grid), Is.Empty);
 
-            foreach (var areaInfo in maze.ChildAreas()) {
+            foreach (var areaInfo in maze.ChildAreas) {
                 if (areaInfo.Type == AreaType.Hall || areaInfo.Type == AreaType.Fill) {
                     var selectableCells = builder.TestCellsToConnect.Intersect(areaInfo.Grid).ToList();
                     if (selectableCells.Count > 0) {

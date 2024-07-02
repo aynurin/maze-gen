@@ -61,7 +61,7 @@ namespace PlayersWorlds.Maps.Areas {
                 // none of the areas fit the map
                 return new List<Area>();
             }
-            return PlaceArea(new List<Area>(targetArea.ChildAreas()));
+            return PlaceArea(new List<Area>(targetArea.ChildAreas));
         }
 
         private ICollection<Area> PlaceArea(ICollection<Area> generatedAreas) {

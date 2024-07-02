@@ -21,7 +21,7 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            Assert.That(deserializedArea.ChildAreas(), Is.Empty);
+            Assert.That(deserializedArea.ChildAreas, Is.Empty);
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            Assert.That(deserializedArea.ChildAreas(), Is.Empty);
+            Assert.That(deserializedArea.ChildAreas, Is.Empty);
             Assert.That(deserializedArea[new Vector(0, 0)].Tags, Is.EquivalentTo(new[] { tag1 }));
             Assert.That(deserializedArea[new Vector(1, 1)].Tags, Is.EquivalentTo(new[] { tag2 }));
         }
@@ -55,7 +55,7 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            var childAreas = new List<Area>(deserializedArea.ChildAreas());
+            var childAreas = new List<Area>(deserializedArea.ChildAreas);
             Assert.That(childAreas.Count, Is.EqualTo(2));
             Assert.That(childAreas[0].Size, Is.EqualTo(new Vector(1, 1)));
             Assert.That(childAreas[0].Position, Is.EqualTo(new Vector(0, 0)));
@@ -76,7 +76,7 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(1, 2)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            Assert.That(deserializedArea.ChildAreas(), Is.Empty);
+            Assert.That(deserializedArea.ChildAreas, Is.Empty);
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.EquivalentTo(new[] { "tag1", "tag2" }));
-            Assert.That(deserializedArea.ChildAreas(), Is.Empty);
+            Assert.That(deserializedArea.ChildAreas, Is.Empty);
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            var childAreas = new List<Area>(deserializedArea.ChildAreas());
+            var childAreas = new List<Area>(deserializedArea.ChildAreas);
             Assert.That(childAreas.Count, Is.EqualTo(2));
             Assert.That(childAreas[0].Size, Is.EqualTo(new Vector(1, 1)));
             Assert.That(childAreas[0].IsPositionEmpty, Is.True);
@@ -129,7 +129,7 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            var childAreas = new List<Area>(deserializedArea.ChildAreas());
+            var childAreas = new List<Area>(deserializedArea.ChildAreas);
             Assert.That(childAreas.Count, Is.EqualTo(2));
             Assert.That(childAreas[0].Size, Is.EqualTo(new Vector(1, 1)));
             Assert.That(childAreas[0].Position, Is.EqualTo(new Vector(1, 1)));
@@ -154,7 +154,7 @@ namespace PlayersWorlds.Maps.Serializer {
             Assert.That(deserializedArea.Position, Is.EqualTo(new Vector(0, 0)));
             Assert.That(deserializedArea.Type, Is.EqualTo(AreaType.Maze));
             Assert.That(deserializedArea.Tags, Is.Empty);
-            var childAreas = new List<Area>(deserializedArea.ChildAreas());
+            var childAreas = new List<Area>(deserializedArea.ChildAreas);
             Assert.That(childAreas.Count, Is.EqualTo(2));
             Assert.That(childAreas[0].Size, Is.EqualTo(new Vector(1, 1)));
             Assert.That(childAreas[0].Position, Is.EqualTo(new Vector(1, 1)));

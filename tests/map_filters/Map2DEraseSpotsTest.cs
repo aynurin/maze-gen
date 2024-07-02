@@ -1,5 +1,6 @@
 using System;
 using NUnit.Framework;
+using PlayersWorlds.Maps.Renderers;
 
 namespace PlayersWorlds.Maps.MapFilters {
 
@@ -26,7 +27,7 @@ namespace PlayersWorlds.Maps.MapFilters {
                 "░░░░▓\n";
             log.D(5, expected);
             log.D(5, map.ToString());
-            var actual = map.RenderToString();
+            var actual = map.Render(new AsciiRendererFactory());
             Assert.That(actual, Is.EqualTo(expected));
         }
 
@@ -56,7 +57,7 @@ namespace PlayersWorlds.Maps.MapFilters {
                 var expected = emptyMap;
                 log.D(5, expected);
                 log.D(5, map.ToString());
-                var actual = map.RenderToString();
+                var actual = map.Render(new AsciiRendererFactory());
                 Assert.That(actual, Is.EqualTo(expected));
             }
         }
@@ -76,7 +77,7 @@ namespace PlayersWorlds.Maps.MapFilters {
             var expected = Map2DTest.Spot1x3;
             log.D(5, expected);
             log.D(5, map.ToString());
-            var actual = map.RenderToString();
+            var actual = map.Render(new AsciiRendererFactory());
             Assert.That(actual, Is.EqualTo(expected));
         }
 
@@ -98,7 +99,7 @@ namespace PlayersWorlds.Maps.MapFilters {
                 "▒▓▓▓▓\n";
             log.D(5, expected);
             log.D(5, map.ToString());
-            var actual = map.RenderToString();
+            var actual = map.Render(new AsciiRendererFactory());
             Assert.That(actual, Is.EqualTo(expected));
         }
         [Test]
@@ -119,7 +120,7 @@ namespace PlayersWorlds.Maps.MapFilters {
                 "▒▓▓▓▓\n";
             log.D(5, expected);
             log.D(5, map.ToString());
-            var actual = map.RenderToString();
+            var actual = map.Render(new AsciiRendererFactory());
             Assert.That(actual, Is.EqualTo(expected));
         }
     }

@@ -38,12 +38,12 @@ namespace PlayersWorlds.Maps.Maze {
                     AreaGeneration = GeneratorOptions.AreaGenerationMode.Auto
                 });
             log.D(5, maze.ToString());
-            Assert.That(maze.ChildAreas(), Has.Count.EqualTo(1));
-            Assert.That(maze.ChildAreas().First().Size,
+            Assert.That(maze.ChildAreas, Has.Count.EqualTo(1));
+            Assert.That(maze.ChildAreas.First().Size,
                 Is.EqualTo(new Vector(2, 3)));
-            Assert.That(maze.ChildAreas().First().Position,
+            Assert.That(maze.ChildAreas.First().Position,
                 Is.EqualTo(new Vector(0, 0)));
-            Assert.That(maze.ChildAreas().First().Type,
+            Assert.That(maze.ChildAreas.First().Type,
                 Is.EqualTo(AreaType.Hall));
         }
 

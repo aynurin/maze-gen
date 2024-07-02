@@ -274,7 +274,7 @@ namespace PlayersWorlds.Maps.Maze {
             // from the priority list (but stay in the regular pool so they can
             // be processed as normal.
             _priorityCellsToConnect.Clear();
-            foreach (var areaInfo in _mazeArea.ChildAreas()) {
+            foreach (var areaInfo in _mazeArea.ChildAreas) {
                 var area = areaInfo;
                 var mazeAreaCells = new HashSet<Vector>(areaInfo.Grid); // TODO: Not covered
                 if (area.Type == AreaType.Cave) {
@@ -289,7 +289,7 @@ namespace PlayersWorlds.Maps.Maze {
                     var cells = new HashSet<Vector>(WalkInCells(area)
                         // make sure we don't include cells that belong to 
                         // any other area.
-                        .Except(_mazeArea.ChildAreas()
+                        .Except(_mazeArea.ChildAreas
                             .Where(otherArea =>
                                 area != otherArea &&
                                 (otherArea.Type == AreaType.Hall ||
@@ -306,7 +306,8 @@ namespace PlayersWorlds.Maps.Maze {
             _allConnectableCells.Clear();
             // all cells that do not belong to fill and hall areas.
             onlyMazeCells // does this cell belong to a fill or hall child area?
-                .Where(c => _mazeArea.ChildAreas(c)
+                .Where(c => _mazeArea.ChildAreas
+                    .Where(a => a.Grid.Contains(c))
                     .All(area => area.Type != AreaType.Fill &&
                                  area.Type != AreaType.Hall))
                 .ForEach(c => {
@@ -342,7 +343,7 @@ namespace PlayersWorlds.Maps.Maze {
         public void BuildMaze() {
             _areaGenerator?.GenerateMazeAreas(_mazeArea);
 
-            var unpositionedAreas = _mazeArea.ChildAreas().Where(area => area.IsPositionEmpty).ToList();
+            var unpositionedAreas = _mazeArea.ChildAreas.Where(area => area.IsPositionEmpty).ToList();
             if (unpositionedAreas.Count > 0) {
                 throw new MazeBuildingException(this,
                     "Maze contains unpositioned areas: " +
@@ -484,7 +485,7 @@ namespace PlayersWorlds.Maps.Maze {
             // halls were avoided during the maze generation.
             // now is the time to see if there are maze corridors next
             // to any halls, and if there are, connect them.
-            foreach (var areaInfo in _mazeArea.ChildAreas()) {
+            foreach (var areaInfo in _mazeArea.ChildAreas) {
                 var area = areaInfo;
                 var areaCells = new List<Vector>(areaInfo.Grid);
                 if (area.Type == AreaType.Hall) {
@@ -493,7 +494,8 @@ namespace PlayersWorlds.Maps.Maze {
                     var entranceExists =
                         walkInCells.SelectMany(cell => _mazeArea[cell].Links())
                             .Any(linkedCell => // does this cell belong to a given child area?
-                                 _mazeArea.ChildAreas(linkedCell)
+                                 _mazeArea.ChildAreas
+                                    .Where(a => a.Grid.Contains(linkedCell))
                                     .Any(childArea => childArea == area));
                     // entrance can already be created by an overlapping area.
                     if (entranceExists) continue;

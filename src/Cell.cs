@@ -17,7 +17,6 @@ namespace PlayersWorlds.Maps {
         private readonly AreaType _areaType;
         private readonly HashSet<Vector> _bakedLinks = new HashSet<Vector>();
         private readonly HashSet<Vector> _bakedNeighbors = new HashSet<Vector>();
-        private readonly HashSet<Cell> _bakedCells = new HashSet<Cell>();
 
         /// <summary>
         /// Tags assigned to cell.
@@ -29,8 +28,6 @@ namespace PlayersWorlds.Maps {
         public HashSet<Vector> BakedLinks => _bakedLinks;
 
         public HashSet<Vector> BakedNeighbors => _bakedNeighbors;
-
-        public HashSet<Cell> BakedCells => _bakedCells;
 
         public AreaType AreaType => _areaType;
 
@@ -66,16 +63,13 @@ namespace PlayersWorlds.Maps {
             return newCell;
         }
 
-        internal void Bake(IEnumerable<Cell> relatedCells,
-                           IEnumerable<Vector> envNeighbors,
+        internal void Bake(IEnumerable<Vector> envNeighbors,
                            IEnumerable<Vector> envLinks) {
             // bake in neighbors, links, and other computed properties.
             _bakedLinks.Clear();
             _bakedLinks.UnionWith(envLinks);
             _bakedNeighbors.Clear();
             _bakedNeighbors.UnionWith(envNeighbors);
-            _bakedCells.Clear();
-            _bakedCells.UnionWith(relatedCells);
         }
 
         override public string ToString() =>

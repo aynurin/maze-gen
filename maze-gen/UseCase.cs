@@ -3,6 +3,7 @@ using System.Linq;
 using CommandLine;
 using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Maze;
+using PlayersWorlds.Maps.Renderers;
 using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
 namespace PlayersWorlds.Maps {
@@ -19,7 +20,7 @@ namespace PlayersWorlds.Maps {
             var maze = _useCases[Case](randomSource);
 
             Console.WriteLine(maze.ToString());
-            Console.WriteLine(maze.RenderToString());
+            Console.WriteLine(maze.Render(new AsciiRendererFactory()));
             return 0;
         }
 
@@ -31,7 +32,7 @@ namespace PlayersWorlds.Maps {
                                     MazeAlgorithm = GeneratorOptions.Algorithms.HuntAndKill,
                                 })
                 .ToMap(Maze2DRendererOptions.SquareCells(3, 2))
-                .AddLayer(area => Area.CreateFrom(area,
+                .AddLayer(area => area.ShallowCopy(cells:
                     area.Select(cell =>
                         cell.Tags.Contains(Cell.CellTag.MazeTrail) ?
                             new Cell(AreaType.Maze) :
@@ -59,7 +60,7 @@ namespace PlayersWorlds.Maps {
                                             MazeAlgorithm = GeneratorOptions.Algorithms.HuntAndKill,
                                         })
                         .ToMap(Maze2DRendererOptions.SquareCells(3, 2))
-                        .AddLayer(area => Area.CreateFrom(area,
+                        .AddLayer(area => area.ShallowCopy(cells:
                             area.Select(cell =>
                                 cell.Tags.Contains(Cell.CellTag.MazeTrail) ?
                                     new Cell(AreaType.Maze) :

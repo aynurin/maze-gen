@@ -5,6 +5,7 @@ using System.Linq;
 using NUnit.Framework;
 using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Maze.PostProcessing;
+using PlayersWorlds.Maps.Renderers;
 using PlayersWorlds.Maps.Serializer;
 using static PlayersWorlds.Maps.Maze.GeneratorOptions;
 
@@ -41,8 +42,8 @@ namespace PlayersWorlds.Maps.Maze {
             var maze = Area.CreateMaze(size);
             childAreas?.ForEach(childArea => maze.AddChildArea(childArea));
             builder = Maze2DBuilder.BuildMaze(maze, options);
-            s_log.D(2, maze.MazeToString());
-            Assert.That(maze.ChildAreas().Count,
+            s_log.D(2, maze.Render(new AsciiRendererFactory()));
+            Assert.That(maze.ChildAreas.Count,
                 Is.GreaterThanOrEqualTo(childAreas?.Count ?? 0),
                 "Wrong number of areas");
             return maze;

@@ -9,7 +9,7 @@ namespace PlayersWorlds.Maps.Renderers {
     /// <summary>
     /// Renders a <see cref="Area" /> to a string.
     /// </summary>
-    public class Maze2DStringBoxRenderer {
+    public class Maze2DStringBoxRenderer : AreaToAsciiRenderer {
 
         private readonly Area _maze;
         private readonly int _cellInnerHeight;
@@ -36,7 +36,7 @@ namespace PlayersWorlds.Maps.Renderers {
         /// Also render the trail if it's defined in the maze extensions.
         /// </summary>
         /// <returns></returns>
-        public string WithTrail() {
+        override public string Render() {
             var trail = _maze.X<DijkstraDistance.LongestTrailExtension>()
                             ?.LongestTrail
                         ?? new List<Vector>();

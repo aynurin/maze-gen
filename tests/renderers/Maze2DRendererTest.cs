@@ -6,6 +6,7 @@ using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.MapFilters;
 using PlayersWorlds.Maps.Maze;
 using PlayersWorlds.Maps.Maze.PostProcessing;
+using PlayersWorlds.Maps.Renderers;
 using PlayersWorlds.Maps.Serializer;
 using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
@@ -45,7 +46,7 @@ namespace PlayersWorlds.Maps {
                 "0▓░░░░░░▒▓▓▓▓▒░░▓0\n" +
                 "0▓░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
-            var actual = map.RenderToString();
+            var actual = map.Render(new AsciiRendererFactory());
             log.D(5, expected);
             log.D(5, actual);
             Assert.That(actual, Is.EqualTo(expected));
@@ -79,8 +80,8 @@ namespace PlayersWorlds.Maps {
                 "0▓░░░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓░░░░░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
-            var actual = map.RenderToString();
-            log.D(5, _maze.MazeToString());
+            var actual = map.Render(new AsciiRendererFactory());
+            log.D(5, _maze.Render(new AsciiRendererFactory()));
             log.D(5, expected);
             log.D(5, actual);
             Assert.That(actual, Is.EqualTo(expected));
@@ -125,8 +126,8 @@ namespace PlayersWorlds.Maps {
                 "0▓░░▒▓▓▓▓▓▓▓▓▒░░▓0\n" +
                 "0▓░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
-            var actual = map.RenderToString();
-            log.D(5, _maze.MazeToString());
+            var actual = map.Render(new AsciiRendererFactory());
+            log.D(5, _maze.Render(new AsciiRendererFactory()));
             log.D(5, expected);
             log.D(5, actual);
             Assert.That(actual, Is.EqualTo(expected));
@@ -166,9 +167,9 @@ namespace PlayersWorlds.Maps {
                 "0▓░░░░░░░░░░░░░░▓0\n" +
                 "0▓░░░░░░░░░░░░░░▓0\n" +
                 "0▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓0\n";
-            log.D(5, _maze.MazeToString());
+            log.D(5, _maze.Render(new AsciiRendererFactory()));
             log.D(5, expected);
-            var actual = map.RenderToString();
+            var actual = map.Render(new AsciiRendererFactory());
             log.D(5, actual);
             Assert.That(actual, Is.EqualTo(expected));
         }
@@ -186,8 +187,12 @@ namespace PlayersWorlds.Maps {
                 "│   ┼   └───┘   │\n" +
                 "│               │\n" +
                 "└───────────────┘\n";
-            log.D(5, _maze.MazeToString());
-            Assert.That(_maze.MazeToString(), Is.EqualTo(expected));
+            var area = _maze.ShallowCopy();
+            area.X(new Maze2DBuilder(RandomSource.CreateFromEnv(),
+                                     area, null, null,
+                                     GeneratorOptions.MazeFillFactor.Full));
+            log.D(5, area.Render(new AsciiRendererFactory()));
+            Assert.That(area.Render(new AsciiRendererFactory()), Is.EqualTo(expected));
         }
 
         [Test]
@@ -203,10 +208,14 @@ namespace PlayersWorlds.Maps {
                 "│   ┼   └───┘   │\n" +
                 "│ 7   8   9   a │\n" +
                 "└───────────────┘\n";
-            _maze.X(DeadEnd.Find(_maze));
-            _maze.X(DijkstraDistance.FindLongestTrail(_maze));
-            log.D(5, _maze.MazeToString());
-            Assert.That(_maze.MazeToString(), Is.EqualTo(expected));
+            var area = _maze.ShallowCopy();
+            area.X(new Maze2DBuilder(RandomSource.CreateFromEnv(),
+                                     area, null, null,
+                                     GeneratorOptions.MazeFillFactor.Full));
+            area.X(DeadEnd.Find(_maze));
+            area.X(DijkstraDistance.FindLongestTrail(_maze));
+            log.D(5, area.Render(new AsciiRendererFactory()));
+            Assert.That(area.Render(new AsciiRendererFactory()), Is.EqualTo(expected));
         }
 
         [Test]

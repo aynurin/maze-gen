@@ -59,7 +59,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             ) {
             var serializer = new AreaSerializer();
             var env = serializer.Deserialize(layout);
-            var childAreas = env.ChildAreas().ToList();
+            var childAreas = env.ChildAreas.ToList();
             env.ClearChildAreas();
             AreaDistributorHelper.Distribute(
                 _random,
@@ -89,7 +89,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             ) {
             var serializer = new AreaSerializer();
             var env = serializer.Deserialize(layout);
-            var childAreas = env.ChildAreas().ToList();
+            var childAreas = env.ChildAreas.ToList();
             env.ClearChildAreas();
             AreaDistributorHelper.Distribute(
                 _random,
@@ -110,7 +110,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             ) {
             var serializer = new AreaSerializer();
             var env = serializer.Deserialize(layout);
-            var childAreas = env.ChildAreas().ToList();
+            var childAreas = env.ChildAreas.ToList();
             env.ClearChildAreas();
             AreaDistributorHelper.Distribute(
                 _random,

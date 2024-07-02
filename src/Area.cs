@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.MapFilters;
@@ -77,6 +78,8 @@ namespace PlayersWorlds.Maps {
         public bool IsHollow =>
             _areaType == AreaType.Hall || _areaType == AreaType.Cave;
 
+        public ReadOnlyCollection<Area> ChildAreas => _childAreas.AsReadOnly();
+
         /// <summary>
         /// Gets the value of a cell at the specified <see cref="Vector"/>
         /// position.
@@ -119,6 +122,7 @@ namespace PlayersWorlds.Maps {
                      /*childAreas=*/null,
                      tags);
 
+        // TODO: Misleading, this does not actually create a maze.
         public static Area CreateMaze(Vector size,
                                              params string[] tags) =>
             new Area(Vector.Zero(size.Value.Count), size,
@@ -127,13 +131,16 @@ namespace PlayersWorlds.Maps {
                      /*childAreas=*/null,
                      tags);
 
-        public static Area CreateFrom(Area area, IEnumerable<Cell> cells) =>
-            new Area(area.Grid,
-                     cells,
-                     area.IsPositionFixed,
-                     area.Type,
-                     area.ChildAreas(),
-                     area.Tags);
+        public Area ShallowCopy(AreaType? areaType = null,
+                                IEnumerable<Cell> cells = null,
+                                IEnumerable<Area> childAreas = null,
+                                IEnumerable<string> tags = null) =>
+            new Area(_grid,
+                     cells ?? _cells,
+                     _isPositionFixed,
+                     areaType ?? _areaType,
+                     childAreas ?? _childAreas,
+                     tags == null ? _tags : tags.ToArray());
 
         /// <summary>
         /// Creates a new instance of Area.
@@ -173,8 +180,10 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         internal Area(Grid grid, IEnumerable<Cell> cells, bool isPositionFixed,
                     AreaType areaType,
-                    IEnumerable<Area> childAreas,
-                    string[] tags) {
+                    IEnumerable<Area> childAreas = null,
+                    string[] tags = null) {
+            grid.ThrowIfNull(nameof(grid));
+            cells.ThrowIfNull(nameof(cells));
             if (grid.Position.IsEmpty && isPositionFixed) {
                 throw new ArgumentException("Position is not initialized.");
             }
@@ -191,6 +200,10 @@ namespace PlayersWorlds.Maps {
             }
             _grid = new Grid(grid.Position, grid.Size);
             _cells = new List<Cell>(cells);
+            if (_cells.Count != _grid.Size.Area) {
+                throw new ArgumentException(
+                    "The number of cells does not match the area size.");
+            }
             BakeChildAreas();
         }
 
@@ -247,9 +260,11 @@ namespace PlayersWorlds.Maps {
             neighborCells.ExceptWith(unavailableCells);
 
             foreach (var cell in _grid) {
-                if (unavailableCells.Contains(cell)) continue;
-                var relatedAreas = childAreas
-                    .Where(a => a.Grid.Contains(cell)).ToList();
+                if (unavailableCells.Contains(cell)) {
+                    this[cell].Bake(
+                        Enumerable.Empty<Vector>(), Enumerable.Empty<Vector>());
+                    continue;
+                }
                 var envNeighbors = _grid.AdjacentRegion(cell)
                     // don't include diagonal neighbors.
                     .Where(nbr => nbr.Value.Where(
@@ -260,10 +275,10 @@ namespace PlayersWorlds.Maps {
                     .ToList();
                 var envLinks = envNeighbors
                     // both cell and neighbor belong to the same hollow area.
-                    .Where(nbr => relatedAreas.Any(a => a.IsHollow && a.Grid.Contains(nbr)));
-                var relatedCells = relatedAreas
-                    .Select(a => a[cell]);
-                this[cell].Bake(relatedCells, envNeighbors, envLinks);
+                    .Where(nbr => childAreas.Any(a => a.IsHollow &&
+                                                      a.Grid.Contains(cell) &&
+                                                      a.Grid.Contains(nbr)));
+                this[cell].Bake(envNeighbors, envLinks);
             }
         }
 
@@ -273,24 +288,6 @@ namespace PlayersWorlds.Maps {
             _grid.Reposition(newPosition);
         }
 
-        public IEnumerable<Area> ChildAreas() =>
-            _childAreas.AsReadOnly();
-
-        public void ClearChildAreas() {
-            _childAreas.Clear();
-        }
-
-        public IEnumerable<Area> ChildAreas(Vector xy) =>
-            _childAreas.Where(a => a.Grid.Contains(xy));
-
-        public Area ShallowCopy() => new Area(
-            _grid,
-            _cells,
-            _isPositionFixed,
-            _areaType,
-            _childAreas,
-            _tags);
-
         public void AddChildArea(Area area) {
             // TODO: Do we need this check?
             // if (!area.Grid.FitsInto(Grid)) {
@@ -299,36 +296,8 @@ namespace PlayersWorlds.Maps {
             _childAreas.Add(area);
         }
 
-        /// <summary>
-        /// Renders this maze to a <see cref="Area" /> with the given options.
-        /// </summary>
-        /// <param name="options"><see cref="Maze2DRendererOptions" /></param>
-        /// <returns></returns>
-        // TODO: Factor out
-        public Area ToMap(Maze2DRendererOptions options) {
-            // the point of this is not actually "To Map". It's supposed to 
-            // convert the border-style maze (each cell can have borders or
-            // links) to a block-style maze (each cell is either a wall or a 
-            // trail. Either of the styles can be used for rendering, so it's
-            // not converting anything to a map or rendering anything. It's
-            // converting one maze layout option to another.
-
-            // There are two ways to handle this:
-            //  - Generate time, accept a parameter of MazeStyle: Block or
-            //      Border. If it's a block style maze, create a new area
-            //      (smaller in size), generate a maze on it, and then convert
-            //      it to block-style area of the original size.
-            //  - Render time, i.e. here. Which will impact the size and/or
-            //      position of all other areas in this tree.
-            var map = Maze2DRenderer.CreateMapForMaze(this, options);
-            new Maze2DRenderer(this, options)
-                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, options.WallCellSize))
-                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, options.WallCellSize))
-                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, options.WallCellSize))
-                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
-                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
-                .Render(map);
-            return map;
+        public void ClearChildAreas() {
+            _childAreas.Clear();
         }
 
         /// <summary>
@@ -337,24 +306,14 @@ namespace PlayersWorlds.Maps {
         /// <returns>A <see cref="string" /> of the form
         /// "P{Position};S{Size};{Type}".</returns>
         public override string ToString() =>
-            new AreaSerializer().Serialize(this);
+            $"{_areaType}:{_grid.Position};{_grid.Size}" +
+            (_tags.Length == 0 ? "" : $";{string.Join(",", _tags)}");
 
         /// <summary>
-        /// Renders the map to a string using a
-        /// <see cref="Map2DStringRenderer" />.
+        /// Renders this area using a renderer created by the provided factory.
         /// </summary>
-        /// <returns>A string containing a rendered map.</returns>
-        // TODO: Factor out or rename
-        public string RenderToString() {
-            return new Map2DStringRenderer().Render(this);
-        }
-
-        /// <summary>
-        /// Renders this maze to a string using
-        /// <see cref="Maze2DStringBoxRenderer" />.
-        /// </summary>
-        public string MazeToString() {
-            return new Maze2DStringBoxRenderer(this).WithTrail();
+        public string Render(AsciiRendererFactory rendererFactory) {
+            return rendererFactory.CreateRenderer(this).Render();
         }
 
         public IEnumerator<Cell> GetEnumerator() {

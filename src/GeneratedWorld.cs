@@ -65,7 +65,7 @@ namespace PlayersWorlds.Maps {
         public GeneratedWorld AddLayer(Func<Area, Area> createLayer) {
             Area CreateAreaBasedOn(Area area) {
                 var copy = createLayer(area);
-                foreach (var child in area.ChildAreas()) {
+                foreach (var child in area.ChildAreas) {
                     copy.AddChildArea(CreateAreaBasedOn(child));
                 }
                 return copy;
@@ -107,7 +107,7 @@ namespace PlayersWorlds.Maps {
                 new BasicAreaGenerator(
                     _randomSource, CurrentLayer, areaTypes,
                     tags, count, minSize, maxSize,
-                    CurrentLayer.ChildAreas());
+                    CurrentLayer.ChildAreas);
             areaGenerator.GenerateMazeAreas(CurrentLayer);
             return this;
         }
@@ -158,7 +158,7 @@ namespace PlayersWorlds.Maps {
                 if (area.Any(cell => cell.AreaType == AreaType.Maze)) {
                     Maze2DBuilder.BuildMaze(area, options);
                 }
-                area.ChildAreas().ForEach(a => CreateMaze(a));
+                area.ChildAreas.ForEach(a => CreateMaze(a));
             };
             CreateMaze(CurrentLayer);
             return this;
@@ -189,21 +189,9 @@ namespace PlayersWorlds.Maps {
         }
 
         public GeneratedWorld ToMap(Maze2DRendererOptions options = null) {
-            var _ = CurrentLayer.X<Maze2DBuilder>() ??
-                throw new InvalidOperationException(
-                    "Can't use ToMap on a non-maze layer.");
-            options = options ??
-                      Maze2DRendererOptions.RectCells(
-                            new Vector(1, 1), new Vector(1, 1));
-            var map = Maze2DRenderer.CreateMapForMaze(CurrentLayer, options);
-            new Maze2DRenderer(CurrentLayer, options)
-                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail }, Cell.CellTag.MazeWall, options.WallCellSize))
-                .With(new Map2DSmoothCorners(Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner, options.WallCellSize))
-                .With(new Map2DOutline(new[] { Cell.CellTag.MazeTrail, Cell.CellTag.MazeWallCorner }, Cell.CellTag.MazeWall, options.WallCellSize))
-                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeVoid }, true, Cell.CellTag.MazeWall, 5, 5))
-                .With(new Map2DEraseSpots(new[] { Cell.CellTag.MazeWall, Cell.CellTag.MazeWallCorner }, false, Cell.CellTag.MazeTrail, 3, 3))
-                .Render(map);
-            CurrentLayer = map;
+            var converter = new MazeAreaStyleConverter();
+            CurrentLayer = converter.ConvertMazeBorderToBlock(
+                CurrentLayer, options);
             return this;
         }
 

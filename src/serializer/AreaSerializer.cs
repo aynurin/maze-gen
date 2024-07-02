@@ -41,7 +41,7 @@ namespace PlayersWorlds.Maps.Serializer {
                     obj.Grid.Any(cell => obj[cell].AreaType != obj.Type ||
                                          obj[cell].HardLinks.Any() ||
                                          obj[cell].Tags.Any()))
-                .WriteEnumerable(obj.ChildAreas().Select(Serialize))
+                .WriteEnumerable(obj.ChildAreas.Select(Serialize))
                 .WriteObjectEnd();
         }
     }

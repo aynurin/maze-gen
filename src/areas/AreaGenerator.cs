@@ -34,18 +34,18 @@ namespace PlayersWorlds.Maps.Areas {
             // count existing (desired) placement errors we can ignore when
             // checking auto-generated areas.
             var existingErrors =
-                targetArea.ChildAreas().Count(
+                targetArea.ChildAreas.Count(
                     area => area.IsPositionFixed &&
-                            targetArea.ChildAreas().Any(other =>
+                            targetArea.ChildAreas.Any(other =>
                                 area != other &&
                                 other.IsPositionFixed &&
                                 area.Grid.Overlaps(other.Grid))) +
-                targetArea.ChildAreas().Count(
+                targetArea.ChildAreas.Count(
                     area => area.IsPositionFixed &&
                             !area.Grid.FitsInto(targetArea.Grid));
             var attempts = MaxAttempts;
             while (attempts > 0) {
-                var allAreas = new List<Area>(targetArea.ChildAreas());
+                var allAreas = new List<Area>(targetArea.ChildAreas);
                 // add more rooms
                 //     AreaGenerator creates new rooms as a separate list
                 // layout
@@ -64,7 +64,7 @@ namespace PlayersWorlds.Maps.Areas {
                     // we make several attempts.
                     _simulator.Evolve(
                         _areaSystemFactory.Create(targetArea,
-                            targetArea.ChildAreas().Concat(allAreas)));
+                            targetArea.ChildAreas.Concat(allAreas)));
                 }
                 // problem is: how do we distribute the rooms w/o changing
                 // the original room locations?
@@ -83,7 +83,7 @@ namespace PlayersWorlds.Maps.Areas {
                     allAreas.Count(
                         area => !area.Grid.FitsInto(targetArea.Grid));
                 if (errors <= 0) {
-                    allAreas.Where(area => !targetArea.ChildAreas().Contains(area))
+                    allAreas.Where(area => !targetArea.ChildAreas.Contains(area))
                             .ForEach(area => targetArea.AddChildArea(area));
                     return;
                 } else if (--attempts == 0) {

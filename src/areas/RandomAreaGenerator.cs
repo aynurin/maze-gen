@@ -59,7 +59,7 @@ namespace PlayersWorlds.Maps.Areas {
                 return new List<Area>();
             }
             var alreadyOccupiedArea =
-                targetArea.ChildAreas().Sum(area => area.Size.Area);
+                targetArea.ChildAreas.Sum(area => area.Size.Area);
             var areas = new List<Area>();
             var attempts = 10;
             while (attempts > 0 && alreadyOccupiedArea <

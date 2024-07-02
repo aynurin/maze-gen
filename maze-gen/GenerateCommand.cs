@@ -2,6 +2,7 @@ using System;
 using CommandLine;
 using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Maze;
+using PlayersWorlds.Maps.Renderers;
 using static PlayersWorlds.Maps.Maze.Maze2DRenderer;
 
 namespace PlayersWorlds.Maps {
@@ -29,7 +30,10 @@ namespace PlayersWorlds.Maps {
             var maze = Area.CreateMaze(size);
             Maze2DBuilder.BuildMaze(maze, generatorOptions);
             Console.WriteLine(maze.ToString());
-            Console.WriteLine(maze.ToMap(Maze2DRendererOptions.RectCells(2, 1)).RenderToString());
+            var converter = new MazeAreaStyleConverter();
+            var blockStyle = converter.ConvertMazeBorderToBlock(
+                maze, Maze2DRendererOptions.RectCells(2, 1));
+            Console.WriteLine(blockStyle.Render(new AsciiRendererFactory()));
             return 0;
         }
     }

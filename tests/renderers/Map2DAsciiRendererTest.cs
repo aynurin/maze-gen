@@ -29,7 +29,7 @@ namespace PlayersWorlds.Maps.Renderers {
                 "▓░▒░▓\n" +
                 "▓░░░▓\n" +
                 "▓▓▓▓▓\n";
-            var actual = map.RenderToString();
+            var actual = map.Render(new AsciiRendererFactory());
             TestLog.CreateForThisTest().D(5, actual);
             Assert.That(actual, Is.EqualTo(expected));
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using PlayersWorlds.Maps.Renderers;
 
 namespace PlayersWorlds.Maps {
 
@@ -113,12 +114,12 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void ParseMap() {
-            Assert.That(Parse(Backslash, Tags).RenderToString(), Is.EqualTo(Backslash));
-            Assert.That(Parse(BackslashVoidBg, Tags).RenderToString(), Is.EqualTo(BackslashVoidBg));
-            Assert.That(Parse(SmoothCorner, Tags).RenderToString(), Is.EqualTo(SmoothCorner));
-            Assert.That(Parse(SmoothCornerVoidBg, Tags).RenderToString(), Is.EqualTo(SmoothCornerVoidBg));
-            Assert.That(Parse(SmoothBox, Tags).RenderToString(), Is.EqualTo(SmoothBox));
-            Assert.That(Parse(SmoothBoxVoidBg, Tags).RenderToString(), Is.EqualTo(SmoothBoxVoidBg));
+            Assert.That(Parse(Backslash, Tags).Render(new AsciiRendererFactory()), Is.EqualTo(Backslash));
+            Assert.That(Parse(BackslashVoidBg, Tags).Render(new AsciiRendererFactory()), Is.EqualTo(BackslashVoidBg));
+            Assert.That(Parse(SmoothCorner, Tags).Render(new AsciiRendererFactory()), Is.EqualTo(SmoothCorner));
+            Assert.That(Parse(SmoothCornerVoidBg, Tags).Render(new AsciiRendererFactory()), Is.EqualTo(SmoothCornerVoidBg));
+            Assert.That(Parse(SmoothBox, Tags).Render(new AsciiRendererFactory()), Is.EqualTo(SmoothBox));
+            Assert.That(Parse(SmoothBoxVoidBg, Tags).Render(new AsciiRendererFactory()), Is.EqualTo(SmoothBoxVoidBg));
         }
     }
 }
