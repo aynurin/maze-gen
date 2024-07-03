@@ -39,6 +39,14 @@ namespace PlayersWorlds.Maps {
         }
 
         [Test]
+        public void Optional_NullEquality() {
+            A a = null;
+            var optA = new Optional<A>(a);
+            var optB = new Optional<A>(a);
+            Assert.That(optA.Equals(optB), Is.False);
+        }
+
+        [Test]
         public void Optional_Null() {
             var optNull1 = new Optional<object>(null);
             Optional<object> optNull2 = null;
