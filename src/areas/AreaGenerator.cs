@@ -14,6 +14,8 @@ namespace PlayersWorlds.Maps.Areas {
 
         public AreaGenerator(EvolvingSimulator simulator,
                              MapAreaSystemFactory areaSystemFactory) {
+            simulator.ThrowIfNull(nameof(simulator));
+            areaSystemFactory.ThrowIfNull(nameof(areaSystemFactory));
             _simulator = simulator;
             _areaSystemFactory = areaSystemFactory;
         }
@@ -53,15 +55,10 @@ namespace PlayersWorlds.Maps.Areas {
                 // if all worked out, stop.
                 allAreas.AddRange(Generate(targetArea));
                 if (allAreas.Any(a => !a.IsPositionFixed)) {
-                    if (_simulator == null) {
-                        throw new AreaGeneratorException(this,
-                            "EvolvingSimulator and MapAreaSystemFactory must " +
-                            "be set if the generator can generate " +
-                            "unpositioned areas.");
-                    }
-                    // when we auto-generate the areas, there is a <1% chance that we
-                    // can't auto-distribute (see DirectedDistanceForceProducer.cs) so
-                    // we make several attempts.
+                    // When we auto-generate the areas, there is a <1% chance
+                    // that we can't auto-distribute (see
+                    // DirectedDistanceForceProducer.cs) so we make several
+                    // attempts.
                     _simulator.Evolve(
                         _areaSystemFactory.Create(targetArea,
                             targetArea.ChildAreas.Concat(allAreas)));
@@ -74,7 +71,8 @@ namespace PlayersWorlds.Maps.Areas {
                 // if it worked,
                 //          a: return a new targetArea with the new layout
                 //          b: add only new rooms to the original targetArea
-                // FIXME: while distributing, we can't disturb the original layout...
+                // FIXME: while distributing, we can't disturb the original
+                //        layout.
                 var errors = -existingErrors +
                     allAreas.Count(
                         area => allAreas.Any(other =>

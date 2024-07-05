@@ -49,7 +49,7 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         /// </remarks>
         /// <param name="system">The system to evolve.</param>
         /// <returns></returns>
-        public int Evolve(SimulatedSystem system) {
+        public virtual int Evolve(SimulatedSystem system) {
             var epochResults = new List<EpochResult>();
             for (var e = 0; e < _epochs; e++) {
                 var impact = Enumerable.Range(0, _generationsPerEpoch)

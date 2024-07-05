@@ -29,7 +29,7 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         /// <param name="seed">The seed to use for random number generation.
         /// </param>
-        private RandomSource(int seed) {
+        protected RandomSource(int seed) {
             _instanceId = Interlocked.Increment(ref s_instanceCount);
             Seed = seed;
             _random = new Random(Seed);
