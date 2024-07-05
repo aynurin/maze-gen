@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.Areas.Evolving;
 using PlayersWorlds.Maps.Maze.PostProcessing;
 using static PlayersWorlds.Maps.Maze.PostProcessing.DijkstraDistance;
 
@@ -13,7 +15,10 @@ namespace PlayersWorlds.Maps.Maze {
     public class MazeGeneratorTest : Test {
 
         private class CustomAreaGenerator : AreaGenerator {
-            public CustomAreaGenerator() : base(null, null) { }
+            public CustomAreaGenerator() : base(
+                new Mock<EvolvingSimulator>(MockBehavior.Loose, 1, 1).Object,
+                new Mock<MapAreaSystemFactory>(
+                    MockBehavior.Loose, new FakeRandomSource()).Object) { }
             protected override IEnumerable<Area> Generate(
                 Area targetArea) {
                 if (targetArea.Size.X <= 10 || targetArea.Size.Y <= 10) {

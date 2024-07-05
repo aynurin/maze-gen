@@ -14,9 +14,6 @@ namespace PlayersWorlds.Maps.Areas {
             Generator = generator;
         }
 
-        protected AreaGeneratorException(SerializationInfo info, StreamingContext context) : base(info, context) {
-        }
-
         public override string Message {
             get {
                 return base.Message + "\n" + Generator.ToString();
