@@ -2,4 +2,6 @@
 
 set -e
 
-msbuild '/p:DefineConstants=TRACE'
+nuget restore
+
+msbuild

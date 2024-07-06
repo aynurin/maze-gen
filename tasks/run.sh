@@ -4,4 +4,4 @@ set -e
 
 msbuild
 
-mono build/Debug/mazegen/maze-gen.exe run "$@"
+mono --debug build/Debug/mazegen/maze-gen.exe run "$@"

@@ -11,15 +11,14 @@ public class RandomAreaGeneratorTest : Test {
     [Test, Category("Integration")]
     public void ZoneGenerator_CanGenerateZones() {
         var random = RandomSource.CreateFromEnv();
-        var zonesGenerator = new RandomAreaGenerator(
-            new RandomAreaGenerator.RandomAreaGeneratorSettings(random));
+        var zonesGenerator = new RandomAreaGenerator(random);
         var sizes = new Dictionary<Vector, int>();
         var tags = new Dictionary<string, int>();
         var types = new Dictionary<AreaType, int>();
         var count = 1000;
         foreach (var area in zonesGenerator.Generate(count)) {
             if (--count < 0) break;
-            //Assert.That(area.Cells.Count, Is.GreaterThan(0));
+            //Assert.That(areaCount, Is.GreaterThan(0));
             Assert.That(area.Tags.Length, Is.GreaterThan(0));
 
             if (sizes.ContainsKey(area.Size)) {
@@ -37,7 +36,7 @@ public class RandomAreaGeneratorTest : Test {
                 }
             }
 
-            Assert.That(area.Type, Is.Not.EqualTo(AreaType.None));
+            Assert.That(area.Type, Is.Not.EqualTo(AreaType.Maze));
             if (types.ContainsKey(area.Type)) {
                 types[area.Type] += 1;
             } else {
@@ -58,9 +57,8 @@ public class RandomAreaGeneratorTest : Test {
     [Test, Category("Integration")]
     public void ZoneGenerator_CustomSettings() {
         var random = RandomSource.CreateFromEnv();
-        var zonesGenerator = new RandomAreaGenerator(
+        var zonesGenerator = new RandomAreaGenerator(random,
             new RandomAreaGenerator.RandomAreaGeneratorSettings(
-                random,
                 0.3f,
                 new Dictionary<Vector, float>() { { new Vector(1, 2), 1 } },
                 new Dictionary<AreaType, float>() { { AreaType.Hall, 1 } },
@@ -93,7 +91,7 @@ public class RandomAreaGeneratorTest : Test {
                 }
             }
 
-            Assert.That(area.Type, Is.Not.EqualTo(AreaType.None));
+            Assert.That(area.Type, Is.Not.EqualTo(AreaType.Maze));
             if (types.ContainsKey(area.Type)) {
                 types[area.Type] += 1;
             } else {

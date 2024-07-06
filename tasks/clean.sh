@@ -4,5 +4,3 @@ set -e
 
 rm -rf build
 rm -rf packages
-
-nuget restore

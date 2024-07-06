@@ -7,11 +7,11 @@ using PlayersWorlds.Maps.Maze.PostProcessing;
 
 namespace PlayersWorlds.Maps.Renderers {
     /// <summary>
-    /// Renders a <see cref="Maze2D" /> to a string.
+    /// Renders a <see cref="Area" /> to a string.
     /// </summary>
-    public class Maze2DStringBoxRenderer {
+    public class Maze2DStringBoxRenderer : AreaToAsciiRenderer {
 
-        private readonly Maze2D _maze;
+        private readonly Area _maze;
         private readonly int _cellInnerHeight;
         private readonly int _cellInnerWidth;
         private readonly Vector _asciiMazeSize;
@@ -20,7 +20,7 @@ namespace PlayersWorlds.Maps.Renderers {
             new Dictionary<int, string>();
 
         /// <summary />
-        public Maze2DStringBoxRenderer(Maze2D maze,
+        public Maze2DStringBoxRenderer(Area maze,
                                       int cellInnerHeight = 1,
                                       int cellInnerWidth = 3) {
             _maze = maze; // 4x4
@@ -33,24 +33,22 @@ namespace PlayersWorlds.Maps.Renderers {
         }
 
         /// <summary>
-        /// Also render the trail if it's defined in the maze
-        /// <see cref="Maze2D.LongestPath" />.
+        /// Also render the trail if it's defined in the maze extensions.
         /// </summary>
         /// <returns></returns>
-        public string WithTrail() {
-            var trail = _maze.LongestPath.HasValue ?
-                _maze.LongestPath.Value :
-                new List<MazeCell>();
-            var solutionCells = new HashSet<MazeCell>(trail);
+        override public string Render() {
+            var trail = _maze.X<DijkstraDistance.LongestTrailExtension>()
+                            ?.LongestTrail
+                        ?? new List<Vector>();
+            var solutionCells = new HashSet<Vector>(trail);
             // print cells from top to bottom
             for (var y = _maze.Size.Y - 1; y >= 0; y--) {
                 for (var x = 0; x < _maze.Size.X; x++) {
-                    var mazeIndex = new Vector(x, y).ToIndex(_maze.Size);
-                    var mazeCell = _maze.Cells[mazeIndex];
-                    var cellData = solutionCells.Contains(mazeCell) ?
-                        Convert.ToString(trail.IndexOf(mazeCell), 16) :
+                    var cell = new Vector(x, y);
+                    var cellData = solutionCells.Contains(cell) ?
+                        Convert.ToString(trail.IndexOf(cell), 16) :
                         string.Empty;
-                    PrintCell(mazeCell, cellData);
+                    PrintCell(cell, cellData);
                 }
             }
 
@@ -71,35 +69,35 @@ namespace PlayersWorlds.Maps.Renderers {
             return strBuffer.ToString();
         }
 
-        private void PrintCell(MazeCell cell, string cellData) {
+        private void PrintCell(Vector cell, string cellData) {
             var asciiCoords = CellCoords.Create(_maze.Size,
-                                                cell.Coordinates,
+                                                cell,
                                                 _cellInnerWidth,
                                                 _cellInnerHeight);
             if (!string.IsNullOrEmpty(cellData)) {
                 _data.Add(I(asciiCoords.Center), cellData);
             }
-            if (!cell.IsConnected) return;
+            if (!_maze[cell].HasLinks()) return;
             _buffer[I(asciiCoords.Northeast)] |= Border.Type.X;
             _buffer[I(asciiCoords.Northwest)] |= Border.Type.X;
             _buffer[I(asciiCoords.Southeast)] |= Border.Type.X;
             _buffer[I(asciiCoords.Southwest)] |= Border.Type.X;
-            if (!cell.Links(Vector.North2D).HasValue) {
+            if (!_maze[cell].HasLinks(cell + Vector.North2D)) {
                 _buffer[I(asciiCoords.Northeast)] |= Border.Type.Left;
                 _buffer[I(asciiCoords.Northwest)] |= Border.Type.Right;
                 foreach (var x in asciiCoords.North) _buffer[I(x)] |= Border.Type.South;
             }
-            if (!cell.Links(Vector.South2D).HasValue) {
+            if (!_maze[cell].HasLinks(cell + Vector.South2D)) {
                 _buffer[I(asciiCoords.Southeast)] |= Border.Type.Left;
                 _buffer[I(asciiCoords.Southwest)] |= Border.Type.Right;
                 foreach (var x in asciiCoords.South) _buffer[I(x)] |= Border.Type.North;
             }
-            if (!cell.Links(Vector.East2D).HasValue) {
+            if (!_maze[cell].HasLinks(cell + Vector.East2D)) {
                 _buffer[I(asciiCoords.Southeast)] |= Border.Type.Top;
                 _buffer[I(asciiCoords.Northeast)] |= Border.Type.Bottom;
                 foreach (var x in asciiCoords.East) _buffer[I(x)] |= Border.Type.East;
             }
-            if (!cell.Links(Vector.West2D).HasValue) {
+            if (!_maze[cell].HasLinks(cell + Vector.West2D)) {
                 _buffer[I(asciiCoords.Southwest)] |= Border.Type.Top;
                 _buffer[I(asciiCoords.Northwest)] |= Border.Type.Bottom;
                 foreach (var x in asciiCoords.West) _buffer[I(x)] |= Border.Type.West;

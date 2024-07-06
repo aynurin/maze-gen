@@ -1,70 +1,96 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PlayersWorlds.Maps.Areas.Evolving;
 
 namespace PlayersWorlds.Maps.Areas {
     /// <summary>
     /// Generate areas randomly for a map of the provided size.
     /// </summary>
     public class RandomAreaGenerator : AreaGenerator {
-        private readonly Log _log = Log.ToConsole<RandomAreaGenerator>();
+        private readonly RandomSource _randomSource;
         private readonly RandomAreaGeneratorSettings _settings;
 
         /// <summary>
         /// Creates a new random area generator with the specified settings.
         /// </summary>
+        /// <param name="randomSource">Source of random numbers.</param>
+        public RandomAreaGenerator(RandomSource randomSource) :
+            this(randomSource, new RandomAreaGeneratorSettings()) {
+        }
+
+        /// <summary>
+        /// Creates a new random area generator with the specified settings.
+        /// </summary>
+        /// <param name="randomSource">Source of random numbers.</param>
         /// <param name="settings">Settings to control the generator behavior.
         /// </param>
-        public RandomAreaGenerator(RandomAreaGeneratorSettings settings) {
+        public RandomAreaGenerator(RandomSource randomSource, RandomAreaGeneratorSettings settings) :
+            this(randomSource, settings,
+                 new Evolving.EvolvingSimulator(2, 20),
+                 new Evolving.MapAreaSystemFactory(randomSource)) {
+        }
+
+        /// <summary>
+        /// Creates a new random area generator with the specified settings.
+        /// </summary>
+        /// <param name="randomSource">Source of random numbers.</param>
+        /// <param name="settings">Settings to control the generator behavior.
+        /// </param>
+        /// <param name="simulator"></param>
+        /// <param name="factory"></param>
+        public RandomAreaGenerator(RandomSource randomSource,
+                                   RandomAreaGeneratorSettings settings,
+                                   EvolvingSimulator simulator,
+                                   MapAreaSystemFactory factory) :
+            base(simulator, factory) {
+            _randomSource = randomSource;
             _settings = settings;
         }
 
         /// <summary>
         /// Randomly generates areas for a map of the specified size.
         /// </summary>
-        /// <param name="size">The size of the map.</param>
-        /// <param name="existingAreas">Pre-existing areas.</param>
+        /// <param name="targetArea">The map to generate areas for.</param>
         /// <returns>Areas to be added to the map.</returns>
-        public override IEnumerable<MapArea> Generate(
-            Vector size,
-            List<MapArea> existingAreas) {
+        protected override IEnumerable<Area> Generate(Area targetArea) {
             if (_settings.DimensionProbabilities.Keys.All(areaSize =>
-                !areaSize.FitsInto(size - new Vector(2, 2)))) {
+                !areaSize.FitsInto(targetArea.Size - new Vector(2, 2)))) {
                 // none of the areas fit the map
-                return new List<MapArea>();
+                return new List<Area>();
             }
-            var addedArea = existingAreas?.Sum(area => area.Size.Area) ?? 0;
-            var areas = new List<MapArea>();
-            while (addedArea < size.Area * _settings.MinFillFactor) {
+            var alreadyOccupiedArea =
+                targetArea.ChildAreas.Sum(area => area.Size.Area);
+            var areas = new List<Area>();
+            var attempts = 10;
+            while (attempts > 0 && alreadyOccupiedArea <
+                   targetArea.Size.Area * _settings.MaxFillFactor) {
                 var area = GetRandomZone();
-                if (!area.Size.FitsInto(size - new Vector(2, 2)))
-                    continue;
-                if (addedArea + area.Size.Area >
-                    size.Area * Math.Min(1, _settings.MinFillFactor * 2))
-                    continue;
-                areas.Add(area);
-                addedArea += area.Size.Area;
+                if (alreadyOccupiedArea + area.Size.Area <
+                    targetArea.Size.Area * _settings.MaxFillFactor) {
+                    areas.Add(area);
+                    alreadyOccupiedArea += area.Size.Area;
+                }
+                attempts--;
             }
             return areas;
         }
 
         // for testing
-        internal IEnumerable<MapArea> Generate(int count) {
+        internal IEnumerable<Area> Generate(int count) {
             for (var i = 0; i < count; i++) {
                 yield return GetRandomZone();
             }
         }
 
-        private MapArea GetRandomZone() {
+        private Area GetRandomZone() {
             var type = PickRandom(_settings.AreaTypeProbabilities);
             var size = RandomRotate(PickRandom(_settings.DimensionProbabilities));
             var tags = PickRandom(_settings.TagProbabilities[type]);
-            return MapArea.CreateAutoPositioned(type, size, tags);
+            return Area.CreateUnpositioned(size, type, tags);
         }
 
         private T PickRandom<T>(IDictionary<T, float> distribution) {
-            var random = _settings.RandomSource.RandomSingle();
+            var random = _randomSource.RandomSingle();
             var cumulativeProb = 0f;
             T lastItem = default;
             foreach (var couple in distribution) {
@@ -78,14 +104,14 @@ namespace PlayersWorlds.Maps.Areas {
         }
 
         private Vector RandomRotate(Vector size) {
-            if (_settings.RandomSource.Next() % 2 == 0)
+            if (_randomSource.Next() % 2 == 0)
                 return size;
             return new Vector(size.Y, size.X);
         }
 
         /// <summary />
         public class RandomAreaGeneratorSettings {
-            internal float MinFillFactor { get; }
+            internal float MaxFillFactor { get; }
 
             internal Dictionary<Vector, float> DimensionProbabilities { get; }
 
@@ -93,25 +119,20 @@ namespace PlayersWorlds.Maps.Areas {
 
             internal Dictionary<AreaType, Dictionary<string, float>> TagProbabilities { get; }
 
-            internal RandomSource RandomSource { get; set; }
-
             /// <summary>
             /// Creates an instance of RandomAreaGeneratorSettings. Default
             /// values provide some basic settings.
             /// </summary>
-            /// <param name="randomSource"></param>
-            /// <param name="minFillFactor"></param>
+            /// <param name="maxFillFactor"></param>
             /// <param name="dimensionProbabilities"></param>
             /// <param name="areaTypeProbabilities"></param>
             /// <param name="tagProbabilities"></param>
             public RandomAreaGeneratorSettings(
-                RandomSource randomSource,
-                float minFillFactor = 0.3f,
+                float maxFillFactor = 0.33f,
                 Dictionary<Vector, float> dimensionProbabilities = null,
                 Dictionary<AreaType, float> areaTypeProbabilities = null,
                 Dictionary<AreaType, Dictionary<string, float>> tagProbabilities = null) {
-                RandomSource = randomSource;
-                MinFillFactor = minFillFactor;
+                MaxFillFactor = maxFillFactor;
                 DimensionProbabilities = dimensionProbabilities ?? s_default_dimensions;
                 AreaTypeProbabilities = areaTypeProbabilities ?? s_default_area_types;
                 TagProbabilities = tagProbabilities ?? s_default_tags;

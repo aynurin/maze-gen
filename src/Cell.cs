@@ -1,18 +1,83 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using PlayersWorlds.Maps.Areas;
+using PlayersWorlds.Maps.Serializer;
 
 namespace PlayersWorlds.Maps {
     /// <summary>
-    /// A <see cref="Map2D"/> cell.
+    /// An <see cref="Area"/> cell.
     /// </summary>
     /// <remarks>
     /// For now it's only a set of tags assigned to the cell.
     /// </remarks>
-    public class Cell {
+    public class Cell : ExtensibleObject {
+        private readonly List<CellTag> _tags = new List<CellTag>();
+        private readonly HashSet<Vector> _hardLinks = new HashSet<Vector>();
+        private readonly AreaType _areaType;
+        private readonly HashSet<Vector> _bakedLinks = new HashSet<Vector>();
+        private readonly HashSet<Vector> _bakedNeighbors = new HashSet<Vector>();
+
         /// <summary>
         /// Tags assigned to cell.
         /// </summary>
-        public List<CellTag> Tags { get; } = new List<CellTag>();
+        public List<CellTag> Tags => _tags;
+
+        public HashSet<Vector> HardLinks => _hardLinks;
+
+        public HashSet<Vector> BakedLinks => _bakedLinks;
+
+        public HashSet<Vector> BakedNeighbors => _bakedNeighbors;
+
+        public AreaType AreaType => _areaType;
+
+        /// <summary>
+        /// Creates an instance of cell at the specified position.
+        /// </summary>
+        /// <remarks>Supposed for internal use only.</remarks>
+        public Cell(AreaType areaType) {
+            _areaType = areaType;
+        }
+
+        public bool HasLinks(Vector another) {
+            return _hardLinks.Contains(another) ||
+                   _bakedLinks.Contains(another);
+        }
+
+        public bool HasLinks() {
+            return _hardLinks.Count > 0 || _bakedLinks.Count > 0;
+        }
+
+        public ICollection<Vector> Links() {
+            return _hardLinks
+                    .Concat(_bakedLinks)
+                    .Distinct().ToList();
+        }
+
+        internal Cell Clone() {
+            var newCell = new Cell(_areaType);
+            newCell._tags.AddRange(_tags);
+            newCell._bakedLinks.UnionWith(_bakedLinks);
+            newCell._bakedNeighbors.UnionWith(_bakedNeighbors);
+            foreach (var link in _hardLinks) {
+                newCell._hardLinks.Add(link);
+            }
+            return newCell;
+        }
+
+        internal void Bake(IEnumerable<Vector> envNeighbors,
+                           IEnumerable<Vector> envLinks) {
+            // bake in neighbors, links, and other computed properties.
+            _bakedLinks.Clear();
+            _bakedLinks.UnionWith(envLinks);
+            _bakedNeighbors.Clear();
+            _bakedNeighbors.UnionWith(envNeighbors);
+        }
+
+        override public string ToString() =>
+            $"Cell({_areaType});{string.Join(", ", _hardLinks)};" +
+            $"{string.Join(", ", _bakedLinks)};" +
+            $"{string.Join(", ", _bakedNeighbors)}";
 
         /// <summary>
         /// Cell tags can be used in the game engine to choose objects, visual
@@ -43,7 +108,7 @@ namespace PlayersWorlds.Maps {
             /// </returns>
             public override bool Equals(object obj) {
                 if (obj is string v) return _tag.Equals(v);
-                return _tag.Equals((obj as CellTag)._tag);
+                return _tag.Equals((obj as CellTag)?._tag);
             }
 
             /// <summary>
@@ -59,7 +124,7 @@ namespace PlayersWorlds.Maps {
             /// </summary>
             /// <returns>A string that represents this CellTag.</returns>
             public override string ToString() {
-                return "CellTag('" + _tag + "')";
+                return _tag;
             }
 
             /// <summary>

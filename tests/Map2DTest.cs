@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using PlayersWorlds.Maps.Renderers;
 
 namespace PlayersWorlds.Maps {
 
@@ -93,10 +94,10 @@ namespace PlayersWorlds.Maps {
             { '0', Cell.CellTag.MazeVoid },
         };
 
-        internal static Map2D Parse(string buffer, Dictionary<char, Cell.CellTag> tagsMapping) {
+        internal static Area Parse(string buffer, Dictionary<char, Cell.CellTag> tagsMapping) {
             var lines = buffer.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
             var size = new Vector(lines.Length, lines[0].Length);
-            var map = new Map2D(size);
+            var map = Area.CreateMaze(size);
             var cellIndex = 0;
             for (var y = lines.Length - 1; y >= 0; y--) {
                 for (var x = 0; x < lines[y].Length; x++) {
@@ -113,12 +114,12 @@ namespace PlayersWorlds.Maps {
 
         [Test]
         public void ParseMap() {
-            Assert.That(Parse(Backslash, Tags).ToString(), Is.EqualTo(Backslash));
-            Assert.That(Parse(BackslashVoidBg, Tags).ToString(), Is.EqualTo(BackslashVoidBg));
-            Assert.That(Parse(SmoothCorner, Tags).ToString(), Is.EqualTo(SmoothCorner));
-            Assert.That(Parse(SmoothCornerVoidBg, Tags).ToString(), Is.EqualTo(SmoothCornerVoidBg));
-            Assert.That(Parse(SmoothBox, Tags).ToString(), Is.EqualTo(SmoothBox));
-            Assert.That(Parse(SmoothBoxVoidBg, Tags).ToString(), Is.EqualTo(SmoothBoxVoidBg));
+            Assert.That(Parse(Backslash, Tags).Render(new AsciiRendererFactory()), Is.EqualTo(Backslash));
+            Assert.That(Parse(BackslashVoidBg, Tags).Render(new AsciiRendererFactory()), Is.EqualTo(BackslashVoidBg));
+            Assert.That(Parse(SmoothCorner, Tags).Render(new AsciiRendererFactory()), Is.EqualTo(SmoothCorner));
+            Assert.That(Parse(SmoothCornerVoidBg, Tags).Render(new AsciiRendererFactory()), Is.EqualTo(SmoothCornerVoidBg));
+            Assert.That(Parse(SmoothBox, Tags).Render(new AsciiRendererFactory()), Is.EqualTo(SmoothBox));
+            Assert.That(Parse(SmoothBoxVoidBg, Tags).Render(new AsciiRendererFactory()), Is.EqualTo(SmoothBoxVoidBg));
         }
     }
 }

@@ -7,11 +7,18 @@ using System.Text;
 
 namespace PlayersWorlds.Maps {
     internal static class Extensions {
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
+        public static void ForEach<T>(this IEnumerable<T> source,
+                                      Action<T> action) {
+            source.ForEach((element, _) => action(element));
+        }
+        public static void ForEach<T>(this IEnumerable<T> source,
+                                      Action<T, int> action) {
             source.ThrowIfNull("source");
             action.ThrowIfNull("action");
+            var i = 0;
             foreach (var element in source) {
-                action(element);
+                action(element, i);
+                i++;
             }
         }
 

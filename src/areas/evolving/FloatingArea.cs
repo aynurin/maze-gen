@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PlayersWorlds.Maps.Areas.Evolving {
     internal class FloatingArea {
-        private readonly MapArea _linkedArea;
+        private readonly Area _linkedArea;
         public VectorD Position { get; private set; }
         public VectorD Size { get; }
         public bool IsPositionFixed { get; }
@@ -19,19 +19,19 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
 
         public string Nickname { get; set; }
 
-        public MapArea LinkedArea => _linkedArea;
+        public Area LinkedArea => _linkedArea;
 
-        private FloatingArea(MapArea area, VectorD position, bool isPositionFixed, VectorD size) {
+        private FloatingArea(Area area, VectorD position, bool isPositionFixed, VectorD size) {
             _linkedArea = area;
             Position = position;
             IsPositionFixed = isPositionFixed;
             Size = size;
         }
 
-        public static FloatingArea FromMapArea(MapArea area, Vector envSize) {
+        public static FloatingArea FromMapArea(Area area, Vector envSize) {
             return new FloatingArea(
                 area,
-                area.IsPositionFixed || !area.IsPositionEmpty ?
+                area.IsPositionFixed ? //  || !area.IsPositionEmpty
                     new VectorD(area.Position) :
                     new VectorD(envSize) / 2D - new VectorD(area.Size) / 2D,
                 area.IsPositionFixed,
@@ -49,20 +49,20 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
         }
 
         public void AdjustPosition(VectorD d) {
-            Position += d;
-            if (_linkedArea != null) {
-                _linkedArea.Position = Position.RoundToInt();
+            if (!IsPositionFixed) {
+                Position += d;
+                _linkedArea?.Reposition(Position.RoundToInt());
             }
         }
 
         /// <summary>
         /// Snaps the position to the integer grid.
         /// </summary>
-        public void AdjustPosition() {
-            var roundedPosition = Position.RoundToInt();
-            Position = new VectorD(roundedPosition);
-            if (_linkedArea != null) {
-                _linkedArea.Position = roundedPosition;
+        public void SnapToGrid() {
+            if (!IsPositionFixed) {
+                var roundedPosition = Position.RoundToInt();
+                Position = new VectorD(roundedPosition);
+                _linkedArea?.Reposition(roundedPosition);
             }
         }
 

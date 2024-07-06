@@ -44,4 +44,12 @@
   "editor.rulers": [
     80,
   ],
+  "todo-tree.tree.scanMode": "workspace only",
+  "todo-tree.tree.showBadges": false,
+  "watch-run.targetList": [
+    {
+        "target": "**/*.cs",
+        "task": "build"
+    }
+  ]
 }

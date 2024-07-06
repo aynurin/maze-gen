@@ -36,12 +36,14 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// Components of this vector
         /// </summary>
+        // TODO: _value can't be null, make the check more assertive
         public ReadOnlyCollection<double> Value =>
             _value == null ? null : Array.AsReadOnly(_value);
         /// <summary>
         /// <c>true</c> if this vector has no components; otherwise,
         /// <c>false</c>.
         /// </summary>
+        // TODO: _value can't be null, make the check more assertive
         public bool IsEmpty => _value == null || _value.Length == 0;
         /// <summary>
         /// Gets the X coordinate of a two-dimensional vector.

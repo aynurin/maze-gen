@@ -21,7 +21,7 @@ namespace PlayersWorlds.Maps.Maze {
         /// <param name="builder"><see cref="Maze2DBuilder" /> instance for
         /// the maze to be generated.</param>
         override public void GenerateMaze(Maze2DBuilder builder) {
-            var stack = new Stack<MazeCell>();
+            var stack = new Stack<Vector>();
             stack.Push(builder.PickNextCellToLink());
             while (!builder.IsFillComplete() && stack.Count > 0) {
                 _log.D(3, 1000, "RecursiveBacktrackerMazeGenerator.GenerateMaze()");

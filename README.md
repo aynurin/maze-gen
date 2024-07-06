@@ -9,42 +9,47 @@ The basic workflow is:
 2. Use the following code to generate the map:
 
    ```c#
-   var size = new Vector(20, 20);
-   var map = MazeGenerator.Generate(size,
-         new GeneratorOptions() {
-            Algorithm = GeneratorOptions.Algorithms.RecursiveBacktracker,
-            FillFactor = GeneratorOptions.FillFactorOption.ThreeQuarters,
-            MapAreasOptions = GeneratorOptions.MapAreaOptions.Auto,
-         }).ToMap(Maze.Maze2DRenderer.MazeToMapOptions.SquareCells(1, 1));
+   Console.WriteLine(
+      new GeneratedWorld(RandomSource.CreateFromEnv())
+         .AddLayer(AreaType.Maze, new Vector(3, 2))
+         .OfMaze(MazeStructureStyle.Border, new GeneratorOptions() {
+                           MazeAlgorithm = GeneratorOptions.Algorithms.HuntAndKill,
+                           FillFactor = GeneratorOptions.MazeFillFactor.Full
+                        })
+         .ToMap(Maze2DRendererOptions.RectCells(3, 2))
+         .AddLayer(area => area.ShallowCopy(cells:
+            area.Select(cell =>
+               cell.Tags.Contains(Cell.CellTag.MazeTrail) ?
+                     new Cell(AreaType.Maze) :
+                     new Cell(AreaType.None))))
+         .OfMaze(MazeStructureStyle.Border, new GeneratorOptions() {
+                           MazeAlgorithm = GeneratorOptions.Algorithms.RecursiveBacktracker,
+                           FillFactor = GeneratorOptions.MazeFillFactor.ThreeQuarters
+                        })
+         .ToMap(Maze2DRendererOptions.RectCells(2, 1))
+         .Map()
+         .Render(new AsciiRendererFactory()));
    ```
 
 3. This will generate a maze-like dungeon map that looks like the following:
 
    ```
-               ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-               ▓▓░░░░░░░░░░░░░░░░░░░░░░▓▓
-               ▓▓░░▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒░░▓▓
-               ▓▓░░░░░░▓▓      ▓▓░░░░░░▓▓
-               ▓▓▓▓▒▒░░▓▓      ▓▓░░▒▒▓▓▓▓
-             ▓▓▓▓░░░░░░▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓
-       ▓▓▓▓▓▓▓▓▒▒░░▒▒▓▓▓▓▓▓▓▓▓▓▒▒░░▓▓
-       ▓▓░░░░░░░░░░▓▓░░▓▓░░▓▓░░░░░░▓▓
-       ▓▓░░▒▒▓▓▓▓▓▓▓▓░░▓▓░░▒▒▓▓▒▒░░▓▓
-       ▓▓░░▓▓░░░░░░▒▒░░▓▓░░░░░░░░░░▓▓
-       ▓▓░░▓▓░░░░░░░░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-       ▓▓░░▓▓░░░░░░▒▒░░▓▓░░░░░░▓▓░░▓▓▓▓
-       ▓▓░░▒▒▓▓▓▓▓▓▒▒░░▓▓░░░░░░▒▒░░▒▒▓▓▓▓▓▓▓▓
-       ▓▓░░░░░░░░░░░░░░▓▓░░░░░░░░░░░░░░░░░░▓▓
-       ▓▓▒▒░░▒▒▓▓▓▓▒▒░░▓▓░░░░░░▒▒░░▒▒▓▓▒▒░░▓▓
-       ▓▓░░░░░░▓▓▓▓▓▓░░▓▓░░░░░░▓▓░░▓▓░░░░░░▓▓
-       ▓▓░░░░░░▓▓  ▓▓░░▓▓▓▓▓▓▓▓▓▓▓▓▒▒░░▒▒░░▓▓
-       ▓▓░░░░░░▓▓  ▓▓░░▓▓░░░░░░░░░░░░░░▓▓░░▓▓
-       ▓▓▓▓▓▓▓▓▓▓  ▓▓░░▒▒░░▒▒▓▓▓▓▓▓▓▓▓▓▒▒░░▓▓
-                   ▓▓░░░░░░▓▓░░░░░░░░░░░░░░▓▓
-                   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+   ▓▓░░░░░░▓▓░░▓▓          ▓▓░░░░░░░░░░▓▓░░░░░░░░░░░░░░░░░░▓▓▓▓
+   ▓▓▓▓▒▒░░▒▒░░▓▓          ▓▓░░▒▒░░▒▒░░▒▒░░▒▒▓▓▓▓▓▓▓▓▓▓▒▒░░▒▒▓▓▓▓
+     ▓▓▓▓░░░░░░▓▓          ▓▓░░▓▓░░▓▓░░░░░░▓▓▓▓      ▓▓▓▓░░░░░░▓▓
+   ▓▓▓▓▓▓▓▓▒▒░░▓▓          ▓▓░░▓▓░░▒▒▓▓▓▓▓▓▓▓          ▓▓▓▓▒▒░░▓▓
+   ▓▓░░░░░░▓▓░░▓▓          ▓▓░░▓▓░░░░░░▓▓                ▓▓▓▓░░▓▓
+   ▓▓░░▒▒░░▒▒░░▓▓          ▓▓░░▒▒▓▓▒▒░░▓▓          ▓▓▓▓▓▓▓▓▒▒░░▓▓
+   ▓▓░░▓▓░░░░░░▓▓          ▓▓░░░░░░▓▓░░▓▓          ▓▓░░░░░░░░░░▓▓
+   ▓▓░░▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+   ▓▓░░░░░░░░░░▓▓░░░░░░░░░░▓▓░░░░░░▓▓░░▓▓
+   ▓▓▓▓▓▓▓▓▒▒░░▒▒░░▒▒▓▓▒▒░░▒▒░░▒▒░░▒▒░░▓▓
+         ▓▓▓▓░░░░░░▓▓▓▓▓▓░░░░░░▓▓░░░░░░▓▓
+           ▓▓▓▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
    ```
 
-4. The resulting `map` is a [Map2D](https://aynurin.github.io/maze-gen/api/PlayersWorlds.Maps.Map2D.html)
+4. The resulting `map` is a [Area](https://aynurin.github.io/maze-gen/api/PlayersWorlds.Maps.Area.html)
    instance that contains cells that map to Unity cells. To render the map you
    iterate over the cells of the `map` and render whatever map objects you want
    based on the cell tags, e.g. walls or floor tiles.

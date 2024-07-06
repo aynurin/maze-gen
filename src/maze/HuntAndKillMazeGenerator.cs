@@ -29,20 +29,32 @@ namespace PlayersWorlds.Maps.Maze {
                     builder.Connect(currentCell, nextCell);
                     currentCell = nextCell;
                 } else {
-                    var hunt = builder.GetPrioritizedCellsToConnect()
-                                      .FirstOrDefault(
-                                        cell => cell.Neighbors()
-                                                    .Any(builder.IsConnected));
-                    if (hunt != null) {
-                        builder.Connect(hunt, hunt.Neighbors()
-                                                  .Where(builder.IsConnected)
-                                                  .First());
+                    var hunt =
+                        builder.GetPrioritizedCellsToConnect()
+                               .FirstOrDefault(
+                                    cell =>
+                                        builder.NeighborsOf(cell)
+                                               .Any(builder.IsConnected));
+                    if (!hunt.IsEmpty) {
+                        builder.Connect(
+                            hunt,
+                            builder.NeighborsOf(hunt)
+                                   .Where(builder.IsConnected)
+                                   .First());
                         currentCell = hunt;
                     } else {
                         // we don't have any unconnected cells with connected
                         // neighbors, meaning there are unconnected areas in 
                         // the maze field.
-                        currentCell = builder.PickNextCellToLink();
+                        var attempts = 100;
+                        do {
+                            nextCell = builder.PickNextCellToLink();
+                            attempts--;
+                        } while (currentCell == nextCell && attempts > 0);
+                        if (currentCell == nextCell && attempts == 0) {
+                            break;
+                        }
+                        currentCell = nextCell;
                     }
                 }
             }

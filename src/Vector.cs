@@ -75,6 +75,7 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// The vector is not empty only if it was initialized with components.
         /// </summary>
+        // TODO: _value can't be null, make the check more assertive
         public bool IsEmpty => _value == null || _value.Length == 0;
         /// <summary>
         /// Returns a first component of a non-empty vector.
@@ -85,9 +86,9 @@ namespace PlayersWorlds.Maps {
         /// <summary>
         /// Returns a second component of a non-empty vector.
         /// </summary>
-        public int Y => !IsEmpty ? _value[1] :
+        public int Y => !IsEmpty && _value.Length > 1 ? _value[1] :
             throw new InvalidOperationException(
-                "Y is only supported in two- or more dimensional space");
+                "Y is only supported in non-empty two+ dimensional space");
         /// <summary>
         /// Number of components in this vector.
         /// </summary>
@@ -101,8 +102,14 @@ namespace PlayersWorlds.Maps {
         /// </summary>
         public int MagnitudeSq => _value.Sum(a => a * a);
 
-        /// <param name="x">X coordinate (rows)</param>
-        /// <param name="y">Y coordinate (columns)</param>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector"/> struct
+        /// representing a 2-dimensional vector.
+        /// </summary>
+        /// <param name="x">The X coordinate (horizontal component) of the
+        /// vector.</param>
+        /// <param name="y">The Y coordinate (vertical component) of the
+        /// vector.</param>
         public Vector(int x, int y) : this(new int[] { x, y }) { }
 
         /// <summary>
@@ -135,9 +142,9 @@ namespace PlayersWorlds.Maps {
         /// and all components are greater than zero.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public void ThrowIfNotAValidSize() {
-            if (_value.Length == 0 || _value.Any(i => i <= 0))
-                throw new ArgumentException($"This Vector is not a valid size: {this}");
+        public void ThrowIfNotAValidSize(string paramName = null) {
+            if (_value.Length == 0 || _value.Any(i => i < 0))
+                throw new ArgumentException($"This Vector is not a valid size: {this}", paramName);
         }
 
         private static T ThrowIfEmptyOrApply<T>(Vector one, Vector another, Func<Vector, Vector, T> apply) {
@@ -213,6 +220,7 @@ namespace PlayersWorlds.Maps {
         /// components, returns the hash code of the empty int[].
         /// </summary>
         /// <returns></returns>
+        // TODO: _value can't be null, make the check more assertive
         public override int GetHashCode() =>
             _value == null ? base.GetHashCode() : _hashcode;
 
@@ -221,7 +229,7 @@ namespace PlayersWorlds.Maps {
         /// <c>x,y</c>.
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => IsEmpty ? "<empty>" : _value.Length == 0 ? "00" : string.Join("x", _value);
+        public override string ToString() => IsEmpty ? "<empty>" : _value.Length == 0 ? "-0-" : string.Join("x", _value);
 
         /// <summary>
         /// Checks if two vectors have the same components.
@@ -294,6 +302,12 @@ namespace PlayersWorlds.Maps {
         /// <returns>A new instance of <see cref="Vector"/></returns>
         public static Vector Parse(string serialized) {
             return new Vector(serialized.Split('x').Select(int.Parse));
+        }
+
+        public void ThrowIfEmpty(string paramName) {
+            if (this.IsEmpty) {
+                throw new InvalidOperationException(paramName + " is empty");
+            }
         }
 
         /// <summary>

@@ -48,7 +48,10 @@ namespace PlayersWorlds.Maps {
         /// Thrown if the Optional is empty.</exception>
         public T Value {
             get {
-                if (!HasValue) throw new InvalidOperationException("This optional doesn't have value. Please use 'HasValue' prior to accessing 'Value'");
+                if (!HasValue) {
+                    throw new InvalidOperationException(
+                        $"This {this.GetType().Name} doesn't have value.");
+                }
                 return _value;
             }
         }
@@ -64,9 +67,15 @@ namespace PlayersWorlds.Maps {
                 return this.HasValue == false;
             }
             if (obj is T) {
-                return this.Value.Equals(obj);
+                return this.HasValue && this.Value.Equals(obj);
             }
-            return this.Value.Equals((obj as Optional<T>).Value);
+            var other = obj as Optional<T>;
+            if (other == null) {
+                return false;
+            } else {
+                return this.HasValue && other.HasValue &&
+                       this.Value.Equals(other.Value);
+            }
         }
 
         /// <summary>
@@ -124,11 +133,7 @@ namespace PlayersWorlds.Maps {
         /// <returns></returns>
         public static bool operator !=(Optional<T> left, Optional<T> right) {
             if (left is null) {
-                if (right is null) {
-                    return false;
-                } else {
-                    return !right.Equals(left);
-                }
+                return !right?.Equals(left) ?? false;
             } else {
                 return !left.Equals(right);
             }

@@ -13,7 +13,7 @@ The scenarios of using VisitedCells:
 
 VisitedCells is implemented by filtering all cells on IsConnected == true.
 
-IsConnected is set by MazeCell.Link/Unlink, and the only Unlink scenario is
+IsConnected is set by Cell.Link/Unlink, and the only Unlink scenario is
 ApplyAreas.
 
 ### UnlinkedCells
@@ -23,9 +23,9 @@ UnlinkedCells are cells that have not been visited by the generator.
 The scenarios of using UnlinkedCells:
 
 - Pick the next cell to visit by a generator.
-- IsFillComplete for FillFactorOption.Quarter|Half|ThreeQuarters|Full
+- IsFillComplete for MazeFillFactor.Quarter|Half|ThreeQuarters|Full
 
-!! Bug: UnlinkedCells is not managed in MazeCell.Link/Unlink. It's only
+!! Bug: UnlinkedCells is not managed in Cell.Link/Unlink. It's only
 referenced in ApplyAreas and Parse.
 !! Bug: In straight walk algorithms, we iterate UnlinkedCells. This is not a
 problem, but in general we should walk via neighbors with previously applied
@@ -56,27 +56,30 @@ easy to understand.
 ### PickNextRandomCell and MarkConnected
 
 Implementing PickNextRandomCell and MarkConnected requires random access to the
-elements as well as removal of the elements. 
+elements as well as removal of the elements.
 
 Given that the counts are small (O(100)), it doesn't matter much. But it would
 be interesting to find a way to combine random access and removal eficiency.
 Memory complexity is not significant here.
 
-| Algorithm | Addition | RandomAccess | Removal | Total[^3] |
-| --- | --- | --- | --- | --- |
-| Array/List | O(1) | O(n) | O(n) | O(2 * n) |
-| Dictionary | O(1) | O(n) | O(1) | O(n) |
-| LinkedList | O(1) | O(n) | O(1) | O(n) |
-| Balanced Tree | | | | |
-| - SortedDictionary | O(logN)[^4] | O(n) | O(logN) | O(n + 2 * logN) |
-| - SortedList | O(logN)[^2] | O(1) | O(n) | O(n + logN) |
-| - SortedSet | O(logN) | O(n) | O(logN) | O(n + 2 * logN) |
+| Algorithm          | Addition    | RandomAccess | Removal | Total[^3]        |
+| ------------------ | ----------- | ------------ | ------- | ---------------- |
+| Array/List         | O(1)        | O(n)         | O(n)    | O(2 \* n)        |
+| Dictionary         | O(1)        | O(n)         | O(1)    | O(n)             |
+| LinkedList         | O(1)        | O(n)         | O(1)    | O(n)             |
+| Balanced Tree      |             |              |         |                  |
+| - SortedDictionary | O(logN)[^4] | O(n)         | O(logN) | O(n + 2 \* logN) |
+| - SortedList       | O(logN)[^2] | O(1)         | O(n)    | O(n + logN)      |
+| - SortedSet        | O(logN)     | O(n)         | O(logN) | O(n + 2 \* logN) |
 
 [^2]: Sorted.
-[^3]: Estimated the same number of additions, removals, and random
-   access.
-[^4]: We can use SortedDictionary with a custom IComparer to ensure items are
-   sorted the way we need.
+[^3]:
+    Estimated the same number of additions, removals, and random
+    access.
+
+[^4]:
+    We can use SortedDictionary with a custom IComparer to ensure items are
+    sorted the way we need.
 
 It seems a Dictionary and a LinkedList can give us about the same performance
 with the Dictionary giving a convenient UX.

@@ -5,7 +5,7 @@ using System.Linq;
 namespace PlayersWorlds.Maps.MapFilters {
 
     /// <summary>
-    /// A <see cref="Map2D" /> filter that detects blocks of specific type
+    /// A <see cref="Area" /> filter that detects blocks of specific type
     /// less then a certain width and height, and replaces them with another
     /// cell type.
     /// </summary>
@@ -41,13 +41,14 @@ namespace PlayersWorlds.Maps.MapFilters {
         }
 
         /// <summary>
-        /// Apply the filter to the specified <see cref="Map2D" />.
+        /// Apply the filter to the specified <see cref="Area" />.
         /// </summary>
         /// <param name="map">The map to apply the filter to.</param>
-        override public void Render(Map2D map) {
-            var visited = new bool[map.Size.X * map.Size.Y];
-            foreach (var (xy, cell) in map.Cells.Iterate()) {
-                if (visited[xy.ToIndex(map.Size)]) continue;
+        override public void Render(Area map) {
+            var visited = new bool[map.Size.Area];
+            foreach (var xy in map.Grid) {
+                var cellData = map[xy];
+                if (visited[(xy - map.Position).ToIndex(map.Size)]) continue;
 
                 // look for all spots of the given type
                 // if a cell matches a spot type, dfs to find the
@@ -57,15 +58,15 @@ namespace PlayersWorlds.Maps.MapFilters {
                 // if the spot is smaller, erase it.
                 // mark all spot cells as visited
 
-                if (!CellIsASpot(cell)) {
-                    visited[xy.ToIndex(map.Size)] = true;
+                if (!CellIsASpot(cellData)) {
+                    visited[(xy - map.Position).ToIndex(map.Size)] = true;
                     continue;
                 }
 
                 var dfsStack = new Stack<Vector>();
                 dfsStack.Push(xy);
 
-                var spotCells = new List<Cell> { cell };
+                var spotCells = new List<Cell> { cellData };
                 var minX = int.MaxValue;
                 var maxX = int.MinValue;
                 var minY = int.MaxValue;
@@ -78,11 +79,11 @@ namespace PlayersWorlds.Maps.MapFilters {
                     if (minY > current.Y) minY = current.Y;
                     if (maxY < current.Y) maxY = current.Y;
 
-                    foreach (var (nextXy, nextCell) in map.Cells.IterateAdjacentCells(current)) {
-                        if (!CellIsASpot(nextCell)) continue;
-                        if (visited[nextXy.ToIndex(map.Size)] == false) {
-                            visited[nextXy.ToIndex(map.Size)] = true;
-                            spotCells.Add(nextCell);
+                    foreach (var nextXy in map.Grid.AdjacentRegion(current)) {
+                        if (!CellIsASpot(map[nextXy])) continue;
+                        if (visited[(nextXy - map.Position).ToIndex(map.Size)] == false) {
+                            visited[(nextXy - map.Position).ToIndex(map.Size)] = true;
+                            spotCells.Add(map[nextXy]);
                             dfsStack.Push(nextXy);
                         }
                     }

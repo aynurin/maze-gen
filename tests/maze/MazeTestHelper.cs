@@ -5,15 +5,18 @@ using System.Linq;
 using NUnit.Framework;
 using PlayersWorlds.Maps.Areas;
 using PlayersWorlds.Maps.Maze.PostProcessing;
+using PlayersWorlds.Maps.Renderers;
+using PlayersWorlds.Maps.Serializer;
 using static PlayersWorlds.Maps.Maze.GeneratorOptions;
 
 namespace PlayersWorlds.Maps.Maze {
     internal static class MazeTestHelper {
         private static readonly Log s_log = Log.ToConsole("MazeTestHelper");
 
-        public static bool IsSolveable(Maze2D maze) {
-            var cells = new HashSet<MazeCell>(maze.MazeCells);
-            var dijkstra = DijkstraDistance.Find(cells.First());
+        public static bool IsSolveable(Area maze) {
+            var cells = new HashSet<Vector>(
+                maze.Grid.Where(c => maze[c].HasLinks()));
+            var dijkstra = DijkstraDistance.Find(maze, cells.First());
             cells.ExceptWith(dijkstra.Keys);
 
             if (cells.Count > 0) {
@@ -25,41 +28,46 @@ namespace PlayersWorlds.Maps.Maze {
             return true;
         }
 
-        public static Maze2D GenerateMaze(
+        public static Area GenerateMaze(
                                    Vector size,
+                                   List<Area> childAreas,
                                    GeneratorOptions options,
                                    out Maze2DBuilder builder) {
             if (options.RandomSource == null) {
                 options.RandomSource = RandomSource.CreateFromEnv();
             }
-            if (options.AreaGenerator == null) {
-                options.AreaGenerator = new RandomAreaGenerator(
-                    new RandomAreaGenerator.RandomAreaGeneratorSettings(
-                        options.RandomSource));
+            if (options.AreaGeneration == AreaGenerationMode.Auto && options.AreaGenerator == null) {
+                options.AreaGenerator = new RandomAreaGenerator(options.RandomSource);
             }
-            var maze = MazeGenerator.Generate(size,
-                options, out builder);
-            s_log.D(2, maze.ToString());
-            if (options.MapAreas != null) {
-                Assert.That(maze.MapAreas.Count,
-                    Is.GreaterThanOrEqualTo(options.MapAreas.Count),
-                    "Wrong number of areas");
-            }
+            var maze = Area.CreateMaze(size);
+            childAreas?.ForEach(childArea => maze.AddChildArea(childArea));
+            builder = Maze2DBuilder.BuildMaze(maze, options);
+            s_log.D(2, maze.Render(new AsciiRendererFactory()));
+            Assert.That(maze.ChildAreas.Count,
+                Is.GreaterThanOrEqualTo(childAreas?.Count ?? 0),
+                "Wrong number of areas");
             return maze;
         }
 
-        public static Maze2D GenerateMaze(
+        public static Area GenerateMaze(
+                                   Vector size,
+                                   List<Area> childAreas,
+                                   GeneratorOptions options) {
+            return GenerateMaze(size, childAreas, options, out _);
+        }
+
+        public static Area GenerateMaze(
                                    Vector size,
                                    GeneratorOptions options) {
-            return GenerateMaze(size, options, out _);
+            return GenerateMaze(size, null, options, out _);
         }
 
         public static bool IsSupported(
             Type generatorType,
-            FillFactorOption fillFactor) {
+            MazeFillFactor fillFactor) {
             if ((generatorType == typeof(SidewinderMazeGenerator)
                  || generatorType == typeof(BinaryTreeMazeGenerator))
-                && fillFactor != GeneratorOptions.FillFactorOption.Full) {
+                && fillFactor != GeneratorOptions.MazeFillFactor.Full) {
                 return false;
             }
             return true;
@@ -88,20 +96,24 @@ namespace PlayersWorlds.Maps.Maze {
             }
         }
 
-        public static IEnumerable<FillFactorOption> GetAllFillFactors() {
+        public static IEnumerable<MazeFillFactor> GetAllFillFactors() {
             if (!TestContext.Parameters.Exists("MAZEGEN_FILLFACTOR")) {
-                yield return FillFactorOption.Quarter;
-                yield return FillFactorOption.Half;
-                yield return FillFactorOption.ThreeQuarters;
-                yield return FillFactorOption.NinetyPercent;
-                yield return FillFactorOption.FullWidth;
-                yield return FillFactorOption.FullHeight;
-                yield return FillFactorOption.Full;
+                yield return MazeFillFactor.Quarter;
+                yield return MazeFillFactor.Half;
+                yield return MazeFillFactor.ThreeQuarters;
+                yield return MazeFillFactor.NinetyPercent;
+                yield return MazeFillFactor.FullWidth;
+                yield return MazeFillFactor.FullHeight;
+                yield return MazeFillFactor.Full;
             } else {
-                yield return (FillFactorOption)
-                    Enum.Parse(typeof(FillFactorOption),
+                yield return (MazeFillFactor)
+                    Enum.Parse(typeof(MazeFillFactor),
                     TestContext.Parameters["MAZEGEN_FILLFACTOR"]);
             }
+        }
+
+        internal static Area Parse(string area) {
+            return new AreaSerializer().Deserialize(area);
         }
     }
 }

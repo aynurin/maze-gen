@@ -9,9 +9,9 @@ namespace PlayersWorlds.Maps.MapFilters {
     /// </summary>
     public abstract class Map2DFilter {
         /// <summary>
-        /// Apply the filter to the specified <see cref="Map2D" />.
+        /// Apply the filter to the specified <see cref="Area" />.
         /// </summary>
         /// <param name="map">The map to apply the filter to.</param>
-        public abstract void Render(Map2D map);
+        public abstract void Render(Area map);
     }
 }

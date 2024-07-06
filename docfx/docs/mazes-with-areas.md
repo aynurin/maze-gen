@@ -9,7 +9,7 @@ There are three types of areas that can be placed in the maze:
 
 The type of space can be defined by setting the
 [AreaType](xref:PlayersWorlds.Maps.Areas.AreaType) parameter in the `MazeArea`
-[constructor](xref:PlayersWorlds.Maps.Areas.MapArea.#ctor*).
+[constructor](xref:PlayersWorlds.Maps.Area.#ctor*).
 
 ### Halls
 

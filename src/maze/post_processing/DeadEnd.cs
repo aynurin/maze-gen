@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,22 +8,38 @@ namespace PlayersWorlds.Maps.Maze.PostProcessing {
     /// </summary>
     public static class DeadEnd {
         /// <summary>
-        /// Name of the Dead Ends attribute added to the maze cells.
+        /// An extension object that contains the list of all found dead ends.
         /// </summary>
-        public const string DeadEndAttribute =
-            "PlayersWorlds.Maps.Maze.PostProcessing.DeadEnd.DeadEndAttribute";
+        public class DeadEndsExtension {
+            /// <summary>
+            /// Creates an instance of the DeadEndsExtension.
+            /// </summary>
+            /// <param name="deadEnds"></param>
+            public DeadEndsExtension(IEnumerable<Vector> deadEnds) {
+                DeadEnds = deadEnds.ToList();
+            }
+
+            /// <summary>
+            /// The list of all found dead ends.
+            /// </summary>
+            public List<Vector> DeadEnds { get; private set; }
+        }
+
+        /// <summary>
+        /// An extension object that denotes a dead end.
+        /// </summary>
+        public class IsDeadEndExtension { }
 
         /// <summary>
         /// Find dead ends in the maze.
         /// </summary>
-        public static List<MazeCell> Find(Maze2D maze) {
-            var deadEnds = maze.Cells.Where(cell => cell.Links().Count == 1)
+        public static DeadEndsExtension Find(Area maze) {
+            var deadEnds = maze.Grid.Where(cell => maze[cell].Links().Count == 1)
                 .ToList();
             foreach (var cell in deadEnds) {
-                cell.Attributes.Set(DeadEndAttribute,
-                    null);
+                maze[cell].X(new IsDeadEndExtension());
             }
-            return deadEnds;
+            return new DeadEndsExtension(deadEnds);
         }
     }
 }

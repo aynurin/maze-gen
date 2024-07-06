@@ -16,22 +16,22 @@ namespace PlayersWorlds.Maps.Maze {
         /// the maze to be generated.</param>
         override public void GenerateMaze(Maze2DBuilder builder) {
             builder.ThrowIfIncompatibleOptions(new GeneratorOptions() {
-                FillFactor = FillFactorOption.Full,
+                FillFactor = MazeFillFactor.Full,
             });
             var states = builder.Random.NextBytes(builder.AllCells.Count);
             var i = 0;
             foreach (var currentCell in builder.AllCells) {
                 var linkNorth = states[i++] % 2 == 0;
-                var canConnectEast = builder.CanConnect(currentCell, Vector.East2D);
-                var canConnectNorth = builder.CanConnect(currentCell, Vector.North2D);
-                MazeCell cellToLink = null;
+                var canConnectEast = builder.CanConnect(currentCell, currentCell + Vector.East2D);
+                var canConnectNorth = builder.CanConnect(currentCell, currentCell + Vector.North2D);
+                var cellToLink = Vector.Empty;
                 if ((linkNorth || !canConnectEast) && canConnectNorth) {
-                    cellToLink = currentCell.Neighbors(Vector.North2D).Value;
+                    cellToLink = currentCell + Vector.North2D;
                 } else if (canConnectEast) {
-                    cellToLink = currentCell.Neighbors(Vector.East2D).Value;
+                    cellToLink = currentCell + Vector.East2D;
                 }
 
-                if (cellToLink == null && currentCell.Links().Count == 0) {
+                if (cellToLink.IsEmpty && !builder.MazeArea[currentCell].HasLinks()) {
                     // This link is not connected, and won't be connected
                     // because of this maze geometry. Let's connect it to
                     // any other cell so that it's not left out.
@@ -45,7 +45,7 @@ namespace PlayersWorlds.Maps.Maze {
                             $"neighbors to connect {currentCell} to.");
                     }
                 }
-                if (cellToLink != null) {
+                if (!cellToLink.IsEmpty) {
                     builder.Connect(currentCell, cellToLink);
                 }
             }

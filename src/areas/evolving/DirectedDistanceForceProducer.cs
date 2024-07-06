@@ -65,6 +65,22 @@ namespace PlayersWorlds.Maps.Areas.Evolving {
             // !! if the areas are pushed away taking only the vertical distance,
             // !! this layout cannot be enhanced. On the other hand, vector
             // !! distance would allow spreading the areas wider in the env.
+
+            // !! Now we still need to deal with perfectly opposing areas that
+            // !! also don't fit the map, e.g.:
+            // !!  ╔═══════════════════╗         
+            // !!  ║                   ║         
+            // !!  ║                   ║         
+            // !!┌───────────┐───────────┐       
+            // !!LION        │EAR      ║ │       
+            // !!│ ║         │         ║ │       
+            // !!└───────────┘───────────┘       
+            // !!  ║                   ║         
+            // !!  ║                   ║         
+            // !!  ║                   ║         
+            // !!  ╚═══════════════════╝         
+
+
             // direction of the force to be applied to this area.
             var direction = area.Center - other.Center;
             // distance between the areas to calculate the force magnitude.

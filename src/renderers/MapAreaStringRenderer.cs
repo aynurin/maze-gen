@@ -1,31 +1,36 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using PlayersWorlds.Maps.Areas;
+using System.Linq;
 
 namespace PlayersWorlds.Maps.Renderers {
     /// <summary>
-    /// Renders a set of <see cref="MapArea" /> in a 2D space to a string.
+    /// Renders a set of <see cref="Area" /> in a 2D space to a string.
     /// </summary>
     public class MapAreaStringRenderer {
 
         /// <summary />
         public string Render(Vector envSize,
-            IEnumerable<(MapArea area, string label)> areas) {
+            IEnumerable<(Area area, string label)> areas) {
             var bufferSize = new Vector(envSize.X * 2 * 2, envSize.Y * 2);
             var buffer = new AsciiBuffer(bufferSize.X, bufferSize.Y, true);
             var offset = new Vector(envSize.X / 2, envSize.Y / 2);
             DrawRect(buffer, new Vector(offset.X, offset.Y),
                 envSize, "", s_mazeChars);
             // transpile room positions to reflect reversed X in Terminal
-            areas.ForEach(area => DrawRect(buffer,
+            areas.Where(area => !area.area.IsPositionEmpty).ForEach(area => DrawRect(buffer,
                 new Vector(area.area.Position.X + offset.X,
                            envSize.Y - area.area.Size.Y - area.area.Position.Y + offset.Y),
                            area.area.Size,
                            area.label,
                            s_roomChars));
-            return buffer.ToString();
+            return buffer.ToString() +
+                Environment.NewLine +
+                string.Join(Environment.NewLine,
+                            areas.Where(area => area.area.IsPositionEmpty)
+                                 .Select(a => "unpositioned area: " +
+                                              a.label +
+                                              a.area.ToString()));
         }
 
         private void DrawRect(AsciiBuffer buffer, Vector pos, Vector size,
