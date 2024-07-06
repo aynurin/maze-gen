@@ -20,21 +20,57 @@ namespace PlayersWorlds.Maps.Areas {
                 throw new NotImplementedException();
             }
         }
+
         [Test]
-        public void Ctor_ThrowsIfSimulatorIsNull() {
-            Assert.Throws<ArgumentNullException>(() => {
-                var _ = new TestAreaGenerator(
-                    null,
-                    new MapAreaSystemFactory(RandomSource.CreateFromEnv()));
+        public void Ctor_DoesNotThrowIfParametersAreNull() {
+            // evolving simulation is only necessary when area generator
+            // generates unpositioned areas.
+            Assert.DoesNotThrow(() => {
+                var _ = new TestAreaGenerator(null, null);
             });
         }
+
+        [Test]
+        public void Ctor_ThrowsIfSimulatorIsNull() {
+            var area = Area.CreateEnvironment(new Vector(10, 10));
+            var fakeRandom = new FakeRandomSource();
+            var areaSystemFactory = new Mock<MapAreaSystemFactory>(
+                MockBehavior.Loose, fakeRandom);
+            var generator = new Mock<AreaGenerator>(
+                MockBehavior.Loose,
+                null,
+                areaSystemFactory.Object) {
+                CallBase = true
+            };
+            generator.Protected()
+                .Setup<IEnumerable<Area>>("Generate", area)
+                .Returns(
+                    new List<Area> {
+                        Area.CreateUnpositioned(new Vector(1, 1), AreaType.Cave)
+                    });
+            Assert.Throws<ArgumentNullException>(
+                () => generator.Object.GenerateMazeAreas(area));
+        }
+
         [Test]
         public void Ctor_ThrowsIfMapAreaSystemFactoryIsNull() {
-            Assert.Throws<ArgumentNullException>(() => {
-                var _ = new TestAreaGenerator(
-                    new EvolvingSimulator(1, 1),
-                    null);
-            });
+            var area = Area.CreateEnvironment(new Vector(10, 10));
+            var evolvingSimulator = new Mock<EvolvingSimulator>(
+                MockBehavior.Strict, 1, 1);
+            var generator = new Mock<AreaGenerator>(
+                MockBehavior.Loose,
+                evolvingSimulator.Object,
+                null) {
+                CallBase = true
+            };
+            generator.Protected()
+                .Setup<IEnumerable<Area>>("Generate", area)
+                .Returns(
+                    new List<Area> {
+                        Area.CreateUnpositioned(new Vector(1, 1), AreaType.Cave)
+                    });
+            Assert.Throws<ArgumentNullException>(
+                () => generator.Object.GenerateMazeAreas(area));
         }
 
         [Test]

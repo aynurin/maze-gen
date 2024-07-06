@@ -14,8 +14,6 @@ namespace PlayersWorlds.Maps.Areas {
 
         public AreaGenerator(EvolvingSimulator simulator,
                              MapAreaSystemFactory areaSystemFactory) {
-            simulator.ThrowIfNull(nameof(simulator));
-            areaSystemFactory.ThrowIfNull(nameof(areaSystemFactory));
             _simulator = simulator;
             _areaSystemFactory = areaSystemFactory;
         }
@@ -59,6 +57,8 @@ namespace PlayersWorlds.Maps.Areas {
                     // that we can't auto-distribute (see
                     // DirectedDistanceForceProducer.cs) so we make several
                     // attempts.
+                    _simulator.ThrowIfNull("EvolvingSimulator");
+                    _areaSystemFactory.ThrowIfNull("MapAreaSystemFactory");
                     _simulator.Evolve(
                         _areaSystemFactory.Create(targetArea,
                             targetArea.ChildAreas.Concat(allAreas)));

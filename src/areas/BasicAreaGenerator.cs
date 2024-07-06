@@ -57,7 +57,7 @@ namespace PlayersWorlds.Maps.Areas {
         }
 
         protected override IEnumerable<Area> Generate(Area targetArea) {
-            if (_minSize.FitsInto(_targetArea.Size)) {
+            if (!_minSize.FitsInto(_targetArea.Size)) {
                 // none of the areas fit the map
                 return new List<Area>();
             }
