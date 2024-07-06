@@ -30,17 +30,19 @@ namespace PlayersWorlds.Maps {
                 .AddLayer(AreaType.Maze, new Vector(3, 2))
                 .OfMaze(MazeStructureStyle.Border, new GeneratorOptions() {
                                     MazeAlgorithm = GeneratorOptions.Algorithms.HuntAndKill,
+                                    FillFactor = GeneratorOptions.MazeFillFactor.Full
                                 })
-                .ToMap(Maze2DRendererOptions.SquareCells(3, 2))
+                .ToMap(Maze2DRendererOptions.RectCells(3, 2))
                 .AddLayer(area => area.ShallowCopy(cells:
                     area.Select(cell =>
                         cell.Tags.Contains(Cell.CellTag.MazeTrail) ?
                             new Cell(AreaType.Maze) :
                             new Cell(AreaType.None))))
                 .OfMaze(MazeStructureStyle.Border, new GeneratorOptions() {
-                                    MazeAlgorithm = GeneratorOptions.Algorithms.HuntAndKill
+                                    MazeAlgorithm = GeneratorOptions.Algorithms.RecursiveBacktracker,
+                                    FillFactor = GeneratorOptions.MazeFillFactor.ThreeQuarters
                                 })
-                .ToMap(Maze2DRendererOptions.SquareCells(1, 1))
+                .ToMap(Maze2DRendererOptions.RectCells(2, 1))
                 .Map(),
             r => new GeneratedWorld(r)
                 .AddLayer(AreaType.Environment, new Vector(32, 29))
